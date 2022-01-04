@@ -1,0 +1,22 @@
+{
+  "Author": "MidoriKami",
+  "Name": "Partner Up",
+  "Punchline": "Warns you if Dance Partner, Kardion, or Faerie is missing",
+  "Description": "Displays a warning if none of the Sages, Scholars, or Dancers have their Karia, Faerie, or Dance Partner active. Helpful for learning the jobs yourself, or helping others.",
+  "Tags": [
+    "utility",
+    "dancing",
+	"kardioning",
+	"faeries"
+  ],
+  "CategoryTags": [
+    "utility",
+    "ui"
+  ],
+  "InternalName": "partnerup",
+  "AssemblyVersion": "0.0.0.1",
+  "RepoUrl": "https://github.com/MidoriKami/PartnerUp",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 5,
+  "IconUrl": "https://github.com/MidoriKami/PartnerUp/blob/master/images/icon.png"
+}
