@@ -1,19 +1,20 @@
 ﻿using DailyDuty.Reminders;
 using Dalamud.Game;
 using Dalamud.Game.Command;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 
 namespace DailyDuty
 {
-    public sealed class PartnerUpPlugin : IDalamudPlugin
+    public sealed class DailyDutyPlugin : IDalamudPlugin
     {
         public string Name => "DailyDuty";
 
         private PluginWindow PluginWindow { get; init; }
         private CommandSystem.CommandSystem CommandSystem { get; init; }
 
-        public PartnerUpPlugin(
+        public DailyDutyPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
         {
             // Create Static Services for use everywhere
