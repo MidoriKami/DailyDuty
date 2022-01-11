@@ -27,10 +27,6 @@
 	<None Remove="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
-	<ItemGroup>
-		<!--<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />-->
-	</ItemGroup>
-
 	<PropertyGroup>
     <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
   </PropertyGroup>
@@ -68,6 +64,10 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="CommandSystem\Commands\" />
 	</ItemGroup>
 
 </Project>

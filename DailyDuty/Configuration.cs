@@ -1,35 +1,24 @@
-﻿using Dalamud.Configuration;
+﻿using System;
+using Dalamud.Configuration;
 using Dalamud.Plugin;
-using System;
-using System.Collections.Generic;
 
-namespace PartnerUp
+namespace DailyDuty
 {
     [Serializable]
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 1;
 
-        public bool DiableInAllianceRaid = true;
-        public int TerritoryChangeDelayTime = 8000;
+        public class DailyTreasureMapSettings
+        {
+            public DateTime LastMapGathered = new DateTime();
+            public bool Enabled = false;
+            public int MinimumMapLevel = 0;
+            public bool NotificationEnabled = false;
+        }
 
-        public bool AllEnabled = false;
-        public bool EnableDancePartnerBanner = false;
-        public bool EnableFaerieBanner = false;
-        public bool EnableKardionBanner = false;
-
-        public bool ForceShowDancePartnerBanner = false;
-        public bool ForceShowFaerieBanner = false;
-        public bool ForceShowKardionBanner = false;
-
-        public bool RepositionModeDancePartnerBanner = false;
-        public bool RepositionModeFaerieBanner = false;
-        public bool RepositionModeKardionBanner = false;
-
-        public List<int> TerritoryBlacklist = new();
-
-        public bool ForceWindowUpdate = false;
-
+        public DailyTreasureMapSettings TreasureMapSettings = new DailyTreasureMapSettings();
+        
 
         [NonSerialized]
         private DalamudPluginInterface? pluginInterface;
@@ -37,6 +26,10 @@ namespace PartnerUp
         public void Initialize(DalamudPluginInterface pluginInterface)
         {
             this.pluginInterface = pluginInterface;
+
+            TreasureMapSettings ??= new DailyTreasureMapSettings();
+
+            Save();
         }
 
         public void Save()

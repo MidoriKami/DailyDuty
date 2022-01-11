@@ -1,20 +1,17 @@
-﻿using Dalamud.Game;
+﻿using DailyDuty.Reminders;
+using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using PartnerUp;
-using System.IO;
-using System.Reflection;
 
-namespace PartnerUp
+namespace DailyDuty
 {
     public sealed class PartnerUpPlugin : IDalamudPlugin
     {
-        public string Name => "Partner Up";
+        public string Name => "DailyDuty";
 
-        private const string SettingsCommand = "/partnerup";
-
-        private readonly SettingsWindow SettingsWindow;
+        private PluginWindow PluginWindow { get; init; }
+        private CommandSystem.CommandSystem CommandSystem { get; init; }
 
         public PartnerUpPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -26,39 +23,20 @@ namespace PartnerUp
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Service.Configuration.Initialize(Service.PluginInterface);
 
-            // Load Tank Stance warning image
-            var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var dancePartnerPath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\DancePartner.png");
-            var faeriePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\Faerie.png");
-            var kardionPath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, @"images\Kardion.png");
-
-            var dancePartnerImage = Service.PluginInterface.UiBuilder.LoadImage(dancePartnerPath);
-            var faerieImage = Service.PluginInterface.UiBuilder.LoadImage(faeriePath);
-            var kardionImage = Service.PluginInterface.UiBuilder.LoadImage(kardionPath);
-
             // Create Windows
-            SettingsWindow = new SettingsWindow();
-
-            // Register FrameworkUpdate
-            Service.Framework.Update += OnFrameworkUpdate;
+            PluginWindow = new PluginWindow();
 
             // Register Slash Commands
-            Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
-            {
-                HelpMessage = "open configuration window"
-            });
+            CommandSystem = new CommandSystem.CommandSystem(PluginWindow);
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
 
             // Register Windows
-            Service.WindowSystem.AddWindow(SettingsWindow);
+            Service.WindowSystem.AddWindow(PluginWindow);
 
             Service.Chat.Enable();
-        }
-        private void OnFrameworkUpdate(Framework framework)
-        {
         }
 
         private void DrawUI()
@@ -67,25 +45,13 @@ namespace PartnerUp
         }
         private void DrawConfigUI()
         {
-            SettingsWindow.IsOpen = true;
-        }
-
-        private void OnCommand(string command, string arguments)
-        {
-            switch (arguments)
-            {
-                default:
-                    break;
-            }
-
-            Service.Configuration.Save();
+            PluginWindow.IsOpen = true;
         }
 
         public void Dispose()
         {
-            Service.Commands.RemoveHandler(SettingsCommand);
-            Service.Framework.Update -= OnFrameworkUpdate;
-            SettingsWindow.Dispose();
+            CommandSystem.Dispose();
+            PluginWindow.Dispose();
         }
     }
 }
