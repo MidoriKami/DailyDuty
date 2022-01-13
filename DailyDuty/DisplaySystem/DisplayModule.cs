@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ImGuiNET;
 
-namespace DailyDuty.Reminders
+namespace DailyDuty.DisplaySystem
 {
-    internal abstract class ReminderModule : IDisposable
+    internal abstract class DisplayModule : IDisposable
     {
         public string CategoryString = "CategoryString Not Set";
 

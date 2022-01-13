@@ -66,8 +66,4 @@
 		</Reference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="CommandSystem\Commands\" />
-	</ItemGroup>
-
 </Project>

@@ -1,22 +1,28 @@
 ﻿using System;
-using DailyDuty.Reminders;
+using System.Collections.Generic;
+using DailyDuty.CommandSystem.Commands;
+using DailyDuty.DisplaySystem;
 using Dalamud.Game.Command;
 
 namespace DailyDuty.CommandSystem
 {
-    internal class CommandSystem : IDisposable
+    internal class CommandManager : IDisposable
     {
-
         private const string SettingsCommand = "/dailyduty";
         private const string ShorthandCommand = "/dd";
 
-        private readonly PluginWindow pluginWindow;
+        private readonly DisplayManager displayManager;
 
-        public CommandSystem(PluginWindow pluginWindow)
+        private readonly List<CommandProcessor> commandProcessors = new()
+        {
+            new TreasureMapCommands()
+        };
+
+        public CommandManager(DisplayManager displayManager)
         {
             RegisterCommands();
 
-            this.pluginWindow = pluginWindow;
+            this.displayManager = displayManager;
         }
 
         private void RegisterCommands()
@@ -37,16 +43,20 @@ namespace DailyDuty.CommandSystem
         // /nty [main command] [on/off/nothing]
         private void OnCommand(string command, string arguments)
         {
-            var primaryCommand = GetPrimaryCommand(arguments);
-            var secondaryCommand = GetSecondaryCommand(arguments);
+            var primaryCommand = GetPrimaryCommand(arguments)?.ToLower();
+            var secondaryCommand = GetSecondaryCommand(arguments)?.ToLower();
 
-            switch (primaryCommand?.ToLower())
+            switch (primaryCommand)
             {
                 case null:
-                    pluginWindow.IsOpen = !pluginWindow.IsOpen;
+                    displayManager.IsOpen = !displayManager.IsOpen;
                     break;
 
                 default:
+                    foreach (var commandProcessor in commandProcessors)
+                    {
+                        commandProcessor.ProcessCommand(primaryCommand, secondaryCommand);
+                    }
                     break;
             }
 

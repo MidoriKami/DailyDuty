@@ -9,15 +9,19 @@ namespace DailyDuty
     {
         public int Version { get; set; } = 1;
 
-        public class DailyTreasureMapSettings
+        public class GenericSettings
         {
-            public DateTime LastMapGathered = new DateTime();
             public bool Enabled = false;
+        }
+
+        public class DailyTreasureMapSettings : GenericSettings
+        {
+            public DateTime LastMapGathered = new ();
             public int MinimumMapLevel = 0;
             public bool NotificationEnabled = false;
         }
 
-        public DailyTreasureMapSettings TreasureMapSettings = new DailyTreasureMapSettings();
+        public DailyTreasureMapSettings TreasureMapSettings = new();
         
 
         [NonSerialized]
@@ -27,7 +31,7 @@ namespace DailyDuty
         {
             this.pluginInterface = pluginInterface;
 
-            TreasureMapSettings ??= new DailyTreasureMapSettings();
+            TreasureMapSettings ??= new();
 
             Save();
         }

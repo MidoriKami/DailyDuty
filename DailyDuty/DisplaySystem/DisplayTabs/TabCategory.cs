@@ -1,7 +1,7 @@
 ﻿using System;
 using ImGuiNET;
 
-namespace DailyDuty.Reminders
+namespace DailyDuty.DisplaySystem.DisplayTabs
 {
     internal abstract class TabCategory : IDisposable
     {

@@ -1,25 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
-using DailyDuty.Reminders.Custom;
-using DailyDuty.Reminders.Daily;
-using DailyDuty.Reminders.General;
-using DailyDuty.Reminders.Weekly;
+using DailyDuty.DisplaySystem.DisplayTabs;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-namespace DailyDuty.Reminders
+namespace DailyDuty.DisplaySystem
 {
-    internal class PluginWindow : Window
+    internal class DisplayManager : Window
     {
-        private Tab CurrentTab = Tab.General;
-        private readonly Vector2 WindowSize = new(450, 500);
+        private Tab currentTab = Tab.General;
+        private readonly Vector2 windowSize = new(450, 500);
 
         private readonly Dictionary<Tab, TabCategory> settingsCategories = new()
         {
             {Tab.General, new GeneralTab()},
             {Tab.Daily, new DailyTab()},
-            {Tab.Weekly, new WeeklyTab()},
-            {Tab.Custom, new CustomTab()}
+            //{Tab.Weekly, new WeeklyTab()},
+            //{Tab.Custom, new CustomTab()}
         };
 
         private enum Tab
@@ -30,14 +27,14 @@ namespace DailyDuty.Reminders
             Custom
         }
 
-        public PluginWindow() : base("Daily Duty")
+        public DisplayManager() : base("Daily Duty")
         {
             IsOpen = false;
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(WindowSize.X, WindowSize.Y),
-                MaximumSize = new(WindowSize.X, WindowSize.Y)
+                MinimumSize = new(windowSize.X, windowSize.Y),
+                MaximumSize = new(windowSize.X, windowSize.Y)
             };
 
             Flags |= ImGuiWindowFlags.NoResize;
@@ -55,7 +52,7 @@ namespace DailyDuty.Reminders
 
             DrawTabs();
 
-            settingsCategories[CurrentTab].Draw();
+            settingsCategories[currentTab].Draw();
 
             ImGui.Separator();
             DrawSaveAndCloseButtons();
@@ -79,7 +76,7 @@ namespace DailyDuty.Reminders
                 {
                     if (ImGui.BeginTabItem(data.TabName))
                     {
-                        CurrentTab = tab;
+                        currentTab = tab;
                         ImGui.EndTabItem();
                     }
                 }
@@ -97,8 +94,7 @@ namespace DailyDuty.Reminders
         {
             ImGui.Spacing();
 
-            var windowSize = ImGui.GetWindowSize();
-            ImGui.SetCursorPos(new Vector2(5, windowSize.Y - 30));
+            ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30));
 
             if (ImGui.Button("Save", new(100, 25)))
             {

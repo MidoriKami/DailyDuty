@@ -1,9 +1,10 @@
-﻿using DailyDuty.Reminders;
+﻿using DailyDuty.CommandSystem;
+using DailyDuty.DisplaySystem;
+using DailyDuty.System;
 using Dalamud.Game;
-using Dalamud.Game.Command;
-using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty
 {
@@ -11,8 +12,9 @@ namespace DailyDuty
     {
         public string Name => "DailyDuty";
 
-        private PluginWindow PluginWindow { get; init; }
-        private CommandSystem.CommandSystem CommandSystem { get; init; }
+        private DisplayManager DisplayManager { get; init; }
+        private CommandManager CommandManager { get; init; }
+        private ModuleManager ModuleManager { get; init; }
 
         public DailyDutyPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -24,20 +26,25 @@ namespace DailyDuty
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Service.Configuration.Initialize(Service.PluginInterface);
 
-            // Create Windows
-            PluginWindow = new PluginWindow();
-
-            // Register Slash Commands
-            CommandSystem = new CommandSystem.CommandSystem(PluginWindow);
+            // Create Systems
+            DisplayManager = new DisplayManager();
+            CommandManager = new CommandManager(DisplayManager);
+            ModuleManager = new ModuleManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+            Service.Framework.Update += OnFrameworkUpdate;
 
             // Register Windows
-            Service.WindowSystem.AddWindow(PluginWindow);
+            Service.WindowSystem.AddWindow(DisplayManager);
 
             Service.Chat.Enable();
+        }
+
+        private void OnFrameworkUpdate(Framework framework)
+        {
+            ModuleManager.Update();
         }
 
         private void DrawUI()
@@ -46,13 +53,14 @@ namespace DailyDuty
         }
         private void DrawConfigUI()
         {
-            PluginWindow.IsOpen = true;
+            DisplayManager.IsOpen = true;
         }
 
         public void Dispose()
         {
-            CommandSystem.Dispose();
-            PluginWindow.Dispose();
+            CommandManager.Dispose();
+            DisplayManager.Dispose();
+            ModuleManager.Dispose();
         }
     }
 }

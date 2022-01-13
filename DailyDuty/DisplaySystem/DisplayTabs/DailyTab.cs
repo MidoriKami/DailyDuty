@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
-using DailyDuty.Reminders.Daily.DailyModules;
+using DailyDuty.DisplaySystem.DisplayModules;
 using ImGuiNET;
 
-namespace DailyDuty.Reminders.Daily
+namespace DailyDuty.DisplaySystem.DisplayTabs
 {
     internal class DailyTab : TabCategory, IDisposable
     {
-        private readonly ReminderModule dailyTreasureMap = new DailyTreasureMap();
+        private readonly List<DisplayModule> Modules = new()
+        {
+            new DailyTreasureMap()
+        };
 
         public DailyTab()
         {
@@ -19,14 +23,20 @@ namespace DailyDuty.Reminders.Daily
         {
             ImGui.BeginChildFrame(1, new Vector2(490, 365), ImGuiWindowFlags.NoBackground);
 
-            dailyTreasureMap.Draw();
+            foreach (var module in Modules)
+            {
+                module.Draw();
+            }
 
             ImGui.EndChildFrame();
         }
 
         public override void Dispose()
         {
-            dailyTreasureMap.Dispose();
+            foreach (var module in Modules)
+            {
+                module.Dispose();
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Reminders.General
+﻿namespace DailyDuty.DisplaySystem.DisplayTabs
 {
     internal class GeneralTab : TabCategory
     {
