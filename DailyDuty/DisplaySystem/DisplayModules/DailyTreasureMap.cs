@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Modules;
 using Dalamud.Interface.Components;
@@ -11,7 +12,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 {
     internal class DailyTreasureMap : DisplayModule
     {
-        protected readonly Configuration.DailyTreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
+        protected readonly Daily.TreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
 
         private readonly HashSet<int> mapLevels;
         private int selectedMinimumMapLevel = 0;
@@ -34,14 +35,22 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             if (Settings.Enabled)
             {
+                ImGui.Indent(15);
+                DrawTimeStatusDisplayAndCountdown();
+
                 if (ImGui.Checkbox("Notifications", ref Settings.NotificationEnabled))
                 {
                     PluginLog.Information($"Treasure Map Module Notifications {(Settings.NotificationEnabled ? "Enabled" : "Disabled")}");
                 }
 
-                DrawTimeStatusDisplayAndCountdown();
+                if (Settings.NotificationEnabled)
+                {
+                    ImGui.Indent(15);
+                    DrawMinimumMapLevelComboBox();
+                    ImGui.Indent(-15);
+                }
 
-                DrawMinimumMapLevelComboBox();
+                ImGui.Indent(-15);
             }
 
             ImGui.Spacing();

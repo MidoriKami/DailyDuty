@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
+using DailyDuty.System.Utilities;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -13,23 +16,43 @@ namespace DailyDuty.System.Modules
 {
     internal class TreasureMapModule : Module
     {
-        protected readonly Configuration.DailyTreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
+        protected readonly Daily.TreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
+        private readonly Stopwatch loginNoticeStopwatch = new();
 
         public TreasureMapModule()
         {
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
             Service.Chat.ChatMessage += OnChatMap;
+            Service.ClientState.Login += OnLogin;
+        }
+
+        private void OnLogin(object? sender, EventArgs e)
+        {
+            loginNoticeStopwatch.Start();
         }
 
         public override void Update()
         {
+            if(loginNoticeStopwatch.IsRunning == false) return;
 
+            var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
+            if (frameCount % 10 != 0) return;
+
+            if (loginNoticeStopwatch.Elapsed >= TimeSpan.FromSeconds(5) && loginNoticeStopwatch.IsRunning)
+            {
+                if (TimeUntilNextMap() == TimeSpan.Zero)
+                {
+                    Util.PrintMessage("You have a Treasure Map Allowance Available.");
+                }
+
+                loginNoticeStopwatch.Stop();
+            }
         }
         
         protected void OnTerritoryChanged(object? sender, ushort e)
         {
-            if (Service.Condition[ConditionFlag.BoundByDuty] == true) return;
             if (Settings.Enabled == false) return;
+            if (ConditionManager.IsBoundByDuty() == true) return;
 
             if (TimeUntilNextMap() == TimeSpan.Zero)
             {
@@ -46,7 +69,7 @@ namespace DailyDuty.System.Modules
                     {
                         var mapName = Service.DataManager.GetExcelSheet<Item>()!.GetRow(map.ItemID)!.Name;
 
-                        Util.PrintMessage($"A '{mapName}' is available for harvest in this area. Via: {GetHarvestingTypeByTerritory(map.HarvestData, e)}");
+                        Util.PrintMessage($"A '{mapName}' is available for harvest in this area.");
                     }
                 }
             }
@@ -124,12 +147,11 @@ namespace DailyDuty.System.Modules
             }
         }
 
-
-
         public override void Dispose()
         {
             Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
             Service.Chat.ChatMessage -= OnChatMap;
+            Service.ClientState.Login -= OnLogin;
         }
     }
 }

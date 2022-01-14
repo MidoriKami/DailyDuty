@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DailyDuty.Data
 {
-    internal static class DataObjects
+    public static class DataObjects
     {
         public enum HarvestType
         {
@@ -221,5 +221,6 @@ namespace DailyDuty.Data
                 Level = 90
             }
         };
+
     }
 }

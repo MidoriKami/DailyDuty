@@ -10,7 +10,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
     {
         private readonly List<DisplayModule> Modules = new()
         {
-            new DailyTreasureMap()
+            new DailyTreasureMap(),
+            new WondrousTails()
         };
 
         public DailyTab()

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using DailyDuty.ConfigurationSystem;
 
 namespace DailyDuty.CommandSystem.Commands
 {
     internal class TreasureMapCommands : CommandProcessor
     {
-        private readonly Configuration.DailyTreasureMapSettings settings = Service.Configuration.TreasureMapSettings;
+        private readonly Daily.TreasureMapSettings settings = Service.Configuration.TreasureMapSettings;
 
         public TreasureMapCommands()
         {
@@ -41,6 +42,14 @@ namespace DailyDuty.CommandSystem.Commands
         {
             switch (secondaryCommand)
             {
+                case "notify":
+                    settings.NotificationEnabled = true;
+                    break;
+
+                case "silence":
+                    settings.NotificationEnabled = false;
+                    break;
+
                 default:
                     break;
             }

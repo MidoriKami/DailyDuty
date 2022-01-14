@@ -1,29 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
 
-namespace DailyDuty
+namespace DailyDuty.ConfigurationSystem
 {
     [Serializable]
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 1;
-
-        public class GenericSettings
-        {
-            public bool Enabled = false;
-        }
-
-        public class DailyTreasureMapSettings : GenericSettings
-        {
-            public DateTime LastMapGathered = new ();
-            public int MinimumMapLevel = 0;
-            public bool NotificationEnabled = false;
-        }
-
-        public DailyTreasureMapSettings TreasureMapSettings = new();
         
-
+        public Daily.TreasureMapSettings TreasureMapSettings = new();
+        public Daily.WondrousTailsSettings WondrousTailsSettings = new();
+        
         [NonSerialized]
         private DalamudPluginInterface? pluginInterface;
 
@@ -32,6 +21,8 @@ namespace DailyDuty
             this.pluginInterface = pluginInterface;
 
             TreasureMapSettings ??= new();
+            WondrousTailsSettings ??= new();
+            WondrousTailsSettings.Data ??= new (ButtonState, List<uint>)[16];
 
             Save();
         }

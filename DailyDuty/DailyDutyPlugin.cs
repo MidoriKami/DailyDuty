@@ -1,4 +1,5 @@
 ﻿using DailyDuty.CommandSystem;
+using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem;
 using DailyDuty.System;
 using Dalamud.Game;
