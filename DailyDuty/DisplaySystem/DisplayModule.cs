@@ -9,7 +9,7 @@ namespace DailyDuty.DisplaySystem
 
         protected abstract void DrawContents();
 
-        public void Draw()
+        public virtual void Draw()
         {
             ImGui.Text(CategoryString);
             ImGui.Separator();

@@ -28,20 +28,14 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DrawContents()
         {
-            if (ImGui.Checkbox("Enabled", ref Settings.Enabled))
-            {
-                PluginLog.Information($"Treasure Map Module {(Settings.Enabled ? "Enabled" : "Disabled")}");
-            }
+            ImGui.Checkbox("Enabled##TreasureMap", ref Settings.Enabled);
 
             if (Settings.Enabled)
             {
                 ImGui.Indent(15);
                 DrawTimeStatusDisplayAndCountdown();
 
-                if (ImGui.Checkbox("Notifications", ref Settings.NotificationEnabled))
-                {
-                    PluginLog.Information($"Treasure Map Module Notifications {(Settings.NotificationEnabled ? "Enabled" : "Disabled")}");
-                }
+                ImGui.Checkbox("Notifications##TreasureMap", ref Settings.NotificationEnabled);
 
                 if (Settings.NotificationEnabled)
                 {
@@ -57,7 +51,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             ImGui.Separator();
         }
 
-        private void DrawTimeStatusDisplayAndCountdown()
+        private static void DrawTimeStatusDisplayAndCountdown()
         {
             if (Service.Configuration.TreasureMapSettings.LastMapGathered == new DateTime())
             {

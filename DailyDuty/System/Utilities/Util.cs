@@ -1,4 +1,6 @@
-﻿using Dalamud.Game.ClientState.Party;
+﻿using System;
+using System.Diagnostics;
+using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Text.SeStringHandling;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
@@ -32,6 +34,50 @@ namespace DailyDuty.System.Utilities
             stringBuilder.AddText(message);
 
             Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        public static void PrintWondrousTails(string message)
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddUiForeground(45);
+            stringBuilder.AddText("[DailyDuty] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddUiForeground(62);
+            stringBuilder.AddText("[WondrousTails] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddText(message);
+
+            Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        public static void PrintTreasureMap(string message)
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddUiForeground(45);
+            stringBuilder.AddText("[DailyDuty] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddUiForeground(62);
+            stringBuilder.AddText("[TreasureMap] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddText(message);
+
+            Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        // Run function immediately, and prevent re-execution for TimeSpan delay time
+        public static void UpdateDelayed(Stopwatch stopwatch, TimeSpan delayTime, Action function)
+        {
+            if (stopwatch.IsRunning && stopwatch.Elapsed >= delayTime)
+            {
+                stopwatch.Stop();
+                stopwatch.Reset();
+            }
+
+            if (stopwatch.IsRunning == false)
+            {
+                stopwatch.Start();
+                function();
+            }
         }
     }
 }

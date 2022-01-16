@@ -6,38 +6,19 @@ using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
-    internal class DailyTab : TabCategory, IDisposable
+    internal class DailyTab : TabCategory
     {
-        private readonly List<DisplayModule> Modules = new()
-        {
-            new DailyTreasureMap(),
-            new WondrousTails()
-        };
-
         public DailyTab()
         {
             CategoryName = "Daily Reminders";
             TabName = "Daily";
-        }
 
-        protected override void DrawContents()
-        {
-            ImGui.BeginChildFrame(1, new Vector2(490, 365), ImGuiWindowFlags.NoBackground);
+            FrameID = (uint)DisplayManager.Tab.Daily;
 
-            foreach (var module in Modules)
+            Modules = new()
             {
-                module.Draw();
-            }
-
-            ImGui.EndChildFrame();
-        }
-
-        public override void Dispose()
-        {
-            foreach (var module in Modules)
-            {
-                module.Dispose();
-            }
+                new DailyTreasureMap()
+            };
         }
     }
 }

@@ -8,23 +8,21 @@ namespace DailyDuty.DisplaySystem
 {
     internal class DisplayManager : Window
     {
-        private Tab currentTab = Tab.General;
+        private Tab currentTab = Tab.ToDo;
         private readonly Vector2 windowSize = new(450, 500);
 
         private readonly Dictionary<Tab, TabCategory> settingsCategories = new()
         {
-            {Tab.General, new GeneralTab()},
+            {Tab.ToDo, new ToDoTab()},
             {Tab.Daily, new DailyTab()},
-            //{Tab.Weekly, new WeeklyTab()},
-            //{Tab.Custom, new CustomTab()}
+            {Tab.Weekly, new WeeklyTab()}
         };
 
-        private enum Tab
+        public enum Tab
         {
-            General,
+            ToDo,
             Daily,
-            Weekly,
-            Custom
+            Weekly
         }
 
         public DisplayManager() : base("Daily Duty")

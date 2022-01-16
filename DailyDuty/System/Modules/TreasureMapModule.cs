@@ -17,6 +17,7 @@ namespace DailyDuty.System.Modules
     internal class TreasureMapModule : Module
     {
         protected readonly Daily.TreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
+
         private readonly Stopwatch loginNoticeStopwatch = new();
 
         public TreasureMapModule()
@@ -26,14 +27,11 @@ namespace DailyDuty.System.Modules
             Service.ClientState.Login += OnLogin;
         }
 
-        private void OnLogin(object? sender, EventArgs e)
-        {
-            loginNoticeStopwatch.Start();
-        }
-
         public override void Update()
         {
-            if(loginNoticeStopwatch.IsRunning == false) return;
+            if (Settings.Enabled == false) return;
+
+            if (loginNoticeStopwatch.IsRunning == false) return;
 
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
             if (frameCount % 10 != 0) return;
@@ -42,21 +40,22 @@ namespace DailyDuty.System.Modules
             {
                 if (TimeUntilNextMap() == TimeSpan.Zero)
                 {
-                    Util.PrintMessage("You have a Treasure Map Allowance Available.");
+                    Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
                 }
 
                 loginNoticeStopwatch.Stop();
             }
         }
-        
+
         protected void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
             if (ConditionManager.IsBoundByDuty() == true) return;
+            if (loginNoticeStopwatch.IsRunning) return;
 
-            if (TimeUntilNextMap() == TimeSpan.Zero)
+            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true)
             {
-                Util.PrintMessage("You have a Treasure Map Allowance Available.");
+                Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
             }
 
             var maps = GetMapsForTerritory(e);
@@ -69,21 +68,10 @@ namespace DailyDuty.System.Modules
                     {
                         var mapName = Service.DataManager.GetExcelSheet<Item>()!.GetRow(map.ItemID)!.Name;
 
-                        Util.PrintMessage($"A '{mapName}' is available for harvest in this area.");
+                        Util.PrintTreasureMap($"A '{mapName}' is available for harvest in this area.");
                     }
                 }
             }
-        }
-
-        protected string GetHarvestingTypeByTerritory(Dictionary<DataObjects.HarvestType, List<uint>> mapHarvestData, uint territory)
-        {
-            var harvestMethods = mapHarvestData
-                .Where(data => data.Value.Contains(territory))
-                .Select(e => e.Key.ToString());
-
-            string methods = "{ " + string.Join(", ", harvestMethods) + " }";
-
-            return methods;
         }
 
         // Based on https://github.com/Ottermandias/Accountant/blob/main/Accountant/Manager/TimerManager.MapManager.cs#L75
@@ -102,6 +90,44 @@ namespace DailyDuty.System.Modules
 
             Service.Configuration.TreasureMapSettings.LastMapGathered = DateTime.Now;
             Service.Configuration.Save();
+        }
+
+        private void OnLogin(object? sender, EventArgs e)
+        {
+            if (Settings.Enabled == false) return;
+
+            loginNoticeStopwatch.Start();
+        }
+
+        public static bool IsTreasureMapAvailable()
+        {
+            return TimeUntilNextMap() == TimeSpan.Zero;
+        }
+
+        public static TimeSpan TimeUntilNextMap()
+        {
+            var lastMapTime = Service.Configuration.TreasureMapSettings.LastMapGathered;
+            var nextAvailableTime = lastMapTime.AddHours(18);
+
+            if (DateTime.Now >= nextAvailableTime)
+            {
+                return TimeSpan.Zero;
+            }
+            else
+            {
+                return nextAvailableTime - DateTime.Now;
+            }
+        }
+
+        protected string GetHarvestingTypeByTerritory(Dictionary<DataObjects.HarvestType, List<uint>> mapHarvestData, uint territory)
+        {
+            var harvestMethods = mapHarvestData
+                .Where(data => data.Value.Contains(territory))
+                .Select(e => e.Key.ToString());
+
+            string methods = "{ " + string.Join(", ", harvestMethods) + " }";
+
+            return methods;
         }
 
         protected HashSet<DataObjects.TreasureMap> GetMapsForTerritory(uint territory)
@@ -130,21 +156,6 @@ namespace DailyDuty.System.Modules
             var map = GetMapByID(itemID);
 
             return map != null;
-        }
-
-        public static TimeSpan TimeUntilNextMap()
-        {
-            var lastMapTime = Service.Configuration.TreasureMapSettings.LastMapGathered;
-            var nextAvailableTime = lastMapTime.AddHours(18);
-
-            if (DateTime.Now >= nextAvailableTime)
-            {
-                return TimeSpan.Zero;
-            }
-            else
-            {
-                return nextAvailableTime - DateTime.Now;
-            }
         }
 
         public override void Dispose()

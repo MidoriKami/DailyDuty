@@ -10,7 +10,8 @@ namespace DailyDuty.System
         private readonly List<Module> modules = new()
         {
             new TreasureMapModule(),
-            new WondrousTailsModule()
+            new WondrousTailsModule(),
+            new CustomDeliveriesModule()
         };
 
         public ModuleManager()

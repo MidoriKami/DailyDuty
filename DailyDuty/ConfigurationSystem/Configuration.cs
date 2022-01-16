@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.ConfigurationSystem
 {
@@ -11,8 +12,9 @@ namespace DailyDuty.ConfigurationSystem
         public int Version { get; set; } = 1;
         
         public Daily.TreasureMapSettings TreasureMapSettings = new();
-        public Daily.WondrousTailsSettings WondrousTailsSettings = new();
-        
+        public Weekly.WondrousTailsSettings WondrousTailsSettings = new();
+        public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
+
         [NonSerialized]
         private DalamudPluginInterface? pluginInterface;
 
@@ -23,6 +25,7 @@ namespace DailyDuty.ConfigurationSystem
             TreasureMapSettings ??= new();
             WondrousTailsSettings ??= new();
             WondrousTailsSettings.Data ??= new (ButtonState, List<uint>)[16];
+            CustomDeliveriesSettings ??= new();
 
             Save();
         }

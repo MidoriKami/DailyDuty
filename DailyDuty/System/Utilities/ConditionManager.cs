@@ -8,19 +8,19 @@ namespace DailyDuty.System.Utilities
 
     internal class ConditionManager
     {
-        private readonly string ExitNodeText;
+        private readonly string exitNodeText;
 
         public ConditionManager()
         {
-            ExitNodeText = Service.DataManager.GetExcelSheet<EObjName>()!
+            exitNodeText = Service.DataManager.GetExcelSheet<EObjName>()!
                 .GetRow(2000139)!
                 .Singular;
         }
 
-        private bool IsDutyEnded()
+        public bool IsDutyEnded()
         {
             return Service.ObjectTable
-                .Any(o => o.ObjectKind == ObjectKind.EventObj && o.Name.ToString().ToLower() == ExitNodeText && Util.IsTargetable(o));
+                .Any(o => o.ObjectKind == ObjectKind.EventObj && o.Name.ToString().ToLower() == exitNodeText && Util.IsTargetable(o));
         }
 
         public static bool IsBoundByDuty()

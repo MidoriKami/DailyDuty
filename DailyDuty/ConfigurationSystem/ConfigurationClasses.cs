@@ -8,6 +8,7 @@ namespace DailyDuty.ConfigurationSystem
     public class GenericSettings
     {
         public bool Enabled = false;
+        public bool NotificationEnabled = false;
     }
 
     public enum ButtonState
@@ -31,15 +32,22 @@ namespace DailyDuty.ConfigurationSystem
         {
             public DateTime LastMapGathered = new();
             public int MinimumMapLevel = 0;
-            public bool NotificationEnabled = false;
         }
+    }
 
+    public class Weekly
+    {
         public class WondrousTailsSettings : GenericSettings
         {
             public DateTime BookDeadline = new();
             public (ButtonState, List<uint>)[] Data = new (ButtonState, List<uint>)[16];
             public uint SecondChancePoints = 0;
             public uint NumberOfPlacedStickers = 0;
+        }
+
+        public class CustomDeliveriesSettings : GenericSettings
+        {
+            public uint AllowancesRemaining = 0;
         }
     }
 }

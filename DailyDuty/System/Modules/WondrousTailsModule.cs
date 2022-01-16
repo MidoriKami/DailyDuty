@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
-using DailyDuty.DisplaySystem.DisplayModules;
 using DailyDuty.System.Utilities;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -16,52 +13,95 @@ namespace DailyDuty.System.Modules
 {
     internal unsafe class WondrousTailsModule : Module
     {
-        protected readonly Daily.WondrousTailsSettings Settings = Service.Configuration.WondrousTailsSettings;
+        protected readonly Weekly.WondrousTailsSettings Settings = Service.Configuration.WondrousTailsSettings;
         private readonly Stopwatch loginNoticeStopwatch = new();
-        private readonly Stopwatch BookUpdateStopwatch = new();
+        private readonly Stopwatch bookUpdateStopwatch = new();
+
+        private uint LastDutyInstanceID = 0;
+        private bool LastInstanceWasDuty = false;
+
+        private readonly ConditionManager conditionManager = new();
 
         public WondrousTailsModule()
         {
             Service.ClientState.Login += OnLogin;
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+        }
 
-            Settings.BookDeadline = DateTime.MinValue;
-            OnLogin(this, EventArgs.Empty);
+        private void OnLogin(object? sender, EventArgs e)
+        {
+            if (Settings.Enabled == false) return;
+
+            loginNoticeStopwatch.Start();
         }
 
         private void OnTerritoryChanged(object? sender, ushort e)
         {
-            var node = FindNode(e);
+            if (Settings.Enabled == false) return;
 
-            if (node != null)
+            if (ConditionManager.IsBoundByDuty() && Settings.NotificationEnabled == true)
             {
-                var buttonState = node.Value.Item1;
-
-                switch (buttonState)
-                {
-                    case ButtonState.Unavailable:
-                        if (Settings.SecondChancePoints > 0)
-                        {
-                            Util.PrintMessage("[WondrousTails] This instance is available for a stamp if you re-roll it!");
-                        }
-                        break;
-
-                    case ButtonState.AvailableNow:
-                        Util.PrintMessage("[WondrousTails] A stamp is already available for this instance.");
-                        break;
-
-                    case ButtonState.Completable:
-                        Util.PrintMessage("[WondrousTails] Completing this instance will reward you with a stamp!");
-                        break;
-
-                    case ButtonState.Unknown:
-                        break;
-                }
+                LastInstanceWasDuty = true;
+                LastDutyInstanceID = e;
+                OnDutyStartNotification();
+            }
+            else if(LastInstanceWasDuty == true)
+            {
+                OnDutyEndNotification();
+                LastInstanceWasDuty = false;
+            }
+            else
+            {
+                LastInstanceWasDuty = false;
             }
         }
-        
+
+        private void OnDutyEndNotification()
+        {
+            var node = FindNode(LastDutyInstanceID);
+            if (node == null) return;
+
+            var buttonState = node.Value.Item1;
+
+            if (buttonState == ButtonState.Completable)
+            {
+                Util.PrintWondrousTails("You can claim a stamp for the last instance!");
+            }
+        }
+
+        private void OnDutyStartNotification()
+        {
+            var node = FindNode(LastDutyInstanceID);
+            if (node == null) return;
+
+            var buttonState = node.Value.Item1;
+
+            switch (buttonState)
+            {
+                case ButtonState.Unavailable:
+                    if (Settings.SecondChancePoints > 0)
+                    {
+                        Util.PrintWondrousTails($"This instance is available for a stamp if you re-roll it! You have {Settings.SecondChancePoints} Re-Rolls Available.");
+                    }
+                    break;
+
+                case ButtonState.AvailableNow:
+                    Util.PrintWondrousTails("A stamp is already available for this instance.");
+                    break;
+
+                case ButtonState.Completable:
+                    Util.PrintWondrousTails("Completing this instance will reward you with a stamp!");
+                    break;
+
+                case ButtonState.Unknown:
+                    break;
+            }
+        }
+
         public override void Update()
         {
+            if (Settings.Enabled == false) return;
+
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
             if (frameCount % 10 != 0) return;
 
@@ -71,7 +111,7 @@ namespace DailyDuty.System.Modules
             {
                 if (dataStale)
                 {
-                    Util.PrintMessage("WondrousTails Data is out of date, please open your Wondrous Tails Book.");
+                    Util.PrintWondrousTails("Data is out of date, please open your Wondrous Tails Book.");
                 }
 
                 loginNoticeStopwatch.Stop();
@@ -86,7 +126,7 @@ namespace DailyDuty.System.Modules
                     UpdateBook();
                     Service.Configuration.Save();
 
-                    Util.PrintMessage("WondrousTails Book Successfully Updated!");
+                    Util.PrintWondrousTails("Book Successfully Updated!");
 
                     if (loginNoticeStopwatch.IsRunning)
                         loginNoticeStopwatch.Stop();
@@ -95,22 +135,15 @@ namespace DailyDuty.System.Modules
 
             if (IsBookOpen())
             {
-                if (BookUpdateStopwatch.IsRunning && BookUpdateStopwatch.Elapsed >= TimeSpan.FromSeconds(1))
-                {
-                    BookUpdateStopwatch.Stop();
-                    BookUpdateStopwatch.Reset();
-                }
-
-
-                if (BookUpdateStopwatch.IsRunning == false)
-                {
-                    BookUpdateStopwatch.Start();
-                    UpdateBook();
-                }
-
+                Util.UpdateDelayed(bookUpdateStopwatch, TimeSpan.FromSeconds(1), UpdateBook);
             }
         }
 
+        public static bool IsWondrousTailsBookComplete()
+        {
+            return Service.Configuration.WondrousTailsSettings.NumberOfPlacedStickers == 9;
+        }
+        
         private bool IsBookOpen()
         {
             var bookAtkBase = GetWondrousTailsPointer();
@@ -173,9 +206,6 @@ namespace DailyDuty.System.Modules
                 Settings.Data[i] =
                     new(GetButtonState(nextNode), GetInstanceListFromImageID(id));
 
-                //PluginLog.Information($"NodeData: {(IntPtr)nextNode:X8}, {id}, {i}, {Settings.Data[i].Item1}");
-
-
                 nextNode = nextNode->PrevSiblingNode;
             }
         }
@@ -198,7 +228,7 @@ namespace DailyDuty.System.Modules
                 PluginLog.Information($"{buttonState}, " + "{ " + string.Join(", ", list) + " }");
             }
         }
-        
+
         private (ButtonState, List<uint>)? FindNode(uint instanceID)
         {
             foreach (var (pointer, list) in Settings.Data)
@@ -238,12 +268,19 @@ namespace DailyDuty.System.Modules
 
             return imageNode->PartsList->Parts->UldAsset->AtkTexture.Resource->Unk_1;
         }
-        
+
         private List<uint> GetInstanceListFromImageID(uint id)
         {
+            var values = TryGetFromDatabase(id);
+
+            if (values != null)
+            {
+                return new() {values.Value};
+            }
+
             switch (id)
             {
-                // Dungeons 1-49
+                // Dungeons Lv 1-49
                 case 113001:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
@@ -251,29 +288,77 @@ namespace DailyDuty.System.Modules
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
-                //The Feast
-                case 113049:
-                    return new(){0};
+                // Dungeons Lv 50
+                case 113002:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is 50)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
-                //Memoria Misera (Extreme)
-                case 113114:
-                    return new() { 913};
+                // Dungeons Lv 51-59
+                case 113003:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is >= 51 and <= 59)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
-                // Hells' Kier (Extreme)
-                case 113090:
-                    return new() { 811};
+                // Dungeons Lv 60
+                case 113004:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is 60)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
-                //Emanation (Extreme)
-                case 113079:
-                    return new() { 720};
+                // Dungeons Lv 61-69
+                case 113062:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is >= 61 and <= 69)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
-                //The Striking Tree(Extreme)
-                case 113023:
-                    return new() { 375};
+                // Dungeons Lv 70
+                case 113063:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is 70)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
-                //The Navel (Extreme)
-                case 113019:
-                    return new() { 296};
+                // Dungeons Lv 71-79
+                case 113086:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is >= 71 and <= 79)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
+
+                // Dungeons Lv 80
+                case 113087:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is 80)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
+
+                // Dungeons lv 81-89
+                case 113109:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is >= 81 and <= 89)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
+
+                // Dungeons Lv 90
+                case 113110:
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId == 2)
+                        .Where(m => m.ClassJobLevelSync is 90)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
                 // Palace of the Dead / Heaven on High
                 case 113056:
@@ -282,49 +367,14 @@ namespace DailyDuty.System.Modules
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
-                // Alphascape 1.0
-                case 113081:
-                    return new() {789};
+                // Treasure Maps
+                case 113050:
+                    // todo: Find Treasure Map Instance List
+                    break;
 
-                // Alexander - Arm of the Father
-                case 113012:
-                    return new() {444};
-
-                //The Final Coil of Bahamut - Turn 3
-                case 113043:
-                    return new() {195};
-
-                // the Orbonne Monastery
-                case 113080:
-                    return new() {826};
-
-                // The World of Darkness
-                case 113007:
-                    return new() {151};
-
-                // Dungeons Level 90
-                case 113110:
-                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
-                        !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 90)
-                        .Select(m => m.TerritoryType.Value!.RowId)
-                        .ToList();
-
-                // Dungeons Level 80
-                case 113087:
-                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
-                        !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 80)
-                        .Select(m => m.TerritoryType.Value!.RowId)
-                        .ToList();
-
-                // Dungeons 71-79
-                case 113086:
-                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
-                        !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is >= 71 and <= 79)
-                        .Select(m => m.TerritoryType.Value!.RowId)
-                        .ToList();
+                //The Feast
+                case 113049:
+                    return new() { 0 };
 
             }
 
@@ -332,9 +382,31 @@ namespace DailyDuty.System.Modules
             return new List<uint>();
         }
 
-        private void OnLogin(object? sender, EventArgs e)
+        private uint? TryGetFromDatabase(uint id)
         {
-            loginNoticeStopwatch.Start();
+            var timer = new Stopwatch();
+            timer.Start();
+
+            var instanceContentData = Service.DataManager.GetExcelSheet<WeeklyBingoOrderData>()
+                !.Where(b => b.Icon == id)
+                .Select(b => b.Data)
+                .FirstOrDefault();
+
+            if (instanceContentData < 20000)
+            {
+                return null;
+            }
+
+            var data = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                !.Where(c => c.Content == instanceContentData)
+                .Select(c => c.TerritoryType.Value!.RowId)
+                .FirstOrDefault();
+
+            timer.Stop();
+            PluginLog.Debug($"Elapsed Time: {timer.ElapsedMilliseconds}");
+
+
+            return data;
         }
 
         private AddonWeeklyBingo* GetWondrousTailsPointer()
