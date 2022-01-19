@@ -354,7 +354,7 @@ namespace DailyDuty.System.Modules
             Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
         }
 
-        public override bool ModuleIsCompleted()
+        public override bool IsCompleted()
         {
             return IsWondrousTailsBookComplete();
         }

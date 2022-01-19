@@ -165,7 +165,7 @@ namespace DailyDuty.System.Modules
             Service.ClientState.Login -= OnLogin;
         }
 
-        public override bool ModuleIsCompleted()
+        public override bool IsCompleted()
         {
             return IsTreasureMapAvailable();
         }

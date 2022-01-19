@@ -8,6 +8,6 @@ namespace DailyDuty.System
 
         public abstract void Dispose();
 
-        public abstract bool ModuleIsCompleted();
+        public abstract bool IsCompleted();
     }
 }

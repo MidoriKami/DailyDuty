@@ -106,7 +106,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             private bool ShowToDoTask(ModuleManager.ModuleType type, GenericSettings settings)
             {
-                bool moduleComplete = moduleManager[type].ModuleIsCompleted();
+                bool moduleComplete = moduleManager[type].IsCompleted();
                 bool moduleEnabled = settings.Enabled;
 
                 return moduleEnabled && moduleComplete;

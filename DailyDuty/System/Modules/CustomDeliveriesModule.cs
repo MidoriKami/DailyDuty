@@ -25,7 +25,7 @@ namespace DailyDuty.System.Modules
         {
         }
 
-        public override bool ModuleIsCompleted()
+        public override bool IsCompleted()
         {
             return false;
         }
