@@ -172,7 +172,6 @@ namespace DailyDuty.System.Modules
                 var instances = GetInstanceListFromID(wondrousTailsBasePointer->Tasks[i]);
 
                 result[i] = (taskButtonState, instances);
-                PluginLog.Information($"{taskButtonState}");
             }
 
             return result;
