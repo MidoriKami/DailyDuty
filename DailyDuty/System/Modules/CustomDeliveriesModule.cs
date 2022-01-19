@@ -24,5 +24,10 @@ namespace DailyDuty.System.Modules
         public override void Dispose()
         {
         }
+
+        public override bool ModuleIsCompleted()
+        {
+            return false;
+        }
     }
 }

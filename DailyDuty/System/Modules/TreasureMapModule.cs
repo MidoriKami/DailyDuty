@@ -164,5 +164,10 @@ namespace DailyDuty.System.Modules
             Service.Chat.ChatMessage -= OnChatMap;
             Service.ClientState.Login -= OnLogin;
         }
+
+        public override bool ModuleIsCompleted()
+        {
+            return IsTreasureMapAvailable();
+        }
     }
 }

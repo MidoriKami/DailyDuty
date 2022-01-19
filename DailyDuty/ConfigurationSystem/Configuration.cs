@@ -24,7 +24,6 @@ namespace DailyDuty.ConfigurationSystem
 
             TreasureMapSettings ??= new();
             WondrousTailsSettings ??= new();
-            WondrousTailsSettings.Data ??= new (ButtonState, List<uint>)[16];
             CustomDeliveriesSettings ??= new();
 
             Save();

@@ -39,10 +39,6 @@ namespace DailyDuty.ConfigurationSystem
     {
         public class WondrousTailsSettings : GenericSettings
         {
-            public DateTime BookDeadline = new();
-            public (ButtonState, List<uint>)[] Data = new (ButtonState, List<uint>)[16];
-            public uint SecondChancePoints = 0;
-            public uint NumberOfPlacedStickers = 0;
         }
 
         public class CustomDeliveriesSettings : GenericSettings

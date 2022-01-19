@@ -18,8 +18,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             Modules = new()
             {
-                new WondrousTails(),
-                new CustomDeliveries()
+                {"WondrousTails", new WondrousTails()},
+                {"CustomDeliveries", new CustomDeliveries()}
             };
         }
     }

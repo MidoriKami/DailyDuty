@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Modules;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using ImGuiNET;
@@ -32,19 +33,19 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             if (Settings.Enabled)
             {
-                ImGui.Indent(15);
+                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
                 DrawTimeStatusDisplayAndCountdown();
 
                 ImGui.Checkbox("Notifications##TreasureMap", ref Settings.NotificationEnabled);
 
                 if (Settings.NotificationEnabled)
                 {
-                    ImGui.Indent(15);
+                    ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
                     DrawMinimumMapLevelComboBox();
-                    ImGui.Indent(-15);
+                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
                 }
 
-                ImGui.Indent(-15);
+                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
             ImGui.Spacing();

@@ -1,14 +1,17 @@
 ﻿using System.Linq.Expressions;
 using System.Numerics;
+using DailyDuty.ConfigurationSystem;
 using DailyDuty.System;
 using DailyDuty.System.Modules;
+using Dalamud.Interface;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
     internal class ToDoTab : TabCategory
     {
-        public ToDoTab()
+
+        public ToDoTab(ModuleManager moduleManager)
         {
             CategoryName = "Outstanding Tasks";
             TabName = "Todo List";
@@ -17,12 +20,19 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             Modules = new()
             {
-                new ToDoModule()
+                {"ToDo", new ToDoModule(moduleManager) }
             };
         }
 
         public class ToDoModule : DisplayModule
         {
+            private readonly ModuleManager moduleManager;
+
+            public ToDoModule(ModuleManager moduleManager)
+            {
+                this.moduleManager = moduleManager;
+            }
+
             public override void Draw()
             {
                 ImGui.Spacing();
@@ -43,11 +53,11 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             {
                 DrawSeparatedText("Daily Tasks");
                 
-                ImGui.Indent(15);
+                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                 bool anyTasks = false;
 
-                if (TreasureMapModule.IsTreasureMapAvailable() == true)
+                if (ShowToDoTask(ModuleManager.ModuleType.TreasureMap, Service.Configuration.TreasureMapSettings))
                 {
                     ImGui.TextColored(new Vector4(255, 0, 0, 150), "Daily Treasure Map");
                     ImGui.Spacing();
@@ -60,18 +70,18 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ImGui.Spacing();
                 }
 
-                ImGui.Indent(-15);
+                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
-            private static void DrawWeeklyTasks()
+            private void DrawWeeklyTasks()
             {
                 DrawSeparatedText("Weekly Tasks");
                 
-                ImGui.Indent(15);
+                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                 bool anyTasks = false;
 
-                if (WondrousTailsModule.IsWondrousTailsBookComplete() == false)
+                if ( ShowToDoTask(ModuleManager.ModuleType.WondrousTails, Service.Configuration.WondrousTailsSettings) )
                 {
                     ImGui.TextColored(new Vector4(255, 0, 0, 150), "Weekly Wondrous Tails");
                     ImGui.Spacing();
@@ -84,7 +94,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ImGui.Spacing();
                 }
 
-                ImGui.Indent(-15);
+                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
             private static void DrawSeparatedText(string text)
@@ -92,6 +102,14 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 ImGui.Text(text);
                 ImGui.Separator();
                 ImGui.Spacing();
+            }
+
+            private bool ShowToDoTask(ModuleManager.ModuleType type, GenericSettings settings)
+            {
+                bool moduleComplete = moduleManager[type].ModuleIsCompleted();
+                bool moduleEnabled = settings.Enabled;
+
+                return moduleEnabled && moduleComplete;
             }
 
             public override void Dispose()

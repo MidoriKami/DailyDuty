@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.DisplaySystem.DisplayTabs;
+using DailyDuty.System;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -11,12 +13,7 @@ namespace DailyDuty.DisplaySystem
         private Tab currentTab = Tab.ToDo;
         private readonly Vector2 windowSize = new(450, 500);
 
-        private readonly Dictionary<Tab, TabCategory> settingsCategories = new()
-        {
-            {Tab.ToDo, new ToDoTab()},
-            {Tab.Daily, new DailyTab()},
-            {Tab.Weekly, new WeeklyTab()}
-        };
+        private readonly Dictionary<Tab, TabCategory> settingsCategories = new();
 
         public enum Tab
         {
@@ -25,8 +22,12 @@ namespace DailyDuty.DisplaySystem
             Weekly
         }
 
-        public DisplayManager() : base("Daily Duty")
+        public DisplayManager(ModuleManager moduleManager) : base("Daily Duty")
         {
+            settingsCategories.Add(Tab.ToDo, new ToDoTab(moduleManager));
+            settingsCategories.Add(Tab.Daily, new DailyTab());
+            settingsCategories.Add(Tab.Weekly, new WeeklyTab());
+
             IsOpen = false;
 
             SizeConstraints = new WindowSizeConstraints()
@@ -45,7 +46,7 @@ namespace DailyDuty.DisplaySystem
             if (!IsOpen) return;
 
             DrawDailyCountdown();
-
+            ImGui.SameLine();
             DrawWeeklyCountdown();
 
             DrawTabs();
@@ -58,12 +59,29 @@ namespace DailyDuty.DisplaySystem
 
         private void DrawDailyCountdown()
         {
-            // todo: create daily countdown timer animation
+            var now = DateTime.UtcNow;
+            var nextReset = now.AddDays(1).Date.AddHours(15);
+            var totalHours = (nextReset - now);
+            ImGui.Text($"Time until daily reset: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
         }
 
         private void DrawWeeklyCountdown()
         {
-            // todo: create weekly countdown timer animation
+            var today = DateTime.UtcNow;
+            var nextReset = today.AddDays(1);
+
+            while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
+            {
+                nextReset = nextReset.AddDays(1);
+            }
+
+            var nextResetDate = nextReset.Date.AddHours(8);
+
+            var delta = nextResetDate - today;
+
+            ImGui.Text($"Time until weekly reset: {delta.Days} {((delta.Days > 1) ? "days":"day")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+
+
         }
 
         private void DrawTabs()

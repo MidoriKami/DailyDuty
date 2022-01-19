@@ -7,5 +7,7 @@ namespace DailyDuty.System
         public abstract void Update();
 
         public abstract void Dispose();
+
+        public abstract bool ModuleIsCompleted();
     }
 }

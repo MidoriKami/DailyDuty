@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
+using Dalamud.Interface;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -23,11 +24,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             if (settings.Enabled)
             {
-                ImGui.Indent(15);
+                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                 ImGui.Checkbox("Notifications##CustomDeliveries", ref settings.NotificationEnabled);
 
-                ImGui.Indent(-15);
+                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
             ImGui.Spacing();

@@ -28,9 +28,9 @@ namespace DailyDuty
             Service.Configuration.Initialize(Service.PluginInterface);
 
             // Create Systems
-            DisplayManager = new DisplayManager();
-            CommandManager = new CommandManager(DisplayManager);
             ModuleManager = new ModuleManager();
+            DisplayManager = new DisplayManager(ModuleManager);
+            CommandManager = new CommandManager(DisplayManager);
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;

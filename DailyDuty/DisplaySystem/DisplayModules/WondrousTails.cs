@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
 using Dalamud.Hooking;
+using Dalamud.Interface;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
@@ -26,11 +27,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             if (Settings.Enabled)
             {
-                ImGui.Indent(15);
+                ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
 
                 ImGui.Checkbox("Notifications##WondrousTails", ref Settings.NotificationEnabled);
                 
-                ImGui.Indent(-15);
+                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
             ImGui.Spacing();
