@@ -13,11 +13,11 @@ namespace DailyDuty.ConfigurationSystem
 
     public enum ButtonState
     {
-        // Can click button to get a stamp right now
-        AvailableNow,
-
         // Needs instance completion to become available
         Completable,
+
+        // Can click button to get a stamp right now
+        AvailableNow,
 
         // Already completed, needs re-roll
         Unavailable,

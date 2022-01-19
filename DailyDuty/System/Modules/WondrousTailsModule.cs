@@ -16,13 +16,45 @@ namespace DailyDuty.System.Modules
 {
     internal unsafe class WondrousTailsModule : Module
     {
+        [StructLayout(LayoutKind.Explicit)]
+        public struct WondrousTails
+        {
+            [FieldOffset(0x06)]
+            public fixed byte Tasks[16];
+
+            [FieldOffset(0x16)]
+            public uint Rewards;
+
+            [FieldOffset(0x1A)]
+            public ushort Stickers;
+
+            [FieldOffset(0x1E)]
+            private readonly byte _flags;
+
+            public bool HasBook
+                => (_flags & 0x10) != 0;
+
+            [FieldOffset(0x20)]
+            private readonly ushort _secondChance;
+
+            public int SecondChance
+                => (_secondChance >> 7) & 0b1111;
+
+            [FieldOffset(0x22)] 
+            private fixed byte _taskStatus[4];
+
+            public ButtonState TaskStatus(int idx)
+                => (ButtonState) ((_taskStatus[idx >> 2] >> ((idx & 0b11) * 2)) & 0b11);
+        }
+
+
         protected readonly Weekly.WondrousTailsSettings Settings = Service.Configuration.WondrousTailsSettings;
         private readonly Stopwatch loginNoticeStopwatch = new();
 
         private uint lastDutyInstanceID = 0;
         private bool lastInstanceWasDuty = false;
 
-        private readonly IntPtr wondrousTailsBasePointer;
+        private readonly WondrousTails* wondrousTailsBasePointer;
 
         public WondrousTailsModule()
         {
@@ -30,7 +62,9 @@ namespace DailyDuty.System.Modules
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
             var scanner = new SigScanner();
-            wondrousTailsBasePointer = scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18") + 6;
+            wondrousTailsBasePointer = (WondrousTails*)(scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18"));
+
+            GetAllTaskData();
         }
 
         private void OnLogin(object? sender, EventArgs e)
@@ -74,7 +108,7 @@ namespace DailyDuty.System.Modules
 
             var buttonState = node.Value.Item1;
 
-            if (buttonState == ButtonState.Completable)
+            if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
             {
                 Util.PrintWondrousTails("You can claim a stamp for the last instance!");
             }
@@ -90,9 +124,9 @@ namespace DailyDuty.System.Modules
             switch (buttonState)
             {
                 case ButtonState.Unavailable:
-                    if (GetSecondChanceCount() > 0)
+                    if (wondrousTailsBasePointer->SecondChance > 0)
                     {
-                        Util.PrintWondrousTails($"This instance is available for a stamp if you re-roll it! You have {GetSecondChanceCount()} Re-Rolls Available.");
+                        Util.PrintWondrousTails($"This instance is available for a stamp if you re-roll it! You have {wondrousTailsBasePointer->SecondChance} Re-Rolls Available.");
                     }
                     break;
 
@@ -130,64 +164,18 @@ namespace DailyDuty.System.Modules
 
         private IEnumerable<(ButtonState, List<uint>)> GetAllTaskData()
         {
-            byte[] taskID = new byte[16];
-            var taskAddress = wondrousTailsBasePointer;
-            Marshal.Copy(taskAddress, taskID, 0, 16);
-
             var result = new (ButtonState, List<uint>)[16];
 
             for (int i = 0; i < 16; ++i)
             {
-                var taskButtonState = GetTaskCompletionArray()[i];
-                var instances = GetInstanceListFromID(taskID[i]);
-
-                PluginLog.Information($"ButtonState: {taskButtonState}, Instances:{"{ " + string.Join(", ", instances) + " }"}");
+                var taskButtonState = wondrousTailsBasePointer->TaskStatus(i);
+                var instances = GetInstanceListFromID(wondrousTailsBasePointer->Tasks[i]);
 
                 result[i] = (taskButtonState, instances);
-
+                PluginLog.Information($"{taskButtonState}");
             }
 
             return result;
-        }
-
-        private ButtonState[] GetTaskCompletionArray()
-        {
-            byte[] completionStatus = new byte[4];
-            var completionAddressStart = wondrousTailsBasePointer + 28;
-            Marshal.Copy(completionAddressStart, completionStatus, 0, 4);
-
-            ButtonState[] taskCompletion = new ButtonState[16];
-
-            for (int y = 0; y < 4; ++y)
-            {
-                var byteValue = completionStatus[y];
-
-                var fourth = (byteValue & 0b11000000) >> 6;
-                var third = (byteValue & 0b00110000) >> 4;
-                var second = (byteValue & 0b00001100) >> 2;
-                var first = (byteValue & 0b00000011);
-
-                taskCompletion[y*4 + 0] = ConvertToButtonState(first);
-                taskCompletion[y*4 + 1] = ConvertToButtonState(second);
-                taskCompletion[y*4 + 2] = ConvertToButtonState(third);
-                taskCompletion[y*4 + 3] = ConvertToButtonState(fourth);
-            }
-
-            return taskCompletion;
-        }
-
-        private ButtonState ConvertToButtonState(int value)
-        {
-            if (value == 2)
-                return ButtonState.Unavailable;
-
-            if (value == 1)
-                return ButtonState.AvailableNow;
-
-            if (value == 0)
-                return ButtonState.Completable;
-
-            return ButtonState.Unknown;
         }
         
         private static int CountSetBits(int n)
@@ -204,33 +192,12 @@ namespace DailyDuty.System.Modules
 
         public bool IsWondrousTailsBookComplete()
         {
-            var address = wondrousTailsBasePointer + 20;
-            byte[] data = new byte[2];
-            Marshal.Copy(address, data, 0, 2);
-
-            var playerHasBook = PlayerHasBook();
-            var fullNumber = (data[0] << 8) | data[1];
+            var playerHasBook = wondrousTailsBasePointer->HasBook;
+            var fullNumber = wondrousTailsBasePointer->Stickers;
 
             var numBits = CountSetBits(fullNumber);
 
             return numBits == 9 && playerHasBook;
-        }
-        
-        private int GetSecondChanceCount()
-        {
-            var address = wondrousTailsBasePointer + 26;
-            byte[] secondChance = new byte[2];
-            Marshal.Copy(address, secondChance, 0, 2);
-
-            // value lies between bytes, little endian xxxxxxx0 1yyyyyyy
-
-            // correct endianess
-            var value = (secondChance[1] << 8) + secondChance[0];
-
-            // mask and shift out value
-            var result = (value & 0x0180) >> 7;
-            
-            return result;
         }
 
         private (ButtonState, List<uint>)? FindNode(uint instanceID)
@@ -337,7 +304,6 @@ namespace DailyDuty.System.Modules
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
-                // Palace of the Dead / Heaven on High
                 case 53:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId is 21)
@@ -376,17 +342,6 @@ namespace DailyDuty.System.Modules
                 .FirstOrDefault();
 
             return data;
-        }
-
-        private bool PlayerHasBook()
-        {
-            var address = wondrousTailsBasePointer + 24;
-            byte[] data = new byte[1];
-            Marshal.Copy(address, data, 0, 1);
-
-            var maskedData = (data[0] & 0b00010000) >> 4;
-
-            return maskedData > 0;
         }
 
         private AddonWeeklyBingo* GetWondrousTailsPointer()
