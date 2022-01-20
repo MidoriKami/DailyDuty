@@ -46,7 +46,7 @@ namespace DailyDuty.System.Modules
         }
 
 
-        protected readonly Weekly.WondrousTailsSettings Settings = Service.Configuration.WondrousTailsSettings;
+        protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
         private readonly Stopwatch loginNoticeStopwatch = new();
 
         private uint lastDutyInstanceID = 0;
@@ -75,7 +75,7 @@ namespace DailyDuty.System.Modules
             if (Settings.Enabled == false) return;
             if (loginNoticeStopwatch.IsRunning == true) return;
 
-            if (IsWondrousTailsBookComplete() == true && Settings.NotificationEnabled == true)
+            if (IsWondrousTailsBookComplete() == true && Settings.NotificationEnabled == true && Service.LoggedIn == true)
             {
                 Util.PrintWondrousTails("You have a completed book! Be sure to turn it in!");
             }
@@ -155,6 +155,7 @@ namespace DailyDuty.System.Modules
                 }
 
                 loginNoticeStopwatch.Stop();
+                loginNoticeStopwatch.Reset();
             }
         }
 

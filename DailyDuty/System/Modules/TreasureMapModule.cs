@@ -15,7 +15,7 @@ namespace DailyDuty.System.Modules
 {
     internal class TreasureMapModule : Module
     {
-        protected readonly Daily.TreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
+        protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
 
         private readonly Stopwatch loginNoticeStopwatch = new();
 
@@ -29,7 +29,6 @@ namespace DailyDuty.System.Modules
         public override void Update()
         {
             if (Settings.Enabled == false) return;
-
             if (loginNoticeStopwatch.IsRunning == false) return;
 
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
@@ -43,6 +42,7 @@ namespace DailyDuty.System.Modules
                 }
 
                 loginNoticeStopwatch.Stop();
+                loginNoticeStopwatch.Reset();
             }
         }
 
@@ -52,7 +52,7 @@ namespace DailyDuty.System.Modules
             if (ConditionManager.IsBoundByDuty() == true) return;
             if (loginNoticeStopwatch.IsRunning) return;
 
-            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true)
+            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true && Service.LoggedIn == true)
             {
                 Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
             }
@@ -76,7 +76,7 @@ namespace DailyDuty.System.Modules
         // Based on https://github.com/Ottermandias/Accountant/blob/main/Accountant/Manager/TimerManager.MapManager.cs#L75
         protected void OnChatMap(XivChatType type, uint senderid, ref SeString sender, ref SeString message, ref bool ishandled)
         {
-            if (Service.Configuration.TreasureMapSettings.Enabled == false) return;
+            if (Settings.Enabled == false) return;
 
             if ((int)type != 2115 || !Service.Condition[ConditionFlag.Gathering])
                 return;
@@ -87,7 +87,7 @@ namespace DailyDuty.System.Modules
             if (!IsMap(item.ItemId))
                 return;
 
-            Service.Configuration.TreasureMapSettings.LastMapGathered = DateTime.Now;
+            Settings.LastMapGathered = DateTime.Now;
             Service.Configuration.Save();
         }
 
@@ -105,7 +105,7 @@ namespace DailyDuty.System.Modules
 
         public static TimeSpan TimeUntilNextMap()
         {
-            var lastMapTime = Service.Configuration.TreasureMapSettings.LastMapGathered;
+            var lastMapTime = Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered;
             var nextAvailableTime = lastMapTime.AddHours(18);
 
             if (DateTime.Now >= nextAvailableTime)

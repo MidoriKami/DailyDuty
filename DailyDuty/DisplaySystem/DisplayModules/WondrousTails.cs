@@ -6,7 +6,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 {
     internal class WondrousTails : DisplayModule
     {
-        protected readonly Weekly.WondrousTailsSettings Settings = Service.Configuration.WondrousTailsSettings;
+        protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
 
         public WondrousTails()
         {

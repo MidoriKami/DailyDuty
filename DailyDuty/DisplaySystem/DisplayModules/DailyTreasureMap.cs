@@ -12,18 +12,21 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 {
     internal class DailyTreasureMap : DisplayModule
     {
-        protected readonly Daily.TreasureMapSettings Settings = Service.Configuration.TreasureMapSettings;
+        protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
 
         private readonly HashSet<int> mapLevels;
-        private int selectedMinimumMapLevel = 0;
+
+        private int SelectedMinimumMapLevel
+        {
+            get => Settings.MinimumMapLevel;
+            set => Settings.MinimumMapLevel = value;
+        }
 
         public DailyTreasureMap()
         {
             CategoryString = "Daily Treasure Map";
 
             mapLevels = DataObjects.MapList.Select(m => m.Level).ToHashSet();
-
-            selectedMinimumMapLevel = Settings.MinimumMapLevel;
         }
 
         protected override void DrawContents()
@@ -54,13 +57,13 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private static void DrawTimeStatusDisplayAndCountdown()
         {
-            if (Service.Configuration.TreasureMapSettings.LastMapGathered == new DateTime())
+            if (Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered == new DateTime())
             {
                 ImGui.Text($"Last Map Collected: Never");
             }
             else
             {
-                ImGui.Text($"Last Map Collected: {Service.Configuration.TreasureMapSettings.LastMapGathered}");
+                ImGui.Text($"Last Map Collected: {Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered}");
             }
             ImGui.Spacing();
 
@@ -84,15 +87,15 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
             ImGui.PushItemWidth(50);
 
-            if (ImGui.BeginCombo("Minimum Map Level", selectedMinimumMapLevel.ToString(), ImGuiComboFlags.PopupAlignLeft))
+            if (ImGui.BeginCombo("Minimum Map Level", SelectedMinimumMapLevel.ToString(), ImGuiComboFlags.PopupAlignLeft))
             {
                 foreach (var element in mapLevels)
                 {
-                    bool isSelected = element == selectedMinimumMapLevel;
+                    bool isSelected = element == SelectedMinimumMapLevel;
                     if (ImGui.Selectable(element.ToString(), isSelected))
                     {
-                        selectedMinimumMapLevel = element;
-                        Settings.MinimumMapLevel = selectedMinimumMapLevel;
+                        SelectedMinimumMapLevel = element;
+                        Settings.MinimumMapLevel = SelectedMinimumMapLevel;
                         Service.Configuration.Save();
                     }
 

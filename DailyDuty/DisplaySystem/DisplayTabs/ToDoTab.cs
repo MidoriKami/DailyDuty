@@ -58,7 +58,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.TreasureMap,
-                    Service.Configuration.TreasureMapSettings,
+                    Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings,
                     "Daily Treasure Map",
                     ref anyTasks);
 
@@ -82,13 +82,13 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.WondrousTails, 
-                    Service.Configuration.WondrousTailsSettings, 
+                    Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings, 
                     "Weekly Wondrous Tails", 
                     ref anyTasks);
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.CustomDeliveries,
-                    Service.Configuration.CustomDeliveriesSettings,
+                    Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings,
                     "Weekly Custom Deliveries",
                     ref anyTasks);
 

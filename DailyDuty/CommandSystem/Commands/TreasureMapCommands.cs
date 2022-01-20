@@ -4,7 +4,7 @@ namespace DailyDuty.CommandSystem.Commands
 {
     internal class TreasureMapCommands : CommandProcessor
     {
-        private readonly Daily.TreasureMapSettings settings = Service.Configuration.TreasureMapSettings;
+        private Daily.TreasureMapSettings settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
 
         public TreasureMapCommands()
         {

@@ -4,7 +4,7 @@ namespace DailyDuty.System.Modules
 {
     internal class CustomDeliveriesModule : Module
     {
-        private readonly Weekly.CustomDeliveriesSettings Settings = Service.Configuration.CustomDeliveriesSettings;
+        private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
 
         public CustomDeliveriesModule()
         {

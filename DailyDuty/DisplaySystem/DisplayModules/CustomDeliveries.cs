@@ -6,7 +6,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 {
     internal class CustomDeliveries : DisplayModule
     {
-        private readonly Weekly.CustomDeliveriesSettings settings = Service.Configuration.CustomDeliveriesSettings;
+        private Weekly.CustomDeliveriesSettings settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
 
         public CustomDeliveries()
         {
