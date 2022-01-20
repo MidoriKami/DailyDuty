@@ -5,7 +5,6 @@ using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty
 {

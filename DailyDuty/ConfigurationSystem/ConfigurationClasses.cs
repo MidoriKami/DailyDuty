@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.ConfigurationSystem
 {

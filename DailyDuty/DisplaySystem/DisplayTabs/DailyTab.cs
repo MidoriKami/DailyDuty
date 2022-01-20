@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using DailyDuty.DisplaySystem.DisplayModules;
-using ImGuiNET;
+﻿using DailyDuty.DisplaySystem.DisplayModules;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {

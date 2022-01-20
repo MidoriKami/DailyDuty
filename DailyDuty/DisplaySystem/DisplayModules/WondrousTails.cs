@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.ConfigurationSystem;
-using Dalamud.Hooking;
+﻿using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface;
-using Dalamud.Logging;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules

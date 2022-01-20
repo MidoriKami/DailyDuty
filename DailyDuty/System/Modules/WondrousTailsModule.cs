@@ -8,8 +8,6 @@ using DailyDuty.System.Utilities;
 using Dalamud.Game;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImPlotNET;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System.Modules

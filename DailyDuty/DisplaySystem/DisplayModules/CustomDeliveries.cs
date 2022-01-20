@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.ConfigurationSystem;
+﻿using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface;
 using ImGuiNET;
 

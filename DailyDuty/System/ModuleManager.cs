@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.System.Modules;
-using Dalamud.Game;
 
 namespace DailyDuty.System
 {
