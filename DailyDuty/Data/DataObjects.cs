@@ -212,10 +212,10 @@ namespace DailyDuty.Data
             {
                 HarvestData = new()
                 {
-                    { HarvestType.Logging, new() { 960, 961 } },
-                    { HarvestType.Harvesting, new() { 960, 961 } },
-                    { HarvestType.Mining, new() { 960, 961 } },
-                    { HarvestType.Quarrying, new() { 960, 961 } },
+                    { HarvestType.Logging, new() { 960 } },
+                    { HarvestType.Harvesting, new() { 960 } },
+                    { HarvestType.Mining, new() { 960 } },
+                    { HarvestType.Quarrying, new() { 960 } },
                 },
                 ItemID = 36612,
                 Level = 90

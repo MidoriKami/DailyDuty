@@ -20,7 +20,7 @@ namespace DailyDuty.DisplaySystem
             ImGui.Separator();
             ImGui.Spacing();
 
-            ImGui.BeginChildFrame(FrameID, ImGuiHelpers.ScaledVector2(490, 340), ImGuiWindowFlags.NoBackground);
+            ImGui.BeginChild(FrameID.ToString(), ImGuiHelpers.ScaledVector2(435, 350), true);
 
             foreach (var (name, module) in Modules)
             {

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.System.Utilities
@@ -78,6 +80,16 @@ namespace DailyDuty.System.Utilities
                 stopwatch.Start();
                 function();
             }
+        }
+
+        public static void LogList<T>(IEnumerable<T> list)
+        {
+            PluginLog.Information( FormatList(list) );
+        }
+
+        public static string FormatList<T>(IEnumerable<T> list)
+        {
+            return "{ " + string.Join(", ", list) + " }";
         }
     }
 }

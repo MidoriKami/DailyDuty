@@ -24,18 +24,19 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         protected override void DrawContents()
         {
             ImGui.Checkbox("Enabled##WondrousTails", ref Settings.Enabled);
+            ImGui.Spacing();
 
             if (Settings.Enabled)
             {
                 ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
 
                 ImGui.Checkbox("Notifications##WondrousTails", ref Settings.NotificationEnabled);
-                
+                ImGui.Spacing();
+
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
             ImGui.Spacing();
-            ImGui.Separator();
         }
 
         public override void Dispose()

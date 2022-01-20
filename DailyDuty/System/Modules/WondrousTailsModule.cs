@@ -62,9 +62,7 @@ namespace DailyDuty.System.Modules
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
             var scanner = new SigScanner();
-            wondrousTailsBasePointer = (WondrousTails*)(scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18"));
-
-            GetAllTaskData();
+            wondrousTailsBasePointer = (WondrousTails*) scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18");
         }
 
         private void OnLogin(object? sender, EventArgs e)
@@ -172,6 +170,10 @@ namespace DailyDuty.System.Modules
                 var instances = GetInstanceListFromID(wondrousTailsBasePointer->Tasks[i]);
 
                 result[i] = (taskButtonState, instances);
+
+                #if DEBUG
+                    PluginLog.LogDebug($"[WondrousTails] TaskState: {taskButtonState}, Instances: {Util.FormatList(instances)}");
+                #endif
             }
 
             return result;

@@ -30,6 +30,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         protected override void DrawContents()
         {
             ImGui.Checkbox("Enabled##TreasureMap", ref Settings.Enabled);
+            ImGui.Spacing();
 
             if (Settings.Enabled)
             {
@@ -37,6 +38,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                 DrawTimeStatusDisplayAndCountdown();
 
                 ImGui.Checkbox("Notifications##TreasureMap", ref Settings.NotificationEnabled);
+                ImGui.Spacing();
 
                 if (Settings.NotificationEnabled)
                 {
@@ -49,7 +51,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             }
 
             ImGui.Spacing();
-            ImGui.Separator();
         }
 
         private static void DrawTimeStatusDisplayAndCountdown()
@@ -62,6 +63,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 ImGui.Text($"Last Map Collected: {Service.Configuration.TreasureMapSettings.LastMapGathered}");
             }
+            ImGui.Spacing();
 
             var timeSpan = TreasureMapModule.TimeUntilNextMap();
             ImGui.Text($"Time Until Next Map: ");
@@ -75,6 +77,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 ImGui.Text($" {timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}");
             }
+
+            ImGui.Spacing();
         }
 
         private void DrawMinimumMapLevelComboBox()
@@ -105,6 +109,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             ImGuiComponents.HelpMarker("Only show notifications that a map is available if the map is at least this level.");
 
             ImGui.PopItemWidth();
+            ImGui.Spacing();
+
         }
 
         public override void Dispose()

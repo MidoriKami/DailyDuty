@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using DailyDuty.System;
+using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -45,6 +46,8 @@ namespace DailyDuty.DisplaySystem
         {
             if (!IsOpen) return;
 
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10, 5));
+
             DrawDailyCountdown();
             ImGui.SameLine();
             DrawWeeklyCountdown();
@@ -53,8 +56,9 @@ namespace DailyDuty.DisplaySystem
 
             settingsCategories[currentTab].Draw();
 
-            ImGui.Separator();
             DrawSaveAndCloseButtons();
+
+            ImGui.PopStyleVar();
         }
 
         private void DrawDailyCountdown()

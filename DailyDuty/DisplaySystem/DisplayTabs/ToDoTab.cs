@@ -4,6 +4,7 @@ using DailyDuty.ConfigurationSystem;
 using DailyDuty.System;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
+using Dalamud.Logging;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
@@ -51,18 +52,18 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             private void DrawDailyTasks()
             {
-                DrawSeparatedText("Daily Tasks");
-                
+                ImGui.Text("Daily Tasks");
+                ImGui.Spacing();
+
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                 bool anyTasks = false;
 
-                if (ShowToDoTask(ModuleManager.ModuleType.TreasureMap, Service.Configuration.TreasureMapSettings))
-                {
-                    ImGui.TextColored(new Vector4(255, 0, 0, 150), "Daily Treasure Map");
-                    ImGui.Spacing();
-                    anyTasks = true;
-                }
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.TreasureMap,
+                    Service.Configuration.TreasureMapSettings,
+                    "Daily Treasure Map",
+                    ref anyTasks);
 
                 if (anyTasks == false)
                 {
@@ -75,18 +76,24 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             private void DrawWeeklyTasks()
             {
-                DrawSeparatedText("Weekly Tasks");
-                
+                ImGui.Text("Weekly Tasks");
+                ImGui.Spacing();
+
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                 bool anyTasks = false;
 
-                if ( ShowToDoTask(ModuleManager.ModuleType.WondrousTails, Service.Configuration.WondrousTailsSettings) )
-                {
-                    ImGui.TextColored(new Vector4(255, 0, 0, 150), "Weekly Wondrous Tails");
-                    ImGui.Spacing();
-                    anyTasks = true;
-                }
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.WondrousTails, 
+                    Service.Configuration.WondrousTailsSettings, 
+                    "Weekly Wondrous Tails", 
+                    ref anyTasks);
+
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.CustomDeliveries,
+                    Service.Configuration.CustomDeliveriesSettings,
+                    "Weekly Custom Deliveries",
+                    ref anyTasks);
 
                 if (anyTasks == false)
                 {
@@ -97,11 +104,14 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
-            private static void DrawSeparatedText(string text)
+            private void DrawTaskConditionally(ModuleManager.ModuleType type, GenericSettings settings, string text, ref bool taskSet)
             {
-                ImGui.Text(text);
-                ImGui.Separator();
-                ImGui.Spacing();
+                if (ShowToDoTask(type, settings))
+                {
+                    ImGui.TextColored(new Vector4(255, 0, 0, 150), text);
+                    ImGui.Spacing();
+                    taskSet = true;
+                }
             }
 
             private bool ShowToDoTask(ModuleManager.ModuleType type, GenericSettings settings)
@@ -109,7 +119,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 bool moduleComplete = moduleManager[type].IsCompleted();
                 bool moduleEnabled = settings.Enabled;
 
-                return moduleEnabled && moduleComplete;
+                return moduleEnabled && !moduleComplete;
             }
 
             public override void Dispose()

@@ -167,7 +167,7 @@ namespace DailyDuty.System.Modules
 
         public override bool IsCompleted()
         {
-            return IsTreasureMapAvailable();
+            return IsTreasureMapAvailable() == false;
         }
     }
 }

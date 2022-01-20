@@ -21,18 +21,19 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         protected override void DrawContents()
         {
             ImGui.Checkbox("Enabled##CustomDeliveries", ref settings.Enabled);
+            ImGui.Spacing();
 
             if (settings.Enabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                 ImGui.Checkbox("Notifications##CustomDeliveries", ref settings.NotificationEnabled);
+                ImGui.Spacing();
 
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
             ImGui.Spacing();
-            ImGui.Separator();
         }
 
         public override void Dispose()

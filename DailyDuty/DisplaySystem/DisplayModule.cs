@@ -12,7 +12,6 @@ namespace DailyDuty.DisplaySystem
         public virtual void Draw()
         {
             ImGui.Text(CategoryString);
-            ImGui.Separator();
             ImGui.Spacing();
 
             DrawContents();
