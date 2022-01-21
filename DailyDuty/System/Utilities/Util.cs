@@ -99,9 +99,15 @@ namespace DailyDuty.System.Utilities
         public static DateTime NextDailyReset()
         {
             var now = DateTime.UtcNow;
-            var nextReset = now.AddDays(1).Date.AddHours(15);
-
-            return nextReset;
+            
+            if( now.Hours < 15 )
+            {
+                return now.Date.AddHours(15);   
+            }
+            else
+            {
+                return now.AddDays(1).Date.AddHours(15);
+            }
         }
 
         public static DateTime NextWeeklyReset()
