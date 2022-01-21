@@ -22,9 +22,9 @@ namespace DailyDuty.System.Modules
 
         private void OnTerritoryChanged(object? sender, ushort e)
         {
-            Util.PrintCustomDelivery("[OnTerritoryChanged] Resetting Last Deliveries Count.");
-            lastDeliveriesCount = -1;
+            if (Settings.Enabled == false) return;
 
+            lastDeliveriesCount = -1;
             if (Settings.NotificationEnabled == false) return;
 
             if (Settings.AllowancesRemaining > 0)
@@ -35,6 +35,7 @@ namespace DailyDuty.System.Modules
 
         private void OnLogin(object? sender, EventArgs e)
         {
+            if (Settings.Enabled == false) return;
             if (Settings.NotificationEnabled == false) return;
 
             loginNoticeStopwatch.Start();
