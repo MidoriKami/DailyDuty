@@ -113,14 +113,22 @@ namespace DailyDuty.System.Utilities
         public static DateTime NextWeeklyReset()
         {
             var today = DateTime.UtcNow;
-            var nextReset = today.AddDays(1);
-
-            while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
+            
+            if(today.hours < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
             {
-                nextReset = nextReset.AddDays(1);
+                return today.Date.AddHours(8);
             }
+            else
+            {
+                var nextReset = today.AddDays(1);
 
-            return nextReset.Date.AddHours(8);
+                while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
+                {
+                    nextReset = nextReset.AddDays(1);
+                }
+                
+                return nextReset.Date.AddHours(8);
+            }
         }
 
         public static void LogList<T>(IEnumerable<T> list)
