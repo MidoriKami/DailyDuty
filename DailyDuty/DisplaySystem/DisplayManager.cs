@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using DailyDuty.System;
+using DailyDuty.System.Utilities;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
@@ -64,28 +65,17 @@ namespace DailyDuty.DisplaySystem
         private void DrawDailyCountdown()
         {
             var now = DateTime.UtcNow;
-            var nextReset = now.AddDays(1).Date.AddHours(15);
-            var totalHours = (nextReset - now);
+            var totalHours = Util.NextDailyReset() - now;
+
             ImGui.Text($"Time until daily reset: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
         }
 
         private void DrawWeeklyCountdown()
         {
-            var today = DateTime.UtcNow;
-            var nextReset = today.AddDays(1);
-
-            while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
-            {
-                nextReset = nextReset.AddDays(1);
-            }
-
-            var nextResetDate = nextReset.Date.AddHours(8);
-
-            var delta = nextResetDate - today;
+            var now = DateTime.UtcNow;
+            var delta = Util.NextWeeklyReset() - now;
 
             ImGui.Text($"Time until weekly reset: {delta.Days} {((delta.Days > 1) ? "days":"day")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
-
-
         }
 
         private void DrawTabs()
