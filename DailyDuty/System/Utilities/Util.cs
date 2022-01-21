@@ -100,7 +100,7 @@ namespace DailyDuty.System.Utilities
         {
             var now = DateTime.UtcNow;
             
-            if( now.Hours < 15 )
+            if( now.Hour < 15 )
             {
                 return now.Date.AddHours(15);   
             }
@@ -114,7 +114,7 @@ namespace DailyDuty.System.Utilities
         {
             var today = DateTime.UtcNow;
             
-            if(today.hours < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
+            if(today.Hour < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
             {
                 return today.Date.AddHours(8);
             }
