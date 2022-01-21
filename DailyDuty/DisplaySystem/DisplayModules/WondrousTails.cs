@@ -1,4 +1,5 @@
 ﻿using DailyDuty.ConfigurationSystem;
+using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -21,6 +22,17 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             if (Settings.Enabled)
             {
                 ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
+
+                ImGui.Text("Book Status:");
+                ImGui.SameLine();
+                if(Settings.NumPlacedStickers == 9)
+                {
+                    ImGui.TextColored(new(0, 255, 0, 255), $"Complete");
+                }
+                else
+                {
+                    ImGui.TextColored(new(255, 0, 0, 100),$"Incomplete");
+                }
 
                 ImGui.Checkbox("Notifications##WondrousTails", ref Settings.NotificationEnabled);
                 ImGui.Spacing();

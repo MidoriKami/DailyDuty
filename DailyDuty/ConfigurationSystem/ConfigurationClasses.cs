@@ -6,6 +6,7 @@ namespace DailyDuty.ConfigurationSystem
     {
         public bool Enabled = false;
         public bool NotificationEnabled = false;
+        public bool EditMode = false;
     }
 
     public enum ButtonState
@@ -36,6 +37,7 @@ namespace DailyDuty.ConfigurationSystem
     {
         public class WondrousTailsSettings : GenericSettings
         {
+            public int NumPlacedStickers = 0;
         }
 
         public class CustomDeliveriesSettings : GenericSettings

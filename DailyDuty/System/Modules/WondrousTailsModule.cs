@@ -24,13 +24,16 @@ namespace DailyDuty.System.Modules
             public uint Rewards;
 
             [FieldOffset(0x1A)]
-            public ushort Stickers;
+            private readonly ushort _stickers;
+
+            public int Stickers
+                => CountSetBits(_stickers);
 
             [FieldOffset(0x1E)]
             private readonly byte _flags;
 
-            public bool HasBook
-                => (_flags & 0x10) != 0;
+            //public bool HasBook
+            //    => (_flags & 0x10) != 0;
 
             [FieldOffset(0x20)]
             private readonly ushort _secondChance;
@@ -48,6 +51,7 @@ namespace DailyDuty.System.Modules
 
         protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
         private readonly Stopwatch loginNoticeStopwatch = new();
+        private readonly Stopwatch delayStopwatch = new();
 
         private uint lastDutyInstanceID = 0;
         private bool lastInstanceWasDuty = false;
@@ -61,6 +65,8 @@ namespace DailyDuty.System.Modules
 
             var scanner = new SigScanner();
             wondrousTailsBasePointer = (WondrousTails*) scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18");
+
+            Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
         }
 
         private void OnLogin(object? sender, EventArgs e)
@@ -142,7 +148,6 @@ namespace DailyDuty.System.Modules
         public override void Update()
         {
             if (Settings.Enabled == false) return;
-            if (loginNoticeStopwatch.IsRunning == false) return;
 
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
             if (frameCount % 10 != 0) return;
@@ -156,6 +161,20 @@ namespace DailyDuty.System.Modules
 
                 loginNoticeStopwatch.Stop();
                 loginNoticeStopwatch.Reset();
+            }
+
+            Util.UpdateDelayed(delayStopwatch, TimeSpan.FromSeconds(5), UpdateNumStamps );
+
+        }
+
+        private void UpdateNumStamps()
+        {
+            var numStickers = wondrousTailsBasePointer->Stickers;
+
+            if (Settings.NumPlacedStickers != numStickers)
+            {
+                Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
+                Service.Configuration.Save();
             }
         }
 
@@ -192,12 +211,7 @@ namespace DailyDuty.System.Modules
 
         public bool IsWondrousTailsBookComplete()
         {
-            var playerHasBook = wondrousTailsBasePointer->HasBook;
-            var fullNumber = wondrousTailsBasePointer->Stickers;
-
-            var numBits = CountSetBits(fullNumber);
-
-            return numBits == 9 && playerHasBook;
+            return wondrousTailsBasePointer->Stickers == 9;
         }
 
         private (ButtonState, List<uint>)? FindNode(uint instanceID)

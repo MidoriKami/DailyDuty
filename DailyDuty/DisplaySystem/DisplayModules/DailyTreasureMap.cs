@@ -37,6 +37,19 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             if (Settings.Enabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+                ImGui.Checkbox("Manual Edit##EditTreasureMap", ref Settings.EditMode);
+
+                if (Settings.EditMode)
+                {
+                    ImGui.Text("Manually Reset Map Timer");
+
+                    if (ImGui.Button("Reset##ResetCustomDeliveries", ImGuiHelpers.ScaledVector2(75, 25)))
+                    {
+                        Settings.LastMapGathered = DateTime.Now;
+                        Service.Configuration.Save();
+                    }
+                }
+
                 DrawTimeStatusDisplayAndCountdown();
 
                 ImGui.Checkbox("Notifications##TreasureMap", ref Settings.NotificationEnabled);

@@ -33,6 +33,10 @@ namespace DailyDuty
             Service.ClientState.Logout += OnLogout;
             Service.Configuration.UpdateCharacter();
 
+            if (Service.ClientState.LocalContentId != 0)
+            {
+                Service.LoggedIn = true;
+            }
 
             // Create Systems
             ModuleManager = new ModuleManager();
