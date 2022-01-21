@@ -11,6 +11,8 @@ namespace DailyDuty.ConfigurationSystem
     {
         public int Version { get; set; } = 1;
 
+        public DateTime NextDailyReset = new();
+        public DateTime NextWeeklyReset = new();
         public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
 
         [Serializable]

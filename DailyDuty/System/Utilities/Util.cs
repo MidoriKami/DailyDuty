@@ -66,6 +66,20 @@ namespace DailyDuty.System.Utilities
             Service.Chat.Print(stringBuilder.BuiltString);
         }
 
+        public static void PrintCustomDelivery(string message)
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddUiForeground(45);
+            stringBuilder.AddText("[DailyDuty] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddUiForeground(62);
+            stringBuilder.AddText("[CustomDelivery] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddText(message);
+
+            Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
         // Run function immediately, and prevent re-execution for TimeSpan delay time
         public static void UpdateDelayed(Stopwatch stopwatch, TimeSpan delayTime, Action function)
         {
@@ -82,9 +96,30 @@ namespace DailyDuty.System.Utilities
             }
         }
 
+        public static DateTime NextDailyReset()
+        {
+            var now = DateTime.UtcNow;
+            var nextReset = now.AddDays(1).Date.AddHours(15);
+
+            return nextReset;
+        }
+
+        public static DateTime NextWeeklyReset()
+        {
+            var today = DateTime.UtcNow;
+            var nextReset = today.AddDays(1);
+
+            while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
+            {
+                nextReset = nextReset.AddDays(1);
+            }
+
+            return nextReset.Date.AddHours(8);
+        }
+
         public static void LogList<T>(IEnumerable<T> list)
         {
-            PluginLog.Information( FormatList(list) );
+            PluginLog.Information(FormatList(list));
         }
 
         public static string FormatList<T>(IEnumerable<T> list)

@@ -22,6 +22,9 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
+                ImGui.Text($"Remaining Allowances: {settings.AllowancesRemaining}");
+                ImGui.Spacing();
+
                 ImGui.Checkbox("Notifications##CustomDeliveries", ref settings.NotificationEnabled);
                 ImGui.Spacing();
 

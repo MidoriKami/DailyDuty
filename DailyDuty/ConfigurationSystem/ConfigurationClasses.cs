@@ -40,7 +40,7 @@ namespace DailyDuty.ConfigurationSystem
 
         public class CustomDeliveriesSettings : GenericSettings
         {
-            public uint AllowancesRemaining = 0;
+            public uint AllowancesRemaining = 12;
         }
     }
 }

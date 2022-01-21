@@ -99,6 +99,10 @@ namespace DailyDuty
 
             Service.ClientState.Login -= OnLogin;
             Service.ClientState.Logout -= OnLogout;
+
+            Service.PluginInterface.UiBuilder.Draw -= DrawUI;
+            Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+            Service.Framework.Update -= OnFrameworkUpdate;
         }
     }
 }

@@ -168,5 +168,15 @@ namespace DailyDuty.System.Modules
         {
             return IsTreasureMapAvailable() == false;
         }
+
+        public override void DoDailyReset()
+        {
+            // Treasure Maps don't reset daily
+        }
+
+        public override void DoWeeklyReset()
+        {
+            // Treasure Maps don't reset weekly
+        }
     }
 }

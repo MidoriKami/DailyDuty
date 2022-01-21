@@ -9,5 +9,9 @@ namespace DailyDuty.System
         public abstract void Dispose();
 
         public abstract bool IsCompleted();
+
+        public abstract void DoDailyReset();
+
+        public abstract void DoWeeklyReset();
     }
 }
