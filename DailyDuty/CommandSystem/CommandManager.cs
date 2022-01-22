@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DailyDuty.CommandSystem.Commands;
 using DailyDuty.DisplaySystem;
 using Dalamud.Game.Command;
 
@@ -15,7 +14,6 @@ namespace DailyDuty.CommandSystem
 
         private readonly List<CommandProcessor> commandProcessors = new()
         {
-            new TreasureMapCommands()
         };
 
         public CommandManager(DisplayManager displayManager)

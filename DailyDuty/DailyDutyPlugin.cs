@@ -62,24 +62,16 @@ namespace DailyDuty
 
         private void SetupLocalization()
         {
-            var allowedLang = new[] { "de", "ja", "fr", "it", "es" };
+            var allowedLang = new[] { "fr" };
 
             var currentUiLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            Service.Chat.Print($"CurrentDir: {Directory.GetCurrentDirectory()}");
-
-            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
-            var target = Path.Combine(assemblyLocation, @$"Localization\loc_{currentUiLang}.json");
-            
-            var testfile = File.ReadAllText(target);
-
-            Service.Chat.Print($"TestFile: {testfile.Length}");
 
             if (allowedLang.Any(x => currentUiLang == x))
             {
+                var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
+                var target = Path.Combine(assemblyLocation, @$"Localization\loc_{currentUiLang}.json");
 
-                var file = File.ReadAllText(@$"Localization\loc_{currentUiLang}.json");
-
-                Loc.Setup(file);
+                Loc.Setup(target);
             }
             else
             {
