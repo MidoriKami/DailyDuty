@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
@@ -20,50 +20,26 @@ namespace DailyDuty.System.Modules
     {
         protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
 
-        private readonly Stopwatch loginNoticeStopwatch = new();
-
         public TreasureMapModule()
         {
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
             Service.Chat.ChatMessage += OnChatMap;
             Service.ClientState.Login += OnLogin;
         }
-
-        public override void Update()
-        {
-            if (Settings.Enabled == false) return;
-            if (loginNoticeStopwatch.IsRunning == false) return;
-
-            var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % 10 != 0) return;
-
-            if (loginNoticeStopwatch.Elapsed >= TimeSpan.FromSeconds(5) && loginNoticeStopwatch.IsRunning)
-            {
-                if (TimeUntilNextMap() == TimeSpan.Zero)
-                {
-                    var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
-                    Util.PrintTreasureMap(locString);
-                }
-
-                loginNoticeStopwatch.Stop();
-                loginNoticeStopwatch.Reset();
-            }
-        }
-
+        
         protected void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
             if (ConditionManager.IsBoundByDuty() == true) return;
-            if (loginNoticeStopwatch.IsRunning) return;
+            if (Service.LoggedIn == false) return;
 
-            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true && Service.LoggedIn == true)
+            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true)
             {
                 var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
                 Util.PrintTreasureMap(locString);
             }
 
             var maps = GetMapsForTerritory(e);
-
             if (Settings.NotificationEnabled && TimeUntilNextMap() == TimeSpan.Zero)
             {
                 foreach (var map in maps)
@@ -99,9 +75,15 @@ namespace DailyDuty.System.Modules
 
         private void OnLogin(object? sender, EventArgs e)
         {
+            Task.Delay(TimeSpan.FromSeconds(5)).ContinueWith(task => OnLoginDelayed());
+        }
+
+        private void OnLoginDelayed()
+        {
             if (Settings.Enabled == false) return;
 
-            loginNoticeStopwatch.Start();
+            var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
+            Util.PrintTreasureMap(locString);
         }
 
         public static bool IsTreasureMapAvailable()

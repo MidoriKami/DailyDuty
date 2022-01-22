@@ -4,7 +4,18 @@ namespace DailyDuty.System
 {
     internal abstract class Module : IDisposable
     {
-        public abstract void Update();
+        public virtual void UpdateSlow()
+        {
+
+        }
+
+        public void Update()
+        {
+            var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
+            if (frameCount % 10 != 0) return;
+
+            UpdateSlow();
+        }
 
         public abstract void Dispose();
 

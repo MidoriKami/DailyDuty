@@ -3,11 +3,13 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using CheapLoc;
 using DailyDuty.CommandSystem;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem;
 using DailyDuty.System;
+using DailyDuty.System.Utilities;
 using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Logging;
@@ -22,7 +24,8 @@ namespace DailyDuty
         private DisplayManager DisplayManager { get; init; }
         private CommandManager CommandManager { get; init; }
         private ModuleManager ModuleManager { get; init; }
-        private readonly Stopwatch onLoginStopwatch = new();
+
+        private readonly Stopwatch Stopwatch = new Stopwatch();
 
         public DailyDutyPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -39,9 +42,13 @@ namespace DailyDuty
             Service.ClientState.Logout += OnLogout;
             Service.Configuration.UpdateCharacter();
 
+            // If the user reloads the plugin while logged in
             if (Service.ClientState.LocalContentId != 0)
             {
-                Service.LoggedIn = true;
+                Task.Delay(TimeSpan.FromSeconds(4)).ContinueWith(t =>
+                {
+                    Service.LoggedIn = true;
+                });
             }
 
             // Create Systems
@@ -86,28 +93,27 @@ namespace DailyDuty
 
         private void OnLogin(object? sender, EventArgs e)
         {
-            onLoginStopwatch.Start();
-            Service.LoggedIn = true;
+            Task.Delay(TimeSpan.FromSeconds(4)).ContinueWith(t =>
+            {
+                Service.LoggedIn = true;
+            });
         }
 
         private void OnFrameworkUpdate(Framework framework)
         {
             ModuleManager.Update();
 
-            if (onLoginStopwatch.Elapsed >= TimeSpan.FromSeconds(3) && onLoginStopwatch.IsRunning)
+            Util.UpdateDelayed(Stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
+        }
+
+        private void UpdateSelectedCharacter()
+        {
+            if (Service.ClientState.LocalContentId != 0)
             {
-                // If for some reason the number is still zero, wait again
-                if (Service.ClientState.LocalContentId == 0)
+                if (Service.ClientState.LocalContentId != Service.Configuration.CurrentCharacter)
                 {
-                    PluginLog.Error("[System] LocalContentID is still Invalid. Retrying in 3s.");
-                    onLoginStopwatch.Restart();
-                    return;
+                    Service.Configuration.UpdateCharacter();
                 }
-
-                Service.Configuration.UpdateCharacter();
-
-                onLoginStopwatch.Stop();
-                onLoginStopwatch.Reset();
             }
         }
 

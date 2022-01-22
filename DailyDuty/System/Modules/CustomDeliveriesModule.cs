@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
+using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Util = DailyDuty.System.Utilities.Util;
@@ -15,7 +17,6 @@ namespace DailyDuty.System.Modules
         private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
 
         private int lastDeliveriesCount = -1;
-        private readonly Stopwatch loginNoticeStopwatch = new();
 
         public CustomDeliveriesModule()
         {
@@ -30,8 +31,9 @@ namespace DailyDuty.System.Modules
 
             lastDeliveriesCount = -1;
             if (Settings.NotificationEnabled == false) return;
+            if (Service.LoggedIn == false) return;
 
-            if (Settings.AllowancesRemaining > 0 && Service.LoggedIn == true)
+            if (Settings.AllowancesRemaining > 0)
             {
                 var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.");
                 Util.PrintCustomDelivery(locString.Format(Settings.AllowancesRemaining));
@@ -40,31 +42,22 @@ namespace DailyDuty.System.Modules
 
         private void OnLogin(object? sender, EventArgs e)
         {
-            if (Settings.Enabled == false) return;
-
-            loginNoticeStopwatch.Start();
+            Task.Delay(TimeSpan.FromSeconds(5)).ContinueWith(task => OnLoginDelayed());
         }
 
-        public override void Update()
+        private void OnLoginDelayed()
+        {
+            if (Settings.Enabled == false) return;
+
+            var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.").Format(Settings.AllowancesRemaining);
+            Util.PrintCustomDelivery(locString);
+        }
+
+        public override void UpdateSlow()
         {
             if (Settings.Enabled == false) return;
             if (GetCustomDeliveryPointer() == null) return;
-
-            var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % 10 != 0) return;
-
-            if (loginNoticeStopwatch.Elapsed >= TimeSpan.FromSeconds(5) && loginNoticeStopwatch.IsRunning && Service.LoggedIn == true)
-            {
-                if (Settings.AllowancesRemaining > 0)
-                {
-                    var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.");
-                    Util.PrintCustomDelivery(locString.Format(Settings.AllowancesRemaining));
-                }
-
-                loginNoticeStopwatch.Stop();
-                loginNoticeStopwatch.Reset();
-            }
-
+            
             if (lastDeliveriesCount == -1)
             {
                 var newValue = GetRemainingDeliveriesCount();
@@ -108,7 +101,7 @@ namespace DailyDuty.System.Modules
 
         public override void DoWeeklyReset()
         {
-            foreach (var (character, settings) in Service.Configuration.CharacterSettingsMap)
+            foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
             {
                 var customDeliveriesSettings = settings.CustomDeliveriesSettings;
                 customDeliveriesSettings.AllowancesRemaining = 12;

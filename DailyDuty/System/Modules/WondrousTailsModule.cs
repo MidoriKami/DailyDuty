@@ -63,7 +63,6 @@ namespace DailyDuty.System.Modules
 
         public WondrousTailsModule()
         {
-            Service.ClientState.Login += OnLogin;
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
             var scanner = new SigScanner();
@@ -71,24 +70,10 @@ namespace DailyDuty.System.Modules
 
             Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
         }
-
-        private void OnLogin(object? sender, EventArgs e)
-        {
-            if (Settings.Enabled == false) return;
-
-            loginNoticeStopwatch.Start();
-        }
-
+        
         private void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
-            if (loginNoticeStopwatch.IsRunning == true) return;
-
-            if (IsWondrousTailsBookComplete() == true && Settings.NotificationEnabled == true && Service.LoggedIn == true)
-            {
-                var locString = Loc.Localize("WT_Complete", "You have a completed book! Be sure to turn it in!");
-                Util.PrintWondrousTails(locString);
-            }
 
             if (ConditionManager.IsBoundByDuty() && Settings.NotificationEnabled == true && !IsWondrousTailsBookComplete())
             {
@@ -153,27 +138,11 @@ namespace DailyDuty.System.Modules
             }
         }
 
-        public override void Update()
+        public override void UpdateSlow()
         {
             if (Settings.Enabled == false) return;
 
-            var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % 10 != 0) return;
-
-            if (loginNoticeStopwatch.Elapsed >= TimeSpan.FromSeconds(5) && loginNoticeStopwatch.IsRunning)
-            {
-                if (IsWondrousTailsBookComplete() == true)
-                {
-                    var locString = Loc.Localize("WT_Complete", "You have a completed book! Be sure to turn it in!");
-                    Util.PrintWondrousTails(locString);
-                }
-
-                loginNoticeStopwatch.Stop();
-                loginNoticeStopwatch.Reset();
-            }
-
             Util.UpdateDelayed(delayStopwatch, TimeSpan.FromSeconds(5), UpdateNumStamps );
-
         }
 
         private void UpdateNumStamps()
@@ -374,7 +343,6 @@ namespace DailyDuty.System.Modules
 
         public override void Dispose()
         {
-            Service.ClientState.Login -= OnLogin;
             Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
         }
 

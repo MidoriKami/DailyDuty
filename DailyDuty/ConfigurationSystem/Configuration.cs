@@ -40,6 +40,8 @@ namespace DailyDuty.ConfigurationSystem
                 CharacterSettingsMap.Add(newCharacterID, new CharacterSettings());
                 CurrentCharacter = newCharacterID;
             }
+
+            Save();
         }
 
         [NonSerialized]

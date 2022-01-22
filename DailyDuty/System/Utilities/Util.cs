@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Logging;
@@ -129,6 +130,14 @@ namespace DailyDuty.System.Utilities
                 
                 return nextReset.Date.AddHours(8);
             }
+        }
+
+        public static void DelayedLoginMessage(TimeSpan delayTime, string message, Action<string> formatter)
+        {
+            Task.Delay(delayTime).ContinueWith(t =>
+            {
+                formatter(message);
+            });
         }
 
         public static void LogList<T>(IEnumerable<T> list)

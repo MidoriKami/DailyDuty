@@ -8,7 +8,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 {
     internal class CustomDeliveries : DisplayModule
     {
-        private Weekly.CustomDeliveriesSettings settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
+        private static Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
         private int ManuallySetAllowanceNumber = 0;
 
         public CustomDeliveries()
@@ -23,15 +23,15 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             var stringNotifications = Loc.Localize("Notifications", "Notifications");
             var stringManualEdit = Loc.Localize("Manual Edit", "Manual Edit");
 
-            ImGui.Checkbox($"{stringEnabled}##CustomDeliveries", ref settings.Enabled);
+            ImGui.Checkbox($"{stringEnabled}##CustomDeliveries", ref Settings.Enabled);
             ImGui.Spacing();
 
-            if (settings.Enabled)
+            if (Settings.Enabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
-                ImGui.Checkbox($"{stringManualEdit}##EditCustomDeliveries", ref settings.EditMode);
+                ImGui.Checkbox($"{stringManualEdit}##EditCustomDeliveries", ref Settings.EditMode);
 
-                if (settings.EditMode)
+                if (Settings.EditMode)
                 {
                     ImGui.Text(Loc.Localize("CD_Allowances", "Manually Set Number of Allowances"));
 
@@ -52,15 +52,15 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                             ManuallySetAllowanceNumber = 0;
                         }
 
-                        settings.AllowancesRemaining = (uint)ManuallySetAllowanceNumber;
+                        Settings.AllowancesRemaining = (uint)ManuallySetAllowanceNumber;
                         Service.Configuration.Save();
                     }
                 }
 
-                ImGui.Text(Loc.Localize("CD_Remaining", "Remaining Allowances: {0}").Format(settings.AllowancesRemaining));
+                ImGui.Text(Loc.Localize("CD_Remaining", "Remaining Allowances: {0}").Format(Settings.AllowancesRemaining));
                 ImGui.Spacing();
 
-                ImGui.Checkbox($"{stringNotifications}##CustomDeliveries", ref settings.NotificationEnabled);
+                ImGui.Checkbox($"{stringNotifications}##CustomDeliveries", ref Settings.NotificationEnabled);
                 ImGui.Spacing();
 
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
