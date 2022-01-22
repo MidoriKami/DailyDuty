@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
+using Dalamud.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -24,26 +26,31 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public DailyTreasureMap()
         {
-            CategoryString = "Daily Treasure Map";
+            CategoryString = Loc.Localize("DTM", "Daily Treasure Map");
 
             mapLevels = DataObjects.MapList.Select(m => m.Level).ToHashSet();
         }
 
         protected override void DrawContents()
         {
-            ImGui.Checkbox("Enabled##TreasureMap", ref Settings.Enabled);
+            var stringEnabled = Loc.Localize("Enabled", "Enabled");
+            var stringReset = Loc.Localize("Reset", "Reset");
+            var stringNotifications = Loc.Localize("Notifications", "Notifications");
+            var stringManualEdit = Loc.Localize("Manual Edit", "Manual Edit");
+
+            ImGui.Checkbox($"{stringEnabled}##TreasureMap", ref Settings.Enabled);
             ImGui.Spacing();
 
             if (Settings.Enabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
-                ImGui.Checkbox("Manual Edit##EditTreasureMap", ref Settings.EditMode);
+                ImGui.Checkbox($"{stringManualEdit}##EditTreasureMap", ref Settings.EditMode);
 
                 if (Settings.EditMode)
                 {
-                    ImGui.Text("Manually Reset Map Timer");
+                    ImGui.Text(Loc.Localize("DTM_Reset", "Manually Reset Map Timer"));
 
-                    if (ImGui.Button("Reset##ResetCustomDeliveries", ImGuiHelpers.ScaledVector2(75, 25)))
+                    if (ImGui.Button($"{stringReset}##ResetCustomDeliveries", ImGuiHelpers.ScaledVector2(75, 25)))
                     {
                         Settings.LastMapGathered = DateTime.Now;
                         Service.Configuration.Save();
@@ -52,7 +59,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
                 DrawTimeStatusDisplayAndCountdown();
 
-                ImGui.Checkbox("Notifications##TreasureMap", ref Settings.NotificationEnabled);
+                ImGui.Checkbox($"{stringNotifications}##TreasureMap", ref Settings.NotificationEnabled);
                 ImGui.Spacing();
 
                 if (Settings.NotificationEnabled)
@@ -72,16 +79,16 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
             if (Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered == new DateTime())
             {
-                ImGui.Text($"Last Map Collected: Never");
+                ImGui.Text(Loc.Localize("DTM_LastNever", "Last Map Collected: Never"));
             }
             else
             {
-                ImGui.Text($"Last Map Collected: {Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered}");
+                ImGui.Text(Loc.Localize("DTM_Last", "Last Map Collected: {0}").Format(Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered));
             }
             ImGui.Spacing();
 
             var timeSpan = TreasureMapModule.TimeUntilNextMap();
-            ImGui.Text($"Time Until Next Map: ");
+            ImGui.Text(Loc.Localize("DTM_TimeUntil", "Time Until Next Map: "));
             ImGui.SameLine();
 
             if (timeSpan == TimeSpan.Zero)
@@ -98,9 +105,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DrawMinimumMapLevelComboBox()
         {
-            ImGui.PushItemWidth(50);
+            var stringMinimumLevel = Loc.Localize("DTM_MinLevel", "Minimum Map Level");
 
-            if (ImGui.BeginCombo("Minimum Map Level", SelectedMinimumMapLevel.ToString(), ImGuiComboFlags.PopupAlignLeft))
+            ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
+
+            if (ImGui.BeginCombo(stringMinimumLevel, SelectedMinimumMapLevel.ToString(), ImGuiComboFlags.PopupAlignLeft))
             {
                 foreach (var element in mapLevels)
                 {
@@ -121,7 +130,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                 ImGui.EndCombo();
             }
 
-            ImGuiComponents.HelpMarker("Only show notifications that a map is available if the map is at least this level.");
+            var locString = Loc.Localize("DTM_HelpMinMapLevel", "Only show notifications that a map is available if the map is at least this level.");
+            ImGuiComponents.HelpMarker(locString);
 
             ImGui.PopItemWidth();
             ImGui.Spacing();

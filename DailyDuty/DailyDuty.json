@@ -4,7 +4,7 @@
   "Punchline": "Easily Track Daily and Weekly tasks.",
   "Description": "Automatically track and complete many daily and weekly tasks.",
   "Tags": [
-    "utility",
+    "utility"
   ],
   "CategoryTags": [
     "utility"
@@ -13,5 +13,5 @@
   "AssemblyVersion": "0.0.0.1",
   "RepoUrl": "https://github.com/MidoriKami/DailyDuty",
   "ApplicableVersion": "any",
-  "DalamudApiLevel": 5,
+  "DalamudApiLevel": 5
 }

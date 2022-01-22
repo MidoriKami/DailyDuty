@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using CheapLoc;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using DailyDuty.System;
 using DailyDuty.System.Utilities;
@@ -67,7 +68,8 @@ namespace DailyDuty.DisplaySystem
             var now = DateTime.UtcNow;
             var totalHours = Util.NextDailyReset() - now;
 
-            ImGui.Text($"Time until daily reset: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
+            var locString = Loc.Localize("Time until daily reset", "Time until daily reset");
+            ImGui.Text($"{locString}: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
         }
 
         private void DrawWeeklyCountdown()
@@ -75,12 +77,16 @@ namespace DailyDuty.DisplaySystem
             var now = DateTime.UtcNow;
             var delta = Util.NextWeeklyReset() - now;
 
-            ImGui.Text($"Time until weekly reset: {delta.Days} {((delta.Days > 1) ? "days":"day")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+            var locString = Loc.Localize("Time until weekly reset", "Time until weekly reset");
+            var daysString = Loc.Localize("days", "days");
+            var dayString = Loc.Localize("day", "day");
+            ImGui.Text($"{locString}: {delta.Days} {(delta.Days == 1 ? $"{dayString}": $"{daysString}")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
         }
 
         private void DrawTabs()
         {
-            if (ImGui.BeginTabBar("Daily Duty Settings", ImGuiTabBarFlags.NoTooltip))
+            var locString = Loc.Localize("Daily Duty Settings", "Daily Duty Settings");
+            if (ImGui.BeginTabBar(locString, ImGuiTabBarFlags.NoTooltip))
             {
                 foreach (var (tab, data) in settingsCategories)
                 {
@@ -102,18 +108,21 @@ namespace DailyDuty.DisplaySystem
 
         private void DrawSaveAndCloseButtons()
         {
+            var saveString = Loc.Localize("Save", "Save");
+            var saveAndCloseString = Loc.Localize("Save & Close", "Save & Close");
+
             ImGui.Spacing();
 
             ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30));
 
-            if (ImGui.Button("Save", new(100, 25)))
+            if (ImGui.Button($"{saveString}", new(100, 25)))
             {
                 Service.Configuration.Save();
             }
 
             ImGui.SameLine(ImGui.GetWindowWidth() - 155);
 
-            if (ImGui.Button("Save & Close", new(150, 25)))
+            if (ImGui.Button($"{saveAndCloseString}", new(150, 25)))
             {
                 Service.Configuration.Save();
                 IsOpen = false;

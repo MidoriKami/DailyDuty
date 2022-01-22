@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Game;
 using Dalamud.Logging;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.GeneratedSheets;
+using Util = DailyDuty.System.Utilities.Util;
 
 namespace DailyDuty.System.Modules
 {
@@ -83,7 +86,8 @@ namespace DailyDuty.System.Modules
 
             if (IsWondrousTailsBookComplete() == true && Settings.NotificationEnabled == true && Service.LoggedIn == true)
             {
-                Util.PrintWondrousTails("You have a completed book! Be sure to turn it in!");
+                var locString = Loc.Localize("WT_Complete", "You have a completed book! Be sure to turn it in!");
+                Util.PrintWondrousTails(locString);
             }
 
             if (ConditionManager.IsBoundByDuty() && Settings.NotificationEnabled == true && !IsWondrousTailsBookComplete())
@@ -112,7 +116,8 @@ namespace DailyDuty.System.Modules
 
             if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
             {
-                Util.PrintWondrousTails("You can claim a stamp for the last instance!");
+                var locString = Loc.Localize("WT_StampNow", "You can claim a stamp for the last instance!");
+                Util.PrintWondrousTails(locString);
             }
         }
 
@@ -128,16 +133,19 @@ namespace DailyDuty.System.Modules
                 case ButtonState.Unavailable:
                     if (wondrousTailsBasePointer->SecondChance > 0)
                     {
-                        Util.PrintWondrousTails($"This instance is available for a stamp if you re-roll it! You have {wondrousTailsBasePointer->SecondChance} Re-Rolls Available.");
+                        var unavailableString = Loc.Localize("WT_ReRoll", "This instance is available for a stamp if you re-roll it! You have {0} Re-Rolls Available.");
+                        Util.PrintWondrousTails(unavailableString.Format(wondrousTailsBasePointer->SecondChance));
                     }
                     break;
 
                 case ButtonState.AvailableNow:
-                    Util.PrintWondrousTails("A stamp is already available for this instance.");
+                    var availableNowString = Loc.Localize("WT_Ready", "A stamp is already available for this instance.");
+                    Util.PrintWondrousTails(availableNowString);
                     break;
 
                 case ButtonState.Completable:
-                    Util.PrintWondrousTails("Completing this instance will reward you with a stamp!");
+                    var completableString = Loc.Localize("WT_Able", "Completing this instance will reward you with a stamp!");
+                    Util.PrintWondrousTails(completableString);
                     break;
 
                 case ButtonState.Unknown:
@@ -156,7 +164,8 @@ namespace DailyDuty.System.Modules
             {
                 if (IsWondrousTailsBookComplete() == true)
                 {
-                    Util.PrintWondrousTails("You have a completed book! Be sure to turn it in!");
+                    var locString = Loc.Localize("WT_Complete", "You have a completed book! Be sure to turn it in!");
+                    Util.PrintWondrousTails(locString);
                 }
 
                 loginNoticeStopwatch.Stop();

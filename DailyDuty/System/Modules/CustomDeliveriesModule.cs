@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using Util = DailyDuty.System.Utilities.Util;
 
 namespace DailyDuty.System.Modules
 {
@@ -30,7 +33,8 @@ namespace DailyDuty.System.Modules
 
             if (Settings.AllowancesRemaining > 0 && Service.LoggedIn == true)
             {
-                Util.PrintCustomDelivery($"You have {Settings.AllowancesRemaining} Allowances Remaining this week.");
+                var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.");
+                Util.PrintCustomDelivery(locString.Format(Settings.AllowancesRemaining));
             }
         }
 
@@ -53,13 +57,13 @@ namespace DailyDuty.System.Modules
             {
                 if (Settings.AllowancesRemaining > 0)
                 {
-                    Util.PrintCustomDelivery($"You have {Settings.AllowancesRemaining} Allowances Remaining this week.");
+                    var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.");
+                    Util.PrintCustomDelivery(locString.Format(Settings.AllowancesRemaining));
                 }
 
                 loginNoticeStopwatch.Stop();
                 loginNoticeStopwatch.Reset();
             }
-
 
             if (lastDeliveriesCount == -1)
             {

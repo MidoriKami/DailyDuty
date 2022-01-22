@@ -7,7 +7,7 @@ namespace DailyDuty.DisplaySystem
 {
     internal abstract class TabCategory : IDisposable
     {
-        protected Dictionary<string, DisplayModule> Modules = new();
+        protected List<DisplayModule> Modules = new();
         protected uint FrameID;
         public string CategoryName { get; protected set; } = "Unset CategoryName";
         public string TabName { get; protected set; } = "Unset TabName";
@@ -20,7 +20,7 @@ namespace DailyDuty.DisplaySystem
 
             ImGui.BeginChild(FrameID.ToString(), ImGuiHelpers.ScaledVector2(435, 350), true);
 
-            foreach (var (name, module) in Modules)
+            foreach (var module in Modules)
             {
                 module.Draw();
             }
@@ -32,7 +32,7 @@ namespace DailyDuty.DisplaySystem
 
         public void Dispose()
         {
-            foreach (var (name, module) in Modules)
+            foreach (var module in Modules)
             {
                 module.Dispose();
             }

@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using CheapLoc;
 using DailyDuty.CommandSystem;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem;
@@ -25,6 +29,8 @@ namespace DailyDuty
         {
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
+
+            SetupLocalization();
 
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
@@ -52,6 +58,33 @@ namespace DailyDuty
             Service.WindowSystem.AddWindow(DisplayManager);
 
             Service.Chat.Enable();
+        }
+
+        private void SetupLocalization()
+        {
+            var allowedLang = new[] { "de", "ja", "fr", "it", "es" };
+
+            var currentUiLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            Service.Chat.Print($"CurrentDir: {Directory.GetCurrentDirectory()}");
+
+            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
+            var target = Path.Combine(assemblyLocation, @$"Localization\loc_{currentUiLang}.json");
+            
+            var testfile = File.ReadAllText(target);
+
+            Service.Chat.Print($"TestFile: {testfile.Length}");
+
+            if (allowedLang.Any(x => currentUiLang == x))
+            {
+
+                var file = File.ReadAllText(@$"Localization\loc_{currentUiLang}.json");
+
+                Loc.Setup(file);
+            }
+            else
+            {
+                Loc.SetupWithFallbacks();
+            }
         }
 
         private void OnLogout(object? sender, EventArgs e)
@@ -97,6 +130,8 @@ namespace DailyDuty
 
         public void Dispose()
         {
+            Loc.ExportLocalizable();
+
             CommandManager.Dispose();
             DisplayManager.Dispose();
             ModuleManager.Dispose();

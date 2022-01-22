@@ -31,13 +31,22 @@
     <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<Content Include="Localization\loc_en.json" Link="Localization\loc_en.json" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+
+
+	<ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.5" />
   </ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="CheapLoc">
+			<HintPath>$(DalamudLibPath)CheapLoc.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="Newtonsoft.Json">

@@ -1,5 +1,7 @@
-﻿using DailyDuty.ConfigurationSystem;
+﻿using CheapLoc;
+using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface;
+using Dalamud.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -11,22 +13,27 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public CustomDeliveries()
         {
-            CategoryString = "Custom Deliveries";
+            CategoryString = Loc.Localize("CD", "Custom Deliveries");
         }
 
         protected override void DrawContents()
         {
-            ImGui.Checkbox("Enabled##CustomDeliveries", ref settings.Enabled);
+            var stringEnabled = Loc.Localize("Enabled", "Enabled");
+            var stringSet = Loc.Localize("Set", "Set");
+            var stringNotifications = Loc.Localize("Notifications", "Notifications");
+            var stringManualEdit = Loc.Localize("Manual Edit", "Manual Edit");
+
+            ImGui.Checkbox($"{stringEnabled}##CustomDeliveries", ref settings.Enabled);
             ImGui.Spacing();
 
             if (settings.Enabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
-                ImGui.Checkbox("Manual Edit##EditCustomDeliveries", ref settings.EditMode);
+                ImGui.Checkbox($"{stringManualEdit}##EditCustomDeliveries", ref settings.EditMode);
 
                 if (settings.EditMode)
                 {
-                    ImGui.Text("Manually Set Number of Allowances");
+                    ImGui.Text(Loc.Localize("CD_Allowances", "Manually Set Number of Allowances"));
 
                     ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
                     ImGui.InputInt("##EditAllowances", ref ManuallySetAllowanceNumber, 0, 0);
@@ -34,7 +41,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
                     ImGui.SameLine();
 
-                    if (ImGui.Button("Set##SetCustomDeliveries", ImGuiHelpers.ScaledVector2(75, 25)))
+                    if (ImGui.Button($"{stringSet}##SetCustomDeliveries", ImGuiHelpers.ScaledVector2(75, 25)))
                     {
                         if (ManuallySetAllowanceNumber > 12)
                         {
@@ -50,10 +57,10 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                     }
                 }
 
-                ImGui.Text($"Remaining Allowances: {settings.AllowancesRemaining}");
+                ImGui.Text(Loc.Localize("CD_Remaining", "Remaining Allowances: {0}").Format(settings.AllowancesRemaining));
                 ImGui.Spacing();
 
-                ImGui.Checkbox("Notifications##CustomDeliveries", ref settings.NotificationEnabled);
+                ImGui.Checkbox($"{stringNotifications}##CustomDeliveries", ref settings.NotificationEnabled);
                 ImGui.Spacing();
 
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);

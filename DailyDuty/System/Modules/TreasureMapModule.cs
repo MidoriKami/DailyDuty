@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Utilities;
@@ -9,7 +10,9 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
+using Util = DailyDuty.System.Utilities.Util;
 
 namespace DailyDuty.System.Modules
 {
@@ -38,7 +41,8 @@ namespace DailyDuty.System.Modules
             {
                 if (TimeUntilNextMap() == TimeSpan.Zero)
                 {
-                    Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
+                    var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
+                    Util.PrintTreasureMap(locString);
                 }
 
                 loginNoticeStopwatch.Stop();
@@ -54,7 +58,8 @@ namespace DailyDuty.System.Modules
 
             if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true && Service.LoggedIn == true)
             {
-                Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
+                var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
+                Util.PrintTreasureMap(locString);
             }
 
             var maps = GetMapsForTerritory(e);
@@ -65,9 +70,10 @@ namespace DailyDuty.System.Modules
                 {
                     if (map.Level >= Settings.MinimumMapLevel)
                     {
-                        var mapName = Service.DataManager.GetExcelSheet<Item>()!.GetRow(map.ItemID)!.Name;
+                        var mapName = Service.DataManager.GetExcelSheet<Item>()!.GetRow(map.ItemID)!.Name; 
 
-                        Util.PrintTreasureMap($"A '{mapName}' is available for harvest in this area.");
+                        var locString = Loc.Localize("TMM_Harvest", "A '{0}' is available for harvest in this area.");
+                        Util.PrintTreasureMap(locString.Format(mapName));
                     }
                 }
             }

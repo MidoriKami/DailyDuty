@@ -1,4 +1,5 @@
-﻿using DailyDuty.ConfigurationSystem;
+﻿using CheapLoc;
+using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -11,30 +12,36 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public WondrousTails()
         {
-            CategoryString = "Wondrous Tails";
+            CategoryString = Loc.Localize("WT", "Wondrous Tails");
         }
 
         protected override void DrawContents()
         {
-            ImGui.Checkbox("Enabled##WondrousTails", ref Settings.Enabled);
+            var stringEnabled = Loc.Localize("Enabled", "Enabled");
+            var stringNotifications = Loc.Localize("Notifications", "Notifications");
+            var bookStatus = Loc.Localize("Book Status", "Book Status") + ": ";
+            var stringComplete = Loc.Localize("Complete", "Complete");
+            var stringIncomplete = Loc.Localize("Incomplete", "Incomplete");
+
+            ImGui.Checkbox($"{stringEnabled}##WondrousTails", ref Settings.Enabled);
             ImGui.Spacing();
 
             if (Settings.Enabled)
             {
                 ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
 
-                ImGui.Text("Book Status:");
+                ImGui.Text(bookStatus);
                 ImGui.SameLine();
                 if(Settings.NumPlacedStickers == 9)
                 {
-                    ImGui.TextColored(new(0, 255, 0, 255), $"Complete");
+                    ImGui.TextColored(new(0, 255, 0, 255), stringComplete);
                 }
                 else
                 {
-                    ImGui.TextColored(new(255, 0, 0, 100),$"Incomplete");
+                    ImGui.TextColored(new(255, 0, 0, 100),stringIncomplete);
                 }
 
-                ImGui.Checkbox("Notifications##WondrousTails", ref Settings.NotificationEnabled);
+                ImGui.Checkbox($"{stringNotifications}##WondrousTails", ref Settings.NotificationEnabled);
                 ImGui.Spacing();
 
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
