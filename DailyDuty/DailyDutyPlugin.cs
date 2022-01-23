@@ -25,7 +25,7 @@ namespace DailyDuty
         private CommandManager CommandManager { get; init; }
         private ModuleManager ModuleManager { get; init; }
 
-        private readonly Stopwatch Stopwatch = new Stopwatch();
+        private readonly Stopwatch stopwatch = new Stopwatch();
 
         public DailyDutyPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -103,7 +103,7 @@ namespace DailyDuty
         {
             ModuleManager.Update();
 
-            Util.UpdateDelayed(Stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
+            Util.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
         }
 
         private void UpdateSelectedCharacter()

@@ -220,7 +220,7 @@ namespace DailyDuty.System.Modules
                 case 1:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is >= 1 and <= 49)
+                        .Where(m => m.ClassJobLevelRequired is >= 1 and <= 49)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -228,7 +228,7 @@ namespace DailyDuty.System.Modules
                 case 2:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 50)
+                        .Where(m => m.ClassJobLevelRequired is 50)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -236,7 +236,7 @@ namespace DailyDuty.System.Modules
                 case 3:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is >= 51 and <= 59)
+                        .Where(m => m.ClassJobLevelRequired is >= 51 and <= 59)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -244,7 +244,7 @@ namespace DailyDuty.System.Modules
                 case 4:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 60)
+                        .Where(m => m.ClassJobLevelRequired is 60)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -252,7 +252,7 @@ namespace DailyDuty.System.Modules
                 case 59:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is >= 61 and <= 69)
+                        .Where(m => m.ClassJobLevelRequired is >= 61 and <= 69)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -260,7 +260,7 @@ namespace DailyDuty.System.Modules
                 case 60:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 70)
+                        .Where(m => m.ClassJobLevelRequired is 70)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -268,7 +268,7 @@ namespace DailyDuty.System.Modules
                 case 85:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is >= 71 and <= 79)
+                        .Where(m => m.ClassJobLevelRequired is >= 71 and <= 79)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -276,7 +276,7 @@ namespace DailyDuty.System.Modules
                 case 86:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 80)
+                        .Where(m => m.ClassJobLevelRequired is 80)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -284,7 +284,7 @@ namespace DailyDuty.System.Modules
                 case 108:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is >= 81 and <= 89)
+                        .Where(m => m.ClassJobLevelRequired is >= 81 and <= 89)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
@@ -292,7 +292,7 @@ namespace DailyDuty.System.Modules
                 case 109:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId == 2)
-                        .Where(m => m.ClassJobLevelSync is 90)
+                        .Where(m => m.ClassJobLevelRequired is 90)
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
