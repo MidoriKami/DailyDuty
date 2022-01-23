@@ -38,18 +38,8 @@ namespace DailyDuty
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Service.Configuration.Initialize(Service.PluginInterface);
-            Service.ClientState.Login += OnLogin;
             Service.ClientState.Logout += OnLogout;
             Service.Configuration.UpdateCharacter();
-
-            // If the user reloads the plugin while logged in
-            if (Service.ClientState.LocalContentId != 0)
-            {
-                Task.Delay(TimeSpan.FromSeconds(4)).ContinueWith(t =>
-                {
-                    Service.LoggedIn = true;
-                });
-            }
 
             // Create Systems
             ModuleManager = new ModuleManager();
@@ -85,20 +75,10 @@ namespace DailyDuty
                 Loc.SetupWithFallbacks();
             }
         }
-
         private void OnLogout(object? sender, EventArgs e)
         {
             Service.LoggedIn = false;
         }
-
-        private void OnLogin(object? sender, EventArgs e)
-        {
-            Task.Delay(TimeSpan.FromSeconds(4)).ContinueWith(t =>
-            {
-                Service.LoggedIn = true;
-            });
-        }
-
         private void OnFrameworkUpdate(Framework framework)
         {
             ModuleManager.Update();
@@ -110,6 +90,7 @@ namespace DailyDuty
         {
             if (Service.ClientState.LocalContentId != 0)
             {
+                Service.LoggedIn = true;
                 if (Service.ClientState.LocalContentId != Service.Configuration.CurrentCharacter)
                 {
                     Service.Configuration.UpdateCharacter();
@@ -134,7 +115,6 @@ namespace DailyDuty
             DisplayManager.Dispose();
             ModuleManager.Dispose();
 
-            Service.ClientState.Login -= OnLogin;
             Service.ClientState.Logout -= OnLogout;
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
