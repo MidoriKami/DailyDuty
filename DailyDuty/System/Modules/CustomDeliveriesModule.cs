@@ -42,7 +42,7 @@ namespace DailyDuty.System.Modules
 
         private void OnLogin(object? sender, EventArgs e)
         {
-            Task.Delay(TimeSpan.FromSeconds(5)).ContinueWith(task => OnLoginDelayed());
+            Task.Delay(TimeSpan.FromSeconds(10)).ContinueWith(task => OnLoginDelayed());
         }
 
         private void OnLoginDelayed()

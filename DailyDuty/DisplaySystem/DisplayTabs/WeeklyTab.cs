@@ -8,7 +8,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
         public WeeklyTab()
         {
             CategoryName = Loc.Localize("Weekly Reminders", "Weekly Reminders");
-            TabName = Loc.Localize("Weekly Reminders", "Weekly Reminders");
+            TabName = Loc.Localize("Weekly", "Weekly");
 
             FrameID = (uint) DisplayManager.Tab.Weekly;
 

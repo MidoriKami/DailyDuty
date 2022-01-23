@@ -3,48 +3,53 @@ using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using ImGuiNET;
+using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {
     internal class WondrousTails : DisplayModule
     {
         protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
+        protected override GenericSettings GenericSettings => Settings;
 
         public WondrousTails()
         {
             CategoryString = Loc.Localize("WT", "Wondrous Tails");
         }
 
-        protected override void DrawContents()
+        protected override void DisplayData()
         {
-            var stringEnabled = Loc.Localize("Enabled", "Enabled");
-            var stringNotifications = Loc.Localize("Notifications", "Notifications");
+            PrintBookStatus();
+        }
+
+        protected override void DisplayOptions()
+        {
+        }
+
+        protected override void EditModeOptions()
+        {
+        }
+
+        protected override void NotificationOptions()
+        {
+        }
+
+        private void PrintBookStatus()
+        {
             var bookStatus = Loc.Localize("Book Status", "Book Status") + ": ";
             var stringComplete = Loc.Localize("Complete", "Complete");
             var stringIncomplete = Loc.Localize("Incomplete", "Incomplete");
 
-            ImGui.Checkbox($"{stringEnabled}##WondrousTails", ref Settings.Enabled);
-            ImGui.Spacing();
+            ImGui.Text(bookStatus);
+            ImGui.SameLine();
 
-            if (Settings.Enabled)
+            if (Settings.NumPlacedStickers == 9)
             {
-                ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
-
-                ImGui.Text(bookStatus);
-                ImGui.SameLine();
-                if(Settings.NumPlacedStickers == 9)
-                {
-                    ImGui.TextColored(new(0, 255, 0, 255), stringComplete);
-                }
-                else
-                {
-                    ImGui.TextColored(new(255, 0, 0, 100),stringIncomplete);
-                }
-
-                ImGui.Checkbox($"{stringNotifications}##WondrousTails", ref Settings.NotificationEnabled);
-                ImGui.Spacing();
-
-                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+                ImGui.TextColored(new(0, 255, 0, 255), stringComplete);
+            }
+            else
+            {
+                ImGui.TextColored(new(255, 0, 0, 100), stringIncomplete);
             }
 
             ImGui.Spacing();

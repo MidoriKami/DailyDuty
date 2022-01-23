@@ -37,5 +37,6 @@ namespace DailyDuty.DisplaySystem
                 module.Dispose();
             }
         }
+
     }
 }

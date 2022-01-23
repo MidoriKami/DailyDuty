@@ -4,6 +4,7 @@ using DailyDuty.ConfigurationSystem;
 using DailyDuty.System;
 using Dalamud.Interface;
 using ImGuiNET;
+using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
@@ -32,6 +33,14 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 this.moduleManager = moduleManager;
             }
 
+            protected override void EditModeOptions()
+            {
+            }
+
+            protected override void NotificationOptions()
+            {
+            }
+
             public override void Draw()
             {
                 ImGui.Spacing();
@@ -41,11 +50,21 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 ImGui.Spacing();
             }
 
+            protected override GenericSettings GenericSettings { get; } = new();
+
             protected override void DrawContents()
             {
                 DrawDailyTasks();
 
                 DrawWeeklyTasks();
+            }
+
+            protected override void DisplayData()
+            {
+            }
+
+            protected override void DisplayOptions()
+            {
             }
 
             private void DrawDailyTasks()

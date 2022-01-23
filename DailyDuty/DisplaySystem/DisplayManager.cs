@@ -22,7 +22,8 @@ namespace DailyDuty.DisplaySystem
         {
             ToDo,
             Daily,
-            Weekly
+            Weekly,
+            Settings
         }
 
         public DisplayManager(ModuleManager moduleManager) : base("Daily Duty")
@@ -30,6 +31,7 @@ namespace DailyDuty.DisplaySystem
             settingsCategories.Add(Tab.ToDo, new ToDoTab(moduleManager));
             settingsCategories.Add(Tab.Daily, new DailyTab());
             settingsCategories.Add(Tab.Weekly, new WeeklyTab());
+            settingsCategories.Add(Tab.Settings, new SettingsTab());
 
             IsOpen = false;
 
@@ -51,7 +53,7 @@ namespace DailyDuty.DisplaySystem
             ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10, 5));
 
             DrawDailyCountdown();
-            ImGui.SameLine();
+            ImGui.SameLine(ImGui.GetWindowWidth() - 205 * ImGuiHelpers.GlobalScale);
             DrawWeeklyCountdown();
 
             DrawTabs();
@@ -63,13 +65,21 @@ namespace DailyDuty.DisplaySystem
             ImGui.PopStyleVar();
         }
 
+        // Progress bars based on https://github.com/Fr4nsson
         private void DrawDailyCountdown()
         {
             var now = DateTime.UtcNow;
             var totalHours = Util.NextDailyReset() - now;
 
-            var locString = Loc.Localize("Time until daily reset", "Time until daily reset");
-            ImGui.Text($"{locString}: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
+            var locString = Loc.Localize("Daily Reset", "Daily Reset");
+            
+            //ImGui.Text();
+            var percentage = (float) (1 - totalHours / TimeSpan.FromDays(1) );
+
+            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 255));
+            ImGui.PushStyleColor(ImGuiCol.PlotHistogram, new Vector4(37 /255.0f, 168 / 255.0f, 1.0f, 0.5f));
+            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
+            ImGui.PopStyleColor(2);
         }
 
         private void DrawWeeklyCountdown()
@@ -77,10 +87,16 @@ namespace DailyDuty.DisplaySystem
             var now = DateTime.UtcNow;
             var delta = Util.NextWeeklyReset() - now;
 
-            var locString = Loc.Localize("Time until weekly reset", "Time until weekly reset");
+            var locString = Loc.Localize("Weekly Reset", "Weekly Reset");
             var daysString = Loc.Localize("days", "days");
             var dayString = Loc.Localize("day", "day");
-            ImGui.Text($"{locString}: {delta.Days} {(delta.Days == 1 ? $"{dayString}": $"{daysString}")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+
+            var percentage = (float)(1 - delta / TimeSpan.FromDays(7));
+
+            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 255));
+            ImGui.PushStyleColor(ImGuiCol.PlotHistogram, new Vector4(176 / 255.0f, 38 / 255.0f, 236 / 255.0f, 0.5f));
+            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {delta.Days} {(delta.Days == 1 ? $"{dayString}": $"{daysString}")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+            ImGui.PopStyleColor(2);
         }
 
         private void DrawTabs()
@@ -113,16 +129,16 @@ namespace DailyDuty.DisplaySystem
 
             ImGui.Spacing();
 
-            ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30));
+            ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30 * ImGuiHelpers.GlobalScale));
 
-            if (ImGui.Button($"{saveString}", new(100, 25)))
+            if (ImGui.Button($"{saveString}", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 Service.Configuration.Save();
             }
 
-            ImGui.SameLine(ImGui.GetWindowWidth() - 155);
+            ImGui.SameLine(ImGui.GetWindowWidth() - 155 * ImGuiHelpers.GlobalScale);
 
-            if (ImGui.Button($"{saveAndCloseString}", new(150, 25)))
+            if (ImGui.Button($"{saveAndCloseString}", ImGuiHelpers.ScaledVector2(150, 25)))
             {
                 Service.Configuration.Save();
                 IsOpen = false;

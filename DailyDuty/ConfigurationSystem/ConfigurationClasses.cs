@@ -6,7 +6,6 @@ namespace DailyDuty.ConfigurationSystem
     {
         public bool Enabled = false;
         public bool NotificationEnabled = false;
-        public bool EditMode = false;
     }
 
     public enum ButtonState
