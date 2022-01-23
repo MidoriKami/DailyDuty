@@ -9,7 +9,7 @@ namespace DailyDuty.System
 
         }
 
-        public void Update()
+        public virtual void Update()
         {
             var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
             if (frameCount % 10 != 0) return;

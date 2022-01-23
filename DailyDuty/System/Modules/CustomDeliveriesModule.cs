@@ -53,7 +53,7 @@ namespace DailyDuty.System.Modules
             Util.PrintCustomDelivery(locString);
         }
 
-        public override void UpdateSlow()
+        public override void Update()
         {
             if (Settings.Enabled == false) return;
             if (GetCustomDeliveryPointer() == null) return;
@@ -81,6 +81,8 @@ namespace DailyDuty.System.Modules
                     }
                 }
             }
+
+            base.Update();
         }
 
         public override void Dispose()
@@ -114,6 +116,10 @@ namespace DailyDuty.System.Modules
             if (pointer == null) return null;
 
             var textNode = (AtkTextNode*) ((AtkUnitBase*) pointer)->GetNodeById(34);
+            if (textNode == null) return null;
+
+            var nodeText = textNode->NodeText.ToString();
+            if(nodeText == string.Empty) return null;
 
             var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
 

@@ -65,7 +65,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                 if (anyTasks == false)
                 {
-                    ImGui.TextColored(new Vector4(0, 255, 0, 255), Loc.Localize("All Tasks Complete", "All Tasks Complete"));
+                    ImGui.TextColored(new Vector4(0, 255, 0, 150), Loc.Localize("All Tasks Complete", "All Tasks Complete"));
                     ImGui.Spacing();
                 }
 
@@ -95,7 +95,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                 if (anyTasks == false)
                 {
-                    ImGui.TextColored(new Vector4(0, 255, 0, 255), Loc.Localize("All Tasks Complete", "All Tasks Complete"));
+                    ImGui.TextColored(new Vector4(0, 255, 0, 150), Loc.Localize("All Tasks Complete", "All Tasks Complete"));
                     ImGui.Spacing();
                 }
 
