@@ -13,7 +13,7 @@ using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {
-    internal class DailyTreasureMap : DisplayModule
+    internal class TreasureMap : DisplayModule
     {
         protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
         protected override GenericSettings GenericSettings => Settings;
@@ -26,9 +26,9 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             set => Settings.MinimumMapLevel = value;
         }
 
-        public DailyTreasureMap()
+        public TreasureMap()
         {
-            CategoryString = Loc.Localize("DTM", "Daily Treasure Map");
+            CategoryString = Loc.Localize("DTM", "Treasure Map");
 
             mapLevels = DataObjects.MapList.Select(m => m.Level).ToHashSet();
         }

@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:DailyDuty.System.Modules.TreasureMapModule.GetMapByID(System.UInt32)~DailyDuty.Data.DataObjects.TreasureMap")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:DailyDuty.System.Modules.WondrousTailsModule.GetWondrousTailsPointer~FFXIVClientStructs.FFXIV.Client.UI.AddonWeeklyBingo*")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:DailyDuty.System.Modules.WondrousTailsModule.TryGetFromDatabase(System.UInt32)~System.Nullable{System.UInt32}")]
-[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~P:DailyDuty.DisplaySystem.DisplayModules.DailyTreasureMap.Settings")]
+[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~P:DailyDuty.DisplaySystem.DisplayModules.TreasureMap.Settings")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~P:DailyDuty.System.Modules.CustomDeliveriesModule.Settings")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~P:DailyDuty.System.Modules.TreasureMapModule.Settings")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~P:DailyDuty.System.Modules.WondrousTailsModule.Settings")]

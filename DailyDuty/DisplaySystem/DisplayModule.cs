@@ -69,12 +69,12 @@ namespace DailyDuty.DisplaySystem
 
         public virtual void Draw()
         {
-            ImGui.Text(CategoryString);
-            ImGui.Spacing();
+            if (ImGui.CollapsingHeader(CategoryString))
+            {
+                ImGui.Spacing();
 
-            DrawContents();
-
-            ImGui.Spacing();
+                DrawContents();
+            }
         }
 
         public abstract void Dispose();

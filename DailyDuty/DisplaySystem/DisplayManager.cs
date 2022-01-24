@@ -100,14 +100,14 @@ namespace DailyDuty.DisplaySystem
 
             if (delta.Days == 1)
             {
-                daysDisplay = $"{delta.Days} {dayString},";
+                daysDisplay = $"{delta.Days} {dayString}, ";
             }
             else if (delta.Days > 1)
             {
-                daysDisplay = $"{delta.Days} {daysString},";
+                daysDisplay = $"{delta.Days} {daysString}, ";
             }
 
-            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {daysDisplay} {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {daysDisplay}{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
             ImGui.PopStyleColor(2);
         }
 
@@ -129,10 +129,8 @@ namespace DailyDuty.DisplaySystem
 
         public override void OnClose()
         {
-            base.OnClose();
-
             SettingsTab.EditModeEnabled = false;
-            Service.Configuration.Save();
+            base.OnClose();
         }
 
         private void DrawSaveAndCloseButtons()
