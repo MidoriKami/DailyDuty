@@ -39,46 +39,60 @@ namespace DailyDuty.System.Utilities
             Service.Chat.Print(stringBuilder.BuiltString);
         }
 
-        public static void PrintWondrousTails(string message)
+        private static void PrintColoredMessage(string firstTag, string secondTag, string message)
         {
             var stringBuilder = new SeStringBuilder();
             stringBuilder.AddUiForeground(45);
-            stringBuilder.AddText("[DailyDuty] ");
+            stringBuilder.AddText($"[{firstTag}] ");
             stringBuilder.AddUiForegroundOff();
             stringBuilder.AddUiForeground(62);
-            stringBuilder.AddText("[WondrousTails] ");
+            stringBuilder.AddText($"[{secondTag}] ");
             stringBuilder.AddUiForegroundOff();
             stringBuilder.AddText(message);
 
             Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        private static void PrintColoredMessage(string firstTag, string secondTag, string thirdTag, string message)
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddUiForeground(45);
+            stringBuilder.AddText($"[{firstTag}] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddUiForeground(62);
+            stringBuilder.AddText($"[{secondTag}] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddUiForeground(523);
+            stringBuilder.AddText($"[{thirdTag}] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddText(message);
+
+            Service.Chat.Print(stringBuilder.BuiltString);
+        }
+
+        public static void PrintWondrousTails(string message)
+        {
+            PrintColoredMessage("DailyDuty", "WondrousTails", message);
         }
 
         public static void PrintTreasureMap(string message)
         {
-            var stringBuilder = new SeStringBuilder();
-            stringBuilder.AddUiForeground(45);
-            stringBuilder.AddText("[DailyDuty] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddUiForeground(62);
-            stringBuilder.AddText("[TreasureMap] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddText(message);
-
-            Service.Chat.Print(stringBuilder.BuiltString);
+            PrintColoredMessage("DailyDuty", "TreasureMap", message);
         }
 
         public static void PrintCustomDelivery(string message)
         {
-            var stringBuilder = new SeStringBuilder();
-            stringBuilder.AddUiForeground(45);
-            stringBuilder.AddText("[DailyDuty] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddUiForeground(62);
-            stringBuilder.AddText("[CustomDelivery] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddText(message);
+            PrintColoredMessage("DailyDuty", "CustomDelivery", message);
+        }
 
-            Service.Chat.Print(stringBuilder.BuiltString);
+        public static void PrintDebug(string message)
+        {
+            PrintColoredMessage("DailyDuty", "Debug", message);
+        }
+
+        public static void PrintDebug(string tag, string message)
+        {
+            PrintColoredMessage("DailyDuty", "Debug", tag, message);
         }
 
         // Run function immediately, and prevent re-execution for TimeSpan delay time

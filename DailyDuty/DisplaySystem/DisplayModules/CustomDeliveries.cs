@@ -1,9 +1,12 @@
-﻿using CheapLoc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using Dalamud.Interface;
 using Dalamud.Utility;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {
@@ -12,8 +15,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         private static Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
         protected override GenericSettings GenericSettings => Settings;
 
-        private int manuallySetAllowanceNumber = 0;
-
         public CustomDeliveries()
         {
             CategoryString = Loc.Localize("CD", "Custom Deliveries");
@@ -21,9 +22,14 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DisplayData()
         {
-            var stringNotifications = Loc.Localize("Notifications", "Notifications");
-
             ImGui.Text(Loc.Localize("CD_Remaining", "Remaining Allowances: {0}").Format(Settings.AllowancesRemaining));
+            ImGui.Spacing();
+
+            foreach (var (npcID, npcCount) in Settings.DeliveryNPC)
+            {
+                var npcName = GetNameForNPC(npcID);
+                ImGui.Text($"{npcName}: {npcCount}");
+            }
             ImGui.Spacing();
         }
 
@@ -33,21 +39,46 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            var stringSet = Loc.Localize("Set", "Set");
+            var locString = Loc.Localize("Set", "Set");
+            var labelString = Loc.Localize("Manually Set Counts", "Manually Set Counts");
 
-            ImGui.Text(Loc.Localize("CD_Allowances", "Manually Set Number of Allowances"));
+            ImGui.Text(labelString);
+            ImGui.Spacing();
 
-            ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
-            ImGui.InputInt("##EditAllowances", ref manuallySetAllowanceNumber, 0, 0);
-            ImGui.PopItemWidth();
-
-            ImGui.SameLine();
-
-            BoundedNumberButton(stringSet, 0, 12, ref manuallySetAllowanceNumber, i =>
+            foreach (var key in Settings.DeliveryNPC.Keys.ToList())
             {
-                Settings.AllowancesRemaining = (uint)manuallySetAllowanceNumber;
-                Service.Configuration.Save();
-            });
+                var npcName = GetNameForNPC(key);
+                int tempCount = (int)Settings.DeliveryNPC[key];
+
+                ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
+                if (ImGui.InputInt($"##{key}", ref tempCount, 0, 0))
+                {
+                    if (Settings.DeliveryNPC[key] != tempCount)
+                    {
+                        if (tempCount is >= 0 and <= 6)
+                        {
+                            Settings.DeliveryNPC[key] = (uint)tempCount;
+                            Service.Configuration.Save();
+                        }
+                    }
+                }
+
+                ImGui.PopItemWidth();
+
+                ImGui.SameLine();
+
+                ImGui.Text($"{npcName}");
+            }
+
+            ImGui.Spacing();
+        }
+
+        private string GetNameForNPC(uint id)
+        {
+            var npcData = Service.DataManager.GetExcelSheet<NotebookDivision>()
+                !.GetRow(id);
+
+            return npcData!.Name;
         }
 
         protected override void NotificationOptions()

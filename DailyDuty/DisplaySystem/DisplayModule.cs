@@ -78,22 +78,5 @@ namespace DailyDuty.DisplaySystem
         }
 
         public abstract void Dispose();
-
-        protected void BoundedNumberButton(string buttonName, int lowerBound, int upperBound, ref int variable, Action<int>? action = null)
-        {
-            if (ImGui.Button($"{buttonName}##{CategoryString}", ImGuiHelpers.ScaledVector2(75, 25)))
-            {
-                if (variable > upperBound)
-                {
-                    variable = upperBound;
-                }
-                else if (variable < lowerBound)
-                {
-                    variable = lowerBound;
-                }
-
-                action?.Invoke(variable);
-            }
-        }
     }
 }

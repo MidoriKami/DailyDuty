@@ -3,7 +3,6 @@ using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using ImGuiNET;
-using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {

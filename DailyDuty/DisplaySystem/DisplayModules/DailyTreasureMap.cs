@@ -58,7 +58,15 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
+            DrawNotifyOnMapCollectionCheckBox();
             DrawMinimumMapLevelComboBox();
+        }
+
+        private void DrawNotifyOnMapCollectionCheckBox()
+        {
+            var locString = Loc.Localize("DTM_AcquireNotify", "Notify on map acquisition");
+
+            ImGui.Checkbox(locString, ref Settings.NotifyOnAcquisition);
         }
 
         private static void TimeUntilNextMap()

@@ -95,7 +95,19 @@ namespace DailyDuty.DisplaySystem
 
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 255));
             ImGui.PushStyleColor(ImGuiCol.PlotHistogram, new Vector4(176 / 255.0f, 38 / 255.0f, 236 / 255.0f, 0.5f));
-            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {delta.Days} {(delta.Days == 1 ? $"{dayString}": $"{daysString}")}, {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+
+            string daysDisplay = ""; 
+
+            if (delta.Days == 1)
+            {
+                daysDisplay = $"{delta.Days} {dayString},";
+            }
+            else if (delta.Days > 1)
+            {
+                daysDisplay = $"{delta.Days} {daysString},";
+            }
+
+            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {daysDisplay} {delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
             ImGui.PopStyleColor(2);
         }
 
@@ -119,6 +131,7 @@ namespace DailyDuty.DisplaySystem
         {
             base.OnClose();
 
+            SettingsTab.EditModeEnabled = false;
             Service.Configuration.Save();
         }
 

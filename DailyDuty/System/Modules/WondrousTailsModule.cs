@@ -53,7 +53,6 @@ namespace DailyDuty.System.Modules
 
 
         protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
-        private readonly Stopwatch loginNoticeStopwatch = new();
         private readonly Stopwatch delayStopwatch = new();
 
         private uint lastDutyInstanceID = 0;

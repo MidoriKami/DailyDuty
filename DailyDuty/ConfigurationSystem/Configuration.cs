@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DailyDuty.System.Utilities;
 using Dalamud.Configuration;
 using Dalamud.Logging;
 using Dalamud.Plugin;
@@ -55,8 +56,11 @@ namespace DailyDuty.ConfigurationSystem
             foreach (var (charID, settings) in CharacterSettingsMap)
             {
                 settings.TreasureMapSettings ??= new();
+
                 settings.WondrousTailsSettings ??= new();
+
                 settings.CustomDeliveriesSettings ??= new();
+                settings.CustomDeliveriesSettings.DeliveryNPC ??= new();
             }
 
             Save();

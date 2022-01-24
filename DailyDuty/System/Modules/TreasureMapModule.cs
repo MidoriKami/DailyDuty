@@ -69,13 +69,23 @@ namespace DailyDuty.System.Modules
             if (!IsMap(item.ItemId))
                 return;
 
+            if (Settings.NotifyOnAcquisition == true)
+            {
+                var mapName = item.Item!.Name.ToString();
+                var acquireString = Loc.Localize("TMD_MapAcquire", "A '{0}' has been gathered.");
+                var nextMapString = Loc.Localize("TMD_NextMapTime", "Your next map will be available on {0}");
+
+                Util.PrintTreasureMap(acquireString.Format(mapName));
+                Util.PrintTreasureMap(nextMapString.Format(DateTime.Now.AddHours(18)));
+            }
+
             Settings.LastMapGathered = DateTime.Now;
             Service.Configuration.Save();
         }
 
         private void OnLogin(object? sender, EventArgs e)
         {
-            Task.Delay(TimeSpan.FromSeconds(10)).ContinueWith(task => OnLoginDelayed());
+            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
         }
 
         private void OnLoginDelayed()

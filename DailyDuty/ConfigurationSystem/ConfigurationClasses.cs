@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DailyDuty.ConfigurationSystem
 {
@@ -29,6 +31,9 @@ namespace DailyDuty.ConfigurationSystem
         {
             public DateTime LastMapGathered = new();
             public int MinimumMapLevel = 0;
+            public bool NotifyOnAcquisition = false;
+
+
         }
     }
 
@@ -41,7 +46,8 @@ namespace DailyDuty.ConfigurationSystem
 
         public class CustomDeliveriesSettings : GenericSettings
         {
-            public uint AllowancesRemaining = 12;
+            public uint AllowancesRemaining => (uint)(12 - DeliveryNPC.Sum(r => 6 - r.Value));
+            public Dictionary<uint, uint> DeliveryNPC = new();
         }
     }
 }
