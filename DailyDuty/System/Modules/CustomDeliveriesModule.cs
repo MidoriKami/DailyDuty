@@ -48,8 +48,11 @@ namespace DailyDuty.System.Modules
         {
             if (Settings.Enabled == false) return;
 
-            var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.").Format(Settings.AllowancesRemaining);
-            Util.PrintCustomDelivery(locString);
+            if (Settings.AllowancesRemaining > 0)
+            {
+                var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.").Format(Settings.AllowancesRemaining);
+                Util.PrintCustomDelivery(locString);
+            }
         }
 
         public override void Update()
