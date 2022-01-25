@@ -92,8 +92,11 @@ namespace DailyDuty.System.Modules
         {
             if (Settings.Enabled == false) return;
 
-            var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
-            Util.PrintTreasureMap(locString);
+            if (IsTreasureMapAvailable())
+            {
+                var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
+                Util.PrintTreasureMap(locString);
+            }
         }
 
         public static bool IsTreasureMapAvailable()
