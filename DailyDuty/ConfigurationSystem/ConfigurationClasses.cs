@@ -7,7 +7,6 @@ namespace DailyDuty.ConfigurationSystem
     public class GenericSettings
     {
         public bool Enabled = false;
-        public bool NotificationEnabled = false;
     }
 
     public enum ButtonState
@@ -32,8 +31,13 @@ namespace DailyDuty.ConfigurationSystem
             public DateTime LastMapGathered = new();
             public int MinimumMapLevel = 0;
             public bool NotifyOnAcquisition = false;
+            public bool HarvestableMapNotification = false;
+            public bool PersistentReminders = false;
+        }
 
-
+        public class Cactpot : GenericSettings
+        {
+            public int TicketsRemaining = 3;
         }
     }
 
@@ -42,11 +46,14 @@ namespace DailyDuty.ConfigurationSystem
         public class WondrousTailsSettings : GenericSettings
         {
             public int NumPlacedStickers = 0;
+            public bool InstanceNotification = false;
         }
 
         public class CustomDeliveriesSettings : GenericSettings
         {
             public uint AllowancesRemaining => (uint)(12 - DeliveryNPC.Sum(r => 6 - r.Value));
+            public bool PersistentReminders = false;
+
             public Dictionary<uint, uint> DeliveryNPC = new();
         }
     }

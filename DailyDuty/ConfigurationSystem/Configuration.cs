@@ -20,6 +20,7 @@ namespace DailyDuty.ConfigurationSystem
         public class CharacterSettings
         {
             public Daily.TreasureMapSettings TreasureMapSettings = new();
+            public Daily.Cactpot CactpotSettings = new();
             public Weekly.WondrousTailsSettings WondrousTailsSettings = new();
             public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
         }
@@ -53,9 +54,10 @@ namespace DailyDuty.ConfigurationSystem
             this.pluginInterface = pluginInterface;
 
             CharacterSettingsMap ??= new();
-            foreach (var (charID, settings) in CharacterSettingsMap)
+            foreach (var (_, settings) in CharacterSettingsMap)
             {
                 settings.TreasureMapSettings ??= new();
+                settings.CactpotSettings ??= new();
 
                 settings.WondrousTailsSettings ??= new();
 

@@ -2,6 +2,7 @@
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -31,6 +32,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
+            var locString = Loc.Localize("NotifyInstanceAvailability", "Instance Notifications");
+            var description = Loc.Localize("NotifyInstanceAvailability_Description", "When you join a duty, send a notification if the joined duty is available for a Wondrous Tails sticker.");
+
+            ImGui.Checkbox(locString, ref Settings.InstanceNotification);
+            ImGuiComponents.HelpMarker(description);
         }
 
         private void PrintBookStatus()
@@ -50,8 +56,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 ImGui.TextColored(new(255, 0, 0, 100), stringIncomplete);
             }
-
-            ImGui.Spacing();
         }
 
         public override void Dispose()

@@ -18,14 +18,14 @@ namespace DailyDuty.DisplaySystem
             ImGui.Separator();
             ImGui.Spacing();
 
-            ImGui.BeginChild(FrameID.ToString(), ImGuiHelpers.ScaledVector2(435, 350), true);
+            ImGui.BeginChild(FrameID.ToString(), ImGuiHelpers.ScaledVector2(435, 340), true);
 
             foreach (var module in Modules)
             {
                 module.Draw();
             }
 
-            ImGui.EndChildFrame();
+            ImGui.EndChild();
 
             ImGui.Spacing();
         }

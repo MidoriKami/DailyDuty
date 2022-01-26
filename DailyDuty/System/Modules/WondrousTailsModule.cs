@@ -33,10 +33,7 @@ namespace DailyDuty.System.Modules
                 => CountSetBits(_stickers);
 
             [FieldOffset(0x1E)]
-            private readonly byte _flags;
-
-            //public bool HasBook
-            //    => (_flags & 0x10) != 0;
+            public readonly byte CurrentBookWeek;
 
             [FieldOffset(0x20)]
             private readonly ushort _secondChance;
@@ -62,19 +59,21 @@ namespace DailyDuty.System.Modules
 
         public WondrousTailsModule()
         {
-            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
-
             var scanner = new SigScanner();
             wondrousTailsBasePointer = (WondrousTails*) scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18");
 
             Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
         }
-        
-        private void OnTerritoryChanged(object? sender, ushort e)
+
+        protected override void OnLoginDelayed()
+        {
+        }
+
+        protected override void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
 
-            if (ConditionManager.IsBoundByDuty() && Settings.NotificationEnabled == true && !IsWondrousTailsBookComplete())
+            if (ConditionManager.IsBoundByDuty() && Settings.InstanceNotification == true && !IsWondrousTailsBookComplete())
             {
                 lastInstanceWasDuty = true;
                 lastDutyInstanceID = e;
@@ -338,11 +337,6 @@ namespace DailyDuty.System.Modules
         private AddonWeeklyBingo* GetWondrousTailsPointer()
         {
             return (AddonWeeklyBingo*)Service.GameGui.GetAddonByName("WeeklyBingo", 1);
-        }
-
-        public override void Dispose()
-        {
-            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
         }
 
         public override bool IsCompleted()

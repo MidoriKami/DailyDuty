@@ -22,25 +22,23 @@ namespace DailyDuty.System.Modules
 
         public TreasureMapModule()
         {
-            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
             Service.Chat.ChatMessage += OnChatMap;
-            Service.ClientState.Login += OnLogin;
         }
         
-        protected void OnTerritoryChanged(object? sender, ushort e)
+        protected override void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
             if (ConditionManager.IsBoundByDuty() == true) return;
             if (Service.LoggedIn == false) return;
 
-            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.NotificationEnabled == true)
+            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.PersistentReminders == true)
             {
                 var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
                 Util.PrintTreasureMap(locString);
             }
 
             var maps = GetMapsForTerritory(e);
-            if (Settings.NotificationEnabled && TimeUntilNextMap() == TimeSpan.Zero)
+            if (Settings.HarvestableMapNotification == true && TimeUntilNextMap() == TimeSpan.Zero)
             {
                 foreach (var map in maps)
                 {
@@ -83,12 +81,7 @@ namespace DailyDuty.System.Modules
             Service.Configuration.Save();
         }
 
-        private void OnLogin(object? sender, EventArgs e)
-        {
-            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
-        }
-
-        private void OnLoginDelayed()
+        protected override void OnLoginDelayed()
         {
             if (Settings.Enabled == false) return;
 
@@ -160,9 +153,9 @@ namespace DailyDuty.System.Modules
 
         public override void Dispose()
         {
-            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
+            base.Dispose();
+
             Service.Chat.ChatMessage -= OnChatMap;
-            Service.ClientState.Login -= OnLogin;
         }
 
         public override bool IsCompleted()

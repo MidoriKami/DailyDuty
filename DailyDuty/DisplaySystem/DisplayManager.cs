@@ -56,6 +56,8 @@ namespace DailyDuty.DisplaySystem
             ImGui.SameLine(ImGui.GetWindowWidth() - 205 * ImGuiHelpers.GlobalScale);
             DrawWeeklyCountdown();
 
+            ImGui.Spacing();
+
             DrawTabs();
 
             settingsCategories[currentTab].Draw();
@@ -73,7 +75,6 @@ namespace DailyDuty.DisplaySystem
 
             var locString = Loc.Localize("Daily Reset", "Daily Reset");
             
-            //ImGui.Text();
             var percentage = (float) (1 - totalHours / TimeSpan.FromDays(1) );
 
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 255));

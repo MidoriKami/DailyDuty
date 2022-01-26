@@ -25,6 +25,9 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
         public class ToDoModule : DisplayModule
         {
+
+            private Configuration.CharacterSettings SettingsBase =>
+                Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter];
             private readonly ModuleManager moduleManager;
 
             public ToDoModule(ModuleManager moduleManager)
@@ -71,15 +74,21 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 ImGui.Text(Loc.Localize("Daily Tasks", "Daily Tasks"));
                 ImGui.Spacing();
 
-                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+                ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
 
                 bool anyTasks = false;
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.TreasureMap,
-                    Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings,
-                    Loc.Localize("Daily Treasure Map", "Daily Treasure Map"),
+                    SettingsBase.TreasureMapSettings,
+                    Loc.Localize("Treasure Map", "Treasure Map"),
                     ref anyTasks);
+
+                //DrawTaskConditionally(
+                //    ModuleManager.ModuleType.Cactpot,
+                //    SettingsBase.CactpotSettings,
+                //    Loc.Localize("Cactpot", "Cactpot"),
+                //    ref anyTasks);
 
                 if (anyTasks == false)
                 {
@@ -87,7 +96,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ImGui.Spacing();
                 }
 
-                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+                ImGui.Indent(-30 * ImGuiHelpers.GlobalScale);
             }
 
             private void DrawWeeklyTasks()
@@ -95,20 +104,20 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 ImGui.Text(Loc.Localize("Weekly Tasks", "Weekly Tasks"));
                 ImGui.Spacing();
 
-                ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+                ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
 
                 bool anyTasks = false;
 
                 DrawTaskConditionally(
-                    ModuleManager.ModuleType.WondrousTails, 
-                    Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings, 
-                    Loc.Localize("Weekly Wondrous Tails", "Weekly Wondrous Tails"), 
+                    ModuleManager.ModuleType.WondrousTails,
+                    SettingsBase.WondrousTailsSettings, 
+                    Loc.Localize("Wondrous Tails", "Wondrous Tails"), 
                     ref anyTasks);
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.CustomDeliveries,
-                    Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings,
-                    Loc.Localize("Weekly Custom Deliveries", "Weekly Custom Deliveries"),
+                    SettingsBase.CustomDeliveriesSettings,
+                    Loc.Localize("Custom Deliveries", "Custom Deliveries"),
                     ref anyTasks);
 
                 if (anyTasks == false)
@@ -117,7 +126,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ImGui.Spacing();
                 }
 
-                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+                ImGui.Indent(-30 * ImGuiHelpers.GlobalScale);
             }
 
             private void DrawTaskConditionally(ModuleManager.ModuleType type, GenericSettings settings, string text, ref bool taskSet)

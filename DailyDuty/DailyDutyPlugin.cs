@@ -25,7 +25,7 @@ namespace DailyDuty
         private CommandManager CommandManager { get; init; }
         private ModuleManager ModuleManager { get; init; }
 
-        private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly Stopwatch stopwatch = new();
 
         public DailyDutyPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -47,6 +47,8 @@ namespace DailyDuty
             CommandManager = new CommandManager(DisplayManager);
 
             // Register draw callbacks
+            Service.PluginInterface.UiBuilder.DisableCutsceneUiHide = true;
+            Service.PluginInterface.UiBuilder.DisableAutomaticUiHide = true;
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.Framework.Update += OnFrameworkUpdate;

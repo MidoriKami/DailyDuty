@@ -4,9 +4,11 @@ using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using Dalamud.Utility;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
+using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {
@@ -30,7 +32,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                 var npcName = GetNameForNPC(npcID);
                 ImGui.Text($"{npcName}: {npcCount}");
             }
-            ImGui.Spacing();
         }
 
         protected override void DisplayOptions()
@@ -39,7 +40,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            var locString = Loc.Localize("Set", "Set");
             var labelString = Loc.Localize("Manually Set Counts", "Manually Set Counts");
 
             ImGui.Text(labelString);
@@ -69,8 +69,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
                 ImGui.Text($"{npcName}");
             }
-
-            ImGui.Spacing();
         }
 
         private string GetNameForNPC(uint id)
@@ -83,6 +81,17 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
+            PersistentNotification();
+        }
+
+        private void PersistentNotification()
+        {
+            var locString = Loc.Localize("PersistentReminder", "Persistent Reminder");
+            var description = Loc.Localize("CustomDelivery_PersistentNotification", "Show persistent reminder if custom delivery allowances are available.");
+
+            ImGui.Checkbox(locString, ref Settings.PersistentReminders);
+            ImGuiComponents.HelpMarker(description);
+            ImGui.Spacing();
         }
 
         public override void Dispose()

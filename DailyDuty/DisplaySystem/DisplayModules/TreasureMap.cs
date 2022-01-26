@@ -22,7 +22,15 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private int SelectedMinimumMapLevel
         {
-            get => Settings.MinimumMapLevel;
+            get
+            {
+                if (Settings.MinimumMapLevel == 0)
+                {
+                    Settings.MinimumMapLevel = mapLevels.First();
+                }
+
+                return Settings.MinimumMapLevel;
+            }
             set => Settings.MinimumMapLevel = value;
         }
 
@@ -58,15 +66,39 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
+            DrawPersistentNotificationCheckBox();
             DrawNotifyOnMapCollectionCheckBox();
+            DrawHarvestableMapNotificationCheckbox();
             DrawMinimumMapLevelComboBox();
+        }
+
+        private void DrawPersistentNotificationCheckBox()
+        {
+            var locString = Loc.Localize("PersistentReminder", "Persistent Reminder");
+            var description = Loc.Localize("PersistentNotificationDescription", "Show persistent reminder if a treasure map allowance is available.");
+
+            ImGui.Checkbox(locString, ref Settings.PersistentReminders);
+            ImGuiComponents.HelpMarker(description);
+            ImGui.Spacing();
+        }
+
+        private void DrawHarvestableMapNotificationCheckbox()
+        {
+            var locString = Loc.Localize("Harvestable Map Notification", "Harvestable Map Notification");
+            var description = Loc.Localize("HarvestableDescription", "Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
+            ImGui.Checkbox(locString, ref Settings.HarvestableMapNotification);
+            ImGuiComponents.HelpMarker(description);
+            ImGui.Spacing();
         }
 
         private void DrawNotifyOnMapCollectionCheckBox()
         {
-            var locString = Loc.Localize("DTM_AcquireNotify", "Notify on map acquisition");
+            var locString = Loc.Localize("DTM_AcquireNotify", "Map Acquisition Notification");
+            var description = Loc.Localize("AcquireNotifyDescription", "Confirm Map Acquisition with a chat message.");
 
             ImGui.Checkbox(locString, ref Settings.NotifyOnAcquisition);
+            ImGuiComponents.HelpMarker(description);
+            ImGui.Spacing();
         }
 
         private static void TimeUntilNextMap()
@@ -83,8 +115,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 ImGui.Text($" {timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}");
             }
-
-            ImGui.Spacing();
         }
 
         private void DisplayLastMapCollectedTime()
@@ -104,6 +134,10 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DrawMinimumMapLevelComboBox()
         {
+            if (Settings.HarvestableMapNotification == false) return;
+
+            ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
+
             var stringMinimumLevel = Loc.Localize("DTM_MinLevel", "Minimum Map Level");
 
             ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
@@ -133,7 +167,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             ImGuiComponents.HelpMarker(locString);
 
             ImGui.PopItemWidth();
-            ImGui.Spacing();
+
+            ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
         }
 
         public override void Dispose()

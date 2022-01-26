@@ -14,14 +14,16 @@ namespace DailyDuty.System
         {
             TreasureMap,
             WondrousTails,
-            CustomDeliveries
+            CustomDeliveries,
+            Cactpot
         }
 
         private readonly Dictionary<ModuleType, Module> modules = new()
         {
             {ModuleType.TreasureMap, new TreasureMapModule()},
             {ModuleType.WondrousTails, new WondrousTailsModule()},
-            {ModuleType.CustomDeliveries, new CustomDeliveriesModule()}
+            {ModuleType.CustomDeliveries, new CustomDeliveriesModule()},
+            {ModuleType.Cactpot, new CactpotModule()}
         };
 
         public void Update()
@@ -45,7 +47,7 @@ namespace DailyDuty.System
         {
             if (DateTime.UtcNow > Service.Configuration.NextDailyReset)
             {
-                foreach (var (type, module) in modules)
+                foreach (var (_, module) in modules)
                 {
                     module.DoDailyReset();
                 }
@@ -59,7 +61,7 @@ namespace DailyDuty.System
         {
             if (DateTime.UtcNow > Service.Configuration.NextWeeklyReset)
             {
-                foreach (var (type, module) in modules)
+                foreach (var (_, module) in modules)
                 {
                     module.DoWeeklyReset();
                 }
@@ -71,7 +73,7 @@ namespace DailyDuty.System
 
         public void Dispose()
         {
-            foreach (var (type, module) in modules)
+            foreach (var (_, module) in modules)
             {
                 module.Dispose();
             }

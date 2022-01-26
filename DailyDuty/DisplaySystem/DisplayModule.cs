@@ -22,7 +22,6 @@ namespace DailyDuty.DisplaySystem
         {
             var stringEnabled = Loc.Localize("Enabled", "Enabled");
             var stringNotifications = Loc.Localize("Notifications", "Notifications");
-            var stringManualEdit = Loc.Localize("Manual Edit", "Manual Edit");
 
             ImGui.Checkbox($"{stringEnabled}##{CategoryString}", ref GenericSettings.Enabled);
             ImGui.Spacing();
@@ -33,26 +32,20 @@ namespace DailyDuty.DisplaySystem
 
                 DisplayData();
 
+                ImGui.Spacing();
+
                 if (SettingsTab.EditModeEnabled)
                 {
                     ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
                     EditModeOptions();
+                    ImGui.Spacing();
 
                     ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
                 }
 
-                ImGui.Checkbox($"{stringNotifications}##{CategoryString}", ref GenericSettings.NotificationEnabled);
+                NotificationOptions();
                 ImGui.Spacing();
-
-                if (GenericSettings.NotificationEnabled == true)
-                {
-                    ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
-                    
-                    NotificationOptions();
-
-                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
-                }
 
                 DisplayOptions();
 

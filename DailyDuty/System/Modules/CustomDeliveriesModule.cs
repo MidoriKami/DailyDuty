@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -18,18 +19,15 @@ namespace DailyDuty.System.Modules
     {
         private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
 
-        public CustomDeliveriesModule()
-        {
-            Service.ClientState.Login += OnLogin;
-            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
-        }
+        private bool exchangeStarted = false;
+        private uint savedTargetNPC = 0;
 
-        private void OnTerritoryChanged(object? sender, ushort e)
+        protected override void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
             if (ConditionManager.IsBoundByDuty() == true) return;
 
-            if (Settings.NotificationEnabled == false) return;
+            if (Settings.PersistentReminders == false) return;
             if (Service.LoggedIn == false) return;
 
             if (Settings.AllowancesRemaining > 0)
@@ -39,12 +37,7 @@ namespace DailyDuty.System.Modules
             }
         }
 
-        private void OnLogin(object? sender, EventArgs e)
-        {
-            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
-        }
-
-        private void OnLoginDelayed()
+        protected override void OnLoginDelayed()
         {
             if (Settings.Enabled == false) return;
 
@@ -55,32 +48,67 @@ namespace DailyDuty.System.Modules
             }
         }
 
+        public override void UpdateSlow()
+        {
+            // If we are occupied by talking to a quest npc
+            if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
+            {
+                // If we are also opened a custom delivery window
+                if (GetCustomDeliveryPointer() != null && exchangeStarted == false)
+                {
+                    // Save which NPC we are dealing with
+                    var targetNPC = GetIDForNPC();
+                    if (targetNPC != null)
+                    {
+                        exchangeStarted = true;
+                        savedTargetNPC = targetNPC.Value;
+                    }
+                }
+                
+                // If we started an exchange, check for cutscene event
+                if (Service.Condition[ConditionFlag.OccupiedInCutSceneEvent] == true && exchangeStarted == true)
+                {
+                    Settings.DeliveryNPC[savedTargetNPC] -= 1;
+                    Service.Configuration.Save();
+
+                    exchangeStarted = false;
+                }
+            }
+        }
+
         public override void Update()
         {
-            if (Settings.Enabled == false) return;
-            if (GetCustomDeliveryPointer() == null) return;
-
-            var targetNPC = GetIDForNPC();
-            if (targetNPC == null) return;
-
-            // If we haven't see this NPC before
-            if (!Settings.DeliveryNPC.ContainsKey(targetNPC.Value))
+            if (Settings.Enabled == true && GetCustomDeliveryPointer() != null)
             {
-                var deliveryCount = GetRemainingDeliveriesCount();
-                if (deliveryCount == null) return;
-
-                // Log NPC with delivery count
-                Settings.DeliveryNPC.Add(targetNPC.Value, deliveryCount.Value);
-                Service.Configuration.Save();
-            }
-            // If we have seen this NPC before
-            else
-            {
-                var deliveryCount = GetRemainingDeliveriesCount();
-                if (deliveryCount == null) return;
-
-                // Update the delivery count
-                Settings.DeliveryNPC[targetNPC.Value] = deliveryCount.Value;
+                var targetNPC = GetIDForNPC();
+                if (targetNPC != null)
+                {
+                    // If we haven't see this NPC before
+                    if (!Settings.DeliveryNPC.ContainsKey(targetNPC.Value))
+                    {
+                        var deliveryCount = GetRemainingDeliveriesCount();
+                        if (deliveryCount != null)
+                        {
+                            // Log NPC with delivery count
+                            Settings.DeliveryNPC.Add(targetNPC.Value, deliveryCount.Value);
+                            Service.Configuration.Save();
+                        }
+                    }
+                    // If we have seen this NPC before
+                    else
+                    {
+                        var deliveryCount = GetRemainingDeliveriesCount();
+                        if (deliveryCount != null)
+                        {
+                            // Update the delivery count
+                            if (Settings.DeliveryNPC[targetNPC.Value] != deliveryCount.Value)
+                            {
+                                Settings.DeliveryNPC[targetNPC.Value] = deliveryCount.Value;
+                                Service.Configuration.Save();
+                            }
+                        }
+                    }
+                }
             }
 
             base.Update();
@@ -103,12 +131,6 @@ namespace DailyDuty.System.Modules
                 .FirstOrDefault();
 
             return npcID;
-        }
-
-        public override void Dispose()
-        {
-            Service.ClientState.Login -= OnLogin;
-            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
         }
 
         public override bool IsCompleted()

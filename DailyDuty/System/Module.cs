@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace DailyDuty.System
 {
     internal abstract class Module : IDisposable
     {
+        protected Module()
+        {
+            Service.ClientState.Login += OnLogin;
+            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+        }
+
         public virtual void UpdateSlow()
         {
-
         }
 
         public virtual void Update()
@@ -17,7 +23,19 @@ namespace DailyDuty.System
             UpdateSlow();
         }
 
-        public abstract void Dispose();
+        public virtual void Dispose()
+        {
+            Service.ClientState.Login -= OnLogin;
+            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
+        }
+
+        protected virtual void OnLogin(object? sender, EventArgs e)
+        {
+            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
+        }
+
+        protected abstract void OnLoginDelayed();
+        protected abstract void OnTerritoryChanged(object? sender, ushort e);
 
         public abstract bool IsCompleted();
 
