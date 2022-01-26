@@ -74,7 +74,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DrawPersistentNotificationCheckBox()
         {
-            var locString = Loc.Localize("PersistentReminder", "Persistent Reminder");
+            var locString = Loc.Localize("PersistentReminders", "Persistent Reminder");
             var description = Loc.Localize("PersistentNotificationDescription", "Show persistent reminder if a treasure map allowance is available.");
 
             ImGui.Checkbox(locString, ref Settings.PersistentReminders);

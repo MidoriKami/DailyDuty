@@ -20,7 +20,7 @@ namespace DailyDuty.ConfigurationSystem
         public class CharacterSettings
         {
             public Daily.TreasureMapSettings TreasureMapSettings = new();
-            public Daily.Cactpot CactpotSettings = new();
+            public Daily.Cactpot MiniCactpotSettings = new();
             public Weekly.WondrousTailsSettings WondrousTailsSettings = new();
             public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
         }
@@ -57,7 +57,7 @@ namespace DailyDuty.ConfigurationSystem
             foreach (var (_, settings) in CharacterSettingsMap)
             {
                 settings.TreasureMapSettings ??= new();
-                settings.CactpotSettings ??= new();
+                settings.MiniCactpotSettings ??= new();
 
                 settings.WondrousTailsSettings ??= new();
 

@@ -86,7 +86,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void PersistentNotification()
         {
-            var locString = Loc.Localize("PersistentReminder", "Persistent Reminder");
+            var locString = Loc.Localize("PersistentReminders", "Persistent Reminder");
             var description = Loc.Localize("CustomDelivery_PersistentNotification", "Show persistent reminder if custom delivery allowances are available.");
 
             ImGui.Checkbox(locString, ref Settings.PersistentReminders);

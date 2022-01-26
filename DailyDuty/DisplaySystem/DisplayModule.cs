@@ -21,7 +21,6 @@ namespace DailyDuty.DisplaySystem
         protected virtual void DrawContents()
         {
             var stringEnabled = Loc.Localize("Enabled", "Enabled");
-            var stringNotifications = Loc.Localize("Notifications", "Notifications");
 
             ImGui.Checkbox($"{stringEnabled}##{CategoryString}", ref GenericSettings.Enabled);
             ImGui.Spacing();

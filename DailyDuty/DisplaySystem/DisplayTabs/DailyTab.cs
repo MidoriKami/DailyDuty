@@ -15,7 +15,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             Modules = new()
             {
                 new TreasureMap(),
-                //new Cactpot()
+                new MiniCactpot()
             };
         }
     }

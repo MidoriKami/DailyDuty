@@ -23,7 +23,7 @@ namespace DailyDuty.System
             {ModuleType.TreasureMap, new TreasureMapModule()},
             {ModuleType.WondrousTails, new WondrousTailsModule()},
             {ModuleType.CustomDeliveries, new CustomDeliveriesModule()},
-            {ModuleType.Cactpot, new CactpotModule()}
+            {ModuleType.Cactpot, new MiniCactpotModule()}
         };
 
         public void Update()

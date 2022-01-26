@@ -85,6 +85,11 @@ namespace DailyDuty.System.Utilities
             PrintColoredMessage("DailyDuty", "CustomDelivery", message);
         }
 
+        public static void PrintMiniCactpot(string message)
+        {
+            PrintColoredMessage("DailyDuty", "MiniCactpot", message);
+        }
+
         public static void PrintDebug(string message)
         {
             PrintColoredMessage("DailyDuty", "Debug", message);

@@ -85,9 +85,9 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ref anyTasks);
 
                 //DrawTaskConditionally(
-                //    ModuleManager.ModuleType.Cactpot,
-                //    SettingsBase.CactpotSettings,
-                //    Loc.Localize("Cactpot", "Cactpot"),
+                //    ModuleManager.ModuleType.MiniCactpot,
+                //    SettingsBase.MiniCactpotSettings,
+                //    Loc.Localize("MiniCactpot", "MiniCactpot"),
                 //    ref anyTasks);
 
                 if (anyTasks == false)

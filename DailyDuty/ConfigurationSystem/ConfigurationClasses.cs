@@ -38,6 +38,7 @@ namespace DailyDuty.ConfigurationSystem
         public class Cactpot : GenericSettings
         {
             public int TicketsRemaining = 3;
+            public bool PersistentReminders = false;
         }
     }
 
