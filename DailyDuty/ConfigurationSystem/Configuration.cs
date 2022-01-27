@@ -73,6 +73,12 @@ namespace DailyDuty.ConfigurationSystem
 
         public void Save()
         {
+            if (CurrentCharacter == 0)
+            {
+                // Don't Save Null Character
+                return;
+            }
+
             pluginInterface!.SavePluginConfig(this);
         }
     }
