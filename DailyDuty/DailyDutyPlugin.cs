@@ -41,6 +41,8 @@ namespace DailyDuty
             Service.ClientState.Logout += OnLogout;
             Service.Configuration.UpdateCharacter();
 
+            Service.Chat.Enable();
+
             // Create Systems
             ModuleManager = new ModuleManager();
             DisplayManager = new DisplayManager(ModuleManager);
@@ -55,8 +57,6 @@ namespace DailyDuty
 
             // Register Windows
             Service.WindowSystem.AddWindow(DisplayManager);
-
-            Service.Chat.Enable();
         }
 
         private void SetupLocalization()
@@ -77,6 +77,7 @@ namespace DailyDuty
                 Loc.SetupWithFallbacks();
             }
         }
+
         private void OnLogout(object? sender, EventArgs e)
         {
             Service.LoggedIn = false;
@@ -111,8 +112,6 @@ namespace DailyDuty
 
         public void Dispose()
         {
-            Loc.ExportLocalizable();
-
             CommandManager.Dispose();
             DisplayManager.Dispose();
             ModuleManager.Dispose();

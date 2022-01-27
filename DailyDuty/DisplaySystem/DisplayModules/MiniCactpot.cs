@@ -73,7 +73,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         private void DrawPersistentNotificationCheckBox()
         {
             var locString = Loc.Localize("MiniCactpotPersistentReminders", "Persistent Reminder##MiniCactpot");
-            var description = Loc.Localize("MiniCactpotPersistentNotificationDescription", "Show persistent reminder if Mini Cactpot Tickets are available.");
+            var description = Loc.Localize("MiniCactpotPersistentNotificationDescription", "Show persistent reminder if Mini MiniCactpot Tickets are available.");
 
             ImGui.Checkbox(locString, ref Settings.PersistentReminders);
             ImGuiComponents.HelpMarker(description);

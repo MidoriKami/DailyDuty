@@ -31,6 +31,7 @@ namespace DailyDuty.System.Modules
             {
                 exchangeStarted = false;
                 Settings.TicketsRemaining -= 1;
+                Service.Configuration.Save();
             }
         }
 
@@ -61,17 +62,14 @@ namespace DailyDuty.System.Modules
             return Settings.TicketsRemaining == 0;
         }
 
-        public override void DoDailyReset()
+        public override void DoDailyReset(Configuration.CharacterSettings settings)
         {
-            foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
-            {
-                var miniCactpot = settings.MiniCactpotSettings;
+            var miniCactpot = settings.MiniCactpotSettings;
 
-                miniCactpot.TicketsRemaining = 3;
-            }
+            miniCactpot.TicketsRemaining = 3;
         }
 
-        public override void DoWeeklyReset()
+        public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
             // Not a Weekly Event
         }
@@ -83,8 +81,15 @@ namespace DailyDuty.System.Modules
 
         private void DisplayRemainingAllowances()
         {
-            var locString = Loc.Localize("MiniCactpotAllowances", "You have {0} Mini Cactpot Tickets remaining today.");
+            var locString = Loc.Localize("MiniCactpotAllowances", "You have {0} Mini MiniCactpot Tickets remaining today.");
             Util.PrintMiniCactpot(locString.Format(Settings.TicketsRemaining));
+        }
+
+        private DateTime nextClaimDateTime()
+        {
+
+
+            return DateTime.Now;
         }
     }
 }

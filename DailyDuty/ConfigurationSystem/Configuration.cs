@@ -21,8 +21,10 @@ namespace DailyDuty.ConfigurationSystem
         {
             public Daily.TreasureMapSettings TreasureMapSettings = new();
             public Daily.Cactpot MiniCactpotSettings = new();
+
             public Weekly.WondrousTailsSettings WondrousTailsSettings = new();
             public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
+            public Weekly.JumboCactpotSettings JumboCactpotSettings = new();
         }
 
         public ulong CurrentCharacter = new();
@@ -56,13 +58,15 @@ namespace DailyDuty.ConfigurationSystem
             CharacterSettingsMap ??= new();
             foreach (var (_, settings) in CharacterSettingsMap)
             {
+                // Daily
                 settings.TreasureMapSettings ??= new();
                 settings.MiniCactpotSettings ??= new();
 
+                // Weekly
                 settings.WondrousTailsSettings ??= new();
-
                 settings.CustomDeliveriesSettings ??= new();
                 settings.CustomDeliveriesSettings.DeliveryNPC ??= new();
+                settings.JumboCactpotSettings ??= new();
             }
 
             Save();

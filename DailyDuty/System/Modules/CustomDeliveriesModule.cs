@@ -138,21 +138,18 @@ namespace DailyDuty.System.Modules
             return Settings.AllowancesRemaining == 0;
         }
 
-        public override void DoDailyReset()
+        public override void DoDailyReset(Configuration.CharacterSettings settings)
         {
             // Custom Deliveries is a Weekly Task
         }
 
-        public override void DoWeeklyReset()
+        public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
-            foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
-            {
-                var customDeliveriesSettings = settings.CustomDeliveriesSettings;
+            var customDeliveriesSettings = settings.CustomDeliveriesSettings;
 
-                foreach (var key in customDeliveriesSettings.DeliveryNPC.Keys.ToList())
-                {
-                    customDeliveriesSettings.DeliveryNPC[key] = 6;
-                }
+            foreach (var key in customDeliveriesSettings.DeliveryNPC.Keys.ToList())
+            {
+                customDeliveriesSettings.DeliveryNPC[key] = 6;
             }
 
             Service.Configuration.Save();

@@ -163,12 +163,12 @@ namespace DailyDuty.System.Modules
             return IsTreasureMapAvailable() == false;
         }
 
-        public override void DoDailyReset()
+        public override void DoDailyReset(Configuration.CharacterSettings settings)
         {
             // Treasure Maps don't reset daily
         }
 
-        public override void DoWeeklyReset()
+        public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
             // Treasure Maps don't reset weekly
         }

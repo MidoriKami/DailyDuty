@@ -57,5 +57,14 @@ namespace DailyDuty.ConfigurationSystem
 
             public Dictionary<uint, uint> DeliveryNPC = new();
         }
+
+        public class JumboCactpotSettings : GenericSettings
+        {
+            public int UnclaimedTickets = 3;
+            public int ClaimedTickets = 0;
+            public int ClaimedRewards = 0;
+            public DateTime NextDrawing = new();
+            public bool PersistentReminders = false;
+        }
     }
 }

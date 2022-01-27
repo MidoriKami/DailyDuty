@@ -90,6 +90,12 @@ namespace DailyDuty.System.Utilities
             PrintColoredMessage("DailyDuty", "MiniCactpot", message);
         }
 
+        public static void PrintJumboCactpot(string message)
+        {
+            PrintColoredMessage("DailyDuty", "JumboCactpot", message);
+
+        }
+
         public static void PrintDebug(string message)
         {
             PrintColoredMessage("DailyDuty", "Debug", message);
@@ -167,6 +173,23 @@ namespace DailyDuty.System.Utilities
         public static string FormatList<T>(IEnumerable<T> list)
         {
             return "{ " + string.Join(", ", list) + " }";
+        }
+
+        public static uint? GetPlayerDatacenterID()
+        {
+            return Service.ClientState.LocalPlayer?.HomeWorld.GameData?.DataCenter.Value?.RowId;
+        }
+
+        public static DateTime GetDateOfNextWeekday(DayOfWeek weekday)
+        {
+            var now = DateTime.UtcNow;
+
+            while (now.DayOfWeek != weekday)
+            {
+                now = now.AddDays(1);
+            }
+
+            return now.Date;
         }
     }
 }

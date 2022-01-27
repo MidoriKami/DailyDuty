@@ -15,7 +15,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             Modules = new()
             {
                new WondrousTails(),
-               new CustomDeliveries()
+               new CustomDeliveries(),
+               new JumboCactpot()
             };
         }
     }

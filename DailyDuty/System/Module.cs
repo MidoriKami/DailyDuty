@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using DailyDuty.ConfigurationSystem;
 
 namespace DailyDuty.System
 {
@@ -39,8 +40,8 @@ namespace DailyDuty.System
 
         public abstract bool IsCompleted();
 
-        public abstract void DoDailyReset();
+        public abstract void DoDailyReset(Configuration.CharacterSettings settings);
 
-        public abstract void DoWeeklyReset();
+        public abstract void DoWeeklyReset(Configuration.CharacterSettings settings);
     }
 }

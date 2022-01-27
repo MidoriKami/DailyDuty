@@ -344,12 +344,12 @@ namespace DailyDuty.System.Modules
             return IsWondrousTailsBookComplete();
         }
 
-        public override void DoDailyReset()
+        public override void DoDailyReset(Configuration.CharacterSettings settings)
         {
             // Wondrous Tails does not reset daily
         }
 
-        public override void DoWeeklyReset()
+        public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
             // All data is gathered at runtime, no data is saved
         }

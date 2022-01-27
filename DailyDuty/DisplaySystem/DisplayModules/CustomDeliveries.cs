@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.DisplayTabs;
+using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Utility;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
-using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {
@@ -19,12 +18,12 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public CustomDeliveries()
         {
-            CategoryString = Loc.Localize("CD", "Custom Deliveries");
+            CategoryString = Strings.CustomDelivery.Category.Get();
         }
 
         protected override void DisplayData()
         {
-            ImGui.Text(Loc.Localize("CD_Remaining", "Remaining Allowances: {0}").Format(Settings.AllowancesRemaining));
+            ImGui.Text(Strings.CustomDelivery.RemainingAllowances.Get().Format(Settings.AllowancesRemaining));
             ImGui.Spacing();
 
             foreach (var (npcID, npcCount) in Settings.DeliveryNPC)
@@ -40,9 +39,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            var labelString = Loc.Localize("Manually Set Counts", "Manually Set Counts");
-
-            ImGui.Text(labelString);
+            ImGui.Text(Strings.Common.ManuallySetCounts.Get());
             ImGui.Spacing();
 
             foreach (var key in Settings.DeliveryNPC.Keys.ToList())
@@ -51,7 +48,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                 int tempCount = (int)Settings.DeliveryNPC[key];
 
                 ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
-                if (ImGui.InputInt($"##{key}", ref tempCount, 0, 0))
+                if (ImGui.InputInt($"##{CategoryString}{key}", ref tempCount, 0, 0))
                 {
                     if (Settings.DeliveryNPC[key] != tempCount)
                     {
@@ -86,11 +83,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void PersistentNotification()
         {
-            var locString = Loc.Localize("PersistentReminders", "Persistent Reminder");
-            var description = Loc.Localize("CustomDelivery_PersistentNotification", "Show persistent reminder if custom delivery allowances are available.");
-
-            ImGui.Checkbox(locString, ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker(description);
+            ImGui.Checkbox(Strings.Common.PersistentReminders.Get(), ref Settings.PersistentReminders);
+            ImGuiComponents.HelpMarker(Strings.Common.PersistentReminderDescription.Get());
             ImGui.Spacing();
         }
 

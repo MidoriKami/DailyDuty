@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using CheapLoc;
 using DailyDuty.DisplaySystem;
 using Dalamud.Game.Command;
 
@@ -48,6 +50,10 @@ namespace DailyDuty.CommandSystem
             {
                 case null:
                     displayManager.IsOpen = !displayManager.IsOpen;
+                    break;
+
+                case "test":
+                    Loc.ExportLocalizableForAssembly(Assembly.GetExecutingAssembly());
                     break;
 
                 default:

@@ -84,11 +84,11 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     Loc.Localize("Treasure Map", "Treasure Map"),
                     ref anyTasks);
 
-                //DrawTaskConditionally(
-                //    ModuleManager.ModuleType.MiniCactpot,
-                //    SettingsBase.MiniCactpotSettings,
-                //    Loc.Localize("MiniCactpot", "MiniCactpot"),
-                //    ref anyTasks);
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.MiniCactpot,
+                    SettingsBase.MiniCactpotSettings,
+                    Loc.Localize("MiniCactpot", "MiniCactpot"),
+                    ref anyTasks);
 
                 if (anyTasks == false)
                 {
@@ -118,6 +118,12 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ModuleManager.ModuleType.CustomDeliveries,
                     SettingsBase.CustomDeliveriesSettings,
                     Loc.Localize("Custom Deliveries", "Custom Deliveries"),
+                    ref anyTasks);
+
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.JumboCactpot,
+                    SettingsBase.JumboCactpotSettings,
+                    Loc.Localize("Jumbo Cactpot", "Jumbo Cactpot"),
                     ref anyTasks);
 
                 if (anyTasks == false)
