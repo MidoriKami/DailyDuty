@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CheapLoc;
-using DailyDuty.ConfigurationSystem;
-using DailyDuty.System;
+﻿using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
@@ -17,8 +11,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
         public SettingsTab()
         {
-            TabName = Loc.Localize("Settings", "Settings");
-            CategoryName = Loc.Localize("DailyDuty Settings", "Daily Duty Settings");
+            TabName = "Settings";
+            CategoryName = "Daily Duty Settings";
             FrameID = (int) DisplayManager.Tab.Settings;
 
             Modules = new()
@@ -31,7 +25,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
         {
             public SettingsModule()
             {
-                CategoryString = Loc.Localize("General Settings", "General Settings");
+                CategoryString = "General Settings";
             }
 
             protected override GenericSettings GenericSettings { get; } = new();
@@ -40,8 +34,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                string locString = Loc.Localize("Settings EditMode", "Enable Edit Mode");
-                ImGui.Checkbox(locString, ref EditModeEnabled);
+                ImGui.Checkbox($"Enable Edit Mode##{CategoryString}", ref EditModeEnabled);
+                ImGuiComponents.HelpMarker("Allows you to manually correct the values stored in each of Daily/Weekly tabs.");
                 ImGui.Spacing();
 
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);

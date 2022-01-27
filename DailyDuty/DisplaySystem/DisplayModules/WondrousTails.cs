@@ -1,7 +1,4 @@
-﻿using CheapLoc;
-using DailyDuty.ConfigurationSystem;
-using DailyDuty.System.Modules;
-using Dalamud.Interface;
+﻿using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
@@ -14,7 +11,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public WondrousTails()
         {
-            CategoryString = Loc.Localize("WT", "Wondrous Tails");
+            CategoryString = "Wondrous Tails";
         }
 
         protected override void DisplayData()
@@ -32,29 +29,22 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
-            var locString = Loc.Localize("NotifyInstanceAvailability", "Instance Notifications");
-            var description = Loc.Localize("NotifyInstanceAvailability_Description", "When you join a duty, send a notification if the joined duty is available for a Wondrous Tails sticker.");
-
-            ImGui.Checkbox(locString, ref Settings.InstanceNotification);
-            ImGuiComponents.HelpMarker(description);
+            ImGui.Checkbox("Instance Notifications", ref Settings.InstanceNotification);
+            ImGuiComponents.HelpMarker("When you join a duty, send a notification if the joined duty is available for a Wondrous Tails sticker.");
         }
 
         private void PrintBookStatus()
         {
-            var bookStatus = Loc.Localize("Book Status", "Book Status") + ": ";
-            var stringComplete = Loc.Localize("Complete", "Complete");
-            var stringIncomplete = Loc.Localize("Incomplete", "Incomplete");
-
-            ImGui.Text(bookStatus);
+            ImGui.Text("Book Status:");
             ImGui.SameLine();
 
             if (Settings.NumPlacedStickers == 9)
             {
-                ImGui.TextColored(new(0, 255, 0, 255), stringComplete);
+                ImGui.TextColored(new(0, 255, 0, 255), "Complete");
             }
             else
             {
-                ImGui.TextColored(new(255, 0, 0, 100), stringIncomplete);
+                ImGui.TextColored(new(255, 0, 0, 100), "Incomplete");
             }
         }
 

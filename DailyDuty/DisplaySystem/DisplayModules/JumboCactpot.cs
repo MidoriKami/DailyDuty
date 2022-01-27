@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
-using Dalamud.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -18,41 +12,36 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public JumboCactpot()
         {
-            CategoryString = Loc.Localize("Jumbo Cactpot", "Jumbo Cactpot");
+            CategoryString = "Jumbo Cactpot";
         }
 
         protected override void DisplayData()
         {
-            var locString = Loc.Localize("Unclaimed Tickets Remaining", "Tickets Remaining: {0}").Format(Settings.UnclaimedTickets);
-            ImGui.Text(locString);
+            ImGui.Text($"Tickets Remaining: {Settings.UnclaimedTickets}");
 
-            var claimedString = Loc.Localize("Claimed Tickets", "Claimed Tickets: {0}").Format(Settings.ClaimedTickets);
-            ImGui.Text(claimedString);
+            ImGui.Text($"Claimed Tickets: {Settings.ClaimedTickets}");
 
-            var claimedRewardsString = Loc.Localize("Claimed Rewards", "Claimed Rewards: {0}").Format(Settings.ClaimedRewards);
-            ImGui.Text(claimedRewardsString);
+            ImGui.Text($"Claimed Rewards: {Settings.ClaimedRewards}");
 
             DisplayTimeUntilNextDrawing();
         }
 
         private void DisplayTimeUntilNextDrawing()
         {
-            var daysString = Loc.Localize("days", "days");
-            var dayString = Loc.Localize("day", "day");
             var delta = TimeUntilNextDrawing();
 
-            ImGui.Text(Loc.Localize("JumboCactpotTimeUntilNextDrawing", "Time Until Next Drawing: "));
+            ImGui.Text("Time Until Next Drawing:");
             ImGui.SameLine();
 
             string daysDisplay = "";
 
             if (delta.Days == 1)
             {
-                daysDisplay = $"{delta.Days} {dayString}, ";
+                daysDisplay = $"{delta.Days} day, ";
             }
             else if (delta.Days > 1)
             {
-                daysDisplay = $"{delta.Days} {daysString}, ";
+                daysDisplay = $"{delta.Days} days, ";
             }
 
             if (delta == TimeSpan.Zero)

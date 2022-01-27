@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Utilities;
@@ -10,7 +8,6 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
 
@@ -33,8 +30,7 @@ namespace DailyDuty.System.Modules
 
             if (TimeUntilNextMap() == TimeSpan.Zero && Settings.PersistentReminders == true)
             {
-                var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
-                Util.PrintTreasureMap(locString);
+                Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
             }
 
             var maps = GetMapsForTerritory(e);
@@ -46,13 +42,12 @@ namespace DailyDuty.System.Modules
                     {
                         var mapName = Service.DataManager.GetExcelSheet<Item>()!.GetRow(map.ItemID)!.Name; 
 
-                        var locString = Loc.Localize("TMM_Harvest", "A '{0}' is available for harvest in this area.");
-                        Util.PrintTreasureMap(locString.Format(mapName));
+                        Util.PrintTreasureMap($"A '{mapName}' is available for harvest in this area.");
                     }
                 }
             }
         }
-
+        
         // Based on https://github.com/Ottermandias/Accountant/blob/main/Accountant/Manager/TimerManager.MapManager.cs#L75
         protected void OnChatMap(XivChatType type, uint senderid, ref SeString sender, ref SeString message, ref bool ishandled)
         {
@@ -70,11 +65,9 @@ namespace DailyDuty.System.Modules
             if (Settings.NotifyOnAcquisition == true)
             {
                 var mapName = item.Item!.Name.ToString();
-                var acquireString = Loc.Localize("TMD_MapAcquire", "A '{0}' has been gathered.");
-                var nextMapString = Loc.Localize("TMD_NextMapTime", "Your next map will be available on {0}");
 
-                Util.PrintTreasureMap(acquireString.Format(mapName));
-                Util.PrintTreasureMap(nextMapString.Format(DateTime.Now.AddHours(18)));
+                Util.PrintTreasureMap($"A '{mapName}' has been gathered.");
+                Util.PrintTreasureMap($"Your next map will be available on {DateTime.Now.AddHours(18)}");
             }
 
             Settings.LastMapGathered = DateTime.Now;
@@ -87,8 +80,7 @@ namespace DailyDuty.System.Modules
 
             if (IsTreasureMapAvailable())
             {
-                var locString = Loc.Localize("TMM_Available", "You have a Treasure Map Allowance Available.");
-                Util.PrintTreasureMap(locString);
+                Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
             }
         }
 

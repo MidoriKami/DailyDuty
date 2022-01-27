@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using CheapLoc;
 using DailyDuty.DisplaySystem;
 using Dalamud.Game.Command;
 

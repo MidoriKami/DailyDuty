@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System;
 using Dalamud.Interface;
@@ -12,8 +11,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
         public ToDoTab(ModuleManager moduleManager)
         {
-            CategoryName = Loc.Localize("Outstanding Tasks", "Outstanding Tasks");
-            TabName = Loc.Localize("Todo List", "Todo List");
+            CategoryName = "Outstanding Tasks";
+            TabName = "ToDo List";
 
             FrameID = (uint) DisplayManager.Tab.ToDo;
 
@@ -71,7 +70,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             private void DrawDailyTasks()
             {
-                ImGui.Text(Loc.Localize("Daily Tasks", "Daily Tasks"));
+                ImGui.Text("Daily Tasks");
                 ImGui.Spacing();
 
                 ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
@@ -81,18 +80,18 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.TreasureMap,
                     SettingsBase.TreasureMapSettings,
-                    Loc.Localize("Treasure Map", "Treasure Map"),
+                    "Treasure Map",
                     ref anyTasks);
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.MiniCactpot,
                     SettingsBase.MiniCactpotSettings,
-                    Loc.Localize("MiniCactpot", "MiniCactpot"),
+                    "Mini Cactpot",
                     ref anyTasks);
 
                 if (anyTasks == false)
                 {
-                    ImGui.TextColored(new Vector4(0, 255, 0, 150), Loc.Localize("All Tasks Complete", "All Tasks Complete"));
+                    ImGui.TextColored(new Vector4(0, 255, 0, 150), "All Tasks Complete");
                     ImGui.Spacing();
                 }
 
@@ -101,7 +100,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             private void DrawWeeklyTasks()
             {
-                ImGui.Text(Loc.Localize("Weekly Tasks", "Weekly Tasks"));
+                ImGui.Text("Weekly Tasks");
                 ImGui.Spacing();
 
                 ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
@@ -111,24 +110,25 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.WondrousTails,
                     SettingsBase.WondrousTailsSettings, 
-                    Loc.Localize("Wondrous Tails", "Wondrous Tails"), 
+                    "Wondrous Tails", 
                     ref anyTasks);
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.CustomDeliveries,
                     SettingsBase.CustomDeliveriesSettings,
-                    Loc.Localize("Custom Deliveries", "Custom Deliveries"),
+                    "Custom Delivery",
+
                     ref anyTasks);
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.JumboCactpot,
                     SettingsBase.JumboCactpotSettings,
-                    Loc.Localize("Jumbo Cactpot", "Jumbo Cactpot"),
+                    "Jumbo Cactpot",
                     ref anyTasks);
 
                 if (anyTasks == false)
                 {
-                    ImGui.TextColored(new Vector4(0, 255, 0, 150), Loc.Localize("All Tasks Complete", "All Tasks Complete"));
+                    ImGui.TextColored(new Vector4(0, 255, 0, 150), "All Tasks Complete");
                     ImGui.Spacing();
                 }
 

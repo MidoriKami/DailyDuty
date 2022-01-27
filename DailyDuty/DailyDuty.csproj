@@ -32,7 +32,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="Localization\loc_en.json" Link="Localization\loc_en.json" CopyToOutputDirectory="Always" />
 		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 

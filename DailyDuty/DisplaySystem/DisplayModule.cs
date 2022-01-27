@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using System.Runtime.InteropServices;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using Dalamud.Interface;
-using Dalamud.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem
@@ -20,9 +15,8 @@ namespace DailyDuty.DisplaySystem
 
         protected virtual void DrawContents()
         {
-            var stringEnabled = Loc.Localize("Enabled", "Enabled");
 
-            ImGui.Checkbox($"{stringEnabled}##{CategoryString}", ref GenericSettings.Enabled);
+            ImGui.Checkbox($"Enabled##{CategoryString}", ref GenericSettings.Enabled);
             ImGui.Spacing();
 
             if (GenericSettings.Enabled)

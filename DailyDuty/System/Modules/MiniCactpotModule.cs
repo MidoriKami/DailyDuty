@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CheapLoc;
-using DailyDuty.ConfigurationSystem;
-using Dalamud.Utility;
+﻿using DailyDuty.ConfigurationSystem;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using Util = DailyDuty.System.Utilities.Util;
 
 namespace DailyDuty.System.Modules
@@ -81,15 +73,7 @@ namespace DailyDuty.System.Modules
 
         private void DisplayRemainingAllowances()
         {
-            var locString = Loc.Localize("MiniCactpotAllowances", "You have {0} Mini MiniCactpot Tickets remaining today.");
-            Util.PrintMiniCactpot(locString.Format(Settings.TicketsRemaining));
-        }
-
-        private DateTime nextClaimDateTime()
-        {
-
-
-            return DateTime.Now;
+            Util.PrintMiniCactpot($"Tickets Remaining: {Settings.TicketsRemaining}");
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using CheapLoc;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using DailyDuty.System;
 using DailyDuty.System.Utilities;
@@ -72,14 +71,11 @@ namespace DailyDuty.DisplaySystem
         {
             var now = DateTime.UtcNow;
             var totalHours = Util.NextDailyReset() - now;
-
-            var locString = Loc.Localize("Daily Reset", "Daily Reset");
-            
             var percentage = (float) (1 - totalHours / TimeSpan.FromDays(1) );
 
             ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 255));
             ImGui.PushStyleColor(ImGuiCol.PlotHistogram, new Vector4(37 /255.0f, 168 / 255.0f, 1.0f, 0.5f));
-            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
+            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"Daily Reset: {totalHours.Hours:00}:{totalHours.Minutes:00}:{totalHours.Seconds:00}");
             ImGui.PopStyleColor(2);
         }
 
@@ -87,10 +83,6 @@ namespace DailyDuty.DisplaySystem
         {
             var now = DateTime.UtcNow;
             var delta = Util.NextWeeklyReset() - now;
-
-            var locString = Loc.Localize("Weekly Reset", "Weekly Reset");
-            var daysString = Loc.Localize("days", "days");
-            var dayString = Loc.Localize("day", "day");
 
             var percentage = (float)(1 - delta / TimeSpan.FromDays(7));
 
@@ -101,21 +93,20 @@ namespace DailyDuty.DisplaySystem
 
             if (delta.Days == 1)
             {
-                daysDisplay = $"{delta.Days} {dayString}, ";
+                daysDisplay = $"{delta.Days} day, ";
             }
             else if (delta.Days > 1)
             {
-                daysDisplay = $"{delta.Days} {daysString}, ";
+                daysDisplay = $"{delta.Days} days, ";
             }
 
-            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"{locString}: {daysDisplay}{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20), $"Weekly Reset: {daysDisplay}{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
             ImGui.PopStyleColor(2);
         }
 
         private void DrawTabs()
         {
-            var locString = Loc.Localize("Daily Duty Settings", "Daily Duty Settings");
-            if (ImGui.BeginTabBar(locString, ImGuiTabBarFlags.NoTooltip))
+            if (ImGui.BeginTabBar("Daily Duty Settings", ImGuiTabBarFlags.NoTooltip))
             {
                 foreach (var (tab, data) in settingsCategories)
                 {
@@ -136,21 +127,18 @@ namespace DailyDuty.DisplaySystem
 
         private void DrawSaveAndCloseButtons()
         {
-            var saveString = Loc.Localize("Save", "Save");
-            var saveAndCloseString = Loc.Localize("Save & Close", "Save & Close");
-
             ImGui.Spacing();
 
             ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30 * ImGuiHelpers.GlobalScale));
 
-            if (ImGui.Button($"{saveString}", ImGuiHelpers.ScaledVector2(100, 25)))
+            if (ImGui.Button($"Save", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 Service.Configuration.Save();
             }
 
             ImGui.SameLine(ImGui.GetWindowWidth() - 155 * ImGuiHelpers.GlobalScale);
 
-            if (ImGui.Button($"{saveAndCloseString}", ImGuiHelpers.ScaledVector2(150, 25)))
+            if (ImGui.Button($"Save & Close", ImGuiHelpers.ScaledVector2(150, 25)))
             {
                 Service.Configuration.Save();
                 IsOpen = false;

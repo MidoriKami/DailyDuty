@@ -1,5 +1,4 @@
-﻿using CheapLoc;
-using DailyDuty.DisplaySystem.DisplayModules;
+﻿using DailyDuty.DisplaySystem.DisplayModules;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
@@ -7,8 +6,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
     {
         public DailyTab()
         {
-            CategoryName = Loc.Localize("DailyReminders", "Daily Reminders");
-            TabName = Loc.Localize("Daily", "Daily");
+            CategoryName = "Daily Reminders";
+            TabName = "Daily";
 
             FrameID = (uint)DisplayManager.Tab.Daily;
 

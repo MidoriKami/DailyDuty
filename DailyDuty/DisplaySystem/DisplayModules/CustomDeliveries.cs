@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using DailyDuty.ConfigurationSystem;
-using DailyDuty.DisplaySystem.DisplayTabs;
-using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Utility;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
@@ -18,12 +14,12 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public CustomDeliveries()
         {
-            CategoryString = Strings.CustomDelivery.Category.Get();
+            CategoryString = "Custom Delivery";
         }
 
         protected override void DisplayData()
         {
-            ImGui.Text(Strings.CustomDelivery.RemainingAllowances.Get().Format(Settings.AllowancesRemaining));
+            ImGui.Text($"Remaining Allowances: {Settings.AllowancesRemaining}");
             ImGui.Spacing();
 
             foreach (var (npcID, npcCount) in Settings.DeliveryNPC)
@@ -39,7 +35,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            ImGui.Text(Strings.Common.ManuallySetCounts.Get());
+            ImGui.Text("Manually Set Counts");
             ImGui.Spacing();
 
             foreach (var key in Settings.DeliveryNPC.Keys.ToList())
@@ -83,8 +79,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void PersistentNotification()
         {
-            ImGui.Checkbox(Strings.Common.PersistentReminders.Get(), ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker(Strings.Common.PersistentReminderDescription.Get());
+            ImGui.Checkbox($"Persistent Reminders##{CategoryString}", ref Settings.PersistentReminders);
+            ImGuiComponents.HelpMarker("Send a chat notification on non-duty area change.");
             ImGui.Spacing();
         }
 

@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using CheapLoc;
 using DailyDuty.CommandSystem;
 using DailyDuty.ConfigurationSystem;
@@ -12,7 +11,6 @@ using DailyDuty.System;
 using DailyDuty.System.Utilities;
 using Dalamud.Game;
 using Dalamud.IoC;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace DailyDuty

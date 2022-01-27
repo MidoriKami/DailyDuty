@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using Dalamud.Logging;
-using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Util = DailyDuty.System.Utilities.Util;
 
@@ -61,14 +54,12 @@ namespace DailyDuty.System.Modules
 
         private void DisplayDrawingAvailable()
         {
-            var locString = Loc.Localize("JumboCactpotDrawingAvailable", "You have {0} Jumbo Cactpot Tickets available for rewards!");
-            Util.PrintJumboCactpot(locString.Format(Settings.ClaimedTickets));
+            Util.PrintJumboCactpot($"Claimed Tickets: {Settings.ClaimedTickets}");
         }
 
         private void PrintAvailableRewards()
         {
-            var locString = Loc.Localize("JumboCactpotAwardsAvailable", "You have {0} Rewards Unclaimed!");
-            Util.PrintJumboCactpot(locString.Format(Settings.ClaimedTickets - Settings.ClaimedRewards));
+            Util.PrintJumboCactpot($"Claimed Rewards: {Settings.ClaimedRewards}");
         }
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
@@ -110,8 +101,7 @@ namespace DailyDuty.System.Modules
 
         private void DisplayRemainingAllowances()
         {
-            var locString = Loc.Localize("JumboCactpotAllowances", "You have {0} Unclaimed Jumbo Cactpot Tickets.");
-            Util.PrintJumboCactpot(locString.Format(Settings.UnclaimedTickets));
+            Util.PrintJumboCactpot($"Tickets Remaining: {Settings.UnclaimedTickets}");
         }
 
         private DateTime GetDrawingTimeFromDataCenterID(uint datacenter)

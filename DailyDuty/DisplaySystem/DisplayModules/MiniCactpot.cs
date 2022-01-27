@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CheapLoc;
-using DailyDuty.ConfigurationSystem;
+﻿using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -20,13 +13,12 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public MiniCactpot()
         {
-            CategoryString = Loc.Localize("MiniCactpot", "MiniCactpot");
+            CategoryString = "Mini Cactpot";
         }
 
         protected override void DisplayData()
         {
-            var locString = Loc.Localize("Tickets Remaining", "Tickets Remaining: {0}").Format(Settings.TicketsRemaining);
-            ImGui.Text(locString);
+            ImGui.Text($"Tickets Remaining: {Settings.TicketsRemaining}");
         }
 
         protected override void DisplayOptions()
@@ -37,8 +29,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
             ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
 
-            var locString = Loc.Localize("MiniCactpotOverride", "Override Ticket Count: ");
-            ImGui.Text(locString);
+            ImGui.Text("Override Ticket Count:");
 
             ImGui.SameLine();
 
@@ -72,11 +63,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DrawPersistentNotificationCheckBox()
         {
-            var locString = Loc.Localize("MiniCactpotPersistentReminders", "Persistent Reminder##MiniCactpot");
-            var description = Loc.Localize("MiniCactpotPersistentNotificationDescription", "Show persistent reminder if Mini MiniCactpot Tickets are available.");
-
-            ImGui.Checkbox(locString, ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker(description);
+            ImGui.Checkbox($"Persistent Reminders##{CategoryString}", ref Settings.PersistentReminders);
+            ImGuiComponents.HelpMarker("Send a chat notification on non-duty area change.");
             ImGui.Spacing();
         }
     }

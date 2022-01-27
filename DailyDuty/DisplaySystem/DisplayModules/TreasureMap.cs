@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
-using DailyDuty.DisplaySystem.DisplayTabs;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
@@ -36,7 +33,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         public TreasureMap()
         {
-            CategoryString = Loc.Localize("DTM", "Treasure Map");
+            CategoryString = "Treasure Map";
 
             mapLevels = DataObjects.MapList.Select(m => m.Level).ToHashSet();
         }
@@ -53,11 +50,10 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            var stringReset = Loc.Localize("Reset", "Reset");
 
-            ImGui.Text(Loc.Localize("DTM_Reset", "Manually Reset Map Timer"));
+            ImGui.Text("Manually Reset Map Timer");
 
-            if (ImGui.Button($"{stringReset}##{CategoryString}", ImGuiHelpers.ScaledVector2(75, 25)))
+            if (ImGui.Button($"Reset##{CategoryString}", ImGuiHelpers.ScaledVector2(75, 25)))
             {
                 Settings.LastMapGathered = DateTime.Now;
                 Service.Configuration.Save();
@@ -74,37 +70,29 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DrawPersistentNotificationCheckBox()
         {
-            var locString = Loc.Localize("PersistentReminders", "Persistent Reminder");
-            var description = Loc.Localize("PersistentNotificationDescription", "Show persistent reminder if a treasure map allowance is available.");
-
-            ImGui.Checkbox(locString, ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker(description);
+            ImGui.Checkbox($"Persistent Reminders##{CategoryString}", ref Settings.PersistentReminders);
+            ImGuiComponents.HelpMarker("Send a chat notification on non-duty area change.");
             ImGui.Spacing();
         }
 
         private void DrawHarvestableMapNotificationCheckbox()
         {
-            var locString = Loc.Localize("Harvestable Map Notification", "Harvestable Map Notification");
-            var description = Loc.Localize("HarvestableDescription", "Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
-            ImGui.Checkbox(locString, ref Settings.HarvestableMapNotification);
-            ImGuiComponents.HelpMarker(description);
+            ImGui.Checkbox("Harvestable Map Notification", ref Settings.HarvestableMapNotification);
+            ImGuiComponents.HelpMarker("Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
             ImGui.Spacing();
         }
 
         private void DrawNotifyOnMapCollectionCheckBox()
         {
-            var locString = Loc.Localize("DTM_AcquireNotify", "Map Acquisition Notification");
-            var description = Loc.Localize("AcquireNotifyDescription", "Confirm Map Acquisition with a chat message.");
-
-            ImGui.Checkbox(locString, ref Settings.NotifyOnAcquisition);
-            ImGuiComponents.HelpMarker(description);
+            ImGui.Checkbox("Map Acquisition Notification", ref Settings.NotifyOnAcquisition);
+            ImGuiComponents.HelpMarker("Confirm Map Acquisition with a chat message.");
             ImGui.Spacing();
         }
 
         private static void TimeUntilNextMap()
         {
             var timeSpan = TreasureMapModule.TimeUntilNextMap();
-            ImGui.Text(Loc.Localize("DTM_TimeUntil", "Time Until Next Map: "));
+            ImGui.Text("Time Until Next Map:");
             ImGui.SameLine();
 
             if (timeSpan == TimeSpan.Zero)
@@ -119,15 +107,10 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DisplayLastMapCollectedTime()
         {
-            if (Settings.LastMapGathered == new DateTime())
-            {
-                ImGui.Text(Loc.Localize("DTM_LastNever", "Last Map Collected: Never"));
-            }
-            else
-            {
-                ImGui.Text(Loc.Localize("DTM_Last", "Last Map Collected: {0}").Format(Service.Configuration
-                    .CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings.LastMapGathered));
-            }
+            ImGui.Text("Last Map Collected:");
+            ImGui.SameLine();
+
+            ImGui.Text(Settings.LastMapGathered == new DateTime() ? "Never" : $"{Settings.LastMapGathered}");
 
             ImGui.Spacing();
         }
@@ -138,11 +121,9 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             ImGui.Indent(15 *ImGuiHelpers.GlobalScale);
 
-            var stringMinimumLevel = Loc.Localize("DTM_MinLevel", "Minimum Map Level");
-
             ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
 
-            if (ImGui.BeginCombo(stringMinimumLevel, SelectedMinimumMapLevel.ToString(), ImGuiComboFlags.PopupAlignLeft))
+            if (ImGui.BeginCombo("Minimum Map Level", SelectedMinimumMapLevel.ToString(), ImGuiComboFlags.PopupAlignLeft))
             {
                 foreach (var element in mapLevels)
                 {
@@ -163,8 +144,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                 ImGui.EndCombo();
             }
 
-            var locString = Loc.Localize("DTM_HelpMinMapLevel", "Only show notifications that a map is available if the map is at least this level.");
-            ImGuiComponents.HelpMarker(locString);
+            ImGuiComponents.HelpMarker("Only show notifications that a map is available if the map is at least this level.");
 
             ImGui.PopItemWidth();
 

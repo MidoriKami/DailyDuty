@@ -1,14 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CheapLoc;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Logging;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
@@ -30,10 +24,14 @@ namespace DailyDuty.System.Modules
             if (Settings.PersistentReminders == false) return;
             if (Service.LoggedIn == false) return;
 
+            PrintRemainingAllowances();
+        }
+
+        private void PrintRemainingAllowances()
+        {
             if (Settings.AllowancesRemaining > 0)
             {
-                var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.");
-                Util.PrintCustomDelivery(locString.Format(Settings.AllowancesRemaining));
+                Util.PrintCustomDelivery($"Remaining Allowances: {Settings.AllowancesRemaining}");
             }
         }
 
@@ -41,11 +39,7 @@ namespace DailyDuty.System.Modules
         {
             if (Settings.Enabled == false) return;
 
-            if (Settings.AllowancesRemaining > 0)
-            {
-                var locString = Loc.Localize("CDM_AllowancesRemaining", "You have {0} Allowances Remaining this week.").Format(Settings.AllowancesRemaining);
-                Util.PrintCustomDelivery(locString);
-            }
+            PrintRemainingAllowances();
         }
 
         public override void UpdateSlow()
