@@ -30,9 +30,7 @@ namespace DailyDuty
         {
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
-
-            SetupLocalization();
-
+            
             // If configuration json exists load it, if not make new config object
             Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Service.Configuration.Initialize(Service.PluginInterface);
@@ -56,26 +54,7 @@ namespace DailyDuty
             // Register Windows
             Service.WindowSystem.AddWindow(DisplayManager);
         }
-
-        private void SetupLocalization()
-        {
-            var allowedLang = new[] { "fr" };
-
-            var currentUiLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-
-            if (allowedLang.Any(x => currentUiLang == x))
-            {
-                var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
-                var target = Path.Combine(assemblyLocation, @$"Localization\loc_{currentUiLang}.json");
-
-                Loc.Setup(target);
-            }
-            else
-            {
-                Loc.SetupWithFallbacks();
-            }
-        }
-
+        
         private void OnLogout(object? sender, EventArgs e)
         {
             Service.LoggedIn = false;
