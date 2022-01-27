@@ -53,7 +53,6 @@ namespace DailyDuty.CommandSystem
                     break;
 
                 case "test":
-                    Loc.ExportLocalizableForAssembly(Assembly.GetExecutingAssembly());
                     break;
 
                 default:
