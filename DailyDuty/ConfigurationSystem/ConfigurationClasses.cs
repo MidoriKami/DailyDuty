@@ -52,10 +52,8 @@ namespace DailyDuty.ConfigurationSystem
 
         public class CustomDeliveriesSettings : GenericSettings
         {
-            public uint AllowancesRemaining => (uint)(12 - DeliveryNPC.Sum(r => 6 - r.Value));
+            public int AllowancesRemaining = 12;
             public bool PersistentReminders = false;
-
-            public Dictionary<uint, uint> DeliveryNPC = new();
         }
 
         public class JumboCactpotSettings : GenericSettings

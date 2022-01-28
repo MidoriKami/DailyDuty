@@ -68,7 +68,6 @@ namespace DailyDuty.ConfigurationSystem
                 // Weekly
                 settings.WondrousTailsSettings ??= new();
                 settings.CustomDeliveriesSettings ??= new();
-                settings.CustomDeliveriesSettings.DeliveryNPC ??= new();
                 settings.JumboCactpotSettings ??= new();
             }
 

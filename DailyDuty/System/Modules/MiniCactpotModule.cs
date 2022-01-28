@@ -1,4 +1,5 @@
 ﻿using DailyDuty.ConfigurationSystem;
+using DailyDuty.System.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Util = DailyDuty.System.Utilities.Util;
 
@@ -40,6 +41,8 @@ namespace DailyDuty.System.Modules
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
+            if (ConditionManager.IsBoundByDuty() == true) return;
+
             if (Settings.PersistentReminders && Settings.Enabled)
             {
                 if (Settings.TicketsRemaining > 0)

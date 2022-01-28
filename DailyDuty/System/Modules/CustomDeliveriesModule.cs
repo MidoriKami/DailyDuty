@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
@@ -14,7 +16,7 @@ namespace DailyDuty.System.Modules
         private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
 
         private bool exchangeStarted = false;
-        private uint savedTargetNPC = 0;
+        private uint LastDeliveryCount = 0;
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
@@ -44,87 +46,54 @@ namespace DailyDuty.System.Modules
 
         public override void UpdateSlow()
         {
-            // If we are occupied by talking to a quest npc
-            if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
+            if (Settings.Enabled)
             {
-                // If we are also opened a custom delivery window
-                if (GetCustomDeliveryPointer() != null && exchangeStarted == false)
+                // If we are occupied by talking to a quest npc
+                if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
                 {
-                    // Save which NPC we are dealing with
-                    var targetNPC = GetIDForNPC();
-                    if (targetNPC != null)
+                    // If a custom delivery window is open
+                    if (GetCustomDeliveryPointer() != null)
                     {
-                        exchangeStarted = true;
-                        savedTargetNPC = targetNPC.Value;
+                        StartCustomDeliveryExchange();
+                    }
+                    // If we started an exchange, check for cutscene event
+                    if (Service.Condition[ConditionFlag.OccupiedInCutSceneEvent] == true && exchangeStarted == true)
+                    {
+                        Settings.AllowancesRemaining -= 1;
+                        Service.Configuration.Save();
+                        
+                        exchangeStarted = false;
                     }
                 }
-                
-                // If we started an exchange, check for cutscene event
-                if (Service.Condition[ConditionFlag.OccupiedInCutSceneEvent] == true && exchangeStarted == true)
+                // End the exchange when we are no longer locked by OccupiedInQuestEvent
+                else if(exchangeStarted == true)
                 {
-                    Settings.DeliveryNPC[savedTargetNPC] -= 1;
-                    Service.Configuration.Save();
-
                     exchangeStarted = false;
                 }
             }
         }
 
-        public override void Update()
+        private void StartCustomDeliveryExchange()
         {
-            if (Settings.Enabled == true && GetCustomDeliveryPointer() != null)
+            var count = GetRemainingDeliveriesCount();
+            if (count == null) return;
+
+            if (exchangeStarted == false)
             {
-                var targetNPC = GetIDForNPC();
-                if (targetNPC != null)
+                Util.PrintDebug("[CustomDelivery] Exchange Started");
+                exchangeStarted = true;
+                LastDeliveryCount = count.Value;
+            }
+            else if (exchangeStarted == true)
+            {
+                if (count.Value != LastDeliveryCount)
                 {
-                    // If we haven't see this NPC before
-                    if (!Settings.DeliveryNPC.ContainsKey(targetNPC.Value))
-                    {
-                        var deliveryCount = GetRemainingDeliveriesCount();
-                        if (deliveryCount != null)
-                        {
-                            // Log NPC with delivery count
-                            Settings.DeliveryNPC.Add(targetNPC.Value, deliveryCount.Value);
-                            Service.Configuration.Save();
-                        }
-                    }
-                    // If we have seen this NPC before
-                    else
-                    {
-                        var deliveryCount = GetRemainingDeliveriesCount();
-                        if (deliveryCount != null)
-                        {
-                            // Update the delivery count
-                            if (Settings.DeliveryNPC[targetNPC.Value] != deliveryCount.Value)
-                            {
-                                Settings.DeliveryNPC[targetNPC.Value] = deliveryCount.Value;
-                                Service.Configuration.Save();
-                            }
-                        }
-                    }
+                    LastDeliveryCount = count.Value;
+
+                    Settings.AllowancesRemaining -= 1;
+                    Service.Configuration.Save();
                 }
             }
-
-            base.Update();
-        }
-
-        private uint? GetIDForNPC()
-        {
-            var pointer = GetCustomDeliveryPointer();
-            if (pointer == null) return null;
-
-            var textNode = (AtkTextNode*)((AtkUnitBase*)pointer)->GetNodeById(36);
-            if (textNode == null) return null;
-
-            var nodeText = textNode->NodeText.ToString();
-            if (nodeText == string.Empty) return null;
-
-            var npcID = Service.DataManager.GetExcelSheet<NotebookDivision>()
-                !.Where(r => r.Name == nodeText)
-                .Select(r => r.RowId)
-                .FirstOrDefault();
-
-            return npcID;
         }
 
         public override bool IsCompleted()
@@ -141,10 +110,7 @@ namespace DailyDuty.System.Modules
         {
             var customDeliveriesSettings = settings.CustomDeliveriesSettings;
 
-            foreach (var key in customDeliveriesSettings.DeliveryNPC.Keys.ToList())
-            {
-                customDeliveriesSettings.DeliveryNPC[key] = 6;
-            }
+            customDeliveriesSettings.AllowancesRemaining = 12;
 
             Service.Configuration.Save();
         }

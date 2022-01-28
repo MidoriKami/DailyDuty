@@ -20,13 +20,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         protected override void DisplayData()
         {
             ImGui.Text($"Remaining Allowances: {Settings.AllowancesRemaining}");
-            ImGui.Spacing();
-
-            foreach (var (npcID, npcCount) in Settings.DeliveryNPC)
-            {
-                var npcName = GetNameForNPC(npcID);
-                ImGui.Text($"{npcName}: {npcCount}");
-            }
         }
 
         protected override void DisplayOptions()
@@ -35,41 +28,18 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            ImGui.Text("Manually Set Counts");
+            ImGui.Text("Manually Set Allowances Remaining");
             ImGui.Spacing();
 
-            foreach (var key in Settings.DeliveryNPC.Keys.ToList())
-            {
-                var npcName = GetNameForNPC(key);
-                int tempCount = (int)Settings.DeliveryNPC[key];
+            ImGui.Text("Allowances:");
 
-                ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
-                if (ImGui.InputInt($"##{CategoryString}{key}", ref tempCount, 0, 0))
-                {
-                    if (Settings.DeliveryNPC[key] != tempCount)
-                    {
-                        if (tempCount is >= 0 and <= 6)
-                        {
-                            Settings.DeliveryNPC[key] = (uint)tempCount;
-                            Service.Configuration.Save();
-                        }
-                    }
-                }
+            ImGui.SameLine();
 
-                ImGui.PopItemWidth();
+            ImGui.PushItemWidth(50 *ImGuiHelpers.GlobalScale);
+            ImGui.InputInt($"##{CategoryString}", ref Settings.AllowancesRemaining);
+            ImGui.PopItemWidth();
 
-                ImGui.SameLine();
-
-                ImGui.Text($"{npcName}");
-            }
-        }
-
-        private string GetNameForNPC(uint id)
-        {
-            var npcData = Service.DataManager.GetExcelSheet<NotebookDivision>()
-                !.GetRow(id);
-
-            return npcData!.Name;
+            ImGui.Spacing();
         }
 
         protected override void NotificationOptions()
