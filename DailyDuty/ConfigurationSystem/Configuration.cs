@@ -34,12 +34,16 @@ namespace DailyDuty.ConfigurationSystem
 
             if (CharacterSettingsMap.ContainsKey(newCharacterID))
             {
+#if DEBUG
                 PluginLog.Information($"[System] [onLogin] Character Found in Map {newCharacterID}.");
+#endif
                 CurrentCharacter = newCharacterID;
             }
-            else
+            else if(newCharacterID != 0)
             {
+#if DEBUG
                 PluginLog.Information($"[System] [onLogin] Character Not Found in Map {newCharacterID}, Creating new Entry.");
+#endif
                 CharacterSettingsMap.Add(newCharacterID, new CharacterSettings());
                 CurrentCharacter = newCharacterID;
             }
