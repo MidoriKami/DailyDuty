@@ -2,6 +2,7 @@
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.DisplayTabs;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem
@@ -64,5 +65,17 @@ namespace DailyDuty.DisplaySystem
         }
 
         public abstract void Dispose();
+
+        protected void OnLoginReminderCheckbox(GenericSettings settings)
+        {
+            ImGui.Checkbox($"Login Reminder##{CategoryString}", ref settings.LoginReminder);
+            ImGuiComponents.HelpMarker("Display this module's status in chat on login if this module is incomplete.");
+        }
+
+        protected void OnTerritoryChangeCheckbox(GenericSettings settings)
+        {
+            ImGui.Checkbox($"Zone Change Reminder##{CategoryString}", ref settings.TerritoryChangeReminder);
+            ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete.");
+        }
     }
 }

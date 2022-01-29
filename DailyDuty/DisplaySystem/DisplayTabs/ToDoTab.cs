@@ -120,11 +120,11 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                     ref anyTasks);
 
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.JumboCactpot,
-                    SettingsBase.JumboCactpotSettings,
-                    "Jumbo Cactpot",
-                    ref anyTasks);
+                //DrawTaskConditionally(
+                //    ModuleManager.ModuleType.JumboCactpot,
+                //    SettingsBase.JumboCactpotSettings,
+                //    "Jumbo Cactpot",
+                //    ref anyTasks);
 
                 if (anyTasks == false)
                 {

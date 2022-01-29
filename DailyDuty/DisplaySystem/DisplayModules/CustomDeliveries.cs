@@ -19,7 +19,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DisplayData()
         {
-            ImGui.Text($"Remaining Allowances: {Settings.AllowancesRemaining}");
+            ImGui.Text($"Remaining Allowances:\t{Settings.AllowancesRemaining}");
         }
 
         protected override void DisplayOptions()
@@ -35,8 +35,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             ImGui.SameLine();
 
-            ImGui.PushItemWidth(50 *ImGuiHelpers.GlobalScale);
-            ImGui.InputInt($"##{CategoryString}", ref Settings.AllowancesRemaining);
+            ImGui.PushItemWidth(30 *ImGuiHelpers.GlobalScale);
+            ImGui.InputInt($"##{CategoryString}", ref Settings.AllowancesRemaining, 0, 0);
             ImGui.PopItemWidth();
 
             ImGui.Spacing();
@@ -44,16 +44,10 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
-            PersistentNotification();
+            OnLoginReminderCheckbox(Settings);
+            OnTerritoryChangeCheckbox(Settings);
         }
-
-        private void PersistentNotification()
-        {
-            ImGui.Checkbox($"Persistent Reminders##{CategoryString}", ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker("Send a chat notification on non-duty area change.");
-            ImGui.Spacing();
-        }
-
+        
         public override void Dispose()
         {
         }

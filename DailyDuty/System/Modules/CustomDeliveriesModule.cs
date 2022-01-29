@@ -16,17 +16,16 @@ namespace DailyDuty.System.Modules
         private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
 
         private bool exchangeStarted = false;
-        private uint LastDeliveryCount = 0;
+        private uint lastDeliveryCount = 0;
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
-            if (Settings.Enabled == false) return;
-            if (ConditionManager.IsBoundByDuty() == true) return;
+            if (ConditionManager.IsBoundByDuty()) return;
 
-            if (Settings.PersistentReminders == false) return;
-            if (Service.LoggedIn == false) return;
-
-            PrintRemainingAllowances();
+            if (Settings.Enabled && Settings.TerritoryChangeReminder)
+            {
+                PrintRemainingAllowances();
+            }
         }
 
         private void PrintRemainingAllowances()
@@ -39,9 +38,10 @@ namespace DailyDuty.System.Modules
 
         protected override void OnLoginDelayed()
         {
-            if (Settings.Enabled == false) return;
-
-            PrintRemainingAllowances();
+            if (Settings.Enabled && Settings.LoginReminder)
+            {
+                PrintRemainingAllowances();
+            }
         }
 
         public override void UpdateSlow()
@@ -82,13 +82,13 @@ namespace DailyDuty.System.Modules
             {
                 Util.PrintDebug("[CustomDelivery] Exchange Started");
                 exchangeStarted = true;
-                LastDeliveryCount = count.Value;
+                lastDeliveryCount = count.Value;
             }
             else if (exchangeStarted == true)
             {
-                if (count.Value != LastDeliveryCount)
+                if (count.Value != lastDeliveryCount)
                 {
-                    LastDeliveryCount = count.Value;
+                    lastDeliveryCount = count.Value;
 
                     Settings.AllowancesRemaining -= 1;
                     Service.Configuration.Save();

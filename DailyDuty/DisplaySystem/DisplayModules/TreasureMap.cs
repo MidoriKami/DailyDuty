@@ -62,31 +62,23 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
-            DrawPersistentNotificationCheckBox();
+            OnLoginReminderCheckbox(Settings);
+            OnTerritoryChangeCheckbox(Settings);
             DrawNotifyOnMapCollectionCheckBox();
             DrawHarvestableMapNotificationCheckbox();
             DrawMinimumMapLevelComboBox();
         }
-
-        private void DrawPersistentNotificationCheckBox()
-        {
-            ImGui.Checkbox($"Persistent Reminders##{CategoryString}", ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker("Send a chat notification on non-duty area change.");
-            ImGui.Spacing();
-        }
-
+        
         private void DrawHarvestableMapNotificationCheckbox()
         {
             ImGui.Checkbox("Harvestable Map Notification", ref Settings.HarvestableMapNotification);
             ImGuiComponents.HelpMarker("Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
-            ImGui.Spacing();
         }
 
         private void DrawNotifyOnMapCollectionCheckBox()
         {
             ImGui.Checkbox("Map Acquisition Notification", ref Settings.NotifyOnAcquisition);
             ImGuiComponents.HelpMarker("Confirm Map Acquisition with a chat message.");
-            ImGui.Spacing();
         }
 
         private static void TimeUntilNextMap()

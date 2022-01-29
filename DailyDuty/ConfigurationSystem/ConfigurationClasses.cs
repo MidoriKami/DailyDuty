@@ -7,6 +7,8 @@ namespace DailyDuty.ConfigurationSystem
     public class GenericSettings
     {
         public bool Enabled = false;
+        public bool TerritoryChangeReminder = false;
+        public bool LoginReminder = false;
     }
 
     public enum ButtonState
@@ -32,13 +34,11 @@ namespace DailyDuty.ConfigurationSystem
             public int MinimumMapLevel = 0;
             public bool NotifyOnAcquisition = false;
             public bool HarvestableMapNotification = false;
-            public bool PersistentReminders = false;
         }
 
         public class Cactpot : GenericSettings
         {
             public int TicketsRemaining = 3;
-            public bool PersistentReminders = false;
         }
     }
 
@@ -47,13 +47,14 @@ namespace DailyDuty.ConfigurationSystem
         public class WondrousTailsSettings : GenericSettings
         {
             public int NumPlacedStickers = 0;
-            public bool InstanceNotification = false;
+            public bool InstanceStartNotification = false;
+            public bool InstanceEndNotification = false;
+            public bool RerollNotification = false;
         }
 
         public class CustomDeliveriesSettings : GenericSettings
         {
             public int AllowancesRemaining = 12;
-            public bool PersistentReminders = false;
         }
 
         public class JumboCactpotSettings : GenericSettings
@@ -62,7 +63,6 @@ namespace DailyDuty.ConfigurationSystem
             public int ClaimedTickets = 0;
             public int ClaimedRewards = 0;
             public DateTime NextDrawing = new();
-            public bool PersistentReminders = false;
         }
     }
 }

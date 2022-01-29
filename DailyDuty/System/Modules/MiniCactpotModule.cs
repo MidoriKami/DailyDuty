@@ -30,7 +30,7 @@ namespace DailyDuty.System.Modules
 
         protected override void OnLoginDelayed()
         {
-            if (Settings.Enabled)
+            if (Settings.Enabled && Settings.LoginReminder)
             {
                 if (Settings.TicketsRemaining > 0)
                 {
@@ -41,9 +41,9 @@ namespace DailyDuty.System.Modules
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
-            if (ConditionManager.IsBoundByDuty() == true) return;
+            if (ConditionManager.IsBoundByDuty()) return;
 
-            if (Settings.PersistentReminders && Settings.Enabled)
+            if (Settings.Enabled && Settings.TerritoryChangeReminder)
             {
                 if (Settings.TicketsRemaining > 0)
                 {
@@ -62,6 +62,8 @@ namespace DailyDuty.System.Modules
             var miniCactpot = settings.MiniCactpotSettings;
 
             miniCactpot.TicketsRemaining = 3;
+
+            Service.Configuration.Save();
         }
 
         public override void DoWeeklyReset(Configuration.CharacterSettings settings)

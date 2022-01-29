@@ -18,7 +18,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DisplayData()
         {
-            ImGui.Text($"Tickets Remaining: {Settings.TicketsRemaining}");
+            ImGui.Text($"Tickets Remaining:\t{Settings.TicketsRemaining}");
         }
 
         protected override void DisplayOptions()
@@ -27,11 +27,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
-
             ImGui.Text("Override Ticket Count:");
 
             ImGui.SameLine();
+            
+            ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
 
             if (ImGui.InputInt($"##{CategoryString}", ref Settings.TicketsRemaining, 0, 0))
             {
@@ -48,24 +48,16 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             }
 
             ImGui.PopItemWidth();
-
-
         }
 
         protected override void NotificationOptions()
         {
-            DrawPersistentNotificationCheckBox();
+            OnLoginReminderCheckbox(Settings);
+            OnTerritoryChangeCheckbox(Settings);
         }
 
         public override void Dispose()
         {
-        }
-
-        private void DrawPersistentNotificationCheckBox()
-        {
-            ImGui.Checkbox($"Persistent Reminders##{CategoryString}", ref Settings.PersistentReminders);
-            ImGuiComponents.HelpMarker("Send a chat notification on non-duty area change.");
-            ImGui.Spacing();
         }
     }
 }

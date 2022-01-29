@@ -9,7 +9,7 @@ namespace DailyDuty.System
         protected Module()
         {
             Service.ClientState.Login += OnLogin;
-            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+            Service.ClientState.TerritoryChanged += PreOnTerritoryChanged;
         }
 
         public virtual void UpdateSlow()
@@ -27,12 +27,19 @@ namespace DailyDuty.System
         public virtual void Dispose()
         {
             Service.ClientState.Login -= OnLogin;
-            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
+            Service.ClientState.TerritoryChanged -= PreOnTerritoryChanged;
         }
 
         protected virtual void OnLogin(object? sender, EventArgs e)
         {
             Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
+        }
+
+        protected virtual void PreOnTerritoryChanged(object? sender, ushort e)
+        {
+            if (Service.LoggedIn == false) return;
+
+            OnTerritoryChanged(sender, e);
         }
 
         protected abstract void OnLoginDelayed();

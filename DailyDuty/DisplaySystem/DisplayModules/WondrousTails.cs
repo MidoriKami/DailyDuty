@@ -29,9 +29,30 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void NotificationOptions()
         {
-            ImGui.Checkbox("Instance Notifications", ref Settings.InstanceNotification);
+            DutyStartNotification();
+            DutyEndNotification();
+            RerollNotification();
+        }
+
+        private void RerollNotification()
+        {
+            ImGui.Checkbox("Reroll Alert", ref Settings.RerollNotification);
+            ImGuiComponents.HelpMarker("When changing zones, send a notification if you have the maximum number of second chance points.\n" +
+                                       "Useful to re-roll the stickers for a chance at better rewards, while preventing over-capping.");
+        }
+
+        private void DutyEndNotification()
+        {
+            ImGui.Checkbox("Duty End Reminder", ref Settings.InstanceEndNotification);
+            ImGuiComponents.HelpMarker("When exiting a duty, send a notification if the previous duty is now eligible for a sticker.");
+        }
+
+        private void DutyStartNotification()
+        {
+            ImGui.Checkbox("Duty Start Notifications", ref Settings.InstanceStartNotification);
             ImGuiComponents.HelpMarker("When you join a duty, send a notification if the joined duty is available for a Wondrous Tails sticker.");
         }
+
 
         private void PrintBookStatus()
         {

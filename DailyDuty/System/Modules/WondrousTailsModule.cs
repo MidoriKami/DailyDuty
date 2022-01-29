@@ -71,13 +71,13 @@ namespace DailyDuty.System.Modules
         {
             if (Settings.Enabled == false) return;
 
-            if (ConditionManager.IsBoundByDuty() && Settings.InstanceNotification == true && !IsWondrousTailsBookComplete())
+            if (ConditionManager.IsBoundByDuty() && Settings.InstanceStartNotification == true && !IsWondrousTailsBookComplete())
             {
                 lastInstanceWasDuty = true;
                 lastDutyInstanceID = e;
                 OnDutyStartNotification();
             }
-            else if(lastInstanceWasDuty == true)
+            else if(lastInstanceWasDuty == true && Settings.InstanceEndNotification == true && !IsWondrousTailsBookComplete())
             {
                 OnDutyEndNotification();
                 lastInstanceWasDuty = false;
@@ -85,6 +85,11 @@ namespace DailyDuty.System.Modules
             else
             {
                 lastInstanceWasDuty = false;
+            }
+
+            if (Settings.RerollNotification == true && wondrousTailsBasePointer->SecondChance == 9 && !IsWondrousTailsBookComplete())
+            {
+                Util.PrintWondrousTails("You have 9 Second-chance points, you can re-roll your stickers!");
             }
         }
 
@@ -296,8 +301,10 @@ namespace DailyDuty.System.Modules
 
                 // Treasure Maps
                 case 46:
-                    // todo: Find Treasure Map Instance List
-                    return new List<uint>();
+                    return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                        !.Where(m => m.ContentType.Value?.RowId is 9)
+                        .Select(m => m.TerritoryType.Value!.RowId)
+                        .ToList();
 
                 // Rival Wings
                 case 67:

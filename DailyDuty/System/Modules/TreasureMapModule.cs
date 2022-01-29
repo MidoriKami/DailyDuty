@@ -24,18 +24,20 @@ namespace DailyDuty.System.Modules
         
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
-            if (Settings.Enabled == false) return;
             if (ConditionManager.IsBoundByDuty() == true) return;
-            if (Service.LoggedIn == false) return;
 
-            if (TimeUntilNextMap() == TimeSpan.Zero && Settings.PersistentReminders == true)
+            if (Settings.Enabled && Settings.TerritoryChangeReminder)
             {
-                Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
+                if (TimeUntilNextMap() == TimeSpan.Zero)
+                {
+                    Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
+                }
             }
 
-            var maps = GetMapsForTerritory(e);
             if (Settings.HarvestableMapNotification == true && TimeUntilNextMap() == TimeSpan.Zero)
             {
+                var maps = GetMapsForTerritory(e);
+
                 foreach (var map in maps)
                 {
                     if (map.Level >= Settings.MinimumMapLevel)
@@ -76,11 +78,12 @@ namespace DailyDuty.System.Modules
 
         protected override void OnLoginDelayed()
         {
-            if (Settings.Enabled == false) return;
-
-            if (IsTreasureMapAvailable())
+            if (Settings.Enabled && Settings.LoginReminder)
             {
-                Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
+                if (IsTreasureMapAvailable())
+                {
+                    Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
+                }
             }
         }
 

@@ -25,7 +25,7 @@ namespace DailyDuty.System
             {ModuleType.WondrousTails, new WondrousTailsModule()},
             {ModuleType.CustomDeliveries, new CustomDeliveriesModule()},
             {ModuleType.MiniCactpot, new MiniCactpotModule()},
-            {ModuleType.JumboCactpot, new JumboCactpotModule()}
+            //{ModuleType.JumboCactpot, new JumboCactpotModule()}
         };
 
         public void Update()
