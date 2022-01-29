@@ -24,7 +24,7 @@ DailyDuty is designed for people that need _**constant reminders**_ to do things
 
 ### General Terminology
 
-**All chat messages can only been seen by you, Dalamud Plugins are client side only**
+ \> \> \> **All chat messages can only been seen by you, Dalamud Plugins are client side only** < < < 
 
 #### Login Reminder 
 A chat message that is displayed 3 seconds after logging in. 
