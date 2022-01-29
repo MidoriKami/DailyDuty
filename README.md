@@ -1,3 +1,19 @@
+# Index
+- [DailyDuty](#dailyduty)
+    + [General Terminology](#general-terminology)
+      - [Login Reminder](#login-reminder)
+      - [Zone Change Reminder](#zone-change-reminder)
+  * [Currently Implemented - Daily Tasks](#currently-implemented---daily-tasks)
+    + [Treasure Maps](#treasure-maps)
+    + [Mini Cactpot](#mini-cactpot)
+  * [Currently Implemented - Weekly Tasks](#currently-implemented---weekly-tasks)
+    + [Custom Deliveries](#custom-deliveries)
+    + [Wondrous Tails](#wondrous-tails)
+      - [Duty Start Notification](#duty-start-notification)
+      - [Duty End Notification](#duty-end-notification)
+      - [Reroll Alert](#reroll-alert)
+
+
 # DailyDuty
 DailyDuty is a XivLauncher/Dalamud plugin.
 
