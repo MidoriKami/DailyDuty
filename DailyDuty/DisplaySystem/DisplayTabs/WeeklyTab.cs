@@ -15,7 +15,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             {
                new WondrousTails(),
                new CustomDeliveries(),
-               //new JumboCactpot()
+               //new JumboCactpot(),
+               new FashionReport()
             };
         }
     }

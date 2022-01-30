@@ -24,6 +24,7 @@ namespace DailyDuty.ConfigurationSystem
             public Weekly.WondrousTailsSettings WondrousTailsSettings = new();
             public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
             public Weekly.JumboCactpotSettings JumboCactpotSettings = new();
+            public Weekly.FashionReportSettings FashionReportSettings = new();
         }
 
         public ulong CurrentCharacter = new();
@@ -69,6 +70,7 @@ namespace DailyDuty.ConfigurationSystem
                 settings.WondrousTailsSettings ??= new();
                 settings.CustomDeliveriesSettings ??= new();
                 settings.JumboCactpotSettings ??= new();
+                settings.FashionReportSettings ??= new();
             }
 
             Save();

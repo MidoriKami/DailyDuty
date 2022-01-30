@@ -117,7 +117,6 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ModuleManager.ModuleType.CustomDeliveries,
                     SettingsBase.CustomDeliveriesSettings,
                     "Custom Delivery",
-
                     ref anyTasks);
 
                 //DrawTaskConditionally(
@@ -125,6 +124,12 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 //    SettingsBase.JumboCactpotSettings,
                 //    "Jumbo Cactpot",
                 //    ref anyTasks);
+
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.FashionReport,
+                    SettingsBase.FashionReportSettings,
+                    "Fashion Report",
+                    ref anyTasks);
 
                 if (anyTasks == false)
                 {

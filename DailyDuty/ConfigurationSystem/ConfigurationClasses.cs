@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dalamud.Game;
 
 namespace DailyDuty.ConfigurationSystem
 {
@@ -24,6 +25,12 @@ namespace DailyDuty.ConfigurationSystem
 
         // Data is state, unknown state
         Unknown
+    }
+
+    public enum FashionReportMode
+    {
+        Single,
+        All
     }
 
     public class Daily
@@ -63,6 +70,14 @@ namespace DailyDuty.ConfigurationSystem
             public int ClaimedTickets = 0;
             public int ClaimedRewards = 0;
             public DateTime NextDrawing = new();
+        }
+
+        public class FashionReportSettings : GenericSettings
+        {
+            public int AllowancesRemaining = 4;
+            public int HighestWeeklyScore = 0;
+            public FashionReportMode Mode = FashionReportMode.Single;
+            public DateTime FashionReportAvailableTime = new();
         }
     }
 }

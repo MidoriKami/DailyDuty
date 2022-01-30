@@ -16,6 +16,7 @@ namespace DailyDuty.System
             WondrousTails,
             CustomDeliveries,
             MiniCactpot,
+            FashionReport,
             JumboCactpot
         }
 
@@ -25,6 +26,7 @@ namespace DailyDuty.System
             {ModuleType.WondrousTails, new WondrousTailsModule()},
             {ModuleType.CustomDeliveries, new CustomDeliveriesModule()},
             {ModuleType.MiniCactpot, new MiniCactpotModule()},
+            {ModuleType.FashionReport, new FashionReportModule()},
             //{ModuleType.JumboCactpot, new JumboCactpotModule()}
         };
 
