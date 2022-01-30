@@ -80,7 +80,6 @@ namespace DailyDuty.System.Modules
 
             if (exchangeStarted == false)
             {
-                Util.PrintDebug("[CustomDelivery] Exchange Started");
                 exchangeStarted = true;
                 lastDeliveryCount = count.Value;
             }
@@ -111,8 +110,6 @@ namespace DailyDuty.System.Modules
             var customDeliveriesSettings = settings.CustomDeliveriesSettings;
 
             customDeliveriesSettings.AllowancesRemaining = 12;
-
-            Service.Configuration.Save();
         }
 
         private uint? GetRemainingDeliveriesCount()
