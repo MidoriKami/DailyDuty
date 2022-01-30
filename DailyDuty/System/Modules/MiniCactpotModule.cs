@@ -62,8 +62,6 @@ namespace DailyDuty.System.Modules
             var miniCactpot = settings.MiniCactpotSettings;
 
             miniCactpot.TicketsRemaining = 3;
-
-            Service.Configuration.Save();
         }
 
         public override void DoWeeklyReset(Configuration.CharacterSettings settings)
