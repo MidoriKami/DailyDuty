@@ -7,9 +7,11 @@ using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Game;
 using Dalamud.Logging;
+using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
+#pragma warning disable CS0649
 
 namespace DailyDuty.System.Modules
 {
@@ -53,12 +55,15 @@ namespace DailyDuty.System.Modules
         private uint lastDutyInstanceID = 0;
         private bool lastInstanceWasDuty = false;
 
+        [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
         private readonly WondrousTails* wondrousTailsBasePointer;
 
         public WondrousTailsModule()
         {
-            var scanner = new SigScanner();
-            wondrousTailsBasePointer = (WondrousTails*) scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18");
+            SignatureHelper.Initialise(this);
+
+            //var scanner = new SigScanner();
+            //wondrousTailsBasePointer = (WondrousTails*) scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18");
 
             Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
         }
