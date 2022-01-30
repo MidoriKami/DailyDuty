@@ -28,28 +28,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DisplayData()
         {
-            ImGui.Text("Remaining Allowances:");
-            ImGui.SameLine();
-            ImGui.Text($"{Settings.AllowancesRemaining}");
+            NumericDisplay("Remaining Allowances", Settings.AllowancesRemaining);
 
+            NumericDisplay("Highest Score This Week", Settings.HighestWeeklyScore);
 
-            ImGui.Text("Highest Score This Week:");
-            ImGui.SameLine();
-            ImGui.Text($"{Settings.HighestWeeklyScore}");
-
-            ImGui.Text("Time Until Fashion Report:");
-            ImGui.SameLine();
-
-            var timeSpan = FashionReportModule.TimeUntilFashionReport();
-
-            if (timeSpan == TimeSpan.Zero)
-            {
-                ImGui.TextColored(new(0, 255, 0, 255), $" {timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}");
-            }
-            else
-            {
-                ImGui.Text($" {timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}");
-            }
+            TimeSpanDisplay("Time Until Fashion Report", FashionReportModule.TimeUntilFashionReport() );
         }
 
         protected override void DisplayOptions()

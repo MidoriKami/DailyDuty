@@ -19,7 +19,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DisplayData()
         {
-            ImGui.Text($"Remaining Allowances:\t{Settings.AllowancesRemaining}");
+            NumericDisplay("Remaining Allowances", Settings.AllowancesRemaining);
         }
 
         protected override void DisplayOptions()
@@ -28,18 +28,9 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-            ImGui.Text("Manually Set Allowances Remaining");
-            ImGui.Spacing();
+            Text("Manually Set Allowances Remaining");
 
-            ImGui.Text("Allowances:");
-
-            ImGui.SameLine();
-
-            ImGui.PushItemWidth(30 *ImGuiHelpers.GlobalScale);
-            ImGui.InputInt($"##{CategoryString}", ref Settings.AllowancesRemaining, 0, 0);
-            ImGui.PopItemWidth();
-
-            ImGui.Spacing();
+            EditNumberField("Allowances",ref Settings.AllowancesRemaining);
         }
 
         protected override void NotificationOptions()

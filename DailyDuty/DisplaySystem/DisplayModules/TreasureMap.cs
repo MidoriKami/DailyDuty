@@ -41,7 +41,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         protected override void DisplayData()
         {
             DisplayLastMapCollectedTime();
-            TimeUntilNextMap();
+
+            TimeSpanDisplay("Time Until Next Map", TreasureMapModule.TimeUntilNextMap());
         }
 
         protected override void DisplayOptions()
@@ -50,7 +51,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void EditModeOptions()
         {
-
             ImGui.Text("Manually Reset Map Timer");
 
             if (ImGui.Button($"Reset##{CategoryString}", ImGuiHelpers.ScaledVector2(75, 25)))
@@ -64,39 +64,13 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
             OnLoginReminderCheckbox(Settings);
             OnTerritoryChangeCheckbox(Settings);
-            DrawNotifyOnMapCollectionCheckBox();
-            DrawHarvestableMapNotificationCheckbox();
+
+            NotificationField("Map Acquisition Notification", ref Settings.NotifyOnAcquisition, "Confirm Map Acquisition with a chat message.");
+            NotificationField("Harvestable Map Notification", ref Settings.HarvestableMapNotification, "Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
+
             DrawMinimumMapLevelComboBox();
         }
         
-        private void DrawHarvestableMapNotificationCheckbox()
-        {
-            ImGui.Checkbox("Harvestable Map Notification", ref Settings.HarvestableMapNotification);
-            ImGuiComponents.HelpMarker("Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
-        }
-
-        private void DrawNotifyOnMapCollectionCheckBox()
-        {
-            ImGui.Checkbox("Map Acquisition Notification", ref Settings.NotifyOnAcquisition);
-            ImGuiComponents.HelpMarker("Confirm Map Acquisition with a chat message.");
-        }
-
-        private static void TimeUntilNextMap()
-        {
-            var timeSpan = TreasureMapModule.TimeUntilNextMap();
-            ImGui.Text("Time Until Next Map:");
-            ImGui.SameLine();
-
-            if (timeSpan == TimeSpan.Zero)
-            {
-                ImGui.TextColored(new(0, 255, 0, 255), $" {timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}");
-            }
-            else
-            {
-                ImGui.Text($" {timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}");
-            }
-        }
-
         private void DisplayLastMapCollectedTime()
         {
             ImGui.Text("Last Map Collected:");
@@ -124,7 +98,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                     {
                         SelectedMinimumMapLevel = element;
                         Settings.MinimumMapLevel = SelectedMinimumMapLevel;
-                        Service.Configuration.Save();
                     }
 
                     if (isSelected)

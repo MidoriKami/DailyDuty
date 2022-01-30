@@ -17,43 +17,15 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         protected override void DisplayData()
         {
-            ImGui.Text($"Tickets Remaining: {Settings.UnclaimedTickets}");
+            NumericDisplay("Tickets Remaining", Settings.UnclaimedTickets);
 
-            ImGui.Text($"Claimed Tickets: {Settings.ClaimedTickets}");
+            NumericDisplay("Claimed Tickets", Settings.ClaimedTickets);
 
-            ImGui.Text($"Claimed Rewards: {Settings.ClaimedRewards}");
+            NumericDisplay("Claimed Rewards", Settings.ClaimedRewards);
 
-            DisplayTimeUntilNextDrawing();
+            DaysTimeSpanDisplay("Time Until Next Drawing", TimeUntilNextDrawing());
         }
-
-        private void DisplayTimeUntilNextDrawing()
-        {
-            var delta = TimeUntilNextDrawing();
-
-            ImGui.Text("Time Until Next Drawing:");
-            ImGui.SameLine();
-
-            string daysDisplay = "";
-
-            if (delta.Days == 1)
-            {
-                daysDisplay = $"{delta.Days} day, ";
-            }
-            else if (delta.Days > 1)
-            {
-                daysDisplay = $"{delta.Days} days, ";
-            }
-
-            if (delta == TimeSpan.Zero)
-            {
-                ImGui.TextColored(new(0, 255, 0, 255), $"{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
-            }
-            else
-            {
-                ImGui.Text($"{daysDisplay}{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
-            }
-        }
-
+        
         protected override void DisplayOptions()
         {
         }

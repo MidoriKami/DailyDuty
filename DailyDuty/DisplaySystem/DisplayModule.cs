@@ -80,7 +80,7 @@ namespace DailyDuty.DisplaySystem
 
         protected void EditNumberField(string label, ref int refValue)
         {
-            ImGui.Text(label);
+            ImGui.Text(label + ":");
 
             ImGui.SameLine();
 
@@ -97,6 +97,57 @@ namespace DailyDuty.DisplaySystem
             {
                 ImGuiComponents.HelpMarker(helpText);
             }
+        }
+
+        protected void NumericDisplay(string label, int value)
+        {
+            ImGui.Text(label + ":");
+            ImGui.SameLine();
+            ImGui.Text($"{value}");
+        }
+
+        // HH:MM:SS
+        protected void TimeSpanDisplay(string label, TimeSpan span)
+        {
+            ImGui.Text(label + ":");
+            ImGui.SameLine();
+            
+            if (span == TimeSpan.Zero)
+            {
+                ImGui.TextColored(new(0, 255, 0, 255), $" {span.Hours:00}:{span.Minutes:00}:{span.Seconds:00}");
+            }
+            else
+            {
+                ImGui.Text($" {span.Hours:00}:{span.Minutes:00}:{span.Seconds:00}");
+            }
+        }
+
+        protected void DaysTimeSpanDisplay(string label, TimeSpan delta)
+        {
+            ImGui.Text(label + ":");
+            ImGui.SameLine();
+
+            var daysDisplay = delta.Days switch
+            {
+                1 => $"{delta.Days} day, ",
+                > 1 => $"{delta.Days} days, ",
+                _ => ""
+            };
+
+            if (delta == TimeSpan.Zero)
+            {
+                ImGui.TextColored(new(0, 255, 0, 255), $"{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+            }
+            else
+            {
+                ImGui.Text($"{daysDisplay}{delta.Hours:00}:{delta.Minutes:00}:{delta.Seconds:00}");
+            }
+        }
+
+        protected void Text(string text)
+        {
+            ImGui.Text(text);
+            ImGui.Spacing();
         }
     }
 }
