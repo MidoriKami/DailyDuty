@@ -77,5 +77,26 @@ namespace DailyDuty.DisplaySystem
             ImGui.Checkbox($"Zone Change Reminder##{CategoryString}", ref settings.TerritoryChangeReminder);
             ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete.");
         }
+
+        protected void EditNumberField(string label, ref int refValue)
+        {
+            ImGui.Text(label);
+
+            ImGui.SameLine();
+
+            ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
+            ImGui.InputInt($"##{label}{CategoryString}", ref refValue, 0, 0);
+            ImGui.PopItemWidth();
+        }
+
+        protected void NotificationField(string label, ref bool refValue, string helpText = "")
+        {
+            ImGui.Checkbox($"{label}##{CategoryString}", ref refValue);
+
+            if (helpText != string.Empty)
+            {
+                ImGuiComponents.HelpMarker(helpText);
+            }
+        }
     }
 }
