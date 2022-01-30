@@ -34,7 +34,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                ImGui.Checkbox($"Enable Edit Mode##{CategoryString}", ref EditModeEnabled);
+                ImGui.Checkbox($"Enable Temporary Edit Mode##{CategoryString}", ref EditModeEnabled);
                 ImGuiComponents.HelpMarker("Allows you to manually correct the values stored in each of Daily/Weekly tabs.\n" +
                                            "Edit Mode automatically disables when you close this window.\n" +
                                            "Only use Edit Mode to correct errors in other tabs.");
