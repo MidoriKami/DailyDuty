@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.ConfigurationSystem;
+using DailyDuty.System.Utilities;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Util = DailyDuty.System.Utilities.Util;
@@ -10,65 +11,158 @@ namespace DailyDuty.System.Modules
     {
         private Weekly.JumboCactpotSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].JumboCactpotSettings;
         
-        private bool exchangeStarted = false;
+        private bool buyingTicketExchangeStarted = false;
+        private bool claimingRewardExchangeStarted = false;
 
         public override void UpdateSlow()
         {
+            UpdateDatacenter();
+
+            CheckForWeeklyReset();
+
+            CheckForBuyingTicket();
+
+            CheckForClaimingReward();
+        }
+
+        private void UpdateDatacenter()
+        {
+            var dataCenter = Service.ClientState.LocalPlayer?.HomeWorld.GameData?.DataCenter.Row;
+            if (dataCenter == null) return;
+
+            // If datacenter is default, or different than last time
+            if (Settings.Datacenter == 0 || Settings.Datacenter != dataCenter.Value)
+            {
+                Settings.Datacenter = dataCenter.Value;
+            }
+        }
+
+        private void CheckForBuyingTicket()
+        {
             if (GetJumboCactpotPointer() != null)
             {
-                if (exchangeStarted == false)
+                if (buyingTicketExchangeStarted == false)
                 {
-                    exchangeStarted = true;
+                    buyingTicketExchangeStarted = true;
                 }
             }
-            else if (exchangeStarted == true)
+            else
             {
-                var datacenter = Util.GetPlayerDatacenterID();
-
-                if (datacenter != null)
+                if (buyingTicketExchangeStarted == true)
                 {
-                    exchangeStarted = false;
+                    buyingTicketExchangeStarted = false;
                     Settings.UnclaimedTickets -= 1;
-                    Settings.ClaimedTickets += 1;
-                    Settings.NextDrawing = GetDrawingTimeFromDataCenterID(datacenter.Value);
+
+                    if(Settings.UnclaimedTickets < 0)
+                        Settings.UnclaimedTickets = 0;
+
                     Service.Configuration.Save();
                 }
             }
         }
 
-
-        protected override void OnLoginDelayed()
+        private void CheckForClaimingReward()
         {
-            if (Settings.Enabled)
+            if (GetRewardWindowPointer() != null)
             {
-                if (Settings.UnclaimedTickets > 0)
+                if (claimingRewardExchangeStarted == false)
                 {
-                    DisplayRemainingAllowances();
+                    claimingRewardExchangeStarted = true;
                 }
-                else if (Settings.ClaimedTickets > 0 && DateTime.UtcNow > Settings.NextDrawing)
+            }
+            else
+            {
+                if (claimingRewardExchangeStarted == true)
                 {
-                    DisplayDrawingAvailable();
+                    claimingRewardExchangeStarted = false;
+                    Settings.UnclaimedRewards -= 1;
+
+                    if(Settings.UnclaimedRewards < 0)
+                        Settings.UnclaimedRewards = 0;
+
+                    Service.Configuration.Save();
                 }
             }
         }
 
-        private void DisplayDrawingAvailable()
+        private void CheckForWeeklyReset()
         {
-            Util.PrintJumboCactpot($"Claimed Tickets: {Settings.ClaimedTickets}");
+            // Is it after the saved reset?
+            if (DateTime.UtcNow > Settings.NextDrawing)
+            {
+                // Is it more than a week after saved reset?
+                if (DateTime.UtcNow > Settings.NextDrawing.AddDays(7))
+                {
+                    foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
+                    {
+                        var jumboCactpotSettings = settings.JumboCactpotSettings;
+
+                        jumboCactpotSettings.NextDrawing = GetDrawingTimeFromDataCenterID(jumboCactpotSettings.Datacenter);
+                        jumboCactpotSettings.UnclaimedRewards = 0;
+                        jumboCactpotSettings.UnclaimedTickets = 0;
+                    }
+                }
+                else
+                {
+                    foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
+                    {
+                        var jumboCactpotSettings = settings.JumboCactpotSettings;
+
+                        jumboCactpotSettings.NextDrawing = GetDrawingTimeFromDataCenterID(jumboCactpotSettings.Datacenter);
+                        jumboCactpotSettings.UnclaimedRewards = 3 - jumboCactpotSettings.UnclaimedTickets;
+                        jumboCactpotSettings.UnclaimedTickets = 0;
+                    }
+                }
+
+                Service.Configuration.Save();
+            }
         }
 
-        private void PrintAvailableRewards()
+        protected override void OnLoginDelayed()
         {
-            Util.PrintJumboCactpot($"Claimed Rewards: {Settings.ClaimedRewards}");
+            if (Settings.Enabled && Settings.LoginReminder)
+            {
+                if (Settings.UnclaimedTickets > 0)
+                {
+                    DisplayAllowancesAvailable();
+                }
+                else if (Settings.UnclaimedRewards > 0)
+                {
+                    DisplayRewardsAvailable();
+                }
+            }
+        }
+
+        private void DisplayAllowancesAvailable()
+        {
+            Util.PrintJumboCactpot($"Tickets Remaining: {Settings.UnclaimedTickets}");
+        }
+
+        private void DisplayRewardsAvailable()
+        {
+            Util.PrintJumboCactpot($"Rewards Remaining: {Settings.UnclaimedRewards}");
         }
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
+            if (ConditionManager.IsBoundByDuty() == true) return;
+
+            if (Settings.Enabled && Settings.TerritoryChangeReminder)
+            {
+                if (Settings.UnclaimedTickets > 0)
+                {
+                    DisplayAllowancesAvailable();
+                }
+                else if (Settings.UnclaimedRewards > 0)
+                {
+                    DisplayRewardsAvailable();
+                }
+            }
         }
 
         public override bool IsCompleted()
         {
-            if (TimeUntilNextDrawing() == TimeSpan.Zero && Settings.ClaimedRewards != 3)
+            if (TimeUntilNextDrawing() == TimeSpan.Zero && Settings.UnclaimedRewards != 3)
             {
                 return false;
             }
@@ -87,11 +181,7 @@ namespace DailyDuty.System.Modules
 
         public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
-            var jumboCactpot = settings.JumboCactpotSettings;
-
-            jumboCactpot.ClaimedTickets = 0;
-            jumboCactpot.UnclaimedTickets = 3;
-            jumboCactpot.NextDrawing = new();
+            // Not Aligned to Weekly Reset
         }
 
         private AtkUnitBase* GetJumboCactpotPointer()
@@ -99,11 +189,11 @@ namespace DailyDuty.System.Modules
             return (AtkUnitBase*) Service.GameGui.GetAddonByName("LotteryWeeklyInput", 1);
         }
 
-        private void DisplayRemainingAllowances()
+        private AtkUnitBase* GetRewardWindowPointer()
         {
-            Util.PrintJumboCactpot($"Tickets Remaining: {Settings.UnclaimedTickets}");
+            return (AtkUnitBase*) Service.GameGui.GetAddonByName("LotteryWeeklyRewardList", 1);
         }
-
+        
         private DateTime GetDrawingTimeFromDataCenterID(uint datacenter)
         {
             switch (datacenter)
@@ -135,21 +225,21 @@ namespace DailyDuty.System.Modules
                     return Util.GetDateOfNextWeekday(DayOfWeek.Saturday).AddHours(9);
             }
 
-            PluginLog.Error("[Util] Unable to determine DataCenter");
+            PluginLog.Error($"[Util] Unable to determine DataCenter: {datacenter}");
             return new();
         }
 
         private TimeSpan TimeUntilNextDrawing()
         {
-            var nextMapTime = Settings.NextDrawing;
+            var nextDrawing = Settings.NextDrawing;
 
-            if (DateTime.UtcNow >= nextMapTime)
+            if (DateTime.UtcNow >= nextDrawing)
             {
                 return TimeSpan.Zero;
             }
             else
             {
-                return nextMapTime - DateTime.UtcNow;
+                return nextDrawing - DateTime.UtcNow;
             }
         }
     }

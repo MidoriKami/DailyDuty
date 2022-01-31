@@ -66,9 +66,9 @@ namespace DailyDuty.ConfigurationSystem
 
         public class JumboCactpotSettings : GenericSettings
         {
+            public uint Datacenter = 0;
             public int UnclaimedTickets = 3;
-            public int ClaimedTickets = 0;
-            public int ClaimedRewards = 0;
+            public int UnclaimedRewards = 0;
             public DateTime NextDrawing = new();
         }
 

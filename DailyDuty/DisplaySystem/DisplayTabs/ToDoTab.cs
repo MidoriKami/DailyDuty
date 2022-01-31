@@ -119,11 +119,11 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     "Custom Delivery",
                     ref anyTasks);
 
-                //DrawTaskConditionally(
-                //    ModuleManager.ModuleType.JumboCactpot,
-                //    SettingsBase.JumboCactpotSettings,
-                //    "Jumbo Cactpot",
-                //    ref anyTasks);
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.JumboCactpot,
+                    SettingsBase.JumboCactpotSettings,
+                    "Jumbo Cactpot",
+                    ref anyTasks);
 
                 DrawTaskConditionally(
                     ModuleManager.ModuleType.FashionReport,
