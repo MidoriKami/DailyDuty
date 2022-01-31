@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Logging;
@@ -87,34 +88,37 @@ namespace DailyDuty.System.Modules
 
         private void CheckForWeeklyReset()
         {
-            // Is it after the saved reset?
-            if (DateTime.UtcNow > Settings.NextDrawing)
+            if (Service.LoggedIn == true)
             {
-                // Is it more than a week after saved reset?
-                if (DateTime.UtcNow > Settings.NextDrawing.AddDays(7))
+                // Is it after the saved reset?
+                if (DateTime.UtcNow > Settings.NextDrawing)
                 {
-                    foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
+                    // Is it more than a week after saved reset?
+                    if (DateTime.UtcNow > Settings.NextDrawing.AddDays(7))
                     {
-                        var jumboCactpotSettings = settings.JumboCactpotSettings;
+                        foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
+                        {
+                            var jumboCactpotSettings = settings.JumboCactpotSettings;
 
-                        jumboCactpotSettings.NextDrawing = GetDrawingTimeFromDataCenterID(jumboCactpotSettings.Datacenter);
-                        jumboCactpotSettings.UnclaimedRewards = 0;
-                        jumboCactpotSettings.UnclaimedTickets = 0;
+                            jumboCactpotSettings.NextDrawing = GetDrawingTimeFromDataCenterID(jumboCactpotSettings.Datacenter);
+                            jumboCactpotSettings.UnclaimedRewards = 0;
+                            jumboCactpotSettings.UnclaimedTickets = 0;
+                        }
                     }
-                }
-                else
-                {
-                    foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
+                    else
                     {
-                        var jumboCactpotSettings = settings.JumboCactpotSettings;
+                        foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
+                        {
+                            var jumboCactpotSettings = settings.JumboCactpotSettings;
 
-                        jumboCactpotSettings.NextDrawing = GetDrawingTimeFromDataCenterID(jumboCactpotSettings.Datacenter);
-                        jumboCactpotSettings.UnclaimedRewards = 3 - jumboCactpotSettings.UnclaimedTickets;
-                        jumboCactpotSettings.UnclaimedTickets = 0;
+                            jumboCactpotSettings.NextDrawing = GetDrawingTimeFromDataCenterID(jumboCactpotSettings.Datacenter);
+                            jumboCactpotSettings.UnclaimedRewards = 3 - jumboCactpotSettings.UnclaimedTickets;
+                            jumboCactpotSettings.UnclaimedTickets = 0;
+                        }
                     }
-                }
 
-                Service.Configuration.Save();
+                    Service.Configuration.Save();
+                }
             }
         }
 
