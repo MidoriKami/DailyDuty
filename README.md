@@ -12,6 +12,9 @@
       - [Duty Start Notification](#duty-start-notification)
       - [Duty End Notification](#duty-end-notification)
       - [Reroll Alert](#reroll-alert)
+    + [Jumbo Cactpot](#jumbo-cactpot)
+    + [Fashion Report](#fashion-report)
+      - [Notification Mode](#notification-mode)
 
 
 # DailyDuty
@@ -86,3 +89,20 @@ When completing a duty that you can claim for a sticker, once you leave the duty
 When changing zones, if reroll alert is on, and you are at 9 Second-Chance points, a message suggesting you should shuffle your stickers will be displayed. This is for those that want the best chance at getting 3-lines!
 
 _Recommended companion plugin: ezWondrousTails by daemitus._
+
+### Jumbo Cactpot
+Automatically tracks Jumbo Cactpot tickets and available rewards.
+
+(_Known Bug: If the ticket claim window is closed before completing a ticket purchase, it is still tracked as having been purchased use Temporary Edit Mode to correct_)
+
+![image](https://user-images.githubusercontent.com/9083275/151743514-8e4fc1c1-5d55-46a6-84c8-c34f51258f1a.png)
+
+### Fashion Report
+Automatically track Fashion Report turnins.
+
+![image](https://user-images.githubusercontent.com/9083275/151743564-e950844f-1b83-454a-89df-876bc32222c7.png)
+
+#### Notification Mode
+`Single` Will only alert you if you haven't spent **any** of your available allowances. This is intended for people that just want the easy 10,000 MGP each week.
+
+`All` Will alert you until you have spent **all** of your available allowances. This is intended for people that want to change up their style and get a higher score.
