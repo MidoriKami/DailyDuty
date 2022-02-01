@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
@@ -22,6 +24,8 @@ namespace DailyDuty.System.Modules
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private EliteHuntStruct* huntData;
 
+        private Stopwatch delayStopwatch = new();
+
         public EliteHuntsModule()
         {
             SignatureHelper.Initialise(this);
@@ -29,6 +33,22 @@ namespace DailyDuty.System.Modules
 
         public override void UpdateSlow()
         {
+            if (Settings.Enabled == false) return;
+
+            Util.UpdateDelayed(delayStopwatch, TimeSpan.FromSeconds(5), UpdateHuntObtain );
+        }
+
+        private void UpdateHuntObtain()
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                var huntStatus = huntData->GetStatus(Settings.EliteHunts[i].Item1);
+
+                if (huntStatus.Obtained == true && Settings.EliteHunts[i].Item3 == false)
+                {
+                    Settings.EliteHunts[i].Item3 = true;
+                }
+            }
         }
 
         protected override void OnLoginDelayed()
@@ -62,7 +82,10 @@ namespace DailyDuty.System.Modules
 
         public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
-
+            for (int i = 0; i < 5; ++i)
+            {
+                Settings.EliteHunts[i].Item3 = false;
+            }
         }
 
         private void DisplayNotification()
@@ -82,11 +105,11 @@ namespace DailyDuty.System.Modules
         {
             int count = 0;
 
-            foreach (var (expansion, enabled) in Settings.EliteHunts)
+            foreach (var (expansion, enabled, active) in Settings.EliteHunts)
             {
                 var huntStatus = huntData->GetStatus(expansion);
 
-                if (enabled && huntStatus.Obtained == false)
+                if (enabled && huntStatus.Obtained == false && active == false)
                     count++;
             }
 
@@ -97,11 +120,11 @@ namespace DailyDuty.System.Modules
         {
             int count = 0;
 
-            foreach (var (expansion, enabled) in Settings.EliteHunts)
+            foreach (var (expansion, enabled, active) in Settings.EliteHunts)
             {
                 var huntStatus = huntData->GetStatus(expansion);
 
-                if (enabled && huntStatus.Killed == false && huntStatus.Obtained == true)
+                if (enabled && huntStatus.Killed == false && huntStatus.Obtained == true && active)
                     count++;
             }
 

@@ -77,13 +77,13 @@ namespace DailyDuty.ConfigurationSystem
                 settings.JumboCactpotSettings ??= new();
                 settings.FashionReportSettings ??= new();
                 settings.EliteHuntSettings ??= new();
-                settings.EliteHuntSettings.EliteHunts ??= new (EliteHuntEnum, bool)[5]
+                settings.EliteHuntSettings.EliteHunts ??= new (EliteHuntEnum, bool, bool)[5]
                 {
-                    new(EliteHuntEnum.RealmReborn, false),
-                    new(EliteHuntEnum.Heavensward, false),
-                    new(EliteHuntEnum.Stormblood, false),
-                    new(EliteHuntEnum.Shadowbringers, false),
-                    new(EliteHuntEnum.Endwalker, false)
+                    new(EliteHuntEnum.RealmReborn, false, false),
+                    new(EliteHuntEnum.Heavensward, false, false),
+                    new(EliteHuntEnum.Stormblood, false, false),
+                    new(EliteHuntEnum.Shadowbringers, false, false),
+                    new(EliteHuntEnum.Endwalker, false, false)
                 };
             }
 

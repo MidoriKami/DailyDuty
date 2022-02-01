@@ -39,15 +39,41 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             for (int i = 0; i < 5; ++i)
             {
-                var status = Settings.EliteHunts[i].Item1;
-                ref var track = ref Settings.EliteHunts[i].Item2;
+                var data = Settings.EliteHunts[i];
 
-                DrawRow(status, ref track);
+                var status = data.Item1;
+                ref var track = ref data.Item2;
+                var active = data.Item3;
+
+                DrawRow(status, ref track, active);
             }
         }
 
         protected override void EditModeOptions()
         {
+            if (ImGui.BeginTable($"##EditTable{CategoryString}", 3))
+            {
+                for (int i = 0; i < 5; ++i)
+                {
+                    var label = Settings.EliteHunts[i].Item1.ToString();
+
+                    ImGui.TableNextColumn();
+                    ImGui.Text(label);
+
+                    ImGui.TableNextColumn();
+                    if (ImGui.Button($"Mark Complete##{label}{CategoryString}", ImGuiHelpers.ScaledVector2(100, 25)))
+                    {
+                        Settings.EliteHunts[i].Item3 = true;
+                        Service.Configuration.Save();
+                    }
+
+                    ImGui.TableNextColumn();
+                }
+
+                ImGui.EndTable();
+            }
+
+
         }
 
         protected override void NotificationOptions()
@@ -61,11 +87,11 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
         }
 
-        private void DisplayStatus(string label, HuntStatus status)
+        private void DisplayStatus(string label, HuntStatus status, bool active)
         {
             if (ImGui.BeginTable($"##{label}{CategoryString}", 3 ))
             {
-                if (status.Obtained == true)
+                if (active)
                 {
                     ImGui.TableNextColumn();
                     ImGui.Text(label);
@@ -81,15 +107,13 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                     ImGui.Text(label);
 
                     ImGui.TableNextColumn();
-                    DrawConditionalText(status.Obtained, "", "Elite Mark Available");
+                    DrawConditionalText(false, "", "Elite Mark Available");
 
                     ImGui.TableNextColumn();
                 }
 
-
                 ImGui.EndTable();
             }
-
         }
 
         private static void DrawConditionalText(bool condition, string trueString, string falseString)
@@ -104,13 +128,13 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             }
         }
 
-        private void DrawRow(EliteHuntEnum status, ref bool track)
+        private void DrawRow(EliteHuntEnum status, ref bool track, bool active)
         {
             ImGui.Checkbox($"##{status.ToString()}{CategoryString}", ref track);
 
             ImGui.SameLine();
 
-            DisplayStatus($"{status.ToString()}", HuntData->GetStatus(status));
+            DisplayStatus($"{status.ToString()}", HuntData->GetStatus(status), active);
         }
     }
 }
