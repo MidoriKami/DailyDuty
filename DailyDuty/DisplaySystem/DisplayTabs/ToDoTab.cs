@@ -64,10 +64,6 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             {
             }
 
-            protected override void DisplayOptions()
-            {
-            }
-
             private void DrawDailyTasks()
             {
                 ImGui.Text("Daily Tasks");
@@ -129,6 +125,12 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                     ModuleManager.ModuleType.FashionReport,
                     SettingsBase.FashionReportSettings,
                     "Fashion Report",
+                    ref anyTasks);
+
+                DrawTaskConditionally(
+                    ModuleManager.ModuleType.EliteHunts,
+                    SettingsBase.EliteHuntSettings,
+                    "Elite Hunts",
                     ref anyTasks);
 
                 if (anyTasks == false)

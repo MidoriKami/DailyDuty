@@ -17,7 +17,8 @@ namespace DailyDuty.System
             CustomDeliveries,
             MiniCactpot,
             FashionReport,
-            JumboCactpot
+            JumboCactpot,
+            EliteHunts
         }
 
         private readonly Dictionary<ModuleType, Module> modules = new()
@@ -27,7 +28,8 @@ namespace DailyDuty.System
             {ModuleType.CustomDeliveries, new CustomDeliveriesModule()},
             {ModuleType.MiniCactpot, new MiniCactpotModule()},
             {ModuleType.FashionReport, new FashionReportModule()},
-            {ModuleType.JumboCactpot, new JumboCactpotModule()}
+            {ModuleType.JumboCactpot, new JumboCactpotModule()},
+            {ModuleType.EliteHunts, new EliteHuntsModule()}
         };
 
         public void Update()

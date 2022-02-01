@@ -32,11 +32,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             NumericDisplay("Highest Score This Week", Settings.HighestWeeklyScore);
 
-            TimeSpanDisplay("Time Until Fashion Report", FashionReportModule.TimeUntilFashionReport() );
-        }
-
-        protected override void DisplayOptions()
-        {
+            DaysTimeSpanDisplay("Time Until Fashion Report", FashionReportModule.TimeUntilFashionReport() );
         }
 
         protected override void EditModeOptions()

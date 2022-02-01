@@ -21,10 +21,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             NumericDisplay("Tickets Remaining", Settings.TicketsRemaining);
         }
 
-        protected override void DisplayOptions()
-        {
-        }
-
         protected override void EditModeOptions()
         {
             EditNumberField("Override Ticket Count", ref Settings.TicketsRemaining);

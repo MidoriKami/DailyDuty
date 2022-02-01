@@ -44,11 +44,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             TimeSpanDisplay("Time Until Next Map", TreasureMapModule.TimeUntilNextMap());
         }
-
-        protected override void DisplayOptions()
-        {
-        }
-
+        
         protected override void EditModeOptions()
         {
             ImGui.Text("Manually Reset Map Timer");

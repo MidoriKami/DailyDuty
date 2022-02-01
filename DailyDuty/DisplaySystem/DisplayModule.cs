@@ -39,10 +39,6 @@ namespace DailyDuty.DisplaySystem
                 }
 
                 NotificationOptions();
-                ImGui.Spacing();
-
-                DisplayOptions();
-
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
@@ -50,7 +46,6 @@ namespace DailyDuty.DisplaySystem
         }
 
         protected abstract void DisplayData();
-        protected abstract void DisplayOptions();
         protected abstract void EditModeOptions();
         protected abstract void NotificationOptions();
 

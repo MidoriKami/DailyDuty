@@ -130,7 +130,7 @@ namespace DailyDuty.System.Modules
             {
                 var availableDateTime = Util.NextWeeklyReset().AddDays(-4);
 
-                return DateTime.UtcNow - availableDateTime;
+                return availableDateTime - DateTime.UtcNow;
             }
         }
 

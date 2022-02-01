@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using DailyDuty.ConfigurationSystem;
+using DailyDuty.Data;
 using DailyDuty.System.Utilities;
 using Dalamud.Game;
 using Dalamud.Logging;
@@ -17,38 +18,6 @@ namespace DailyDuty.System.Modules
 {
     internal unsafe class WondrousTailsModule : Module
     {
-        [StructLayout(LayoutKind.Explicit)]
-        public struct WondrousTails
-        {
-            [FieldOffset(0x06)]
-            public fixed byte Tasks[16];
-
-            [FieldOffset(0x16)]
-            public uint Rewards;
-
-            [FieldOffset(0x1A)]
-            private readonly ushort _stickers;
-
-            public int Stickers
-                => CountSetBits(_stickers);
-
-            [FieldOffset(0x1E)]
-            public readonly byte CurrentBookWeek;
-
-            [FieldOffset(0x20)]
-            private readonly ushort _secondChance;
-
-            public int SecondChance
-                => (_secondChance >> 7) & 0b1111;
-
-            [FieldOffset(0x22)] 
-            private fixed byte _taskStatus[4];
-
-            public ButtonState TaskStatus(int idx)
-                => (ButtonState) ((_taskStatus[idx >> 2] >> ((idx & 0b11) * 2)) & 0b11);
-        }
-
-
         protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
         private readonly Stopwatch delayStopwatch = new();
 
@@ -70,11 +39,20 @@ namespace DailyDuty.System.Modules
 
         protected override void OnLoginDelayed()
         {
+            if (Settings.NewBookNotification)
+            {
+                NewBookNotification();
+            }
         }
 
         protected override void OnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
+
+            if (Settings.NewBookNotification)
+            {
+                NewBookNotification();
+            }
 
             if (ConditionManager.IsBoundByDuty() && Settings.InstanceStartNotification == true && !IsWondrousTailsBookComplete())
             {
@@ -154,7 +132,30 @@ namespace DailyDuty.System.Modules
             if (Settings.NumPlacedStickers != numStickers)
             {
                 Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
+                Settings.CompletionDate = DateTime.UtcNow;
+                Settings.WeeklyKey = wondrousTailsBasePointer->WeeklyKey;
                 Service.Configuration.Save();
+            }
+        }
+
+        private void NewBookNotification()
+        {
+            // If we haven't set the key yet, set it.
+            if (Settings.WeeklyKey == 0)
+            {
+                Settings.WeeklyKey = wondrousTailsBasePointer->WeeklyKey;
+                Settings.CompletionDate = DateTime.UtcNow;
+                Service.Configuration.Save();
+            }
+
+            // If the completion time is before the previous reset
+            if (Settings.CompletionDate < Util.NextWeeklyReset().AddDays(-7))
+            {
+                // And we are still using the old key
+                if (Settings.WeeklyKey == wondrousTailsBasePointer->WeeklyKey)
+                {
+                    Util.PrintWondrousTails("A new Wondrous Tails Book is Available!");
+                }
             }
         }
 
@@ -175,18 +176,6 @@ namespace DailyDuty.System.Modules
             }
 
             return result;
-        }
-        
-        private static int CountSetBits(int n)
-        {
-            int count = 0;
-            while (n > 0)
-            {
-                count += n & 1;
-                n >>= 1;
-            }
-
-            return count;
         }
 
         public bool IsWondrousTailsBookComplete()

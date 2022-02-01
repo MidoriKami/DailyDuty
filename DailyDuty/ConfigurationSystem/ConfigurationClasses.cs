@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Data;
+using DailyDuty.DisplaySystem.DisplayModules;
+using DailyDuty.System.Modules;
 using Dalamud.Game;
 
 namespace DailyDuty.ConfigurationSystem
@@ -11,28 +14,13 @@ namespace DailyDuty.ConfigurationSystem
         public bool TerritoryChangeReminder = false;
         public bool LoginReminder = false;
     }
-
-    public enum ButtonState
-    {
-        // Needs instance completion to become available
-        Completable,
-
-        // Can click button to get a stamp right now
-        AvailableNow,
-
-        // Already completed, needs re-roll
-        Unavailable,
-
-        // Data is state, unknown state
-        Unknown
-    }
-
+    
     public enum FashionReportMode
     {
         Single,
         All
     }
-
+    
     public class Daily
     {
         public class TreasureMapSettings : GenericSettings
@@ -57,6 +45,9 @@ namespace DailyDuty.ConfigurationSystem
             public bool InstanceStartNotification = false;
             public bool InstanceEndNotification = false;
             public bool RerollNotification = false;
+            public DateTime CompletionDate = new();
+            public bool NewBookNotification = false;
+            public ushort WeeklyKey = 0;
         }
 
         public class CustomDeliveriesSettings : GenericSettings
@@ -77,7 +68,18 @@ namespace DailyDuty.ConfigurationSystem
             public int AllowancesRemaining = 4;
             public int HighestWeeklyScore = 0;
             public FashionReportMode Mode = FashionReportMode.Single;
-            public DateTime FashionReportAvailableTime = new();
+        }
+
+        public class EliteHuntSettings : GenericSettings
+        {
+            public (EliteHuntEnum, bool)[] EliteHunts = new (EliteHuntEnum, bool)[5]
+            {
+                new(EliteHuntEnum.RealmReborn, false),
+                new(EliteHuntEnum.Heavensward, false),
+                new(EliteHuntEnum.Stormblood, false),
+                new(EliteHuntEnum.Shadowbringers, false),
+                new(EliteHuntEnum.Endwalker, false)
+            };
         }
     }
 }

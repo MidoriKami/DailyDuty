@@ -22,10 +22,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             NumericDisplay("Remaining Allowances", Settings.AllowancesRemaining);
         }
 
-        protected override void DisplayOptions()
-        {
-        }
-
         protected override void EditModeOptions()
         {
             Text("Manually Set Allowances Remaining");

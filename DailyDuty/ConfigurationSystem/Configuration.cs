@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using DailyDuty.Data;
 using Dalamud.Configuration;
+using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Logging;
 using Dalamud.Plugin;
+using Newtonsoft.Json;
 
 namespace DailyDuty.ConfigurationSystem
 {
@@ -13,6 +16,7 @@ namespace DailyDuty.ConfigurationSystem
 
         public DateTime NextDailyReset = new();
         public DateTime NextWeeklyReset = new();
+
         public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
 
         [Serializable]
@@ -25,6 +29,7 @@ namespace DailyDuty.ConfigurationSystem
             public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
             public Weekly.JumboCactpotSettings JumboCactpotSettings = new();
             public Weekly.FashionReportSettings FashionReportSettings = new();
+            public Weekly.EliteHuntSettings EliteHuntSettings = new();
         }
 
         public ulong CurrentCharacter = new();
@@ -40,7 +45,7 @@ namespace DailyDuty.ConfigurationSystem
 #endif
                 CurrentCharacter = newCharacterID;
             }
-            else if(newCharacterID != 0)
+            else
             {
 #if DEBUG
                 PluginLog.Information($"[System] [onLogin] Character Not Found in Map {newCharacterID}, Creating new Entry.");
@@ -71,6 +76,20 @@ namespace DailyDuty.ConfigurationSystem
                 settings.CustomDeliveriesSettings ??= new();
                 settings.JumboCactpotSettings ??= new();
                 settings.FashionReportSettings ??= new();
+                settings.EliteHuntSettings ??= new();
+                settings.EliteHuntSettings.EliteHunts ??= new (EliteHuntEnum, bool)[5]
+                {
+                    new(EliteHuntEnum.RealmReborn, false),
+                    new(EliteHuntEnum.Heavensward, false),
+                    new(EliteHuntEnum.Stormblood, false),
+                    new(EliteHuntEnum.Shadowbringers, false),
+                    new(EliteHuntEnum.Endwalker, false)
+                };
+            }
+
+            if (!CharacterSettingsMap.ContainsKey(0))
+            {
+                CharacterSettingsMap.Add(0, new());
             }
 
             Save();
@@ -78,11 +97,6 @@ namespace DailyDuty.ConfigurationSystem
 
         public void Save()
         {
-            if (CurrentCharacter == 0)
-            {
-                // Don't Save Null Character
-                return;
-            }
 
             pluginInterface!.SavePluginConfig(this);
         }

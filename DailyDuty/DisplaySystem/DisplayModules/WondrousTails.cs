@@ -19,10 +19,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             PrintBookStatus();
         }
 
-        protected override void DisplayOptions()
-        {
-        }
-
         protected override void EditModeOptions()
         {
         }
@@ -35,6 +31,8 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             NotificationField("Reroll Alert", ref Settings.RerollNotification, "When changing zones, send a notification if you have the maximum number of second chance points.\n" +
                                                                                "Useful to re-roll the stickers for a chance at better rewards, while preventing over-capping.");
+
+            NotificationField("New Book Alert", ref Settings.NewBookNotification, "Notify me that a new book is available if I have a completed book.");
 
         }
         

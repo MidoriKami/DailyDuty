@@ -47,10 +47,6 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             {
             }
 
-            protected override void DisplayOptions()
-            {
-            }
-
             protected override void EditModeOptions()
             {
             }

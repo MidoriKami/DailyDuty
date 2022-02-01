@@ -51,10 +51,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             ImGui.PopStyleColor(2);
         }
 
-        protected override void DisplayOptions()
-        {
-        }
-
         protected override void EditModeOptions()
         {
             EditNumberField("Tickets Remaining", ref Settings.UnclaimedTickets);
