@@ -71,13 +71,13 @@ namespace DailyDuty.ConfigurationSystem
                 settings.JumboCactpotSettings ??= new();
                 settings.FashionReportSettings ??= new();
                 settings.EliteHuntSettings ??= new();
-                settings.EliteHuntSettings.EliteHunts ??= new TrackedHunt[5]
+                settings.EliteHuntSettings.TrackedHunts ??= new TrackedHunt[]
                 {
-                    new(EliteHuntExpansionEnum.RealmReborn, false, false),
-                    new(EliteHuntExpansionEnum.Heavensward, false, false),
-                    new(EliteHuntExpansionEnum.Stormblood, false, false),
-                    new(EliteHuntExpansionEnum.Shadowbringers, false, false),
-                    new(EliteHuntExpansionEnum.Endwalker, false, false)
+                    new (EliteHuntExpansionEnum.RealmReborn, false),
+                    new (EliteHuntExpansionEnum.Heavensward, false),
+                    new (EliteHuntExpansionEnum.Stormblood, false),
+                    new (EliteHuntExpansionEnum.Shadowbringers, false),
+                    new (EliteHuntExpansionEnum.Endwalker, false)
                 };
             }
 

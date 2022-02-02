@@ -24,8 +24,6 @@ namespace DailyDuty.System.Modules
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private EliteHuntStruct* huntData;
 
-        private readonly Stopwatch delayStopwatch = new();
-
         public EliteHuntsModule()
         {
             SignatureHelper.Initialise(this);
@@ -33,20 +31,13 @@ namespace DailyDuty.System.Modules
 
         public override void Update()
         {
-            if (Settings.Enabled == false) return;
-
-            Util.UpdateDelayed(delayStopwatch, TimeSpan.FromSeconds(5), UpdateHuntObtain );
-        }
-
-        private void UpdateHuntObtain()
-        {
-            foreach (var hunt in Settings.EliteHunts)
+            foreach (var hunt in Settings.TrackedHunts)
             {
-                var huntStatus = huntData->GetStatus(hunt.Expansion);
+                var obtained = huntData->Obtained(hunt.Expansion);
 
-                if (huntStatus.Obtained == true && hunt.UpdatedThisWeek == false)
+                if (obtained == true)
                 {
-                    hunt.UpdatedThisWeek = true;
+                    hunt.Obtained = true;
                 }
             }
         }
@@ -71,9 +62,7 @@ namespace DailyDuty.System.Modules
 
         public override bool IsCompleted()
         {
-            var unkilled = CountUnkilled();
-
-            return unkilled == 0;
+            return CountUnclaimed() == 0;
         }
 
         public override void DoDailyReset(Configuration.CharacterSettings settings)
@@ -82,49 +71,29 @@ namespace DailyDuty.System.Modules
 
         public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
-            foreach (var hunt in Settings.EliteHunts)
+            foreach (var hunt in Settings.TrackedHunts)
             {
-                hunt.UpdatedThisWeek = false;
+                hunt.Obtained = false;
             }
         }
 
         private void DisplayNotification()
         {
             var unclaimed = CountUnclaimed();
-            var unkilled = CountUnkilled();
 
             if(unclaimed > 0)
                 Util.PrintEliteHunts($"You have {unclaimed} unclaimed elite marks.");
-
-            if(unkilled > 0)
-                Util.PrintEliteHunts($"You have {unkilled} claimed but unkilled elite marks.");
-
         }
 
         private int CountUnclaimed()
         {
             int count = 0;
 
-            foreach (var hunt in Settings.EliteHunts)
+            foreach (var hunt in Settings.TrackedHunts)
             {
-                var huntStatus = huntData->GetStatus(hunt.Expansion);
+                var obtained = huntData->Obtained(hunt.Expansion) || hunt.Obtained;
 
-                if (hunt.Tracked && huntStatus.Obtained == false && hunt.UpdatedThisWeek == false)
-                    count++;
-            }
-
-            return count;
-        }
-
-        private int CountUnkilled()
-        {
-            int count = 0;
-
-            foreach (var hunt in Settings.EliteHunts)
-            {
-                var huntStatus = huntData->GetStatus(hunt.Expansion);
-
-                if (hunt.Tracked && huntStatus.Killed == false && huntStatus.Obtained == true && hunt.UpdatedThisWeek)
+                if (!obtained && hunt.Tracked)
                     count++;
             }
 

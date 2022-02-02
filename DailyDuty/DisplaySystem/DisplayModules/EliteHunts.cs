@@ -8,6 +8,7 @@ using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
@@ -32,29 +33,42 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             CategoryString = "Elite Hunts";
 
             SignatureHelper.Initialise(this);
+
+            PluginLog.Information($"{(IntPtr)HuntData:X8}");
         }
 
         protected override void DisplayData()
         {
-            ImGui.Text("Only the checked lines will be evaluated for notifications" +
-                       "\n( If notifications are enabled )");
+            ImGui.Text("Only the checked lines will be evaluated for notifications");
             ImGui.Spacing();
 
-            foreach (var hunt in Settings.EliteHunts)
+            if (ImGui.BeginTable($"##EditTable{CategoryString}", 2))
             {
+                foreach (var hunt in Settings.TrackedHunts)
+                {
+                    var label = hunt.Expansion.ToString();
 
-                DrawRow(hunt.Expansion, ref hunt.Tracked, hunt.UpdatedThisWeek);
+                    ImGui.TableNextColumn();
+                    ImGui.Checkbox($"##{hunt.Expansion}{CategoryString}", ref hunt.Tracked);
+                    ImGui.SameLine();
+                    ImGui.Text(label);
+
+                    ImGui.TableNextColumn();
+                    DrawConditionalText(HuntData->Obtained(hunt.Expansion) || hunt.Obtained, "Mark Obtained", "Hunt Mark Available");
+                }
+
+                ImGui.EndTable();
             }
         }
 
         protected override void EditModeOptions()
         {
             ImGui.Text("If a mark is listed as 'Available' but you already killed it this week\n" +
-                       "click 'Collected' to force a re-load of the internal hunt data.");
+                       "click 'Collected' to mark it as completed this week.");
 
             if (ImGui.BeginTable($"##EditTable{CategoryString}", 3))
             {
-                foreach (var hunt in Settings.EliteHunts)
+                foreach (var hunt in Settings.TrackedHunts)
                 {
                     var label = hunt.Expansion.ToString();
 
@@ -64,14 +78,14 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                     ImGui.TableNextColumn();
                     if (ImGui.Button($"Collected##{label}{CategoryString}", ImGuiHelpers.ScaledVector2(100, 25)))
                     {
-                        hunt.UpdatedThisWeek = true;
+                        hunt.Obtained = true;
                         Service.Configuration.Save();
                     }
 
                     ImGui.TableNextColumn();
                     if (ImGui.Button($"Not Collected##{label}{CategoryString}", ImGuiHelpers.ScaledVector2(100, 25)))
                     {
-                        hunt.UpdatedThisWeek = false;
+                        hunt.Obtained = false;
                         Service.Configuration.Save();
                     }
 
@@ -92,35 +106,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
         }
 
-        private void DisplayStatus(string label, HuntStatus status, bool active)
-        {
-            if (ImGui.BeginTable($"##{label}{CategoryString}", 3 ))
-            {
-                if (active)
-                {
-                    ImGui.TableNextColumn();
-                    ImGui.Text(label);
-
-                    ImGui.TableNextColumn();
-                    DrawConditionalText(status.Killed, "Target Killed", "Target Alive");
-
-                    ImGui.TableNextColumn();
-                }
-                else
-                {
-                    ImGui.TableNextColumn();
-                    ImGui.Text(label);
-
-                    ImGui.TableNextColumn();
-                    DrawConditionalText(false, "", "Elite Mark Available");
-
-                    ImGui.TableNextColumn();
-                }
-
-                ImGui.EndTable();
-            }
-        }
-
         private static void DrawConditionalText(bool condition, string trueString, string falseString)
         {
             if (condition)
@@ -131,15 +116,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 ImGui.TextColored(new Vector4(185, 0, 0, 0.8f), falseString);
             }
-        }
-
-        private void DrawRow(EliteHuntExpansionEnum status, ref bool track, bool active)
-        {
-            ImGui.Checkbox($"##{status.ToString()}{CategoryString}", ref track);
-
-            ImGui.SameLine();
-
-            DisplayStatus($"{status.ToString()}", HuntData->GetStatus(status), active);
         }
     }
 }
