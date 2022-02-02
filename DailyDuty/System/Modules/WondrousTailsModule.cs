@@ -70,7 +70,7 @@ namespace DailyDuty.System.Modules
                 lastInstanceWasDuty = false;
             }
 
-            if (Settings.RerollNotification == true && wondrousTailsBasePointer->SecondChance == 9 && !IsWondrousTailsBookComplete())
+            if (wondrousTailsBasePointer->SecondChance == 9 && !IsWondrousTailsBookComplete())
             {
                 if (RerollValid())
                 {
@@ -143,18 +143,24 @@ namespace DailyDuty.System.Modules
 
         private bool RerollValid()
         {
-            // We can reroll if any tasks are incomplete
-            for (int i = 0; i < 16; ++i)
+            if (Settings.RerollNotificationTasks)
             {
-                var status = wondrousTailsBasePointer->TaskStatus(i);
-                if (status == ButtonState.AvailableNow || status == ButtonState.Unavailable)
-                    return true;
+                for (int i = 0; i < 16; ++i)
+                {
+                    var status = wondrousTailsBasePointer->TaskStatus(i);
+                    if (status == ButtonState.AvailableNow || status == ButtonState.Unavailable)
+                        return true;
+                }
             }
 
-            // We can spend re-rolls if we have more than 7 stickers
-            if (wondrousTailsBasePointer->Stickers > 7)
+            if (Settings.RerollNotificationStickers)
             {
-                return true;
+                // We can reroll if any tasks are incomplete
+                // We can spend re-rolls if we have more than 7 stickers
+                if (wondrousTailsBasePointer->Stickers > 7)
+                {
+                    return true;
+                }
             }
 
             return false;
