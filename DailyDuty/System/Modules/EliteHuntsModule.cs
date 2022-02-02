@@ -40,13 +40,13 @@ namespace DailyDuty.System.Modules
 
         private void UpdateHuntObtain()
         {
-            for (int i = 0; i < 5; ++i)
+            foreach (var hunt in Settings.EliteHunts)
             {
-                var huntStatus = huntData->GetStatus(Settings.EliteHunts[i].Item1);
+                var huntStatus = huntData->GetStatus(hunt.Expansion);
 
-                if (huntStatus.Obtained == true && Settings.EliteHunts[i].Item3 == false)
+                if (huntStatus.Obtained == true && hunt.UpdatedThisWeek == false)
                 {
-                    Settings.EliteHunts[i].Item3 = true;
+                    hunt.UpdatedThisWeek = true;
                 }
             }
         }
@@ -82,9 +82,9 @@ namespace DailyDuty.System.Modules
 
         public override void DoWeeklyReset(Configuration.CharacterSettings settings)
         {
-            for (int i = 0; i < 5; ++i)
+            foreach (var hunt in Settings.EliteHunts)
             {
-                Settings.EliteHunts[i].Item3 = false;
+                hunt.UpdatedThisWeek = false;
             }
         }
 
@@ -105,11 +105,11 @@ namespace DailyDuty.System.Modules
         {
             int count = 0;
 
-            foreach (var (expansion, enabled, active) in Settings.EliteHunts)
+            foreach (var hunt in Settings.EliteHunts)
             {
-                var huntStatus = huntData->GetStatus(expansion);
+                var huntStatus = huntData->GetStatus(hunt.Expansion);
 
-                if (enabled && huntStatus.Obtained == false && active == false)
+                if (hunt.Tracked && huntStatus.Obtained == false && hunt.UpdatedThisWeek == false)
                     count++;
             }
 
@@ -120,11 +120,11 @@ namespace DailyDuty.System.Modules
         {
             int count = 0;
 
-            foreach (var (expansion, enabled, active) in Settings.EliteHunts)
+            foreach (var hunt in Settings.EliteHunts)
             {
-                var huntStatus = huntData->GetStatus(expansion);
+                var huntStatus = huntData->GetStatus(hunt.Expansion);
 
-                if (enabled && huntStatus.Killed == false && huntStatus.Obtained == true && active)
+                if (hunt.Tracked && huntStatus.Killed == false && huntStatus.Obtained == true && hunt.UpdatedThisWeek)
                     count++;
             }
 

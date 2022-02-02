@@ -10,6 +10,8 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
+
 #pragma warning disable CS0649
 #pragma warning disable CS0169
 
@@ -36,40 +38,47 @@ namespace DailyDuty.DisplaySystem.DisplayModules
         {
             ImGui.Text("Only the checked lines will be evaluated for notifications" +
                        "\n( If notifications are enabled )");
+            ImGui.Spacing();
 
-            for (int i = 0; i < 5; ++i)
+            foreach (var hunt in Settings.EliteHunts)
             {
-                var data = Settings.EliteHunts[i];
 
-                DrawRow(Settings.EliteHunts[i].Item1, ref Settings.EliteHunts[i].Item2, Settings.EliteHunts[i].Item3);
+                DrawRow(hunt.Expansion, ref hunt.Tracked, hunt.UpdatedThisWeek);
             }
         }
 
         protected override void EditModeOptions()
         {
+            ImGui.Text("If a mark is listed as 'Available' but you already killed it this week\n" +
+                       "click 'Collected' to force a re-load of the internal hunt data.");
+
             if (ImGui.BeginTable($"##EditTable{CategoryString}", 3))
             {
-                for (int i = 0; i < 5; ++i)
+                foreach (var hunt in Settings.EliteHunts)
                 {
-                    var label = Settings.EliteHunts[i].Item1.ToString();
+                    var label = hunt.Expansion.ToString();
 
                     ImGui.TableNextColumn();
                     ImGui.Text(label);
 
                     ImGui.TableNextColumn();
-                    if (ImGui.Button($"Mark Complete##{label}{CategoryString}", ImGuiHelpers.ScaledVector2(100, 25)))
+                    if (ImGui.Button($"Collected##{label}{CategoryString}", ImGuiHelpers.ScaledVector2(100, 25)))
                     {
-                        Settings.EliteHunts[i].Item3 = true;
+                        hunt.UpdatedThisWeek = true;
                         Service.Configuration.Save();
                     }
 
                     ImGui.TableNextColumn();
+                    if (ImGui.Button($"Not Collected##{label}{CategoryString}", ImGuiHelpers.ScaledVector2(100, 25)))
+                    {
+                        hunt.UpdatedThisWeek = false;
+                        Service.Configuration.Save();
+                    }
+
                 }
 
                 ImGui.EndTable();
             }
-
-
         }
 
         protected override void NotificationOptions()
@@ -124,7 +133,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             }
         }
 
-        private void DrawRow(EliteHuntEnum status, ref bool track, bool active)
+        private void DrawRow(EliteHuntExpansionEnum status, ref bool track, bool active)
         {
             ImGui.Checkbox($"##{status.ToString()}{CategoryString}", ref track);
 

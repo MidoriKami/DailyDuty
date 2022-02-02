@@ -4,13 +4,27 @@ using System.Runtime.InteropServices;
 
 namespace DailyDuty.Data
 {
-    public enum EliteHuntEnum
+    public enum EliteHuntExpansionEnum
     {
         RealmReborn,
         Heavensward,
         Stormblood,
         Shadowbringers,
         Endwalker
+    }
+
+    public class TrackedHunt
+    {
+        public EliteHuntExpansionEnum Expansion;
+        public bool Tracked;
+        public bool UpdatedThisWeek;
+
+        public TrackedHunt(EliteHuntExpansionEnum expansion, bool tracked, bool updated)
+        {
+            Expansion = expansion;
+            Tracked = tracked;
+            UpdatedThisWeek = updated;
+        }
     }
 
     public struct HuntStatus
@@ -46,15 +60,15 @@ namespace DailyDuty.Data
         private bool KilledShadowbringers => (Shadowbringers_Killed_Flag & 0x01) != 0;
         private bool KilledEndwalker => (Endwalker_Killed_Flag & 0x01) != 0;
 
-        public HuntStatus GetStatus(EliteHuntEnum expansion)
+        public HuntStatus GetStatus(EliteHuntExpansionEnum expansion)
         {
             return expansion switch
             {
-                EliteHuntEnum.RealmReborn => new HuntStatus {Killed = KilledRealmReborn, Obtained = ObtainedRealmReborn},
-                EliteHuntEnum.Heavensward => new HuntStatus {Killed = KilledHeavensward, Obtained = ObtainedHeavensward},
-                EliteHuntEnum.Stormblood => new HuntStatus {Killed = KilledStormblood, Obtained = ObtainedStormblood},
-                EliteHuntEnum.Shadowbringers => new HuntStatus {Killed = KilledShadowbringers, Obtained = ObtainedShadowbringers},
-                EliteHuntEnum.Endwalker => new HuntStatus {Killed = KilledEndwalker, Obtained = ObtainedEndwalker},
+                EliteHuntExpansionEnum.RealmReborn => new HuntStatus {Killed = KilledRealmReborn, Obtained = ObtainedRealmReborn},
+                EliteHuntExpansionEnum.Heavensward => new HuntStatus {Killed = KilledHeavensward, Obtained = ObtainedHeavensward},
+                EliteHuntExpansionEnum.Stormblood => new HuntStatus {Killed = KilledStormblood, Obtained = ObtainedStormblood},
+                EliteHuntExpansionEnum.Shadowbringers => new HuntStatus {Killed = KilledShadowbringers, Obtained = ObtainedShadowbringers},
+                EliteHuntExpansionEnum.Endwalker => new HuntStatus {Killed = KilledEndwalker, Obtained = ObtainedEndwalker},
                 _ => throw new Exception("[EliteHuntsModule] Unable to parse expansion input.")
             };
         }

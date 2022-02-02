@@ -73,13 +73,13 @@ namespace DailyDuty.ConfigurationSystem
 
         public class EliteHuntSettings : GenericSettings
         {
-            public (EliteHuntEnum, bool, bool)[] EliteHunts = new (EliteHuntEnum, bool, bool)[5]
+            public TrackedHunt[] EliteHunts = new TrackedHunt[5]
             {
-                new(EliteHuntEnum.RealmReborn, false, false),
-                new(EliteHuntEnum.Heavensward, false, false),
-                new(EliteHuntEnum.Stormblood, false, false),
-                new(EliteHuntEnum.Shadowbringers, false, false),
-                new(EliteHuntEnum.Endwalker, false, false)
+                new(EliteHuntExpansionEnum.RealmReborn, false, false),
+                new(EliteHuntExpansionEnum.Heavensward, false, false),
+                new(EliteHuntExpansionEnum.Stormblood, false, false),
+                new(EliteHuntExpansionEnum.Shadowbringers, false, false),
+                new(EliteHuntExpansionEnum.Endwalker, false, false)
             };
         }
     }
