@@ -6,6 +6,8 @@ namespace DailyDuty.System
 {
     internal abstract class Module : IDisposable
     {
+        private int zoneChangeCounter = 0;
+
         protected Module()
         {
             Service.ClientState.Login += OnLogin;
@@ -28,6 +30,10 @@ namespace DailyDuty.System
         protected virtual void PreOnTerritoryChanged(object? sender, ushort e)
         {
             if (Service.LoggedIn == false) return;
+
+            zoneChangeCounter++;
+            if (zoneChangeCounter % Service.Configuration.TerritoryUpdateStaggerRate != 0) return;
+
 
             OnTerritoryChanged(sender, e);
         }

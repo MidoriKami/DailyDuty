@@ -16,8 +16,10 @@ namespace DailyDuty.ConfigurationSystem
 
         public DateTime NextDailyReset = new();
         public DateTime NextWeeklyReset = new();
+        public int TerritoryUpdateStaggerRate = 1;
 
         public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
+        public ulong CurrentCharacter = new();
 
         [Serializable]
         public class CharacterSettings
@@ -32,24 +34,16 @@ namespace DailyDuty.ConfigurationSystem
             public Weekly.EliteHuntSettings EliteHuntSettings = new();
         }
 
-        public ulong CurrentCharacter = new();
-
         public void UpdateCharacter()
         {
             var newCharacterID = Service.ClientState.LocalContentId;
 
             if (CharacterSettingsMap.ContainsKey(newCharacterID))
             {
-#if DEBUG
-                PluginLog.Information($"[System] [onLogin] Character Found in Map {newCharacterID}.");
-#endif
                 CurrentCharacter = newCharacterID;
             }
             else
             {
-#if DEBUG
-                PluginLog.Information($"[System] [onLogin] Character Not Found in Map {newCharacterID}, Creating new Entry.");
-#endif
                 CharacterSettingsMap.Add(newCharacterID, new CharacterSettings());
                 CurrentCharacter = newCharacterID;
             }

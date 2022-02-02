@@ -2,6 +2,7 @@
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
+using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
@@ -40,7 +41,37 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                                            "Only use Edit Mode to correct errors in other tabs.");
                 ImGui.Spacing();
 
+                NotificationDelaySettings();
+
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+            }
+
+            private void NotificationDelaySettings()
+            {
+                ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
+                ImGui.InputInt($"##ZoneChangeDelay{CategoryString}",
+                    ref Service.Configuration.TerritoryUpdateStaggerRate, 0, 0);
+
+                ImGui.PopItemWidth();
+                ImGui.SameLine();
+                ImGui.Text("Zone Changes Before Resending Notifications");
+
+                ImGuiComponents.HelpMarker("Prevents sending notifications until this many zone changes have happened.\n" +
+                                           "1: Notify on Every Zone Change\n" +
+                                           "10: Notify on Every 10th Zone change\n" +
+                                           "Minimum: 1\n" +
+                                           "Maximum: 10");
+                ImGui.Spacing();
+
+
+                if (Service.Configuration.TerritoryUpdateStaggerRate < 1)
+                {
+                    Service.Configuration.TerritoryUpdateStaggerRate = 1;
+                }
+                else if (Service.Configuration.TerritoryUpdateStaggerRate > 10)
+                {
+                    Service.Configuration.TerritoryUpdateStaggerRate = 10;
+                }
             }
 
             protected override void DisplayData()
