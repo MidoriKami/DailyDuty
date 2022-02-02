@@ -15,7 +15,7 @@ namespace DailyDuty.System.Modules
         private bool buyingTicketExchangeStarted = false;
         private bool claimingRewardExchangeStarted = false;
 
-        public override void UpdateSlow()
+        public override void Update()
         {
             UpdateDatacenter();
 

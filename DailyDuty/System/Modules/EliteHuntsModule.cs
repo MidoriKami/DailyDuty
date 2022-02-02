@@ -24,14 +24,14 @@ namespace DailyDuty.System.Modules
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private EliteHuntStruct* huntData;
 
-        private Stopwatch delayStopwatch = new();
+        private readonly Stopwatch delayStopwatch = new();
 
         public EliteHuntsModule()
         {
             SignatureHelper.Initialise(this);
         }
 
-        public override void UpdateSlow()
+        public override void Update()
         {
             if (Settings.Enabled == false) return;
 

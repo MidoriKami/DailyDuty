@@ -121,7 +121,7 @@ namespace DailyDuty.System.Modules
             }
         }
 
-        public override void UpdateSlow()
+        public override void Update()
         {
             if (Settings.Enabled == false) return;
 

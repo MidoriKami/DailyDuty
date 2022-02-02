@@ -18,7 +18,7 @@ namespace DailyDuty.System.Modules
 
         private bool exchangeStarted = false;
         
-        public override void UpdateSlow()
+        public override void Update()
         {
             if (Settings.Enabled)
             {

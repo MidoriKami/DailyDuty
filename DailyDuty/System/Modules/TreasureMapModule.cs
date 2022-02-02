@@ -146,6 +146,11 @@ namespace DailyDuty.System.Modules
             return map != null;
         }
 
+        public override void Update()
+        {
+            
+        }
+
         public override void Dispose()
         {
             base.Dispose();

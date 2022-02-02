@@ -8,7 +8,7 @@ namespace DailyDuty.System
 {
     internal class ModuleManager
     {
-        private readonly Stopwatch ResetDelayStopwatch = new();
+        private readonly Stopwatch resetDelayStopwatch = new();
 
         public enum ModuleType
         {
@@ -32,14 +32,25 @@ namespace DailyDuty.System
             {ModuleType.EliteHunts, new EliteHuntsModule()}
         };
 
+        private readonly Queue<Module> updateQueue = new();
+
+        public ModuleManager()
+        {
+            foreach (var module in modules.Values)
+            {
+                updateQueue.Enqueue(module);
+            }
+        }
+
         public void Update()
         {
-            Util.UpdateDelayed(ResetDelayStopwatch, TimeSpan.FromSeconds(1), UpdateResets);
+            Util.UpdateDelayed(resetDelayStopwatch, TimeSpan.FromSeconds(1), UpdateResets);
 
-            foreach (var (type, module) in modules)
-            {
-                module.Update();
-            }
+            var module = updateQueue.Dequeue();
+
+            module.Update();
+
+            updateQueue.Enqueue(module);
         }
 
         private void UpdateResets()

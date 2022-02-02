@@ -12,17 +12,7 @@ namespace DailyDuty.System
             Service.ClientState.TerritoryChanged += PreOnTerritoryChanged;
         }
 
-        public virtual void UpdateSlow()
-        {
-        }
-
-        public virtual void Update()
-        {
-            var frameCount = Service.PluginInterface.UiBuilder.FrameCount;
-            if (frameCount % 10 != 0) return;
-
-            UpdateSlow();
-        }
+        public abstract void Update();
 
         public virtual void Dispose()
         {
