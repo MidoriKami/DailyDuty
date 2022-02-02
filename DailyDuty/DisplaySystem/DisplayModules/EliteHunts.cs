@@ -41,11 +41,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
             {
                 var data = Settings.EliteHunts[i];
 
-                var status = data.Item1;
-                ref var track = ref data.Item2;
-                var active = data.Item3;
-
-                DrawRow(status, ref track, active);
+                DrawRow(Settings.EliteHunts[i].Item1, ref Settings.EliteHunts[i].Item2, Settings.EliteHunts[i].Item3);
             }
         }
 
