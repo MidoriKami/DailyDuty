@@ -147,7 +147,7 @@ namespace DailyDuty.System.Modules
             Util.PrintJumboCactpot($"Rewards Remaining: {Settings.UnclaimedRewards}");
         }
 
-        protected override void OnTerritoryChanged(object? sender, ushort e)
+        protected override void ThrottledOnTerritoryChanged(object? sender, ushort e)
         {
             if (ConditionManager.IsBoundByDuty() == true) return;
 

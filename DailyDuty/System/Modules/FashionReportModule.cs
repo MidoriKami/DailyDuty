@@ -58,7 +58,7 @@ namespace DailyDuty.System.Modules
             }
         }
 
-        protected override void OnTerritoryChanged(object? sender, ushort e)
+        protected override void ThrottledOnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled && Settings.TerritoryChangeReminder && ConditionManager.IsBoundByDuty() == false)
             {

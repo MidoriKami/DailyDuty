@@ -31,15 +31,21 @@ namespace DailyDuty.System
         {
             if (Service.LoggedIn == false) return;
 
+            AlwaysOnTerritoryChanged(sender, e);
+
             zoneChangeCounter++;
             if (zoneChangeCounter % Service.Configuration.TerritoryUpdateStaggerRate != 0) return;
 
+            ThrottledOnTerritoryChanged(sender, e);
+        }
 
-            OnTerritoryChanged(sender, e);
+        protected virtual void AlwaysOnTerritoryChanged(object? sender, ushort e)
+        {
+
         }
 
         protected abstract void OnLoginDelayed();
-        protected abstract void OnTerritoryChanged(object? sender, ushort e);
+        protected abstract void ThrottledOnTerritoryChanged(object? sender, ushort e);
 
         public abstract bool IsCompleted();
 

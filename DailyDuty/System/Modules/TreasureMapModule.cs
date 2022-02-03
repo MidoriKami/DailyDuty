@@ -21,18 +21,10 @@ namespace DailyDuty.System.Modules
         {
             Service.Chat.ChatMessage += OnChatMap;
         }
-        
-        protected override void OnTerritoryChanged(object? sender, ushort e)
+
+        protected override void AlwaysOnTerritoryChanged(object? sender, ushort e)
         {
             if (ConditionManager.IsBoundByDuty() == true) return;
-
-            if (Settings.Enabled && Settings.TerritoryChangeReminder)
-            {
-                if (TimeUntilNextMap() == TimeSpan.Zero)
-                {
-                    Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
-                }
-            }
 
             if (Settings.HarvestableMapNotification == true && TimeUntilNextMap() == TimeSpan.Zero)
             {
@@ -46,6 +38,19 @@ namespace DailyDuty.System.Modules
 
                         Util.PrintTreasureMap($"A '{mapName}' is available for harvest in this area.");
                     }
+                }
+            }
+        }
+
+        protected override void ThrottledOnTerritoryChanged(object? sender, ushort e)
+        {
+            if (ConditionManager.IsBoundByDuty() == true) return;
+
+            if (Settings.Enabled && Settings.TerritoryChangeReminder)
+            {
+                if (TimeUntilNextMap() == TimeSpan.Zero)
+                {
+                    Util.PrintTreasureMap("You have a Treasure Map Allowance Available.");
                 }
             }
         }

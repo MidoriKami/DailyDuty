@@ -45,14 +45,9 @@ namespace DailyDuty.System.Modules
             }
         }
 
-        protected override void OnTerritoryChanged(object? sender, ushort e)
+        protected override void AlwaysOnTerritoryChanged(object? sender, ushort e)
         {
             if (Settings.Enabled == false) return;
-
-            if (Settings.NewBookNotification)
-            {
-                NewBookNotification();
-            }
 
             if (ConditionManager.IsBoundByDuty() && Settings.InstanceStartNotification == true && !IsWondrousTailsBookComplete())
             {
@@ -68,6 +63,16 @@ namespace DailyDuty.System.Modules
             else
             {
                 lastInstanceWasDuty = false;
+            }
+        }
+
+        protected override void ThrottledOnTerritoryChanged(object? sender, ushort e)
+        {
+            if (Settings.Enabled == false) return;
+
+            if (Settings.NewBookNotification)
+            {
+                NewBookNotification();
             }
 
             if (wondrousTailsBasePointer->SecondChance == 9 && !IsWondrousTailsBookComplete())

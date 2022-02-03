@@ -18,7 +18,7 @@ namespace DailyDuty.System.Modules
         private bool exchangeStarted = false;
         private uint lastDeliveryCount = 0;
 
-        protected override void OnTerritoryChanged(object? sender, ushort e)
+        protected override void ThrottledOnTerritoryChanged(object? sender, ushort e)
         {
             if (ConditionManager.IsBoundByDuty()) return;
 
