@@ -3,6 +3,7 @@ using System.Diagnostics;
 using DailyDuty.CommandSystem;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem;
+using DailyDuty.DisplaySystem.Windows;
 using DailyDuty.System;
 using DailyDuty.System.Utilities;
 using Dalamud.Game;
@@ -17,7 +18,6 @@ namespace DailyDuty
 
         private DisplayManager DisplayManager { get; init; }
         private CommandManager CommandManager { get; init; }
-        private ModuleManager ModuleManager { get; init; }
 
         private readonly Stopwatch stopwatch = new();
 
@@ -36,8 +36,8 @@ namespace DailyDuty
             Service.Chat.Enable();
 
             // Create Systems
-            ModuleManager = new ModuleManager();
-            DisplayManager = new DisplayManager(ModuleManager);
+            Service.ModuleManager = new ModuleManager();
+            DisplayManager = new DisplayManager();
             CommandManager = new CommandManager(DisplayManager);
 
             // Register draw callbacks
@@ -57,7 +57,7 @@ namespace DailyDuty
         }
         private void OnFrameworkUpdate(Framework framework)
         {
-            ModuleManager.Update();
+            Service.ModuleManager.Update();
 
             Util.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
         }
@@ -87,7 +87,7 @@ namespace DailyDuty
         {
             CommandManager.Dispose();
             DisplayManager.Dispose();
-            ModuleManager.Dispose();
+            Service.ModuleManager.Dispose();
 
             Service.ClientState.Logout -= OnLogout;
 

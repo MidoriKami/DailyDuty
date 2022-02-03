@@ -4,7 +4,7 @@ using DailyDuty.ConfigurationSystem;
 
 namespace DailyDuty.System
 {
-    internal abstract class Module : IDisposable
+    public abstract class Module : IDisposable
     {
         private int zoneChangeCounter = 0;
 

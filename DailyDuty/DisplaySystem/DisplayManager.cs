@@ -25,9 +25,9 @@ namespace DailyDuty.DisplaySystem
             Settings
         }
 
-        public DisplayManager(ModuleManager moduleManager) : base("Daily Duty")
+        public DisplayManager() : base("Daily Duty")
         {
-            settingsCategories.Add(Tab.ToDo, new ToDoTab(moduleManager));
+            settingsCategories.Add(Tab.ToDo, new ToDoTab());
             settingsCategories.Add(Tab.Daily, new DailyTab());
             settingsCategories.Add(Tab.Weekly, new WeeklyTab());
             settingsCategories.Add(Tab.Settings, new SettingsTab());

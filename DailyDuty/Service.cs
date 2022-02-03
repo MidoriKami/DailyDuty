@@ -1,4 +1,5 @@
 ﻿using DailyDuty.ConfigurationSystem;
+using DailyDuty.System;
 using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
@@ -27,6 +28,8 @@ namespace DailyDuty
         [PluginService] public static Framework Framework { get; private set; }
         [PluginService] public static ObjectTable ObjectTable { get; private set; }
         [PluginService] public static GameGui GameGui { get; private set; }
+
+        public static ModuleManager ModuleManager { get; set; }
         public static WindowSystem WindowSystem { get; set; } = new WindowSystem("DailyDuty");
         public static Configuration Configuration { get; set; }
 

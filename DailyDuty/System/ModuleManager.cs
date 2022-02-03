@@ -6,7 +6,7 @@ using DailyDuty.System.Utilities;
 
 namespace DailyDuty.System
 {
-    internal class ModuleManager
+    public class ModuleManager
     {
         private readonly Stopwatch resetDelayStopwatch = new();
 

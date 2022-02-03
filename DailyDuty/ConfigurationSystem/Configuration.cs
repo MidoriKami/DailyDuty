@@ -14,6 +14,7 @@ namespace DailyDuty.ConfigurationSystem
         public DateTime NextDailyReset = new();
         public DateTime NextWeeklyReset = new();
         public int TerritoryUpdateStaggerRate = 1;
+        public ToDoWindowSettings ToDoWindowSettings = new();
 
         public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
         public ulong CurrentCharacter = new();
@@ -55,7 +56,10 @@ namespace DailyDuty.ConfigurationSystem
         {
             this.pluginInterface = pluginInterface;
 
+            ToDoWindowSettings ??= new();
+
             CharacterSettingsMap ??= new();
+            
             foreach (var (_, settings) in CharacterSettingsMap)
             {
                 // Daily

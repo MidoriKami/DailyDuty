@@ -9,7 +9,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
     internal class ToDoTab : TabCategory
     {
 
-        public ToDoTab(ModuleManager moduleManager)
+        public ToDoTab()
         {
             CategoryName = "Outstanding Tasks";
             TabName = "ToDo List";
@@ -18,7 +18,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
             Modules = new()
             {
-               new ToDoModule(moduleManager)
+               new ToDoModule()
             };
         }
 
@@ -29,9 +29,9 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter];
             private readonly ModuleManager moduleManager;
 
-            public ToDoModule(ModuleManager moduleManager)
+            public ToDoModule()
             {
-                this.moduleManager = moduleManager;
+                this.moduleManager = Service.ModuleManager;
             }
 
             protected override void EditModeOptions()
@@ -58,13 +58,15 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 DrawDailyTasks();
 
                 DrawWeeklyTasks();
+
+
             }
 
             protected override void DisplayData()
             {
             }
 
-            private void DrawDailyTasks()
+            public void DrawDailyTasks()
             {
                 ImGui.Text("Daily Tasks");
                 ImGui.Spacing();
@@ -94,7 +96,7 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 ImGui.Indent(-30 * ImGuiHelpers.GlobalScale);
             }
 
-            private void DrawWeeklyTasks()
+            public void DrawWeeklyTasks()
             {
                 ImGui.Text("Weekly Tasks");
                 ImGui.Spacing();

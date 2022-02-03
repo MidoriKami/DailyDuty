@@ -15,6 +15,15 @@ namespace DailyDuty.ConfigurationSystem
         Single,
         All
     }
+
+    public class ToDoWindowSettings
+    {
+        public bool ClickThrough = false;
+        public bool ShowDaily = true;
+        public bool ShowWeekly = true;
+        public bool HideInDuty = true;
+        public bool Open = false;
+    }
     
     public class Daily
     {
