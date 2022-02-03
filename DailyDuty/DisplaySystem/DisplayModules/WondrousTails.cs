@@ -1,5 +1,4 @@
 ﻿using DailyDuty.ConfigurationSystem;
-using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules

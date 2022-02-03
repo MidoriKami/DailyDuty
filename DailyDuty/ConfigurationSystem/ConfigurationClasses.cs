@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using DailyDuty.Data;
-using DailyDuty.DisplaySystem.DisplayModules;
-using DailyDuty.System.Modules;
-using Dalamud.Game;
 
 namespace DailyDuty.ConfigurationSystem
 {

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.ConfigurationSystem;
+﻿using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Modules;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using ImGuizmoNET;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {

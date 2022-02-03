@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using DailyDuty.ConfigurationSystem;
+﻿using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Utilities;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 #pragma warning disable CS0169
 #pragma warning disable CS0649

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Utilities;
-using Dalamud.Game;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;

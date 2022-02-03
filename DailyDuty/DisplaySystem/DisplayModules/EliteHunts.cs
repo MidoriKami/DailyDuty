@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using Dalamud.Interface;
-using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 
 #pragma warning disable CS0649
 #pragma warning disable CS0169

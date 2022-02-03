@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.System.Modules

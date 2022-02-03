@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using DailyDuty.ConfigurationSystem;
-using Dalamud.Interface;
-using Dalamud.Interface.Components;
-using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+﻿using DailyDuty.ConfigurationSystem;
 
 namespace DailyDuty.DisplaySystem.DisplayModules
 {

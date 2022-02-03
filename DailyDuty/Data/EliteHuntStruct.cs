@@ -1,5 +1,4 @@
-﻿using DailyDuty.ConfigurationSystem;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 
 namespace DailyDuty.Data

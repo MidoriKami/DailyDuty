@@ -2,7 +2,6 @@
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {

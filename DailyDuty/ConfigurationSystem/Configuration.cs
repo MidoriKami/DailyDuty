@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using DailyDuty.Data;
 using Dalamud.Configuration;
-using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Logging;
 using Dalamud.Plugin;
-using Newtonsoft.Json;
 
 namespace DailyDuty.ConfigurationSystem
 {

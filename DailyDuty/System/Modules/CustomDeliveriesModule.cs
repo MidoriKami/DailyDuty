@@ -1,12 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Utilities;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
 
 namespace DailyDuty.System.Modules
