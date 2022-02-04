@@ -32,9 +32,6 @@ namespace DailyDuty.System.Modules
         {
             SignatureHelper.Initialise(this);
 
-            //var scanner = new SigScanner();
-            //wondrousTailsBasePointer = (WondrousTails*) scanner.GetStaticAddressFromSig("88 05 ?? ?? ?? ?? 8B 43 18");
-
             Settings.NumPlacedStickers = wondrousTailsBasePointer->Stickers;
         }
 

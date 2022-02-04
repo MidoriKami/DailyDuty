@@ -14,6 +14,7 @@ namespace DailyDuty.CommandSystem
 
         private readonly List<CommandProcessor> commandProcessors = new()
         {
+            new TodoWindowCommandProcessor()
         };
 
         public CommandManager(DisplayManager displayManager)

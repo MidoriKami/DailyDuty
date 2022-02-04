@@ -39,9 +39,24 @@ namespace DailyDuty.CommandSystem
             }
         }
 
-        protected abstract void ProcessNullSecondaryCommand();
-        protected abstract void ProcessOnCommand();
-        protected abstract void ProcessOffCommand();
-        protected abstract void ProcessCustomCommand(string secondaryCommand);
+        protected virtual void ProcessNullSecondaryCommand()
+        {
+
+        }
+
+        protected virtual void ProcessOnCommand()
+        {
+
+        }
+
+        protected virtual void ProcessOffCommand()
+        {
+
+        }
+
+        protected virtual void ProcessCustomCommand(string secondaryCommand)
+        {
+
+        }
     }
 }

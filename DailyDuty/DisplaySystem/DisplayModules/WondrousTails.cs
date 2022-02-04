@@ -28,8 +28,9 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
             NotificationField("Duty End Reminder", ref Settings.InstanceEndNotification, "When exiting a duty, send a notification if the previous duty is now eligible for a sticker.");
 
-            NotificationField("Reroll Alert - Stickers", ref Settings.RerollNotificationStickers, "When changing zones, send a notification if you have the maximum number of second chance points and more than 7 stickers.\n" +
-                                                                               "Useful to re-roll the stickers for a chance at better rewards, while preventing over-capping.");
+            NotificationField("Reroll Alert - Stickers", ref Settings.RerollNotificationStickers, "When changing zones, send a notification if you have the maximum number of second chance points\n" +
+                "and between 3 and 7 stickers (inclusive).\n" +
+                "Useful to re-roll the stickers for a chance at better rewards, while preventing over-capping.");
 
             NotificationField("Reroll Alert - Tasks", ref Settings.RerollNotificationTasks, "When changing zones, send a notification if you have the maximum number of second chance points and have a task available to reroll.\n" +
                 "Useful to re-roll tasks that you might want to complete later");
