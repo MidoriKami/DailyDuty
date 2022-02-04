@@ -163,7 +163,7 @@ namespace DailyDuty.System.Modules
             {
                 // We can reroll if any tasks are incomplete
                 // We can spend re-rolls if we have more than 7 stickers
-                if (wondrousTailsBasePointer->Stickers > 7)
+                if (wondrousTailsBasePointer->Stickers is >= 3 and <= 7)
                 {
                     return true;
                 }
