@@ -8,9 +8,11 @@ namespace DailyDuty.System.Modules
     internal unsafe class MiniCactpotModule : Module
     {
         private Daily.Cactpot Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].MiniCactpotSettings;
+        public override string ModuleName => "Mini Cactpot";
+        public override GenericSettings GenericSettings => Settings;
 
         private bool exchangeStarted = false;
-
+        
         public override void Update()
         {
             if (GetMiniCactpotPointer() != null)

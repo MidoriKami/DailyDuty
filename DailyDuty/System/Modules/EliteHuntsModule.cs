@@ -10,6 +10,8 @@ namespace DailyDuty.System.Modules
     internal unsafe class EliteHuntsModule : Module
     {
         private Weekly.EliteHuntSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].EliteHuntSettings;
+        public override string ModuleName => "Elite Hunts";
+        public override GenericSettings GenericSettings => Settings;
 
         // https://github.com/SheepGoMeh/HuntBuddy/blob/master/Structs/MobHuntStruct.cs
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]

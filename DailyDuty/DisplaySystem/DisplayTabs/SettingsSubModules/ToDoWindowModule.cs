@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.Windows;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs.SettingsSubModules
@@ -34,7 +35,24 @@ namespace DailyDuty.DisplaySystem.DisplayTabs.SettingsSubModules
 
             HideInDuty();
 
+            HideWhenComplete();
+
+            OpacitySlider();
+
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+        }
+
+        private void OpacitySlider()
+        {
+            ImGui.PushItemWidth(150);
+            ImGui.DragFloat($"Opacity##{CategoryString}", ref toDoWindow.Settings.Opacity, 0.01f, 0.0f, 1.0f);
+            ImGui.PopItemWidth();
+        }
+
+        private void HideWhenComplete()
+        {
+            ImGui.Checkbox("Hide when Complete", ref toDoWindow.Settings.HideWhenTasksComplete);
+            ImGuiComponents.HelpMarker("Hides the todo window when the selected task list is complete.");
         }
 
         private void HideInDuty()

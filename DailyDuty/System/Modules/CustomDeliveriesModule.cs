@@ -10,6 +10,8 @@ namespace DailyDuty.System.Modules
     internal unsafe class CustomDeliveriesModule : Module
     {
         private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
+        public override string ModuleName => "Custom Deliveries";
+        public override GenericSettings GenericSettings => Settings;
 
         private bool exchangeStarted = false;
         private uint lastDeliveryCount = 0;
@@ -39,6 +41,7 @@ namespace DailyDuty.System.Modules
                 PrintRemainingAllowances();
             }
         }
+
 
         public override void Update()
         {

@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.System;
 using Dalamud.Interface;
@@ -8,7 +9,6 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 {
     internal class ToDoTab : TabCategory
     {
-
         public ToDoTab()
         {
             CategoryName = "Outstanding Tasks";
@@ -24,6 +24,9 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
         public class ToDoModule : DisplayModule
         {
+
+            public bool WeeklyTasksComplete = false;
+            public bool DailyTasksComplete = false;
 
             private Configuration.CharacterSettings SettingsBase =>
                 Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter];
@@ -58,8 +61,6 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
                 DrawDailyTasks();
 
                 DrawWeeklyTasks();
-
-
             }
 
             protected override void DisplayData()
@@ -73,25 +74,22 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                 ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
 
-                bool anyTasks = false;
+                foreach (var module in Service.ModuleManager.GetModulesByType(ModuleManager.ModuleType.Daily))
+                {
+                    DrawTaskStatus(module);
+                }
 
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.TreasureMap,
-                    SettingsBase.TreasureMapSettings,
-                    "Treasure Map",
-                    ref anyTasks);
+                bool allTasksComplete = Service.ModuleManager.GetModulesByType(ModuleManager.ModuleType.Daily)
+                    .Where(task => task.GenericSettings.Enabled)
+                    .All(enabledTasks => enabledTasks.IsCompleted());
 
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.MiniCactpot,
-                    SettingsBase.MiniCactpotSettings,
-                    "Mini Cactpot",
-                    ref anyTasks);
-
-                if (anyTasks == false)
+                if (allTasksComplete == true)
                 {
                     ImGui.TextColored(new Vector4(0, 255, 0, 150), "All Tasks Complete");
                     ImGui.Spacing();
                 }
+
+                DailyTasksComplete = allTasksComplete;
 
                 ImGui.Indent(-30 * ImGuiHelpers.GlobalScale);
             }
@@ -103,64 +101,53 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
 
                 ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
 
-                bool anyTasks = false;
+                foreach (var module in Service.ModuleManager.GetModulesByType(ModuleManager.ModuleType.Weekly))
+                {
+                    DrawTaskStatus(module);
+                }
 
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.WondrousTails,
-                    SettingsBase.WondrousTailsSettings, 
-                    "Wondrous Tails", 
-                    ref anyTasks);
+                bool allTasksComplete = Service.ModuleManager.GetModulesByType(ModuleManager.ModuleType.Weekly)
+                    .Where(task => task.GenericSettings.Enabled)
+                    .All(enabledTasks => enabledTasks.IsCompleted());
 
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.CustomDeliveries,
-                    SettingsBase.CustomDeliveriesSettings,
-                    "Custom Delivery",
-                    ref anyTasks);
-
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.JumboCactpot,
-                    SettingsBase.JumboCactpotSettings,
-                    "Jumbo Cactpot",
-                    ref anyTasks);
-
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.FashionReport,
-                    SettingsBase.FashionReportSettings,
-                    "Fashion Report",
-                    ref anyTasks);
-
-                DrawTaskConditionally(
-                    ModuleManager.ModuleType.EliteHunts,
-                    SettingsBase.EliteHuntSettings,
-                    "Elite Hunts",
-                    ref anyTasks);
-
-                if (anyTasks == false)
+                if (allTasksComplete == true)
                 {
                     ImGui.TextColored(new Vector4(0, 255, 0, 150), "All Tasks Complete");
                     ImGui.Spacing();
                 }
 
+                WeeklyTasksComplete = allTasksComplete;
+
                 ImGui.Indent(-30 * ImGuiHelpers.GlobalScale);
             }
 
-            private void DrawTaskConditionally(ModuleManager.ModuleType type, GenericSettings settings, string text, ref bool taskSet)
+            private void DrawTaskStatus(Module taskModule)
             {
-                if (ShowToDoTask(type, settings))
+                if (taskModule.IsCompleted() == false && taskModule.GenericSettings.Enabled)
                 {
-                    ImGui.TextColored(new Vector4(255, 0, 0, 150), text);
+                    ImGui.TextColored(new Vector4(255, 0, 0, 150), taskModule.ModuleName);
                     ImGui.Spacing();
-                    taskSet = true;
                 }
             }
 
-            private bool ShowToDoTask(ModuleManager.ModuleType type, GenericSettings settings)
-            {
-                bool moduleComplete = moduleManager[type].IsCompleted();
-                bool moduleEnabled = settings.Enabled;
 
-                return moduleEnabled && !moduleComplete;
-            }
+            //private void DrawTaskConditionally(ModuleManager.ModuleType type, GenericSettings settings, string text, ref bool taskSet)
+            //{
+            //    if (ShowToDoTask(type, settings))
+            //    {
+            //        ImGui.TextColored(new Vector4(255, 0, 0, 150), text);
+            //        ImGui.Spacing();
+            //        taskSet = true;
+            //    }
+            //}
+
+            //private bool ShowToDoTask(ModuleManager.ModuleType type, GenericSettings settings)
+            //{
+            //    bool moduleComplete = moduleManager[type].IsCompleted();
+            //    bool moduleEnabled = settings.Enabled;
+
+            //    return moduleEnabled && !moduleComplete;
+            //}
 
             public override void Dispose()
             {

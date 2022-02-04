@@ -22,7 +22,9 @@ namespace DailyDuty.ConfigurationSystem
         public bool ShowDaily = true;
         public bool ShowWeekly = true;
         public bool HideInDuty = true;
+        public bool HideWhenTasksComplete = false;
         public bool Open = false;
+        public float Opacity = 1.00f;
     }
     
     public class Daily

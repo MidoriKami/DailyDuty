@@ -10,9 +10,11 @@ namespace DailyDuty.System.Modules
     internal unsafe class FashionReportModule : Module
     {
         private Weekly.FashionReportSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].FashionReportSettings;
+        public override string ModuleName => "Fashion Report";
+        public override GenericSettings GenericSettings => Settings;
 
         private bool exchangeStarted = false;
-        
+
         public override void Update()
         {
             if (Settings.Enabled)
@@ -63,6 +65,9 @@ namespace DailyDuty.System.Modules
 
         public override bool IsCompleted()
         {
+            if (FashionReportAvailable() == false)
+                return true;
+
             if (Settings.Mode == FashionReportMode.Single)
             {
                 return Settings.AllowancesRemaining < 4;

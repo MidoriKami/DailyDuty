@@ -10,7 +10,9 @@ namespace DailyDuty.System.Modules
     internal unsafe class JumboCactpotModule : Module
     {
         private Weekly.JumboCactpotSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].JumboCactpotSettings;
-        
+        public override string ModuleName => "Jumbo Cactpot";
+        public override GenericSettings GenericSettings => Settings;
+
         private bool buyingTicketExchangeStarted = false;
         private bool claimingRewardExchangeStarted = false;
 

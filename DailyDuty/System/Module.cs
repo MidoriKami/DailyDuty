@@ -6,6 +6,9 @@ namespace DailyDuty.System
 {
     public abstract class Module : IDisposable
     {
+        public abstract string ModuleName { get; }
+        public abstract GenericSettings GenericSettings { get; }
+
         private int zoneChangeCounter = 0;
 
         protected Module()

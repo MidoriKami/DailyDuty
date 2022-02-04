@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using DailyDuty.System.Modules;
 using DailyDuty.System.Utilities;
 
@@ -12,31 +13,35 @@ namespace DailyDuty.System
 
         public enum ModuleType
         {
-            TreasureMap,
-            WondrousTails,
-            CustomDeliveries,
-            MiniCactpot,
-            FashionReport,
-            JumboCactpot,
-            EliteHunts
+            Daily,
+            Weekly
         }
 
-        private readonly Dictionary<ModuleType, Module> modules = new()
+
+        private readonly List<Module> dailyModules = new()
         {
-            {ModuleType.TreasureMap, new TreasureMapModule()},
-            {ModuleType.WondrousTails, new WondrousTailsModule()},
-            {ModuleType.CustomDeliveries, new CustomDeliveriesModule()},
-            {ModuleType.MiniCactpot, new MiniCactpotModule()},
-            {ModuleType.FashionReport, new FashionReportModule()},
-            {ModuleType.JumboCactpot, new JumboCactpotModule()},
-            {ModuleType.EliteHunts, new EliteHuntsModule()}
+            new TreasureMapModule(),
+            new MiniCactpotModule()
         };
+
+        private readonly List<Module> weeklyModules = new()
+        {
+            new WondrousTailsModule(),
+            new CustomDeliveriesModule(),
+            new FashionReportModule(),
+            new JumboCactpotModule(),
+            new EliteHuntsModule()
+        };
+
+        private List<Module> Modules =>
+            dailyModules.Concat(weeklyModules).ToList();
+
 
         private readonly Queue<Module> updateQueue = new();
 
         public ModuleManager()
         {
-            foreach (var module in modules.Values)
+            foreach (var module in Modules)
             {
                 updateQueue.Enqueue(module);
             }
@@ -64,7 +69,7 @@ namespace DailyDuty.System
         {
             if (DateTime.UtcNow > Service.Configuration.NextDailyReset)
             {
-                foreach (var (_, module) in modules)
+                foreach (var module in Modules)
                 {
                     foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
                     {
@@ -81,7 +86,7 @@ namespace DailyDuty.System
         {
             if (DateTime.UtcNow > Service.Configuration.NextWeeklyReset)
             {
-                foreach (var (_, module) in modules)
+                foreach (var module in Modules)
                 {
                     foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
                     {
@@ -96,17 +101,28 @@ namespace DailyDuty.System
 
         public void Dispose()
         {
-            foreach (var (_, module) in modules)
+            foreach (var module in Modules)
             {
                 module.Dispose();
             }
         }
 
-        public Module this[ModuleType type] => GetModuleByType(type);
-
-        public Module GetModuleByType(ModuleType type)
+        public IEnumerable<Module> GetModulesByType(ModuleType type)
         {
-            return modules[type];
+            if (type == ModuleType.Daily)
+                return dailyModules;
+
+            if (type == ModuleType.Weekly)
+                return weeklyModules;
+
+            throw new Exception("Invalid Module Type Used");
+        }
+
+        public bool TasksCompleteByType(ModuleType type)
+        {
+            return GetModulesByType(type)
+                .Where(module => module.GenericSettings.Enabled)
+                .All(module => module.IsCompleted());
         }
     }
 }

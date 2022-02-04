@@ -16,6 +16,8 @@ namespace DailyDuty.System.Modules
     internal class TreasureMapModule : Module
     {
         protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
+        public override string ModuleName => "Treasure Map";
+        public override GenericSettings GenericSettings => Settings;
 
         public TreasureMapModule()
         {

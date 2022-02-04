@@ -17,6 +17,9 @@ namespace DailyDuty.System.Modules
     internal unsafe class WondrousTailsModule : Module
     {
         protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
+        public override string ModuleName => "Wondrous Tails";
+        public override GenericSettings GenericSettings => Settings;
+
         private readonly Stopwatch delayStopwatch = new();
 
         private uint lastDutyInstanceID = 0;
