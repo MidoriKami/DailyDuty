@@ -20,15 +20,13 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         // https://github.com/SheepGoMeh/HuntBuddy/blob/master/Structs/MobHuntStruct.cs
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
-        private EliteHuntStruct* HuntData;
+        private EliteHuntStruct* huntData;
 
         public EliteHunts()
         {
             CategoryString = "Elite Hunts";
 
             SignatureHelper.Initialise(this);
-
-            PluginLog.Information($"{(IntPtr)HuntData:X8}");
         }
 
         protected override void DisplayData()
@@ -48,7 +46,7 @@ namespace DailyDuty.DisplaySystem.DisplayModules
                     ImGui.Text(label);
 
                     ImGui.TableNextColumn();
-                    DrawConditionalText(HuntData->Obtained(hunt.Expansion) || hunt.Obtained, "Mark Obtained", "Hunt Mark Available");
+                    DrawConditionalText(huntData->Obtained(hunt.Expansion) || hunt.Obtained, "Mark Obtained", "Hunt Mark Available");
                 }
 
                 ImGui.EndTable();
