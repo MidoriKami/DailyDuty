@@ -9,6 +9,7 @@ using DailyDuty.DisplaySystem.DisplayTabs;
 using DailyDuty.System;
 using DailyDuty.System.Utilities;
 using Dalamud.Game;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -46,10 +47,11 @@ namespace DailyDuty.DisplaySystem.Windows
             
             bool dailyTasksComplete = Service.ModuleManager.TasksCompleteByType(ModuleManager.ModuleType.Daily) || !Settings.ShowDaily;
             bool weeklyTasksComplete = Service.ModuleManager.TasksCompleteByType(ModuleManager.ModuleType.Weekly) || !Settings.ShowWeekly;
+            bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
 
             bool hideWindow = weeklyTasksComplete && dailyTasksComplete && Settings.HideWhenTasksComplete;
 
-            IsOpen = Settings.Open && !hideWindow;
+            IsOpen = Settings.Open && !hideWindow && !isInQuestEvent;
 
             if (Settings.HideInDuty == true)
             {
