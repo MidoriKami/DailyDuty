@@ -51,7 +51,7 @@ namespace DailyDuty.DisplaySystem.Windows
 
             bool hideWindow = weeklyTasksComplete && dailyTasksComplete && Settings.HideWhenTasksComplete;
 
-            IsOpen = Settings.Open && !hideWindow && !isInQuestEvent;
+            IsOpen = Settings.Open && !hideWindow && !isInQuestEvent && Service.LoggedIn;
 
             if (Settings.HideInDuty == true)
             {
