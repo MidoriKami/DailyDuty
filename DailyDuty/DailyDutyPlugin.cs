@@ -41,8 +41,6 @@ namespace DailyDuty
             CommandManager = new CommandManager(DisplayManager);
 
             // Register draw callbacks
-            Service.PluginInterface.UiBuilder.DisableCutsceneUiHide = true;
-            Service.PluginInterface.UiBuilder.DisableAutomaticUiHide = true;
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.Framework.Update += OnFrameworkUpdate;
