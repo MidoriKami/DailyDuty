@@ -77,7 +77,7 @@ namespace DailyDuty.System.Modules
             {
                 if (RerollValid())
                 {
-                    Util.PrintWondrousTails("You have 9 Second-chance points, you can re-roll your stickers!");
+                    Util.PrintWondrousTails("You have 9 Second-chance points, you can re-roll your stickers/tasks!");
                 }
             }
         }
