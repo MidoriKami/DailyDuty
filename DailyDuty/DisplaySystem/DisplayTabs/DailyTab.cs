@@ -1,4 +1,6 @@
 ﻿using DailyDuty.DisplaySystem.DisplayModules;
+using DailyDuty.DisplaySystem.DisplayModules.Daily;
+using DailyDuty.DisplaySystem.Windows;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
@@ -14,7 +16,8 @@ namespace DailyDuty.DisplaySystem.DisplayTabs
             Modules = new()
             {
                 new TreasureMap(),
-                new MiniCactpot()
+                new MiniCactpot(),
+                new Roulettes()
             };
         }
     }

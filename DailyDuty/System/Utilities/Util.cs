@@ -106,6 +106,11 @@ namespace DailyDuty.System.Utilities
             PrintColoredMessage("DailyDuty", "EliteHunts", message);
         }
 
+        public static void PrintRoulettes(string message)
+        {
+            PrintColoredMessage("DailyDuty", "Roulettes", message);
+        }
+
         public static void PrintDebug(string message)
         {
             PrintColoredMessage("DailyDuty", "Debug", message);

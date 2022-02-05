@@ -5,11 +5,11 @@ using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Util = DailyDuty.System.Utilities.Util;
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Weekly
 {
     internal unsafe class JumboCactpotModule : Module
     {
-        private Weekly.JumboCactpotSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].JumboCactpotSettings;
+        private ConfigurationSystem.Weekly.JumboCactpotSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].JumboCactpotSettings;
         public override string ModuleName => "Jumbo Cactpot";
         public override GenericSettings GenericSettings => Settings;
 

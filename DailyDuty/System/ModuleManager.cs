@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using DailyDuty.System.Modules;
+using DailyDuty.System.Modules.Daily;
+using DailyDuty.System.Modules.Weekly;
 using DailyDuty.System.Utilities;
 
 namespace DailyDuty.System
@@ -21,7 +23,8 @@ namespace DailyDuty.System
         private readonly List<Module> dailyModules = new()
         {
             new TreasureMapModule(),
-            new MiniCactpotModule()
+            new MiniCactpotModule(),
+            new RoulettesModule()
         };
 
         private readonly List<Module> weeklyModules = new()

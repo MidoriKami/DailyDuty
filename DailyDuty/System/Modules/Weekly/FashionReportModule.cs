@@ -5,11 +5,11 @@ using DailyDuty.System.Utilities;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Weekly
 {
     internal unsafe class FashionReportModule : Module
     {
-        private Weekly.FashionReportSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].FashionReportSettings;
+        private ConfigurationSystem.Weekly.FashionReportSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].FashionReportSettings;
         public override string ModuleName => "Fashion Report";
         public override GenericSettings GenericSettings => Settings;
 

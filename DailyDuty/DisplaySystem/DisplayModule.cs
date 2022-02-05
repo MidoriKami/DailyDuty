@@ -144,5 +144,17 @@ namespace DailyDuty.DisplaySystem
             ImGui.Text(text);
             ImGui.Spacing();
         }
+
+        protected void PrintCompleteIncomplete(bool complete)
+        {
+            if (complete)
+            {
+                ImGui.TextColored(new(0, 255, 0, 255), "Complete");
+            }
+            else
+            {
+                ImGui.TextColored(new(255, 0, 0, 100), "Incomplete");
+            }
+        }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using DailyDuty.ConfigurationSystem;
 
-namespace DailyDuty.DisplaySystem.DisplayModules
+namespace DailyDuty.DisplaySystem.DisplayModules.Daily
 {
     internal class MiniCactpot : DisplayModule
     {
-        protected Daily.Cactpot Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].MiniCactpotSettings;
+        protected ConfigurationSystem.Daily.Cactpot Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].MiniCactpotSettings;
 
         protected override GenericSettings GenericSettings => Settings;
 

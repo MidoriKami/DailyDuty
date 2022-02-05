@@ -1,11 +1,11 @@
 ﻿using DailyDuty.ConfigurationSystem;
 using ImGuiNET;
 
-namespace DailyDuty.DisplaySystem.DisplayModules
+namespace DailyDuty.DisplaySystem.DisplayModules.Weekly
 {
     internal class WondrousTails : DisplayModule
     {
-        protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
+        protected ConfigurationSystem.Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
         protected override GenericSettings GenericSettings => Settings;
 
         public WondrousTails()

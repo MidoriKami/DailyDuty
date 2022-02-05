@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.DisplaySystem.DisplayTabs;
-using DailyDuty.System;
 using DailyDuty.System.Utilities;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-namespace DailyDuty.DisplaySystem
+namespace DailyDuty.DisplaySystem.Windows
 {
     internal class DisplayManager : Window
     {

@@ -24,6 +24,7 @@ namespace DailyDuty.ConfigurationSystem
         {
             public Daily.TreasureMapSettings TreasureMapSettings = new();
             public Daily.Cactpot MiniCactpotSettings = new();
+            public Daily.Roulettes RouletteSettings = new();
 
             public Weekly.WondrousTailsSettings WondrousTailsSettings = new();
             public Weekly.CustomDeliveriesSettings CustomDeliveriesSettings = new();
@@ -65,6 +66,7 @@ namespace DailyDuty.ConfigurationSystem
                 // Daily
                 settings.TreasureMapSettings ??= new();
                 settings.MiniCactpotSettings ??= new();
+                settings.RouletteSettings ??= new();
 
                 // Weekly
                 settings.WondrousTailsSettings ??= new();

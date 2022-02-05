@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Numerics;
 using DailyDuty.ConfigurationSystem;
+using DailyDuty.DisplaySystem.Windows;
 using DailyDuty.System;
 using Dalamud.Interface;
 using ImGuiNET;

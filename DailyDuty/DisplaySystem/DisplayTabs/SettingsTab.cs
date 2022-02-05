@@ -1,5 +1,6 @@
 ﻿using DailyDuty.ConfigurationSystem;
 using DailyDuty.DisplaySystem.DisplayTabs.SettingsSubModules;
+using DailyDuty.DisplaySystem.Windows;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;

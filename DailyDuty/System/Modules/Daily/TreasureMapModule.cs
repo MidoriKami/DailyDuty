@@ -11,11 +11,11 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Daily
 {
     internal class TreasureMapModule : Module
     {
-        protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
+        protected ConfigurationSystem.Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
         public override string ModuleName => "Treasure Map";
         public override GenericSettings GenericSettings => Settings;
 

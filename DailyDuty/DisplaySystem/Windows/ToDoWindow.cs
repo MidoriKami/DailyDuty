@@ -33,13 +33,6 @@ namespace DailyDuty.DisplaySystem.Windows
         public ToDoWindow() : base("DailyDuty ToDo Window")
         {
             Service.Framework.Update += FrameWorkUpdate;
-
-            bool dailyTasksComplete = Service.ModuleManager.TasksCompleteByType(ModuleManager.ModuleType.Daily);
-            bool weeklyTasksComplete = Service.ModuleManager.TasksCompleteByType(ModuleManager.ModuleType.Weekly);
-
-            bool hideWindow = weeklyTasksComplete && dailyTasksComplete && Settings.HideWhenTasksComplete;
-
-            IsOpen = Settings.Open && !hideWindow;
         }
 
         private void FrameWorkUpdate(Framework framework)

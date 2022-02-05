@@ -2,14 +2,15 @@
 using DailyDuty.Data;
 using DailyDuty.System.Utilities;
 using Dalamud.Utility.Signatures;
+
 #pragma warning disable CS0169
 #pragma warning disable CS0649
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Weekly
 {
     internal unsafe class EliteHuntsModule : Module
     {
-        private Weekly.EliteHuntSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].EliteHuntSettings;
+        private ConfigurationSystem.Weekly.EliteHuntSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].EliteHuntSettings;
         public override string ModuleName => "Elite Hunts";
         public override GenericSettings GenericSettings => Settings;
 

@@ -4,11 +4,11 @@ using DailyDuty.ConfigurationSystem;
 using Dalamud.Interface;
 using ImGuiNET;
 
-namespace DailyDuty.DisplaySystem.DisplayModules
+namespace DailyDuty.DisplaySystem.DisplayModules.Weekly
 {
     internal class JumboCactpot : DisplayModule
     {
-        private Weekly.JumboCactpotSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].JumboCactpotSettings;
+        private ConfigurationSystem.Weekly.JumboCactpotSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].JumboCactpotSettings;
 
         protected override GenericSettings GenericSettings => Settings;
 
@@ -28,7 +28,6 @@ namespace DailyDuty.DisplaySystem.DisplayModules
 
         private void DrawJumboCactpotWeeklyProgressBar()
         {
-            var now = DateTime.UtcNow;
             var delta = TimeUntilNextDrawing();
             var percentage = (float)(1 - delta / TimeSpan.FromDays(7));
 

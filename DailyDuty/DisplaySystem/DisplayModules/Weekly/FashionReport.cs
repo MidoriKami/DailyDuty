@@ -1,14 +1,15 @@
 ﻿using DailyDuty.ConfigurationSystem;
 using DailyDuty.System.Modules;
+using DailyDuty.System.Modules.Weekly;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
-namespace DailyDuty.DisplaySystem.DisplayModules
+namespace DailyDuty.DisplaySystem.DisplayModules.Weekly
 {
     internal class FashionReport : DisplayModule
     {
-        private Weekly.FashionReportSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].FashionReportSettings;
+        private ConfigurationSystem.Weekly.FashionReportSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].FashionReportSettings;
 
         protected override GenericSettings GenericSettings => Settings;
 

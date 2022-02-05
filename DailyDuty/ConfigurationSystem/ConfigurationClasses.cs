@@ -15,7 +15,7 @@ namespace DailyDuty.ConfigurationSystem
         Single,
         All
     }
-
+    
     public class ToDoWindowSettings
     {
         public bool ClickThrough = false;
@@ -40,6 +40,24 @@ namespace DailyDuty.ConfigurationSystem
         public class Cactpot : GenericSettings
         {
             public int TicketsRemaining = 3;
+        }
+
+        public class Roulettes : GenericSettings
+        {
+            public TrackedRoulette[] TrackedRoulettes =
+            {
+                new(DutyRoulette.Expert),
+                new(DutyRoulette.Level90),
+                new(DutyRoulette.Level50607080),
+                new(DutyRoulette.Leveling),
+                new(DutyRoulette.Trials),
+                new(DutyRoulette.MSQ),
+                new(DutyRoulette.Guildhest),
+                new(DutyRoulette.Alliance),
+                new(DutyRoulette.Normal),
+                new(DutyRoulette.Frontline),
+                new(DutyRoulette.Mentor)
+            };
         }
     }
 

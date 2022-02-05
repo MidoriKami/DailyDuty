@@ -3,11 +3,11 @@ using DailyDuty.System.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Util = DailyDuty.System.Utilities.Util;
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Daily
 {
     internal unsafe class MiniCactpotModule : Module
     {
-        private Daily.Cactpot Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].MiniCactpotSettings;
+        private ConfigurationSystem.Daily.Cactpot Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].MiniCactpotSettings;
         public override string ModuleName => "Mini Cactpot";
         public override GenericSettings GenericSettings => Settings;
 

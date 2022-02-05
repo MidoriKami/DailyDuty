@@ -12,11 +12,11 @@ using Lumina.Excel.GeneratedSheets;
 using Util = DailyDuty.System.Utilities.Util;
 #pragma warning disable CS0649
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Weekly
 {
     internal unsafe class WondrousTailsModule : Module
     {
-        protected Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
+        protected ConfigurationSystem.Weekly.WondrousTailsSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].WondrousTailsSettings;
         public override string ModuleName => "Wondrous Tails";
         public override GenericSettings GenericSettings => Settings;
 

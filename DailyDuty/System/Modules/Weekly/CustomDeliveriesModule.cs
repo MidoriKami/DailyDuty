@@ -5,11 +5,11 @@ using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Util = DailyDuty.System.Utilities.Util;
 
-namespace DailyDuty.System.Modules
+namespace DailyDuty.System.Modules.Weekly
 {
     internal unsafe class CustomDeliveriesModule : Module
     {
-        private Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
+        private ConfigurationSystem.Weekly.CustomDeliveriesSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].CustomDeliveriesSettings;
         public override string ModuleName => "Custom Deliveries";
         public override GenericSettings GenericSettings => Settings;
 
@@ -30,7 +30,7 @@ namespace DailyDuty.System.Modules
         {
             if (Settings.AllowancesRemaining > 0)
             {
-                Util.PrintCustomDelivery($"Remaining Allowances: {Settings.AllowancesRemaining}");
+                Util.PrintCustomDelivery($"You have {Settings.AllowancesRemaining} allowances remaining.");
             }
         }
 

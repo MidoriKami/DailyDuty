@@ -4,15 +4,16 @@ using System.Linq;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using DailyDuty.System.Modules;
+using DailyDuty.System.Modules.Daily;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
-namespace DailyDuty.DisplaySystem.DisplayModules
+namespace DailyDuty.DisplaySystem.DisplayModules.Daily
 {
     internal class TreasureMap : DisplayModule
     {
-        protected Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
+        protected ConfigurationSystem.Daily.TreasureMapSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].TreasureMapSettings;
         protected override GenericSettings GenericSettings => Settings;
 
         private readonly HashSet<int> mapLevels;

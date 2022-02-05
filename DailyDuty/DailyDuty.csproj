@@ -4,7 +4,7 @@
     <Authors></Authors>
     <Company></Company>
     <Version>1.0</Version>
-	<AssemblyVersion>0.3.0.1</AssemblyVersion>
+	<AssemblyVersion>0.3.1.0</AssemblyVersion>
     <Description></Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
@@ -69,6 +69,10 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="System\Modules\Weekly\" />
 	</ItemGroup>
 
 </Project>

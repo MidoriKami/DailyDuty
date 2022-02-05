@@ -1,20 +1,18 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using DailyDuty.ConfigurationSystem;
 using DailyDuty.Data;
 using Dalamud.Interface;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 
 #pragma warning disable CS0649
 #pragma warning disable CS0169
 
-namespace DailyDuty.DisplaySystem.DisplayModules
+namespace DailyDuty.DisplaySystem.DisplayModules.Weekly
 {
     internal unsafe class EliteHunts : DisplayModule
     {
-        private Weekly.EliteHuntSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].EliteHuntSettings;
+        private ConfigurationSystem.Weekly.EliteHuntSettings Settings => Service.Configuration.CharacterSettingsMap[Service.Configuration.CurrentCharacter].EliteHuntSettings;
 
         protected override GenericSettings GenericSettings => Settings;
 

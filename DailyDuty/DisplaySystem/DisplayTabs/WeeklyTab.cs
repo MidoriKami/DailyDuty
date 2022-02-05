@@ -1,4 +1,6 @@
 ﻿using DailyDuty.DisplaySystem.DisplayModules;
+using DailyDuty.DisplaySystem.DisplayModules.Weekly;
+using DailyDuty.DisplaySystem.Windows;
 
 namespace DailyDuty.DisplaySystem.DisplayTabs
 {
