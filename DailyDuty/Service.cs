@@ -1,4 +1,4 @@
-﻿using DailyDuty.ConfigurationSystem;
+﻿using DailyDuty.Data;
 using DailyDuty.System;
 using Dalamud.Data;
 using Dalamud.Game;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using DailyDuty.CommandSystem;
-using DailyDuty.ConfigurationSystem;
-using DailyDuty.DisplaySystem;
-using DailyDuty.DisplaySystem.Windows;
-using DailyDuty.System;
-using DailyDuty.System.Utilities;
+using DailyDuty.Data;
+using DailyDuty.Utilities;
+using DailyDuty.Windows;
+using DailyDuty.Windows.Settings;
 using Dalamud.Game;
 using Dalamud.IoC;
 using Dalamud.Plugin;
@@ -16,10 +14,8 @@ namespace DailyDuty
     {
         public string Name => "DailyDuty";
 
-        private DisplayManager DisplayManager { get; init; }
-        private CommandManager CommandManager { get; init; }
-
         private readonly Stopwatch stopwatch = new();
+        private readonly SettingsWindow settingsWindow;
 
         public DailyDutyPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -36,17 +32,14 @@ namespace DailyDuty
             Service.Chat.Enable();
 
             // Create Systems
-            Service.ModuleManager = new ModuleManager();
-            DisplayManager = new DisplayManager();
-            CommandManager = new CommandManager(DisplayManager);
+            settingsWindow = new();
+            Service.ModuleManager = new();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.Framework.Update += OnFrameworkUpdate;
 
-            // Register Windows
-            Service.WindowSystem.AddWindow(DisplayManager);
         }
         
         private void OnLogout(object? sender, EventArgs e)
@@ -55,9 +48,9 @@ namespace DailyDuty
         }
         private void OnFrameworkUpdate(Framework framework)
         {
-            Service.ModuleManager.Update();
+            //Service.ModuleManager.Update();
 
-            Util.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
+            Time.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
         }
 
         private void UpdateSelectedCharacter()
@@ -78,13 +71,11 @@ namespace DailyDuty
         }
         private void DrawConfigUI()
         {
-            DisplayManager.IsOpen = true;
+            settingsWindow.IsOpen = true;
         }
 
         public void Dispose()
         {
-            CommandManager.Dispose();
-            DisplayManager.Dispose();
             Service.ModuleManager.Dispose();
 
             Service.ClientState.Logout -= OnLogout;

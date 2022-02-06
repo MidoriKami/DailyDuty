@@ -72,7 +72,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="System\Modules\Weekly\" />
+	  <Folder Include="Data\Enums\" />
 	</ItemGroup>
 
 </Project>

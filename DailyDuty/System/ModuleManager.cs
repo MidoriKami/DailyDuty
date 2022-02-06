@@ -2,57 +2,98 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using DailyDuty.System.Modules;
-using DailyDuty.System.Modules.Daily;
-using DailyDuty.System.Modules.Weekly;
-using DailyDuty.System.Utilities;
+using System.Threading.Tasks;
+using DailyDuty.Interfaces;
+using DailyDuty.Modules.Daily;
+using DailyDuty.Modules.Weekly;
+using DailyDuty.Utilities;
+using Dalamud.Game;
+using Dalamud.Logging;
+using Dalamud.Utility;
 
 namespace DailyDuty.System
 {
-    public class ModuleManager
+    public class ModuleManager : IDisposable
     {
+        private readonly List<object> modules = new()
+        {
+            // Daily
+            new MiniCactpot(),
+            new BeastTribe(),
+            new DutyRoulette(),
+            new GrandCompany(),
+            new Levequests(),
+            new TreasureMap(),
+
+            // Weekly
+            new BlueMageLog(),
+            new ChallengeLog(),
+            new CustomDelivery(),
+            new DomanEnclave(),
+            new FashionReport(),
+            new HuntMarks(),
+            new JumboCactpot(),
+            new MaskedCarnival(),
+            new WondrousTails()
+        };
+
+        private readonly Queue<IUpdateable> updateQueue;
         private readonly Stopwatch resetDelayStopwatch = new();
-
-        public enum ModuleType
-        {
-            Daily,
-            Weekly
-        }
-
-
-        private readonly List<Module> dailyModules = new()
-        {
-            new TreasureMapModule(),
-            new MiniCactpotModule(),
-            new RoulettesModule()
-        };
-
-        private readonly List<Module> weeklyModules = new()
-        {
-            new WondrousTailsModule(),
-            new CustomDeliveriesModule(),
-            new FashionReportModule(),
-            new JumboCactpotModule(),
-            new EliteHuntsModule()
-        };
-
-        private List<Module> Modules =>
-            dailyModules.Concat(weeklyModules).ToList();
-
-
-        private readonly Queue<Module> updateQueue = new();
+        private int zoneChangeCounter;
 
         public ModuleManager()
         {
-            foreach (var module in Modules)
+            updateQueue = new(modules.OfType<IUpdateable>());
+
+            Service.Framework.Update += Update;
+            Service.ClientState.Login += PreOnLogin;
+            Service.ClientState.TerritoryChanged += PreOnTerritoryChanged;
+        }
+
+        private void PreOnTerritoryChanged(object? sender, ushort e)
+        {
+            if (Service.LoggedIn == false) return;
+
+            AlwaysOnTerritoryChanged(sender, e);
+
+            zoneChangeCounter++;
+            if (zoneChangeCounter % Service.Configuration.System.ZoneChangeDelayRate != 0) return;
+
+            ThrottledOnTerritoryChanged(sender, e);
+        }
+
+        private void ThrottledOnTerritoryChanged(object? sender, ushort @ushort)
+        {
+            foreach (var module in modules.OfType<IZoneChangeThrottledNotification>())
             {
-                updateQueue.Enqueue(module);
+                module.TrySendNotification();
             }
         }
 
-        public void Update()
+        private void AlwaysOnTerritoryChanged(object? sender, ushort @ushort)
         {
-            Util.UpdateDelayed(resetDelayStopwatch, TimeSpan.FromSeconds(1), UpdateResets);
+            foreach (var module in modules.OfType<IZoneChangeAlwaysNotification>())
+            {
+                module.TrySendNotification();
+            }
+        }
+
+        private void PreOnLogin(object? sender, EventArgs e)
+        {
+            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
+        }
+
+        private void OnLoginDelayed()
+        {
+            foreach (var module in modules.OfType<ILoginNotification>())
+            {
+                module.TrySendNotification();
+            }
+        }
+
+        private void Update(Framework framework)
+        {
+            Time.UpdateDelayed(resetDelayStopwatch, TimeSpan.FromSeconds(1), UpdateResets);
 
             var module = updateQueue.Dequeue();
 
@@ -63,69 +104,22 @@ namespace DailyDuty.System
 
         private void UpdateResets()
         {
-            UpdateDailyReset();
-
-            UpdateWeeklyReset();
-        }
-
-        private void UpdateDailyReset()
-        {
-            if (DateTime.UtcNow > Service.Configuration.NextDailyReset)
+            foreach (var resettable in modules.OfType<IResettable>())
             {
-                foreach (var module in Modules)
+                if (!resettable.NeedsResetting()) continue;
+
+                foreach (var characterSettings in Service.Configuration.CharacterSettingsMap.Values)
                 {
-                    foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
-                    {
-                        module.DoDailyReset(settings);
-                    }
+                    resettable.DoReset(characterSettings);
                 }
-
-                Service.Configuration.NextDailyReset = Util.NextDailyReset();
-                Service.Configuration.Save();
-            }
-        }
-
-        private void UpdateWeeklyReset()
-        {
-            if (DateTime.UtcNow > Service.Configuration.NextWeeklyReset)
-            {
-                foreach (var module in Modules)
-                {
-                    foreach (var (_, settings) in Service.Configuration.CharacterSettingsMap)
-                    {
-                        module.DoWeeklyReset(settings);
-                    }
-                }
-
-                Service.Configuration.NextWeeklyReset = Util.NextWeeklyReset();
-                Service.Configuration.Save();
             }
         }
 
         public void Dispose()
         {
-            foreach (var module in Modules)
-            {
-                module.Dispose();
-            }
-        }
-
-        public IEnumerable<Module> GetModulesByType(ModuleType type)
-        {
-            if (type == ModuleType.Daily)
-                return dailyModules;
-
-            if (type == ModuleType.Weekly)
-                return weeklyModules;
-
-            throw new Exception("Invalid Module Type Used");
-        }
-
-        public bool TasksCompleteByType(ModuleType type)
-        {
-            return GetModulesByType(type)
-                .Where(module => module.GenericSettings.Enabled)
-                .All(module => module.IsCompleted());
+            Service.Framework.Update -= Update;
+            Service.ClientState.Login -= PreOnLogin;
+            Service.ClientState.TerritoryChanged -= PreOnTerritoryChanged;
         }
     }
 }
