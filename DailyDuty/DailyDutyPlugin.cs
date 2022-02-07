@@ -1,97 +1,122 @@
 ﻿using System;
 using System.Diagnostics;
-using DailyDuty.CommandSystem;
-using DailyDuty.ConfigurationSystem;
-using DailyDuty.DisplaySystem;
-using DailyDuty.DisplaySystem.Windows;
-using DailyDuty.System;
-using DailyDuty.System.Utilities;
+using DailyDuty.Data;
+using DailyDuty.Utilities;
+using DailyDuty.Windows;
+using DailyDuty.Windows.Settings;
+using DailyDuty.Windows.Todo;
 using Dalamud.Game;
+using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 
-namespace DailyDuty
+namespace DailyDuty;
+
+public sealed class DailyDutyPlugin : IDalamudPlugin
 {
-    public sealed class DailyDutyPlugin : IDalamudPlugin
+    public string Name => "DailyDuty";
+    private const string SettingsCommand = "/dailyduty";
+    private const string ShorthandCommand = "/dd";
+
+    private readonly Stopwatch stopwatch = new();
+
+    private readonly SettingsWindow settingsWindow;
+    private readonly TodoWindow todoWindow;
+
+    public DailyDutyPlugin(
+        [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
     {
-        public string Name => "DailyDuty";
-
-        private DisplayManager DisplayManager { get; init; }
-        private CommandManager CommandManager { get; init; }
-
-        private readonly Stopwatch stopwatch = new();
-
-        public DailyDutyPlugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
-        {
-            // Create Static Services for use everywhere
-            pluginInterface.Create<Service>();
+        // Create Static Services for use everywhere
+        pluginInterface.Create<Service>();
             
-            // If configuration json exists load it, if not make new config object
-            Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            Service.Configuration.Initialize(Service.PluginInterface);
-            Service.ClientState.Logout += OnLogout;
-            Service.Configuration.UpdateCharacter();
+        // If configuration json exists load it, if not make new config object
+        Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+        Service.Configuration.Initialize(Service.PluginInterface);
+        Service.ClientState.Logout += OnLogout;
+        Service.Configuration.UpdateCharacter();
 
-            Service.Chat.Enable();
+        Service.Chat.Enable();
 
-            // Create Systems
-            Service.ModuleManager = new ModuleManager();
-            DisplayManager = new DisplayManager();
-            CommandManager = new CommandManager(DisplayManager);
-
-            // Register draw callbacks
-            Service.PluginInterface.UiBuilder.Draw += DrawUI;
-            Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
-            Service.Framework.Update += OnFrameworkUpdate;
-
-            // Register Windows
-            Service.WindowSystem.AddWindow(DisplayManager);
-        }
-        
-        private void OnLogout(object? sender, EventArgs e)
+        // Register Slash Commands
+        Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
         {
-            Service.LoggedIn = false;
-        }
-        private void OnFrameworkUpdate(Framework framework)
-        {
-            Service.ModuleManager.Update();
+            HelpMessage = "open configuration window"
+        });
 
-            Util.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
-        }
-
-        private void UpdateSelectedCharacter()
+        Service.Commands.AddHandler(ShorthandCommand, new CommandInfo(OnCommand)
         {
-            if (Service.ClientState.LocalContentId != 0)
+            HelpMessage = "shorthand command to open configuration window"
+        });
+
+        // Create Systems
+        Service.ModuleManager = new();
+        settingsWindow = new();
+        todoWindow = new();
+
+        // Register draw callbacks
+        Service.PluginInterface.UiBuilder.Draw += DrawUI;
+        Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+        Service.Framework.Update += OnFrameworkUpdate;
+
+    }
+
+    private void OnCommand(string command, string arguments)
+    {
+        if (arguments == string.Empty)
+        {
+            settingsWindow.IsOpen = true;
+        }
+        else
+        {
+            Service.ModuleManager.ProcessCommand(command, arguments);
+        }
+    }
+
+    private void OnLogout(object? sender, EventArgs e)
+    {
+        Service.LoggedIn = false;
+    }
+    private void OnFrameworkUpdate(Framework framework)
+    {
+        Time.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
+    }
+
+    private void UpdateSelectedCharacter()
+    {
+        if (Service.ClientState.LocalContentId != 0)
+        {
+            Service.LoggedIn = true;
+            if (Service.ClientState.LocalContentId != Service.Configuration.CurrentCharacter)
             {
-                Service.LoggedIn = true;
-                if (Service.ClientState.LocalContentId != Service.Configuration.CurrentCharacter)
-                {
-                    Service.Configuration.UpdateCharacter();
-                }
+                Service.Configuration.UpdateCharacter();
             }
         }
+    }
 
-        private void DrawUI()
-        {
-            Service.WindowSystem.Draw();
-        }
-        private void DrawConfigUI()
-        {
-            DisplayManager.IsOpen = true;
-        }
+    private void DrawUI()
+    {
+        Service.WindowSystem.Draw();
+    }
 
-        public void Dispose()
-        {
-            CommandManager.Dispose();
-            DisplayManager.Dispose();
-            Service.ModuleManager.Dispose();
+    private void DrawConfigUI()
+    {
+        settingsWindow.IsOpen = true;
+    }
 
-            Service.ClientState.Logout -= OnLogout;
+    public void Dispose()
+    {
+        Service.ModuleManager.Dispose();
 
-            Service.PluginInterface.UiBuilder.Draw -= DrawUI;
-            Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
-            Service.Framework.Update -= OnFrameworkUpdate;
-        }
+        Service.ClientState.Logout -= OnLogout;
+
+        Service.PluginInterface.UiBuilder.Draw -= DrawUI;
+        Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+        Service.Framework.Update -= OnFrameworkUpdate;
+
+        Service.Commands.RemoveHandler(SettingsCommand);
+        Service.Commands.RemoveHandler(ShorthandCommand);
+
+        settingsWindow.Dispose();
+        todoWindow.Dispose();
     }
 }

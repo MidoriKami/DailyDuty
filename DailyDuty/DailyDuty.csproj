@@ -71,8 +71,4 @@
 		</Reference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="System\Modules\Weekly\" />
-	</ItemGroup>
-
 </Project>
