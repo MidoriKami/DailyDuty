@@ -2,6 +2,7 @@
 using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using Dalamud.Interface;
 
 namespace DailyDuty.Components.Graphical;
 
@@ -17,6 +18,6 @@ internal class DailyResetCountdown : ICountdownTimer
         var totalHours = Time.NextDailyReset() - now;
         var percentage = (float) (1 - totalHours / TimeSpan.FromDays(1) );
 
-        Draw.DrawProgressBar(percentage, "Daily Reset", totalHours, new Vector2(ElementWidth, 20), Color);
+        Draw.DrawProgressBar(percentage, "Daily Reset", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
     }
 }

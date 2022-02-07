@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Utilities;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
 
@@ -63,6 +64,7 @@ public class Configuration : IPluginConfiguration
 
     public void Save()
     {
+        Chat.Print("Debug", $"Saving {DateTime.Now}");
         pluginInterface!.SavePluginConfig(this);
     }
 }

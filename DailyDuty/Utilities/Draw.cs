@@ -113,4 +113,16 @@ internal static class Draw
             ImGui.TextColored(new(255, 0, 0, 100), "Incomplete");
         }
     }
+
+    public static void DrawConditionalText(bool condition, string trueString, string falseString)
+    {
+        if (condition)
+        {
+            ImGui.TextColored(new Vector4(0, 255, 0, 0.8f), trueString);
+        }
+        else
+        {
+            ImGui.TextColored(new Vector4(185, 0, 0, 0.8f), falseString);
+        }
+    }
 }

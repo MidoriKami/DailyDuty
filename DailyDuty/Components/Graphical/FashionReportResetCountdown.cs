@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using Dalamud.Interface;
 
 namespace DailyDuty.Components.Graphical;
 
@@ -35,6 +36,6 @@ internal class FashionReportResetCountdown : ICountdownTimer
             percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
         }
 
-        Draw.DrawProgressBar(percentage, "Fashion Report", totalHours, new Vector2(ElementWidth, 20), Color);
+        Draw.DrawProgressBar(percentage, "Fashion Report", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
     }
 }

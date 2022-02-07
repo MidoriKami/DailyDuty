@@ -28,8 +28,8 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
 
         if (ImGui.BeginTable("CountdownTimersTable", 2))
         {
-            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f);
-            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 50f);
+            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
+            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 50f * ImGuiHelpers.GlobalScale);
 
             DrawDailyResetCountdownOptions();
 
@@ -52,7 +52,7 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
 
         ImGui.SameLine();
 
-        ImGui.PushItemWidth(175);
+        ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
         ImGui.SliderInt("", ref Settings.TimerWidth, 170, 600);
         ImGui.PopItemWidth();
     }
