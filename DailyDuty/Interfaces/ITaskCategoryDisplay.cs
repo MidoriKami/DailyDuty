@@ -47,7 +47,9 @@ internal interface ITaskCategoryDisplay
 
     public bool AllTasksCompleted()
     {
-        return Tasks.All(task => task.IsCompleted());
+        return Tasks
+            .Where(task => task.GenericSettings.Enabled)
+            .All(task => task.IsCompleted());
     }
 
     private void DrawTaskStatus(ICompletable task)
