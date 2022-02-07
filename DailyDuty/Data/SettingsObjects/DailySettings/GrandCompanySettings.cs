@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Data.SettingsObjects.DailySettings
+namespace DailyDuty.Data.SettingsObjects.DailySettings;
+
+public class GrandCompanySettings : GenericSettings
 {
-    public class GrandCompanySettings : GenericSettings
-    {
-    }
 }

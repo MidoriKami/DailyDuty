@@ -5,20 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Data.SettingsObjects;
 
-namespace DailyDuty.Interfaces
+namespace DailyDuty.Interfaces;
+
+internal interface IZoneChangeThrottledNotification
 {
-    internal interface IZoneChangeThrottledNotification
+    public GenericSettings GenericSettings { get; }
+
+    public void TrySendNotification()
     {
-        public GenericSettings GenericSettings { get; }
-
-        public void TrySendNotification()
+        if (GenericSettings.ZoneChangeReminder == true)
         {
-            if (GenericSettings.ZoneChangeReminder == true)
-            {
-                SendNotification();
-            }
+            SendNotification();
         }
-
-        public void SendNotification();
     }
+
+    public void SendNotification();
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Interfaces
+namespace DailyDuty.Interfaces;
+
+internal interface IDrawable
 {
-    internal interface IDrawable
-    {
-        public void Draw();
-    }
+    public void Draw();
 }

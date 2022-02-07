@@ -6,24 +6,23 @@ using System.Threading.Tasks;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
-namespace DailyDuty.Modules.Weekly
+namespace DailyDuty.Modules.Weekly;
+
+internal class ChallengeLog : ICollapsibleHeader, IUpdateable
 {
-    internal class ChallengeLog : ICollapsibleHeader, IUpdateable
+    public void Dispose()
     {
-        public void Dispose()
-        {
-        }
+    }
 
-        public string HeaderText { get; } = "Challenge Log";
+    public string HeaderText { get; } = "Challenge Log";
 
-        void ICollapsibleHeader.DrawContents()
-        {
-            ImGui.Text("Not Implemented Yet");
-        }
+    void ICollapsibleHeader.DrawContents()
+    {
+        ImGui.Text("Not Implemented Yet");
+    }
 
-        public void Update()
-        {
+    public void Update()
+    {
             
-        }
     }
 }

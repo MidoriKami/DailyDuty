@@ -4,23 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Interfaces;
+using DailyDuty.Windows.Settings.SettingsHeaders;
 
-namespace DailyDuty.Windows.Settings
+namespace DailyDuty.Windows.Settings;
+
+internal class ConfigurationTabItem : ITabItem
 {
-    internal class ConfigurationTabItem : ITabItem
+    private readonly List<ICollapsibleHeader> headers = new()
     {
-        public static bool EditModeEnabled = false;
+        new CountdownTimersConfiguration(),
+        new GeneralConfiguration(),
+        new TodoWindowConfiguration()
+    };
 
-        public void Dispose()
+    public static bool EditModeEnabled = false;
+
+    public string TabName => "Configuration";
+
+    public void Draw()
+    {
+        foreach (var header in headers)
         {
-            
+            header.Draw();
         }
+    }
 
-        public string TabName => "Configuration";
-
-        public void Draw()
-        {
-
-        }
+    public void Dispose()
+    {
     }
 }

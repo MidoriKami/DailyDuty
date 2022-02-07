@@ -8,46 +8,45 @@ using DailyDuty.Windows.Settings;
 using Dalamud.Interface;
 using ImGuiNET;
 
-namespace DailyDuty.Interfaces
+namespace DailyDuty.Interfaces;
+
+internal interface IConfigurable : ICollapsibleHeader
 {
-    internal interface IConfigurable : ICollapsibleHeader
+    public GenericSettings GenericSettings { get; }
+
+    void NotificationOptions();
+
+    void EditModeOptions();
+
+    void DisplayData();
+
+    void ICollapsibleHeader.DrawContents()
     {
-        public GenericSettings GenericSettings { get; }
+        ImGui.Checkbox($"Enabled##{HeaderText}", ref GenericSettings.Enabled);
+        ImGui.Spacing();
 
-        void NotificationOptions();
-
-        void EditModeOptions();
-
-        void DisplayData();
-
-        void ICollapsibleHeader.DrawContents()
+        if (GenericSettings.Enabled)
         {
-            ImGui.Checkbox($"Enabled##{HeaderText}", ref GenericSettings.Enabled);
+            ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+
+            DisplayData();
+
             ImGui.Spacing();
 
-            if (GenericSettings.Enabled)
+            if (ConfigurationTabItem.EditModeEnabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                DisplayData();
-
+                EditModeOptions();
                 ImGui.Spacing();
 
-                if (ConfigurationTabItem.EditModeEnabled)
-                {
-                    ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
-
-                    EditModeOptions();
-                    ImGui.Spacing();
-
-                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
-                }
-
-                NotificationOptions();
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
             }
 
-            ImGui.Spacing();
+            NotificationOptions();
+            ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
         }
+
+        ImGui.Spacing();
     }
 }

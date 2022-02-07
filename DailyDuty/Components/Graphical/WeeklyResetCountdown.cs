@@ -2,18 +2,22 @@
 using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using Dalamud.Interface;
 
-namespace DailyDuty.Components.Graphical
+namespace DailyDuty.Components.Graphical;
+
+internal class WeeklyResetCountdown : ICountdownTimer
 {
-    internal class WeeklyResetCountdown : IDrawable
-    {
-        public void Draw()
-        {
-            var now = DateTime.UtcNow;
-            var totalHours = Time.NextWeeklyReset() - now;
-            var percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
+    bool ICountdownTimer.Enabled => Service.Configuration.TimerSettings.WeeklyCountdownEnabled;
+    public Vector4 Color => Service.Configuration.TimerSettings.WeeklyCountdownColor;
+    public int ElementWidth => Service.Configuration.TimerSettings.TimerWidth;
 
-            Utilities.Draw.DrawProgressBar(percentage, "Weekly Reset", totalHours, new Vector2(200, 20), Colors.Purple);
-        }
+    void ICountdownTimer.DrawContents()
+    {
+        var now = DateTime.UtcNow;
+        var totalHours = Time.NextWeeklyReset() - now;
+        var percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
+
+        Draw.DrawProgressBar(percentage, "Weekly Reset", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
     }
 }

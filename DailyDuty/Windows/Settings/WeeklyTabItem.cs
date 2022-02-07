@@ -6,39 +6,38 @@ using System.Threading.Tasks;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Weekly;
 
-namespace DailyDuty.Windows.Settings
+namespace DailyDuty.Windows.Settings;
+
+internal class WeeklyTabItem : ITabItem
 {
-    internal class WeeklyTabItem : ITabItem
+    private readonly List<ICollapsibleHeader> headers = new()
     {
-        private readonly List<ICollapsibleHeader> headers = new()
-        {
-            new BlueMageLog(),
-            new ChallengeLog(),
-            new CustomDelivery(),
-            new DomanEnclave(),
-            new FashionReport(),
-            new HuntMarks(),
-            new JumboCactpot(),
-            new MaskedCarnival(),
-            new WondrousTails()
-        };
+        new BlueMageLog(),
+        new ChallengeLog(),
+        new CustomDelivery(),
+        new DomanEnclave(),
+        new FashionReport(),
+        new HuntMarks(),
+        new JumboCactpot(),
+        new MaskedCarnival(),
+        new WondrousTails()
+    };
 
-        public void Dispose()
+    public void Dispose()
+    {
+        foreach (var header in headers)
         {
-            foreach (var header in headers)
-            {
-                header.Dispose();
-            }
+            header.Dispose();
         }
+    }
 
-        public string TabName { get; } = "Weekly";
+    public string TabName { get; } = "Weekly";
 
-        public void Draw()
+    public void Draw()
+    {
+        foreach (var header in headers)
         {
-            foreach (var header in headers)
-            {
-                header.Draw();
-            }
+            header.Draw();
         }
     }
 }

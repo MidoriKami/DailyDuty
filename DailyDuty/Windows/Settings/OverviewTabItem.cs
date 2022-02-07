@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DailyDuty.Components.Graphical;
 using DailyDuty.Interfaces;
 
-namespace DailyDuty.Windows.Settings
+namespace DailyDuty.Windows.Settings;
+
+internal class OverviewTabItem : ITabItem
 {
-    internal class OverviewTabItem : ITabItem
+    public string TabName { get; } = "Overview";
+
+    private readonly ITaskCategoryDisplay dailyTasks;
+    private readonly ITaskCategoryDisplay weeklyTasks;
+    public OverviewTabItem()
     {
-        public string TabName { get; } = "Overview";
+        dailyTasks = Service.ModuleManager.GetDailyTasks();
+        weeklyTasks = Service.ModuleManager.GetWeeklyTasks();
+    }
 
-        public void Draw()
-        {
+    public void Draw()
+    {
+        dailyTasks.Draw();
 
-        }
+        weeklyTasks.Draw();
+    }
 
-        public void Dispose()
-        {
-        }
+    public void Dispose()
+    {
     }
 }

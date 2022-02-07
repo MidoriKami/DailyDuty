@@ -71,8 +71,4 @@
 		</Reference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Data\Enums\" />
-	</ItemGroup>
-
 </Project>

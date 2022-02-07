@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
-namespace DailyDuty.Modules.Daily
+namespace DailyDuty.Modules.Daily;
+
+internal class DutyRoulette : ICollapsibleHeader, IUpdateable
 {
-    internal class DutyRoulette : ICollapsibleHeader, IUpdateable
+    public string HeaderText { get; } = "Duty Roulette";
+    void ICollapsibleHeader.DrawContents()
     {
-        public string HeaderText { get; } = "Duty Roulette";
-        void ICollapsibleHeader.DrawContents()
-        {
-            ImGui.Text("Not Implemented Yet");
-        }
+        ImGui.Text("Not Implemented Yet");
+    }
 
-        public void Dispose()
-        {
-        }
+    public void Dispose()
+    {
+    }
 
-        public void Update()
-        {
+    public void Update()
+    {
             
-        }
     }
 }

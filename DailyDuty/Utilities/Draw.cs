@@ -4,24 +4,113 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using DailyDuty.Data.SettingsObjects;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
-namespace DailyDuty.Utilities
+namespace DailyDuty.Utilities;
+
+internal static class Draw
 {
-    internal static class Draw
+    public static void DrawProgressBar(float percentage, string prependText, TimeSpan remainingTime, Vector2 size, Vector4 barColor)
     {
-        public static void DrawProgressBar(float percentage, string prependText, TimeSpan remainingTime, Vector2 size, Vector4 barColor)
+        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 1));
+        ImGui.PushStyleColor(ImGuiCol.PlotHistogram, barColor);
+
+        ImGui.ProgressBar(percentage, size, remainingTime.Days > 0
+                ? $"{prependText}: {remainingTime.FormatDays()}"
+                : $"{prependText}: {remainingTime.FormatHours()}");
+
+        ImGui.PopStyleColor(2);
+    }
+
+    public static void NumericDisplay(string label, int value)
+    {
+        ImGui.Text(label + ":");
+        ImGui.SameLine();
+        ImGui.Text($"{value}");
+    }
+
+    public static void OnLoginReminderCheckbox(GenericSettings settings, string categoryString)
+    {
+        ImGui.Checkbox($"Login Reminder##{categoryString}", ref settings.LoginReminder);
+        ImGuiComponents.HelpMarker("Display this module's status in chat on login if this module is incomplete.");
+    }
+
+    public static  void OnTerritoryChangeCheckbox(GenericSettings settings, string categoryString)
+    {
+        ImGui.Checkbox($"Zone Change Reminder##{categoryString}", ref settings.ZoneChangeReminder);
+        ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete.");
+    }
+
+    public static  void EditNumberField(string label, string categoryString, ref int refValue)
+    {
+        ImGui.Text(label + ":");
+
+        ImGui.SameLine();
+
+        ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
+        ImGui.InputInt($"##{label}{categoryString}", ref refValue, 0, 0);
+        ImGui.PopItemWidth();
+    }
+
+    public static  void NotificationField(string label, string categoryString, ref bool refValue, string helpText = "")
+    {
+        ImGui.Checkbox($"{label}##{categoryString}", ref refValue);
+
+        if (helpText != string.Empty)
         {
-            ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 1));
-            ImGui.PushStyleColor(ImGuiCol.PlotHistogram, barColor);
+            ImGuiComponents.HelpMarker(helpText);
+        }
+    }
 
-            ImGui.ProgressBar(percentage, ImGuiHelpers.ScaledVector2(200, 20),
-                remainingTime.Days > 0
-                    ? $"{prependText}: {remainingTime.FormatDays()}"
-                    : $"{prependText}: {remainingTime.FormatHours()}");
+    // HH:MM:SS
+    public static  void TimeSpanDisplay(string label, TimeSpan span)
+    {
+        ImGui.Text(label + ":");
+        ImGui.SameLine();
+            
+        if (span == TimeSpan.Zero)
+        {
+            ImGui.TextColored(new(0, 255, 0, 255), $" {span.FormatAuto()}");
+        }
+        else
+        {
+            ImGui.Text($" {span.FormatAuto()}");
+        }
+    }
 
-            ImGui.PopStyleColor(2);
+    public static  void DaysTimeSpanDisplay(string label, TimeSpan delta)
+    {
+        ImGui.Text(label + ":");
+        ImGui.SameLine();
+
+        if (delta == TimeSpan.Zero)
+        {
+            ImGui.TextColored(new(0, 255, 0, 255), $" {delta.FormatAuto()}");
+        }
+        else
+        {
+            ImGui.Text($" {delta.FormatAuto()}");
+        }
+    }
+
+    public static void Text(string text)
+    {
+        ImGui.Text(text);
+        ImGui.Spacing();
+    }
+
+    public static  void PrintCompleteIncomplete(bool complete)
+    {
+        if (complete)
+        {
+            ImGui.TextColored(new(0, 255, 0, 255), "Complete");
+        }
+        else
+        {
+            ImGui.TextColored(new(255, 0, 0, 100), "Incomplete");
         }
     }
 }

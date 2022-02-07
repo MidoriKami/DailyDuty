@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Interfaces
+namespace DailyDuty.Interfaces;
+
+internal interface IUpdateable
 {
-    internal interface IUpdateable
-    {
-        public void Update();
-    }
+    public void Update();
 }

@@ -6,23 +6,22 @@ using System.Threading.Tasks;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
-namespace DailyDuty.Modules.Weekly
+namespace DailyDuty.Modules.Weekly;
+
+internal class MaskedCarnival : ICollapsibleHeader, IUpdateable
 {
-    internal class MaskedCarnival : ICollapsibleHeader, IUpdateable
+    public void Dispose()
     {
-        public void Dispose()
-        {
-        }
+    }
 
-        public string HeaderText { get; } = "Masked Carnival";
-        void ICollapsibleHeader.DrawContents()
-        {
-            ImGui.Text("Not Implemented Yet");
-        }
+    public string HeaderText { get; } = "Masked Carnival";
+    void ICollapsibleHeader.DrawContents()
+    {
+        ImGui.Text("Not Implemented Yet");
+    }
 
-        public void Update()
-        {
+    public void Update()
+    {
             
-        }
     }
 }

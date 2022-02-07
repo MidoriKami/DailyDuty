@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Utilities;
 
-namespace DailyDuty.Interfaces
+namespace DailyDuty.Interfaces;
+
+internal interface IWeeklyResettable : IResettable
 {
-    internal interface IWeeklyResettable : IResettable
+    DateTime IResettable.GetNextReset()
     {
-        DateTime IResettable.GetNextReset()
-        {
-            return Time.NextWeeklyReset();
-        }
+        return Time.NextWeeklyReset();
     }
 }

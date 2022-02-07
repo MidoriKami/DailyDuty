@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Data.SettingsObjects.DailySettings
+namespace DailyDuty.Data.SettingsObjects.DailySettings;
+
+public class MiniCactpotSettings : GenericSettings
 {
-    public class MiniCactpotSettings : GenericSettings
-    {
-        public int TicketsRemaining = 3;
-    }
+    public int TicketsRemaining = 3;
 }

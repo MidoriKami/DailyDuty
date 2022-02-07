@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace DailyDuty.Data.SettingsObjects
+namespace DailyDuty.Data.SettingsObjects;
+
+public class GenericSettings
 {
-    public class GenericSettings
-    {
-        public DateTime NextReset = new();
-        public bool Enabled = false;
-        public bool ZoneChangeReminder = false;
-        public bool LoginReminder = false;
-    }
+    public DateTime NextReset = new();
+    public bool Enabled = false;
+    public bool ZoneChangeReminder = false;
+    public bool LoginReminder = false;
 }

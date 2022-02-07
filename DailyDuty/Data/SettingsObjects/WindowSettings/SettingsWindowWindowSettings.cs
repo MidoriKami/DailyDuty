@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Data.SettingsObjects.WindowSettings
+namespace DailyDuty.Data.SettingsObjects.WindowSettings;
+
+internal class SettingsWindowWindowSettings : GenericWindowSettings
 {
-    internal class SettingsWindowWindowSettings : GenericWindowSettings
-    {
-    }
 }

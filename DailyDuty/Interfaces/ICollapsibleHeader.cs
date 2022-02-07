@@ -5,20 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using ImGuiNET;
 
-namespace DailyDuty.Interfaces
+namespace DailyDuty.Interfaces;
+
+internal interface ICollapsibleHeader : IDisposable
 {
-    internal interface ICollapsibleHeader : IDisposable
+    public string HeaderText { get; }
+
+    public void Draw()
     {
-        public string HeaderText { get; }
-
-        public void Draw()
+        if (ImGui.CollapsingHeader(HeaderText))
         {
-            if (ImGui.CollapsingHeader(HeaderText))
-            {
-                DrawContents();
-            }
+            DrawContents();
         }
-
-        protected void DrawContents();
     }
+
+    protected void DrawContents();
 }

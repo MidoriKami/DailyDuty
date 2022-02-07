@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Data.SettingsObjects.WeeklySettings
+namespace DailyDuty.Data.SettingsObjects.WeeklySettings;
+
+public class BlueMageLogSettings : GenericSettings
 {
-    public class BlueMageLogSettings : GenericSettings
-    {
-    }
 }
