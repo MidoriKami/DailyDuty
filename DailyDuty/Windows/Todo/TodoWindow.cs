@@ -14,7 +14,7 @@ internal class TodoWindow : Window, IDisposable
 {
     private readonly ITaskCategoryDisplay dailyTasks;
     private readonly ITaskCategoryDisplay weeklyTasks;
-
+    private int FrameCounter = 0;
     private TodoWindowSettings Settings => Service.Configuration.TodoWindowSettings;
 
     private const ImGuiWindowFlags DefaultFlags = ImGuiWindowFlags.NoFocusOnAppearing |
@@ -39,6 +39,8 @@ internal class TodoWindow : Window, IDisposable
 
     private void Update(Framework framework)
     {
+        if(FrameCounter++ % 10 != 0) return;
+
         bool dailyTasksComplete = dailyTasks.AllTasksCompleted() || !Settings.ShowDaily;
         bool weeklyTasksComplete = weeklyTasks.AllTasksCompleted() || !Settings.ShowWeekly;
         bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
