@@ -11,7 +11,8 @@ internal class AllCountdownTimers : IDrawable
     {
         new DailyResetCountdown(),
         new WeeklyResetCountdown(),
-        new FashionReportResetCountdown()
+        new FashionReportResetCountdown(),
+        new TreasureMapCountdown()
     };
 
     public void Draw()
@@ -30,6 +31,10 @@ internal class AllCountdownTimers : IDrawable
                     if (remainingWidth > progressBarWidth)
                     {
                         ImGui.SameLine();
+                    }
+                    else
+                    {
+                        index = 0;
                     }
                 }
 

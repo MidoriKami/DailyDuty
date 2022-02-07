@@ -15,10 +15,11 @@ internal class JumboCactpot : ICollapsibleHeader, IUpdateable
 
     }
 
-    public string HeaderText { get; } = "Jumbo Cactpot";
+    public string HeaderText => "Jumbo Cactpot";
+
     void ICollapsibleHeader.DrawContents()
     {
-        ImGui.Text("Not Implemented Yet");
+        ImGui.Text("Temporarily Removed, look forward to updates");
     }
 
     public void Update()

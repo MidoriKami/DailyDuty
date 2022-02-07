@@ -14,11 +14,15 @@ internal interface ITaskCategoryDisplay
 {
     protected List<ICompletable> Tasks { get; }
 
+    public Vector4 HeaderColor { get; set; }
+    public Vector4 ItemIncompleteColor { get; set;}
+    public Vector4 ItemCompleteColor { get; set; }
+
     public string HeaderText { get; }
         
     public void Draw()
     {
-        ImGui.Text(HeaderText);
+        ImGui.TextColored(HeaderColor, HeaderText);
         ImGui.Spacing();
 
         ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
@@ -34,7 +38,7 @@ internal interface ITaskCategoryDisplay
 
         if (allTasksComplete == true)
         {
-            ImGui.TextColored(new Vector4(0, 255, 0, 150), "All Tasks Complete");
+            ImGui.TextColored(ItemCompleteColor, "All Tasks Complete");
             ImGui.Spacing();
         }
 
@@ -46,11 +50,11 @@ internal interface ITaskCategoryDisplay
         return Tasks.All(task => task.IsCompleted());
     }
 
-    private static void DrawTaskStatus(ICompletable task)
+    private void DrawTaskStatus(ICompletable task)
     {
         if (task.IsCompleted() == false && task.GenericSettings.Enabled)
         {
-            ImGui.TextColored(new Vector4(255, 0, 0, 150), task.HeaderText);
+            ImGui.TextColored(ItemIncompleteColor, task.HeaderText);
             ImGui.Spacing();
         }
     }

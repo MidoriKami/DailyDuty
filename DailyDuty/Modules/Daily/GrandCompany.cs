@@ -10,7 +10,8 @@ namespace DailyDuty.Modules.Daily;
 
 internal class GrandCompany : ICollapsibleHeader, IUpdateable
 {
-    public string HeaderText { get; } = "Grand Company";
+    public string HeaderText => "Grand Company";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Text("Not Implemented Yet");

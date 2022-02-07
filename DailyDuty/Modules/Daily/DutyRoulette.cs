@@ -10,10 +10,11 @@ namespace DailyDuty.Modules.Daily;
 
 internal class DutyRoulette : ICollapsibleHeader, IUpdateable
 {
-    public string HeaderText { get; } = "Duty Roulette";
+    public string HeaderText => "Duty Roulette";
+
     void ICollapsibleHeader.DrawContents()
     {
-        ImGui.Text("Not Implemented Yet");
+        ImGui.Text("Temporarily Removed, look forward to updates");
     }
 
     public void Dispose()

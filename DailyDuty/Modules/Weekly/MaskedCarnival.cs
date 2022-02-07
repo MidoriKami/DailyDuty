@@ -14,7 +14,8 @@ internal class MaskedCarnival : ICollapsibleHeader, IUpdateable
     {
     }
 
-    public string HeaderText { get; } = "Masked Carnival";
+    public string HeaderText => "Masked Carnival";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Text("Not Implemented Yet");

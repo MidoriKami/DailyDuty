@@ -10,7 +10,8 @@ namespace DailyDuty.Modules.Daily;
 
 internal class Levequests : ICollapsibleHeader, IUpdateable
 {
-    public string HeaderText { get; } = "Levequests";
+    public string HeaderText => "Levequests";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Text("Not Implemented Yet");

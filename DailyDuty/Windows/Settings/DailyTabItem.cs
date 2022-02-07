@@ -28,7 +28,7 @@ internal class DailyTabItem : ITabItem
         }
     }
 
-    public string TabName { get; } = "Daily";
+    public string TabName => "Daily";
 
     public void Draw()
     {

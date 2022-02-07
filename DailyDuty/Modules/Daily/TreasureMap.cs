@@ -81,7 +81,7 @@ internal class TreasureMap :
                 {
                     var mapName = Service.DataManager.GetExcelSheet<Item>()!.GetRow(map.ItemID)!.Name; 
 
-                    Chat.Print(HeaderText, $"A '{mapName}' is available for harvest in this area.");
+                    Chat.Print(HeaderText, $"A '{mapName}' is available for harvest in this area");
                 }
             }
         }
@@ -91,7 +91,7 @@ internal class TreasureMap :
     {
         if (IsTreasureMapAvailable() && Condition.IsBoundByDuty() == false)
         {
-            Chat.Print(HeaderText, "Treasure Map is Available");
+            Chat.Print(HeaderText, "Treasure Map Available");
         }
     }
 
@@ -100,8 +100,8 @@ internal class TreasureMap :
         Draw.OnLoginReminderCheckbox(Settings, HeaderText);
         Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
 
-        Draw.NotificationField("Map Acquisition Notification", HeaderText, ref Settings.NotifyOnAcquisition, "Confirm Map Acquisition with a chat message.");
-        Draw.NotificationField("Harvestable Map Notification",HeaderText, ref Settings.HarvestableMapNotification, "Show a notification in chat when there are harvestable Treasure Maps available in the current area.");
+        Draw.NotificationField("Map Acquisition Notification", HeaderText, ref Settings.NotifyOnAcquisition, "Confirm Map Acquisition with a chat message");
+        Draw.NotificationField("Harvestable Map Notification",HeaderText, ref Settings.HarvestableMapNotification, "Show a notification in chat when there are harvestable Treasure Maps available in the current area");
 
         DrawMinimumMapLevelComboBox();
     }
@@ -167,7 +167,7 @@ internal class TreasureMap :
         {
             var mapName = item.Item!.Name.ToString();
 
-            Chat.Print(HeaderText, $"A '{mapName}' has been gathered.");
+            Chat.Print(HeaderText, $"A '{mapName}' has been gathered");
             Chat.Print(HeaderText, $"Your next map will be available on {DateTime.Now.AddHours(18)}");
         }
 
@@ -240,7 +240,7 @@ internal class TreasureMap :
             ImGui.EndCombo();
         }
 
-        ImGuiComponents.HelpMarker("Only show notifications that a map is available if the map is at least this level.");
+        ImGuiComponents.HelpMarker("Only show notifications that a map is available if the map is at least this level");
 
         ImGui.PopItemWidth();
 

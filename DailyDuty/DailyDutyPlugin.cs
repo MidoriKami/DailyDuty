@@ -4,6 +4,7 @@ using DailyDuty.Data;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using DailyDuty.Windows.Settings;
+using DailyDuty.Windows.Todo;
 using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
@@ -18,7 +19,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     private const string ShorthandCommand = "/dd";
 
     private readonly Stopwatch stopwatch = new();
+
     private readonly SettingsWindow settingsWindow;
+    private readonly TodoWindow todoWindow;
 
     public DailyDutyPlugin(
         [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -48,6 +51,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         // Create Systems
         Service.ModuleManager = new();
         settingsWindow = new();
+        todoWindow = new();
 
         // Register draw callbacks
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -111,5 +115,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
         Service.Commands.RemoveHandler(SettingsCommand);
         Service.Commands.RemoveHandler(ShorthandCommand);
+
+        settingsWindow.Dispose();
+        todoWindow.Dispose();
     }
 }

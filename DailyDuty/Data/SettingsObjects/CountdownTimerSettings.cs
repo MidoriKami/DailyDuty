@@ -12,6 +12,8 @@ namespace DailyDuty.Data.SettingsObjects;
 [Serializable]
 public class CountdownTimerSettings
 {
+    public int TimerWidth = 200;
+
     public bool DailyCountdownEnabled = true;
     public Vector4 DailyCountdownColor = Colors.Blue;
 
@@ -19,6 +21,8 @@ public class CountdownTimerSettings
     public Vector4 WeeklyCountdownColor = Colors.Purple;
 
     public bool FashionReportCountdownEnabled = false;
-    public Vector4 FashionReportCountdownColor = Colors.Green;
-    public int TimerWidth = 200;
+    public Vector4 FashionReportCountdownColor = Colors.ForestGreen;
+
+    public bool TreasureMapCountdownEnabled = false;
+    public Vector4 TreasureMapCountdownColor = Colors.Blue;
 }

@@ -27,7 +27,7 @@ internal static class Draw
 
     public static void NumericDisplay(string label, int value)
     {
-        ImGui.Text(label + ":");
+        ImGui.Text(label);
         ImGui.SameLine();
         ImGui.Text($"{value}");
     }
@@ -35,18 +35,18 @@ internal static class Draw
     public static void OnLoginReminderCheckbox(GenericSettings settings, string categoryString)
     {
         ImGui.Checkbox($"Login Reminder##{categoryString}", ref settings.LoginReminder);
-        ImGuiComponents.HelpMarker("Display this module's status in chat on login if this module is incomplete.");
+        ImGuiComponents.HelpMarker("Display this module's status in chat on login if this module is incomplete");
     }
 
     public static  void OnTerritoryChangeCheckbox(GenericSettings settings, string categoryString)
     {
         ImGui.Checkbox($"Zone Change Reminder##{categoryString}", ref settings.ZoneChangeReminder);
-        ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete.");
+        ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete");
     }
 
     public static  void EditNumberField(string label, string categoryString, ref int refValue)
     {
-        ImGui.Text(label + ":");
+        ImGui.Text(label);
 
         ImGui.SameLine();
 
@@ -83,7 +83,7 @@ internal static class Draw
 
     public static  void DaysTimeSpanDisplay(string label, TimeSpan delta)
     {
-        ImGui.Text(label + ":");
+        ImGui.Text(label);
         ImGui.SameLine();
 
         if (delta == TimeSpan.Zero)

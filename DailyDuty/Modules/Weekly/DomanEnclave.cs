@@ -15,7 +15,8 @@ internal class DomanEnclave : ICollapsibleHeader, IUpdateable
 
     }
 
-    public string HeaderText { get; } = "Doman Enclave";
+    public string HeaderText => "Doman Enclave";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Text("Not Implemented Yet");

@@ -21,7 +21,8 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
             
     }
 
-    public string HeaderText { get; } = "Countdown Timers Configuration";
+    public string HeaderText => "Countdown Timers Configuration";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
@@ -37,6 +38,8 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
 
             DrawFashionReportCountdownOptions();
 
+            DrawTreasureMapCountdownOptions();
+
 
             ImGui.EndTable();
         }
@@ -44,6 +47,18 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         DrawCountdownWidthSlider();
 
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+    }
+
+    private void DrawTreasureMapCountdownOptions()
+    {
+        ImGui.TableNextRow();
+        ImGui.TableNextColumn();
+        Draw.NotificationField("Treasure Map", HeaderText, ref Settings.TreasureMapCountdownEnabled,
+            "Show/Hide Treasure Map Timer");
+
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Treasure Map Bar Color", ref Settings.TreasureMapCountdownColor,
+            ImGuiColorEditFlags.NoInputs);
     }
 
     private void DrawCountdownWidthSlider()
@@ -62,7 +77,7 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.TableNextRow();
         ImGui.TableNextColumn();
         Draw.NotificationField("Fashion Report Reset", HeaderText, ref Settings.FashionReportCountdownEnabled,
-            "Show/Hide Fashion Report Reset Timer.");
+            "Show/Hide Fashion Report Reset Timer");
 
         ImGui.TableNextColumn();
         ImGui.ColorEdit4("##Fashion Report Reset Bar Color", ref Settings.FashionReportCountdownColor,
@@ -74,7 +89,7 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.TableNextRow();
         ImGui.TableNextColumn();
         Draw.NotificationField("Weekly Reset", HeaderText, ref Settings.WeeklyCountdownEnabled,
-            "Show/Hide Weekly Reset Timer.");
+            "Show/Hide Weekly Reset Timer");
 
         ImGui.TableNextColumn();
         ImGui.ColorEdit4("##Weekly Reset Bar Color", ref Settings.WeeklyCountdownColor, ImGuiColorEditFlags.NoInputs);
@@ -85,7 +100,7 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.TableNextRow();
         ImGui.TableNextColumn();
         Draw.NotificationField("Daily Reset", HeaderText, ref Settings.DailyCountdownEnabled,
-            "Show/Hide Daily Reset Timer.");
+            "Show/Hide Daily Reset Timer");
 
         ImGui.TableNextColumn();
         ImGui.ColorEdit4("##Daily Reset Bar Color", ref Settings.DailyCountdownColor, ImGuiColorEditFlags.NoInputs);

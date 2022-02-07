@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Components.Graphical;
+using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Windows.Settings.SettingsHeaders;
 using Dalamud.Interface;
@@ -16,6 +17,8 @@ internal class SettingsWindow : Window, IDisposable
     private readonly AllCountdownTimers comboCountdown = new();
     private readonly SaveAndCloseButtons saveAndCloseButtons;
 
+    private SettingsWindowSettings Settings => Service.Configuration.SettingsWindowSettings;
+
     public SettingsWindow() : base("DailyDuty Settings")
     {
         saveAndCloseButtons = new(this);
@@ -28,8 +31,6 @@ internal class SettingsWindow : Window, IDisposable
             MaximumSize = new(9909,9909)
         };
 
-
-        //Flags |= ImGuiWindowFlags.NoResize;
         Flags |= ImGuiWindowFlags.NoScrollbar;
         Flags |= ImGuiWindowFlags.NoScrollWithMouse;
     }
@@ -52,6 +53,11 @@ internal class SettingsWindow : Window, IDisposable
         new ConfigurationTabItem()
     };
 
+    public override void PreDraw()
+    {
+        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0, 0, 0, Settings.Opacity));
+    }
+
     public override void Draw()
     {
         if (!IsOpen) return;
@@ -68,7 +74,12 @@ internal class SettingsWindow : Window, IDisposable
 
         ImGui.PopStyleVar();
     }
-        
+
+    public override void PostDraw()
+    {
+        ImGui.PopStyleColor();
+    }
+
     private void DrawTabs()
     {
         if (ImGui.BeginTabBar("DailyDutyTabBar", ImGuiTabBarFlags.NoTooltip))

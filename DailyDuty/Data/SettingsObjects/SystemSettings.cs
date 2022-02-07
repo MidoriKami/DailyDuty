@@ -10,4 +10,5 @@ namespace DailyDuty.Data.SettingsObjects;
 public class SystemSettings
 {
     public int ZoneChangeDelayRate = 1;
+    public bool ShowSaveDebugInfo = false;
 }

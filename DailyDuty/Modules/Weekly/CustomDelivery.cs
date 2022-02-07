@@ -44,9 +44,9 @@ internal unsafe class CustomDelivery :
 
     public void SendNotification()
     {
-        if (Condition.IsBoundByDuty()) return;
+        if (Condition.IsBoundByDuty() == true) return;
 
-        if (Settings.Enabled && Settings.ZoneChangeReminder)
+        if (Settings.Enabled)
         {
             PrintRemainingAllowances();
         }
@@ -102,7 +102,7 @@ internal unsafe class CustomDelivery :
 
     public void DisplayData()
     {
-        Draw.NumericDisplay("Remaining Allowances", Settings.AllowancesRemaining);
+        Draw.NumericDisplay("Allowances Remaining", Settings.AllowancesRemaining);
     }
     public void Dispose()
     {
@@ -161,7 +161,7 @@ internal unsafe class CustomDelivery :
     {
         if (Settings.AllowancesRemaining > 0)
         {
-            Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances remaining");
+            Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining");
         }
     }
 }

@@ -15,7 +15,8 @@ internal class BlueMageLog : ICollapsibleHeader, IUpdateable
 
     }
 
-    public string HeaderText { get; } = "Blue Mage Log";
+    public string HeaderText => "Blue Mage Log";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Text("Not Implemented Yet");

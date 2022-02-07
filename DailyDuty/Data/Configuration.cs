@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Utilities;
 using Dalamud.Configuration;
 using Dalamud.Plugin;
@@ -14,6 +15,8 @@ public class Configuration : IPluginConfiguration
 
     public SystemSettings System = new();
     public CountdownTimerSettings TimerSettings = new();
+    public TodoWindowSettings TodoWindowSettings = new();
+    public SettingsWindowSettings SettingsWindowSettings = new();
 
     public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
     public ulong CurrentCharacter = new();
@@ -29,7 +32,11 @@ public class Configuration : IPluginConfiguration
 
         if (CharacterSettingsMap.ContainsKey(newCharacterID))
         {
-            CurrentCharacter = newCharacterID;
+            if (CurrentCharacter != newCharacterID)
+            {
+                CurrentCharacter = newCharacterID;
+                Save();
+            }
         }
         else
         {
@@ -39,10 +46,9 @@ public class Configuration : IPluginConfiguration
                 CharacterSettingsMap.Add(newCharacterID, new CharacterSettings());
                 CharacterSettingsMap[newCharacterID].CharacterName = localPlayer.Name.ToString();
                 CurrentCharacter = newCharacterID;
+                Save();
             }
         }
-
-        Save();
     }
 
     [NonSerialized]
@@ -64,7 +70,11 @@ public class Configuration : IPluginConfiguration
 
     public void Save()
     {
-        Chat.Print("Debug", $"Saving {DateTime.Now}");
+        if (System.ShowSaveDebugInfo == true)
+        {
+            Chat.Print("Debug", $"Saving {DateTime.Now}");
+        }
+
         pluginInterface!.SavePluginConfig(this);
     }
 }

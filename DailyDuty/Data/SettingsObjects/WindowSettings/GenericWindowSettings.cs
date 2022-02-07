@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DailyDuty.Data.SettingsObjects.WindowSettings;
 
-internal class GenericWindowSettings
+public class GenericWindowSettings
 {
     public bool ClickThrough = false;
     public bool HideInDuty = true;

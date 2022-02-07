@@ -14,7 +14,7 @@ internal class ChallengeLog : ICollapsibleHeader, IUpdateable
     {
     }
 
-    public string HeaderText { get; } = "Challenge Log";
+    public string HeaderText => "Challenge Log";
 
     void ICollapsibleHeader.DrawContents()
     {

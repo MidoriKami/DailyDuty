@@ -28,7 +28,7 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
                 ExpansionType.Stormblood => ObtainedStormblood,
                 ExpansionType.Shadowbringers => ObtainedShadowbringers,
                 ExpansionType.Endwalker => ObtainedEndwalker,
-                _ => throw new Exception("[EliteHuntsModule] Unable to parse expansion input.")
+                _ => throw new Exception("[EliteHuntsModule] Unable to parse expansion input")
             };
         }
     }

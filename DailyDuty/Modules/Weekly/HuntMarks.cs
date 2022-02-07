@@ -53,7 +53,7 @@ internal unsafe class HuntMarks :
     {
         if (Condition.IsBoundByDuty() == true) return;
 
-        if (Settings.Enabled && Settings.ZoneChangeReminder)
+        if (Settings.Enabled)
         {
             DisplayNotification();
         }

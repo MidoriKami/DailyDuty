@@ -10,7 +10,7 @@ namespace DailyDuty.Windows.Settings;
 
 internal class OverviewTabItem : ITabItem
 {
-    public string TabName { get; } = "Overview";
+    public string TabName => "Overview";
 
     private readonly ITaskCategoryDisplay dailyTasks;
     private readonly ITaskCategoryDisplay weeklyTasks;

@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace DailyDuty.Data.SettingsObjects.WindowSettings;
 
-internal class SettingsWindowWindowSettings : GenericWindowSettings
+public class SettingsWindowSettings : GenericWindowSettings
 {
 }

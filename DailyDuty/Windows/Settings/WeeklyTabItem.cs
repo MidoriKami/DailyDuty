@@ -31,7 +31,7 @@ internal class WeeklyTabItem : ITabItem
         }
     }
 
-    public string TabName { get; } = "Weekly";
+    public string TabName => "Weekly";
 
     public void Draw()
     {

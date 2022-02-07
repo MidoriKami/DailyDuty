@@ -18,19 +18,34 @@ internal class GeneralConfiguration : ICollapsibleHeader
             
     }
 
-    public string HeaderText { get; } = "General Configuration";
+    public string HeaderText => "General Configuration";
+
     void ICollapsibleHeader.DrawContents()
     {
         ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
         Draw.NotificationField("Temporary Edit Mode", HeaderText, ref ConfigurationTabItem.EditModeEnabled, 
-            "Allows you to manually correct the values stored in each of Daily/Weekly tabs.\n" +
-            "Edit Mode automatically disables when you close this window.\n" +
-            "Only use Edit Mode to correct errors in other tabs.");
+            "Allows you to manually correct the values stored in each of Daily/Weekly tabs\n" +
+            "Edit Mode automatically disables when you close this window\n" +
+            "Only use Edit Mode to correct errors in other tabs");
 
         NotificationDelaySettings();
 
+        OpacitySlider();
+
+        Draw.NotificationField("Save Debug Printout", HeaderText, ref Service.Configuration.System.ShowSaveDebugInfo, "Enable to show a debug message whenever Daily Duty saves changes to DailyDuty.json");
+
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+    }
+
+    private void OpacitySlider()
+    {
+        ImGui.Text("Opacity");
+        ImGui.SameLine();
+
+        ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
+        ImGui.DragFloat($"##{HeaderText}", ref Service.Configuration.SettingsWindowSettings.Opacity, 0.01f, 0.0f, 1.0f);
+        ImGui.PopItemWidth();
     }
 
     private void NotificationDelaySettings()
@@ -43,13 +58,11 @@ internal class GeneralConfiguration : ICollapsibleHeader
         ImGui.SameLine();
         ImGui.Text("Zone Changes Before Resending Notifications");
 
-        ImGuiComponents.HelpMarker("Prevents sending notifications until this many zone changes have happened.\n" +
+        ImGuiComponents.HelpMarker("Prevents sending notifications until this many zone changes have happened\n" +
                                    "1: Notify on Every Zone Change\n" +
                                    "10: Notify on Every 10th Zone change\n" +
                                    "Minimum: 1\n" +
                                    "Maximum: 10");
-        ImGui.Spacing();
-
 
         if (Service.Configuration.System.ZoneChangeDelayRate < 1)
         {
