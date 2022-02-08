@@ -11,6 +11,8 @@ using DailyDuty.Modules.Weekly;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.Command;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Logging;
 using Dalamud.Utility;
 
@@ -51,6 +53,7 @@ public class ModuleManager : IDisposable
         Service.Framework.Update += Update;
         Service.ClientState.Login += PreOnLogin;
         Service.ClientState.TerritoryChanged += PreOnTerritoryChanged;
+        Service.Chat.ChatMessage += OnChatMessage;
     }
 
     private void PreOnTerritoryChanged(object? sender, ushort e)
@@ -146,6 +149,14 @@ public class ModuleManager : IDisposable
         return new FormattedWeeklyTasks(weeklyModules);
     }
 
+    private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
+    {
+        foreach (var module in modules.OfType<IChatHandler>())
+        {
+            module.HandleChat(type, senderID, ref sender, ref message, ref isHandled);
+        }
+    }
+
     public void Dispose()
     {
         foreach (var module in modules.OfType<IDisposable>())
@@ -156,5 +167,6 @@ public class ModuleManager : IDisposable
         Service.Framework.Update -= Update;
         Service.ClientState.Login -= PreOnLogin;
         Service.ClientState.TerritoryChanged -= PreOnTerritoryChanged;
+        Service.Chat.ChatMessage -= OnChatMessage;
     }
 }

@@ -27,7 +27,8 @@ internal class TreasureMap :
     IZoneChangeThrottledNotification,
     IZoneChangeAlwaysNotification,
     ILoginNotification,
-    ICompletable
+    ICompletable,
+    IChatHandler
 {
 
     private TreasureMapSettings Settings => Service.Configuration.Current().TreasureMap;
@@ -52,13 +53,11 @@ internal class TreasureMap :
 
     public TreasureMap()
     {
-        Service.Chat.ChatMessage += OnChatMap;
-
         mapLevels = MapList.Maps.Select(m => m.Level).ToHashSet();
     }
+
     public void Dispose()
     {
-        Service.Chat.ChatMessage -= OnChatMap;
     }
 
     public bool IsCompleted()
@@ -85,6 +84,32 @@ internal class TreasureMap :
                 }
             }
         }
+    }
+
+    // Based on https://github.com/Ottermandias/Accountant/blob/main/Accountant/Manager/TimerManager.MapManager.cs#L75
+    public void HandleChat(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
+    {
+        if (Settings.Enabled == false) return;
+
+        if ((int)type != 2115 || !Service.Condition[ConditionFlag.Gathering])
+            return;
+
+        if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload item)
+            return;
+
+        if (!IsMap(item.ItemId))
+            return;
+
+        if (Settings.NotifyOnAcquisition == true)
+        {
+            var mapName = item.Item!.Name.ToString();
+
+            Chat.Print(HeaderText, $"A '{mapName}' has been gathered");
+            Chat.Print(HeaderText, $"Your next map will be available on {DateTime.Now.AddHours(18)}");
+        }
+
+        Settings.LastMapGathered = DateTime.Now;
+        Service.Configuration.Save();
     }
 
     public void SendNotification()
@@ -149,31 +174,6 @@ internal class TreasureMap :
         return TimeUntilNextMap() == TimeSpan.Zero;
     }
 
-    // Based on https://github.com/Ottermandias/Accountant/blob/main/Accountant/Manager/TimerManager.MapManager.cs#L75
-    private void OnChatMap(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
-    {
-        if (Settings.Enabled == false) return;
-
-        if ((int)type != 2115 || !Service.Condition[ConditionFlag.Gathering])
-            return;
-
-        if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload item)
-            return;
-
-        if (!IsMap(item.ItemId))
-            return;
-
-        if (Settings.NotifyOnAcquisition == true)
-        {
-            var mapName = item.Item!.Name.ToString();
-
-            Chat.Print(HeaderText, $"A '{mapName}' has been gathered");
-            Chat.Print(HeaderText, $"Your next map will be available on {DateTime.Now.AddHours(18)}");
-        }
-
-        Settings.LastMapGathered = DateTime.Now;
-        Service.Configuration.Save();
-    }
 
     private bool IsMap(uint itemID)
     {
@@ -246,5 +246,4 @@ internal class TreasureMap :
 
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
     }
-
 }
