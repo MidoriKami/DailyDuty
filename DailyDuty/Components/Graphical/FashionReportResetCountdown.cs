@@ -32,8 +32,8 @@ internal class FashionReportResetCountdown : ICountdownTimer
         }
         else
         {
-            totalHours = Time.NextFashionReportReset() - now;
-            percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
+            totalHours = fashionReportOpen - now;
+            percentage = (float) (1 - totalHours / TimeSpan.FromDays(3) );
         }
 
         Draw.DrawProgressBar(percentage, "Fashion Report", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
