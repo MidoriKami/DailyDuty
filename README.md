@@ -1,3 +1,6 @@
+# Documentation is out of date, a significant rework was just completed. New module details and features will be added in the next few days.
+(Updated 2/7/2022 5am PST)
+
 # Index
 - [DailyDuty](#dailyduty)
     + [General Terminology](#general-terminology)
