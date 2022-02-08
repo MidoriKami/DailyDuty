@@ -18,9 +18,16 @@ internal static class Draw
         ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 1));
         ImGui.PushStyleColor(ImGuiCol.PlotHistogram, barColor);
 
-        ImGui.ProgressBar(percentage, size, remainingTime.Days > 0
+        if (remainingTime > TimeSpan.Zero)
+        {
+            ImGui.ProgressBar(percentage, size, remainingTime.Days > 0
                 ? $"{prependText}: {remainingTime.FormatDays()}"
                 : $"{prependText}: {remainingTime.FormatHours()}");
+        }
+        else
+        {
+            ImGui.ProgressBar(percentage, size, prependText + " Available");
+        }
 
         ImGui.PopStyleColor(2);
     }
