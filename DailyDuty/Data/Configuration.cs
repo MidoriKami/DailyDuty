@@ -17,6 +17,7 @@ public class Configuration : IPluginConfiguration
     public CountdownTimerSettings TimerSettings = new();
     public TodoWindowSettings TodoWindowSettings = new();
     public SettingsWindowSettings SettingsWindowSettings = new();
+    public TimersWindowSettings TimersWindowSettings = new();
     
     [NonSerialized] private CharacterSettings nullCharacter = new();
     public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();

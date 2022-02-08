@@ -4,6 +4,7 @@ using DailyDuty.Data;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using DailyDuty.Windows.Settings;
+using DailyDuty.Windows.Timers;
 using DailyDuty.Windows.Todo;
 using Dalamud.Game;
 using Dalamud.Game.Command;
@@ -22,6 +23,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     private readonly SettingsWindow settingsWindow;
     private readonly TodoWindow todoWindow;
+    private readonly TimersWindow timersWindow;
 
     public DailyDutyPlugin(
         [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -52,6 +54,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ModuleManager = new();
         settingsWindow = new();
         todoWindow = new();
+        timersWindow = new();
 
         // Register draw callbacks
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -118,5 +121,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
         settingsWindow.Dispose();
         todoWindow.Dispose();
+        timersWindow.Dispose();
     }
 }

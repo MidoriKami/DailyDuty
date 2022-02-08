@@ -14,7 +14,8 @@ internal class ConfigurationTabItem : ITabItem
     {
         new CountdownTimersConfiguration(),
         new GeneralConfiguration(),
-        new TodoWindowConfiguration()
+        new TodoWindowConfiguration(),
+        new TimersWindowConfiguration()
     };
 
     public static bool EditModeEnabled = false;
