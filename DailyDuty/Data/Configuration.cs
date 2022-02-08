@@ -17,13 +17,14 @@ public class Configuration : IPluginConfiguration
     public CountdownTimerSettings TimerSettings = new();
     public TodoWindowSettings TodoWindowSettings = new();
     public SettingsWindowSettings SettingsWindowSettings = new();
-
+    
+    [NonSerialized] private CharacterSettings nullCharacter = new();
     public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
     public ulong CurrentCharacter = new();
 
     public CharacterSettings Current()
     {
-        return CharacterSettingsMap[CurrentCharacter];
+        return CurrentCharacter == 0 ? nullCharacter : CharacterSettingsMap[CurrentCharacter];
     }
 
     public void UpdateCharacter()
@@ -60,11 +61,6 @@ public class Configuration : IPluginConfiguration
 
         CharacterSettingsMap ??= new();
 
-        if (!CharacterSettingsMap.ContainsKey(0))
-        {
-            CharacterSettingsMap.Add(0, new());
-        }
-
         Save();
     }
 
@@ -72,9 +68,15 @@ public class Configuration : IPluginConfiguration
     {
         if (System.ShowSaveDebugInfo == true)
         {
-            Chat.Print("Debug", $"Saving {DateTime.Now}");
+            Chat.Print("Debug",
+                Service.LoggedIn == true ? 
+                    $"Saving {DateTime.Now}" : 
+                    "Not logged into a character, skipping save");
         }
 
-        pluginInterface!.SavePluginConfig(this);
+        if (Service.LoggedIn == true)
+        {
+            pluginInterface!.SavePluginConfig(this);
+        }
     }
 }
