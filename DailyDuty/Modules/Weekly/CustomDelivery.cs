@@ -54,9 +54,7 @@ internal unsafe class CustomDelivery :
 
     void IResettable.ResetThis(CharacterSettings settings)
     {
-        var customDeliveriesSettings = settings.CustomDelivery;
-
-        customDeliveriesSettings.AllowancesRemaining = 12;
+        settings.CustomDelivery.AllowancesRemaining = 12;
     }
 
     public void Update()
