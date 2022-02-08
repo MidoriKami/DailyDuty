@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
+using DailyDuty.Data.ModuleData.FashionReport;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
@@ -197,7 +198,7 @@ internal unsafe class FashionReport :
         return now > reportOpen && now < reportClosed;
     }
 
-    public static TimeSpan TimeUntilFashionReport()
+    private static TimeSpan TimeUntilFashionReport()
     {
         if (FashionReportAvailable() == true)
         {
