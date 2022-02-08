@@ -11,6 +11,7 @@ using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 #pragma warning disable CS0649
@@ -243,7 +244,7 @@ internal unsafe class WondrousTails :
         for (int i = 0; i < 16; ++i)
         {
             var taskButtonState = wondrousTails->TaskStatus(i);
-            var instances = WondrousTailsTaskLookup.GetInstanceListFromID(wondrousTails->Tasks[i]);
+            var instances = TaskLookup.GetInstanceListFromID(wondrousTails->Tasks[i]);
 
             result[i] = (taskButtonState, instances);
         }

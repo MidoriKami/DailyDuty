@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dalamud.Logging;
 using Lumina.Excel.GeneratedSheets;
 
-namespace DailyDuty.Utilities
+namespace DailyDuty.Utilities.Helpers.WondrousTails
 {
-    internal static class WondrousTailsTaskLookup
+    internal static class TaskLookup
     {
         public static List<uint> GetInstanceListFromID(uint id)
         {
