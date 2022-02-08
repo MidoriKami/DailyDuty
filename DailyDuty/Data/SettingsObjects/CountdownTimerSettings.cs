@@ -25,4 +25,7 @@ public class CountdownTimerSettings
 
     public bool TreasureMapCountdownEnabled = false;
     public Vector4 TreasureMapCountdownColor = Colors.Blue;
+
+    public bool JumboCactpotCountdownEnabled = false;
+    public Vector4 JumboCactpotCountdownColor = Colors.Purple;
 }

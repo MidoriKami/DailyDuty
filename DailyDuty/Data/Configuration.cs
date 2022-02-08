@@ -60,8 +60,6 @@ public class Configuration : IPluginConfiguration
         this.pluginInterface = pluginInterface;
 
         CharacterSettingsMap ??= new();
-
-        Save();
     }
 
     public void Save()

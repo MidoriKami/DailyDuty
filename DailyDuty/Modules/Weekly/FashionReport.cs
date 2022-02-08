@@ -119,7 +119,7 @@ internal unsafe class FashionReport :
 
         Draw.NumericDisplay("Highest Score This Week", Settings.HighestWeeklyScore);
 
-        Draw.DaysTimeSpanDisplay("Time Until Fashion Report", TimeUntilFashionReport() );
+        Draw.TimeSpanDisplay("Time Until Fashion Report", TimeUntilFashionReport() );
     }
 
     public void Update()

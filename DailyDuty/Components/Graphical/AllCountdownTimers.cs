@@ -12,7 +12,8 @@ internal class AllCountdownTimers : IDrawable
         new DailyResetCountdown(),
         new WeeklyResetCountdown(),
         new FashionReportResetCountdown(),
-        new TreasureMapCountdown()
+        new TreasureMapCountdown(),
+        new JumboCactpotResetCountdown()
     };
 
     public void Draw()

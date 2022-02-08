@@ -40,6 +40,7 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
 
             DrawTreasureMapCountdownOptions();
 
+            DrawJumboCactpotCountdownOptions();
 
             ImGui.EndTable();
         }
@@ -47,6 +48,18 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         DrawCountdownWidthSlider();
 
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+    }
+
+    private void DrawJumboCactpotCountdownOptions()
+    {
+        ImGui.TableNextRow();
+        ImGui.TableNextColumn();
+        Draw.NotificationField("Jumbo Cactpot", HeaderText, ref Settings.JumboCactpotCountdownEnabled,
+            "Show/Hide Jumbo Cactpot Timer");
+
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Jumbo Cactpot Bar Color", ref Settings.JumboCactpotCountdownColor,
+            ImGuiColorEditFlags.NoInputs);
     }
 
     private void DrawTreasureMapCountdownOptions()

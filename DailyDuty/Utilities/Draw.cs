@@ -75,31 +75,16 @@ internal static class Draw
     // HH:MM:SS
     public static  void TimeSpanDisplay(string label, TimeSpan span)
     {
-        ImGui.Text(label + ":");
+        ImGui.Text(label);
         ImGui.SameLine();
             
         if (span == TimeSpan.Zero)
         {
-            ImGui.TextColored(new(0, 255, 0, 255), $" {span.FormatAuto()}");
+            ImGui.TextColored(new(0, 255, 0, 255), $"{span.FormatAuto()}");
         }
         else
         {
             ImGui.Text($" {span.FormatAuto()}");
-        }
-    }
-
-    public static  void DaysTimeSpanDisplay(string label, TimeSpan delta)
-    {
-        ImGui.Text(label);
-        ImGui.SameLine();
-
-        if (delta == TimeSpan.Zero)
-        {
-            ImGui.TextColored(new(0, 255, 0, 255), $" {delta.FormatAuto()}");
-        }
-        else
-        {
-            ImGui.Text($" {delta.FormatAuto()}");
         }
     }
 
