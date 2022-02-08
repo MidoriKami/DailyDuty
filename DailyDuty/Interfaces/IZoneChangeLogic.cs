@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DailyDuty.Data.Enums
+namespace DailyDuty.Interfaces
 {
-    public enum FashionReportMode
+    internal interface IZoneChangeLogic
     {
-        Single,
-        All
+        public void HandleZoneChange(object? sender, ushort e);
     }
 }

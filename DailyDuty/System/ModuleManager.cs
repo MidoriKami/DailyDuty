@@ -58,6 +58,11 @@ public class ModuleManager : IDisposable
 
     private void PreOnTerritoryChanged(object? sender, ushort e)
     {
+        foreach (var module in modules.OfType<IZoneChangeLogic>())
+        {
+            module.HandleZoneChange(sender, e);
+        }
+
         if (Service.LoggedIn == false) return;
 
         AlwaysOnTerritoryChanged(sender, e);
