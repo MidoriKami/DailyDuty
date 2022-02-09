@@ -13,12 +13,11 @@ namespace DailyDuty.Interfaces;
 internal interface ITaskCategoryDisplay
 {
     protected List<ICompletable> Tasks { get; }
-
-    public Vector4 HeaderColor { get; set; }
-    public Vector4 ItemIncompleteColor { get; set;}
-    public Vector4 ItemCompleteColor { get; set; }
-
+    public Vector4 HeaderColor { get; }
+    public Vector4 ItemIncompleteColor { get; }
+    public Vector4 ItemCompleteColor { get; }
     public string HeaderText { get; }
+    private bool ShowCompletedTasks => Service.Configuration.TodoWindowSettings.ShowTasksWhenComplete;
         
     public void Draw()
     {
@@ -36,7 +35,7 @@ internal interface ITaskCategoryDisplay
             .Where(task => task.GenericSettings.Enabled)
             .All(task => task.IsCompleted());
 
-        if (allTasksComplete == true)
+        if (allTasksComplete == true && !ShowCompletedTasks)
         {
             ImGui.TextColored(ItemCompleteColor, "All Tasks Complete");
             ImGui.Spacing();
@@ -59,5 +58,11 @@ internal interface ITaskCategoryDisplay
             ImGui.TextColored(ItemIncompleteColor, task.HeaderText);
             ImGui.Spacing();
         }
+        else if (task.IsCompleted() == true && task.GenericSettings.Enabled && ShowCompletedTasks)
+        {
+            ImGui.TextColored(ItemCompleteColor, task.HeaderText);
+            ImGui.Spacing();
+        }
+
     }
 }

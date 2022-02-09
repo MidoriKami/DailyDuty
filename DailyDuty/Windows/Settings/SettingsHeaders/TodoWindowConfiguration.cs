@@ -32,13 +32,20 @@ internal class TodoWindowConfiguration : ICollapsibleHeader
 
         HideWhenComplete();
 
+        ShowWhenComplete();
+
         OpacitySlider();
 
         EditColors();
 
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
     }
-    
+
+    private void ShowWhenComplete()
+    {
+        Draw.NotificationField("Show Completed Tasks", HeaderText, ref Settings.ShowTasksWhenComplete, "Show all tracked tasks, using complete/incomplete colors");
+    }
+
     public void Dispose()
     {
             
@@ -53,8 +60,7 @@ internal class TodoWindowConfiguration : ICollapsibleHeader
 
     private void HideWhenComplete()
     {
-        ImGui.Checkbox("Hide when Complete", ref Settings.HideWhenTasksComplete);
-        ImGuiComponents.HelpMarker("Hides the todo window when the selected task list is complete.");
+        Draw.NotificationField("Hide Completed Categories", HeaderText, ref Settings.HideWhenTasksComplete);
     }
 
     private void HideInDuty()

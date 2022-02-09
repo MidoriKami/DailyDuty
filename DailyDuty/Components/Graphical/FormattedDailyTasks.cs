@@ -16,23 +16,11 @@ internal class FormattedDailyTasks : ITaskCategoryDisplay
 {
     private readonly List<ICompletable> tasks;
     List<ICompletable> ITaskCategoryDisplay.Tasks => tasks;
-    public Vector4 HeaderColor
-    {
-        get => Service.Configuration.TodoWindowSettings.HeaderColor;
-        set => Service.Configuration.TodoWindowSettings.HeaderColor = value;
-    }
+    public Vector4 HeaderColor => Service.Configuration.TodoWindowSettings.HeaderColor;
 
-    public Vector4 ItemIncompleteColor
-    {
-        get => Service.Configuration.TodoWindowSettings.IncompleteColor;
-        set => Service.Configuration.TodoWindowSettings.IncompleteColor = value;
-    }
+    public Vector4 ItemIncompleteColor => Service.Configuration.TodoWindowSettings.IncompleteColor;
 
-    public Vector4 ItemCompleteColor
-    {
-        get => Service.Configuration.TodoWindowSettings.CompleteColor;
-        set => Service.Configuration.TodoWindowSettings.CompleteColor = value;
-    }
+    public Vector4 ItemCompleteColor => Service.Configuration.TodoWindowSettings.CompleteColor;
 
     public FormattedDailyTasks(List<ICompletable> tasks)
     {

@@ -13,6 +13,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 #pragma warning disable CS0649
 
@@ -48,7 +49,7 @@ internal unsafe class WondrousTails :
 
     public bool IsCompleted()
     {
-        return IsBookComplete();
+        return IsBookComplete() && !NeedsNewBook();
     }
 
     public void SendNotification()
@@ -182,35 +183,43 @@ internal unsafe class WondrousTails :
         {
             Settings.NumPlacedStickers = wondrousTails->Stickers;
             Settings.CompletionDate = DateTime.UtcNow;
-            Settings.WeeklyKey = wondrousTails->WeeklyKey;
             Service.Configuration.Save();
         }
     }
 
     private void NewBookNotification()
     {
-        // If we haven't set the key yet, set it.
-        if (Settings.WeeklyKey == 0)
+        if (NeedsNewBook())
         {
-            Settings.WeeklyKey = wondrousTails->WeeklyKey;
-            Settings.CompletionDate = DateTime.UtcNow;
-            Service.Configuration.Save();
-        }
-
-        // If the completion time is before the previous reset
-        if (Settings.CompletionDate < Time.NextWeeklyReset().AddDays(-7))
-        {
-            // And we are still using the old key
-            if (Settings.WeeklyKey == wondrousTails->WeeklyKey)
-            {
-                Chat.Print(HeaderText, "A new Wondrous Tails Book is Available");
-            }
+            Chat.Print(HeaderText, "A new Wondrous Tails Book is Available");
         }
     }
 
     private bool IsBookComplete()
     {
         return wondrousTails->Stickers == 9;
+    }
+
+    private bool NeedsNewBook()
+    {
+        // If we haven't set the key yet, set it.
+        if (Settings.CompletionDate == new DateTime())
+        {
+            Settings.CompletionDate = DateTime.UtcNow;
+            Service.Configuration.Save();
+        }
+
+        // If the completion time was last week
+        if (Settings.CompletionDate < Time.NextWeeklyReset().AddDays(-7))
+        {
+            // And we don't have a book
+            if ( !HasBook() )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private bool RerollValid()
@@ -271,5 +280,14 @@ internal unsafe class WondrousTails :
         ImGui.SameLine();
 
         Draw.DrawConditionalText(Settings.NumPlacedStickers == 9, "Complete", "Incomplete");
+    }
+
+    private bool HasBook()
+    {
+        var inventoryManager = InventoryManager.Instance();
+
+        var result = inventoryManager->GetInventoryItemCount(2002023);
+
+        return result > 0;
     }
 }
