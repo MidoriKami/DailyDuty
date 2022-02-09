@@ -50,12 +50,12 @@ namespace DailyDuty.Windows.Settings.SettingsHeaders
 
         private void DisableEnableClickThrough()
         {
-            Draw.NotificationField("Enable Click-through", HeaderText, ref Settings.ClickThrough, "Enables/Disables the ability to move the Todo Window");
+            Draw.NotificationField("Enable Click-through", HeaderText, ref Settings.ClickThrough, "Enables/Disables the ability to move the Timers Window");
         }
 
         private void ShowHideWindow()
         {
-            Draw.NotificationField("Show Todo Window", HeaderText, ref Settings.Open, "Shows/Hides the Todo Window");
+            Draw.NotificationField("Show Timers Window", HeaderText, ref Settings.Open, "Shows/Hides the Timers Window");
         }
     }
 }
