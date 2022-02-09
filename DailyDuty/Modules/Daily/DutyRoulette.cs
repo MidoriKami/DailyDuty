@@ -14,6 +14,7 @@ using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules.Daily;
 
@@ -77,6 +78,9 @@ internal unsafe class DutyRoulette :
     
     public void DisplayData()
     {
+        ImGui.Text("Only detects that you started a duty roulette\n" +
+                   "Does not detect successful completion");
+
         DisplayTrackingGrid();
 
         ImGui.Spacing();
