@@ -65,7 +65,7 @@ internal unsafe class JumboCactpot :
 
         if (ImGui.Button($"Add Ticket##{HeaderText}"))
         {
-            if (GetAvailableTickets() < 3)
+            if (GetAvailableTickets() > 0)
             {
                 AddNewTicket();
                 Service.Configuration.Save();
