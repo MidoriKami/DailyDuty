@@ -56,12 +56,10 @@ internal interface ITaskCategoryDisplay
         if (task.IsCompleted() == false && task.GenericSettings.Enabled)
         {
             ImGui.TextColored(ItemIncompleteColor, task.HeaderText);
-            ImGui.Spacing();
         }
         else if (task.IsCompleted() == true && task.GenericSettings.Enabled && ShowCompletedTasks)
         {
             ImGui.TextColored(ItemCompleteColor, task.HeaderText);
-            ImGui.Spacing();
         }
 
     }
