@@ -61,7 +61,16 @@ internal unsafe class JumboCactpot :
 
     public void EditModeOptions()
     {
+        ImGui.Text("Add ticket to tracking");
 
+        if (ImGui.Button($"Add Ticket##{HeaderText}"))
+        {
+            if (GetAvailableTickets() < 3)
+            {
+                AddNewTicket();
+                Service.Configuration.Save();
+            }
+        }
     }
 
     public void DisplayData()
@@ -133,15 +142,20 @@ internal unsafe class JumboCactpot :
         {
             purchaseTicketExchangeStarted = false;
 
-            Settings.CollectedTickets.Add(new TicketData
-            {
-                DrawingAvailableTime = GetNextReset(),
-                ExpirationDate = GetNextReset().AddDays(7),
-                CollectedDate = DateTime.UtcNow
-            });
+            AddNewTicket();
 
             Service.Configuration.Save();
         }
+    }
+
+    private void AddNewTicket()
+    {
+        Settings.CollectedTickets.Add(new TicketData
+        {
+            DrawingAvailableTime = GetNextReset(),
+            ExpirationDate = GetNextReset().AddDays(7),
+            CollectedDate = DateTime.UtcNow
+        });
     }
 
     private void CollectReward()
