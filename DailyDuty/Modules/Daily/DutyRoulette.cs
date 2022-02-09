@@ -12,6 +12,7 @@ using DailyDuty.Utilities;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
 
 namespace DailyDuty.Modules.Daily;
@@ -98,6 +99,7 @@ internal unsafe class DutyRoulette :
             if (duty != null)
             {
                 duty.Completed = true;
+                Service.Configuration.Save();
             }
         }
     }
