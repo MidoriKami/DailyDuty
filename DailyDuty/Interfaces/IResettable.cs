@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Interfaces;
 
@@ -13,7 +14,7 @@ internal interface IResettable
 
     public bool NeedsResetting()
     {
-        return DateTime.UtcNow > NextReset;
+        return Time.Now() > NextReset;
     }
 
     protected DateTime GetNextReset();

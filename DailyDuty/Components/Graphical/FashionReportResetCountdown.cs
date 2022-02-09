@@ -18,7 +18,7 @@ internal class FashionReportResetCountdown : ICountdownTimer
 
     void ICountdownTimer.DrawContents()
     {
-        var now = DateTime.UtcNow;
+        var now = Time.Now();
 
         var fashionReportOpen = Time.NextFashionReportReset();
         var fashionReportClose = Time.NextWeeklyReset();

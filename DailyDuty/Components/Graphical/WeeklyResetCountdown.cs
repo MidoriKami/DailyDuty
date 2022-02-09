@@ -14,7 +14,7 @@ internal class WeeklyResetCountdown : ICountdownTimer
 
     void ICountdownTimer.DrawContents()
     {
-        var now = DateTime.UtcNow;
+        var now = Time.Now();
         var totalHours = Time.NextWeeklyReset() - now;
         var percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
 

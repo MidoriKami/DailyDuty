@@ -19,7 +19,7 @@ namespace DailyDuty.Components.Graphical
         private DateTime NextReset => Service.Configuration.Current().JumboCactpot.NextReset;
         void ICountdownTimer.DrawContents()
         {
-            var now = DateTime.UtcNow;
+            var now = Time.Now();
             var totalHours = NextReset - now;
             var percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
 

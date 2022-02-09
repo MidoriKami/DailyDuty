@@ -79,7 +79,7 @@ internal unsafe class JumboCactpot :
 
         Draw.NumericDisplay("Rewards Available", GetAvailableRewards());
 
-        var timespan = Settings.NextReset - DateTime.UtcNow;
+        var timespan = Settings.NextReset - Time.Now();
         Draw.TimeSpanDisplay("Next Ticket Drawing", timespan);
     }
 
@@ -117,14 +117,14 @@ internal unsafe class JumboCactpot :
 
     private int GetAvailableTickets()
     {
-        var now = DateTime.UtcNow;
+        var now = Time.Now();
 
         return 3 - Settings.CollectedTickets.Count(t => now > t.CollectedDate && now < t.DrawingAvailableTime);
     }
 
     private int GetAvailableRewards()
     {
-        var now = DateTime.UtcNow;
+        var now = Time.Now();
 
         return Settings.CollectedTickets.Count(t => now > t.DrawingAvailableTime && now < t.ExpirationDate);
     }
@@ -154,7 +154,7 @@ internal unsafe class JumboCactpot :
         {
             DrawingAvailableTime = GetNextReset(),
             ExpirationDate = GetNextReset().AddDays(7),
-            CollectedDate = DateTime.UtcNow
+            CollectedDate = Time.Now()
         });
     }
 
@@ -172,7 +172,7 @@ internal unsafe class JumboCactpot :
         {
             collectRewardExchangeStarted = false;
 
-            var now = DateTime.UtcNow;
+            var now = Time.Now();
             var thisWeeksTickets = Settings.CollectedTickets
                 .Where(t => now > t.DrawingAvailableTime)
                 .ToList();
@@ -190,7 +190,7 @@ internal unsafe class JumboCactpot :
 
     private void PurgeExpiredTickets()
     {
-        Settings.CollectedTickets.RemoveAll(t => DateTime.UtcNow > t.ExpirationDate);
+        Settings.CollectedTickets.RemoveAll(t => Time.Now() > t.ExpirationDate);
     }
 
     private void UpdatePlayerRegion()
