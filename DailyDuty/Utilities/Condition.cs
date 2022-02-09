@@ -12,8 +12,6 @@ namespace DailyDuty.Utilities;
 
 internal static class Condition
 {
-    private static readonly string ExitNodeText;
-
     public static bool IsBoundByDuty()
     {
         var baseBoundByDuty = Service.Condition[ConditionFlag.BoundByDuty];
@@ -35,7 +33,7 @@ internal static class Condition
         return Service.ObjectTable
             .Where(o => o.ObjectKind == ObjectKind.EventObj)
             .Where(IsTargetable)
-            .Any(o =>  ExitNodeText == o.Name.ToString().ToLower() );
+            .Any(o =>  exitNodeText == o.Name.ToString().ToLower() );
     }
 
     private static unsafe bool IsTargetable(Dalamud.Game.ClientState.Objects.Types.GameObject gameObject)
