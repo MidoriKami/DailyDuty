@@ -93,9 +93,12 @@ internal unsafe class DutyRoulette :
         {
             var duty = Settings.TrackedRoulettes
                 .Where(t => (int) t.Type == *selectedRoulette)
-                .First();
+                .FirstOrDefault();
 
-            duty.Completed = true;
+            if (duty != null)
+            {
+                duty.Completed = true;
+            }
         }
     }
 
