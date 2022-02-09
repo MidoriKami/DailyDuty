@@ -37,6 +37,16 @@ public class Configuration : IPluginConfiguration
             if (CurrentCharacter != newCharacterID)
             {
                 CurrentCharacter = newCharacterID;
+
+                if (CharacterSettingsMap[CurrentCharacter].CharacterName == "NameNotSet")
+                {
+                    var localPlayer = Service.ClientState.LocalPlayer;
+                    if (localPlayer != null)
+                    {
+                        CharacterSettingsMap[newCharacterID].CharacterName = localPlayer.Name.ToString();
+                    }
+                }
+
                 Save();
             }
         }
