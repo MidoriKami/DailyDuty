@@ -63,7 +63,7 @@ internal unsafe class DutyRoulette :
     {
         if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
         {
-            Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes remaining");
+            Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining");
         }
     }
 
