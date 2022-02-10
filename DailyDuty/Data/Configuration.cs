@@ -21,7 +21,8 @@ public class Configuration : IPluginConfiguration
     
     [NonSerialized] private CharacterSettings nullCharacter = new();
     public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
-    public ulong CurrentCharacter = new();
+
+    [NonSerialized] public ulong CurrentCharacter = new();
 
     public CharacterSettings Current()
     {
@@ -45,9 +46,9 @@ public class Configuration : IPluginConfiguration
                     {
                         CharacterSettingsMap[newCharacterID].CharacterName = localPlayer.Name.ToString();
                     }
-                }
 
-                Save();
+                    Save();
+                }
             }
         }
         else
