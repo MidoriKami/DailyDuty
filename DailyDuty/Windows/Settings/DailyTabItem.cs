@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Daily;
 
@@ -10,15 +11,12 @@ namespace DailyDuty.Windows.Settings;
 
 internal class DailyTabItem : ITabItem
 {
-    private readonly List<object> headers = new()
+    private readonly List<ICollapsibleHeader> headers;
+
+    public DailyTabItem()
     {
-        new MiniCactpot(),
-        new BeastTribe(),
-        new DutyRoulette(),
-        new GrandCompany(),
-        new Levequests(),
-        new TreasureMap()
-    };
+        headers = Service.ModuleManager.GetCollapsibleHeaders(CompletionType.Daily);
+    }
 
     public void Dispose()
     {

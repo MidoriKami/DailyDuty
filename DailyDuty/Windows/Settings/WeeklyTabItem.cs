@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Weekly;
 
@@ -10,18 +11,12 @@ namespace DailyDuty.Windows.Settings;
 
 internal class WeeklyTabItem : ITabItem
 {
-    private readonly List<ICollapsibleHeader> headers = new()
+    private readonly List<ICollapsibleHeader> headers;
+
+    public WeeklyTabItem()
     {
-        new BlueMageLog(),
-        new ChallengeLog(),
-        new CustomDelivery(),
-        new DomanEnclave(),
-        new FashionReport(),
-        new HuntMarks(),
-        new JumboCactpot(),
-        new MaskedCarnival(),
-        new WondrousTails()
-    };
+        headers = Service.ModuleManager.GetCollapsibleHeaders(CompletionType.Weekly);
+    }
 
     public void Dispose()
     {

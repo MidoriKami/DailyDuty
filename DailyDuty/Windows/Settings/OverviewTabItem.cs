@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
 
 namespace DailyDuty.Windows.Settings;
@@ -16,8 +17,11 @@ internal class OverviewTabItem : ITabItem
     private readonly ITaskCategoryDisplay weeklyTasks;
     public OverviewTabItem()
     {
-        dailyTasks = Service.ModuleManager.GetDailyTasks();
-        weeklyTasks = Service.ModuleManager.GetWeeklyTasks();
+        var dailyCompletables = Service.ModuleManager.GetCompletables(CompletionType.Daily);
+        var weeklyCompletables = Service.ModuleManager.GetCompletables(CompletionType.Weekly);
+
+        dailyTasks = new FormattedDailyTasks(dailyCompletables);
+        weeklyTasks = new FormattedWeeklyTasks(weeklyCompletables);
     }
 
     public void Draw()

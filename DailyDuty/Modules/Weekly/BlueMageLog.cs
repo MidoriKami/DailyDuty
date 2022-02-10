@@ -3,19 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DailyDuty.Data.Enums;
+using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
 namespace DailyDuty.Modules.Weekly;
 
-internal class BlueMageLog : ICollapsibleHeader, IUpdateable
+internal class BlueMageLog : 
+    ICollapsibleHeader, 
+    IUpdateable,
+    ICompletable
 {
     public void Dispose()
     {
 
     }
 
+    private BlueMageLogSettings Settings => Service.Configuration.Current().BlueMageLog;
+
+    public CompletionType Type => CompletionType.Weekly;
     public string HeaderText => "Blue Mage Log";
+    public GenericSettings GenericSettings => Settings;
+    public bool IsCompleted()
+    {
+        return false;
+    }
 
     void ICollapsibleHeader.DrawContents()
     {

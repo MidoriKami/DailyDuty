@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
@@ -33,8 +35,12 @@ internal class TodoWindow : Window, IDisposable
         Service.WindowSystem.AddWindow(this);
 
         Service.Framework.Update += Update;
-        dailyTasks = Service.ModuleManager.GetDailyTasks();
-        weeklyTasks = Service.ModuleManager.GetWeeklyTasks();
+
+        var dailyCompletables = Service.ModuleManager.GetCompletables(CompletionType.Daily);
+        var weeklyCompletables = Service.ModuleManager.GetCompletables(CompletionType.Weekly);
+
+        dailyTasks = new FormattedDailyTasks(dailyCompletables);
+        weeklyTasks = new FormattedWeeklyTasks(weeklyCompletables);
     }
 
     private void Update(Framework framework)

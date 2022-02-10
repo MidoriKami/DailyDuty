@@ -14,8 +14,9 @@ using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
-#pragma warning disable CS0649
 
 namespace DailyDuty.Modules.Weekly;
 
@@ -38,13 +39,29 @@ internal unsafe class WondrousTails :
     private bool lastInstanceWasDuty = false;
 
     [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
-    private readonly WondrousTailsStruct* wondrousTails;
+    private readonly WondrousTailsStruct* wondrousTails = null;
+
+    [Signature("E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 41 B0 01 BA 13 00 00 00")]
+    private readonly delegate* unmanaged<IntPtr, uint, uint, uint, short, void> useItem = null;
+
+    private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalID(10);
+    private const uint WondrousTailsBookItemID = 2002023;
 
     public WondrousTails()
     {
         SignatureHelper.Initialise(this);
 
         Settings.NumPlacedStickers = wondrousTails->Stickers;
+
+        //if (DoOnce == false)
+        //{
+        //    DoOnce = true;
+        //    if (useItem != null && ItemContextMenuAgent != IntPtr.Zero)
+        //    {
+        //        Chat.Print("Debug", "using item?");
+        //        useItem(ItemContextMenuAgent, WondrousTailsBookItemID, 9999, 0, 0);
+        //    }
+        //}
     }
 
     public bool IsCompleted()
@@ -287,7 +304,7 @@ internal unsafe class WondrousTails :
     {
         var inventoryManager = InventoryManager.Instance();
 
-        var result = inventoryManager->GetInventoryItemCount(2002023);
+        var result = inventoryManager->GetInventoryItemCount(WondrousTailsBookItemID);
 
         return result > 0;
     }

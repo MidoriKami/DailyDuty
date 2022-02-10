@@ -134,24 +134,25 @@ public class ModuleManager : IDisposable
         }
     }
 
-    internal FormattedDailyTasks GetDailyTasks()
+    internal List<ICompletable> GetCompletables(CompletionType type)
     {
-        var dailyModules = modules
+        var completableModules = modules
             .OfType<ICompletable>()
-            .Where(module => module.Type == CompletionType.Daily)
+            .Where(module => module.Type == type)
             .ToList();
 
-        return new FormattedDailyTasks(dailyModules);
+        return completableModules;
     }
 
-    internal FormattedWeeklyTasks GetWeeklyTasks()
+    internal List<ICollapsibleHeader> GetCollapsibleHeaders(CompletionType type)
     {
-        var weeklyModules = modules
+        var collapsibleHeaders = modules
             .OfType<ICompletable>()
-            .Where(module => module.Type == CompletionType.Weekly)
+            .Where(module => module.Type == type)
+            .OfType<ICollapsibleHeader>()
             .ToList();
 
-        return new FormattedWeeklyTasks(weeklyModules);
+        return collapsibleHeaders;
     }
 
     private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
