@@ -45,13 +45,13 @@ internal static class Draw
         ImGuiComponents.HelpMarker("Display this module's status in chat on login if this module is incomplete");
     }
 
-    public static  void OnTerritoryChangeCheckbox(GenericSettings settings, string categoryString)
+    public static void OnTerritoryChangeCheckbox(GenericSettings settings, string categoryString)
     {
         ImGui.Checkbox($"Zone Change Reminder##{categoryString}", ref settings.ZoneChangeReminder);
         ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete");
     }
 
-    public static  void EditNumberField(string label, string categoryString, ref int refValue)
+    public static void EditNumberField(string label, string categoryString, ref int refValue)
     {
         ImGui.Text(label);
 
@@ -62,7 +62,7 @@ internal static class Draw
         ImGui.PopItemWidth();
     }
 
-    public static  void NotificationField(string label, string categoryString, ref bool refValue, string helpText = "")
+    public static void NotificationField(string label, string categoryString, ref bool refValue, string helpText = "")
     {
         ImGui.Checkbox($"{label}##{categoryString}", ref refValue);
 
@@ -72,8 +72,7 @@ internal static class Draw
         }
     }
 
-    // HH:MM:SS
-    public static  void TimeSpanDisplay(string label, TimeSpan span)
+    public static void TimeSpanDisplay(string label, TimeSpan span)
     {
         ImGui.Text(label);
         ImGui.SameLine();
@@ -88,22 +87,9 @@ internal static class Draw
         }
     }
 
-    public static void Text(string text)
+    public static void PrintCompleteIncomplete(bool complete)
     {
-        ImGui.Text(text);
-        ImGui.Spacing();
-    }
-
-    public static  void PrintCompleteIncomplete(bool complete)
-    {
-        if (complete)
-        {
-            ImGui.TextColored(new(0, 255, 0, 255), "Complete");
-        }
-        else
-        {
-            ImGui.TextColored(new(255, 0, 0, 100), "Incomplete");
-        }
+        DrawConditionalText(complete, "Complete", "Incomplete");
     }
 
     public static void DrawConditionalText(bool condition, string trueString, string falseString)
