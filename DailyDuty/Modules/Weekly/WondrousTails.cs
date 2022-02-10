@@ -99,7 +99,7 @@ internal unsafe class WondrousTails :
 
         if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
         {
-            Chat.Print(HeaderText, "You can claim a stamp for the last instance!");
+            Chat.Print(HeaderText, "You can claim a stamp for the last instance");
         }
     }
 
@@ -115,7 +115,8 @@ internal unsafe class WondrousTails :
             case ButtonState.Unavailable:
                 if (wondrousTails->SecondChance > 0)
                 {
-                    Chat.Print(HeaderText, $"This instance is available for a stamp if you re-roll it! You have {wondrousTails->SecondChance} Re-Rolls Available");
+                    Chat.Print(HeaderText, "This instance is available for a stamp if you re-roll it");
+                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available");
                 }
                 break;
 
@@ -124,7 +125,7 @@ internal unsafe class WondrousTails :
                 break;
 
             case ButtonState.Completable:
-                Chat.Print(HeaderText, "Completing this instance will reward you with a stamp!");
+                Chat.Print(HeaderText, "Completing this instance will reward you with a stamp");
                 break;
 
             case ButtonState.Unknown:
