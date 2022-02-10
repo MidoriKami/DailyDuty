@@ -17,6 +17,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
+using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Daily;
 
@@ -60,7 +61,7 @@ internal unsafe class DutyRoulette :
 
     public void SendNotification()
     {
-        if (RemainingRoulettesCount() > 0)
+        if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
         {
             Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes remaining");
         }
