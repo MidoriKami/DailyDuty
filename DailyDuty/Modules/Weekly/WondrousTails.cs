@@ -12,6 +12,10 @@ using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.WondrousTails;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -47,21 +51,24 @@ internal unsafe class WondrousTails :
     private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalID(10);
     private const uint WondrousTailsBookItemID = 2002023;
 
+    private DalamudLinkPayload WondrousTailsBookPayload;
+
     public WondrousTails()
     {
         SignatureHelper.Initialise(this);
 
         Settings.NumPlacedStickers = wondrousTails->Stickers;
 
-        //if (DoOnce == false)
-        //{
-        //    DoOnce = true;
-        //    if (useItem != null && ItemContextMenuAgent != IntPtr.Zero)
-        //    {
-        //        Chat.Print("Debug", "using item?");
-        //        useItem(ItemContextMenuAgent, WondrousTailsBookItemID, 9999, 0, 0);
-        //    }
-        //}
+        WondrousTailsBookPayload = Service.PluginInterface.AddChatLinkHandler(WondrousTailsBookItemID, OpenWondrousTailsBook);
+
+    }
+
+    private void OpenWondrousTailsBook(uint arg1, SeString arg2)
+    {
+        if (useItem != null && ItemContextMenuAgent != IntPtr.Zero)
+        {
+            useItem(ItemContextMenuAgent, WondrousTailsBookItemID, 9999, 0, 0);
+        }
     }
 
     public bool IsCompleted()
@@ -116,7 +123,7 @@ internal unsafe class WondrousTails :
 
         if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
         {
-            Chat.Print(HeaderText, "You can claim a stamp for the last instance");
+            Chat.Print(HeaderText, "You can claim a stamp for the last instance", WondrousTailsBookPayload);
         }
     }
 
@@ -126,14 +133,14 @@ internal unsafe class WondrousTails :
         if (node == null) return;
 
         var buttonState = node.Value.Item1;
-
+        
         switch (buttonState)
         {
             case ButtonState.Unavailable:
                 if (wondrousTails->SecondChance > 0)
                 {
                     Chat.Print(HeaderText, "This instance is available for a stamp if you re-roll it");
-                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available");
+                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available", WondrousTailsBookPayload);
                 }
                 break;
 
@@ -187,6 +194,7 @@ internal unsafe class WondrousTails :
 
     public void Dispose()
     {
+        Service.PluginInterface.RemoveChatLinkHandler(WondrousTailsBookItemID);
     }
     
     //
