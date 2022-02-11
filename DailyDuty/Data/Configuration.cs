@@ -22,7 +22,7 @@ public class Configuration : IPluginConfiguration
     [NonSerialized] private CharacterSettings nullCharacter = new();
     public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
 
-    [NonSerialized] public ulong CurrentCharacter = new();
+    [NonSerialized] public ulong CurrentCharacter = 0;
 
     public CharacterSettings Current()
     {
