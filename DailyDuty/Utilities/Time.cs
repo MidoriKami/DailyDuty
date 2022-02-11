@@ -77,9 +77,7 @@ internal static class Time
     {
         unsafe
         {
-            var framework = Framework.Instance();
-
-            var time = new TimeStamp(framework->ServerTime * 1000).DateTime;
+            var time = new TimeStamp(Framework.GetServerTime() * 1000).DateTime;
 
             return time;
         }
