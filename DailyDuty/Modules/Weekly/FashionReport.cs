@@ -193,7 +193,7 @@ internal unsafe class FashionReport :
         var reportOpen = Time.NextWeeklyReset().AddDays(-4);
         var reportClosed = Time.NextWeeklyReset();
 
-        var now = Time.Now();
+        var now = DateTime.UtcNow;
 
         return now > reportOpen && now < reportClosed;
     }
@@ -208,7 +208,7 @@ internal unsafe class FashionReport :
         {
             var availableDateTime = Time.NextWeeklyReset().AddDays(-4);
 
-            return availableDateTime - Time.Now();
+            return availableDateTime - DateTime.UtcNow;
         }
     }
 

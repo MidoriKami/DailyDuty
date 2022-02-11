@@ -14,7 +14,7 @@ internal class DailyResetCountdown : ICountdownTimer
 
     void ICountdownTimer.DrawContents()
     {
-        var now = Time.Now();
+        var now = DateTime.UtcNow;
         var totalHours = Time.NextDailyReset() - now;
         var percentage = (float) (1 - totalHours / TimeSpan.FromDays(1) );
 

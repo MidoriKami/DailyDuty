@@ -208,7 +208,7 @@ internal unsafe class WondrousTails :
         if (Settings.NumPlacedStickers != numStickers)
         {
             Settings.NumPlacedStickers = wondrousTails->Stickers;
-            Settings.CompletionDate = Time.Now();
+            Settings.CompletionDate = DateTime.UtcNow;
             Service.Configuration.Save();
         }
     }
@@ -231,7 +231,7 @@ internal unsafe class WondrousTails :
         // If we haven't set the key yet, set it.
         if (Settings.CompletionDate == new DateTime())
         {
-            Settings.CompletionDate = Time.Now();
+            Settings.CompletionDate = DateTime.UtcNow;
             Service.Configuration.Save();
         }
 

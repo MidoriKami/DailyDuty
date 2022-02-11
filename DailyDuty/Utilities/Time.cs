@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace DailyDuty.Utilities;
 
@@ -8,7 +7,7 @@ internal static class Time
 {
     public static DateTime NextDailyReset()
     {
-        var now = Now();
+        var now = DateTime.UtcNow;
             
         if( now.Hour < 15 )
         {
@@ -22,7 +21,7 @@ internal static class Time
 
     public static DateTime NextWeeklyReset()
     {
-        var today = Now();
+        var today = DateTime.UtcNow;
             
         if(today.Hour < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
         {
@@ -48,7 +47,7 @@ internal static class Time
 
     public static DateTime NextDayOfWeek(DayOfWeek weekday)
     {
-        var now = Now();
+        var now = DateTime.UtcNow;
 
         while (now.DayOfWeek != weekday)
         {
@@ -70,16 +69,6 @@ internal static class Time
         {
             stopwatch.Start();
             function();
-        }
-    }
-
-    public static DateTime Now()
-    {
-        unsafe
-        {
-            var time = new TimeStamp(Framework.GetServerTime() * 1000).DateTime;
-
-            return time;
         }
     }
 }

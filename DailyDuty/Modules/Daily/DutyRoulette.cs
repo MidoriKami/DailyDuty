@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
@@ -45,7 +43,7 @@ internal unsafe class DutyRoulette :
     public DutyRoulette()
     {
         // UI State Pointer
-        var clientStruct = UIState.Instance();
+        var clientStruct = FFXIVClientStructs.FFXIV.Client.Game.UI.UIState.Instance();
 
         // Offset to Client::Game::UI::InstanceContent (maybe?)
         //var offset = (byte*)clientStruct + 0x118A8;
