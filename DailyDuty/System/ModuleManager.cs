@@ -104,6 +104,8 @@ public class ModuleManager : IDisposable
 
     private void Update(Framework framework)
     {
+        if (Service.LoggedIn == false) return;
+
         Time.UpdateDelayed(resetDelayStopwatch, TimeSpan.FromSeconds(1), UpdateResets);
 
         var module = updateQueue.Dequeue();
