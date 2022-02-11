@@ -87,9 +87,10 @@ internal unsafe class HuntMarks :
         {
             var obtained = huntData->Obtained(hunt.Expansion);
 
-            if (obtained == true)
+            if (obtained == true && hunt.Obtained == false)
             {
                 hunt.Obtained = true;
+                Service.Configuration.Save();
             }
         } 
     }
