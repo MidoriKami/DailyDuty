@@ -51,7 +51,7 @@ internal unsafe class WondrousTails :
     private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalID(10);
     private const uint WondrousTailsBookItemID = 2002023;
 
-    private DalamudLinkPayload WondrousTailsBookPayload;
+    private readonly DalamudLinkPayload wondrousTailsBookPayload;
 
     public WondrousTails()
     {
@@ -59,7 +59,7 @@ internal unsafe class WondrousTails :
 
         Settings.NumPlacedStickers = wondrousTails->Stickers;
 
-        WondrousTailsBookPayload = Service.PluginInterface.AddChatLinkHandler(WondrousTailsBookItemID, OpenWondrousTailsBook);
+        wondrousTailsBookPayload = Service.PluginInterface.AddChatLinkHandler(WondrousTailsBookItemID, OpenWondrousTailsBook);
 
     }
 
@@ -123,7 +123,7 @@ internal unsafe class WondrousTails :
 
         if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
         {
-            Chat.Print(HeaderText, "You can claim a stamp for the last instance", WondrousTailsBookPayload);
+            Chat.Print(HeaderText, "You can claim a stamp for the last instance", wondrousTailsBookPayload);
         }
     }
 
@@ -140,7 +140,7 @@ internal unsafe class WondrousTails :
                 if (wondrousTails->SecondChance > 0)
                 {
                     Chat.Print(HeaderText, "This instance is available for a stamp if you re-roll it");
-                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available", WondrousTailsBookPayload);
+                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available", wondrousTailsBookPayload);
                 }
                 break;
 
