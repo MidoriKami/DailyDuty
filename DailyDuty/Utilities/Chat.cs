@@ -34,7 +34,9 @@ internal static class Chat
         stringBuilder.AddText($"[{tag}] ");
         stringBuilder.AddUiForegroundOff();
         stringBuilder.Add(payload);
+        stringBuilder.AddUiForeground(35);
         stringBuilder.AddText(message);
+        stringBuilder.AddUiForegroundOff();
         stringBuilder.Add(RawPayload.LinkTerminator);
 
         Service.Chat.Print(stringBuilder.BuiltString);
