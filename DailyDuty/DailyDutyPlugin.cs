@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using DailyDuty.Data;
 using DailyDuty.Utilities;
-using DailyDuty.Windows;
 using DailyDuty.Windows.Settings;
 using DailyDuty.Windows.Timers;
 using DailyDuty.Windows.Todo;
@@ -35,7 +34,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         Service.Configuration.Initialize(Service.PluginInterface);
         Service.ClientState.Logout += OnLogout;
-        Service.Configuration.UpdateCharacter();
 
         Service.Chat.Enable();
 
@@ -77,8 +75,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     private void OnLogout(object? sender, EventArgs e)
     {
-        Service.LoggedIn = false;
+        ConfigurationHelper.Logout();
     }
+
     private void OnFrameworkUpdate(Framework framework)
     {
         Time.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
@@ -86,13 +85,11 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     private void UpdateSelectedCharacter()
     {
-        if (Service.ClientState.LocalContentId != 0)
+        // If content id is valid and we aren't already logged in
+        if (Service.ClientState.LocalContentId != 0 && Service.LoggedIn == false)
         {
-            Service.LoggedIn = true;
-            if (Service.ClientState.LocalContentId != Service.Configuration.CurrentCharacter)
-            {
-                Service.Configuration.UpdateCharacter();
-            }
+            // login
+            ConfigurationHelper.Login();
         }
     }
 

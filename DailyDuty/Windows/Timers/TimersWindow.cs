@@ -40,11 +40,17 @@ namespace DailyDuty.Windows.Timers
 
         private void Update(Framework framework)
         {
+            if (Service.LoggedIn == false)
+            {
+                IsOpen = false;
+                return;
+            }
+
             if(frameCounter++ % 10 != 0) return;
 
             bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
 
-            IsOpen = Settings.Open && !isInQuestEvent && Service.LoggedIn;
+            IsOpen = Settings.Open && !isInQuestEvent;
 
             if (Settings.HideInDuty == true)
             {

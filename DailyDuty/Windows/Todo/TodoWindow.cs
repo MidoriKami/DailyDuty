@@ -45,6 +45,12 @@ internal class TodoWindow : Window, IDisposable
 
     private void Update(Framework framework)
     {
+        if (Service.LoggedIn == false)
+        {
+            IsOpen = false;
+            return;
+        }
+
         if(frameCounter++ % 10 != 0) return;
 
         bool dailyTasksComplete = dailyTasks.AllTasksCompleted() || !Settings.ShowDaily;
@@ -53,7 +59,7 @@ internal class TodoWindow : Window, IDisposable
 
         bool hideWindow = weeklyTasksComplete && dailyTasksComplete && Settings.HideWhenTasksComplete;
 
-        IsOpen = Settings.Open && !hideWindow && !isInQuestEvent && Service.LoggedIn;
+        IsOpen = Settings.Open && !hideWindow && !isInQuestEvent;
 
         if (Settings.HideInDuty == true)
         {
