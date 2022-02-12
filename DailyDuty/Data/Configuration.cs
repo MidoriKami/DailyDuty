@@ -41,9 +41,11 @@ public class Configuration : IPluginConfiguration
 
     public void Save()
     {
+        var callingAssembly = new StackFrame(1, true).GetMethod()!.Name;
+
         if (System.ShowSaveDebugInfo == true)
         {
-            Chat.Print("Debug",
+            Chat.Print($"Debug: {callingAssembly}",
                 Service.LoggedIn == true ? 
                     $"Saving {DateTime.Now}" : 
                     "Not logged into a character, skipping save");
@@ -52,10 +54,6 @@ public class Configuration : IPluginConfiguration
         if (Service.LoggedIn == true)
         {
             pluginInterface!.SavePluginConfig(this);
-        }
-        else
-        {
-            Chat.Print("Debug", $"Save Skipped, Calling Assembly: {new StackFrame(1, true).GetMethod()!.Name}");
         }
     }
 }
