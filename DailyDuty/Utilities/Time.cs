@@ -49,10 +49,11 @@ internal static class Time
     {
         var now = DateTime.UtcNow;
 
-        while (now.DayOfWeek != weekday)
+        do
         {
             now = now.AddDays(1);
-        }
+
+        } while (now.DayOfWeek != weekday);
 
         return now.Date;
     }
