@@ -108,10 +108,10 @@ internal unsafe class JumboCactpot :
 
     DateTime IResettable.GetNextReset()
     {
-        return DatacenterLookup.GetDrawingTime(Settings.PlayerRegion);
+        return GetNextReset();
     }
 
-    void IResettable.ResetThis(CharacterSettings settings)
+    void IResettable.DoReset(CharacterSettings settings)
     {
         PurgeExpiredTickets();
     }
@@ -172,7 +172,6 @@ internal unsafe class JumboCactpot :
         // If the payout info window and the MGP Reward Window are open
         if (GetCollectRewardWindow() != null && GetRewardPopupWindow() != null)
         {
-            Chat.Print("Debug", "Window Open");
             collectRewardExchangeStarted = true;
         }
 
@@ -185,8 +184,6 @@ internal unsafe class JumboCactpot :
             var thisWeeksTickets = Settings.CollectedTickets
                 .Where(t => now > t.DrawingAvailableTime)
                 .ToList();
-
-            Chat.Print("Debug", $"Num TicketsTagged:{thisWeeksTickets.Count}");
 
             if (thisWeeksTickets.Count > 0)
             {
