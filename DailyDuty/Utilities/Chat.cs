@@ -26,6 +26,12 @@ internal static class Chat
 
     public static void Print(string tag, string message, DalamudLinkPayload payload)
     {
+        if (Service.Configuration.System.ClickableLinks == false)
+        {
+            Print(tag, message);
+            return;
+        }
+
         var stringBuilder = new SeStringBuilder();
         stringBuilder.AddUiForeground(45);
         stringBuilder.AddText($"[DailyDuty] ");

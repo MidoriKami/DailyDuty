@@ -31,6 +31,8 @@ internal class GeneralConfiguration : ICollapsibleHeader
 
         NotificationDelaySettings();
 
+        Draw.NotificationField("Enable Chat Links", HeaderText, ref Service.Configuration.System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");
+
         OpacitySlider();
 
         Draw.NotificationField("Save Debug Printout", HeaderText, ref Service.Configuration.System.ShowSaveDebugInfo, "Enable to show a debug message whenever Daily Duty saves changes to DailyDuty.json");

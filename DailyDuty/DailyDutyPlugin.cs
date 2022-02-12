@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using DailyDuty.Data;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers;
 using DailyDuty.Windows.Settings;
 using DailyDuty.Windows.Timers;
 using DailyDuty.Windows.Todo;
@@ -49,16 +50,17 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         });
 
         // Create Systems
+        Service.TeleportManager = new();
         Service.ModuleManager = new();
         settingsWindow = new();
         todoWindow = new();
         timersWindow = new();
 
+
         // Register draw callbacks
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
         Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
         Service.Framework.Update += OnFrameworkUpdate;
-
     }
 
     private void OnCommand(string command, string arguments)
@@ -106,6 +108,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     public void Dispose()
     {
         Service.ModuleManager.Dispose();
+        Service.TeleportManager.Dispose();
 
         Service.ClientState.Logout -= OnLogout;
 

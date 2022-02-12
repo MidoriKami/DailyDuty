@@ -10,7 +10,9 @@ using DailyDuty.Data.ModuleData.WondrousTails;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
+using DailyDuty.System;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers;
 using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -51,7 +53,8 @@ internal unsafe class WondrousTails :
     private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalID(10);
     private const uint WondrousTailsBookItemID = 2002023;
 
-    private readonly DalamudLinkPayload wondrousTailsBookPayload;
+    private readonly DalamudLinkPayload openWondrousTailsPayload;
+    private readonly DalamudLinkPayload idyllshireTeleport;
 
     public WondrousTails()
     {
@@ -59,8 +62,14 @@ internal unsafe class WondrousTails :
 
         Settings.NumPlacedStickers = wondrousTails->Stickers;
 
-        wondrousTailsBookPayload = Service.PluginInterface.AddChatLinkHandler(WondrousTailsBookItemID, OpenWondrousTailsBook);
+        openWondrousTailsPayload = Service.PluginInterface.AddChatLinkHandler((uint)FunctionalPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
 
+        idyllshireTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.IdyllshireTeleport);
+    }
+    
+    public void Dispose()
+    {
+        Service.PluginInterface.RemoveChatLinkHandler((uint)FunctionalPayloads.OpenWondrousTailsBook);
     }
 
     private void OpenWondrousTailsBook(uint arg1, SeString arg2)
@@ -87,7 +96,7 @@ internal unsafe class WondrousTails :
         {
             if (RerollValid())
             {
-                Chat.Print(HeaderText, "You have 9 Second-chance points, you can re-roll your stickers/tasks");
+                Chat.Print(HeaderText, "You have 9 Second-chance points, you can re-roll your stickers/tasks", openWondrousTailsPayload);
             }
         }
     }
@@ -123,7 +132,7 @@ internal unsafe class WondrousTails :
 
         if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
         {
-            Chat.Print(HeaderText, "You can claim a stamp for the last instance", wondrousTailsBookPayload);
+            Chat.Print(HeaderText, "You can claim a stamp for the last instance", openWondrousTailsPayload);
         }
     }
 
@@ -140,12 +149,12 @@ internal unsafe class WondrousTails :
                 if (wondrousTails->SecondChance > 0)
                 {
                     Chat.Print(HeaderText, "This instance is available for a stamp if you re-roll it");
-                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available", wondrousTailsBookPayload);
+                    Chat.Print(HeaderText, $"You have {wondrousTails->SecondChance} Re-Rolls Available", openWondrousTailsPayload);
                 }
                 break;
 
             case ButtonState.AvailableNow:
-                Chat.Print(HeaderText, "A stamp is already available for this instance");
+                Chat.Print(HeaderText, "A stamp is already available for this instance", openWondrousTailsPayload);
                 break;
 
             case ButtonState.Completable:
@@ -191,11 +200,6 @@ internal unsafe class WondrousTails :
 
         Time.UpdateDelayed(delayStopwatch, TimeSpan.FromSeconds(5), UpdateNumStamps );
     }
-
-    public void Dispose()
-    {
-        Service.PluginInterface.RemoveChatLinkHandler(WondrousTailsBookItemID);
-    }
     
     //
     //  Implementation
@@ -208,7 +212,6 @@ internal unsafe class WondrousTails :
         if (Settings.NumPlacedStickers != numStickers)
         {
             Settings.NumPlacedStickers = wondrousTails->Stickers;
-            Settings.CompletionDate = DateTime.UtcNow;
             Service.Configuration.Save();
         }
     }
@@ -217,7 +220,7 @@ internal unsafe class WondrousTails :
     {
         if (NeedsNewBook())
         {
-            Chat.Print(HeaderText, "A new Wondrous Tails Book is Available");
+            Chat.Print(HeaderText, "A new Wondrous Tails Book is Available", idyllshireTeleport);
         }
     }
 

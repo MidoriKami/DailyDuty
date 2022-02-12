@@ -7,7 +7,11 @@ using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Interfaces;
+using DailyDuty.System;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 
@@ -27,6 +31,14 @@ internal unsafe class MiniCactpot :
     public string HeaderText => "Mini Cactpot";
 
     private bool exchangeStarted;
+
+    private readonly DalamudLinkPayload goldSaucerTeleport;
+
+    public MiniCactpot()
+    {
+        goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+
+    }
 
     public DateTime NextReset
     {
@@ -53,7 +65,6 @@ internal unsafe class MiniCactpot :
 
     public void Dispose()
     {
-
     }
 
     public bool IsCompleted()
@@ -75,7 +86,7 @@ internal unsafe class MiniCactpot :
     {
         if (Settings.TicketsRemaining > 0 && Condition.IsBoundByDuty() == false)
         {
-            Chat.Print(HeaderText, $"{Settings.TicketsRemaining} Tickets Remaining");
+            Chat.Print(HeaderText, $"{Settings.TicketsRemaining} Tickets Remaining", goldSaucerTeleport);
         }
     }
 

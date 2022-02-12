@@ -10,6 +10,7 @@ using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 
@@ -30,6 +31,14 @@ internal unsafe class JumboCactpot :
     public CompletionType Type => CompletionType.Weekly;
     public string HeaderText => "Jumbo Cactpot";
     public GenericSettings GenericSettings => Settings;
+
+    private readonly DalamudLinkPayload goldSaucerTeleport;
+
+    public JumboCactpot()
+    {
+        goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+    }
+
     public DateTime NextReset
     {
         get => Settings.NextReset;
@@ -222,12 +231,12 @@ internal unsafe class JumboCactpot :
     {
         if (GetAvailableTickets() > 0)
         {
-            Chat.Print(HeaderText, $"{GetAvailableTickets()} Tickets Available");
+            Chat.Print(HeaderText, $"{GetAvailableTickets()} Tickets Available", goldSaucerTeleport);
         }
 
         if (GetAvailableRewards() > 0)
         {
-            Chat.Print(HeaderText, $"{GetAvailableRewards()} Rewards Available");
+            Chat.Print(HeaderText, $"{GetAvailableRewards()} Rewards Available", goldSaucerTeleport);
         }
     }
 }

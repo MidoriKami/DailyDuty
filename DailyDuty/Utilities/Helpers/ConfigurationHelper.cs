@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.Data.SettingsObjects;
+﻿using DailyDuty.Data.SettingsObjects;
 using Dalamud.Logging;
 
-namespace DailyDuty.Utilities
+namespace DailyDuty.Utilities.Helpers
 {
     internal static class ConfigurationHelper
     {
