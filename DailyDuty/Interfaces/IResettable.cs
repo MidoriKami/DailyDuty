@@ -23,6 +23,8 @@ internal interface IResettable
         ResetThis(settings);
 
         NextReset = GetNextReset();
+
+        Service.Configuration.Save();
     }
 
     protected void ResetThis(CharacterSettings settings);
