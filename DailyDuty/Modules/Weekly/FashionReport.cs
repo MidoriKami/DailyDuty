@@ -11,6 +11,7 @@ using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -40,9 +41,17 @@ internal unsafe class FashionReport :
     }
     private int modeSelect;
 
+    private readonly DalamudLinkPayload goldSaucerTeleport;
+
     public FashionReport()
     {
         modeSelect = (int) Settings.Mode;
+
+        goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+    }
+
+    public void Dispose()
+    {
     }
 
     public bool IsCompleted()
@@ -58,14 +67,14 @@ internal unsafe class FashionReport :
         {
             if (Settings.AllowancesRemaining == 4 && FashionReportAvailable())
             {
-                Chat.Print(HeaderText, "Fashion Report Available");
+                Chat.Print(HeaderText, "Fashion Report Available", goldSaucerTeleport);
             }
         }
         else if (Settings.Mode == FashionReportMode.All)
         {
             if (Settings.AllowancesRemaining > 0 && FashionReportAvailable())
             {
-                Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining");
+                Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining", goldSaucerTeleport);
             }
         }
     }
@@ -128,10 +137,6 @@ internal unsafe class FashionReport :
         UpdateFashionReport();
     }
     
-    public void Dispose()
-    {
-    }
-
     void IResettable.ResetThis(CharacterSettings settings)
     {
         var fashionReportSettings = settings.FashionReport;
