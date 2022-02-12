@@ -35,12 +35,7 @@ namespace DailyDuty.Utilities.Helpers.JumboCactpot
             PluginLog.Error($"[Util] Unable to determine DataCenter: {datacenter}");
             return new();
         }
-
-        public static DateTime GetJumboCactpotReset(uint region)
-        {
-            return GetDrawingTime(region);
-        }
-
+        
         public static uint? TryGetPlayerDatacenter()
         {
             if (Service.LoggedIn == false) return null;
