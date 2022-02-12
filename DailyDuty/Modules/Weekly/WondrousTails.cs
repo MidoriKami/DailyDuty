@@ -99,6 +99,11 @@ internal unsafe class WondrousTails :
                 Chat.Print(HeaderText, "You have 9 Second-chance points, you can re-roll your stickers/tasks", openWondrousTailsPayload);
             }
         }
+
+        if (Settings.Enabled && Settings.BookCompleteNotification && HasBook() && IsBookComplete())
+        {
+            Chat.Print(HeaderText, "You have a completed book available for turn-in", idyllshireTeleport);
+        }
     }
     
     void IZoneChangeAlwaysNotification.SendNotification()
@@ -181,6 +186,8 @@ internal unsafe class WondrousTails :
 
         Draw.NotificationField("New Book Alert", HeaderText, ref Settings.NewBookNotification, "Notify me that a new book is available if I have a completed book");
 
+        Draw.NotificationField("Completed Book Alert", HeaderText, ref Settings.BookCompleteNotification, "Notify me when my current book is completed to turn it in");
+
         Settings.ZoneChangeReminder = Settings.InstanceEndNotification || Settings.InstanceStartNotification || Settings.RerollNotificationTasks;
         Settings.LoginReminder = Settings.NewBookNotification;
     }
@@ -212,6 +219,12 @@ internal unsafe class WondrousTails :
         if (Settings.NumPlacedStickers != numStickers)
         {
             Settings.NumPlacedStickers = wondrousTails->Stickers;
+
+            if (wondrousTails->Stickers == 9)
+            {
+                Settings.CompletionDate = DateTime.UtcNow;
+            }
+
             Service.Configuration.Save();
         }
     }
@@ -231,13 +244,6 @@ internal unsafe class WondrousTails :
 
     private bool NeedsNewBook()
     {
-        // If we haven't set the key yet, set it.
-        if (Settings.CompletionDate == new DateTime())
-        {
-            Settings.CompletionDate = DateTime.UtcNow;
-            Service.Configuration.Save();
-        }
-
         // If the completion time was last week
         if (Settings.CompletionDate < Time.NextWeeklyReset().AddDays(-7))
         {
