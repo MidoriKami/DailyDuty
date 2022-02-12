@@ -55,6 +55,11 @@ internal class SettingsWindow : Window, IDisposable
 
     public override void PreDraw()
     {
+        if (Service.LoggedIn == false)
+        {
+            IsOpen = false;
+        }
+
         ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0, 0, 0, Settings.Opacity));
     }
 
