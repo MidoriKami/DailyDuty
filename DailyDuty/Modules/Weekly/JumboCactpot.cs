@@ -11,6 +11,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 
@@ -111,7 +112,7 @@ internal unsafe class JumboCactpot :
         return GetNextReset();
     }
 
-    void IResettable.DoReset(CharacterSettings settings)
+    void IResettable.ResetThis(CharacterSettings settings)
     {
         PurgeExpiredTickets();
     }
