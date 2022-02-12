@@ -9,10 +9,15 @@ using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
+using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
@@ -32,6 +37,11 @@ internal unsafe class DutyRoulette :
     public string HeaderText => "Duty Roulette";
     public GenericSettings GenericSettings => Settings;
 
+    [Signature("E9 ?? ?? ?? ?? 8B 93 ?? ?? ?? ?? 48 83 C4 20")]
+    private readonly delegate* unmanaged<AgentInterface*, byte, byte, IntPtr> openRouletteDuty = null!;
+
+    private readonly DalamudLinkPayload openDutyFinder;
+
     public DateTime NextReset
     {
         get => Settings.NextReset;
@@ -42,6 +52,8 @@ internal unsafe class DutyRoulette :
 
     public DutyRoulette()
     {
+        SignatureHelper.Initialise(this);
+
         // UI State Pointer
         var clientStruct = FFXIVClientStructs.FFXIV.Client.Game.UI.UIState.Instance();
 
@@ -50,6 +62,27 @@ internal unsafe class DutyRoulette :
 
         // +330 Bytes from UIState
         selectedRoulette = (byte*)clientStruct + 0x119F2;
+
+        openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
+    }
+
+    public void Dispose()
+    {
+        Service.PluginInterface.RemoveChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder);
+    }
+
+    private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
+    {
+        var agent = GetAgentContentsFinder();
+        openRouletteDuty(agent, GetFirstMissingRoulette(), 0);
+    }
+
+    private AgentInterface* GetAgentContentsFinder()
+    {
+        var framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+        var uiModule = framework->GetUiModule();
+        var agentModule = uiModule->GetAgentModule();
+        return agentModule->GetAgentByInternalId(AgentId.ContentsFinder);
     }
 
     public bool IsCompleted()
@@ -61,7 +94,7 @@ internal unsafe class DutyRoulette :
     {
         if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
         {
-            Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining");
+            Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining", openDutyFinder);
         }
     }
 
@@ -87,10 +120,6 @@ internal unsafe class DutyRoulette :
         ImGui.Spacing();
 
         DisplayRouletteStatus();
-    }
-
-    public void Dispose()
-    {
     }
     
     public void HandleZoneChange(object? sender, ushort e)
@@ -218,5 +247,18 @@ internal unsafe class DutyRoulette :
 
             ImGui.EndTable();
         }
+    }
+
+    private byte GetFirstMissingRoulette()
+    {
+        foreach (var trackedRoulette in Settings.TrackedRoulettes)
+        {
+            if (trackedRoulette is {Completed: false, Tracked: true})
+            {
+                return (byte) trackedRoulette.Type;
+            }
+        }
+
+        return (byte)RouletteType.Leveling;
     }
 }
