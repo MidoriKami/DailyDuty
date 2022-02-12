@@ -53,5 +53,9 @@ public class Configuration : IPluginConfiguration
         {
             pluginInterface!.SavePluginConfig(this);
         }
+        else
+        {
+            Chat.Print("Debug", $"Save Skipped, Calling Assembly: {new StackFrame(1, true).GetMethod()!.Name}");
+        }
     }
 }
