@@ -43,7 +43,7 @@ public class Configuration : IPluginConfiguration
     {
         if (System.ShowSaveDebugInfo == true)
         {
-            Chat.Print($"Debug",
+            Chat.Print($"Save",
                 Service.LoggedIn == true ? 
                     $"Saving {DateTime.Now}" : 
                     "Not logged into a character, skipping save");
