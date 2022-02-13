@@ -11,6 +11,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
@@ -85,9 +86,18 @@ internal unsafe class JumboCactpot :
 
     public void DisplayData()
     {
-        Draw.NumericDisplay("Tickets Available", GetAvailableTickets());
-
-        Draw.NumericDisplay("Rewards Available", GetAvailableRewards());
+        if (GetAvailableRewards() > 0)
+        {
+            Draw.NumericDisplay("Rewards Available", GetAvailableRewards());
+        } 
+        else if (GetAvailableTickets() > 0)
+        {
+            Draw.NumericDisplay("Tickets Available", GetAvailableTickets(), Colors.Red);
+        }
+        else
+        {
+            Draw.NumericDisplay("Tickets Pending", GetTicketsWaiting(), Colors.Green);
+        }
 
         var timespan = Settings.NextReset - DateTime.UtcNow;
         Draw.TimeSpanDisplay("Next Ticket Drawing", timespan);
@@ -137,6 +147,13 @@ internal unsafe class JumboCactpot :
         var now = DateTime.UtcNow;
 
         return Settings.CollectedTickets.Count(t => now > t.DrawingAvailableTime && now < t.ExpirationDate);
+    }
+
+    private int GetTicketsWaiting()
+    {
+        var now = DateTime.UtcNow;
+
+        return Settings.CollectedTickets.Count(t => now < t.DrawingAvailableTime);
     }
 
     private void PurchaseTicket()
