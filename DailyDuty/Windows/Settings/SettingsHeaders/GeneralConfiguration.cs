@@ -37,6 +37,8 @@ internal class GeneralConfiguration : ICollapsibleHeader
 
         Draw.NotificationField("Save Debug Printout", HeaderText, ref Service.Configuration.System.ShowSaveDebugInfo, "Enable to show a debug message whenever Daily Duty saves changes to DailyDuty.json");
 
+        Draw.NotificationField("Enable Debug Output", HeaderText, ref Service.Configuration.System.EnableDebugOutput, "Enable Messages with the [Debug] tag");
+
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
     }
 

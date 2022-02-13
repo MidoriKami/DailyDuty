@@ -12,6 +12,9 @@ internal static class Chat
 {
     public static void Print(string tag, string message)
     {
+        var debugEnabled = Service.Configuration.System.EnableDebugOutput;
+        if (debugEnabled == false && tag.ToLower() == "debug") return;
+
         var stringBuilder = new SeStringBuilder();
         stringBuilder.AddUiForeground(45);
         stringBuilder.AddText($"[DailyDuty] ");
