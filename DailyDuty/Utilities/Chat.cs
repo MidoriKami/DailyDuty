@@ -50,4 +50,19 @@ internal static class Chat
 
         Service.Chat.Print(stringBuilder.BuiltString);
     }
+
+    public static void Debug(string data)
+    {
+        Print("Debug", data);
+    }
+
+    //public static unsafe void Debug(void* obj)
+    //{
+    //    Print("Debug", $"{(IntPtr)obj:x8}");
+    //}
+
+    //public static void Debug(object obj)
+    //{
+    //    Print("Debug", $"{(IntPtr)obj:x8}");
+    //}
 }
