@@ -111,19 +111,21 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         {
             var result = onUpdateHook!.Original(atkUnitBase);
 
-            Time.UpdateDelayed(delayStopwatch, TimeSpan.FromMilliseconds(30), () =>
-            {
-                foreach (var i in Enumerable.Range(61001, 15).Append(6))
-                {
-                    var id = (uint)i;
-
-                    var visible = IsWondrousTailsDuty(id);
-
-                    SetImageNodeVisibility(id, visible);
-                }
-            });
+            Time.UpdateDelayed(delayStopwatch, TimeSpan.FromMilliseconds(30), UpdateDelayedFunction);
 
             return result;
+        }
+
+        private void UpdateDelayedFunction()
+        {
+            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            {
+                var id = (uint)i;
+
+                var visible = IsWondrousTailsDuty(id);
+
+                SetImageNodeVisibility(id, visible);
+            }
         }
 
         private void OnDraw(AtkUnitBase* atkUnitBase)
@@ -145,7 +147,12 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         private bool IsWondrousTailsDuty(uint id)
         {
             var listItemNode = GetListItemNode(id);
+
+            if(listItemNode == null) return false;
+
             var textNode = GetTextNode(listItemNode);
+
+            if(textNode == null) return false;
 
             var nodeString = textNode->NodeText.ToString().ToLower();
             var nodeRegexString = Regex.Replace(nodeString, "[^a-z0-9]", "");
@@ -167,18 +174,26 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             var treeNode = GetTreeListBaseNode();
             var targetNode = GetListItemNode(id);
 
-            if (treeNode == null || targetNode == null)
-            {
-                Chat.Debug("Null, sadge");
-                return;
-            }
+            if (treeNode == null || targetNode == null) return;
 
             var uldManager = targetNode->Component->UldManager;
-            var customNode = GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
 
             if (customNode == null)
             {
-                MakeCustomNode(targetNode);
+                // Place new node before the text node
+                var textNode = (AtkResNode*)GetTextNode(targetNode);
+
+                // Coordinates of clover node
+                var clover = new Vector2(97, 65);
+
+                // Coordinates of missing clover node
+                var empty = new Vector2(75, 63);
+
+                MakeImageNode(targetNode, textNode, 29, clover);
+
+                var emptyClover = MakeImageNode(targetNode, textNode, 30, empty);
+                emptyClover->AtkResNode.ToggleVisibility(false);
             }
         }
 
@@ -189,20 +204,21 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint) i;
-                DestroyNode(id);
+                DestroyNode(id, 29);
+                DestroyNode(id, 30);
             }
 
             return onFinalizeHook!.Original(atkUnitBase);
         }
 
-        private void DestroyNode(uint id)
+        private void DestroyNode(uint id, uint nodeId)
         {
             var firstNode = GetListItemNode(id);
 
             if (firstNode == null) return;
 
             var uldManager = firstNode->Component->UldManager;
-            var customNode = GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, nodeId, NodeType.Image);
 
             if (customNode != null)
             {
@@ -212,15 +228,19 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 if (customNode->AtkResNode.NextSiblingNode != null)
                     customNode->AtkResNode.NextSiblingNode->PrevSiblingNode = customNode->AtkResNode.PrevSiblingNode;
 
+
                 firstNode->Component->UldManager.UpdateDrawNodeList();
 
+                customNode->PartsList->Parts->UldAsset->AtkTexture.Destroy(true);
                 IMemorySpace.Free(customNode->PartsList->Parts->UldAsset, (ulong) sizeof(AtkUldAsset));
+
                 IMemorySpace.Free(customNode->PartsList->Parts, (ulong) sizeof(AtkUldPart));
+
                 IMemorySpace.Free(customNode->PartsList, (ulong) sizeof(AtkUldPartsList));
-
-                //customNode->UnloadTexture();
-
+                
+                customNode->UnloadTexture();
                 customNode->AtkResNode.Destroy(true);
+                IMemorySpace.Free(customNode, (ulong)sizeof(AtkImageNode));
             }
         }
 
@@ -238,16 +258,6 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         //
         //  Implementation
         //
-        private T* GetNodeByID<T>(AtkUldManager uldManager, uint nodeId, NodeType? type = null) where T : unmanaged 
-        {
-            for (var i = 0; i < uldManager.NodeListCount; i++) 
-            {
-                var n = uldManager.NodeList[i];
-                if (n->NodeID != nodeId || type != null && n->Type != type.Value) continue;
-                return (T*)n;
-            }
-            return null;
-        }
 
         private bool IsContentFinderOpen()
         {
@@ -261,69 +271,38 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
         private AtkComponentNode* GetTreeListBaseNode()
         {
-            var pointer = GetContentsFinderPointer();
-
-            if (pointer != null)
-            {
-                return (AtkComponentNode*)pointer->GetNodeById(52);
-            }
-
-            return null;
+            return Node.GetComponentNode(GetContentsFinderPointer(), 52);
         }
 
         private AtkComponentNode* GetListItemNode(uint nodeID)
         {
-            var pointer = GetTreeListBaseNode();
-
-            if (pointer != null)
-            {
-                var uldManager = pointer->Component->UldManager;
-
-                return GetNodeByID<AtkComponentNode>(uldManager, nodeID);
-            }
-
-            return null;
+            return Node.GetNodeByID<AtkComponentNode>(GetTreeListBaseNode(), nodeID);
         }
 
         private AtkTextNode* GetTextNode(AtkComponentNode* listItemNode)
         {
-            if (listItemNode != null)
-            {
-                var ulManager = listItemNode->Component->UldManager;
-
-                return GetNodeByID<AtkTextNode>(ulManager, 5);
-            }
-
-            return null;
+            return Node.GetNodeByID<AtkTextNode>(listItemNode, 5);
         }
 
         private AtkResNode* GetAdjacentResNode(AtkComponentNode* listItemNode)
         {
-            if (listItemNode != null)
-            {
-                var ulManager = listItemNode->Component->UldManager;
-
-                return GetNodeByID<AtkResNode>(ulManager, 6);
-            }
-
-            return null;
+            return Node.GetNodeByID<AtkResNode>(listItemNode, 6);
         }
 
-        private void MakeCustomNode(AtkComponentNode* rootNode)
+        private AtkImageNode* MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates)
         {
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
             customNode->AtkResNode.Type = NodeType.Image;
-            customNode->AtkResNode.NodeID = 29;
+            customNode->AtkResNode.NodeID = newNodeID;
             customNode->AtkResNode.Flags = 35;
             customNode->AtkResNode.DrawFlags = 0;
             customNode->WrapMode = 2;
             customNode->Flags = 0;
 
-
             var partsList = (AtkUldPartsList*)IMemorySpace.GetUISpace()->Malloc((ulong)sizeof(AtkUldPartsList), 8);
             if (partsList == null) {
                 customNode->AtkResNode.Destroy(true);
-                return;
+                return null;
             }
 
             partsList->Id = 0;
@@ -333,11 +312,13 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             if (part == null) {
                 IMemorySpace.Free(partsList, (ulong)sizeof(AtkUldPartsList));
                 customNode->AtkResNode.Destroy(true);
-                return;
+                return null;
             }
 
-            part->U = 97;
-            part->V = 65;
+            //part->U = 97;
+            //part->V = 65;
+            part->U = (ushort)textureCoordinates.X;
+            part->V = (ushort)textureCoordinates.Y;
             part->Width = 20;
             part->Height = 20;
             
@@ -348,7 +329,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 IMemorySpace.Free(part, (ulong)sizeof(AtkUldPart));
                 IMemorySpace.Free(partsList, (ulong)sizeof(AtkUldPartsList));
                 customNode->AtkResNode.Destroy(true);
-                return;
+                return null;
             }
 
             asset->Id = 0;
@@ -365,18 +346,18 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             customNode->AtkResNode.SetHeight(20);
             customNode->AtkResNode.SetPositionShort(290, 2);
 
-            var adjacentResNode = GetAdjacentResNode(rootNode);
+            var prev = beforeNode->PrevSiblingNode;
+            customNode->AtkResNode.ParentNode = beforeNode->ParentNode;
 
-            var prev = adjacentResNode->PrevSiblingNode;
-            customNode->AtkResNode.ParentNode = adjacentResNode->ParentNode;
-
-            adjacentResNode->PrevSiblingNode = (AtkResNode*) customNode;
+            beforeNode->PrevSiblingNode = (AtkResNode*) customNode;
             prev->NextSiblingNode = (AtkResNode*) customNode;
 
             customNode->AtkResNode.PrevSiblingNode = prev;
-            customNode->AtkResNode.NextSiblingNode = adjacentResNode;
+            customNode->AtkResNode.NextSiblingNode = beforeNode;
 
             rootNode->Component->UldManager.UpdateDrawNodeList();
+
+            return customNode;
         }
 
         private List<uint> GetAllWondrousTailsDuties()
@@ -415,9 +396,12 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             if (firstNode == null) return;
 
             var uldManager = firstNode->Component->UldManager;
-            var customNode = GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
 
-            customNode->AtkResNode.ToggleVisibility(visible);
+            if (customNode != null)
+            {
+                customNode->AtkResNode.ToggleVisibility(visible);
+            }
         }
 
     }
