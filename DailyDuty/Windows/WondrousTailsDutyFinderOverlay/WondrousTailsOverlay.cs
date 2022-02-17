@@ -48,7 +48,8 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         private readonly Stopwatch delayStopwatch = new();
 
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
-        private List<uint> wondrousTailsDuties;
+
+        private List<(ButtonState, List<uint>)> WondrousTailsStatus = new();
 
         public WondrousTailsOverlay()
         {
@@ -68,7 +69,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 });
             }
 
-            wondrousTailsDuties = GetAllWondrousTailsDuties();
+            WondrousTailsStatus = GetAllTaskData().ToList();
 
             Service.Framework.Update += FrameworkOnUpdate;
         }
@@ -102,7 +103,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-            wondrousTailsDuties = GetAllWondrousTailsDuties();
+            WondrousTailsStatus = GetAllTaskData().ToList();
 
             return result;
         }
@@ -122,9 +123,23 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             {
                 var id = (uint)i;
 
-                var visible = IsWondrousTailsDuty(id);
+                var taskState = IsWondrousTailsDuty(id);
 
-                SetImageNodeVisibility(id, visible);
+                if (taskState == null)
+                {
+                    SetImageNodeVisibility(id, 29, false);
+                    SetImageNodeVisibility(id, 30, false);
+                }
+                else if (taskState == ButtonState.Unavailable)
+                {
+                    SetImageNodeVisibility(id, 29, false);
+                    SetImageNodeVisibility(id, 30, true);
+                }
+                else if (taskState is ButtonState.AvailableNow or ButtonState.Completable)
+                {
+                    SetImageNodeVisibility(id, 29, true);
+                    SetImageNodeVisibility(id, 30, false);
+                }
             }
         }
 
@@ -134,8 +149,6 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
             if (atkUnitBase == null) return;
 
-            //AddImageNodeByID(6);
-
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint)i;
@@ -144,15 +157,15 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             }
         }
 
-        private bool IsWondrousTailsDuty(uint id)
+        private ButtonState? IsWondrousTailsDuty(uint id)
         {
             var listItemNode = GetListItemNode(id);
 
-            if(listItemNode == null) return false;
+            if(listItemNode == null) return null;
 
             var textNode = GetTextNode(listItemNode);
 
-            if(textNode == null) return false;
+            if(textNode == null) return null;
 
             var nodeString = textNode->NodeText.ToString().ToLower();
             var nodeRegexString = Regex.Replace(nodeString, "[^a-z0-9]", "");
@@ -162,11 +175,16 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 // If we found the entry
                 if (result.SearchKey == nodeRegexString)
                 {
-                    return wondrousTailsDuties.Contains(result.TerritoryType);
+                    foreach (var (buttonState, task) in WondrousTailsStatus)
+                    {
+                        if (task.Contains(result.TerritoryType))
+                            return buttonState;
+                    }
+
                 }
             }
 
-            return false;
+            return null;
         }
 
         private void AddImageNodeByID(uint id)
@@ -191,9 +209,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 var empty = new Vector2(75, 63);
 
                 MakeImageNode(targetNode, textNode, 29, clover);
-
-                var emptyClover = MakeImageNode(targetNode, textNode, 30, empty);
-                emptyClover->AtkResNode.ToggleVisibility(false);
+                MakeImageNode(targetNode, textNode, 30, empty);
             }
         }
 
@@ -389,14 +405,14 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             return result;
         }
 
-        private void SetImageNodeVisibility(uint id, bool visible)
+        private void SetImageNodeVisibility(uint id, uint nodeTypeID, bool visible)
         {
             var firstNode = GetListItemNode(id);
 
             if (firstNode == null) return;
 
             var uldManager = firstNode->Component->UldManager;
-            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, nodeTypeID, NodeType.Image);
 
             if (customNode != null)
             {

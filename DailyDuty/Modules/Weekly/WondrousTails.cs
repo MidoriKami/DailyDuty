@@ -264,7 +264,7 @@ internal unsafe class WondrousTails :
             for (int i = 0; i < 16; ++i)
             {
                 var status = wondrousTails->TaskStatus(i);
-                if (status == ButtonState.AvailableNow || status == ButtonState.Unavailable)
+                if (status is ButtonState.AvailableNow or ButtonState.Unavailable)
                     return true;
             }
         }

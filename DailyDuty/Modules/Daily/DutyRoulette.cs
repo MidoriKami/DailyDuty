@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
@@ -64,6 +65,9 @@ internal unsafe class DutyRoulette :
         selectedRoulette = (byte*)clientStruct + 0x119F2;
 
         openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
+
+        Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining", openDutyFinder);
+
     }
 
     public void Dispose()
@@ -73,8 +77,37 @@ internal unsafe class DutyRoulette :
 
     private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
     {
+        // Will cause crash, no touchy
+        //ClearSelectedDuties();
+        
         var agent = GetAgentContentsFinder();
         openRouletteDuty(agent, GetFirstMissingRoulette(), 0);
+    }
+
+    private void ClearSelectedDuties()
+    {
+        var addonPointer = Service.GameGui.GetAddonByName("ContentsFinder", 1);
+        if (addonPointer != IntPtr.Zero)
+        {
+            try
+            {
+                Chat.Print("Debug", $"AddonPointer:{addonPointer:x8}");
+
+                var vf5 = ((void**) addonPointer)[5];
+
+                Chat.Print("Debug", $"vf5:{(IntPtr)vf5:x8}");
+
+                var clearSelection = (delegate* unmanaged<IntPtr, byte, uint, long>) vf5;
+                Chat.Print("Debug", $"AddonPointer:{(IntPtr)clearSelection:x8}");
+
+                Chat.Print("Debug", "Calling fp!");
+                clearSelection(addonPointer, 0, 15);
+            }
+            catch (Exception e)
+            {
+                PluginLog.Information(e.Message);
+            }
+        }
     }
 
     private AgentInterface* GetAgentContentsFinder()
