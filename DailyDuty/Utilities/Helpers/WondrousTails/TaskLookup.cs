@@ -112,7 +112,7 @@ namespace DailyDuty.Utilities.Helpers.WondrousTails
                         .ToList();
 
                 // Rival Wings
-                case 67:
+                case 67 or 54:
                     return new List<uint>();
 
             }
