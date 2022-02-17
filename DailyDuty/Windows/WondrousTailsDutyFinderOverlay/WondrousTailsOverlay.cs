@@ -49,7 +49,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
 
-        private List<(ButtonState, List<uint>)> WondrousTailsStatus = new();
+        private List<(ButtonState, List<uint>)> wondrousTailsStatus;
 
         public WondrousTailsOverlay()
         {
@@ -69,41 +69,49 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 });
             }
 
-            WondrousTailsStatus = GetAllTaskData().ToList();
+            wondrousTailsStatus = GetAllTaskData().ToList();
 
             Service.Framework.Update += FrameworkOnUpdate;
         }
 
         private void FrameworkOnUpdate(Framework framework)
         {
-            if (IsContentFinderOpen() == true)
-            {
-                var addonContentsFinder = GetContentsFinderPointer();
+            if (IsContentFinderOpen() != true) return;
 
-                var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
-                var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
-                var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-                var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
+            var addonContentsFinder = GetContentsFinderPointer();
 
-                onDrawHook ??= new Hook<AddonOnDraw>(new IntPtr(drawAddress), OnDraw);
-                onFinalizeHook ??= new Hook<AddonOnFinalize>(new IntPtr(finalizeAddress), OnFinalize);
-                onUpdateHook ??= new Hook<AddonOnUpdate>(new IntPtr(updateAddress), OnUpdate);
-                onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), OnRefresh);
+            var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
+            var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
+            var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
+            var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
 
-                onDrawHook.Enable();
-                onFinalizeHook.Enable();
-                onUpdateHook.Enable();
-                onRefreshHook.Enable();
+            onDrawHook ??= new Hook<AddonOnDraw>(new IntPtr(drawAddress), OnDraw);
+            onFinalizeHook ??= new Hook<AddonOnFinalize>(new IntPtr(finalizeAddress), OnFinalize);
+            onUpdateHook ??= new Hook<AddonOnUpdate>(new IntPtr(updateAddress), OnUpdate);
+            onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), OnRefresh);
+
+            onDrawHook.Enable();
+            onFinalizeHook.Enable();
+            onUpdateHook.Enable();
+            onRefreshHook.Enable();
                 
-                Service.Framework.Update -= FrameworkOnUpdate;
-            }
+            Service.Framework.Update -= FrameworkOnUpdate;
+        }
+        public void Dispose()
+        {
+            Service.Framework.Update -= FrameworkOnUpdate;
+
+            onDrawHook?.Dispose();
+            onFinalizeHook?.Dispose();
+            onUpdateHook?.Dispose();
+            onRefreshHook?.Dispose();
         }
 
         private byte OnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3)
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-            WondrousTailsStatus = GetAllTaskData().ToList();
+            wondrousTailsStatus = GetAllTaskData().ToList();
 
             return result;
         }
@@ -175,7 +183,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 // If we found the entry
                 if (result.SearchKey == nodeRegexString)
                 {
-                    foreach (var (buttonState, task) in WondrousTailsStatus)
+                    foreach (var (buttonState, task) in wondrousTailsStatus)
                     {
                         if (task.Contains(result.TerritoryType))
                             return buttonState;
@@ -259,18 +267,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                 IMemorySpace.Free(customNode, (ulong)sizeof(AtkImageNode));
             }
         }
-
-        public void Dispose()
-        {
-            Service.Framework.Update -= FrameworkOnUpdate;
-
-            onDrawHook?.Dispose();
-            onFinalizeHook?.Dispose();
-            onUpdateHook?.Dispose();
-            onRefreshHook?.Dispose();
-        }
-
-
+        
         //
         //  Implementation
         //
@@ -299,12 +296,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         {
             return Node.GetNodeByID<AtkTextNode>(listItemNode, 5);
         }
-
-        private AtkResNode* GetAdjacentResNode(AtkComponentNode* listItemNode)
-        {
-            return Node.GetNodeByID<AtkResNode>(listItemNode, 6);
-        }
-
+        
         private AtkImageNode* MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates)
         {
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
@@ -374,20 +366,6 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             rootNode->Component->UldManager.UpdateDrawNodeList();
 
             return customNode;
-        }
-
-        private List<uint> GetAllWondrousTailsDuties()
-        {
-            var allTasks = GetAllTaskData();
-
-            List<uint> result = new();
-
-            foreach (var (_, tasks) in allTasks)
-            {
-                result.AddRange(tasks);
-            }
-
-            return result.Distinct().ToList();
         }
 
         private IEnumerable<(ButtonState, List<uint>)> GetAllTaskData()
