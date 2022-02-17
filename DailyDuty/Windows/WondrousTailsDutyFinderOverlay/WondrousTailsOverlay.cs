@@ -59,7 +59,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
             foreach (var cfc in contentFinderData)
             {
-                var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "[^a-z]", "");
+                var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "[^a-z0-9]", "");
 
                 contentFinderDuties.Add(new()
                 {
@@ -148,7 +148,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             var textNode = GetTextNode(listItemNode);
 
             var nodeString = textNode->NodeText.ToString().ToLower();
-            var nodeRegexString = Regex.Replace(nodeString, "[^a-z]", "");
+            var nodeRegexString = Regex.Replace(nodeString, "[^a-z0-9]", "");
 
             foreach (var result in contentFinderDuties)
             {
