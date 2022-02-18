@@ -39,6 +39,8 @@ internal class GeneralConfiguration : ICollapsibleHeader
 
         Draw.NotificationField("Enable Debug Output", HeaderText, ref Service.Configuration.System.EnableDebugOutput, "Enable Messages with the [Debug] tag");
 
+        Draw.NotificationField("Enable Wondrous Tails Overlay", HeaderText, ref Service.Configuration.WondrousTailsOverlaySettings.Enabled, "Show an indicator in the Duty Finder indicating duties that are available for Wondrous Tails");
+
         ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
     }
 

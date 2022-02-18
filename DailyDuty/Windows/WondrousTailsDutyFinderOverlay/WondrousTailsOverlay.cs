@@ -148,6 +148,8 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         {
             onDrawHook!.Original(atkUnitBase);
 
+            if (Service.Configuration.WondrousTailsOverlaySettings.Enabled == false) return;
+
             if (atkUnitBase == null) return;
 
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
