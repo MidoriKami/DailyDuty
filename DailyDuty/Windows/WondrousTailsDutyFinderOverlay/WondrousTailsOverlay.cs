@@ -45,8 +45,6 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         private Hook<AddonOnUpdate>? onUpdateHook = null;
         private Hook<AddonOnRefresh>? onRefreshHook = null;
 
-        private readonly Stopwatch delayStopwatch = new();
-
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
 
         private List<(ButtonState, List<uint>)> wondrousTailsStatus;
@@ -120,13 +118,6 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         {
             var result = onUpdateHook!.Original(atkUnitBase);
 
-            Time.UpdateDelayed(delayStopwatch, TimeSpan.FromMilliseconds(30), UpdateDelayedFunction);
-
-            return result;
-        }
-
-        private void UpdateDelayedFunction()
-        {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint)i;
@@ -149,6 +140,8 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                     SetImageNodeVisibility(id, 30, false);
                 }
             }
+
+            return result;
         }
 
         private void OnDraw(AtkUnitBase* atkUnitBase)
