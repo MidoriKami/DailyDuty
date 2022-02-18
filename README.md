@@ -1,5 +1,10 @@
 # Documentation is out of date, a significant rework was just completed. New module details and features will be added in the next few days.
-(Updated 2/7/2022 5am PST)
+(Updated 2/7/2022)
+
+## This page will be re-structured as a general introduction to DailyDuty and Wiki pages will be made to detail the systems and their functions. This will take time to complete.
+(Updated 2/13/2022)
+
+
 
 # Index
 - [DailyDuty](#dailyduty)
