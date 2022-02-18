@@ -14,7 +14,9 @@ internal class FashionReportResetCountdown : ICountdownTimer
 {
     bool ICountdownTimer.Enabled => Service.Configuration.TimerSettings.FashionReportCountdownEnabled;
     public Vector4 Color => Service.Configuration.TimerSettings.FashionReportCountdownColor;
+    public Vector4 BgColor => Service.Configuration.TimerSettings.FashionReportCountdownBgColor;
     public int ElementWidth => Service.Configuration.TimerSettings.TimerWidth;
+    public bool ShortStrings => Service.Configuration.TimersWindowSettings.ShortStrings;
 
     void ICountdownTimer.DrawContents()
     {
@@ -36,6 +38,14 @@ internal class FashionReportResetCountdown : ICountdownTimer
             percentage = (float) (1 - totalHours / TimeSpan.FromDays(3) );
         }
 
-        Draw.DrawProgressBar(percentage, "Fashion Report", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
+        if (ShortStrings)
+        {
+            Draw.DrawProgressBar(percentage, "Fashion", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color, BgColor);
+        }
+        else
+        {
+            Draw.DrawProgressBar(percentage, "Fashion Report", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color, BgColor);
+        }
+        
     }
 }

@@ -15,6 +15,8 @@ namespace DailyDuty.Components.Graphical
         public bool Enabled => Service.Configuration.TimerSettings.JumboCactpotCountdownEnabled;
         public int ElementWidth => Service.Configuration.TimerSettings.TimerWidth;
         public Vector4 Color => Service.Configuration.TimerSettings.JumboCactpotCountdownColor;
+        public Vector4 BgColor => Service.Configuration.TimerSettings.JumboCactpotCountdownBgColor;
+        public bool ShortStrings => Service.Configuration.TimersWindowSettings.ShortStrings;
 
         private DateTime NextReset => Service.Configuration.Current().JumboCactpot.NextReset;
         void ICountdownTimer.DrawContents()
@@ -23,7 +25,15 @@ namespace DailyDuty.Components.Graphical
             var totalHours = NextReset - now;
             var percentage = (float) (1 - totalHours / TimeSpan.FromDays(7) );
 
-            Draw.DrawProgressBar(percentage, "Jumbo Cactpot", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
+            if (ShortStrings)
+            {
+                Draw.DrawProgressBar(percentage, "Cactpot", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color, BgColor);
+            }
+            else
+            {
+                Draw.DrawProgressBar(percentage, "Jumbo Cactpot", totalHours, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color, BgColor);
+            }
+            
         }
     }
 }

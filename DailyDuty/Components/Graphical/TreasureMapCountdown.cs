@@ -15,6 +15,8 @@ namespace DailyDuty.Components.Graphical
         public bool Enabled => Service.Configuration.TimerSettings.TreasureMapCountdownEnabled;
         public int ElementWidth => Service.Configuration.TimerSettings.TimerWidth;
         public Vector4 Color => Service.Configuration.TimerSettings.TreasureMapCountdownColor;
+        public Vector4 BgColor => Service.Configuration.TimerSettings.TreasureMapCountdownBgColor;
+        public bool ShortStrings => Service.Configuration.TimersWindowSettings.ShortStrings;
 
         void ICountdownTimer.DrawContents()
         {
@@ -32,7 +34,15 @@ namespace DailyDuty.Components.Graphical
                 timeRemaining = TimeSpan.Zero;
             }
 
-            Draw.DrawProgressBar(percentage, "Treasure Map", timeRemaining, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color);
+            if (ShortStrings)
+            {
+                Draw.DrawProgressBar(percentage, "Map", timeRemaining, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color, BgColor);
+            }
+            else
+            {
+                Draw.DrawProgressBar(percentage, "Treasure Map", timeRemaining, ImGuiHelpers.ScaledVector2(ElementWidth, 20), Color, BgColor);
+            }
+            
         }
     }
 }
