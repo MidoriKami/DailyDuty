@@ -33,11 +33,19 @@ public class Configuration : IPluginConfiguration
     [NonSerialized]
     private DalamudPluginInterface? pluginInterface;
 
+    private void CheckAndPurgeNullCharacter()
+    {
+        if (CharacterSettingsMap.ContainsKey(0))
+            CharacterSettingsMap.Remove(0);
+    }
+
     public void Initialize(DalamudPluginInterface pluginInterface)
     {
         this.pluginInterface = pluginInterface;
 
         CharacterSettingsMap ??= new();
+
+        CheckAndPurgeNullCharacter();
     }
 
     public void Save()
