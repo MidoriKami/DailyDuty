@@ -53,10 +53,7 @@ internal unsafe class HuntMarks :
     {
         if (Condition.IsBoundByDuty() == true) return;
 
-        if (Settings.Enabled)
-        {
-            DisplayNotification();
-        }
+        DisplayNotification();
     }
     
     public void NotificationOptions()
@@ -111,7 +108,7 @@ internal unsafe class HuntMarks :
         {
             var obtained = huntData->Obtained(hunt.Expansion) || hunt.Obtained;
 
-            if (!obtained && hunt.Tracked)
+            if (hunt is { Obtained: false, Tracked: true } somevar)
                 count++;
         }
 

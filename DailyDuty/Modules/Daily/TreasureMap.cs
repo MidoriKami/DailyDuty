@@ -67,6 +67,7 @@ internal class TreasureMap :
 
     void IZoneChangeAlwaysNotification.SendNotification()
     {
+        if (Settings.Enabled == false) return;
         if (Condition.IsBoundByDuty() == true) return;
 
         if (Settings.HarvestableMapNotification == true && TimeUntilNextMap() == TimeSpan.Zero)

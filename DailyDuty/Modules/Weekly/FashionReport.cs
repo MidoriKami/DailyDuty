@@ -158,21 +158,13 @@ internal unsafe class FashionReport :
                 // If FashionReport Windows are open
                 if (GetFashionReportScoreGauge() != null && GetFashionReportInfoWindow() != null)
                 {
-                    Chat.Print("Debug", $"ScoreGauge:{(IntPtr)GetFashionReportScoreGauge():x8} :: Window:{(IntPtr)GetFashionReportInfoWindow():X8}");
-
                     if (exchangeStarted == false)
                     {
-                        Chat.Print("Debug", "Exchange Started");
-
                         var allowances = GetRemainingAllowances();
-
-                        Chat.Print("Debug", $"Parsed Allowances: {allowances}::{(allowances == null ? "null" : allowances.Value)}");
 
                         if (allowances != null)
                         {
                             exchangeStarted = true;
-
-                            Chat.Print("Debug", $"Saving Allowance Value: {allowances}");
 
                             Settings.AllowancesRemaining = allowances.Value - 1;
                             Settings.HighestWeeklyScore = GetHighScore();

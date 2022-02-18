@@ -13,7 +13,7 @@ internal interface IZoneChangeAlwaysNotification
 
     public void TrySendNotification()
     {
-        if (GenericSettings.ZoneChangeReminder == true)
+        if (GenericSettings.ZoneChangeReminder == true && GenericSettings.Enabled == true)
         {
             SendNotification();
         }

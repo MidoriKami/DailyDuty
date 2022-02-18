@@ -57,10 +57,9 @@ internal unsafe class JumboCactpot :
 
     public void SendNotification()
     {
-        if (Settings.Enabled && Condition.IsBoundByDuty() == false)
-        {
-            Notification();
-        }
+        if (Condition.IsBoundByDuty()) return;
+     
+        Notification();
     }
 
     public void NotificationOptions()

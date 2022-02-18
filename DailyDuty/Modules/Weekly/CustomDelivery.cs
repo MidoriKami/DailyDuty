@@ -46,10 +46,7 @@ internal unsafe class CustomDelivery :
     {
         if (Condition.IsBoundByDuty() == true) return;
 
-        if (Settings.Enabled)
-        {
-            PrintRemainingAllowances();
-        }
+        PrintRemainingAllowances();
     }
 
     void IResettable.ResetThis(CharacterSettings settings)

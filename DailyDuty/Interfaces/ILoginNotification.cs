@@ -13,7 +13,7 @@ internal interface ILoginNotification
 
     public void TrySendNotification()
     {
-        if (GenericSettings.LoginReminder == true)
+        if (GenericSettings.LoginReminder == true && GenericSettings.Enabled == true)
         {
             SendNotification();
         }
