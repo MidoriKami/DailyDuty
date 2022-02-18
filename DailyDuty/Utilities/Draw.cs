@@ -13,9 +13,9 @@ namespace DailyDuty.Utilities;
 
 internal static class Draw
 {
-    public static void DrawProgressBar(float percentage, string prependText, TimeSpan remainingTime, Vector2 size, Vector4 barColor)
+    public static void DrawProgressBar(float percentage, string prependText, TimeSpan remainingTime, Vector2 size, Vector4 barColor, Vector4 bgColor)
     {
-        ImGui.PushStyleColor(ImGuiCol.FrameBg, new Vector4(0, 0, 0, 1));
+        ImGui.PushStyleColor(ImGuiCol.FrameBg, bgColor);
         ImGui.PushStyleColor(ImGuiCol.PlotHistogram, barColor);
 
         if (remainingTime > TimeSpan.Zero)

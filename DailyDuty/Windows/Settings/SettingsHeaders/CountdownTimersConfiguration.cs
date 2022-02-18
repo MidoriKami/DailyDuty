@@ -27,11 +27,12 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
     {
         ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-        if (ImGui.BeginTable("CountdownTimersTable", 2))
+        if (ImGui.BeginTable("CountdownTimersTable", 3))
         {
             ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
             ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 50f * ImGuiHelpers.GlobalScale);
-
+            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 50f * ImGuiHelpers.GlobalScale);
+            
             DrawDailyResetCountdownOptions();
 
             DrawWeeklyResetCountdownOptions();
@@ -60,6 +61,10 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.TableNextColumn();
         ImGui.ColorEdit4("##Jumbo Cactpot Bar Color", ref Settings.JumboCactpotCountdownColor,
             ImGuiColorEditFlags.NoInputs);
+        
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Jumbo Cactpot Bar Background Color", ref Settings.JumboCactpotCountdownBgColor,
+            ImGuiColorEditFlags.NoInputs);
     }
 
     private void DrawTreasureMapCountdownOptions()
@@ -72,6 +77,10 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.TableNextColumn();
         ImGui.ColorEdit4("##Treasure Map Bar Color", ref Settings.TreasureMapCountdownColor,
             ImGuiColorEditFlags.NoInputs);
+        
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Treasure Map Bar Background Color", ref Settings.TreasureMapCountdownBgColor,
+            ImGuiColorEditFlags.NoInputs);
     }
 
     private void DrawCountdownWidthSlider()
@@ -81,7 +90,7 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.SameLine();
 
         ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
-        ImGui.SliderInt("", ref Settings.TimerWidth, 170, 600);
+        ImGui.SliderInt("", ref Settings.TimerWidth, 86, 600);
         ImGui.PopItemWidth();
     }
 
@@ -95,6 +104,10 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
         ImGui.TableNextColumn();
         ImGui.ColorEdit4("##Fashion Report Reset Bar Color", ref Settings.FashionReportCountdownColor,
             ImGuiColorEditFlags.NoInputs);
+        
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Fashion Report Reset Bar Background Color", ref Settings.FashionReportCountdownBgColor,
+            ImGuiColorEditFlags.NoInputs);
     }
 
     private void DrawWeeklyResetCountdownOptions()
@@ -105,7 +118,12 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
             "Show/Hide Weekly Reset Timer");
 
         ImGui.TableNextColumn();
-        ImGui.ColorEdit4("##Weekly Reset Bar Color", ref Settings.WeeklyCountdownColor, ImGuiColorEditFlags.NoInputs);
+        ImGui.ColorEdit4("##Weekly Reset Bar Color", ref Settings.WeeklyCountdownColor, 
+            ImGuiColorEditFlags.NoInputs);
+        
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Weekly Reset Bar Background Color", ref Settings.WeeklyCountdownBgColor, 
+            ImGuiColorEditFlags.NoInputs);
     }
 
     private void DrawDailyResetCountdownOptions()
@@ -116,6 +134,11 @@ internal class CountdownTimersConfiguration : ICollapsibleHeader
             "Show/Hide Daily Reset Timer");
 
         ImGui.TableNextColumn();
-        ImGui.ColorEdit4("##Daily Reset Bar Color", ref Settings.DailyCountdownColor, ImGuiColorEditFlags.NoInputs);
+        ImGui.ColorEdit4("##Daily Reset Bar Color", ref Settings.DailyCountdownColor, 
+            ImGuiColorEditFlags.NoInputs);
+        
+        ImGui.TableNextColumn();
+        ImGui.ColorEdit4("##Daily Reset Bar Background Color", ref Settings.DailyCountdownBgColor, 
+            ImGuiColorEditFlags.NoInputs);
     }
 }
