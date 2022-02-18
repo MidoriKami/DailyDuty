@@ -58,7 +58,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
             foreach (var cfc in contentFinderData)
             {
-                var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "\\P{L}", "");
+                var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "[^\\p{L}\\p{N}]", "");
 
                 contentFinderDuties.Add(new()
                 {
@@ -171,19 +171,39 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             if(textNode == null) return null;
 
             var nodeString = textNode->NodeText.ToString().ToLower();
-            var nodeRegexString = Regex.Replace(nodeString, "\\P{L}", "");
+            var nodeRegexString = Regex.Replace(nodeString, "[^\\p{L}\\p{N}]", "");
+
+            var containsEllipsis = nodeString.Contains("...");
 
             foreach (var result in contentFinderDuties)
             {
-                // If we found the entry
-                //if (result.SearchKey == nodeRegexString)
-                if (Regex.IsMatch(result.SearchKey, nodeRegexString))
+                if (containsEllipsis)
                 {
-                    foreach (var (buttonState, task) in wondrousTailsStatus)
+                    var nodeStringLength = nodeRegexString.Length;
+
+                    if (result.SearchKey.Length <= nodeStringLength) continue;
+
+                    if (result.SearchKey[..nodeStringLength] == nodeRegexString)
                     {
-                        if (task.Contains(result.TerritoryType))
-                            return buttonState;
+                        return InWondrousTailsBook(result.TerritoryType);
                     }
+                }
+                else if (result.SearchKey == nodeRegexString)
+                {
+                    return InWondrousTailsBook(result.TerritoryType);
+                }
+            }
+
+            return null;
+        }
+
+        private ButtonState? InWondrousTailsBook(uint duty)
+        {
+            foreach (var (buttonState, task) in wondrousTailsStatus)
+            {
+                if (task.Contains(duty))
+                {
+                    return buttonState;
                 }
             }
 

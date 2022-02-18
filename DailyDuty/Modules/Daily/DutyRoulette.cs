@@ -65,9 +65,6 @@ internal unsafe class DutyRoulette :
         selectedRoulette = (byte*)clientStruct + 0x119F2;
 
         openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
-
-        Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining", openDutyFinder);
-
     }
 
     public void Dispose()
