@@ -181,7 +181,8 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             foreach (var result in contentFinderDuties)
             {
                 // If we found the entry
-                if (result.SearchKey == nodeRegexString)
+                //if (result.SearchKey == nodeRegexString)
+                if(Regex.IsMatch(result.SearchKey, nodeRegexString))
                 {
                     foreach (var (buttonState, task) in wondrousTailsStatus)
                     {
