@@ -58,7 +58,7 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
             foreach (var cfc in contentFinderData)
             {
-                var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "[^a-z0-9]", "");
+                var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "\\P{L}", "");
 
                 contentFinderDuties.Add(new()
                 {
@@ -169,20 +169,19 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             if(textNode == null) return null;
 
             var nodeString = textNode->NodeText.ToString().ToLower();
-            var nodeRegexString = Regex.Replace(nodeString, "[^a-z0-9]", "");
+            var nodeRegexString = Regex.Replace(nodeString, "\\P{L}", "");
 
             foreach (var result in contentFinderDuties)
             {
                 // If we found the entry
                 //if (result.SearchKey == nodeRegexString)
-                if(Regex.IsMatch(result.SearchKey, nodeRegexString))
+                if (Regex.IsMatch(result.SearchKey, nodeRegexString))
                 {
                     foreach (var (buttonState, task) in wondrousTailsStatus)
                     {
                         if (task.Contains(result.TerritoryType))
                             return buttonState;
                     }
-
                 }
             }
 
@@ -197,9 +196,10 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             if (treeNode == null || targetNode == null) return;
 
             var uldManager = targetNode->Component->UldManager;
-            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var cloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var emptyCloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 30, NodeType.Image);
 
-            if (customNode == null)
+            if (emptyCloverNode == null && cloverNode == null)
             {
                 // Place new node before the text node
                 var textNode = (AtkResNode*)GetTextNode(targetNode);
