@@ -154,7 +154,7 @@ internal unsafe class DutyRoulette :
     
     public void HandleZoneChange(object? sender, ushort e)
     {
-        if (*selectedRoulette != 0)
+        if (*selectedRoulette != 0 && Condition.IsBoundByDuty() == true)
         {
             var duty = Settings.TrackedRoulettes
                 .Where(t => (int) t.Type == *selectedRoulette)
