@@ -21,7 +21,7 @@ public class Configuration : IPluginConfiguration
     public TodoWindowSettings TodoWindowSettings = new();
     public SettingsWindowSettings SettingsWindowSettings = new();
     public TimersWindowSettings TimersWindowSettings = new();
-    public WondrousTailsOverlaySettings WondrousTailsOverlaySettings = new();
+    public DutyFinderOverlaySettings DutyFinderOverlaySettings = new();
     
     public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
 

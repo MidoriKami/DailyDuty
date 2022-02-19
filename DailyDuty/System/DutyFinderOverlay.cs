@@ -1,37 +1,31 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.ModuleData.WondrousTails;
+using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Data.SettingsObjects.DailySettings;
+using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Game;
 using Dalamud.Hooking;
-using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
-using Dalamud.Utility;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
-using FFXIVClientStructs.FFXIV.Component.Excel;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
-using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
-using Lumina.Text;
-using Microsoft.Win32.SafeHandles;
 
-namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
+namespace DailyDuty.System
 {
-    internal unsafe class WondrousTailsOverlay : IDisposable
+    internal unsafe class DutyFinderOverlay : IDisposable
     {
+        private DutyFinderOverlaySettings Settings => Service.Configuration.DutyFinderOverlaySettings;
+        private DutyRouletteSettings DutyRouletteSettings => Service.Configuration.Current().DutyRoulette;
+        private WondrousTailsSettings wondrousTailsSettings => Service.Configuration.Current().WondrousTails;
+
         private delegate void AddonOnDraw(AtkUnitBase* atkUnitBase);
         private delegate void* AddonOnFinalize(AtkUnitBase* atkUnitBase);
         private delegate byte AddonOnUpdate(AtkUnitBase* atkUnitBase);
@@ -46,10 +40,11 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         private Hook<AddonOnRefresh>? onRefreshHook = null;
 
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
-
+        private readonly List<DutyFinderSearchResult> dutyRouletteDuties = new();
+        private IEnumerable<TrackedRoulette> DutyRoulettes => DutyRouletteSettings.TrackedRoulettes;
         private List<(ButtonState, List<uint>)> wondrousTailsStatus;
 
-        public WondrousTailsOverlay()
+        public DutyFinderOverlay()
         {
             SignatureHelper.Initialise(this);
 
@@ -62,8 +57,22 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
 
                 contentFinderDuties.Add(new()
                 {
-                    TerritoryType = cfc.TerritoryType.Row,
+                    Value = cfc.TerritoryType.Row,
                     SearchKey = simplifiedString
+                });
+            }
+
+            var rouletteData = Service.DataManager.GetExcelSheet<ContentRoulette>()
+                !.Where(cr => cr.Name != string.Empty);
+
+            foreach (var cr in rouletteData)
+            {
+                var simplifiedString = Regex.Replace(cr.Category.ToString().ToLower(), "[^\\p{L}\\p{N}]", "");
+
+                dutyRouletteDuties.Add(new()
+                {
+                    SearchKey = simplifiedString,
+                    Value = cr.RowId
                 });
             }
 
@@ -109,15 +118,47 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-            wondrousTailsStatus = GetAllTaskData().ToList();
+            if (wondrousTailsSettings.Enabled && Settings.Enabled)
+            {
+                wondrousTailsStatus = GetAllTaskData().ToList();
+            }
 
+            if (DutyRouletteSettings.Enabled && Settings.Enabled)
+            {
+                ResetDutyListColors();
+            }
+            
             return result;
         }
-        
+
+        private void ResetDutyListColors()
+        {
+            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            {
+                var id = (uint)i;
+
+                var textNode = GetListItemTextNode(id);
+
+                textNode->TextColor.R = (byte)(Colors.DutyFinderOrange.X * 255);
+                textNode->TextColor.G = (byte)(Colors.DutyFinderOrange.Y * 255);
+                textNode->TextColor.B = (byte)(Colors.DutyFinderOrange.Z * 255);
+                textNode->TextColor.A = (byte)(Colors.DutyFinderOrange.W * 255);
+            }
+        }
+
         private byte OnUpdate(AtkUnitBase* atkUnitBase)
         {
             var result = onUpdateHook!.Original(atkUnitBase);
 
+            if (Settings.Enabled == false) return result;
+            
+            UpdateWondrousTails();
+            
+            return result;
+        }
+
+        private void UpdateWondrousTails()
+        {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint)i;
@@ -140,101 +181,102 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
                     SetImageNodeVisibility(id, 30, false);
                 }
             }
-
-            return result;
         }
 
         private void OnDraw(AtkUnitBase* atkUnitBase)
         {
             onDrawHook!.Original(atkUnitBase);
-
-            if (Service.Configuration.WondrousTailsOverlaySettings.Enabled == false) return;
-
             if (atkUnitBase == null) return;
 
-            foreach (var i in Enumerable.Range(61001, 15).Append(6))
-            {
-                var id = (uint)i;
+            if (Settings.Enabled == false) return;
 
-                AddImageNodeByID(id);
+            if (Settings.WondrousTailsOverlayEnabled == true && wondrousTailsSettings.Enabled)
+            {
+                foreach (var i in Enumerable.Range(61001, 15).Append(6))
+                {
+                    var id = (uint)i;
+
+                    AddImageNodeByID(id);
+                }
+            }
+
+            if (Settings.DutyRouletteOverlayEnabled == true && DutyRouletteSettings.Enabled)
+            {
+                if (IsTabSelected(DutyFinderTab.Roulette) == false)
+                {
+                    ResetDutyListColors();
+                }
+                else
+                {
+                    SetRouletteColors();
+                }
+            }
+            else
+            {
+                ResetDutyListColors();
             }
         }
 
-        private ButtonState? IsWondrousTailsDuty(uint id)
+        private void SetRouletteColors()
         {
-            var listItemNode = GetListItemNode(id);
+            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            {
+                var id = (uint) i;
 
-            if(listItemNode == null) return null;
+                var rouletteState = IsRouletteDuty(id);
 
-            var textNode = GetTextNode(listItemNode);
+                if (rouletteState != null)
+                {
+                    var textNode = GetListItemTextNode(id);
 
-            if(textNode == null) return null;
+                    if (rouletteState is {Tracked: true, Completed: true})
+                    {
+                        textNode->TextColor.R = (byte) (Settings.DutyRouletteCompleteColor.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.DutyRouletteCompleteColor.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.DutyRouletteCompleteColor.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.DutyRouletteCompleteColor.W * 255);
+                    }
+                    else if (rouletteState is {Tracked: true, Completed: false})
+                    {
+                        textNode->TextColor.R = (byte) (Settings.DutyRouletteIncompleteColor.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.DutyRouletteIncompleteColor.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.DutyRouletteIncompleteColor.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.DutyRouletteIncompleteColor.W * 255);
+                    }
+                    else
+                    {
+                        textNode->TextColor.R = (byte) (Settings.DutyRouletteUntrackedColor.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.DutyRouletteUntrackedColor.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.DutyRouletteUntrackedColor.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.DutyRouletteUntrackedColor.W * 255);
+                    }
+                }
+            }
+        }
+
+        private TrackedRoulette? IsRouletteDuty(uint id)
+        {
+            var textNode = GetListItemTextNode(id);
 
             var nodeString = textNode->NodeText.ToString().ToLower();
             var nodeRegexString = Regex.Replace(nodeString, "[^\\p{L}\\p{N}]", "");
 
-            var containsEllipsis = nodeString.Contains("...");
 
-            foreach (var result in contentFinderDuties)
+            foreach (var result in dutyRouletteDuties)
             {
-                if (containsEllipsis)
-                {
-                    var nodeStringLength = nodeRegexString.Length;
 
-                    if (result.SearchKey.Length <= nodeStringLength) continue;
 
-                    if (result.SearchKey[..nodeStringLength] == nodeRegexString)
-                    {
-                        return InWondrousTailsBook(result.TerritoryType);
-                    }
-                }
-                else if (result.SearchKey == nodeRegexString)
+                if (result.SearchKey == nodeRegexString)
                 {
-                    return InWondrousTailsBook(result.TerritoryType);
+                    var trackedRoulette = DutyRoulettes
+                        .Where(duty => (uint) duty.Type == result.Value)
+                        .FirstOrDefault();
+
+                    return trackedRoulette;
                 }
             }
 
             return null;
-        }
-
-        private ButtonState? InWondrousTailsBook(uint duty)
-        {
-            foreach (var (buttonState, task) in wondrousTailsStatus)
-            {
-                if (task.Contains(duty))
-                {
-                    return buttonState;
-                }
-            }
-
-            return null;
-        }
-
-        private void AddImageNodeByID(uint id)
-        {
-            var treeNode = GetTreeListBaseNode();
-            var targetNode = GetListItemNode(id);
-
-            if (treeNode == null || targetNode == null) return;
-
-            var uldManager = targetNode->Component->UldManager;
-            var cloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
-            var emptyCloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 30, NodeType.Image);
-
-            if (emptyCloverNode == null && cloverNode == null)
-            {
-                // Place new node before the text node
-                var textNode = (AtkResNode*)GetTextNode(targetNode);
-
-                // Coordinates of clover node
-                var clover = new Vector2(97, 65);
-
-                // Coordinates of missing clover node
-                var empty = new Vector2(75, 63);
-
-                MakeImageNode(targetNode, textNode, 29, clover);
-                MakeImageNode(targetNode, textNode, 30, empty);
-            }
         }
 
         private void* OnFinalize(AtkUnitBase* atkUnitBase)
@@ -288,6 +330,79 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
         //  Implementation
         //
 
+        private ButtonState? IsWondrousTailsDuty(uint id)
+        {
+            var textNode = GetListItemTextNode(id);
+
+            if(textNode == null) return null;
+
+            var nodeString = textNode->NodeText.ToString().ToLower();
+            var nodeRegexString = Regex.Replace(nodeString, "[^\\p{L}\\p{N}]", "");
+
+            var containsEllipsis = nodeString.Contains("...");
+
+            foreach (var result in contentFinderDuties)
+            {
+                if (containsEllipsis)
+                {
+                    var nodeStringLength = nodeRegexString.Length;
+
+                    if (result.SearchKey.Length <= nodeStringLength) continue;
+
+                    if (result.SearchKey[..nodeStringLength] == nodeRegexString)
+                    {
+                        return InWondrousTailsBook(result.Value);
+                    }
+                }
+                else if (result.SearchKey == nodeRegexString)
+                {
+                    return InWondrousTailsBook(result.Value);
+                }
+            }
+
+            return null;
+        }
+
+        private ButtonState? InWondrousTailsBook(uint duty)
+        {
+            foreach (var (buttonState, task) in wondrousTailsStatus)
+            {
+                if (task.Contains(duty))
+                {
+                    return buttonState;
+                }
+            }
+
+            return null;
+        }
+
+        private void AddImageNodeByID(uint id)
+        {
+            var treeNode = GetTreeListBaseNode();
+            var targetNode = GetListItemNode(id);
+
+            if (treeNode == null || targetNode == null) return;
+
+            var uldManager = targetNode->Component->UldManager;
+            var cloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
+            var emptyCloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 30, NodeType.Image);
+
+            if (emptyCloverNode == null && cloverNode == null)
+            {
+                // Place new node before the text node
+                var textNode = (AtkResNode*)GetTextNode(targetNode);
+
+                // Coordinates of clover node
+                var clover = new Vector2(97, 65);
+
+                // Coordinates of missing clover node
+                var empty = new Vector2(75, 63);
+
+                MakeImageNode(targetNode, textNode, 29, clover);
+                MakeImageNode(targetNode, textNode, 30, empty);
+            }
+        }
+
         private bool IsContentFinderOpen()
         {
             return GetContentsFinderPointer() != null;
@@ -308,9 +423,27 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             return Node.GetNodeByID<AtkComponentNode>(GetTreeListBaseNode(), nodeID);
         }
 
+        private AtkResNode* GetTabBarNode()
+        {
+            var addonNode = GetContentsFinderPointer();
+
+            return (AtkResNode*) addonNode->GetNodeById(40);
+        }
+
         private AtkTextNode* GetTextNode(AtkComponentNode* listItemNode)
         {
             return Node.GetNodeByID<AtkTextNode>(listItemNode, 5);
+        }
+
+        private AtkTextNode* GetListItemTextNode(uint id)
+        {
+            var listItemNode = GetListItemNode(id);
+
+            if(listItemNode == null) return null;
+
+            var textNode = GetTextNode(listItemNode);
+
+            return textNode;
         }
         
         private AtkImageNode* MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates)
@@ -412,6 +545,24 @@ namespace DailyDuty.Windows.WondrousTailsDutyFinderOverlay
             {
                 customNode->AtkResNode.ToggleVisibility(visible);
             }
+        }
+
+        private bool IsTabSelected(DutyFinderTab tab)
+        {
+            var tabNodeId = 41 + (uint) tab;
+
+            var baseNode = GetContentsFinderPointer();
+            if(baseNode == null) return false;
+
+            var specificTab = baseNode->GetNodeById(tabNodeId);
+            if(specificTab == null) return false;
+
+            var tabComponentNode = specificTab->GetAsAtkComponentNode();
+            if(tabComponentNode == null) return false;
+
+            var targetResNode = Node.GetNodeByID<AtkResNode>(tabComponentNode, 5);
+
+            return targetResNode->AddRed > 16;
         }
 
     }

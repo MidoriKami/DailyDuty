@@ -14,6 +14,7 @@ internal class ConfigurationTabItem : ITabItem
     {
         new CountdownTimersConfiguration(),
         new GeneralConfiguration(),
+        new DutyFinderOverlayConfiguration(),
         new TodoWindowConfiguration(),
         new TimersWindowConfiguration()
     };

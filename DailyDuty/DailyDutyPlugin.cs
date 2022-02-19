@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using DailyDuty.Data;
+using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;
 using DailyDuty.Windows.Settings;
 using DailyDuty.Windows.Timers;
 using DailyDuty.Windows.Todo;
-using DailyDuty.Windows.WondrousTailsDutyFinderOverlay;
 using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
@@ -25,7 +25,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     private readonly SettingsWindow settingsWindow;
     private readonly TodoWindow todoWindow;
     private readonly TimersWindow timersWindow;
-    private readonly WondrousTailsOverlay overlayWindow;
+    private readonly DutyFinderOverlay dutyFinderOverlay;
 
     public DailyDutyPlugin(
         [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -57,7 +57,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         settingsWindow = new();
         todoWindow = new();
         timersWindow = new();
-        overlayWindow = new();
+        dutyFinderOverlay = new();
 
 
         // Register draw callbacks
@@ -125,6 +125,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         settingsWindow.Dispose();
         todoWindow.Dispose();
         timersWindow.Dispose();
-        overlayWindow.Dispose();
+        dutyFinderOverlay.Dispose();
     }
 }
