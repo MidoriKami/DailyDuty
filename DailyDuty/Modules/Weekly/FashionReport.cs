@@ -228,6 +228,7 @@ internal unsafe class FashionReport :
         var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
 
         var number = int.Parse(resultString);
+        if (number == 0) return null;
 
         return number;
     }
