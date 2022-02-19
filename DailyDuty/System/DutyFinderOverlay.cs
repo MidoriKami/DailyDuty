@@ -123,7 +123,18 @@ namespace DailyDuty.System
                 wondrousTailsStatus = GetAllTaskData().ToList();
             }
 
-            if (DutyRouletteSettings.Enabled && Settings.Enabled)
+            if (Settings.DutyRouletteOverlayEnabled == true && DutyRouletteSettings.Enabled)
+            {
+                if (IsTabSelected(DutyFinderTab.Roulette) == false)
+                {
+                    ResetDutyListColors();
+                }
+                else
+                {
+                    SetRouletteColors();
+                }
+            }
+            else
             {
                 ResetDutyListColors();
             }
