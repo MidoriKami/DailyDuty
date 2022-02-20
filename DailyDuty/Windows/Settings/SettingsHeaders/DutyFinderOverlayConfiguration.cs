@@ -51,13 +51,6 @@ namespace DailyDuty.Windows.Settings.SettingsHeaders
                 Settings.DutyRouletteIncompleteColor = Colors.DPSRed;
             }
 
-            ImGui.ColorEdit4("Duty Untracked Color", ref Settings.DutyRouletteUntrackedColor, ImGuiColorEditFlags.NoInputs);
-            ImGui.SameLine();
-            if (ImGui.Button("Reset##ResetDutyUntrackedColor"))
-            {
-                Settings.DutyRouletteUntrackedColor = Colors.DutyFinderOrange;
-            }
-
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
 
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
