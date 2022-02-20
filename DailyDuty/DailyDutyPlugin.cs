@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using DailyDuty.Data;
+using DailyDuty.Overlays;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;
@@ -9,6 +10,7 @@ using DailyDuty.Windows.Timers;
 using DailyDuty.Windows.Todo;
 using Dalamud.Game;
 using Dalamud.Game.Command;
+using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 
@@ -21,11 +23,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     private const string ShorthandCommand = "/dd";
 
     private readonly Stopwatch stopwatch = new();
-
-    private readonly SettingsWindow settingsWindow;
-    private readonly TodoWindow todoWindow;
-    private readonly TimersWindow timersWindow;
-    private readonly DutyFinderOverlay dutyFinderOverlay;
 
     public DailyDutyPlugin(
         [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
@@ -54,11 +51,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         // Create Systems
         Service.TeleportManager = new();
         Service.ModuleManager = new();
-        settingsWindow = new();
-        todoWindow = new();
-        timersWindow = new();
-        dutyFinderOverlay = new();
-
+        Service.WindowManager = new();
+        Service.OverlayManager = new();
 
         // Register draw callbacks
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -70,7 +64,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     {
         if (arguments == string.Empty)
         {
-            settingsWindow.IsOpen = true;
+            Service.WindowManager.ToggleSettingsWindow();
         }
         else
         {
@@ -105,11 +99,13 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     private void DrawConfigUI()
     {
-        settingsWindow.IsOpen = true;
+        Service.WindowManager.ToggleSettingsWindow();
     }
 
     public void Dispose()
     {
+        Service.OverlayManager.Dispose();
+        Service.WindowManager.Dispose();
         Service.ModuleManager.Dispose();
         Service.TeleportManager.Dispose();
 
@@ -121,10 +117,5 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
         Service.Commands.RemoveHandler(SettingsCommand);
         Service.Commands.RemoveHandler(ShorthandCommand);
-
-        settingsWindow.Dispose();
-        todoWindow.Dispose();
-        timersWindow.Dispose();
-        dutyFinderOverlay.Dispose();
     }
 }

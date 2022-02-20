@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Windows.Settings.SettingsHeaders;
@@ -11,11 +12,12 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.Settings;
 
-internal class SettingsWindow : Window, IDisposable
+internal class SettingsWindow : Window, IDisposable, IWindow
 {
 
     private readonly AllCountdownTimers comboCountdown = new();
     private readonly SaveAndCloseButtons saveAndCloseButtons;
+    public new WindowName WindowName => WindowName.Settings;
 
     private SettingsWindowSettings Settings => Service.Configuration.SettingsWindowSettings;
 
@@ -114,4 +116,5 @@ internal class SettingsWindow : Window, IDisposable
 
         base.OnClose();
     }
+
 }

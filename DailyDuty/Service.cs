@@ -35,6 +35,8 @@ public class Service
 
     public static TeleportManager TeleportManager { get; set; }
     public static ModuleManager ModuleManager { get; set; }
+    public static WindowManager WindowManager { get; set; }
+    public static OverlayManager OverlayManager { get; set; }
     public static WindowSystem WindowSystem { get; set; } = new WindowSystem("DailyDuty");
     public static Configuration Configuration { get; set; }
 

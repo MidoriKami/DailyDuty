@@ -9,22 +9,27 @@ using DailyDuty.Data.ModuleData.WondrousTails;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
+using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 
-namespace DailyDuty.System
+namespace DailyDuty.Overlays
 {
-    internal unsafe class DutyFinderOverlay : IDisposable
+    internal unsafe class DutyFinderOverlay : IDisposable, IOverlay
     {
         private DutyFinderOverlaySettings Settings => Service.Configuration.DutyFinderOverlaySettings;
         private DutyRouletteSettings DutyRouletteSettings => Service.Configuration.Current().DutyRoulette;
-        private WondrousTailsSettings wondrousTailsSettings => Service.Configuration.Current().WondrousTails;
+        private WondrousTailsSettings WondrousTailsSettings => Service.Configuration.Current().WondrousTails;
+
+        public OverlayName OverlayName => OverlayName.DutyFinder;
+
 
         private delegate void AddonOnDraw(AtkUnitBase* atkUnitBase);
         private delegate void* AddonOnFinalize(AtkUnitBase* atkUnitBase);
@@ -43,6 +48,8 @@ namespace DailyDuty.System
         private readonly List<DutyFinderSearchResult> dutyRouletteDuties = new();
         private IEnumerable<TrackedRoulette> DutyRoulettes => DutyRouletteSettings.TrackedRoulettes;
         private List<(ButtonState, List<uint>)> wondrousTailsStatus;
+
+        private ByteColor userDefaultTextColor;
 
         public DutyFinderOverlay()
         {
@@ -101,9 +108,12 @@ namespace DailyDuty.System
             onFinalizeHook.Enable();
             onUpdateHook.Enable();
             onRefreshHook.Enable();
+
+            SaveDefaultTextColor();
                 
             Service.Framework.Update -= FrameworkOnUpdate;
         }
+        
         public void Dispose()
         {
             Service.Framework.Update -= FrameworkOnUpdate;
@@ -118,7 +128,7 @@ namespace DailyDuty.System
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-            if (wondrousTailsSettings.Enabled && Settings.Enabled)
+            if (WondrousTailsSettings.Enabled && Settings.Enabled)
             {
                 wondrousTailsStatus = GetAllTaskData().ToList();
             }
@@ -127,7 +137,7 @@ namespace DailyDuty.System
             {
                 if (IsTabSelected(DutyFinderTab.Roulette) == false)
                 {
-                    ResetDutyListColors();
+                    ResetDefaultTextColor();
                 }
                 else
                 {
@@ -136,13 +146,24 @@ namespace DailyDuty.System
             }
             else
             {
-                ResetDutyListColors();
+                ResetDefaultTextColor();
             }
             
             return result;
         }
 
-        private void ResetDutyListColors()
+        private void SaveDefaultTextColor()
+        {
+            var textNode = GetListItemTextNode(6);
+
+            Chat.Debug("Saving Colors");
+
+            userDefaultTextColor = textNode->TextColor;
+
+            Chat.Debug($"Color:{userDefaultTextColor.R}::{userDefaultTextColor.G}::{userDefaultTextColor.B}::{userDefaultTextColor.A}");
+        }
+
+        private void ResetDefaultTextColor()
         {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
@@ -150,10 +171,7 @@ namespace DailyDuty.System
 
                 var textNode = GetListItemTextNode(id);
 
-                        textNode->TextColor.R = (byte) (Settings.DutyRouletteUntrackedColor.X * 255);
-                        textNode->TextColor.G = (byte) (Settings.DutyRouletteUntrackedColor.Y * 255);
-                        textNode->TextColor.B = (byte) (Settings.DutyRouletteUntrackedColor.Z * 255);
-                        textNode->TextColor.A = (byte) (Settings.DutyRouletteUntrackedColor.W * 255);
+                textNode->TextColor = userDefaultTextColor;
             }
         }
 
@@ -201,7 +219,7 @@ namespace DailyDuty.System
 
             if (Settings.Enabled == false) return;
 
-            if (Settings.WondrousTailsOverlayEnabled == true && wondrousTailsSettings.Enabled)
+            if (Settings.WondrousTailsOverlayEnabled == true && WondrousTailsSettings.Enabled)
             {
                 foreach (var i in Enumerable.Range(61001, 15).Append(6))
                 {
@@ -215,7 +233,7 @@ namespace DailyDuty.System
             {
                 if (IsTabSelected(DutyFinderTab.Roulette) == false)
                 {
-                    ResetDutyListColors();
+                    ResetDefaultTextColor();
                 }
                 else
                 {
@@ -224,7 +242,7 @@ namespace DailyDuty.System
             }
             else
             {
-                ResetDutyListColors();
+                ResetDefaultTextColor();
             }
         }
 
@@ -256,10 +274,7 @@ namespace DailyDuty.System
                     }
                     else
                     {
-                        textNode->TextColor.R = (byte) (Settings.DutyRouletteUntrackedColor.X * 255);
-                        textNode->TextColor.G = (byte) (Settings.DutyRouletteUntrackedColor.Y * 255);
-                        textNode->TextColor.B = (byte) (Settings.DutyRouletteUntrackedColor.Z * 255);
-                        textNode->TextColor.A = (byte) (Settings.DutyRouletteUntrackedColor.W * 255);
+                        textNode->TextColor = userDefaultTextColor;
                     }
                 }
             }
@@ -579,6 +594,5 @@ namespace DailyDuty.System
 
             return targetResNode->AddRed > 16;
         }
-
     }
 }

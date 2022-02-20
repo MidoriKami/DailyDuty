@@ -5,7 +5,9 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
+using DailyDuty.Interfaces;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
@@ -13,10 +15,12 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.Timers
 {
-    internal class TimersWindow : Window, IDisposable
+    internal class TimersWindow : Window, IDisposable, IWindow
     {
         private readonly AllCountdownTimers countdownTimers = new();
         private int frameCounter;
+
+        public new WindowName WindowName => WindowName.Timers;
 
         private TimersWindowSettings Settings => Service.Configuration.TimersWindowSettings;
 

@@ -12,11 +12,14 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.Todo;
 
-internal class TodoWindow : Window, IDisposable
+internal class TodoWindow : Window, IDisposable, IWindow
 {
     private readonly ITaskCategoryDisplay dailyTasks;
     private readonly ITaskCategoryDisplay weeklyTasks;
     private int frameCounter = 0;
+
+    public new WindowName WindowName => WindowName.Todo;
+
     private TodoWindowSettings Settings => Service.Configuration.TodoWindowSettings;
 
     private const ImGuiWindowFlags DefaultFlags = ImGuiWindowFlags.NoFocusOnAppearing |
