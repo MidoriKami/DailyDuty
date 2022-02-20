@@ -156,11 +156,7 @@ namespace DailyDuty.Overlays
         {
             var textNode = GetListItemTextNode(6);
 
-            Chat.Debug("Saving Colors");
-
             userDefaultTextColor = textNode->TextColor;
-
-            Chat.Debug($"Color:{userDefaultTextColor.R}::{userDefaultTextColor.G}::{userDefaultTextColor.B}::{userDefaultTextColor.A}");
         }
 
         private void ResetDefaultTextColor()
