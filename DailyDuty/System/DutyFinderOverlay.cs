@@ -150,10 +150,10 @@ namespace DailyDuty.System
 
                 var textNode = GetListItemTextNode(id);
 
-                textNode->TextColor.R = (byte)(Colors.DutyFinderOrange.X * 255);
-                textNode->TextColor.G = (byte)(Colors.DutyFinderOrange.Y * 255);
-                textNode->TextColor.B = (byte)(Colors.DutyFinderOrange.Z * 255);
-                textNode->TextColor.A = (byte)(Colors.DutyFinderOrange.W * 255);
+                        textNode->TextColor.R = (byte) (Settings.DutyRouletteUntrackedColor.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.DutyRouletteUntrackedColor.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.DutyRouletteUntrackedColor.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.DutyRouletteUntrackedColor.W * 255);
             }
         }
 
@@ -410,7 +410,7 @@ namespace DailyDuty.System
                 var empty = new Vector2(75, 63);
 
                 MakeImageNode(targetNode, textNode, 29, clover);
-                MakeImageNode(targetNode, textNode, 30, empty);
+                MakeImageNode(targetNode, textNode, 30, empty, new Vector2(1, 0));
             }
         }
 
@@ -457,7 +457,7 @@ namespace DailyDuty.System
             return textNode;
         }
         
-        private AtkImageNode* MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates)
+        private AtkImageNode* MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates, Vector2 positionOffset = default)
         {
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
             customNode->AtkResNode.Type = NodeType.Image;
@@ -512,7 +512,11 @@ namespace DailyDuty.System
 
             customNode->AtkResNode.SetWidth(20);
             customNode->AtkResNode.SetHeight(20);
-            customNode->AtkResNode.SetPositionShort(290, 2);
+
+            short xPosition = (short)(290 + positionOffset.X);
+            short yPosition = (short)(2 + positionOffset.Y);
+
+            customNode->AtkResNode.SetPositionShort(xPosition, yPosition);
 
             var prev = beforeNode->PrevSiblingNode;
             customNode->AtkResNode.ParentNode = beforeNode->ParentNode;
