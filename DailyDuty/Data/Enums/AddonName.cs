@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DailyDuty.Data.Enums
 {
-    internal enum OverlayName
+    internal enum AddonName
     {
         DutyFinder
     }

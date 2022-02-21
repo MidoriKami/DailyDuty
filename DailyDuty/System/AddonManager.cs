@@ -8,14 +8,14 @@ using DailyDuty.Overlays;
 
 namespace DailyDuty.System
 {
-    public class OverlayManager : IDisposable
+    public class AddonManager : IDisposable
     {
-        private readonly List<IOverlay> overlays = new()
+        private readonly List<IAddonModule> overlays = new()
         {
-            new DutyFinderOverlay()
+            new DutyFinderAddonModule()
         };
 
-        public OverlayManager()
+        public AddonManager()
         {
 
         }

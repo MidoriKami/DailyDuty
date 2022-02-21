@@ -52,7 +52,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.TeleportManager = new();
         Service.ModuleManager = new();
         Service.WindowManager = new();
-        Service.OverlayManager = new();
+        Service.AddonManager = new();
 
         // Register draw callbacks
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -104,7 +104,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     public void Dispose()
     {
-        Service.OverlayManager.Dispose();
+        Service.AddonManager.Dispose();
         Service.WindowManager.Dispose();
         Service.ModuleManager.Dispose();
         Service.TeleportManager.Dispose();

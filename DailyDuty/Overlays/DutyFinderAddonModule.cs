@@ -22,13 +22,13 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Overlays
 {
-    internal unsafe class DutyFinderOverlay : IDisposable, IOverlay
+    internal unsafe class DutyFinderAddonModule : IDisposable, IAddonModule
     {
         private DutyFinderOverlaySettings Settings => Service.Configuration.DutyFinderOverlaySettings;
         private DutyRouletteSettings DutyRouletteSettings => Service.Configuration.Current().DutyRoulette;
         private WondrousTailsSettings WondrousTailsSettings => Service.Configuration.Current().WondrousTails;
 
-        public OverlayName OverlayName => OverlayName.DutyFinder;
+        public AddonName AddonName => AddonName.DutyFinder;
 
 
         private delegate void AddonOnDraw(AtkUnitBase* atkUnitBase);
@@ -51,7 +51,7 @@ namespace DailyDuty.Overlays
 
         private ByteColor userDefaultTextColor;
 
-        public DutyFinderOverlay()
+        public DutyFinderAddonModule()
         {
             SignatureHelper.Initialise(this);
 
@@ -108,7 +108,7 @@ namespace DailyDuty.Overlays
             onFinalizeHook.Enable();
             onUpdateHook.Enable();
             onRefreshHook.Enable();
-
+            
             SaveDefaultTextColor();
                 
             Service.Framework.Update -= FrameworkOnUpdate;

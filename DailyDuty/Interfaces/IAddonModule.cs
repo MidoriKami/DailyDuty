@@ -7,8 +7,8 @@ using DailyDuty.Data.Enums;
 
 namespace DailyDuty.Interfaces
 {
-    internal interface IOverlay : IDisposable
+    internal interface IAddonModule : IDisposable
     {
-        public OverlayName OverlayName { get; }
+        public AddonName AddonName { get; }
     }
 }
