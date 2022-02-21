@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.Data.Enums;
+﻿using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;

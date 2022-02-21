@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;
 using Dalamud.Configuration;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace DailyDuty.Data;

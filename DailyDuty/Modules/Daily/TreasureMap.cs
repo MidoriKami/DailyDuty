@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.TreasureMapModule;
 using DailyDuty.Data.SettingsObjects;
@@ -15,7 +13,6 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Logging;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;

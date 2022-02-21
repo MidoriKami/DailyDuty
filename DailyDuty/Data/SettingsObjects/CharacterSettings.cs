@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
-using DailyDuty.Modules.Weekly;
 
 namespace DailyDuty.Data.SettingsObjects;
 

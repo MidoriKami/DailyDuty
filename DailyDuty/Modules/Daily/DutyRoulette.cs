@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.SettingsObjects;
@@ -16,11 +12,9 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Daily;

@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using DailyDuty.Data;
-using DailyDuty.Overlays;
-using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;
-using DailyDuty.Windows.Settings;
-using DailyDuty.Windows.Timers;
-using DailyDuty.Windows.Todo;
 using Dalamud.Game;
 using Dalamud.Game.Command;
-using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 

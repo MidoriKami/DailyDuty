@@ -5,7 +5,6 @@ using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
-using DailyDuty.Windows.Settings.SettingsHeaders;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;

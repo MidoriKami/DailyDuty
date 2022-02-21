@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
@@ -11,7 +7,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Weekly;

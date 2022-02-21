@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using Dalamud.Game.ClientState.Aetherytes;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.Utilities.Helpers
 {

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects;
@@ -11,8 +8,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Interface.Components;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 

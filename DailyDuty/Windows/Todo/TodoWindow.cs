@@ -4,7 +4,6 @@ using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
-using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;

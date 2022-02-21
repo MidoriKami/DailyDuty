@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Interfaces;
-using DailyDuty.System;
 using DailyDuty.Utilities;
-using DailyDuty.Utilities.Helpers;
-using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using ImGuiNET;
 
 namespace DailyDuty.Modules.Daily;
 

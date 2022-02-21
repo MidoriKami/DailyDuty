@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.Data.SettingsObjects.WindowSettings;
+﻿using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
-using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.Windows.Settings.SettingsHeaders;
