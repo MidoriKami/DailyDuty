@@ -1,6 +1,7 @@
-﻿namespace DailyDuty.Data.SettingsObjects.WeeklySettings;
-
-public class CustomDeliverySettings : GenericSettings
+﻿namespace DailyDuty.Data.SettingsObjects.WeeklySettings
 {
-    public int AllowancesRemaining = 12;
+    public class CustomDeliverySettings : GenericSettings
+    {
+        public int AllowancesRemaining = 12;
+    }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using DailyDuty.Utilities;
 
-namespace DailyDuty.Interfaces;
-
-internal interface IDailyResettable : IResettable
+namespace DailyDuty.Interfaces
 {
-    DateTime IResettable.GetNextReset()
+    internal interface IDailyResettable : IResettable
     {
-        return Time.NextDailyReset();
+        DateTime IResettable.GetNextReset()
+        {
+            return Time.NextDailyReset();
+        }
     }
 }

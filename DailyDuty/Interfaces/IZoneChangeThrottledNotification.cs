@@ -1,18 +1,19 @@
 ﻿using DailyDuty.Data.SettingsObjects;
 
-namespace DailyDuty.Interfaces;
-
-internal interface IZoneChangeThrottledNotification
+namespace DailyDuty.Interfaces
 {
-    public GenericSettings GenericSettings { get; }
-
-    public void TrySendNotification()
+    internal interface IZoneChangeThrottledNotification
     {
-        if (GenericSettings.ZoneChangeReminder == true && GenericSettings.Enabled == true)
-        {
-            SendNotification();
-        }
-    }
+        public GenericSettings GenericSettings { get; }
 
-    public void SendNotification();
+        public void TrySendNotification()
+        {
+            if (GenericSettings.ZoneChangeReminder == true && GenericSettings.Enabled == true)
+            {
+                SendNotification();
+            }
+        }
+
+        public void SendNotification();
+    }
 }

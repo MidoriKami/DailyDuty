@@ -7,6 +7,7 @@ using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.ModuleData.WondrousTails;
 using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Data.SettingsObjects.Addons;
 using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
@@ -24,7 +25,7 @@ namespace DailyDuty.Addons
 {
     internal unsafe class DutyFinderAddonModule : IDisposable, IAddonModule
     {
-        private DutyFinderOverlaySettings Settings => Service.Configuration.DutyFinderOverlaySettings;
+        private DutyFinderAddonSettings Settings => Service.Configuration.DutyFinderAddonSettings;
         private DutyRouletteSettings DutyRouletteSettings => Service.Configuration.Current().DutyRoulette;
         private WondrousTailsSettings WondrousTailsSettings => Service.Configuration.Current().WondrousTails;
 
@@ -473,9 +474,10 @@ namespace DailyDuty.Addons
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
             customNode->AtkResNode.Type = NodeType.Image;
             customNode->AtkResNode.NodeID = newNodeID;
-            customNode->AtkResNode.Flags = 35;
+            //customNode->AtkResNode.Flags = 0b100011; //35
+            customNode->AtkResNode.Flags = 8243;
             customNode->AtkResNode.DrawFlags = 0;
-            customNode->WrapMode = 2;
+            customNode->WrapMode = 1;
             customNode->Flags = 0;
 
             var partsList = (AtkUldPartsList*)IMemorySpace.GetUISpace()->Malloc((ulong)sizeof(AtkUldPartsList), 8);

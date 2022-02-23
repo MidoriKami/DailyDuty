@@ -13,7 +13,7 @@ namespace DailyDuty.Windows.Timers
 {
     internal class TimersWindow : Window, IDisposable, IWindow
     {
-        private readonly AllCountdownTimers countdownTimers = new();
+        private readonly CountdownTimers countdownTimers;
         private int frameCounter;
 
         public new WindowName WindowName => WindowName.Timers;
@@ -29,13 +29,14 @@ namespace DailyDuty.Windows.Timers
                                                            ImGuiWindowFlags.NoDecoration |
                                                            ImGuiWindowFlags.NoInputs;
 
-
-
         public TimersWindow() : base("DailyDuty Timers")
         {
             Service.WindowSystem.AddWindow(this);
 
             Service.Framework.Update += Update;
+
+            var timersList = Service.TimerManager.GetTimersWindowTimers();
+            countdownTimers = new CountdownTimers(timersList);
         }
 
         private void Update(Framework framework)

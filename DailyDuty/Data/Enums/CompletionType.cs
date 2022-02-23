@@ -1,7 +1,8 @@
-﻿namespace DailyDuty.Data.Enums;
-
-internal enum CompletionType
+﻿namespace DailyDuty.Data.Enums
 {
-    Daily,
-    Weekly
+    internal enum CompletionType
+    {
+        Daily,
+        Weekly
+    }
 }

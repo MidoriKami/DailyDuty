@@ -1,8 +1,13 @@
-﻿namespace DailyDuty.Data.SettingsObjects.WindowSettings
+﻿using DailyDuty.Data.SettingsObjects.Timers;
+
+namespace DailyDuty.Data.SettingsObjects.WindowSettings
 {
     public class TimersWindowSettings : GenericWindowSettings
     {
-        public bool HideSeconds = false;
-        public bool ShortStrings = false;
+        public TimerSettings Daily = new();
+        public TimerSettings Weekly = new();
+        public TimerSettings FashionReport = new();
+        public TimerSettings TreasureMap = new();
+        public TimerSettings JumboCactpot = new();
     }
 }

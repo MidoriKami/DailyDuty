@@ -1,17 +1,18 @@
 ﻿using DailyDuty.Data.ModuleData.HuntMarks;
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 
-namespace DailyDuty.Data.SettingsObjects.WeeklySettings;
-
-public class HuntMarksSettings : GenericSettings
+namespace DailyDuty.Data.SettingsObjects.WeeklySettings
 {
-    public TrackedHunt[] TrackedHunts = 
+    public class HuntMarksSettings : GenericSettings
     {
-        new (ExpansionType.RealmReborn, false),
-        new (ExpansionType.Heavensward, false),
-        new (ExpansionType.Stormblood, false),
-        new (ExpansionType.Shadowbringers, false),
-        new (ExpansionType.Endwalker, false)
-    };
+        public TrackedHunt[] TrackedHunts = 
+        {
+            new (ExpansionType.RealmReborn, false),
+            new (ExpansionType.Heavensward, false),
+            new (ExpansionType.Stormblood, false),
+            new (ExpansionType.Shadowbringers, false),
+            new (ExpansionType.Endwalker, false)
+        };
+    }
 }
 

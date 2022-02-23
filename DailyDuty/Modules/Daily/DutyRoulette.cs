@@ -17,272 +17,273 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using Condition = DailyDuty.Utilities.Condition;
 
-namespace DailyDuty.Modules.Daily;
-
-internal unsafe class DutyRoulette : 
-    IConfigurable,
-    IZoneChangeLogic,
-    ILoginNotification,
-    IZoneChangeThrottledNotification,
-    ICompletable,
-    IDailyResettable
+namespace DailyDuty.Modules.Daily
 {
-    private DutyRouletteSettings Settings => Service.Configuration.Current().DutyRoulette;
-    public CompletionType Type => CompletionType.Daily;
-    public string HeaderText => "Duty Roulette";
-    public GenericSettings GenericSettings => Settings;
-
-    [Signature("E9 ?? ?? ?? ?? 8B 93 ?? ?? ?? ?? 48 83 C4 20")]
-    private readonly delegate* unmanaged<AgentInterface*, byte, byte, IntPtr> openRouletteDuty = null!;
-
-    private readonly DalamudLinkPayload openDutyFinder;
-
-    public DateTime NextReset
+    internal unsafe class DutyRoulette : 
+        IConfigurable,
+        IZoneChangeLogic,
+        ILoginNotification,
+        IZoneChangeThrottledNotification,
+        ICompletable,
+        IDailyResettable
     {
-        get => Settings.NextReset;
-        set => Settings.NextReset = value;
-    }
+        private DutyRouletteSettings Settings => Service.Configuration.Current().DutyRoulette;
+        public CompletionType Type => CompletionType.Daily;
+        public string HeaderText => "Duty Roulette";
+        public GenericSettings GenericSettings => Settings;
 
-    private readonly byte* selectedRoulette;
+        [Signature("E9 ?? ?? ?? ?? 8B 93 ?? ?? ?? ?? 48 83 C4 20")]
+        private readonly delegate* unmanaged<AgentInterface*, byte, byte, IntPtr> openRouletteDuty = null!;
 
-    public DutyRoulette()
-    {
-        SignatureHelper.Initialise(this);
+        private readonly DalamudLinkPayload openDutyFinder;
 
-        // UI State Pointer
-        var clientStruct = FFXIVClientStructs.FFXIV.Client.Game.UI.UIState.Instance();
+        public DateTime NextReset
+        {
+            get => Settings.NextReset;
+            set => Settings.NextReset = value;
+        }
 
-        // Offset to Client::Game::UI::InstanceContent (maybe?)
-        //var offset = (byte*)clientStruct + 0x118A8;
+        private readonly byte* selectedRoulette;
 
-        // +330 Bytes from UIState
-        selectedRoulette = (byte*)clientStruct + 0x119F2;
+        public DutyRoulette()
+        {
+            SignatureHelper.Initialise(this);
 
-        openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
-    }
+            // UI State Pointer
+            var clientStruct = FFXIVClientStructs.FFXIV.Client.Game.UI.UIState.Instance();
 
-    public void Dispose()
-    {
-        Service.PluginInterface.RemoveChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder);
-    }
+            // Offset to Client::Game::UI::InstanceContent (maybe?)
+            //var offset = (byte*)clientStruct + 0x118A8;
 
-    private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
-    {
-        // Will cause crash, no touchy
-        //ClearSelectedDuties();
+            // +330 Bytes from UIState
+            selectedRoulette = (byte*)clientStruct + 0x119F2;
+
+            openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
+        }
+
+        public void Dispose()
+        {
+            Service.PluginInterface.RemoveChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder);
+        }
+
+        private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
+        {
+            // Will cause crash, no touchy
+            //ClearSelectedDuties();
         
-        var agent = GetAgentContentsFinder();
-        openRouletteDuty(agent, GetFirstMissingRoulette(), 0);
-    }
+            var agent = GetAgentContentsFinder();
+            openRouletteDuty(agent, GetFirstMissingRoulette(), 0);
+        }
 
-    private void ClearSelectedDuties()
-    {
-        var addonPointer = Service.GameGui.GetAddonByName("ContentsFinder", 1);
-        if (addonPointer != IntPtr.Zero)
+        private void ClearSelectedDuties()
         {
-            try
+            var addonPointer = Service.GameGui.GetAddonByName("ContentsFinder", 1);
+            if (addonPointer != IntPtr.Zero)
             {
-                Chat.Print("Debug", $"AddonPointer:{addonPointer:x8}");
+                try
+                {
+                    Chat.Print("Debug", $"AddonPointer:{addonPointer:x8}");
 
-                var vf5 = ((void**) addonPointer)[5];
+                    var vf5 = ((void**) addonPointer)[5];
 
-                Chat.Print("Debug", $"vf5:{(IntPtr)vf5:x8}");
+                    Chat.Print("Debug", $"vf5:{(IntPtr)vf5:x8}");
 
-                var clearSelection = (delegate* unmanaged<IntPtr, byte, uint, long>) vf5;
-                Chat.Print("Debug", $"AddonPointer:{(IntPtr)clearSelection:x8}");
+                    var clearSelection = (delegate* unmanaged<IntPtr, byte, uint, long>) vf5;
+                    Chat.Print("Debug", $"AddonPointer:{(IntPtr)clearSelection:x8}");
 
-                Chat.Print("Debug", "Calling fp!");
-                clearSelection(addonPointer, 0, 15);
-            }
-            catch (Exception e)
-            {
-                PluginLog.Information(e.Message);
+                    Chat.Print("Debug", "Calling fp!");
+                    clearSelection(addonPointer, 0, 15);
+                }
+                catch (Exception e)
+                {
+                    PluginLog.Information(e.Message);
+                }
             }
         }
-    }
 
-    private AgentInterface* GetAgentContentsFinder()
-    {
-        var framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-        var uiModule = framework->GetUiModule();
-        var agentModule = uiModule->GetAgentModule();
-        return agentModule->GetAgentByInternalId(AgentId.ContentsFinder);
-    }
-
-    public bool IsCompleted()
-    {
-        return RemainingRoulettesCount() == 0;
-    }
-
-    public void SendNotification()
-    {
-        if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
+        private AgentInterface* GetAgentContentsFinder()
         {
-            Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining", openDutyFinder);
+            var framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+            var uiModule = framework->GetUiModule();
+            var agentModule = uiModule->GetAgentModule();
+            return agentModule->GetAgentByInternalId(AgentId.ContentsFinder);
         }
-    }
 
-    public void NotificationOptions()
-    {
-        Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+        public bool IsCompleted()
+        {
+            return RemainingRoulettesCount() == 0;
+        }
 
-        Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
-    }
+        public void SendNotification()
+        {
+            if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
+            {
+                Chat.Print(HeaderText, $"{RemainingRoulettesCount()} Roulettes Remaining", openDutyFinder);
+            }
+        }
 
-    public void EditModeOptions()
-    {
-        EditGrid();
-    }
+        public void NotificationOptions()
+        {
+            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+
+            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+        }
+
+        public void EditModeOptions()
+        {
+            EditGrid();
+        }
     
-    public void DisplayData()
-    {
-        ImGui.Text("Only detects that you started a duty roulette\n" +
-                   "Does not detect successful completion");
-
-        DisplayTrackingGrid();
-
-        ImGui.Spacing();
-
-        DisplayRouletteStatus();
-    }
-    
-    public void HandleZoneChange(object? sender, ushort e)
-    {
-        if (*selectedRoulette != 0 && Condition.IsBoundByDuty() == true)
+        public void DisplayData()
         {
-            var duty = Settings.TrackedRoulettes
-                .Where(t => (int) t.Type == *selectedRoulette)
-                .FirstOrDefault();
+            ImGui.Text("Only detects that you started a duty roulette\n" +
+                       "Does not detect successful completion");
 
-            if (duty != null)
+            DisplayTrackingGrid();
+
+            ImGui.Spacing();
+
+            DisplayRouletteStatus();
+        }
+    
+        public void HandleZoneChange(object? sender, ushort e)
+        {
+            if (*selectedRoulette != 0 && Condition.IsBoundByDuty() == true)
             {
-                duty.Completed = true;
-                Service.Configuration.Save();
+                var duty = Settings.TrackedRoulettes
+                    .Where(t => (int) t.Type == *selectedRoulette)
+                    .FirstOrDefault();
+
+                if (duty != null)
+                {
+                    duty.Completed = true;
+                    Service.Configuration.Save();
+                }
             }
         }
-    }
 
-    void IResettable.ResetThis(CharacterSettings settings)
-    {
-        foreach (var task in Settings.TrackedRoulettes)
+        void IResettable.ResetThis(CharacterSettings settings)
         {
-            task.Completed = false;
+            foreach (var task in Settings.TrackedRoulettes)
+            {
+                task.Completed = false;
+            }
         }
-    }
 
-    //
-    //  Implementation
-    //
-    private int RemainingRoulettesCount()
-    {
-        return Settings.TrackedRoulettes
-            .Where(r => r.Tracked == true)
-            .Count(r => !r.Completed);
-    }
-
-    private void DisplayRouletteStatus()
-    {
-        ImGui.Text("Tracked Roulette Status");
-
-        if (ImGui.BeginTable($"##{HeaderText}Status", 2))
+        //
+        //  Implementation
+        //
+        private int RemainingRoulettesCount()
         {
-            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+            return Settings.TrackedRoulettes
+                .Where(r => r.Tracked == true)
+                .Count(r => !r.Completed);
+        }
+
+        private void DisplayRouletteStatus()
+        {
+            ImGui.Text("Tracked Roulette Status");
+
+            if (ImGui.BeginTable($"##{HeaderText}Status", 2))
+            {
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
             
-            foreach (var tracked in Settings.TrackedRoulettes)
-            {
-                if (tracked.Tracked == true)
+                foreach (var tracked in Settings.TrackedRoulettes)
                 {
-                    ImGui.TableNextRow();
-                    ImGui.TableNextColumn();
-                    ImGui.Text(tracked.Type.ToString());
-
-                    ImGui.TableNextColumn();
-                    Draw.PrintCompleteIncomplete(tracked.Completed);
-                }
-            }
-
-            ImGui.EndTable();
-        }
-    }
-
-    private void DisplayTrackingGrid()
-    {
-        ImGui.Text("Select the Roulettes to track");
-
-        var contentWidth = ImGui.GetContentRegionAvail().X;
-
-        if (ImGui.BeginTable($"##{HeaderText}Table", (int)(contentWidth / 125.0f)))
-        {
-
-            foreach (var roulette in Settings.TrackedRoulettes)
-            {
-
-                ImGui.TableNextColumn();
-                ImGui.Checkbox($"{roulette.Type}##{HeaderText}", ref roulette.Tracked);
-
-                if (roulette.Type == RouletteType.Mentor)
-                {
-                    ImGui.SameLine();
-                    ImGuiComponents.HelpMarker("You know it's going to be an extreme... right?");
-                }
-            }
-
-            ImGui.EndTable();
-        }
-    }
-    private void EditGrid()
-    {
-        ImGui.Text("Set Roulette Status");
-
-        if (ImGui.BeginTable($"##{HeaderText}EditTable", 2))
-        {
-            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
-
-            foreach (var roulette in Settings.TrackedRoulettes)
-            {
-                if (roulette.Tracked)
-                {
-                    ImGui.TableNextRow();
-                    ImGui.TableNextColumn();
-                    ImGui.Text(roulette.Type.ToString());
-
-                    ImGui.TableNextColumn();
-
-                    if (roulette.Completed == false)
+                    if (tracked.Tracked == true)
                     {
-                        if (ImGui.Button($"Complete##{roulette.Type}{HeaderText}"))
-                        {
-                            roulette.Completed = true;
-                            Service.Configuration.Save();
-                        }
-                    }
-                    else
-                    {
-                        if (ImGui.Button($"Incomplete##{roulette.Type}{HeaderText}"))
-                        {
-                            roulette.Completed = false;
-                            Service.Configuration.Save();
-                        }
+                        ImGui.TableNextRow();
+                        ImGui.TableNextColumn();
+                        ImGui.Text(tracked.Type.ToString());
+
+                        ImGui.TableNextColumn();
+                        Draw.CompleteIncomplete(tracked.Completed);
                     }
                 }
+
+                ImGui.EndTable();
             }
-
-            ImGui.EndTable();
         }
-    }
 
-    private byte GetFirstMissingRoulette()
-    {
-        foreach (var trackedRoulette in Settings.TrackedRoulettes)
+        private void DisplayTrackingGrid()
         {
-            if (trackedRoulette is {Completed: false, Tracked: true})
+            ImGui.Text("Select the Roulettes to track");
+
+            var contentWidth = ImGui.GetContentRegionAvail().X;
+
+            if (ImGui.BeginTable($"##{HeaderText}Table", (int)(contentWidth / 125.0f)))
             {
-                return (byte) trackedRoulette.Type;
+
+                foreach (var roulette in Settings.TrackedRoulettes)
+                {
+
+                    ImGui.TableNextColumn();
+                    ImGui.Checkbox($"{roulette.Type}##{HeaderText}", ref roulette.Tracked);
+
+                    if (roulette.Type == RouletteType.Mentor)
+                    {
+                        ImGui.SameLine();
+                        ImGuiComponents.HelpMarker("You know it's going to be an extreme... right?");
+                    }
+                }
+
+                ImGui.EndTable();
+            }
+        }
+        private void EditGrid()
+        {
+            ImGui.Text("Set Roulette Status");
+
+            if (ImGui.BeginTable($"##{HeaderText}EditTable", 2))
+            {
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+
+                foreach (var roulette in Settings.TrackedRoulettes)
+                {
+                    if (roulette.Tracked)
+                    {
+                        ImGui.TableNextRow();
+                        ImGui.TableNextColumn();
+                        ImGui.Text(roulette.Type.ToString());
+
+                        ImGui.TableNextColumn();
+
+                        if (roulette.Completed == false)
+                        {
+                            if (ImGui.Button($"Complete##{roulette.Type}{HeaderText}"))
+                            {
+                                roulette.Completed = true;
+                                Service.Configuration.Save();
+                            }
+                        }
+                        else
+                        {
+                            if (ImGui.Button($"Incomplete##{roulette.Type}{HeaderText}"))
+                            {
+                                roulette.Completed = false;
+                                Service.Configuration.Save();
+                            }
+                        }
+                    }
+                }
+
+                ImGui.EndTable();
             }
         }
 
-        return (byte)RouletteType.Leveling;
+        private byte GetFirstMissingRoulette()
+        {
+            foreach (var trackedRoulette in Settings.TrackedRoulettes)
+            {
+                if (trackedRoulette is {Completed: false, Tracked: true})
+                {
+                    return (byte) trackedRoulette.Type;
+                }
+            }
+
+            return (byte)RouletteType.Leveling;
+        }
     }
 }

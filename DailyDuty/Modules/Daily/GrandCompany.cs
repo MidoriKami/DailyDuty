@@ -4,34 +4,35 @@ using DailyDuty.Data.SettingsObjects.DailySettings;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
-namespace DailyDuty.Modules.Daily;
-
-internal class GrandCompany : 
-    ICollapsibleHeader, 
-    IUpdateable,
-    ICompletable
+namespace DailyDuty.Modules.Daily
 {
-    private GrandCompanySettings Settings => Service.Configuration.Current().GrandCompany;
-
-    public CompletionType Type => CompletionType.Daily;
-    public string HeaderText => "Grand Company";
-    public GenericSettings GenericSettings => Settings;
-    public bool IsCompleted()
+    internal class GrandCompany : 
+        ICollapsibleHeader, 
+        IUpdateable,
+        ICompletable
     {
-        return false;
-    }
+        private GrandCompanySettings Settings => Service.Configuration.Current().GrandCompany;
 
-    void ICollapsibleHeader.DrawContents()
-    {
-        ImGui.Text("Not Implemented Yet");
-    }
+        public CompletionType Type => CompletionType.Daily;
+        public string HeaderText => "Grand Company";
+        public GenericSettings GenericSettings => Settings;
+        public bool IsCompleted()
+        {
+            return false;
+        }
 
-    public void Dispose()
-    {
-    }
+        void ICollapsibleHeader.DrawContents()
+        {
+            ImGui.Text("Not Implemented Yet");
+        }
 
-    public void Update()
-    {
+        public void Dispose()
+        {
+        }
+
+        public void Update()
+        {
             
+        }
     }
 }

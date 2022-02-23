@@ -7,102 +7,103 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.UI;
 
-namespace DailyDuty.Modules.Daily;
-
-internal unsafe class MiniCactpot : 
-    IConfigurable,
-    IUpdateable,
-    IDailyResettable,
-    IZoneChangeThrottledNotification,
-    ILoginNotification,
-    ICompletable
+namespace DailyDuty.Modules.Daily
 {
-    private MiniCactpotSettings Settings => Service.Configuration.Current().MiniCactpot;
-    public GenericSettings GenericSettings => Settings;
-    public CompletionType Type => CompletionType.Daily;
-    public string HeaderText => "Mini Cactpot";
-
-    private bool exchangeStarted;
-
-    private readonly DalamudLinkPayload goldSaucerTeleport;
-
-    public MiniCactpot()
+    internal unsafe class MiniCactpot : 
+        IConfigurable,
+        IUpdateable,
+        IDailyResettable,
+        IZoneChangeThrottledNotification,
+        ILoginNotification,
+        ICompletable
     {
-        goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+        private MiniCactpotSettings Settings => Service.Configuration.Current().MiniCactpot;
+        public GenericSettings GenericSettings => Settings;
+        public CompletionType Type => CompletionType.Daily;
+        public string HeaderText => "Mini Cactpot";
 
-    }
+        private bool exchangeStarted;
 
-    public DateTime NextReset
-    {
-        get => Settings.NextReset;
-        set => Settings.NextReset = value;
-    }
-        
-    public void NotificationOptions()
-    {
-        Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+        private readonly DalamudLinkPayload goldSaucerTeleport;
 
-        Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
-    }
-
-    public void EditModeOptions()
-    {
-        Draw.EditNumberField("Override Ticket Count", HeaderText, ref Settings.TicketsRemaining);
-    }
-
-    public void DisplayData()
-    {
-        Draw.NumericDisplay("Tickets Remaining", Settings.TicketsRemaining);
-    }
-
-    public void Dispose()
-    {
-    }
-
-    public bool IsCompleted()
-    {
-        return Settings.TicketsRemaining == 0;
-    }
-
-    public void Update()
-    {
-        UpdateMiniCactpot();
-    }
-
-    void IResettable.ResetThis(CharacterSettings settings)
-    {
-        settings.MiniCactpot.TicketsRemaining = 3;
-    }
-
-    public void SendNotification()
-    {
-        if (Settings.TicketsRemaining > 0 && Condition.IsBoundByDuty() == false)
+        public MiniCactpot()
         {
-            Chat.Print(HeaderText, $"{Settings.TicketsRemaining} Tickets Remaining", goldSaucerTeleport);
+            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+
         }
-    }
 
-    //
-    // Implementation
-    //
-    private void UpdateMiniCactpot()
-    {
-        if (GetMiniCactpotPointer() != null)
+        public DateTime NextReset
         {
-            if (exchangeStarted == false)
+            get => Settings.NextReset;
+            set => Settings.NextReset = value;
+        }
+        
+        public void NotificationOptions()
+        {
+            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+
+            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+        }
+
+        public void EditModeOptions()
+        {
+            Draw.EditNumberField("Override Ticket Count", HeaderText, ref Settings.TicketsRemaining);
+        }
+
+        public void DisplayData()
+        {
+            Draw.NumericDisplay("Tickets Remaining", Settings.TicketsRemaining);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool IsCompleted()
+        {
+            return Settings.TicketsRemaining == 0;
+        }
+
+        public void Update()
+        {
+            UpdateMiniCactpot();
+        }
+
+        void IResettable.ResetThis(CharacterSettings settings)
+        {
+            settings.MiniCactpot.TicketsRemaining = 3;
+        }
+
+        public void SendNotification()
+        {
+            if (Settings.TicketsRemaining > 0 && Condition.IsBoundByDuty() == false)
             {
-                exchangeStarted = true;
+                Chat.Print(HeaderText, $"{Settings.TicketsRemaining} Tickets Remaining", goldSaucerTeleport);
             }
         }
-        else if(exchangeStarted == true)
+
+        //
+        // Implementation
+        //
+        private void UpdateMiniCactpot()
         {
-            exchangeStarted = false;
-            Settings.TicketsRemaining -= 1;
-            Service.Configuration.Save();
+            if (GetMiniCactpotPointer() != null)
+            {
+                if (exchangeStarted == false)
+                {
+                    exchangeStarted = true;
+                }
+            }
+            else if(exchangeStarted == true)
+            {
+                exchangeStarted = false;
+                Settings.TicketsRemaining -= 1;
+                Service.Configuration.Save();
+            }
         }
-    }
-    private AddonLotteryDaily* GetMiniCactpotPointer()
-    {
-        return (AddonLotteryDaily*) Service.GameGui.GetAddonByName("LotteryDaily", 1);
+        private AddonLotteryDaily* GetMiniCactpotPointer()
+        {
+            return (AddonLotteryDaily*) Service.GameGui.GetAddonByName("LotteryDaily", 1);
+        }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 
-namespace DailyDuty.Interfaces;
-
-internal interface ITabItem : IDisposable
+namespace DailyDuty.Interfaces
 {
-    string TabName { get; }
+    internal interface ITabItem : IDisposable
+    {
+        string TabName { get; }
 
-    void Draw();
+        void Draw();
 
+    }
 }

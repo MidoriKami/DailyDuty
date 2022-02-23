@@ -1,6 +1,7 @@
-﻿namespace DailyDuty.Data.SettingsObjects.DailySettings;
-
-public class MiniCactpotSettings : GenericSettings
+﻿namespace DailyDuty.Data.SettingsObjects.DailySettings
 {
-    public int TicketsRemaining = 3;
+    public class MiniCactpotSettings : GenericSettings
+    {
+        public int TicketsRemaining = 3;
+    }
 }

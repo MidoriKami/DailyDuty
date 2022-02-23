@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
 
-namespace DailyDuty.Data.SettingsObjects
+namespace DailyDuty.Data.SettingsObjects.Addons
 {
-    public class DutyFinderOverlaySettings
+    public class DutyFinderAddonSettings
     {
         public bool Enabled = false;
         public bool WondrousTailsOverlayEnabled = false;

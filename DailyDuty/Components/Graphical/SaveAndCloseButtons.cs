@@ -4,32 +4,33 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-namespace DailyDuty.Components.Graphical;
-
-internal class SaveAndCloseButtons : IDrawable
+namespace DailyDuty.Components.Graphical
 {
-    private readonly Window targetWindow;
-
-    public SaveAndCloseButtons(Window targetWindow)
+    internal class SaveAndCloseButtons : IDrawable
     {
-        this.targetWindow = targetWindow;
-    }
+        private readonly Window targetWindow;
 
-    public void Draw()
-    {
-        ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30 * ImGuiHelpers.GlobalScale));
-
-        if (ImGui.Button($"Save", ImGuiHelpers.ScaledVector2(100, 25)))
+        public SaveAndCloseButtons(Window targetWindow)
         {
-            Service.Configuration.Save();
+            this.targetWindow = targetWindow;
         }
 
-        ImGui.SameLine(ImGui.GetWindowWidth() - 105 * ImGuiHelpers.GlobalScale);
-
-        if (ImGui.Button($"Save & Close", ImGuiHelpers.ScaledVector2(100, 25)))
+        public void Draw()
         {
-            Service.Configuration.Save();
-            targetWindow.IsOpen = false;
+            ImGui.SetCursorPos(new Vector2(5, ImGui.GetWindowHeight() - 30 * ImGuiHelpers.GlobalScale));
+
+            if (ImGui.Button($"Save", ImGuiHelpers.ScaledVector2(100, 25)))
+            {
+                Service.Configuration.Save();
+            }
+
+            ImGui.SameLine(ImGui.GetWindowWidth() - 105 * ImGuiHelpers.GlobalScale);
+
+            if (ImGui.Button($"Save & Close", ImGuiHelpers.ScaledVector2(100, 25)))
+            {
+                Service.Configuration.Save();
+                targetWindow.IsOpen = false;
+            }
         }
     }
 }

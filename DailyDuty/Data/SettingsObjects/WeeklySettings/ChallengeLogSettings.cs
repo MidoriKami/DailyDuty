@@ -1,5 +1,6 @@
-﻿namespace DailyDuty.Data.SettingsObjects.WeeklySettings;
-
-public class ChallengeLogSettings : GenericSettings
+﻿namespace DailyDuty.Data.SettingsObjects.WeeklySettings
 {
+    public class ChallengeLogSettings : GenericSettings
+    {
+    }
 }

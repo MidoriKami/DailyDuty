@@ -5,115 +5,121 @@ using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
+using DailyDuty.Windows.Settings.Tabs;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-namespace DailyDuty.Windows.Settings;
-
-internal class SettingsWindow : Window, IDisposable, IWindow
+namespace DailyDuty.Windows.Settings
 {
-
-    private readonly AllCountdownTimers comboCountdown = new();
-    private readonly SaveAndCloseButtons saveAndCloseButtons;
-    public new WindowName WindowName => WindowName.Settings;
-
-    private SettingsWindowSettings Settings => Service.Configuration.SettingsWindowSettings;
-
-    public SettingsWindow() : base("DailyDuty Settings")
+    internal class SettingsWindow : Window, IDisposable, IWindow
     {
-        saveAndCloseButtons = new(this);
 
-        Service.WindowSystem.AddWindow(this);
+        private readonly CountdownTimers countdownTimers;
+        private readonly SaveAndCloseButtons saveAndCloseButtons;
+        public new WindowName WindowName => WindowName.Settings;
 
-        SizeConstraints = new WindowSizeConstraints()
+        private SettingsWindowSettings Settings => Service.Configuration.SettingsWindowSettings;
+
+        public SettingsWindow() : base("DailyDuty Settings")
         {
-            MinimumSize = new(265, 250),
-            MaximumSize = new(9909,9909)
-        };
+            saveAndCloseButtons = new(this);
 
-        Flags |= ImGuiWindowFlags.NoScrollbar;
-        Flags |= ImGuiWindowFlags.NoScrollWithMouse;
-    }
+            Service.WindowSystem.AddWindow(this);
 
-    public void Dispose()
-    {
-        foreach (var tab in tabs)
-        {
-            tab.Dispose();
+            SizeConstraints = new WindowSizeConstraints()
+            {
+                MinimumSize = new(265, 250),
+                MaximumSize = new(9909,9909)
+            };
+
+            var timersList = Service.TimerManager.GetSettingsWindowTimers();
+
+            countdownTimers = new CountdownTimers(timersList);
+
+            Flags |= ImGuiWindowFlags.NoScrollbar;
+            Flags |= ImGuiWindowFlags.NoScrollWithMouse;
         }
 
-        Service.WindowSystem.RemoveWindow(this);
-    }
-
-    private readonly List<ITabItem> tabs = new()
-    {
-        new OverviewTabItem(),
-        new DailyTabItem(),
-        new WeeklyTabItem(),
-        new ConfigurationTabItem()
-    };
-
-    public override void PreDraw()
-    {
-        if (Service.LoggedIn == false)
-        {
-            IsOpen = false;
-        }
-
-        ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0, 0, 0, Settings.Opacity));
-    }
-
-    public override void Draw()
-    {
-        if (!IsOpen) return;
-
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10, 5));
-
-        comboCountdown.Draw();
-
-        ImGui.Spacing();
-
-        DrawTabs();
-
-        saveAndCloseButtons.Draw();
-
-        ImGui.PopStyleVar();
-    }
-
-    public override void PostDraw()
-    {
-        ImGui.PopStyleColor();
-    }
-
-    private void DrawTabs()
-    {
-        if (ImGui.BeginTabBar("DailyDutyTabBar", ImGuiTabBarFlags.NoTooltip))
+        public void Dispose()
         {
             foreach (var tab in tabs)
             {
-                if (!ImGui.BeginTabItem(tab.TabName))
-                    continue;
+                tab.Dispose();
+            }
 
-                // Stolen from https://git.annaclemens.io/ascclemens/ChatTwo/src/branch/main/ChatTwo/Ui/Settings.cs#L69
-                var height = ImGui.GetContentRegionAvail().Y - 30 * ImGuiHelpers.GlobalScale;
+            Service.WindowSystem.RemoveWindow(this);
+        }
 
-                if (ImGui.BeginChild("DailyDutySettings", new Vector2(0, height), true)) 
+        private readonly List<ITabItem> tabs = new()
+        {
+            new OverviewTabItem(),
+            new DailyTabItem(),
+            new WeeklyTabItem(),
+            new ConfigurationTabItem()
+        };
+
+        public override void PreDraw()
+        {
+            if (Service.LoggedIn == false)
+            {
+                IsOpen = false;
+            }
+
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0, 0, 0, Settings.Opacity));
+        }
+
+        public override void Draw()
+        {
+            if (!IsOpen) return;
+
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10, 5));
+
+            countdownTimers.Draw();
+
+            ImGui.Spacing();
+
+            DrawTabs();
+
+            saveAndCloseButtons.Draw();
+
+            ImGui.PopStyleVar();
+        }
+
+        public override void PostDraw()
+        {
+            ImGui.PopStyleColor();
+        }
+
+        private void DrawTabs()
+        {
+            if (ImGui.BeginTabBar("DailyDutyTabBar", ImGuiTabBarFlags.NoTooltip))
+            {
+                foreach (var tab in tabs)
                 {
-                    tab.Draw();
-                    ImGui.EndChild();
-                }
+                    if (!ImGui.BeginTabItem(tab.TabName))
+                        continue;
 
-                ImGui.EndTabItem();
+                    // Stolen from https://git.annaclemens.io/ascclemens/ChatTwo/src/branch/main/ChatTwo/Ui/Settings.cs#L69
+                    var height = ImGui.GetContentRegionAvail().Y - 30 * ImGuiHelpers.GlobalScale;
+
+                    if (ImGui.BeginChild("DailyDutySettings", new Vector2(0, height), true)) 
+                    {
+                        tab.Draw();
+                        ImGui.EndChild();
+                    }
+
+                    ImGui.EndTabItem();
+                }
             }
         }
+
+        public override void OnClose()
+        {
+            ConfigurationTabItem.EditModeEnabled = false;
+
+            base.OnClose();
+        }
+
     }
-
-    public override void OnClose()
-    {
-        ConfigurationTabItem.EditModeEnabled = false;
-
-        base.OnClose();
-    }
-
 }

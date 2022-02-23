@@ -1,5 +1,6 @@
-﻿namespace DailyDuty.Data.SettingsObjects.WindowSettings;
-
-public class SettingsWindowSettings : GenericWindowSettings
+﻿namespace DailyDuty.Data.SettingsObjects.WindowSettings
 {
+    public class SettingsWindowSettings : GenericWindowSettings
+    {
+    }
 }

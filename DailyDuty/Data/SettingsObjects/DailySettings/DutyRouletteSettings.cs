@@ -1,21 +1,22 @@
 ﻿using DailyDuty.Data.ModuleData.DutyRoulette;
 
-namespace DailyDuty.Data.SettingsObjects.DailySettings;
-
-public class DutyRouletteSettings : GenericSettings
+namespace DailyDuty.Data.SettingsObjects.DailySettings
 {
-    public TrackedRoulette[] TrackedRoulettes =
+    public class DutyRouletteSettings : GenericSettings
     {
-        new(RouletteType.Expert),
-        new(RouletteType.Level90),
-        new(RouletteType.Level50607080),
-        new(RouletteType.Leveling),
-        new(RouletteType.Trials),
-        new(RouletteType.MSQ),
-        new(RouletteType.Guildhest),
-        new(RouletteType.Alliance),
-        new(RouletteType.Normal),
-        new(RouletteType.Frontline),
-        new(RouletteType.Mentor)
-    };
+        public TrackedRoulette[] TrackedRoulettes =
+        {
+            new(RouletteType.Expert),
+            new(RouletteType.Level90),
+            new(RouletteType.Level50607080),
+            new(RouletteType.Leveling),
+            new(RouletteType.Trials),
+            new(RouletteType.MSQ),
+            new(RouletteType.Guildhest),
+            new(RouletteType.Alliance),
+            new(RouletteType.Normal),
+            new(RouletteType.Frontline),
+            new(RouletteType.Mentor)
+        };
+    }
 }

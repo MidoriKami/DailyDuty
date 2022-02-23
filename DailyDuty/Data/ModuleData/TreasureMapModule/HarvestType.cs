@@ -1,9 +1,10 @@
-﻿namespace DailyDuty.Data.ModuleData.TreasureMapModule;
-
-public enum HarvestType
+﻿namespace DailyDuty.Data.ModuleData.TreasureMapModule
 {
-    Logging,
-    Harvesting,
-    Mining,
-    Quarrying
+    public enum HarvestType
+    {
+        Logging,
+        Harvesting,
+        Mining,
+        Quarrying
+    }
 }

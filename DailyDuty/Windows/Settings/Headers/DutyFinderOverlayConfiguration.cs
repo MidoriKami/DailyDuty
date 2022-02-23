@@ -1,14 +1,15 @@
 ﻿using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Data.SettingsObjects.Addons;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 
-namespace DailyDuty.Windows.Settings.SettingsHeaders
+namespace DailyDuty.Windows.Settings.Headers
 {
     internal class DutyFinderOverlayConfiguration : ICollapsibleHeader
     {
-        private DutyFinderOverlaySettings Settings => Service.Configuration.DutyFinderOverlaySettings;
+        private DutyFinderAddonSettings Settings => Service.Configuration.DutyFinderAddonSettings;
 
         public void Dispose()
         {
@@ -22,13 +23,13 @@ namespace DailyDuty.Windows.Settings.SettingsHeaders
             ImGui.Text("Some settings require closing and re-opening the duty finder to take effect");
             ImGui.Spacing();
 
-            Draw.NotificationField("Enable Overlays", HeaderText, ref Settings.Enabled);
+            Draw.Checkbox("Enable Overlays", HeaderText, ref Settings.Enabled);
 
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-            Draw.NotificationField("Enable Wondrous Tails Overlay", HeaderText, ref Settings.WondrousTailsOverlayEnabled, "Show an indicator in the Duty Finder indicating duties that are available for Wondrous Tails");
+            Draw.Checkbox("Enable Wondrous Tails Overlay", HeaderText, ref Settings.WondrousTailsOverlayEnabled, "Show an indicator in the Duty Finder indicating duties that are available for Wondrous Tails");
 
-            Draw.NotificationField("Enable Duty Roulette Overlay", HeaderText, ref Settings.DutyRouletteOverlayEnabled, "Color tracked duty roulettes to clearly show which are complete/incomplete");
+            Draw.Checkbox("Enable Duty Roulette Overlay", HeaderText, ref Settings.DutyRouletteOverlayEnabled, "Color tracked duty roulettes to clearly show which are complete/incomplete");
             
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 

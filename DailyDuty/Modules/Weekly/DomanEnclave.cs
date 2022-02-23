@@ -4,34 +4,35 @@ using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
-namespace DailyDuty.Modules.Weekly;
-
-internal class DomanEnclave : 
-    ICollapsibleHeader, 
-    IUpdateable,
-    ICompletable
+namespace DailyDuty.Modules.Weekly
 {
-    public void Dispose()
+    internal class DomanEnclave : 
+        ICollapsibleHeader, 
+        IUpdateable,
+        ICompletable
     {
+        public void Dispose()
+        {
 
-    }
+        }
 
-    private DomanEnclaveSettings Settings => Service.Configuration.Current().DomanEnclave;
-    public CompletionType Type => CompletionType.Weekly;
-    public string HeaderText => "Doman Enclave";
-    public GenericSettings GenericSettings => Settings;
-    public bool IsCompleted()
-    {
-        return false;
-    }
+        private DomanEnclaveSettings Settings => Service.Configuration.Current().DomanEnclave;
+        public CompletionType Type => CompletionType.Weekly;
+        public string HeaderText => "Doman Enclave";
+        public GenericSettings GenericSettings => Settings;
+        public bool IsCompleted()
+        {
+            return false;
+        }
 
-    void ICollapsibleHeader.DrawContents()
-    {
-        ImGui.Text("Not Implemented Yet");
-    }
+        void ICollapsibleHeader.DrawContents()
+        {
+            ImGui.Text("Not Implemented Yet");
+        }
 
-    public void Update()
-    {
+        public void Update()
+        {
             
+        }
     }
 }

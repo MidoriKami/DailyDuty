@@ -1,30 +1,31 @@
-﻿namespace DailyDuty.Interfaces;
-
-internal interface ICommand
+﻿namespace DailyDuty.Interfaces
 {
-    public void ProcessCommand(string command, string arguments);
-
-    protected static string? GetSecondaryCommand(string arguments)
+    internal interface ICommand
     {
-        var stringArray = arguments.Split(' ');
+        public void ProcessCommand(string command, string arguments);
 
-        if (stringArray.Length == 1)
+        protected static string? GetSecondaryCommand(string arguments)
         {
-            return null;
+            var stringArray = arguments.Split(' ');
+
+            if (stringArray.Length == 1)
+            {
+                return null;
+            }
+
+            return stringArray[1];
         }
 
-        return stringArray[1];
-    }
-
-    protected static string? GetPrimaryCommand(string arguments)
-    {
-        var stringArray = arguments.Split(' ');
-
-        if (stringArray[0] == string.Empty)
+        protected static string? GetPrimaryCommand(string arguments)
         {
-            return null;
-        }
+            var stringArray = arguments.Split(' ');
 
-        return stringArray[0];
+            if (stringArray[0] == string.Empty)
+            {
+                return null;
+            }
+
+            return stringArray[0];
+        }
     }
 }

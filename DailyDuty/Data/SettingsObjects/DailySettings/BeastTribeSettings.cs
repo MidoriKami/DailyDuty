@@ -1,5 +1,6 @@
-﻿namespace DailyDuty.Data.SettingsObjects.DailySettings;
-
-public class BeastTribeSettings : GenericSettings
+﻿namespace DailyDuty.Data.SettingsObjects.DailySettings
 {
+    public class BeastTribeSettings : GenericSettings
+    {
+    }
 }

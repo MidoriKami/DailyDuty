@@ -1,66 +1,50 @@
 ﻿using System;
+using DailyDuty.Data.Graphical;
 
-namespace DailyDuty.Utilities;
-
-internal static class Strings
+namespace DailyDuty.Utilities
 {
-    public static bool HideSeconds => Service.Configuration.TimersWindowSettings.HideSeconds;
-    public static bool ShortStrings => Service.Configuration.TimersWindowSettings.ShortStrings;
-    public static string FormatHours(this TimeSpan span)
+    internal static class Strings
     {
-        if (HideSeconds)
+        private static readonly TimerOptions DefaultOptions = new()
         {
-            return $"{span.Hours:00}:{span.Minutes:00}";
-        }
-        else
-        {
-            return $"{span.Hours:00}:{span.Minutes:00}:{span.Seconds:00}";
-        }
-        
-    }
+            CondensedDisplay = false,
+            ShowSeconds = true,
+            UseShortName = true
+        };
 
-    public static string FormatDays(this TimeSpan span)
-    {
-        string daysDisplay = ""; 
-        
-        if (ShortStrings)
+        public static string Format(this TimeSpan span, TimerOptions? options = null)
         {
-            if (span.Days >= 1)
-            {
-                daysDisplay = $"{span.Days}:";
-            }
-        }
-        else
-        {
-            if (span.Days == 1)
-            {
-                daysDisplay = $"{span.Days} day, ";
-            }
-            else if (span.Days > 1)
-            {
-                daysDisplay = $"{span.Days} days, ";
-            }
-        }
+            options ??= DefaultOptions;
 
-        if (HideSeconds)
-        {
-            return $"{daysDisplay}{span.Hours:00}:{span.Minutes:00}";
-        }
-        else
-        {
-            return $"{daysDisplay}{span.Hours:00}:{span.Minutes:00}:{span.Seconds:00}";
-        }
-    }
+            string result = "";
 
-    public static string FormatAuto(this TimeSpan span)
-    {
-        if (span.Days > 0)
-        {
-            return FormatDays(span);
-        }
-        else
-        {
-            return FormatHours(span);
+            if (span.Days > 0)
+            {
+                if (options.CondensedDisplay)
+                {
+                    result = $"{span.Days}:";
+                }
+                else
+                {
+                    if (span.Days == 1)
+                    {
+                        result = $"{span.Days} day, ";
+                    }
+                    else if (span.Days > 1)
+                    {
+                        result = $"{span.Days} days, ";
+                    }
+                }
+            }
+
+            result += $"{span.Hours:00}:{span.Minutes:00}";
+
+            if (options.ShowSeconds)
+            {
+                result += $":{span.Seconds:00}";
+            }
+
+            return result;
         }
     }
 }

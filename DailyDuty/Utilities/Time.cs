@@ -1,75 +1,76 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace DailyDuty.Utilities;
-
-internal static class Time
+namespace DailyDuty.Utilities
 {
-    public static DateTime NextDailyReset()
+    internal static class Time
     {
-        var now = DateTime.UtcNow;
+        public static DateTime NextDailyReset()
+        {
+            var now = DateTime.UtcNow;
             
-        if( now.Hour < 15 )
-        {
-            return now.Date.AddHours(15);   
-        }
-        else
-        {
-            return now.AddDays(1).Date.AddHours(15);
-        }
-    }
-
-    public static DateTime NextWeeklyReset()
-    {
-        var today = DateTime.UtcNow;
-            
-        if(today.Hour < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
-        {
-            return today.Date.AddHours(8);
-        }
-        else
-        {
-            var nextReset = today.AddDays(1);
-
-            while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
+            if( now.Hour < 15 )
             {
-                nextReset = nextReset.AddDays(1);
+                return now.Date.AddHours(15);   
             }
+            else
+            {
+                return now.AddDays(1).Date.AddHours(15);
+            }
+        }
+
+        public static DateTime NextWeeklyReset()
+        {
+            var today = DateTime.UtcNow;
+            
+            if(today.Hour < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                return today.Date.AddHours(8);
+            }
+            else
+            {
+                var nextReset = today.AddDays(1);
+
+                while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
+                {
+                    nextReset = nextReset.AddDays(1);
+                }
                 
-            return nextReset.Date.AddHours(8);
-        }
-    }
-
-    public static DateTime NextFashionReportReset()
-    {
-        return NextWeeklyReset().AddDays(-4);
-    }
-
-    public static DateTime NextDayOfWeek(DayOfWeek weekday)
-    {
-        var now = DateTime.UtcNow;
-
-        do
-        {
-            now = now.AddDays(1);
-
-        } while (now.DayOfWeek != weekday);
-
-        return now.Date;
-    }
-
-    public static void UpdateDelayed(Stopwatch stopwatch, TimeSpan delayTime, Action function)
-    {
-        if (stopwatch.IsRunning && stopwatch.Elapsed >= delayTime)
-        {
-            stopwatch.Stop();
-            stopwatch.Reset();
+                return nextReset.Date.AddHours(8);
+            }
         }
 
-        if (stopwatch.IsRunning == false)
+        public static DateTime NextFashionReportReset()
         {
-            stopwatch.Start();
-            function();
+            return NextWeeklyReset().AddDays(-4);
+        }
+
+        public static DateTime NextDayOfWeek(DayOfWeek weekday)
+        {
+            var now = DateTime.UtcNow;
+
+            do
+            {
+                now = now.AddDays(1);
+
+            } while (now.DayOfWeek != weekday);
+
+            return now.Date;
+        }
+
+        public static void UpdateDelayed(Stopwatch stopwatch, TimeSpan delayTime, Action function)
+        {
+            if (stopwatch.IsRunning && stopwatch.Elapsed >= delayTime)
+            {
+                stopwatch.Stop();
+                stopwatch.Reset();
+            }
+
+            if (stopwatch.IsRunning == false)
+            {
+                stopwatch.Start();
+                function();
+            }
         }
     }
 }

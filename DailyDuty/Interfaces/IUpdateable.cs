@@ -1,6 +1,7 @@
-﻿namespace DailyDuty.Interfaces;
-
-internal interface IUpdateable
+﻿namespace DailyDuty.Interfaces
 {
-    public void Update();
+    internal interface IUpdateable
+    {
+        public void Update();
+    }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace DailyDuty.Data.SettingsObjects;
-
-[Serializable]
-public class SystemSettings
+namespace DailyDuty.Data.SettingsObjects
 {
-    public int ZoneChangeDelayRate = 1;
-    public bool ShowSaveDebugInfo = false;
-    public bool ClickableLinks = false;
-    public bool EnableDebugOutput = false;
+    [Serializable]
+    public class SystemSettings
+    {
+        public int ZoneChangeDelayRate = 1;
+        public bool ShowSaveDebugInfo = false;
+        public bool ClickableLinks = false;
+        public bool EnableDebugOutput = false;
+    }
 }

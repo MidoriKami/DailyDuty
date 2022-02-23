@@ -4,34 +4,35 @@ using DailyDuty.Data.SettingsObjects.WeeklySettings;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 
-namespace DailyDuty.Modules.Weekly;
-
-internal class ChallengeLog : 
-    ICollapsibleHeader, 
-    IUpdateable,
-    ICompletable
+namespace DailyDuty.Modules.Weekly
 {
-    public void Dispose()
+    internal class ChallengeLog : 
+        ICollapsibleHeader, 
+        IUpdateable,
+        ICompletable
     {
-    }
+        public void Dispose()
+        {
+        }
 
-    private ChallengeLogSettings Settings => Service.Configuration.Current().ChallengeLog;
+        private ChallengeLogSettings Settings => Service.Configuration.Current().ChallengeLog;
 
-    public CompletionType Type => CompletionType.Weekly;
-    public string HeaderText => "Challenge Log";
-    public GenericSettings GenericSettings => Settings;
-    public bool IsCompleted()
-    {
-        return false;
-    }
+        public CompletionType Type => CompletionType.Weekly;
+        public string HeaderText => "Challenge Log";
+        public GenericSettings GenericSettings => Settings;
+        public bool IsCompleted()
+        {
+            return false;
+        }
 
-    void ICollapsibleHeader.DrawContents()
-    {
-        ImGui.Text("Not Implemented Yet");
-    }
+        void ICollapsibleHeader.DrawContents()
+        {
+            ImGui.Text("Not Implemented Yet");
+        }
 
-    public void Update()
-    {
+        public void Update()
+        {
             
+        }
     }
 }

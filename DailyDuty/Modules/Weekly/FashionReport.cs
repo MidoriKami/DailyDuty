@@ -14,266 +14,267 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using Condition = DailyDuty.Utilities.Condition;
 
-namespace DailyDuty.Modules.Weekly;
-
-internal unsafe class FashionReport : 
-    IConfigurable, 
-    IUpdateable,
-    IWeeklyResettable,
-    ILoginNotification,
-    IZoneChangeThrottledNotification,
-    ICompletable
+namespace DailyDuty.Modules.Weekly
 {
-    private bool exchangeStarted;
-
-    private FashionReportSettings Settings => Service.Configuration.Current().FashionReport;
-    public CompletionType Type => CompletionType.Weekly;
-    public string HeaderText => "Fashion Report";
-    public GenericSettings GenericSettings => Settings;
-    public DateTime NextReset
+    internal unsafe class FashionReport : 
+        IConfigurable, 
+        IUpdateable,
+        IWeeklyResettable,
+        ILoginNotification,
+        IZoneChangeThrottledNotification,
+        ICompletable
     {
-        get => Settings.NextReset;
-        set => Settings.NextReset = value;
-    }
-    private int modeSelect;
+        private bool exchangeStarted;
 
-    private readonly DalamudLinkPayload goldSaucerTeleport;
+        private FashionReportSettings Settings => Service.Configuration.Current().FashionReport;
+        public CompletionType Type => CompletionType.Weekly;
+        public string HeaderText => "Fashion Report";
+        public GenericSettings GenericSettings => Settings;
+        public DateTime NextReset
+        {
+            get => Settings.NextReset;
+            set => Settings.NextReset = value;
+        }
+        private int modeSelect;
 
-    public FashionReport()
-    {
-        modeSelect = (int) Settings.Mode;
+        private readonly DalamudLinkPayload goldSaucerTeleport;
 
-        goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
-    }
+        public FashionReport()
+        {
+            modeSelect = (int) Settings.Mode;
 
-    public void Dispose()
-    {
-    }
+            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+        }
 
-    public bool IsCompleted()
-    {
-        return FashionReportComplete();
-    }
+        public void Dispose()
+        {
+        }
+
+        public bool IsCompleted()
+        {
+            return FashionReportComplete();
+        }
     
-    public void SendNotification()
-    {
-        if (Condition.IsBoundByDuty() == true) return;
-
-        if (Settings.Mode == FashionReportMode.Single)
+        public void SendNotification()
         {
-            if (Settings.AllowancesRemaining == 4 && FashionReportAvailable())
+            if (Condition.IsBoundByDuty() == true) return;
+
+            if (Settings.Mode == FashionReportMode.Single)
             {
-                Chat.Print(HeaderText, "Fashion Report Available", goldSaucerTeleport);
-            }
-        }
-        else if (Settings.Mode == FashionReportMode.All)
-        {
-            if (Settings.AllowancesRemaining > 0 && FashionReportAvailable())
-            {
-                Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining", goldSaucerTeleport);
-            }
-        }
-    }
-
-    public void NotificationOptions()
-    {
-        Draw.OnLoginReminderCheckbox(Settings, HeaderText);
-
-        Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
-
-        NotificationModeToggle();
-    }
-
-    private void NotificationModeToggle()
-    {
-        ImGui.Text("Notification Mode");
-
-
-        ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
-
-        ImGui.RadioButton($"Single##{HeaderText}", ref modeSelect, (int)FashionReportMode.Single);
-        ImGuiComponents.HelpMarker("Only notify if no allowances have been spent this week and fashion report is available for turn-in");
-        ImGui.SameLine();
-
-        ImGui.Indent(125 * ImGuiHelpers.GlobalScale);
-
-        ImGui.RadioButton($"All##{HeaderText}", ref modeSelect, (int) FashionReportMode.All);
-        ImGuiComponents.HelpMarker("notify if any allowances remain this week and fashion report is available for turn-in");
-
-        ImGui.Indent(-125 * ImGuiHelpers.GlobalScale);
-
-        ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
-
-
-        if (Settings.Mode != (FashionReportMode) modeSelect)
-        {
-            Settings.Mode = (FashionReportMode) modeSelect;
-            Service.Configuration.Save();
-        }
-    }
-
-    public void EditModeOptions()
-    {
-        Draw.EditNumberField("Allowances",HeaderText, ref Settings.AllowancesRemaining);
-
-        Draw.EditNumberField("Highest Score",HeaderText, ref Settings.HighestWeeklyScore);
-    }
-
-    public void DisplayData()
-    {
-        Draw.NumericDisplay("Remaining Allowances", Settings.AllowancesRemaining);
-
-        Draw.NumericDisplay("Highest Score This Week", Settings.HighestWeeklyScore);
-
-        Draw.TimeSpanDisplay("Time Until Fashion Report", TimeUntilFashionReport() );
-    }
-
-    public void Update()
-    {
-        UpdateFashionReport();
-    }
-    
-    void IResettable.ResetThis(CharacterSettings settings)
-    {
-        var fashionReportSettings = settings.FashionReport;
-
-        fashionReportSettings.AllowancesRemaining = 4;
-        fashionReportSettings.HighestWeeklyScore = 0;
-    }
-
-    //
-    // Implementation
-    //
-    private void UpdateFashionReport()
-    {
-        if (Settings.Enabled)
-        {
-            // If we are occupied by talking to a quest npc
-            if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
-            {
-                // If FashionReport Windows are open
-                if (GetFashionReportScoreGauge() != null && GetFashionReportInfoWindow() != null)
+                if (Settings.AllowancesRemaining == 4 && FashionReportAvailable())
                 {
-                    if (exchangeStarted == false)
+                    Chat.Print(HeaderText, "Fashion Report Available", goldSaucerTeleport);
+                }
+            }
+            else if (Settings.Mode == FashionReportMode.All)
+            {
+                if (Settings.AllowancesRemaining > 0 && FashionReportAvailable())
+                {
+                    Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining", goldSaucerTeleport);
+                }
+            }
+        }
+
+        public void NotificationOptions()
+        {
+            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+
+            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+
+            NotificationModeToggle();
+        }
+
+        private void NotificationModeToggle()
+        {
+            ImGui.Text("Notification Mode");
+
+
+            ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+
+            ImGui.RadioButton($"Single##{HeaderText}", ref modeSelect, (int)FashionReportMode.Single);
+            ImGuiComponents.HelpMarker("Only notify if no allowances have been spent this week and fashion report is available for turn-in");
+            ImGui.SameLine();
+
+            ImGui.Indent(125 * ImGuiHelpers.GlobalScale);
+
+            ImGui.RadioButton($"All##{HeaderText}", ref modeSelect, (int) FashionReportMode.All);
+            ImGuiComponents.HelpMarker("notify if any allowances remain this week and fashion report is available for turn-in");
+
+            ImGui.Indent(-125 * ImGuiHelpers.GlobalScale);
+
+            ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+
+
+            if (Settings.Mode != (FashionReportMode) modeSelect)
+            {
+                Settings.Mode = (FashionReportMode) modeSelect;
+                Service.Configuration.Save();
+            }
+        }
+
+        public void EditModeOptions()
+        {
+            Draw.EditNumberField("Allowances",HeaderText, ref Settings.AllowancesRemaining);
+
+            Draw.EditNumberField("Highest Score",HeaderText, ref Settings.HighestWeeklyScore);
+        }
+
+        public void DisplayData()
+        {
+            Draw.NumericDisplay("Remaining Allowances", Settings.AllowancesRemaining);
+
+            Draw.NumericDisplay("Highest Score This Week", Settings.HighestWeeklyScore);
+
+            Draw.TimeSpanDisplay("Time Until Fashion Report", TimeUntilFashionReport() );
+        }
+
+        public void Update()
+        {
+            UpdateFashionReport();
+        }
+    
+        void IResettable.ResetThis(CharacterSettings settings)
+        {
+            var fashionReportSettings = settings.FashionReport;
+
+            fashionReportSettings.AllowancesRemaining = 4;
+            fashionReportSettings.HighestWeeklyScore = 0;
+        }
+
+        //
+        // Implementation
+        //
+        private void UpdateFashionReport()
+        {
+            if (Settings.Enabled)
+            {
+                // If we are occupied by talking to a quest npc
+                if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
+                {
+                    // If FashionReport Windows are open
+                    if (GetFashionReportScoreGauge() != null && GetFashionReportInfoWindow() != null)
                     {
-                        var allowances = GetRemainingAllowances();
-
-                        if (allowances != null)
+                        if (exchangeStarted == false)
                         {
-                            exchangeStarted = true;
+                            var allowances = GetRemainingAllowances();
 
-                            Settings.AllowancesRemaining = allowances.Value - 1;
-                            Settings.HighestWeeklyScore = GetHighScore();
-                            Service.Configuration.Save();
+                            if (allowances != null)
+                            {
+                                exchangeStarted = true;
+
+                                Settings.AllowancesRemaining = allowances.Value - 1;
+                                Settings.HighestWeeklyScore = GetHighScore();
+                                Service.Configuration.Save();
+                            }
                         }
                     }
                 }
+                else
+                {
+                    exchangeStarted = false;
+                }
+            }
+        }
+
+        private bool FashionReportComplete()
+        {
+            if (FashionReportAvailable() == false)
+                return true;
+
+            return Settings.Mode switch
+            {
+                FashionReportMode.Single => Settings.AllowancesRemaining < 4,
+                FashionReportMode.All => Settings.AllowancesRemaining == 0,
+                _ => false
+            };
+        }
+
+        private static bool FashionReportAvailable()
+        {
+            var reportOpen = Time.NextWeeklyReset().AddDays(-4);
+            var reportClosed = Time.NextWeeklyReset();
+
+            var now = DateTime.UtcNow;
+
+            return now > reportOpen && now < reportClosed;
+        }
+
+        private static TimeSpan TimeUntilFashionReport()
+        {
+            if (FashionReportAvailable() == true)
+            {
+                return TimeSpan.Zero;
             }
             else
             {
-                exchangeStarted = false;
+                var availableDateTime = Time.NextWeeklyReset().AddDays(-4);
+
+                return availableDateTime - DateTime.UtcNow;
             }
         }
-    }
 
-    private bool FashionReportComplete()
-    {
-        if (FashionReportAvailable() == false)
-            return true;
-
-        return Settings.Mode switch
+        private int? GetRemainingAllowances()
         {
-            FashionReportMode.Single => Settings.AllowancesRemaining < 4,
-            FashionReportMode.All => Settings.AllowancesRemaining == 0,
-            _ => false
-        };
-    }
+            var pointer = GetFashionReportInfoWindow();
+            if (pointer == null) return null;
 
-    private static bool FashionReportAvailable()
-    {
-        var reportOpen = Time.NextWeeklyReset().AddDays(-4);
-        var reportClosed = Time.NextWeeklyReset();
+            var textNode = (AtkTextNode*)pointer->GetNodeById(32);
+            if (textNode == null) return null;
 
-        var now = DateTime.UtcNow;
+            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
 
-        return now > reportOpen && now < reportClosed;
-    }
+            var number = int.Parse(resultString);
+            if (number == 0) return null;
 
-    private static TimeSpan TimeUntilFashionReport()
-    {
-        if (FashionReportAvailable() == true)
-        {
-            return TimeSpan.Zero;
+            return number;
         }
-        else
+
+        private int GetHighScore()
         {
-            var availableDateTime = Time.NextWeeklyReset().AddDays(-4);
+            var gaugeScore = GetGaugeScore() ?? 0;
+            var windowScore = GetWindowScore() ?? 0;
 
-            return availableDateTime - DateTime.UtcNow;
+            return Math.Max(gaugeScore, windowScore);
         }
-    }
 
-    private int? GetRemainingAllowances()
-    {
-        var pointer = GetFashionReportInfoWindow();
-        if (pointer == null) return null;
+        private int? GetGaugeScore()
+        {
+            var pointer = GetFashionReportScoreGauge();
+            if (pointer == null) return null;
 
-        var textNode = (AtkTextNode*)pointer->GetNodeById(32);
-        if (textNode == null) return null;
+            var textNode = (AtkCounterNode*)pointer->GetNodeById(12);
+            if(textNode == null) return null;
 
-        var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
+            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
 
-        var number = int.Parse(resultString);
-        if (number == 0) return null;
+            var number = int.Parse(resultString);
 
-        return number;
-    }
+            return number;
+        }
 
-    private int GetHighScore()
-    {
-        var gaugeScore = GetGaugeScore() ?? 0;
-        var windowScore = GetWindowScore() ?? 0;
+        private int? GetWindowScore()
+        {
+            var pointer = GetFashionReportInfoWindow();
+            if (pointer == null) return null;
 
-        return Math.Max(gaugeScore, windowScore);
-    }
+            var textNode = (AtkTextNode*)pointer->GetNodeById(33);
+            if (textNode == null) return null;
 
-    private int? GetGaugeScore()
-    {
-        var pointer = GetFashionReportScoreGauge();
-        if (pointer == null) return null;
+            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
 
-        var textNode = (AtkCounterNode*)pointer->GetNodeById(12);
-        if(textNode == null) return null;
+            var number = int.Parse(resultString);
 
-        var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
+            return number;
+        }
 
-        var number = int.Parse(resultString);
+        private AtkUnitBase* GetFashionReportScoreGauge()
+        {
+            return (AtkUnitBase*)Service.GameGui.GetAddonByName("FashionCheckScoreGauge", 1);
+        }
 
-        return number;
-    }
-
-    private int? GetWindowScore()
-    {
-        var pointer = GetFashionReportInfoWindow();
-        if (pointer == null) return null;
-
-        var textNode = (AtkTextNode*)pointer->GetNodeById(33);
-        if (textNode == null) return null;
-
-        var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
-
-        var number = int.Parse(resultString);
-
-        return number;
-    }
-
-    private AtkUnitBase* GetFashionReportScoreGauge()
-    {
-        return (AtkUnitBase*)Service.GameGui.GetAddonByName("FashionCheckScoreGauge", 1);
-    }
-
-    private AtkUnitBase* GetFashionReportInfoWindow()
-    {
-        return (AtkUnitBase*)Service.GameGui.GetAddonByName("FashionCheck", 1);
+        private AtkUnitBase* GetFashionReportInfoWindow()
+        {
+            return (AtkUnitBase*)Service.GameGui.GetAddonByName("FashionCheck", 1);
+        }
     }
 }

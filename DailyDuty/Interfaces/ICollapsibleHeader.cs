@@ -1,19 +1,20 @@
 ﻿using System;
 using ImGuiNET;
 
-namespace DailyDuty.Interfaces;
-
-internal interface ICollapsibleHeader : IDisposable
+namespace DailyDuty.Interfaces
 {
-    public string HeaderText { get; }
-
-    public void Draw()
+    internal interface ICollapsibleHeader : IDisposable
     {
-        if (ImGui.CollapsingHeader(HeaderText))
-        {
-            DrawContents();
-        }
-    }
+        public string HeaderText { get; }
 
-    protected void DrawContents();
+        public void Draw()
+        {
+            if (ImGui.CollapsingHeader(HeaderText))
+            {
+                DrawContents();
+            }
+        }
+
+        protected void DrawContents();
+    }
 }
