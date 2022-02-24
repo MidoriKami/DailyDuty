@@ -3,7 +3,7 @@ using DailyDuty.Interfaces;
 using Dalamud.Interface;
 using ImGuiNET;
 
-namespace DailyDuty.Components.Graphical
+namespace DailyDuty.Timers
 {
     internal class CountdownTimers : IDrawable
     {

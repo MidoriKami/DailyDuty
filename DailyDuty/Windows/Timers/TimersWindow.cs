@@ -4,6 +4,7 @@ using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
+using DailyDuty.Timers;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
@@ -35,7 +36,7 @@ namespace DailyDuty.Windows.Timers
 
             Service.Framework.Update += Update;
 
-            var timersList = Service.TimerManager.GetTimersWindowTimers();
+            var timersList = Service.TimerManager.GetTimers(WindowName.Timers);
             countdownTimers = new CountdownTimers(timersList);
         }
 

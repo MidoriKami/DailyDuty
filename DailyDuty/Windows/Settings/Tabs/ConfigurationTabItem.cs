@@ -8,11 +8,10 @@ namespace DailyDuty.Windows.Settings.Tabs
     {
         private readonly List<ICollapsibleHeader> headers = new()
         {
-            new CountdownTimersConfiguration(),
             new GeneralConfiguration(),
+            new CountdownTimersConfiguration(),
             new DutyFinderOverlayConfiguration(),
-            new TodoWindowConfiguration(),
-            new TimersWindowConfiguration()
+            new WindowConfiguration()
         };
 
         public static bool EditModeEnabled = false;
@@ -21,6 +20,11 @@ namespace DailyDuty.Windows.Settings.Tabs
 
         public void Draw()
         {
+            Utilities.Draw.Checkbox("Temporary Edit Mode", TabName, ref ConfigurationTabItem.EditModeEnabled, 
+                "Allows you to manually correct the values stored in each of Daily/Weekly tabs\n" +
+                "Edit Mode automatically disables when you close this window\n" +
+                "Only use Edit Mode to correct errors in other tabs");
+
             foreach (var header in headers)
             {
                 header.Draw();

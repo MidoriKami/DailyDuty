@@ -4,15 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
+using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Interfaces;
+using DailyDuty.Timers;
 
 namespace DailyDuty.System
 {
     public class TimerManager : IDisposable
     {
-        public List<ITimer> GetSettingsWindowTimers()
+        public List<ITimer> GetTimers(WindowName window)
         {
-            var settings = Service.Configuration.TimersSettings;
+            var settings = window switch
+            {
+                WindowName.Settings => Service.Configuration.TimersSettings,
+                WindowName.Timers => Service.Configuration.TimersWindowSettings.TimersSettings,
+                _ => new TimersSettings()
+            };
 
             return  new()
             {
@@ -23,21 +31,7 @@ namespace DailyDuty.System
                 new JumboCactpotResetTimer(settings.JumboCactpot)
             };
         }
-
-        public List<ITimer> GetTimersWindowTimers()
-        {
-            var settings = Service.Configuration.TimersWindowSettings;
-
-            return  new()
-            {
-                new DailyResetTimer(settings.Daily),
-                new WeeklyResetTimer(settings.Weekly),
-                new FashionReportResetTimer(settings.FashionReport),
-                new TreasureMapTimer(settings.TreasureMap),
-                new JumboCactpotResetTimer(settings.JumboCactpot)
-            };
-        }
-
+        
         public void Dispose()
         {
         }

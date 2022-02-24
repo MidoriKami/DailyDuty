@@ -5,6 +5,7 @@ using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
+using DailyDuty.Timers;
 using DailyDuty.Windows.Settings.Tabs;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
@@ -33,7 +34,7 @@ namespace DailyDuty.Windows.Settings
                 MaximumSize = new(9909,9909)
             };
 
-            var timersList = Service.TimerManager.GetSettingsWindowTimers();
+            var timersList = Service.TimerManager.GetTimers(WindowName.Settings);
 
             countdownTimers = new CountdownTimers(timersList);
 

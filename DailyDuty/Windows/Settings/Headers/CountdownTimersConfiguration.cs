@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
 using DailyDuty.Data.Graphical;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Interfaces;
+using DailyDuty.Timers;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -18,7 +20,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
         public CountdownTimersConfiguration()
         {
-            var timersList = Service.TimerManager.GetSettingsWindowTimers();
+            var timersList = Service.TimerManager.GetTimers(WindowName.Settings);
 
             countdownTimers = new CountdownTimers(timersList);
         }
@@ -40,9 +42,8 @@ namespace DailyDuty.Windows.Settings.Headers
                 ImGui.TableSetupColumn("  Fg", ImGuiTableColumnFlags.WidthFixed, 25f * ImGuiHelpers.GlobalScale);
                 ImGui.TableSetupColumn("  Bg", ImGuiTableColumnFlags.WidthFixed, 25f * ImGuiHelpers.GlobalScale);
                 ImGui.TableSetupColumn(" Txt", ImGuiTableColumnFlags.WidthFixed, 25f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn(" Style Options", ImGuiTableColumnFlags.WidthFixed,
-                    200f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 175f * ImGuiHelpers.GlobalScale);
+                ImGui.TableSetupColumn(" Style Options", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
+                ImGui.TableSetupColumn(" Width", ImGuiTableColumnFlags.WidthFixed, 175f * ImGuiHelpers.GlobalScale);
                 ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
 
                 ImGui.TableHeadersRow();

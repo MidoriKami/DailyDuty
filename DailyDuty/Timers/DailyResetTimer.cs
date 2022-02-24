@@ -1,27 +1,25 @@
 ﻿using System;
-using System.Numerics;
 using DailyDuty.Data.Graphical;
 using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using Dalamud.Interface;
 
-namespace DailyDuty.Components.Graphical
+namespace DailyDuty.Timers
 {
-    internal class WeeklyResetTimer : ITimer
+    internal class DailyResetTimer : ITimer
     {
-        public string Name => "Weekly";
+        public string Name => "Daily";
         public TimerSettings Settings { get; set; }
 
         private readonly TimerData timerData = new()
         {
-            NameLong = "Weekly Reset",
-            NameShort = "Weekly",
+            NameLong = "Daily Reset",
+            NameShort = "Daily",
             CompletionString = "",
-            TimePeriod = TimeSpan.FromDays(7),
+            TimePeriod = TimeSpan.FromDays(1),
         };
 
-        public WeeklyResetTimer(TimerSettings settings)
+        public DailyResetTimer(TimerSettings settings)
         {
             this.Settings = settings;
         }
@@ -30,7 +28,7 @@ namespace DailyDuty.Components.Graphical
         {
             var now = DateTime.UtcNow;
 
-            timerData.RemainingTime = Time.NextWeeklyReset() - now;
+            timerData.RemainingTime = Time.NextDailyReset() - now;
 
             Draw.Timer(Settings.TimerStyle, timerData);
         }

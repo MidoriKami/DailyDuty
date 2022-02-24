@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Numerics;
 using DailyDuty.Data.Graphical;
 using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using Dalamud.Interface;
 
-namespace DailyDuty.Components.Graphical
+namespace DailyDuty.Timers
 {
     internal class TreasureMapTimer : ITimer
     {
@@ -34,7 +32,7 @@ namespace DailyDuty.Components.Graphical
             // Use Local Time for Treasure Maps
             var now = DateTime.Now;
 
-            timerData.RemainingTime = nextAvailableTime - now;
+            timerData.RemainingTime = now > nextAvailableTime ? TimeSpan.Zero : nextAvailableTime - now;
 
             Draw.Timer(Settings.TimerStyle, timerData);
         }

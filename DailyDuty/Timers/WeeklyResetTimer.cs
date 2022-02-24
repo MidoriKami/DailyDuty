@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Numerics;
 using DailyDuty.Data.Graphical;
 using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using Dalamud.Interface;
 
-namespace DailyDuty.Components.Graphical
+namespace DailyDuty.Timers
 {
-    internal class JumboCactpotResetTimer : ITimer
+    internal class WeeklyResetTimer : ITimer
     {
-        public string Name => "Jumbo Cactpot";
+        public string Name => "Weekly";
         public TimerSettings Settings { get; set; }
 
         private readonly TimerData timerData = new()
         {
-            NameLong = "Jumbo Cactpot",
-            NameShort = "JCactpot",
-            CompletionString = "Available",
+            NameLong = "Weekly Reset",
+            NameShort = "Weekly",
+            CompletionString = "",
             TimePeriod = TimeSpan.FromDays(7),
         };
 
-        private DateTime NextReset => Service.Configuration.Current().JumboCactpot.NextReset;
-
-        public JumboCactpotResetTimer(TimerSettings settings)
+        public WeeklyResetTimer(TimerSettings settings)
         {
             this.Settings = settings;
         }
@@ -32,7 +28,7 @@ namespace DailyDuty.Components.Graphical
         {
             var now = DateTime.UtcNow;
 
-            timerData.RemainingTime = NextReset - now;
+            timerData.RemainingTime = Time.NextWeeklyReset() - now;
 
             Draw.Timer(Settings.TimerStyle, timerData);
         }

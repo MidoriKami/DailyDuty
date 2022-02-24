@@ -34,7 +34,10 @@ namespace DailyDuty.Utilities
         {
             var formatString = style.Options.UseShortName ? data.NameShort : data.NameLong;
 
-            formatString += ": " + data.RemainingTime.Format(style.Options);
+            formatString += data.RemainingTime == TimeSpan.Zero
+                ? ": " + data.CompletionString
+                : ": " + data.RemainingTime.Format(style.Options);
+
             return formatString;
         }
 

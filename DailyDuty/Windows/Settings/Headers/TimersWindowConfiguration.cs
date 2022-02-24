@@ -1,8 +1,10 @@
 ﻿using DailyDuty.Components.Graphical;
+using DailyDuty.Data.Enums;
 using DailyDuty.Data.Graphical;
 using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Interfaces;
+using DailyDuty.Timers;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -16,7 +18,7 @@ namespace DailyDuty.Windows.Settings.Headers
         private readonly CountdownTimers countdownTimers;
         public TimersWindowConfiguration()
         {
-            var timersList = Service.TimerManager.GetTimersWindowTimers();
+            var timersList = Service.TimerManager.GetTimers(WindowName.Timers);
 
             countdownTimers = new CountdownTimers(timersList);
         }

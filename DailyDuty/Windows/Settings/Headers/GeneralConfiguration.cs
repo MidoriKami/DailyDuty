@@ -20,11 +20,6 @@ namespace DailyDuty.Windows.Settings.Headers
         {
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-            Draw.Checkbox("Temporary Edit Mode", HeaderText, ref ConfigurationTabItem.EditModeEnabled, 
-                "Allows you to manually correct the values stored in each of Daily/Weekly tabs\n" +
-                "Edit Mode automatically disables when you close this window\n" +
-                "Only use Edit Mode to correct errors in other tabs");
-
             NotificationDelaySettings();
 
             Draw.Checkbox("Enable Chat Links", HeaderText, ref Service.Configuration.System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");
