@@ -15,6 +15,7 @@ using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.WondrousTails;
 using Dalamud.Game;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
@@ -23,14 +24,13 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Addons
 {
-    internal unsafe class DutyFinderAddonModule : IDisposable, IAddonModule
+    internal unsafe class DutyFinderAddonModule : IAddonModule
     {
-        private DutyFinderAddonSettings Settings => Service.Configuration.DutyFinderAddonSettings;
+        private DutyFinderAddonSettings Settings => Service.Configuration.Addons.DutyFinder;
         private DutyRouletteSettings DutyRouletteSettings => Service.Configuration.Current().DutyRoulette;
         private WondrousTailsSettings WondrousTailsSettings => Service.Configuration.Current().WondrousTails;
 
         public AddonName AddonName => AddonName.DutyFinder;
-
 
         private delegate void AddonOnDraw(AtkUnitBase* atkUnitBase);
         private delegate void* AddonOnFinalize(AtkUnitBase* atkUnitBase);
@@ -95,6 +95,12 @@ namespace DailyDuty.Addons
 
             var addonContentsFinder = GetContentsFinderPointer();
 
+            if (addonContentsFinder == null) return;
+
+            var textNode = GetListItemTextNode(6);
+
+            if(textNode == null) return;
+
             var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
             var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
             var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
@@ -109,9 +115,9 @@ namespace DailyDuty.Addons
             onFinalizeHook.Enable();
             onUpdateHook.Enable();
             onRefreshHook.Enable();
-            
-            SaveDefaultTextColor();
-                
+
+            userDefaultTextColor = textNode->TextColor;
+
             Service.Framework.Update -= FrameworkOnUpdate;
         }
         
@@ -151,13 +157,6 @@ namespace DailyDuty.Addons
             }
             
             return result;
-        }
-
-        private void SaveDefaultTextColor()
-        {
-            var textNode = GetListItemTextNode(6);
-
-            userDefaultTextColor = textNode->TextColor;
         }
 
         private void ResetDefaultTextColor()
