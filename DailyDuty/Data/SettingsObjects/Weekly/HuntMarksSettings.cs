@@ -1,7 +1,8 @@
 ﻿using DailyDuty.Data.ModuleData.HuntMarks;
+
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 
-namespace DailyDuty.Data.SettingsObjects.WeeklySettings
+namespace DailyDuty.Data.SettingsObjects.Weekly
 {
     public class HuntMarksSettings : GenericSettings
     {

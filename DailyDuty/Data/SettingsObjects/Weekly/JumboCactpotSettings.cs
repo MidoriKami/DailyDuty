@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Data.ModuleData.JumboCactpot;
 
-namespace DailyDuty.Data.SettingsObjects.WeeklySettings
+namespace DailyDuty.Data.SettingsObjects.Weekly
 {
     public class JumboCactpotSettings : GenericSettings
     {

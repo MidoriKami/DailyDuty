@@ -2,7 +2,7 @@
 using System.Numerics;
 using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
-using DailyDuty.Data.SettingsObjects.WindowSettings;
+using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using DailyDuty.Timers;
 using Dalamud.Game;
@@ -19,7 +19,7 @@ namespace DailyDuty.Windows.Timers
 
         public new WindowName WindowName => WindowName.Timers;
 
-        private TimersWindowSettings Settings => Service.Configuration.TimersWindowSettings;
+        private TimersWindowSettings Settings => Service.Configuration.Windows.Timers;
 
         private const ImGuiWindowFlags DefaultFlags = ImGuiWindowFlags.NoFocusOnAppearing |
                                                       ImGuiWindowFlags.NoTitleBar |

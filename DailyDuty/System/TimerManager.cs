@@ -17,8 +17,8 @@ namespace DailyDuty.System
         {
             var settings = window switch
             {
-                WindowName.Settings => Service.Configuration.TimersSettings,
-                WindowName.Timers => Service.Configuration.TimersWindowSettings.TimersSettings,
+                WindowName.Settings => Service.Configuration.Timers,
+                WindowName.Timers => Service.Configuration.Windows.Timers.TimersSettings,
                 _ => new TimersSettings()
             };
 

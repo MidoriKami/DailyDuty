@@ -3,7 +3,7 @@ using System.Linq;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.WeeklySettings;
+using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.JumboCactpot;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
+using DailyDuty.Modules.Command;
 using DailyDuty.Modules.Daily;
 using DailyDuty.Modules.Weekly;
 using DailyDuty.Utilities;
@@ -35,7 +36,10 @@ namespace DailyDuty.System
             new HuntMarks(),
             new JumboCactpot(),
             new MaskedCarnival(),
-            new WondrousTails()
+            new WondrousTails(),
+
+            // Commands
+            new NoticeWindowCommands()
         };
 
         private readonly Queue<IUpdateable> updateQueue;

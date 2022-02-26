@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
-using DailyDuty.Data.SettingsObjects.WindowSettings;
+using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using DailyDuty.Timers;
 using DailyDuty.Windows.Settings.Tabs;
@@ -20,7 +20,7 @@ namespace DailyDuty.Windows.Settings
         private readonly SaveAndCloseButtons saveAndCloseButtons;
         public new WindowName WindowName => WindowName.Settings;
 
-        private SettingsWindowSettings Settings => Service.Configuration.SettingsWindowSettings;
+        private SettingsWindowSettings Settings => Service.Configuration.Windows.Settings;
 
         public SettingsWindow() : base("DailyDuty Settings")
         {

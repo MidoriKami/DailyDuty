@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Data.SettingsObjects.DailySettings
+﻿namespace DailyDuty.Data.SettingsObjects.Daily
 {
     public class MiniCactpotSettings : GenericSettings
     {

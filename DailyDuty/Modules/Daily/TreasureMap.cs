@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.TreasureMapModule;
 using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.DailySettings;
+using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Conditions;
@@ -34,6 +35,9 @@ namespace DailyDuty.Modules.Daily
         public GenericSettings GenericSettings => Settings;
 
         private readonly HashSet<int> mapLevels;
+        
+        private int editHours = 0;
+        private int editMinutes = 0;
         private int SelectedMinimumMapLevel
         {
             get
@@ -131,6 +135,31 @@ namespace DailyDuty.Modules.Daily
 
         public void EditModeOptions()
         {
+            ImGui.Text("Enter how much time should be remaining");
+
+            ImGui.Text("HH:MM");
+            ImGui.SameLine();
+
+            ImGui.SetNextItemWidth(25f * ImGuiHelpers.GlobalScale);
+            ImGui.InputInt($"##{HeaderText}MapHoursCorrection", ref editHours, 0, 0);
+
+            ImGui.SameLine();
+            ImGui.SetNextItemWidth(25f * ImGuiHelpers.GlobalScale);
+            ImGui.InputInt($"##{HeaderText}MapMinutesCorrection", ref editMinutes, 0, 0);
+            ImGui.SameLine();
+
+            if (ImGui.Button($"Collect##{HeaderText}CollectButton"))
+            {
+                var mapPeriod = TimeSpan.FromHours(18);
+                var timespan = TimeSpan.FromHours(editHours) + TimeSpan.FromMinutes(editMinutes);
+
+                var delta = mapPeriod - timespan;
+
+                var now = DateTime.Now;
+
+                Settings.LastMapGathered = now.Subtract(delta);
+                Service.Configuration.Save();
+            }
         }
 
         public void DisplayData()

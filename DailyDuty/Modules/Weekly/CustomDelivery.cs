@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.WeeklySettings;
+using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Conditions;

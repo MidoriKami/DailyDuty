@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using DailyDuty.Data;
+using DailyDuty.Data.Enums;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;
+using DailyDuty.Windows.Settings;
 using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
@@ -59,7 +61,9 @@ namespace DailyDuty
         {
             if (arguments == string.Empty)
             {
-                Service.WindowManager.ToggleSettingsWindow();
+                var settingsWindow = Service.WindowManager.GetWindowOfType<SettingsWindow>(WindowName.Settings);
+
+                settingsWindow?.Toggle();
             }
             else
             {
@@ -94,7 +98,9 @@ namespace DailyDuty
 
         private void DrawConfigUI()
         {
-            Service.WindowManager.ToggleSettingsWindow();
+            var settingsWindow = Service.WindowManager.GetWindowOfType<SettingsWindow>(WindowName.Settings);
+
+            settingsWindow?.Toggle();
         }
 
         public void Dispose()

@@ -3,7 +3,7 @@ using System.Linq;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.DailySettings;
+using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;

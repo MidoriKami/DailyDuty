@@ -9,7 +9,7 @@ namespace DailyDuty.Windows.Settings.Headers
 {
     internal class DutyFinderOverlayConfiguration : ICollapsibleHeader
     {
-        private DutyFinderAddonSettings Settings => Service.Configuration.DutyFinderAddonSettings;
+        private DutyFinderAddonSettings Settings => Service.Configuration.Addons.DutyFinder;
 
         public void Dispose()
         {

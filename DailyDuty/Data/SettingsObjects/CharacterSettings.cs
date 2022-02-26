@@ -1,6 +1,6 @@
 ﻿using System;
-using DailyDuty.Data.SettingsObjects.DailySettings;
-using DailyDuty.Data.SettingsObjects.WeeklySettings;
+using DailyDuty.Data.SettingsObjects.Daily;
+using DailyDuty.Data.SettingsObjects.Weekly;
 
 namespace DailyDuty.Data.SettingsObjects
 {

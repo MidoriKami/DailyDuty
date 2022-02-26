@@ -1,6 +1,6 @@
 ﻿using DailyDuty.Data.ModuleData.DutyRoulette;
 
-namespace DailyDuty.Data.SettingsObjects.DailySettings
+namespace DailyDuty.Data.SettingsObjects.Daily
 {
     public class DutyRouletteSettings : GenericSettings
     {

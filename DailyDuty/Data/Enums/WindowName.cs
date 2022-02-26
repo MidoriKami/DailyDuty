@@ -4,6 +4,7 @@
     {
         Settings,
         Todo,
-        Timers
+        Timers,
+        Notice
     }
 }

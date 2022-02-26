@@ -1,4 +1,6 @@
-﻿using DailyDuty.Interfaces;
+﻿using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Data.SettingsObjects.Windows;
+using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.Settings.Tabs;
 using Dalamud.Interface;
@@ -16,19 +18,18 @@ namespace DailyDuty.Windows.Settings.Headers
 
         public string HeaderText => "General Configuration";
 
+        private SystemSettings System => Service.Configuration.System;
+        private SettingsWindowSettings SettingsWindow => Service.Configuration.Windows.Settings;
+
         void ICollapsibleHeader.DrawContents()
         {
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
             NotificationDelaySettings();
 
-            Draw.Checkbox("Enable Chat Links", HeaderText, ref Service.Configuration.System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");
+            Draw.Checkbox("Enable Chat Links", HeaderText, ref System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");
 
             OpacitySlider();
-
-            Draw.Checkbox("Save Debug Printout", HeaderText, ref Service.Configuration.System.ShowSaveDebugInfo, "Enable to show a debug message whenever Daily Duty saves changes to DailyDuty.json");
-
-            Draw.Checkbox("Enable Debug Output", HeaderText, ref Service.Configuration.System.EnableDebugOutput, "Enable Messages with the [Debug] tag");
 
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
         }
@@ -39,7 +40,7 @@ namespace DailyDuty.Windows.Settings.Headers
             ImGui.SameLine();
 
             ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
-            ImGui.DragFloat($"##{HeaderText}", ref Service.Configuration.SettingsWindowSettings.Opacity, 0.01f, 0.0f, 1.0f);
+            ImGui.DragFloat($"##{HeaderText}", ref SettingsWindow.Opacity, 0.01f, 0.0f, 1.0f);
             ImGui.PopItemWidth();
         }
 

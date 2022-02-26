@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DailyDuty.Data.SettingsObjects.DailySettings
+namespace DailyDuty.Data.SettingsObjects.Daily
 {
     public class TreasureMapSettings : GenericSettings
     {            

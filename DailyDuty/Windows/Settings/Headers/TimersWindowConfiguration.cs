@@ -2,7 +2,7 @@
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.Graphical;
 using DailyDuty.Data.SettingsObjects.Timers;
-using DailyDuty.Data.SettingsObjects.WindowSettings;
+using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using DailyDuty.Timers;
 using DailyDuty.Utilities;
@@ -13,7 +13,7 @@ namespace DailyDuty.Windows.Settings.Headers
 {
     internal class TimersWindowConfiguration : ICollapsibleHeader
     {
-        private TimersWindowSettings Settings => Service.Configuration.TimersWindowSettings;
+        private TimersWindowSettings Settings => Service.Configuration.Windows.Timers;
 
         private readonly CountdownTimers countdownTimers;
         public TimersWindowConfiguration()

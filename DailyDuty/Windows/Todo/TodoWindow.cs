@@ -2,7 +2,7 @@
 using System.Numerics;
 using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
-using DailyDuty.Data.SettingsObjects.WindowSettings;
+using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
@@ -19,7 +19,7 @@ namespace DailyDuty.Windows.Todo
 
         public new WindowName WindowName => WindowName.Todo;
 
-        private TodoWindowSettings Settings => Service.Configuration.TodoWindowSettings;
+        private TodoWindowSettings Settings => Service.Configuration.Windows.Todo;
 
         private const ImGuiWindowFlags DefaultFlags = ImGuiWindowFlags.NoFocusOnAppearing |
                                                       ImGuiWindowFlags.NoTitleBar |

@@ -1,6 +1,6 @@
 ﻿using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.WeeklySettings;
+using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using ImGuiNET;
 

@@ -1,4 +1,4 @@
-﻿using DailyDuty.Data.SettingsObjects.WindowSettings;
+﻿using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
@@ -8,7 +8,7 @@ namespace DailyDuty.Windows.Settings.Headers
 {
     internal class TodoWindowConfiguration : ICollapsibleHeader
     {
-        private TodoWindowSettings Settings => Service.Configuration.TodoWindowSettings;
+        private TodoWindowSettings Settings => Service.Configuration.Windows.Todo;
 
         public string HeaderText => "Todo Window Configuration";
 
@@ -81,9 +81,9 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void EditColors()
         {
-            ImGui.ColorEdit4("Header Color", ref Settings.HeaderColor, ImGuiColorEditFlags.NoInputs);
-            ImGui.ColorEdit4("Completed Task Color", ref Settings.CompleteColor, ImGuiColorEditFlags.NoInputs);
-            ImGui.ColorEdit4("Incomplete Task Color", ref Settings.IncompleteColor, ImGuiColorEditFlags.NoInputs);
+            ImGui.ColorEdit4("Header Color", ref Settings.Colors.HeaderColor, ImGuiColorEditFlags.NoInputs);
+            ImGui.ColorEdit4("Completed Task Color", ref Settings.Colors.CompleteColor, ImGuiColorEditFlags.NoInputs);
+            ImGui.ColorEdit4("Incomplete Task Color", ref Settings.Colors.IncompleteColor, ImGuiColorEditFlags.NoInputs);
         }
     }
 }

@@ -14,11 +14,11 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.Settings.Headers
 {
-    internal class CountdownTimersConfiguration : ICollapsibleHeader
+    internal class EmbeddedTimerConfiguration : ICollapsibleHeader
     {
         private readonly CountdownTimers countdownTimers;
 
-        public CountdownTimersConfiguration()
+        public EmbeddedTimerConfiguration()
         {
             var timersList = Service.TimerManager.GetTimers(WindowName.Settings);
 
@@ -30,7 +30,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
         }
 
-        public string HeaderText => "Countdown Timers Configuration";
+        public string HeaderText => "Embedded Timers Configuration";
 
         void ICollapsibleHeader.DrawContents()
         {

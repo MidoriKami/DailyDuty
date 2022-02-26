@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using DailyDuty.Interfaces;
 using Dalamud.Interface;
+using Dalamud.Interface.Internal.Notifications;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -21,6 +22,7 @@ namespace DailyDuty.Components.Graphical
 
             if (ImGui.Button($"Save", ImGuiHelpers.ScaledVector2(100, 25)))
             {
+                Service.PluginInterface.UiBuilder.AddNotification("Configuration Saved", "Daily Duty", NotificationType.Success);
                 Service.Configuration.Save();
             }
 
@@ -28,6 +30,7 @@ namespace DailyDuty.Components.Graphical
 
             if (ImGui.Button($"Save & Close", ImGuiHelpers.ScaledVector2(100, 25)))
             {
+                Service.PluginInterface.UiBuilder.AddNotification("Configuration Saved", "Daily Duty", NotificationType.Success);
                 Service.Configuration.Save();
                 targetWindow.IsOpen = false;
             }

@@ -1,31 +1,26 @@
-﻿namespace DailyDuty.Interfaces
+﻿using System.Collections.Generic;
+using DailyDuty.Utilities.Helpers;
+
+namespace DailyDuty.Interfaces
 {
     internal interface ICommand
     {
-        public void ProcessCommand(string command, string arguments);
+        protected List<string> ModuleCommands { get; }
 
-        protected static string? GetSecondaryCommand(string arguments)
+        protected void Execute(string primaryCommand, string? secondaryCommand);
+
+        public void ProcessCommand(string command, string arguments)
         {
-            var stringArray = arguments.Split(' ');
+            var primaryCommand = CommandHelper.GetPrimaryCommand(arguments);
+            var secondaryCommand = CommandHelper.GetSecondaryCommand(arguments);
 
-            if (stringArray.Length == 1)
+            if (primaryCommand != null)
             {
-                return null;
+                if (ModuleCommands.Contains(primaryCommand))
+                {
+                    Execute(primaryCommand, secondaryCommand);
+                }
             }
-
-            return stringArray[1];
-        }
-
-        protected static string? GetPrimaryCommand(string arguments)
-        {
-            var stringArray = arguments.Split(' ');
-
-            if (stringArray[0] == string.Empty)
-            {
-                return null;
-            }
-
-            return stringArray[0];
         }
     }
 }

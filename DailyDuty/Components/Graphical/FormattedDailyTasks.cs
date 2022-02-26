@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
 using DailyDuty.Interfaces;
 
 namespace DailyDuty.Components.Graphical
@@ -8,12 +9,9 @@ namespace DailyDuty.Components.Graphical
     {
         private readonly List<ICompletable> tasks;
         List<ICompletable> ITaskCategoryDisplay.Tasks => tasks;
-        public Vector4 HeaderColor => Service.Configuration.TodoWindowSettings.HeaderColor;
 
-        public Vector4 ItemIncompleteColor => Service.Configuration.TodoWindowSettings.IncompleteColor;
-
-        public Vector4 ItemCompleteColor => Service.Configuration.TodoWindowSettings.CompleteColor;
-
+        public TaskColors Colors => Service.Configuration.Windows.Todo.Colors;
+        
         public FormattedDailyTasks(List<ICompletable> tasks)
         {
             this.tasks = tasks;

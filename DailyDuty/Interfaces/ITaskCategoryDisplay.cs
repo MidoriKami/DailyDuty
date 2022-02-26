@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -9,15 +10,14 @@ namespace DailyDuty.Interfaces
     internal interface ITaskCategoryDisplay
     {
         protected List<ICompletable> Tasks { get; }
-        public Vector4 HeaderColor { get; }
-        public Vector4 ItemIncompleteColor { get; }
-        public Vector4 ItemCompleteColor { get; }
+        public TaskColors Colors { get; }
+
         public string HeaderText { get; }
-        private bool ShowCompletedTasks => Service.Configuration.TodoWindowSettings.ShowTasksWhenComplete;
+        private bool ShowCompletedTasks => Service.Configuration.Windows.Todo.ShowTasksWhenComplete;
         
         public void Draw()
         {
-            ImGui.TextColored(HeaderColor, HeaderText);
+            ImGui.TextColored(Colors.HeaderColor, HeaderText);
             ImGui.Spacing();
 
             ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
@@ -33,7 +33,7 @@ namespace DailyDuty.Interfaces
 
             if (allTasksComplete == true && !ShowCompletedTasks)
             {
-                ImGui.TextColored(ItemCompleteColor, "All Tasks Complete");
+                ImGui.TextColored(Colors.CompleteColor, "All Tasks Complete");
                 ImGui.Spacing();
             }
 
@@ -51,11 +51,11 @@ namespace DailyDuty.Interfaces
         {
             if (task.IsCompleted() == false && task.GenericSettings.Enabled)
             {
-                ImGui.TextColored(ItemIncompleteColor, task.HeaderText);
+                ImGui.TextColored(Colors.IncompleteColor, task.HeaderText);
             }
             else if (task.IsCompleted() == true && task.GenericSettings.Enabled && ShowCompletedTasks)
             {
-                ImGui.TextColored(ItemCompleteColor, task.HeaderText);
+                ImGui.TextColored(Colors.IncompleteColor, task.HeaderText);
             }
 
         }

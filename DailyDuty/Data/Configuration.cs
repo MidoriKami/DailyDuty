@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Addons;
+using DailyDuty.Data.SettingsObjects.Notice;
 using DailyDuty.Data.SettingsObjects.Timers;
-using DailyDuty.Data.SettingsObjects.WindowSettings;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;
 using Dalamud.Configuration;
@@ -17,12 +17,9 @@ namespace DailyDuty.Data
         public int Version { get; set; } = 1;
 
         public SystemSettings System = new();
-
-        public TimersSettings TimersSettings = new();
-        public TodoWindowSettings TodoWindowSettings = new();
-        public SettingsWindowSettings SettingsWindowSettings = new();
-        public TimersWindowSettings TimersWindowSettings = new();
-        public DutyFinderAddonSettings DutyFinderAddonSettings = new();
+        public TimersSettings Timers = new();
+        public WindowsSettings Windows = new();
+        public AddonSettings Addons = new();
     
         public Dictionary<ulong, CharacterSettings> CharacterSettingsMap = new();
 
