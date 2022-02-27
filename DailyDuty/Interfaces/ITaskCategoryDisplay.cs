@@ -55,7 +55,7 @@ namespace DailyDuty.Interfaces
             }
             else if (task.IsCompleted() == true && task.GenericSettings.Enabled && ShowCompletedTasks)
             {
-                ImGui.TextColored(Colors.IncompleteColor, task.HeaderText);
+                ImGui.TextColored(Colors.CompleteColor, task.HeaderText);
             }
 
         }
