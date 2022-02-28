@@ -13,6 +13,7 @@ namespace DailyDuty.Utilities.Helpers
             {
                 TeleportLocation.GoldSaucer => GetByID(62),
                 TeleportLocation.Idyllshire => GetByID(75),
+                TeleportLocation.DomanEnclave => GetByID(127),
                 _ => throw new Exception("Invalid TeleportLocation Requested")
             };
         }

@@ -26,6 +26,7 @@ namespace DailyDuty.System
 
             payloads.Add(TeleportPayloads.GoldSaucerTeleport, AddPayload(TeleportPayloads.GoldSaucerTeleport));
             payloads.Add(TeleportPayloads.IdyllshireTeleport, AddPayload(TeleportPayloads.IdyllshireTeleport));
+            payloads.Add(TeleportPayloads.DomanEnclave, AddPayload(TeleportPayloads.DomanEnclave));
 
         }
 
@@ -57,6 +58,10 @@ namespace DailyDuty.System
 
                 case TeleportPayloads.GoldSaucerTeleport:
                     Teleport(AetheryteHelper.Get(TeleportLocation.GoldSaucer));
+                    break;
+
+                case TeleportPayloads.DomanEnclave:
+                    Teleport(AetheryteHelper.Get(TeleportLocation.DomanEnclave));
                     break;
 
                 default:
