@@ -69,11 +69,16 @@ namespace DailyDuty.Utilities
 
         public static void EditNumberField(string label, string categoryString, ref int refValue)
         {
+            EditNumberField(label, categoryString, 30, ref refValue);
+        }
+
+        public static void EditNumberField(string label, string categoryString, float fieldWidth, ref int refValue)
+        {
             ImGui.Text(label);
 
             ImGui.SameLine();
 
-            ImGui.PushItemWidth(30 * ImGuiHelpers.GlobalScale);
+            ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
             ImGui.InputInt($"##{label}{categoryString}", ref refValue, 0, 0);
             ImGui.PopItemWidth();
         }
