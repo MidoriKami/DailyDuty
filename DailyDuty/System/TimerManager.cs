@@ -28,7 +28,8 @@ namespace DailyDuty.System
                 new WeeklyResetTimer(settings.Weekly),
                 new FashionReportResetTimer(settings.FashionReport),
                 new TreasureMapTimer(settings.TreasureMap),
-                new JumboCactpotResetTimer(settings.JumboCactpot)
+                new JumboCactpotResetTimer(settings.JumboCactpot),
+                new LeveAllowanceTimer(settings.LeveAllowance),
             };
         }
         

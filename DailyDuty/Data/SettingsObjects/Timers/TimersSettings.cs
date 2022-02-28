@@ -7,5 +7,6 @@
         public TimerSettings FashionReport = new();
         public TimerSettings TreasureMap = new();
         public TimerSettings JumboCactpot = new();
+        public TimerSettings LeveAllowance = new();
     }
 }

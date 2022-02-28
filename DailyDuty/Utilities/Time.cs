@@ -45,6 +45,20 @@ namespace DailyDuty.Utilities
             return NextWeeklyReset().AddDays(-4);
         }
 
+        public static DateTime NextLeveAllowanceReset()
+        {
+            var now = DateTime.UtcNow;
+            
+            if( now.Hour < 12 )
+            {
+                return now.Date.AddHours(12);   
+            }
+            else
+            {
+                return now.AddDays(1).Date.AddHours(12);
+            }
+        }
+
         public static DateTime NextDayOfWeek(DayOfWeek weekday)
         {
             var now = DateTime.UtcNow;
