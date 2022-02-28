@@ -2,6 +2,7 @@
 {
     internal enum AddonName
     {
-        DutyFinder
+        DutyFinder,
+        ReconstructionBox
     }
 }
