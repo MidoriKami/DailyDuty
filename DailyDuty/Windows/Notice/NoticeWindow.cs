@@ -77,8 +77,8 @@ namespace DailyDuty.Windows.Notice
 
         public override void Draw()
         {
-            ImGui.Text("Basic Information:");
             ImGui.Spacing();
+
             ImGui.Text("DailyDuty is very much still a work in progress\n" +
                        "This is a HUGE project that I am working on in my free time when inspiration strikes");
             ImGui.Spacing();
