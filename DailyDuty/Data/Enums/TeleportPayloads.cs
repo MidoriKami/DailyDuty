@@ -4,5 +4,6 @@
     {
         IdyllshireTeleport,
         GoldSaucerTeleport,
+        DomanEnclave
     }
 }

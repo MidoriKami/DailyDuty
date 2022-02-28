@@ -4,5 +4,6 @@
     {
         GoldSaucer,
         Idyllshire,
+        DomanEnclave
     }
 }
