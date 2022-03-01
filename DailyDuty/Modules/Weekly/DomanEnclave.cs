@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Weekly;
@@ -13,7 +14,8 @@ namespace DailyDuty.Modules.Weekly
         IConfigurable,
         ICompletable,
         IZoneChangeThrottledNotification,
-        ILoginNotification
+        ILoginNotification,
+        IWeeklyResettable
     {
         public void Dispose()
         {
@@ -73,6 +75,17 @@ namespace DailyDuty.Modules.Weekly
         public bool IsCompleted()
         {
             return Settings.CurrentEarnings >= Settings.Budget;
+        }
+
+        public DateTime NextReset
+        {
+            get => Settings.NextReset;
+            set => Settings.NextReset = value;
+        }
+
+        void IResettable.ResetThis(CharacterSettings settings)
+        {
+            Settings.CurrentEarnings = 0;
         }
     }
 }
