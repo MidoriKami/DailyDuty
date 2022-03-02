@@ -88,9 +88,9 @@ namespace DailyDuty.Modules.Weekly
             } 
         }
 
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
-            foreach (var hunt in settings.HuntMarks.TrackedHunts)
+            foreach (var hunt in Settings.TrackedHunts)
             {
                 hunt.Obtained = false;
             }

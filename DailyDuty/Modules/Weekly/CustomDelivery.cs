@@ -44,9 +44,9 @@ namespace DailyDuty.Modules.Weekly
             PrintRemainingAllowances();
         }
 
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
-            settings.CustomDelivery.AllowancesRemaining = 12;
+            Settings.AllowancesRemaining = 12;
         }
 
         public void Update()

@@ -120,11 +120,8 @@ namespace DailyDuty.System
             foreach (var resettable in modules.OfType<IResettable>())
             {
                 if (!resettable.NeedsResetting()) continue;
-
-                foreach (var characterSettings in Service.Configuration.CharacterSettingsMap.Values)
-                {
-                    resettable.DoReset(characterSettings);
-                }
+                    
+                resettable.DoReset();
             }
         }
 

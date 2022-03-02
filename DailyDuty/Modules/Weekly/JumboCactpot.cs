@@ -116,9 +116,9 @@ namespace DailyDuty.Modules.Weekly
             return GetNextReset();
         }
 
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
-            PurgeExpiredTickets();
+            Settings.CollectedTickets.RemoveAll(t => DateTime.UtcNow > t.ExpirationDate);
         }
 
         //
@@ -204,11 +204,6 @@ namespace DailyDuty.Modules.Weekly
                     Service.Configuration.Save();
                 }
             }
-        }
-
-        private void PurgeExpiredTickets()
-        {
-            Settings.CollectedTickets.RemoveAll(t => DateTime.UtcNow > t.ExpirationDate);
         }
 
         private void UpdatePlayerRegion()

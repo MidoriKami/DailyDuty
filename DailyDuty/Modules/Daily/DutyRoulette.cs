@@ -162,7 +162,7 @@ namespace DailyDuty.Modules.Daily
             }
         }
 
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
             foreach (var task in Settings.TrackedRoulettes)
             {

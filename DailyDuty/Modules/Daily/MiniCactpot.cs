@@ -69,9 +69,9 @@ namespace DailyDuty.Modules.Daily
             UpdateMiniCactpot();
         }
 
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
-            settings.MiniCactpot.TicketsRemaining = 3;
+            Settings.TicketsRemaining = 3;
         }
 
         public void SendNotification()

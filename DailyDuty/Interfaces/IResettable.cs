@@ -14,16 +14,16 @@ namespace DailyDuty.Interfaces
 
         protected DateTime GetNextReset();
 
-        public void DoReset(CharacterSettings settings)
+        public void DoReset()
         {
-            ResetThis(settings);
+            ResetThis();
 
             NextReset = GetNextReset();
 
             Service.Configuration.Save();
         }
 
-        protected void ResetThis(CharacterSettings settings);
+        protected void ResetThis();
 
     }
 }

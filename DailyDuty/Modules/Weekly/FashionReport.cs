@@ -133,12 +133,10 @@ namespace DailyDuty.Modules.Weekly
             UpdateFashionReport();
         }
     
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
-            var fashionReportSettings = settings.FashionReport;
-
-            fashionReportSettings.AllowancesRemaining = 4;
-            fashionReportSettings.HighestWeeklyScore = 0;
+            Settings.AllowancesRemaining = 4;
+            Settings.HighestWeeklyScore = 0;
         }
 
         //

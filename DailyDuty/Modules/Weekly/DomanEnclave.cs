@@ -83,9 +83,9 @@ namespace DailyDuty.Modules.Weekly
             set => Settings.NextReset = value;
         }
 
-        void IResettable.ResetThis(CharacterSettings settings)
+        void IResettable.ResetThis()
         {
-            settings.DomanEnclave.CurrentEarnings = 0;
+            Settings.CurrentEarnings = 0;
         }
     }
 }
