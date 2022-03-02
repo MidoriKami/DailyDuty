@@ -3,6 +3,7 @@
     internal enum AddonName
     {
         DutyFinder,
-        ReconstructionBox
+        ReconstructionBox,
+        LotteryWeeklyInput
     }
 }

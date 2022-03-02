@@ -1,30 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
+using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Addons;
+using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game;
 using Dalamud.Hooking;
-using Dalamud.Logging;
-using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons
 {
-    internal unsafe class ReconstructionBoxAddonModule : IAddonModule
+    internal unsafe class LotteryWeeklyInputAddonModule : IAddonModule
     {
-        public AddonName AddonName => AddonName.ReconstructionBox;
-        private DomanEnclaveSettings Settings => Service.Configuration.Current().DomanEnclave;
+        public AddonName AddonName => AddonName.LotteryWeeklyInput;
+        private JumboCactpotSettings Settings => Service.Configuration.Current().JumboCactpot;
 
         private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5);
         private delegate void* Finalize(AtkUnitBase* atkUnitBase);
@@ -32,14 +28,11 @@ namespace DailyDuty.Addons
         private Hook<EventHandle>? eventHandleHook = null;
         private Hook<Finalize>? finalizeHook = null;
 
-        private bool depositButtonPressed = false;
-        private int depositAmount = 0;
+        private bool purchaseButtonPressed = false;
         private AtkUnitBase* addonAddress = null;
 
-        public ReconstructionBoxAddonModule()
+        public LotteryWeeklyInputAddonModule()
         {
-            SignatureHelper.Initialise(this);
-
             Service.Framework.Update += FrameworkOnUpdate;
         }
 
@@ -53,15 +46,15 @@ namespace DailyDuty.Addons
 
         private void FrameworkOnUpdate(Framework framework)
         {
-            if (IsReconstructionBoxOpen() == false) return;
+            if (IsWeeklyInputWindowOpen() == false) return;
 
             var addonPointer = GetAddonPointer();
-            var depositButton = GetDepositButton();
+            var purchaseButton = GetPurchaseButton();
 
-            if (addonPointer == null || depositButton == null) return;
+            if (addonPointer == null || purchaseButton == null) return;
             
             var finalizePointer = addonPointer->AtkEventListener.vfunc[38];
-            var eventHandlePointer = depositButton->AtkEventListener.vfunc[2];
+            var eventHandlePointer = purchaseButton->AtkEventListener.vfunc[2];
 
             eventHandleHook = new Hook<EventHandle>(new IntPtr(eventHandlePointer), OnButtonEvent);
             finalizeHook = new Hook<Finalize>(new IntPtr(finalizePointer), OnFinalize);
@@ -75,19 +68,19 @@ namespace DailyDuty.Addons
         private void* OnFinalize(AtkUnitBase* atkUnitBase)
         {
             if (Settings.Enabled)
-            {
+            {                
                 var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
-                if (depositButtonPressed && atkUnitBase == addonAddress && yesPopupSelected)
+                if (purchaseButtonPressed && atkUnitBase == addonAddress && yesPopupSelected)
                 {
-                    if (Settings.ShowTrackedDonationAmount)
+                    purchaseButtonPressed = false;
+                    Settings.CollectedTickets.Add(new TicketData
                     {
-                        Chat.Print("DonationAmount", $"{depositAmount:n0} gil donated to Doman Enclave");
-                    }
-
-                    depositButtonPressed = false;
-                    Settings.CurrentEarnings += depositAmount;
+                        DrawingAvailableTime = GetNextReset(),
+                        ExpirationDate = GetNextReset().AddDays(7),
+                        CollectedDate = DateTime.UtcNow
+                    });
                     Service.Configuration.Save();
                 }
             }
@@ -104,16 +97,14 @@ namespace DailyDuty.Addons
                     // Close Button
                     if (atkUnitBase == GetCloseButton())
                     {
-                        depositButtonPressed = false;
-                        depositAmount = 0;
+                        purchaseButtonPressed = false;
                         AddonManager.YesNoAddonHelper.ResetState();
                     }
 
                     // Deposit Button
-                    else if (atkUnitBase == GetDepositButton())
+                    else if (atkUnitBase == GetPurchaseButton())
                     {
-                        depositButtonPressed = true;
-                        depositAmount = GetGrandTotal();
+                        purchaseButtonPressed = true;
                         addonAddress = GetAddonPointer();
                         AddonManager.YesNoAddonHelper.ResetState();
                     }
@@ -127,23 +118,27 @@ namespace DailyDuty.Addons
         //  Implementation
         //
 
-        private bool IsReconstructionBoxOpen()
+        private bool IsWeeklyInputWindowOpen()
         {
             return GetAddonPointer() != null;
         }
 
         private AtkUnitBase* GetAddonPointer()
         {
-            return (AtkUnitBase*)Service.GameGui.GetAddonByName("ReconstructionBox", 1);
+            return (AtkUnitBase*)Service.GameGui.GetAddonByName("LotteryWeeklyInput", 1);
         }
 
-        private AtkComponentBase* GetDepositButton()
+        private AtkComponentBase* GetPurchaseButton()
         {
             var basePointer = GetAddonPointer();
 
             if(basePointer == null) return null;
 
-            return basePointer->GetNodeById(30)->GetComponent();
+            var purchaseButtonNode = (AtkComponentNode*)basePointer->GetNodeById(31);
+
+            if(purchaseButtonNode == null) return null;
+
+            return purchaseButtonNode->Component;
         }
 
         private AtkComponentBase* GetCloseButton()
@@ -152,30 +147,16 @@ namespace DailyDuty.Addons
 
             if(basePointer == null) return null;
 
-            var windowComponent = (AtkComponentNode*)basePointer->GetNodeById(31);
-            if(windowComponent == null) return null;
+            var closeButtonNode = (AtkComponentNode*)basePointer->GetNodeById(35);
 
-            var closeButtonNode = Node.GetNodeByID<AtkComponentNode>(windowComponent, 2);
+            if(closeButtonNode == null) return null;
+
             return closeButtonNode->Component;
         }
 
-        private AtkTextNode* GetGrandTotalTextNode()
+        private DateTime GetNextReset()
         {
-            var basePointer = GetAddonPointer();
-            
-            if(basePointer == null) return null;
-
-            return (AtkTextNode*)basePointer->GetNodeById(25);
-        }
-
-        private int GetGrandTotal()
-        {
-            var textNode = GetGrandTotalTextNode();
-            if(textNode == null) return 0;
-
-            var resultString = Regex.Replace(textNode->NodeText.ToString().ToLower(), "\\P{N}", "");
-
-            return int.Parse(resultString);
+            return DatacenterLookup.GetDrawingTime(Settings.PlayerRegion);
         }
     }
 }

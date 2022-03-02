@@ -21,7 +21,6 @@ namespace DailyDuty.Modules.Weekly
         ILoginNotification,
         ICompletable
     {
-        private bool purchaseTicketExchangeStarted;
         private bool collectRewardExchangeStarted;
 
         private JumboCactpotSettings Settings => Service.Configuration.Current().JumboCactpot;
@@ -66,16 +65,7 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            ImGui.Text("Add ticket to tracking");
 
-            if (ImGui.Button($"Add Ticket##{HeaderText}"))
-            {
-                if (GetAvailableTickets() > 0)
-                {
-                    AddNewTicket();
-                    Service.Configuration.Save();
-                }
-            }
         }
 
         public void DisplayData()
@@ -100,8 +90,6 @@ namespace DailyDuty.Modules.Weekly
         public void Update()
         {
             UpdatePlayerRegion();
-
-            PurchaseTicket();
 
             CollectReward();
         }
@@ -148,35 +136,6 @@ namespace DailyDuty.Modules.Weekly
             var now = DateTime.UtcNow;
 
             return Settings.CollectedTickets.Count(t => now < t.DrawingAvailableTime);
-        }
-
-        private void PurchaseTicket()
-        {
-            // If the window is open
-            if (GetPurchaseTicketWindow() != null)
-            {
-                purchaseTicketExchangeStarted = true;
-            }
-
-            // If the window was previously open
-            else if(purchaseTicketExchangeStarted == true)
-            {
-                purchaseTicketExchangeStarted = false;
-
-                AddNewTicket();
-
-                Service.Configuration.Save();
-            }
-        }
-
-        private void AddNewTicket()
-        {
-            Settings.CollectedTickets.Add(new TicketData
-            {
-                DrawingAvailableTime = GetNextReset(),
-                ExpirationDate = GetNextReset().AddDays(7),
-                CollectedDate = DateTime.UtcNow
-            });
         }
 
         private void CollectReward()
