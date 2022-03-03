@@ -44,8 +44,9 @@ namespace DailyDuty.System
 
         private readonly Queue<IUpdateable> updateQueue;
         private readonly Stopwatch resetDelayStopwatch = new();
-        private int zoneChangeCounter;
-        
+
+        private readonly Stopwatch reminderThrottleStopwatch = new();
+
         public ModuleManager()
         {
             updateQueue = new(modules.OfType<IUpdateable>());
@@ -67,10 +68,16 @@ namespace DailyDuty.System
 
             AlwaysOnTerritoryChanged(sender, e);
 
-            zoneChangeCounter++;
-            if (zoneChangeCounter % Service.Configuration.System.ZoneChangeDelayRate != 0) return;
-
-            ThrottledOnTerritoryChanged(sender, e);
+            if (reminderThrottleStopwatch.IsRunning == false)
+            {
+                reminderThrottleStopwatch.Start();
+                ThrottledOnTerritoryChanged(sender, e);
+            }
+            else if(reminderThrottleStopwatch.Elapsed.Minutes >= Service.Configuration.System.MinutesBetweenThrottledMessages)
+            {
+                reminderThrottleStopwatch.Restart();
+                ThrottledOnTerritoryChanged(sender, e);
+            }
         }
 
         private void ThrottledOnTerritoryChanged(object? sender, ushort @ushort)

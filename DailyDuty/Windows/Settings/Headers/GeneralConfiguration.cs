@@ -46,27 +46,25 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void NotificationDelaySettings()
         {
-            ImGui.PushItemWidth(23 * ImGuiHelpers.GlobalScale);
+            ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
             ImGui.InputInt($"##ZoneChangeDelay{HeaderText}",
-                ref Service.Configuration.System.ZoneChangeDelayRate, 0, 0);
+                ref Service.Configuration.System.MinutesBetweenThrottledMessages, 0, 0);
 
             ImGui.PopItemWidth();
             ImGui.SameLine();
-            ImGui.Text("Zone Changes Before Resending Notifications");
+            ImGui.Text("Minutes Before Resending Notifications");
 
-            ImGuiComponents.HelpMarker("Prevents sending notifications until this many zone changes have happened\n" +
-                                       "1: Notify on Every Zone Change\n" +
-                                       "10: Notify on Every 10th Zone change\n" +
-                                       "Minimum: 1\n" +
-                                       "Maximum: 10");
+            ImGuiComponents.HelpMarker("Prevents sending notifications until this many minutes have elapsed\n" +
+                                       "Minimum:  1 Minute\n" +
+                                       "Maximum: 60 Minutes");
 
-            if (Service.Configuration.System.ZoneChangeDelayRate < 1)
+            if (Service.Configuration.System.MinutesBetweenThrottledMessages < 1)
             {
-                Service.Configuration.System.ZoneChangeDelayRate = 1;
+                Service.Configuration.System.MinutesBetweenThrottledMessages = 1;
             }
-            else if (Service.Configuration.System.ZoneChangeDelayRate > 10)
+            else if (Service.Configuration.System.MinutesBetweenThrottledMessages > 60)
             {
-                Service.Configuration.System.ZoneChangeDelayRate = 10;
+                Service.Configuration.System.MinutesBetweenThrottledMessages = 60;
             }
         }
     }
