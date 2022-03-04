@@ -186,7 +186,7 @@ namespace DailyDuty.Modules.Weekly
             return Settings.Mode switch
             {
                 FashionReportMode.Single => Settings.AllowancesRemaining < 4,
-                FashionReportMode.Plus80 => Settings.AllowancesRemaining < 4 && Settings.HighestWeeklyScore >= 80,
+                FashionReportMode.Plus80 => (Settings.AllowancesRemaining < 4 && Settings.HighestWeeklyScore >= 80) || Settings.AllowancesRemaining == 0,
                 FashionReportMode.All => Settings.AllowancesRemaining == 0,
                 _ => false
             };
