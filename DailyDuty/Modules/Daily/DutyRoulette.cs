@@ -139,6 +139,11 @@ namespace DailyDuty.Modules.Daily
             ImGui.Text("Only detects that you started a duty roulette\n" +
                        "Does not detect successful completion");
 
+            ImGui.Spacing();
+
+            ImGui.TextColored(Colors.SoftRed, "Does not detect completion if started before reset\n" +
+                                              "and subsequently completed after reset");
+
             DisplayTrackingGrid();
 
             ImGui.Spacing();

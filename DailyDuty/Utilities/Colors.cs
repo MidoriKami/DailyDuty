@@ -14,5 +14,6 @@ namespace DailyDuty.Utilities
         public static Vector4 HealerGreen = new Vector4(33 / 255f, 193 / 255f, 0, 1.0f);
         public static Vector4 DPSRed = new Vector4(210/255f, 42/255f, 43/255f, 1.0f);
         public static Vector4 DutyFinderOrange = new Vector4(0xF1/255f,0xE3/255f,0xCC/255f,1.0f);
+        public static Vector4 SoftRed = new Vector4(0.8f, 0.2f, 0.2f, 1.0f);
     }
 }
