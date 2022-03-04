@@ -59,18 +59,25 @@ namespace DailyDuty.Modules.Weekly
         {
             if (Condition.IsBoundByDuty() == true) return;
 
-            if (Settings.Mode == FashionReportMode.Single)
+            if(FashionReportAvailable() && Settings.AllowancesRemaining > 0)
             {
-                if (Settings.AllowancesRemaining == 4 && FashionReportAvailable())
+                switch(Settings.Mode)
                 {
-                    Chat.Print(HeaderText, "Fashion Report Available", goldSaucerTeleport);
-                }
-            }
-            else if (Settings.Mode == FashionReportMode.All)
-            {
-                if (Settings.AllowancesRemaining > 0 && FashionReportAvailable())
-                {
-                    Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining", goldSaucerTeleport);
+                    case FashionReportMode.Single:
+                        if(Settings.AllowancesRemaining == 4)
+                        {
+                            Chat.Print(HeaderText, "Fashion Report Available", goldSaucerTeleport);
+                        }
+                        break;
+                    case FashionReportMode.Plus80:
+                        if (Settings.HighestWeeklyScore < 80)
+                        {
+                            Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining, Highest score: {Settings.HighestWeeklyScore}", goldSaucerTeleport);
+                        }
+                        break;
+                    case FashionReportMode.All:
+                        Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining", goldSaucerTeleport);
+                        break;
                 }
             }
         }
@@ -88,19 +95,16 @@ namespace DailyDuty.Modules.Weekly
         {
             ImGui.Text("Notification Mode");
 
-
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
             ImGui.RadioButton($"Single##{HeaderText}", ref modeSelect, (int)FashionReportMode.Single);
             ImGuiComponents.HelpMarker("Only notify if no allowances have been spent this week and fashion report is available for turn-in");
-            ImGui.SameLine();
 
-            ImGui.Indent(125 * ImGuiHelpers.GlobalScale);
+            ImGui.RadioButton($"80 Plus##{HeaderText}", ref modeSelect, (int)FashionReportMode.Plus80);
+            ImGuiComponents.HelpMarker("Notify if any allowances remain this week, the highest score is below 80 and fashion report is available for turn-in");
 
             ImGui.RadioButton($"All##{HeaderText}", ref modeSelect, (int) FashionReportMode.All);
-            ImGuiComponents.HelpMarker("notify if any allowances remain this week and fashion report is available for turn-in");
-
-            ImGui.Indent(-125 * ImGuiHelpers.GlobalScale);
+            ImGuiComponents.HelpMarker("Notify if any allowances remain this week and fashion report is available for turn-in");
 
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
 
@@ -182,6 +186,7 @@ namespace DailyDuty.Modules.Weekly
             return Settings.Mode switch
             {
                 FashionReportMode.Single => Settings.AllowancesRemaining < 4,
+                FashionReportMode.Plus80 => Settings.AllowancesRemaining < 4 && Settings.HighestWeeklyScore >= 80,
                 FashionReportMode.All => Settings.AllowancesRemaining == 0,
                 _ => false
             };
