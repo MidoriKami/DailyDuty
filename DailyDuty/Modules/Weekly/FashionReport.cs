@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.FashionReport;
@@ -180,16 +181,24 @@ namespace DailyDuty.Modules.Weekly
 
         private bool FashionReportComplete()
         {
-            if (FashionReportAvailable() == false)
-                return true;
+            if (FashionReportAvailable() == false) return true;
 
-            return Settings.Mode switch
+            // Zero is always "Complete"
+            // Four is always "Incomplete"
+            if (Settings.AllowancesRemaining == 0) return true;
+            if (Settings.AllowancesRemaining == 4) return false;
+
+            // If this line is reached, then we have between 1 and 3 remaining allowances (inclusive)
+            switch (Settings.Mode)
             {
-                FashionReportMode.Single => Settings.AllowancesRemaining < 4,
-                FashionReportMode.Plus80 => (Settings.AllowancesRemaining < 4 && Settings.HighestWeeklyScore >= 80) || Settings.AllowancesRemaining == 0,
-                FashionReportMode.All => Settings.AllowancesRemaining == 0,
-                _ => false
-            };
+                case FashionReportMode.Single:
+                case FashionReportMode.All when Settings.AllowancesRemaining == 0:
+                case FashionReportMode.Plus80 when Settings.HighestWeeklyScore >= 80:
+                    return true;
+
+                default:
+                    return false;
+            }
         }
 
         private static bool FashionReportAvailable()
