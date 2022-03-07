@@ -68,12 +68,7 @@ namespace DailyDuty.System
 
             AlwaysOnTerritoryChanged(sender, e);
 
-            if (reminderThrottleStopwatch.IsRunning == false)
-            {
-                reminderThrottleStopwatch.Start();
-                ThrottledOnTerritoryChanged(sender, e);
-            }
-            else if(reminderThrottleStopwatch.Elapsed.Minutes >= Service.Configuration.System.MinutesBetweenThrottledMessages)
+            if(reminderThrottleStopwatch.Elapsed.Minutes >= Service.Configuration.System.MinutesBetweenThrottledMessages)
             {
                 reminderThrottleStopwatch.Restart();
                 ThrottledOnTerritoryChanged(sender, e);
@@ -99,6 +94,8 @@ namespace DailyDuty.System
         private void PreOnLogin(object? sender, EventArgs e)
         {
             Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
+
+            reminderThrottleStopwatch.Restart();
         }
 
         private void OnLoginDelayed()
