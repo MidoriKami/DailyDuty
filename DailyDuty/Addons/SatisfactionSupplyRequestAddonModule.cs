@@ -22,9 +22,11 @@ namespace DailyDuty.Addons
         
         public AddonName AddonName => AddonName.SatisfactionSupplyRequest;
 
-        private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5);
+        private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5);
         private delegate void* Finalize(AtkUnitBase* atkUnitBase);
+        private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
 
+        private Hook<OnSetup>? onSetupHook = null;
         private Hook<EventHandle>? eventHandleHook = null;
         private Hook<Finalize>? finalizeHook = null;
 
@@ -40,6 +42,7 @@ namespace DailyDuty.Addons
         {
             Service.Framework.Update -= FrameworkOnUpdate;
 
+            onSetupHook?.Dispose();
             eventHandleHook?.Dispose();
             finalizeHook?.Dispose();
         }
@@ -50,89 +53,78 @@ namespace DailyDuty.Addons
             if (IsRequestWindowOpen() == false) return;
 
             var addonPointer = GetCustomDeliveryPointer();
-            var depositButton = GetHandOverButton();
+            var handOverButton = GetHandOverButton();
 
-            if (addonPointer == null || depositButton == null) return;
+            if (addonPointer == null || handOverButton == null) return;
             
+            var setupPointer = addonPointer->AtkEventListener.vfunc[45];
             var finalizePointer = addonPointer->AtkEventListener.vfunc[38];
-            var eventHandlePointer = depositButton->AtkEventListener.vfunc[2];
+            var eventHandlePointer = handOverButton->AtkEventListener.vfunc[2];
 
+            onSetupHook = new Hook<OnSetup>(new IntPtr(setupPointer), OnSetupHandler);
             eventHandleHook = new Hook<EventHandle>(new IntPtr(eventHandlePointer), OnButtonEvent);
             finalizeHook = new Hook<Finalize>(new IntPtr(finalizePointer), OnFinalize);
 
+            onSetupHook.Enable();
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
-        private void* OnFinalize(AtkUnitBase* atkUnitBase)
+        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
         {
-            if (Settings.Enabled)
-            {
-                Chat.Debug("CustomDelivery::Finalize");
+            HandOverButtonPressed = false;
+            addonAddress = atkUnitBase;
 
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
-                var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
-                var yesNoNotOpened = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
+            AddonManager.YesNoAddonHelper.ResetState();
 
-                Chat.Debug($"YesNoState:{yesNoState}");
-
-                if (HandOverButtonPressed && atkUnitBase == addonAddress && (yesPopupSelected || yesNoNotOpened))
-                {
-                    Chat.Debug("Perform Logic!");
-                    //if (Settings.ShowTrackedDonationAmount)
-                    //{
-                    //    Chat.Print("DonationAmount", $"{depositAmount:n0} gil donated to Doman Enclave");
-                    //}
-
-                    //HandOverButtonPressed = false;
-                    //Settings.CurrentEarnings += depositAmount;
-                    //Service.Configuration.Save();
-                }
-            }
-            
-            return finalizeHook!.Original(atkUnitBase);
+            return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
-
-        private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5)
+        
+        private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5)
         {
-            if (Settings.Enabled)
+            // If this module is enabled
+            if (Settings.Enabled && IsCustomDeliveryWindowOpen())
             {
-                // Click!
-                if (eventType == AtkEventType.MouseDown)
+                switch (eventType)
                 {
-                    var eventData = (MouseClickEventData*) a5;
+                    case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetHandOverButton():
 
-                    // We are a Left Click!
-                    if (eventData->RightClick == false)
-                    {
-                        // Left Click on what we care about
-                        if (atkUnitBase == GetHandOverButton())
+                        var button = (AtkComponentButton*) atkUnitBase;
+
+                        if (button->IsEnabled)
                         {
-                            var buttonNode = (AtkComponentButton*) atkUnitBase;
+                            HandOverButtonPressed = true;
 
-                            if (buttonNode->IsEnabled)
-                            {
-
-
-                                HandOverButtonPressed = true;
-                                addonAddress = GetCustomDeliveryPointer();
-                                AddonManager.YesNoAddonHelper.ResetState();
-                            }
+                            AddonManager.YesNoAddonHelper.ResetState();
                         }
+                        break;
 
-                        // Left click on something else
-                        else
-                        {
-                            Chat.Debug("Clicked on Something Else");
-                            HandOverButtonPressed = false;
-                        }
-                    }
+                    default:
+                        break;
                 }
             }
 
             return eventHandleHook!.Original(atkUnitBase, eventType, eventParam, atkEvent, a5);
+        }
+
+        private void* OnFinalize(AtkUnitBase* atkUnitBase)
+        {
+            if (Settings.Enabled && atkUnitBase == addonAddress)
+            {
+                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
+                var nullPopup = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
+
+                if (HandOverButtonPressed && ( yesPopupSelected || nullPopup ) )
+                {
+                    Settings.AllowancesRemaining -= 1;
+                    Service.Configuration.Save();
+                }
+            }
+            
+            return finalizeHook!.Original(atkUnitBase);
         }
 
         //

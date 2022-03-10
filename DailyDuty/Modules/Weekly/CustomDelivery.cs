@@ -13,7 +13,7 @@ namespace DailyDuty.Modules.Weekly
 {
     internal unsafe class CustomDelivery : 
         IConfigurable, 
-        IUpdateable,
+        //IUpdateable,
         IZoneChangeThrottledNotification,
         ILoginNotification,
         ICompletable,

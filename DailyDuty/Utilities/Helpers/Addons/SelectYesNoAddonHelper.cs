@@ -24,8 +24,10 @@ namespace DailyDuty.Utilities.Helpers.Addons
         private ButtonState lastState;
 
         private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5);
+        private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
 
         private Hook<EventHandle>? eventHandleHook = null;
+        private Hook<OnSetup>? onSetupHook = null;
 
         public SelectYesNoAddonHelper()
         {
@@ -34,9 +36,10 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
         public void Dispose()
         {
-            eventHandleHook?.Dispose();
-
             Service.Framework.Update -= OnFrameworkUpdate;
+
+            eventHandleHook?.Dispose();
+            onSetupHook?.Dispose();
         }
 
         public void ResetState()
@@ -58,13 +61,23 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
             if (addonPointer == null || yesButton == null) return;
             
+            var setupPointer = ((AtkUnitBase*)addonPointer)->AtkEventListener.vfunc[45];
             var eventHandlePointer = yesButton->AtkComponentBase.AtkEventListener.vfunc[2];
 
+            onSetupHook = new Hook<OnSetup>(new IntPtr(setupPointer), OnSetupHandler);
             eventHandleHook = new Hook<EventHandle>(new IntPtr(eventHandlePointer), OnButtonEvent);
 
+            onSetupHook.Enable();
             eventHandleHook.Enable();
 
             Service.Framework.Update -= OnFrameworkUpdate;
+        }
+
+        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        {
+            lastState = ButtonState.Neither;
+
+            return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
 
         private byte OnButtonEvent(AtkUnitBase* atkunitbase, AtkEventType eventtype, uint eventparam, AtkEvent* atkevent, void* a5)
@@ -82,10 +95,6 @@ namespace DailyDuty.Utilities.Helpers.Addons
                     else if (atkunitbase == pointer->NoButton)
                     {
                         lastState = ButtonState.No;
-                    }
-                    else
-                    {
-                        lastState = ButtonState.Neither;
                     }
                 }
             }
