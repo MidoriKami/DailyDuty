@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.JumboCactpot;
@@ -65,7 +66,40 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
+            var removeList = new List<TicketData>();
 
+            foreach (var ticket in Settings.CollectedTickets)
+            {
+                DrawTicketData(ticket);
+
+                if (ImGui.Button($"Remove##{HeaderText}{ticket.DrawingAvailableTime}{ticket.CollectedDate}{ticket.ExpirationDate}"))
+                {
+                    removeList.Add(ticket);
+                }
+
+                ImGui.Separator();
+            }
+
+            if (ImGui.Button($"Add New##{HeaderText}"))
+            {
+                Settings.CollectedTickets.Add(new TicketData
+                {
+                    DrawingAvailableTime = GetNextReset(),
+                    ExpirationDate = GetNextReset().AddDays(7),
+                    CollectedDate = DateTime.UtcNow
+                });
+                Service.Configuration.Save();
+            }
+
+            if (removeList.Count > 0)
+            {
+                foreach (var ticket in removeList)
+                {
+                    Settings.CollectedTickets.Remove(ticket);
+                }
+
+                Service.Configuration.Save();
+            }
         }
 
         public void DisplayData()
@@ -175,6 +209,14 @@ namespace DailyDuty.Modules.Weekly
                 Settings.PlayerRegion = region.Value;
             }
         }
+
+        private void DrawTicketData(TicketData data)
+        {
+            ImGui.Text("Collected: " + data.CollectedDate);
+            ImGui.Text("Drawing Time: " + data.DrawingAvailableTime);
+            ImGui.Text("Expires: " + data.ExpirationDate);
+        }
+
         private AtkUnitBase* GetPurchaseTicketWindow()
         {
             return (AtkUnitBase*) Service.GameGui.GetAddonByName("LotteryWeeklyInput", 1);
