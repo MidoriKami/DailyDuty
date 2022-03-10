@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects.Weekly;
+using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
 using DailyDuty.Utilities;
@@ -69,6 +70,8 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled)
             {                
+                Chat.Debug("LotteryWeekly::Finalize");
+
                 var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
@@ -92,21 +95,32 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled)
             {
-                if (eventType == AtkEventType.MouseClick)
+                if (atkUnitBase == GetCloseButton() || atkUnitBase == GetPurchaseButton())
                 {
-                    // Close Button
-                    if (atkUnitBase == GetCloseButton())
+                    if (eventType == AtkEventType.MouseDown)
                     {
-                        purchaseButtonPressed = false;
-                        AddonManager.YesNoAddonHelper.ResetState();
-                    }
+                        var button = (AtkComponentButton*) atkUnitBase;
 
-                    // Deposit Button
-                    else if (atkUnitBase == GetPurchaseButton())
-                    {
-                        purchaseButtonPressed = true;
-                        addonAddress = GetAddonPointer();
-                        AddonManager.YesNoAddonHelper.ResetState();
+                        if (button->IsEnabled)
+                        {
+                            var eventData = (MouseClickEventData*) a5;
+
+                            if (eventData->RightClick == false)
+                            {
+                                if (atkUnitBase == GetCloseButton())
+                                {
+                                    purchaseButtonPressed = false;
+                                    AddonManager.YesNoAddonHelper.ResetState();
+                                }
+
+                                if (atkUnitBase == GetPurchaseButton())
+                                {
+                                    purchaseButtonPressed = true;
+                                    addonAddress = GetAddonPointer();
+                                    AddonManager.YesNoAddonHelper.ResetState();
+                                }
+                            }
+                        }
                     }
                 }
             }

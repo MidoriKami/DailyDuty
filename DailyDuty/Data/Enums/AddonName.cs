@@ -4,6 +4,7 @@
     {
         DutyFinder,
         ReconstructionBox,
-        LotteryWeeklyInput
+        LotteryWeeklyInput,
+        SatisfactionSupplyRequest
     }
 }

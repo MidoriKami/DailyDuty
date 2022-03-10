@@ -17,7 +17,8 @@ namespace DailyDuty.Utilities.Helpers.Addons
         {
             Yes,
             No,
-            Neither
+            Neither,
+            Null
         }
 
         private ButtonState lastState;
@@ -40,7 +41,7 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
         public void ResetState()
         {
-            lastState = ButtonState.Neither;
+            lastState = ButtonState.Null;
         }
 
         public ButtonState GetLastState()
@@ -104,7 +105,5 @@ namespace DailyDuty.Utilities.Helpers.Addons
         {
             return (AddonSelectYesno*)Service.GameGui.GetAddonByName("SelectYesno", 1);
         }
-
-
     }
 }

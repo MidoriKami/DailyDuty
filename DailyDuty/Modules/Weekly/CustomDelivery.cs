@@ -15,6 +15,7 @@ namespace DailyDuty.Modules.Weekly
         IConfigurable, 
         IUpdateable,
         IZoneChangeThrottledNotification,
+        ILoginNotification,
         ICompletable,
         IWeeklyResettable
     {

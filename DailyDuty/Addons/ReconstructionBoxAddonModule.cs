@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.Weekly;
+using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
 using DailyDuty.Utilities;
@@ -38,8 +39,6 @@ namespace DailyDuty.Addons
 
         public ReconstructionBoxAddonModule()
         {
-            SignatureHelper.Initialise(this);
-
             Service.Framework.Update += FrameworkOnUpdate;
         }
 
@@ -76,19 +75,24 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
-                var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
-
-                if (depositButtonPressed && atkUnitBase == addonAddress && yesPopupSelected)
+                if (atkUnitBase == addonAddress)
                 {
-                    if (Settings.ShowTrackedDonationAmount)
-                    {
-                        Chat.Print("DonationAmount", $"{depositAmount:n0} gil donated to Doman Enclave");
-                    }
+                    Chat.Debug("ReconstructionBox::Finalize");
 
-                    depositButtonPressed = false;
-                    Settings.CurrentEarnings += depositAmount;
-                    Service.Configuration.Save();
+                    var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                    var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
+
+                    if (depositButtonPressed && yesPopupSelected)
+                    {
+                        if (Settings.ShowTrackedDonationAmount)
+                        {
+                            Chat.Print("DonationAmount", $"{depositAmount:n0} gil donated to Doman Enclave");
+                        }
+
+                        depositButtonPressed = false;
+                        Settings.CurrentEarnings += depositAmount;
+                        Service.Configuration.Save();
+                    }
                 }
             }
             
@@ -99,23 +103,34 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled)
             {
-                if (eventType == AtkEventType.MouseClick)
+                if (atkUnitBase == GetCloseButton() || atkUnitBase == GetDepositButton())
                 {
-                    // Close Button
-                    if (atkUnitBase == GetCloseButton())
+                    if (eventType == AtkEventType.MouseDown)
                     {
-                        depositButtonPressed = false;
-                        depositAmount = 0;
-                        AddonManager.YesNoAddonHelper.ResetState();
-                    }
+                        var button = (AtkComponentButton*) atkUnitBase;
 
-                    // Deposit Button
-                    else if (atkUnitBase == GetDepositButton())
-                    {
-                        depositButtonPressed = true;
-                        depositAmount = GetGrandTotal();
-                        addonAddress = GetAddonPointer();
-                        AddonManager.YesNoAddonHelper.ResetState();
+                        if (button->IsEnabled)
+                        {
+                            var eventData = (MouseClickEventData*) a5;
+
+                            if (eventData->RightClick == false)
+                            {
+                                if (atkUnitBase == GetCloseButton())
+                                {
+                                    depositButtonPressed = false;
+                                    depositAmount = 0;
+                                    AddonManager.YesNoAddonHelper.ResetState();
+                                }
+
+                                if (atkUnitBase == GetDepositButton())
+                                {
+                                    depositButtonPressed = true;
+                                    depositAmount = GetGrandTotal();
+                                    addonAddress = GetAddonPointer();
+                                    AddonManager.YesNoAddonHelper.ResetState();
+                                }
+                            }
+                        }
                     }
                 }
             }
