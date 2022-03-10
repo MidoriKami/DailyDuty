@@ -23,9 +23,11 @@ namespace DailyDuty.Addons
         public AddonName AddonName => AddonName.LotteryWeeklyInput;
         private JumboCactpotSettings Settings => Service.Configuration.Current().JumboCactpot;
 
-        private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5);
+        private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5);
+        private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
         private delegate void* Finalize(AtkUnitBase* atkUnitBase);
 
+        private Hook<OnSetup>? onSetupHook = null;
         private Hook<EventHandle>? eventHandleHook = null;
         private Hook<Finalize>? finalizeHook = null;
 
@@ -41,6 +43,7 @@ namespace DailyDuty.Addons
         {
             Service.Framework.Update -= FrameworkOnUpdate;
 
+            onSetupHook?.Dispose();
             eventHandleHook?.Dispose();
             finalizeHook?.Dispose();
         }
@@ -54,28 +57,66 @@ namespace DailyDuty.Addons
 
             if (addonPointer == null || purchaseButton == null) return;
             
+            var setupPointer = addonPointer->AtkEventListener.vfunc[45];
             var finalizePointer = addonPointer->AtkEventListener.vfunc[38];
             var eventHandlePointer = purchaseButton->AtkEventListener.vfunc[2];
 
+            onSetupHook = new Hook<OnSetup>(new IntPtr(setupPointer), OnSetupHandler);
             eventHandleHook = new Hook<EventHandle>(new IntPtr(eventHandlePointer), OnButtonEvent);
             finalizeHook = new Hook<Finalize>(new IntPtr(finalizePointer), OnFinalize);
 
+            onSetupHook.Enable();
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
+        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        {
+            purchaseButtonPressed = false;
+            addonAddress = atkUnitBase;
+
+            AddonManager.YesNoAddonHelper.ResetState();
+
+            return onSetupHook!.Original(atkUnitBase, a2, a3);
+        }
+
+        private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5)
+        {
+            // If this module is enabled
+            if (Settings.Enabled && IsWeeklyInputWindowOpen())
+            {
+                switch (eventType)
+                {
+                    case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetPurchaseButton():
+
+                        var button = (AtkComponentButton*) atkUnitBase;
+
+                        if (button->IsEnabled)
+                        {
+                            purchaseButtonPressed = true;
+
+                            AddonManager.YesNoAddonHelper.ResetState();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return eventHandleHook!.Original(atkUnitBase, eventType, eventParam, atkEvent, a5);
+        }
+
         private void* OnFinalize(AtkUnitBase* atkUnitBase)
         {
-            if (Settings.Enabled)
+            if (Settings.Enabled && atkUnitBase == addonAddress)
             {                
-                Chat.Debug("LotteryWeekly::Finalize");
-
                 var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
-                if (purchaseButtonPressed && atkUnitBase == addonAddress && yesPopupSelected)
+                if (purchaseButtonPressed  && yesPopupSelected)
                 {
                     purchaseButtonPressed = false;
                     Settings.CollectedTickets.Add(new TicketData
@@ -89,43 +130,6 @@ namespace DailyDuty.Addons
             }
             
             return finalizeHook!.Original(atkUnitBase);
-        }
-
-        private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5)
-        {
-            if (Settings.Enabled)
-            {
-                if (atkUnitBase == GetCloseButton() || atkUnitBase == GetPurchaseButton())
-                {
-                    if (eventType == AtkEventType.MouseDown)
-                    {
-                        var button = (AtkComponentButton*) atkUnitBase;
-
-                        if (button->IsEnabled)
-                        {
-                            var eventData = (MouseClickEventData*) a5;
-
-                            if (eventData->RightClick == false)
-                            {
-                                if (atkUnitBase == GetCloseButton())
-                                {
-                                    purchaseButtonPressed = false;
-                                    AddonManager.YesNoAddonHelper.ResetState();
-                                }
-
-                                if (atkUnitBase == GetPurchaseButton())
-                                {
-                                    purchaseButtonPressed = true;
-                                    addonAddress = GetAddonPointer();
-                                    AddonManager.YesNoAddonHelper.ResetState();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return eventHandleHook!.Original(atkUnitBase, eventType, eventParam, atkEvent, a5);
         }
 
         //
