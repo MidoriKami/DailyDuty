@@ -59,6 +59,9 @@ namespace DailyDuty.System
 
         private void PreOnTerritoryChanged(object? sender, ushort e)
         {
+            var timer = reminderThrottleStopwatch;
+            var timerDelay = Service.Configuration.System.MinutesBetweenThrottledMessages;
+
             foreach (var module in modules.OfType<IZoneChangeLogic>())
             {
                 module.HandleZoneChange(sender, e);
@@ -68,7 +71,7 @@ namespace DailyDuty.System
 
             AlwaysOnTerritoryChanged(sender, e);
 
-            if(reminderThrottleStopwatch.Elapsed.Minutes >= Service.Configuration.System.MinutesBetweenThrottledMessages)
+            if(timer.Elapsed.Minutes >= timerDelay || timer.IsRunning == false)
             {
                 reminderThrottleStopwatch.Restart();
                 ThrottledOnTerritoryChanged(sender, e);
