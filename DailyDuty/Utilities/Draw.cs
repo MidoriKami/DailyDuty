@@ -83,6 +83,16 @@ namespace DailyDuty.Utilities
             ImGui.PopItemWidth();
         }
 
+        public static void Checkbox(string label, ref bool refValue, string helpText = "")
+        {
+            ImGui.Checkbox($"{label}", ref refValue);
+
+            if (helpText != string.Empty)
+            {
+                ImGuiComponents.HelpMarker(helpText);
+            }
+        }
+
         public static void Checkbox(string label, string categoryString, ref bool refValue, string helpText = "")
         {
             ImGui.Checkbox($"{label}##{categoryString}", ref refValue);

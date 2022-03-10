@@ -8,6 +8,7 @@ namespace DailyDuty.Data.SettingsObjects.Windows
         public bool ShowWeekly = true;
         public bool HideWhenTasksComplete = false;
         public bool ShowTasksWhenComplete = false;
+        public bool GrowWindowUpwards = false;
 
         public TaskColors Colors = new();
     }

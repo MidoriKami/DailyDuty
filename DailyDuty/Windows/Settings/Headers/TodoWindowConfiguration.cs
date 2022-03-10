@@ -28,8 +28,10 @@ namespace DailyDuty.Windows.Settings.Headers
 
             ShowWhenComplete();
 
-            OpacitySlider();
+            Draw.Checkbox("Grow Upwards", ref Settings.GrowWindowUpwards, "Task list will grow upwards from the bottom right corner");
 
+            OpacitySlider();
+            
             EditColors();
 
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
