@@ -9,10 +9,14 @@ namespace DailyDuty.Interfaces
 
         public void Draw()
         {
+            ImGui.PushID(HeaderText);
+
             if (ImGui.CollapsingHeader(HeaderText))
             {
                 DrawContents();
             }
+
+            ImGui.PopID();
         }
 
         protected void DrawContents();
