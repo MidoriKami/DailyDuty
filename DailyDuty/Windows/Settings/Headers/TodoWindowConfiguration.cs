@@ -39,7 +39,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void ShowWhenComplete()
         {
-            Draw.Checkbox("Show Completed Tasks", HeaderText, ref Settings.ShowTasksWhenComplete, "Show all tracked tasks, using complete/incomplete colors");
+            Draw.Checkbox("Show Completed Tasks", ref Settings.ShowTasksWhenComplete, "Show all tracked tasks, using complete/incomplete colors");
         }
 
         public void Dispose()
@@ -50,13 +50,13 @@ namespace DailyDuty.Windows.Settings.Headers
         private void OpacitySlider()
         {
             ImGui.PushItemWidth(150);
-            ImGui.DragFloat($"Opacity##{HeaderText}", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
+            ImGui.DragFloat($"Opacity", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
             ImGui.PopItemWidth();
         }
 
         private void HideWhenComplete()
         {
-            Draw.Checkbox("Hide Completed Categories", HeaderText, ref Settings.HideWhenTasksComplete);
+            Draw.Checkbox("Hide Completed Categories", ref Settings.HideWhenTasksComplete);
         }
 
         private void HideInDuty()
@@ -66,19 +66,19 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void TaskSelection()
         {
-            Draw.Checkbox("Daily Tasks", HeaderText, ref Settings.ShowDaily, "Show/Hide Daily Tasks category");
+            Draw.Checkbox("Daily Tasks", ref Settings.ShowDaily, "Show/Hide Daily Tasks category");
 
-            Draw.Checkbox("Weekly Tasks", HeaderText, ref Settings.ShowWeekly, "Show/Hide Weekly Tasks category");
+            Draw.Checkbox("Weekly Tasks", ref Settings.ShowWeekly, "Show/Hide Weekly Tasks category");
         }
 
         private void DisableEnableClickThrough()
         {
-            Draw.Checkbox("Enable Click-through", HeaderText, ref Settings.ClickThrough, "Enables/Disables the ability to move the Todo Window");
+            Draw.Checkbox("Enable Click-through", ref Settings.ClickThrough, "Enables/Disables the ability to move the Todo Window");
         }
 
         private void ShowHideWindow()
         {
-            Draw.Checkbox("Show Todo Window", HeaderText, ref Settings.Open, "Shows/Hides the Todo Window");
+            Draw.Checkbox("Show Todo Window", ref Settings.Open, "Shows/Hides the Todo Window");
         }
 
         private void EditColors()

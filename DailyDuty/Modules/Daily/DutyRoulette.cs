@@ -124,9 +124,9 @@ namespace DailyDuty.Modules.Daily
 
         public void NotificationOptions()
         {
-            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+            Draw.OnLoginReminderCheckbox(Settings);
 
-            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+            Draw.OnTerritoryChangeCheckbox(Settings);
         }
 
         public void EditModeOptions()

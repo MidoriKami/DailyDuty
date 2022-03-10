@@ -55,47 +55,37 @@ namespace DailyDuty.Utilities
             ImGui.TextColored(color, $"{value}");
         }
 
-        public static void OnLoginReminderCheckbox(GenericSettings settings, string categoryString)
+        public static void OnLoginReminderCheckbox(GenericSettings settings)
         {
-            ImGui.Checkbox($"Login Reminder##{categoryString}", ref settings.LoginReminder);
+            ImGui.Checkbox($"Login Reminder", ref settings.LoginReminder);
             ImGuiComponents.HelpMarker("Display this module's status in chat on login if this module is incomplete");
         }
 
-        public static void OnTerritoryChangeCheckbox(GenericSettings settings, string categoryString)
+        public static void OnTerritoryChangeCheckbox(GenericSettings settings)
         {
-            ImGui.Checkbox($"Zone Change Reminder##{categoryString}", ref settings.ZoneChangeReminder);
+            ImGui.Checkbox($"Zone Change Reminder", ref settings.ZoneChangeReminder);
             ImGuiComponents.HelpMarker("Display this module's status in chat on any non-duty instance change if this module is incomplete");
         }
 
-        public static void EditNumberField(string label, string categoryString, ref int refValue)
+        public static void EditNumberField(string label, ref int refValue)
         {
-            EditNumberField(label, categoryString, 30, ref refValue);
+            EditNumberField(label, 30, ref refValue);
         }
 
-        public static void EditNumberField(string label, string categoryString, float fieldWidth, ref int refValue)
+        public static void EditNumberField(string label, float fieldWidth, ref int refValue)
         {
             ImGui.Text(label);
 
             ImGui.SameLine();
 
             ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
-            ImGui.InputInt($"##{label}{categoryString}", ref refValue, 0, 0);
+            ImGui.InputInt($"##{label}", ref refValue, 0, 0);
             ImGui.PopItemWidth();
         }
 
         public static void Checkbox(string label, ref bool refValue, string helpText = "")
         {
             ImGui.Checkbox($"{label}", ref refValue);
-
-            if (helpText != string.Empty)
-            {
-                ImGuiComponents.HelpMarker(helpText);
-            }
-        }
-
-        public static void Checkbox(string label, string categoryString, ref bool refValue, string helpText = "")
-        {
-            ImGui.Checkbox($"{label}##{categoryString}", ref refValue);
 
             if (helpText != string.Empty)
             {

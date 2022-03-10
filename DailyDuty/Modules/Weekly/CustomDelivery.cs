@@ -81,14 +81,14 @@ namespace DailyDuty.Modules.Weekly
 
         public void NotificationOptions()
         {        
-            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+            Draw.OnLoginReminderCheckbox(Settings);
 
-            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+            Draw.OnTerritoryChangeCheckbox(Settings);
         }
 
         public void EditModeOptions()
         {
-            Draw.EditNumberField("Allowances", HeaderText, ref Settings.AllowancesRemaining);
+            Draw.EditNumberField("Allowances", ref Settings.AllowancesRemaining);
         }
 
         public void DisplayData()

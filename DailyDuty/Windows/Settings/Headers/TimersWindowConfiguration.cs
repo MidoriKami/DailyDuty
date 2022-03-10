@@ -69,21 +69,21 @@ namespace DailyDuty.Windows.Settings.Headers
         {
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            Draw.Checkbox($"{timer.Name}", $"{HeaderText}{timer.Name}Enable", ref timer.Settings.Enabled);
+            Draw.Checkbox($"{timer.Name}", ref timer.Settings.Enabled);
 
             ImGui.TableNextColumn();
-            ImGui.ColorEdit4($"##{HeaderText}{timer.Name}ForegroundColor", ref timer.Settings.TimerStyle.ForegroundColor, ImGuiColorEditFlags.NoInputs);
+            ImGui.ColorEdit4($"##{timer.Name}ForegroundColor", ref timer.Settings.TimerStyle.ForegroundColor, ImGuiColorEditFlags.NoInputs);
         
             ImGui.TableNextColumn();
-            ImGui.ColorEdit4($"##{HeaderText}{timer.Name}BackgroundColor", ref timer.Settings.TimerStyle.BackgroundColor, ImGuiColorEditFlags.NoInputs);
+            ImGui.ColorEdit4($"##{timer.Name}BackgroundColor", ref timer.Settings.TimerStyle.BackgroundColor, ImGuiColorEditFlags.NoInputs);
 
             ImGui.TableNextColumn();
-            ImGui.ColorEdit4($"##{HeaderText}{timer.Name}TextColor", ref timer.Settings.TimerStyle.TextColor, ImGuiColorEditFlags.NoInputs);
+            ImGui.ColorEdit4($"##{timer.Name}TextColor", ref timer.Settings.TimerStyle.TextColor, ImGuiColorEditFlags.NoInputs);
 
             ImGui.TableNextColumn();
             ImGui.SetNextItemWidth(200);
 
-            if (ImGui.BeginCombo($"##{HeaderText}{timer.Name}FormatDropdown", timer.Settings.TimerStyle.Options.Format() ?? "Null!", ImGuiComboFlags.PopupAlignLeft))
+            if (ImGui.BeginCombo($"##{timer.Name}FormatDropdown", timer.Settings.TimerStyle.Options.Format() ?? "Null!", ImGuiComboFlags.PopupAlignLeft))
             {
                 foreach (var options in TimerOptions.OptionsSamples)
                 {
@@ -104,11 +104,11 @@ namespace DailyDuty.Windows.Settings.Headers
 
             ImGui.TableNextColumn();
             ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
-            ImGui.SliderInt($"{HeaderText}{timer.Name}Size", ref timer.Settings.TimerStyle.Size, 86, 600);
+            ImGui.SliderInt($"{timer.Name}Size", ref timer.Settings.TimerStyle.Size, 86, 600);
             ImGui.PopItemWidth();
 
             ImGui.TableNextColumn();
-            if (ImGui.Button($"Reset##{HeaderText}{timer.Name}", ImGuiHelpers.ScaledVector2(100, 25)))
+            if (ImGui.Button($"Reset##{timer.Name}", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 timer.Settings.TimerStyle = new TimerStyle();
                 Service.Configuration.Save();
@@ -118,7 +118,7 @@ namespace DailyDuty.Windows.Settings.Headers
         private void OpacitySlider()
         {
             ImGui.PushItemWidth(150);
-            ImGui.DragFloat($"Opacity##{HeaderText}", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
+            ImGui.DragFloat($"Opacity", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
             ImGui.PopItemWidth();
         }
 
@@ -129,12 +129,12 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void DisableEnableClickThrough()
         {
-            Draw.Checkbox("Enable Click-through", HeaderText, ref Settings.ClickThrough, "Enables/Disables the ability to move the Timers Window");
+            Draw.Checkbox("Enable Click-through", ref Settings.ClickThrough, "Enables/Disables the ability to move the Timers Window");
         }
 
         private void ShowHideWindow()
         {
-            Draw.Checkbox("Show Timers Window", HeaderText, ref Settings.Open, "Shows/Hides the Timers Window");
+            Draw.Checkbox("Show Timers Window", ref Settings.Open, "Shows/Hides the Timers Window");
         }
     }
 }

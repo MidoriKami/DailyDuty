@@ -37,17 +37,17 @@ namespace DailyDuty.Modules.Daily
 
         public void NotificationOptions()
         {
-            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+            Draw.OnLoginReminderCheckbox(Settings);
 
-            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+            Draw.OnTerritoryChangeCheckbox(Settings);
             
-            Draw.Checkbox("Threshold Warning", HeaderText, ref Settings.AboveThresholdWarning, "Display notifications if above the threshold");
+            Draw.Checkbox("Threshold Warning", ref Settings.AboveThresholdWarning, "Display notifications if above the threshold");
 
             if (Settings.AboveThresholdWarning)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                Draw.EditNumberField("Threshold", HeaderText, ref Settings.WarningThreshold);
+                Draw.EditNumberField("Threshold", ref Settings.WarningThreshold);
                 ImGuiComponents.HelpMarker("Display a warning if the current number of leve allowances is above this value");
 
                 ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);

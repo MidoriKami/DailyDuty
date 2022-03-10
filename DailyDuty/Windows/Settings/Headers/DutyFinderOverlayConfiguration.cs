@@ -23,13 +23,13 @@ namespace DailyDuty.Windows.Settings.Headers
             ImGui.Text("Some settings require closing and re-opening the duty finder to take effect");
             ImGui.Spacing();
 
-            Draw.Checkbox("Enable Overlays", HeaderText, ref Settings.Enabled);
+            Draw.Checkbox("Enable Overlays", ref Settings.Enabled);
 
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-            Draw.Checkbox("Enable Wondrous Tails Overlay", HeaderText, ref Settings.WondrousTailsOverlayEnabled, "Show an indicator in the Duty Finder indicating duties that are available for Wondrous Tails");
+            Draw.Checkbox("Enable Wondrous Tails Overlay", ref Settings.WondrousTailsOverlayEnabled, "Show an indicator in the Duty Finder indicating duties that are available for Wondrous Tails");
 
-            Draw.Checkbox("Enable Duty Roulette Overlay", HeaderText, ref Settings.DutyRouletteOverlayEnabled, "Color tracked duty roulettes to clearly show which are complete/incomplete");
+            Draw.Checkbox("Enable Duty Roulette Overlay", ref Settings.DutyRouletteOverlayEnabled, "Color tracked duty roulettes to clearly show which are complete/incomplete");
             
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 

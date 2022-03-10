@@ -63,24 +63,24 @@ namespace DailyDuty.Windows.Settings.Headers
         {
             ImGui.TableNextRow();
             ImGui.TableNextColumn();
-            Draw.Checkbox($"{timer.Name}", $"{HeaderText}{timer.Name}Enable", ref timer.Settings.Enabled);
+            Draw.Checkbox($"{timer.Name}", ref timer.Settings.Enabled);
 
             ImGui.TableNextColumn();
-            ImGui.ColorEdit4($"##{HeaderText}{timer.Name}ForegroundColor",
+            ImGui.ColorEdit4($"##{timer.Name}ForegroundColor",
                 ref timer.Settings.TimerStyle.ForegroundColor, ImGuiColorEditFlags.NoInputs);
 
             ImGui.TableNextColumn();
-            ImGui.ColorEdit4($"##{HeaderText}{timer.Name}BackgroundColor",
+            ImGui.ColorEdit4($"##{timer.Name}BackgroundColor",
                 ref timer.Settings.TimerStyle.BackgroundColor, ImGuiColorEditFlags.NoInputs);
 
             ImGui.TableNextColumn();
-            ImGui.ColorEdit4($"##{HeaderText}{timer.Name}TextColor", ref timer.Settings.TimerStyle.TextColor,
+            ImGui.ColorEdit4($"##{timer.Name}TextColor", ref timer.Settings.TimerStyle.TextColor,
                 ImGuiColorEditFlags.NoInputs);
 
             ImGui.TableNextColumn();
             ImGui.SetNextItemWidth(200);
 
-            if (ImGui.BeginCombo($"##{HeaderText}{timer.Name}FormatDropdown",
+            if (ImGui.BeginCombo($"##{timer.Name}FormatDropdown",
                     timer.Settings.TimerStyle.Options.Format() ?? "Null!", ImGuiComboFlags.PopupAlignLeft))
             {
                 foreach (var options in TimerOptions.OptionsSamples)
@@ -102,11 +102,11 @@ namespace DailyDuty.Windows.Settings.Headers
 
             ImGui.TableNextColumn();
             ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
-            ImGui.SliderInt($"{HeaderText}{timer.Name}Size", ref timer.Settings.TimerStyle.Size, 86, 600);
+            ImGui.SliderInt($"{timer.Name}Size", ref timer.Settings.TimerStyle.Size, 86, 600);
             ImGui.PopItemWidth();
 
             ImGui.TableNextColumn();
-            if (ImGui.Button($"Reset##{HeaderText}{timer.Name}", ImGuiHelpers.ScaledVector2(100, 25)))
+            if (ImGui.Button($"Reset##{timer.Name}", ImGuiHelpers.ScaledVector2(100, 25)))
             {
                 timer.Settings.TimerStyle = new TimerStyle();
                 Service.Configuration.Save();

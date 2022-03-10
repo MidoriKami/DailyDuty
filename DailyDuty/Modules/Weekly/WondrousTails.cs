@@ -167,19 +167,19 @@ namespace DailyDuty.Modules.Weekly
 
         public void NotificationOptions()
         {
-            Draw.Checkbox("Duty Start/End Notification",HeaderText, ref Settings.InstanceNotifications, "Send notifications at the start of a duty if the duty is a part of your Wondrous Tails book\n" +
+            Draw.Checkbox("Duty Start/End Notification", ref Settings.InstanceNotifications, "Send notifications at the start of a duty if the duty is a part of your Wondrous Tails book\n" +
                 "Additionally, sends notifications after completing a duty to remind you to collect your stamp");
 
-            Draw.Checkbox("Reroll Alert - Stickers", HeaderText, ref Settings.RerollNotificationStickers, "When changing zones, send a notification if you have the maximum number of second chance points\n" +
+            Draw.Checkbox("Reroll Alert - Stickers", ref Settings.RerollNotificationStickers, "When changing zones, send a notification if you have the maximum number of second chance points\n" +
                 "and between 3 and 7 stickers (inclusive)\n" +
                 "Useful to re-roll the stickers for a chance at better rewards, while preventing over-capping");
 
-            Draw.Checkbox("Reroll Alert - Tasks", HeaderText, ref Settings.RerollNotificationTasks, "When changing zones, send a notification if you have the maximum number of second chance points and have a task available to reroll\n" +
+            Draw.Checkbox("Reroll Alert - Tasks",  ref Settings.RerollNotificationTasks, "When changing zones, send a notification if you have the maximum number of second chance points and have a task available to reroll\n" +
                 "Useful to re-roll tasks that you might want to complete later");
 
-            Draw.Checkbox("New Book Alert", HeaderText, ref Settings.NewBookNotification, "Notify me that a new book is available if I have a completed book");
+            Draw.Checkbox("New Book Alert", ref Settings.NewBookNotification, "Notify me that a new book is available if I have a completed book");
 
-            Draw.Checkbox("Completed Book Alert", HeaderText, ref Settings.BookCompleteNotification, "Notify me when my current book is completed to turn it in");
+            Draw.Checkbox("Completed Book Alert", ref Settings.BookCompleteNotification, "Notify me when my current book is completed to turn it in");
 
             Settings.ZoneChangeReminder = Settings.InstanceNotifications || Settings.RerollNotificationTasks;
             Settings.LoginReminder = Settings.NewBookNotification;

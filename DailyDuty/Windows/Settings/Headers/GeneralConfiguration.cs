@@ -27,7 +27,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
             NotificationDelaySettings();
 
-            Draw.Checkbox("Enable Chat Links", HeaderText, ref System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");
+            Draw.Checkbox("Enable Chat Links", ref System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");
 
             OpacitySlider();
 

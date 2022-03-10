@@ -85,9 +85,9 @@ namespace DailyDuty.Modules.Weekly
 
         public void NotificationOptions()
         {
-            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+            Draw.OnLoginReminderCheckbox(Settings);
 
-            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+            Draw.OnTerritoryChangeCheckbox(Settings);
 
             NotificationModeToggle();
         }
@@ -119,9 +119,9 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            Draw.EditNumberField("Allowances",HeaderText, ref Settings.AllowancesRemaining);
+            Draw.EditNumberField("Allowances", ref Settings.AllowancesRemaining);
 
-            Draw.EditNumberField("Highest Score",HeaderText, ref Settings.HighestWeeklyScore);
+            Draw.EditNumberField("Highest Score", ref Settings.HighestWeeklyScore);
         }
 
         public void DisplayData()

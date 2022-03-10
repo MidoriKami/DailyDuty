@@ -124,11 +124,11 @@ namespace DailyDuty.Modules.Daily
 
         public void NotificationOptions()
         {
-            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
-            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+            Draw.OnLoginReminderCheckbox(Settings);
+            Draw.OnTerritoryChangeCheckbox(Settings);
 
-            Draw.Checkbox("Map Acquisition Notification", HeaderText, ref Settings.NotifyOnAcquisition, "Confirm Map Acquisition with a chat message");
-            Draw.Checkbox("Harvestable Map Notification",HeaderText, ref Settings.HarvestableMapNotification, "Show a notification in chat when there are harvestable Treasure Maps available in the current area");
+            Draw.Checkbox("Map Acquisition Notification", ref Settings.NotifyOnAcquisition, "Confirm Map Acquisition with a chat message");
+            Draw.Checkbox("Harvestable Map Notification", ref Settings.HarvestableMapNotification, "Show a notification in chat when there are harvestable Treasure Maps available in the current area");
 
             DrawMinimumMapLevelComboBox();
         }

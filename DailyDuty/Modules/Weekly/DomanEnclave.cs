@@ -59,11 +59,11 @@ namespace DailyDuty.Modules.Weekly
         {
             DrawWeeklyBudgetDropdown();
 
-            Draw.OnLoginReminderCheckbox(Settings, HeaderText);
+            Draw.OnLoginReminderCheckbox(Settings);
 
-            Draw.OnTerritoryChangeCheckbox(Settings, HeaderText);
+            Draw.OnTerritoryChangeCheckbox(Settings);
 
-            Draw.Checkbox("Show Donation Amounts", HeaderText, ref Settings.ShowTrackedDonationAmount, "Display a message in chat with the donation amount recorded, useful for debugging");
+            Draw.Checkbox("Show Donation Amounts", ref Settings.ShowTrackedDonationAmount, "Display a message in chat with the donation amount recorded, useful for debugging");
         }
 
         private void DrawWeeklyBudgetDropdown()
@@ -95,7 +95,7 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            Draw.EditNumberField("Deposited This Week", HeaderText, 50, ref Settings.CurrentEarnings);
+            Draw.EditNumberField("Deposited This Week", 50, ref Settings.CurrentEarnings);
         }
 
         public void DisplayData()

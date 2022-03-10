@@ -23,9 +23,11 @@ namespace DailyDuty.Windows.Settings.Tabs
 
         public void Draw()
         {
+            ImGui.PushID(TabName);
+            
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-            Utilities.Draw.Checkbox("Temporary Edit Mode", TabName, ref EditModeEnabled, 
+            Utilities.Draw.Checkbox("Temporary Edit Mode", ref EditModeEnabled, 
                 "Allows you to manually correct the values stored in each of Daily/Weekly tabs\n" +
                 "Edit Mode automatically disables when you close this window\n" +
                 "Only use Edit Mode to correct errors in other tabs");
@@ -36,6 +38,8 @@ namespace DailyDuty.Windows.Settings.Tabs
             {
                 header.Draw();
             }
+
+            ImGui.PopID();
         }
 
         public void Dispose()
