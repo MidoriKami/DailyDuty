@@ -78,6 +78,7 @@ namespace DailyDuty.Modules.Weekly
                     if (ImGui.Selectable(element.ToString("n0"), isSelected))
                     {
                         Settings.Budget = element;
+                        Service.Configuration.Save();
                     }
 
                     if (isSelected)
@@ -94,8 +95,6 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            //Draw.EditNumberField("Target Budget", HeaderText, 50, ref Settings.Budget);
-
             Draw.EditNumberField("Deposited This Week", HeaderText, 50, ref Settings.CurrentEarnings);
         }
 
