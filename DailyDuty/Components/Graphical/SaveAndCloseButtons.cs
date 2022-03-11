@@ -45,7 +45,7 @@ namespace DailyDuty.Components.Graphical
 
         private void DrawVersionNumber()
         {
-            var x = ImGui.GetWindowWidth() / 2 - 60 * ImGuiHelpers.GlobalScale;
+            var x = ImGui.GetWindowWidth() / 2 - 43 * ImGuiHelpers.GlobalScale;
             var y = ImGui.GetWindowHeight() - 25 * ImGuiHelpers.GlobalScale;
             
             ImGui.SetCursorPos(new Vector2(x, y));
