@@ -72,8 +72,6 @@ namespace DailyDuty.Windows.Timers
 
             clr = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
             ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
-
-            ImGui.PushStyleColor(ImGuiCol.ResizeGrip, Vector4.Zero);
         }
 
         public override void Draw()
@@ -83,7 +81,7 @@ namespace DailyDuty.Windows.Timers
 
         public override void PostDraw()
         {
-            ImGui.PopStyleColor(3);
+            ImGui.PopStyleColor(2);
         }
 
         public void Dispose()

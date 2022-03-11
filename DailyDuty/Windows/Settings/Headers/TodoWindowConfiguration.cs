@@ -47,7 +47,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void AnchorSelect()
         {
-            ImGui.SetNextItemWidth(150);
+            ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
             var val = (Settings.Anchor.HasFlag(WindowAnchor.Bottom) ? "Bottom " : "Top ") +
                       (Settings.Anchor.HasFlag(WindowAnchor.Right)  ? "Right"   : "Left");
             if(ImGui.BeginCombo($"Anchor Point##{HeaderText}", val, ImGuiComboFlags.PopupAlignLeft))
@@ -70,9 +70,8 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void OpacitySlider()
         {
-            ImGui.PushItemWidth(150);
+            ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
             ImGui.DragFloat($"Opacity", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
-            ImGui.PopItemWidth();
         }
 
         private void EditColors()

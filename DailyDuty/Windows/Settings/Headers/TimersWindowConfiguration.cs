@@ -82,7 +82,7 @@ namespace DailyDuty.Windows.Settings.Headers
             ImGui.ColorEdit4($"##{timer.Name}TextColor", ref timer.Settings.TimerStyle.TextColor, ImGuiColorEditFlags.NoInputs);
 
             ImGui.TableNextColumn();
-            ImGui.SetNextItemWidth(200);
+            ImGui.SetNextItemWidth(200 * ImGuiHelpers.GlobalScale);
 
             if (ImGui.BeginCombo($"##{timer.Name}FormatDropdown", timer.Settings.TimerStyle.Options.Format() ?? "Null!", ImGuiComboFlags.PopupAlignLeft))
             {
@@ -107,9 +107,8 @@ namespace DailyDuty.Windows.Settings.Headers
             Draw.Checkbox($"##{timer.Name}StretchToFit", ref timer.Settings.TimerStyle.StretchToFit);
 
             ImGui.TableNextColumn();
-            ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
+            ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
             ImGui.SliderInt($"{timer.Name}Size", ref timer.Settings.TimerStyle.Size, 86, 600);
-            ImGui.PopItemWidth();
 
             ImGui.TableNextColumn();
             if (ImGui.Button($"Reset##{timer.Name}", ImGuiHelpers.ScaledVector2(100, 25)))
@@ -121,9 +120,8 @@ namespace DailyDuty.Windows.Settings.Headers
         
         private void OpacitySlider()
         {
-            ImGui.PushItemWidth(150);
+            ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
             ImGui.DragFloat($"Opacity", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
-            ImGui.PopItemWidth();
         }
 
         private void HideInDuty()
