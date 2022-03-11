@@ -8,7 +8,7 @@ using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using Dalamud.Logging;
+
 namespace DailyDuty.Windows.Todo
 {
     internal class TodoWindow : Window, IDisposable, IWindow
