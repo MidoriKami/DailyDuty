@@ -50,7 +50,7 @@ namespace DailyDuty.Windows.Settings.Headers
             ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
             var val = (Settings.Anchor.HasFlag(WindowAnchor.Bottom) ? "Bottom " : "Top ") +
                       (Settings.Anchor.HasFlag(WindowAnchor.Right)  ? "Right"   : "Left");
-            if(ImGui.BeginCombo($"Anchor Point##{HeaderText}", val, ImGuiComboFlags.PopupAlignLeft))
+            if(ImGui.BeginCombo($"Anchor Point", val, ImGuiComboFlags.PopupAlignLeft))
             {
                 if(ImGui.Selectable("Top Left", Settings.Anchor == WindowAnchor.TopLeft))
                     Settings.Anchor = WindowAnchor.TopLeft;
