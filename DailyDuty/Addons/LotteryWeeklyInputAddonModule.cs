@@ -69,6 +69,11 @@ namespace DailyDuty.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
+            purchaseButtonPressed = false;
+            addonAddress = addonPointer;
+
+            AddonManager.YesNoAddonHelper.ResetState();
+
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 

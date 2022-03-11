@@ -74,6 +74,12 @@ namespace DailyDuty.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
+            depositButtonPressed = false;
+            depositAmount = 0;
+            addonAddress = addonPointer;
+
+            AddonManager.YesNoAddonHelper.ResetState();
+
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 

@@ -30,7 +30,7 @@ namespace DailyDuty.Addons
         private Hook<EventHandle>? eventHandleHook = null;
         private Hook<Finalize>? finalizeHook = null;
 
-        private bool HandOverButtonPressed = false;
+        private bool handOverButtonPressed = false;
         private AtkUnitBase* addonAddress = null;
 
         public SatisfactionSupplyRequestAddonModule()
@@ -69,12 +69,17 @@ namespace DailyDuty.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
+            handOverButtonPressed = false;
+            addonAddress = addonPointer;
+
+            AddonManager.YesNoAddonHelper.ResetState();
+
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
         private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
         {
-            HandOverButtonPressed = false;
+            handOverButtonPressed = false;
             addonAddress = atkUnitBase;
 
             AddonManager.YesNoAddonHelper.ResetState();
@@ -95,7 +100,7 @@ namespace DailyDuty.Addons
 
                         if (button->IsEnabled)
                         {
-                            HandOverButtonPressed = true;
+                            handOverButtonPressed = true;
 
                             AddonManager.YesNoAddonHelper.ResetState();
                         }
@@ -117,7 +122,7 @@ namespace DailyDuty.Addons
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
                 var nullPopup = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
 
-                if (HandOverButtonPressed && ( yesPopupSelected || nullPopup ) )
+                if (handOverButtonPressed && ( yesPopupSelected || nullPopup ) )
                 {
                     Settings.AllowancesRemaining -= 1;
                     Service.Configuration.Save();
