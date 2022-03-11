@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
+using DailyDuty.Data.Enums;
 
 namespace DailyDuty.Data.SettingsObjects.Windows
 {
@@ -8,7 +9,7 @@ namespace DailyDuty.Data.SettingsObjects.Windows
         public bool ShowWeekly = true;
         public bool HideWhenTasksComplete = false;
         public bool ShowTasksWhenComplete = false;
-        public bool GrowWindowUpwards = false;
+        public WindowAnchor Anchor = WindowAnchor.TopLeft;
 
         public TaskColors Colors = new();
     }

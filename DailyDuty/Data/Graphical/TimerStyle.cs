@@ -16,5 +16,6 @@ namespace DailyDuty.Data.Graphical
         public Vector4 TextColor = Colors.White;
         public int Padding = 5;
         public int Size = 200;
+        public bool StretchToFit = false;
     }
 }
