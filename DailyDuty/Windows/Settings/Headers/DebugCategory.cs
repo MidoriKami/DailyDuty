@@ -30,6 +30,8 @@ namespace DailyDuty.Windows.Settings.Headers
 
             Draw.Checkbox("Enable Debug Output", ref System.EnableDebugOutput, "Enable Messages with the [Debug] tag");
 
+            Draw.Checkbox("Show Version Number", ref System.ShowVersionNumber, "Show current Daily Duty Version Number at the bottom of the configuration window");
+
             ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
         }
     }

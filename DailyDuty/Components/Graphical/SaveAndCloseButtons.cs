@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
+using System.Reflection;
 using DailyDuty.Interfaces;
+using DailyDuty.Utilities;
 using Dalamud.Interface;
 using Dalamud.Interface.Internal.Notifications;
 using Dalamud.Interface.Windowing;
@@ -34,6 +36,23 @@ namespace DailyDuty.Components.Graphical
                 Service.Configuration.Save();
                 targetWindow.IsOpen = false;
             }
+
+            if (Service.Configuration.System.ShowVersionNumber)
+            {
+                DrawVersionNumber();
+            }
+        }
+
+        private void DrawVersionNumber()
+        {
+            var x = ImGui.GetWindowWidth() / 2 - 60 * ImGuiHelpers.GlobalScale;
+            var y = ImGui.GetWindowHeight() - 25 * ImGuiHelpers.GlobalScale;
+            
+            ImGui.SetCursorPos(new Vector2(x, y));
+
+            var assemblyInformation = Assembly.GetExecutingAssembly().FullName!.Split(',');
+
+            ImGui.TextColored(Colors.Grey, assemblyInformation[1].Replace('=', ' '));
         }
     }
 }

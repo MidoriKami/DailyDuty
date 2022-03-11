@@ -9,5 +9,6 @@ namespace DailyDuty.Data.SettingsObjects
         public bool ShowSaveDebugInfo = false;
         public bool ClickableLinks = false;
         public bool EnableDebugOutput = false;
+        public bool ShowVersionNumber = true;
     }
 }
