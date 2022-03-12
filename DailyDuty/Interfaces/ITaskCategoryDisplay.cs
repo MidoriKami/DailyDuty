@@ -18,7 +18,6 @@ namespace DailyDuty.Interfaces
         public void Draw()
         {
             ImGui.TextColored(Colors.HeaderColor, HeaderText);
-            ImGui.Spacing();
 
             ImGui.Indent(30 * ImGuiHelpers.GlobalScale);
 

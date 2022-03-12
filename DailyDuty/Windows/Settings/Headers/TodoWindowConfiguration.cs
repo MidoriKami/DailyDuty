@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Data.SettingsObjects.Windows;
+using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
@@ -30,7 +31,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
             Draw.Checkbox("Show Completed Tasks", ref Settings.ShowTasksWhenComplete, "Show all tracked tasks, using complete/incomplete colors");
 
-            Draw.Checkbox("Grow Upwards", ref Settings.GrowWindowUpwards, "Task list will grow upwards from the bottom right corner");
+            AnchorSelect();
 
             OpacitySlider();
             
@@ -44,11 +45,34 @@ namespace DailyDuty.Windows.Settings.Headers
             
         }
 
+        private void AnchorSelect()
+        {
+            ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
+            var val = (Settings.Anchor.HasFlag(WindowAnchor.Bottom) ? "Bottom " : "Top ") +
+                      (Settings.Anchor.HasFlag(WindowAnchor.Right)  ? "Right"   : "Left");
+            if(ImGui.BeginCombo($"Anchor Point", val, ImGuiComboFlags.PopupAlignLeft))
+            {
+                if(ImGui.Selectable("Top Left", Settings.Anchor == WindowAnchor.TopLeft))
+                    Settings.Anchor = WindowAnchor.TopLeft;
+
+                if(ImGui.Selectable("Top Right", Settings.Anchor == WindowAnchor.TopRight))
+                    Settings.Anchor = WindowAnchor.TopRight;
+
+                if(ImGui.Selectable("Bottom Left", Settings.Anchor == WindowAnchor.BottomLeft))
+                    Settings.Anchor = WindowAnchor.BottomLeft;
+
+                if(ImGui.Selectable("Bottom Right", Settings.Anchor == WindowAnchor.BottomRight))
+                    Settings.Anchor = WindowAnchor.BottomRight;
+
+                ImGui.EndCombo();
+            }
+        }
+
         private void OpacitySlider()
         {
-            ImGui.PushItemWidth(150 * ImGuiHelpers.GlobalScale);
+            ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
+
             ImGui.DragFloat($"Opacity", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
-            ImGui.PopItemWidth();
         }
 
         private void EditColors()

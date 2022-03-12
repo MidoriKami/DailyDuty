@@ -16,8 +16,7 @@ namespace DailyDuty.Windows.Todo
         private readonly ITaskCategoryDisplay dailyTasks;
         private readonly ITaskCategoryDisplay weeklyTasks;
         private int frameCounter = 0;
-        private Vector2 LastSize = Vector2.Zero;
-        private Vector2 NewPosition = Vector2.Zero;
+        private Vector2 lastWindowSize = Vector2.Zero;
 
         public new WindowName WindowName => WindowName.Todo;
 
@@ -78,33 +77,31 @@ namespace DailyDuty.Windows.Todo
 
         public override void PreDraw()
         {
-            if (Settings.GrowWindowUpwards)
-            {
-                if (NewPosition != Vector2.Zero)
-                {
-                    ImGui.SetNextWindowPos(NewPosition);
-                    NewPosition = Vector2.Zero;
-                }
-            }
+            var clr = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
 
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0, 0, 0, Settings.Opacity));
+            clr = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
         }
 
         public override void Draw()
         {
-            if (Settings.GrowWindowUpwards)
+            if(Settings.Anchor != WindowAnchor.TopLeft)
             {
-                if (LastSize == Vector2.Zero)
-                    LastSize = ImGui.GetWindowSize();
-
                 var size = ImGui.GetWindowSize();
+                if(lastWindowSize != Vector2.Zero) {
+                    var offset = lastWindowSize - size;
 
-                if (LastSize != size)
-                {
-                    NewPosition = ImGui.GetWindowPos();
-                    NewPosition.Y += LastSize.Y - size.Y;
-                    LastSize = size;
+                    if(!Settings.Anchor.HasFlag(WindowAnchor.Right))
+                        offset.X = 0;
+
+                    if(!Settings.Anchor.HasFlag(WindowAnchor.Bottom))
+                        offset.Y = 0;
+
+                    if(offset != Vector2.Zero)
+                        ImGui.SetWindowPos(ImGui.GetWindowPos() + offset);
                 }
+                lastWindowSize = size;
             }
 
             bool dailyTasksComplete = dailyTasks.AllTasksCompleted() || !Settings.ShowDaily;
@@ -116,13 +113,15 @@ namespace DailyDuty.Windows.Todo
             if(Settings.ShowDaily && !hideDailyTasks)
                 dailyTasks.Draw();
 
-            if (Settings.ShowWeekly && !hideWeeklyTasks)
+            ImGui.Spacing();
+
+            if(Settings.ShowWeekly && !hideWeeklyTasks)
                 weeklyTasks.Draw();
         }
 
         public override void PostDraw()
         {
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(2);
         }
 
         public void Dispose()
