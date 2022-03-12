@@ -71,6 +71,7 @@ namespace DailyDuty.Windows.Settings.Headers
         private void OpacitySlider()
         {
             ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
+
             ImGui.DragFloat($"Opacity", ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
         }
 
