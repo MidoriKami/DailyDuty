@@ -1,7 +1,5 @@
-﻿using DailyDuty.Components.Graphical;
-using DailyDuty.Data.Enums;
+﻿using DailyDuty.Data.Enums;
 using DailyDuty.Data.Graphical;
-using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using DailyDuty.Timers;

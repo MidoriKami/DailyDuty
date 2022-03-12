@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.TreasureMapModule;
 using DailyDuty.Data.SettingsObjects;

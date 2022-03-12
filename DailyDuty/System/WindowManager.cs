@@ -7,7 +7,6 @@ using DailyDuty.Windows.Notice;
 using DailyDuty.Windows.Settings;
 using DailyDuty.Windows.Timers;
 using DailyDuty.Windows.Todo;
-using Dalamud.Interface.Windowing;
 
 namespace DailyDuty.System
 {

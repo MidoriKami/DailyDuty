@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
 using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
 using DailyDuty.Interfaces;
 

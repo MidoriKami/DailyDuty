@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using DailyDuty.Utilities;
 
 namespace DailyDuty.Data.SettingsObjects

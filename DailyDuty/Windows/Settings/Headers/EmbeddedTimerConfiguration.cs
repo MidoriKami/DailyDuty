@@ -1,11 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Numerics;
-using DailyDuty.Components.Graphical;
-using DailyDuty.Data.Enums;
+﻿using DailyDuty.Data.Enums;
 using DailyDuty.Data.Graphical;
-using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Interfaces;
 using DailyDuty.Timers;
 using DailyDuty.Utilities;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
 using Dalamud.Interface;
 using ImGuiNET;

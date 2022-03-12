@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
-using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Addons;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game;

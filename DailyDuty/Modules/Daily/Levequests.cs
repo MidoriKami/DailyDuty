@@ -5,12 +5,10 @@ using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using Dalamud.Game.ClientState.Objects.Enums;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Daily

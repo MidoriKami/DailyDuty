@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Windows.Settings;
 using DailyDuty.Windows.Settings.Tabs;
 using Dalamud.Interface;
 using ImGuiNET;

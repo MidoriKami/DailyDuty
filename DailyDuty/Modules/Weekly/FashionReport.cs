@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.FashionReport;

@@ -1,5 +1,4 @@
 ﻿using System;
-using DailyDuty.Data.SettingsObjects;
 
 namespace DailyDuty.Interfaces
 {

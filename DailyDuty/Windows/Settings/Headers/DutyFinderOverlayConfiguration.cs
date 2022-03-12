@@ -1,5 +1,4 @@
-﻿using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.Addons;
+﻿using DailyDuty.Data.SettingsObjects.Addons;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface;

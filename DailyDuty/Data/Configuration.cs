@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.Addons;
-using DailyDuty.Data.SettingsObjects.Notice;
 using DailyDuty.Data.SettingsObjects.Timers;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers;

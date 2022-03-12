@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-using DailyDuty.Data.Graphical;
-using DailyDuty.Data.SettingsObjects.Timers;
+﻿using DailyDuty.Data.SettingsObjects.Timers;
 
 namespace DailyDuty.Interfaces
 {

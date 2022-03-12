@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Numerics;
+﻿using System.Linq;
 using System.Collections.Generic;
 using DailyDuty.Interfaces;
 using DailyDuty.Data.SettingsObjects.Windows;
-using Dalamud.Interface;
 using ImGuiNET;
 
 namespace DailyDuty.Timers

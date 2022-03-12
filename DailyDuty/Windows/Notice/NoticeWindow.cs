@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.Notice;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using Dalamud.Game;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 

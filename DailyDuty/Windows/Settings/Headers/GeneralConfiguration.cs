@@ -2,7 +2,6 @@
 using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using DailyDuty.Windows.Settings.Tabs;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;

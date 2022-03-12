@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.WondrousTails;
 using DailyDuty.Data.SettingsObjects;
@@ -15,7 +14,6 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Weekly
