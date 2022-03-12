@@ -13,13 +13,20 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.Settings
 {
-    internal class SettingsWindow : Window, IDisposable, IWindow
+    internal class SettingsWindow : Window, IWindow
     {
 
         private readonly CountdownTimers countdownTimers;
         private readonly SaveAndCloseButtons saveAndCloseButtons;
         public new WindowName WindowName => WindowName.Settings;
 
+        private readonly List<ITabItem> tabs = new()
+        {
+            new OverviewTabItem(),
+            new DailyTabItem(),
+            new WeeklyTabItem(),
+            new ConfigurationTabItem()
+        };
         private SettingsWindowSettings Settings => Service.Configuration.Windows.Settings;
 
         public SettingsWindow() : base("DailyDuty Settings")
@@ -31,7 +38,7 @@ namespace DailyDuty.Windows.Settings
             SizeConstraints = new WindowSizeConstraints()
             {
                 MinimumSize = new(265, 250),
-                MaximumSize = new(9909,9909)
+                MaximumSize = new(9999,9999)
             };
 
             var timersList = Service.TimerManager.GetTimers(WindowName.Settings);
@@ -52,26 +59,21 @@ namespace DailyDuty.Windows.Settings
             Service.WindowSystem.RemoveWindow(this);
         }
 
-        private readonly List<ITabItem> tabs = new()
-        {
-            new OverviewTabItem(),
-            new DailyTabItem(),
-            new WeeklyTabItem(),
-            new ConfigurationTabItem()
-        };
-
-        public override void PreDraw()
+        public override void PreOpenCheck()
         {
             if (Service.LoggedIn == false)
             {
                 IsOpen = false;
             }
+        }
 
-            var clr = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
+        public override void PreDraw()
+        {
+            var color = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
 
-            clr = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
-            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
+            color = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
         }
 
         public override void Draw()
@@ -105,7 +107,6 @@ namespace DailyDuty.Windows.Settings
                     if (!ImGui.BeginTabItem(tab.TabName))
                         continue;
 
-                    // Stolen from https://git.annaclemens.io/ascclemens/ChatTwo/src/branch/main/ChatTwo/Ui/Settings.cs#L69
                     var height = ImGui.GetContentRegionAvail().Y - 30 * ImGuiHelpers.GlobalScale;
 
                     if (ImGui.BeginChild("DailyDutySettings", new Vector2(0, height), true)) 
@@ -122,9 +123,6 @@ namespace DailyDuty.Windows.Settings
         public override void OnClose()
         {
             ConfigurationTabItem.EditModeEnabled = false;
-
-            base.OnClose();
         }
-
     }
 }
