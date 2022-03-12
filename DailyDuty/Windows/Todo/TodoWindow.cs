@@ -98,7 +98,8 @@ namespace DailyDuty.Windows.Todo
                     if(!Settings.Anchor.HasFlag(WindowAnchor.Bottom))
                         offset.Y = 0;
 
-                    ImGui.SetWindowPos(ImGui.GetWindowPos() + offset);
+                    if(offset != Vector2.Zero)
+                        ImGui.SetWindowPos(ImGui.GetWindowPos() + offset);
                 }
                 lastWindowSize = size;
             }
