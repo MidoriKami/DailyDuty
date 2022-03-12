@@ -43,7 +43,7 @@ namespace DailyDuty.Windows.Timers
                 }
             }
 
-            return !isInQuestEvent;
+            return !isInQuestEvent && Service.LoggedIn;
         }
 
         public override void PreDraw()
