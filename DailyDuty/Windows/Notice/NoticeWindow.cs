@@ -26,14 +26,12 @@ namespace DailyDuty.Windows.Notice
         {
             MaximumSize = new Vector2(500, 250),
             MinimumSize = new Vector2(500, 250)
-
         };
 
         public NoticeWindow() : base("DailyDuty NoticeWindow")
         {
             SizeConstraints = windowSizeConstraints;
-
-            Service.Framework.Update += FrameworkUpdate;
+            
             Service.WindowSystem.AddWindow(this);
 
             closeButton = new(CloseWindowAction);
@@ -41,11 +39,10 @@ namespace DailyDuty.Windows.Notice
 
         public void Dispose()
         {
-            Service.Framework.Update -= FrameworkUpdate;
             Service.WindowSystem.RemoveWindow(this);
         }
 
-        private void FrameworkUpdate(Framework framework)
+        public override void PreOpenCheck()
         {
             if (Service.LoggedIn == true)
             {
@@ -112,8 +109,6 @@ namespace DailyDuty.Windows.Notice
             Settings.NoticeShown = true;
 
             Service.Configuration.Save();
-
-            Service.Framework.Update -= FrameworkUpdate;
         }
 
         public void Reset()
@@ -121,8 +116,6 @@ namespace DailyDuty.Windows.Notice
             Settings.NoticeShown = false;
 
             closeButton.Reset();
-
-            Service.Framework.Update += FrameworkUpdate;
         }
     }
 }
