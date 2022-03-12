@@ -67,7 +67,11 @@ namespace DailyDuty.Windows.Timers
 
         public override void PreDraw()
         {
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(0, 0, 0, Settings.Opacity));
+            var clr = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
+
+            clr = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(clr.X, clr.Y, clr.Z, Settings.Opacity));
         }
 
         public override void Draw()
@@ -77,7 +81,7 @@ namespace DailyDuty.Windows.Timers
 
         public override void PostDraw()
         {
-            ImGui.PopStyleColor();
+            ImGui.PopStyleColor(2);
         }
 
         public void Dispose()

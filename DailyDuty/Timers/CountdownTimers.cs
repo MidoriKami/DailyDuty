@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Numerics;
+using System.Collections.Generic;
 using DailyDuty.Interfaces;
+using DailyDuty.Data.SettingsObjects.Windows;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -9,6 +13,8 @@ namespace DailyDuty.Timers
     {
         public readonly List<ITimer> Timers;
 
+        private TimersWindowSettings Settings => Service.Configuration.Windows.Timers;
+
         public CountdownTimers(List<ITimer> timers)
         {
             this.Timers = timers;
@@ -16,31 +22,52 @@ namespace DailyDuty.Timers
 
         public void Draw()
         {
-            int index = 0;
+            var timers = Timers.Where(x => x.Settings.Enabled).ToArray();
+            var totalWidth = (int)ImGui.GetContentRegionAvail().X;
+            var spacing = (int)ImGui.GetStyle().ItemSpacing.X;
+            var i = 0;
 
-            foreach (var timer in Timers)
+            while(i < timers.Length)
             {
-                if (timer.Settings.Enabled)
-                {
-                    if (index > 0)
-                    {
-                        var progressBarWidth = (timer.Settings.TimerStyle.Size + 5) * ImGuiHelpers.GlobalScale;
-                        var remainingWidth = ImGui.GetContentRegionAvail().X - (progressBarWidth * index);
+                var width = 0;
+                var count = 0;
+                var resizeCount = 0;
 
-                        if (remainingWidth > progressBarWidth)
-                        {
-                            ImGui.SameLine();
-                        }
-                        else
-                        {
-                            index = 0;
-                        }
+                for(var j = i; j < timers.Length; j++)
+                {
+                    var timer = timers[j];
+                    var w = timer.Settings.TimerStyle.Size + (count > 0 ? spacing : 0);
+                    if(count > 0 && width + w > totalWidth)
+                        break;
+
+                    count++;
+                    width += w;
+                    if(timer.Settings.TimerStyle.StretchToFit)
+                        resizeCount++;
+                }
+
+                var add = resizeCount > 0 ? ((totalWidth - width) / resizeCount) : 0;
+
+                for(var j = i; j < i + count; j++)
+                {
+                    var timer = timers[j];
+
+                    if(timer.Settings.TimerStyle.StretchToFit)
+                    {
+                        timer.Settings.TimerStyle.Size += add;
+                        timer.Draw();
+                        timer.Settings.TimerStyle.Size -= add;
+                    }
+                    else
+                    {
+                        timer.Draw();
                     }
 
-                    timer.Draw();
-
-                    index++;
+                    if(j < i + count - 1)
+                        ImGui.SameLine();
                 }
+
+                i += count;
             }
         }
     }
