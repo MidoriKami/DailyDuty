@@ -202,7 +202,7 @@ namespace DailyDuty.Modules.Weekly
 
         private static bool FashionReportAvailable()
         {
-            var reportOpen = Time.NextWeeklyReset().AddDays(-4);
+            var reportOpen = Time.NextFashionReportReset();
             var reportClosed = Time.NextWeeklyReset();
 
             var now = DateTime.UtcNow;
@@ -218,7 +218,7 @@ namespace DailyDuty.Modules.Weekly
             }
             else
             {
-                var availableDateTime = Time.NextWeeklyReset().AddDays(-4);
+                var availableDateTime = Time.NextFashionReportReset();
 
                 return availableDateTime - DateTime.UtcNow;
             }
