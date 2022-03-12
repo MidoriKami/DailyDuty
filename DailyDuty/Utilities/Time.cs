@@ -21,23 +21,7 @@ namespace DailyDuty.Utilities
 
         public static DateTime NextWeeklyReset()
         {
-            var today = DateTime.UtcNow;
-            
-            if(today.Hour < 8 && today.DayOfWeek == DayOfWeek.Tuesday)
-            {
-                return today.Date.AddHours(8);
-            }
-            else
-            {
-                var nextReset = today.AddDays(1);
-
-                while (nextReset.DayOfWeek != DayOfWeek.Tuesday)
-                {
-                    nextReset = nextReset.AddDays(1);
-                }
-                
-                return nextReset.Date.AddHours(8);
-            }
+            return NextDayOfWeek(DayOfWeek.Tuesday, 8);
         }
 
         public static DateTime NextFashionReportReset()
@@ -57,19 +41,6 @@ namespace DailyDuty.Utilities
             {
                 return now.AddDays(1).Date.AddHours(12);
             }
-        }
-
-        public static DateTime NextDayOfWeek(DayOfWeek weekday)
-        {
-            var now = DateTime.UtcNow;
-
-            do
-            {
-                now = now.AddDays(1);
-
-            } while (now.DayOfWeek != weekday);
-
-            return now.Date;
         }
 
         public static DateTime NextDayOfWeek(DayOfWeek weekday, int hour)
