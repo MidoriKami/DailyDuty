@@ -19,5 +19,10 @@ namespace DailyDuty.Utilities
                                                     ImGuiWindowFlags.NoScrollbar |
                                                     ImGuiWindowFlags.NoCollapse |
                                                     ImGuiWindowFlags.AlwaysAutoResize;
+
+        public const ImGuiWindowFlags ClickThroughFlags = ImGuiWindowFlags.NoFocusOnAppearing |
+                                                          ImGuiWindowFlags.NoDecoration |
+                                                          ImGuiWindowFlags.NoInputs |
+                                                          ImGuiWindowFlags.AlwaysAutoResize;
     }
 }
