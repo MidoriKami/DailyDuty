@@ -11,19 +11,19 @@ namespace DailyDuty.Utilities.Helpers.JumboCactpot
             {
                 // Elemental, Gaia, Mana
                 case 1 or 2 or 3:
-                    return Time.NextDayOfWeek(DayOfWeek.Saturday).AddHours(12);
+                    return Time.NextDayOfWeek(DayOfWeek.Saturday, 12);
 
                 // Aether, Primal, Crystal
                 case 4 or 5 or 8:
-                    return Time.NextDayOfWeek(DayOfWeek.Sunday).AddHours(2);
+                    return Time.NextDayOfWeek(DayOfWeek.Sunday, 2);
 
                 // Chaos, Light
                 case 6 or 7:
-                    return Time.NextDayOfWeek(DayOfWeek.Saturday).AddHours(19);
+                    return Time.NextDayOfWeek(DayOfWeek.Saturday, 19);
 
                 // Materia
                 case 9:
-                    return Time.NextDayOfWeek(DayOfWeek.Saturday).AddHours(9);
+                    return Time.NextDayOfWeek(DayOfWeek.Saturday, 9);
             }
 
             PluginLog.Error($"[Util] Unable to determine DataCenter: {datacenter}");

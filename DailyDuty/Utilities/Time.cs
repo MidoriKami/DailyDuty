@@ -72,6 +72,27 @@ namespace DailyDuty.Utilities
             return now.Date;
         }
 
+        public static DateTime NextDayOfWeek(DayOfWeek weekday, int hour)
+        {
+            var today = DateTime.UtcNow;
+            
+            if(today.Hour < hour && today.DayOfWeek == weekday)
+            {
+                return today.Date.AddHours(hour);
+            }
+            else
+            {
+                var nextReset = today.AddDays(1);
+
+                while (nextReset.DayOfWeek != weekday)
+                {
+                    nextReset = nextReset.AddDays(1);
+                }
+                
+                return nextReset.Date.AddHours(hour);
+            }
+        }
+
         public static void UpdateDelayed(Stopwatch stopwatch, TimeSpan delayTime, Action function)
         {
             if (stopwatch.IsRunning && stopwatch.Elapsed >= delayTime)
