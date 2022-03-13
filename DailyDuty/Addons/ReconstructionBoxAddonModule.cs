@@ -111,7 +111,9 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                Chat.Debug("DomanEnclave::Finalize");
+
+                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
                 if (depositButtonPressed && yesPopupSelected)
@@ -151,19 +153,6 @@ namespace DailyDuty.Addons
             if(basePointer == null) return null;
 
             return basePointer->GetNodeById(30)->GetComponent();
-        }
-
-        private AtkComponentBase* GetCloseButton()
-        {
-            var basePointer = GetAddonPointer();
-
-            if(basePointer == null) return null;
-
-            var windowComponent = (AtkComponentNode*)basePointer->GetNodeById(31);
-            if(windowComponent == null) return null;
-
-            var closeButtonNode = Node.GetNodeByID<AtkComponentNode>(windowComponent, 2);
-            return closeButtonNode->Component;
         }
 
         private AtkTextNode* GetGrandTotalTextNode()

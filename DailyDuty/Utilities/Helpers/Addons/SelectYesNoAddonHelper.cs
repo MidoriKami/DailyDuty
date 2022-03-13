@@ -19,13 +19,14 @@ namespace DailyDuty.Utilities.Helpers.Addons
         }
 
         private ButtonState currentState;
-        private ButtonState lastState;
 
         private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5);
         private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
+        private delegate void* Finalize(AtkUnitBase* atkUnitBase);
 
         private Hook<EventHandle>? eventHandleHook = null;
         private Hook<OnSetup>? onSetupHook = null;
+        private Hook<Finalize>? finalizeHook = null;
 
         public SelectYesNoAddonHelper()
         {
@@ -38,16 +39,12 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
             eventHandleHook?.Dispose();
             onSetupHook?.Dispose();
+            finalizeHook?.Dispose();
         }
 
         public ButtonState GetCurrentState()
         {
             return currentState;
-        }
-
-        public ButtonState GetLastState()
-        {
-            return lastState;
         }
 
         private void OnFrameworkUpdate(Framework framework)
@@ -65,15 +62,13 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
             onSetupHook = new Hook<OnSetup>(new IntPtr(setupPointer), OnSetupHandler);
             eventHandleHook = new Hook<EventHandle>(new IntPtr(eventHandlePointer), OnButtonEvent);
+            finalizeHook = new Hook<Finalize>(new IntPtr(finalizePointer), OnFinalize);
 
             onSetupHook.Enable();
             eventHandleHook.Enable();
+            finalizeHook.Enable();
 
             currentState = ButtonState.Null;
-            lastState = ButtonState.Null;
-
-            Chat.Debug("YesNo::Hooked");
-            Chat.Debug("YesNo::Null Internal State (This is good)");
 
             Service.Framework.Update -= OnFrameworkUpdate;
         }
@@ -81,9 +76,7 @@ namespace DailyDuty.Utilities.Helpers.Addons
         private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
         {
             Chat.Debug("YesNo::OnSetup");
-            Chat.Debug("YesNo::Resetting Internal State to Null");
 
-            lastState = currentState;
             currentState = ButtonState.Null;
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
@@ -93,24 +86,23 @@ namespace DailyDuty.Utilities.Helpers.Addons
         {
             if (IsOpen())
             {
-                var pointer = GetAddonPointer();
-
                 switch (eventType)
                 {
                     case AtkEventType.MouseDown when a5->RightClick == false:
-                    
+
+                        Chat.Debug("YesNo::Event");
                         var button = (AtkComponentButton*) atkUnitBase;
 
                         if (button->IsEnabled)
                         {
+                            var pointer = GetAddonPointer();
+
                             if (atkUnitBase == pointer->YesButton)
                             {
-                                Chat.Debug("YesNo::Yes Button Clicked");
                                 currentState = ButtonState.Yes;
                             }
                             else if (atkUnitBase == pointer->NoButton)
                             {
-                                Chat.Debug("YesNo::No Button Clicked");
                                 currentState = ButtonState.No;
                             }
                         }
@@ -122,6 +114,16 @@ namespace DailyDuty.Utilities.Helpers.Addons
             }
 
             return eventHandleHook!.Original(atkUnitBase, eventType, eventParam, atkEvent, a5);
+        }
+
+        private void* OnFinalize(AtkUnitBase* atkUnitBase)
+        {
+            Chat.Debug("YesNo::Finalize");
+            Chat.Debug("YesNo::PreFinalizedState::" + currentState);
+
+            currentState = ButtonState.Null;
+            
+            return finalizeHook!.Original(atkUnitBase);
         }
 
         private bool IsOpen()

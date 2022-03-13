@@ -4,6 +4,7 @@ using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
+using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Addons;
 using Dalamud.Game;
 using Dalamud.Hooking;
@@ -107,7 +108,9 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                Chat.Debug("CustomDelivery::Finalize");
+
+                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
                 var nullPopup = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
 

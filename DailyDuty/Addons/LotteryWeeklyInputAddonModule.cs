@@ -68,8 +68,6 @@ namespace DailyDuty.Addons
             purchaseButtonPressed = false;
             addonAddress = addonPointer;
 
-            Chat.Debug("Addr" + addonAddress->ToString());
-
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
@@ -110,9 +108,9 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {                
-                Chat.Debug("JumboFinalize");
+                Chat.Debug("JumboCactpot::Finalize");
 
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
                 if (purchaseButtonPressed && yesPopupSelected)
