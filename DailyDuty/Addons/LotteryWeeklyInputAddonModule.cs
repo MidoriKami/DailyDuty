@@ -115,7 +115,7 @@ namespace DailyDuty.Addons
                 var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
-                if (purchaseButtonPressed  && yesPopupSelected)
+                if (purchaseButtonPressed && yesPopupSelected)
                 {
                     purchaseButtonPressed = false;
                     Settings.CollectedTickets.Add(new TicketData
