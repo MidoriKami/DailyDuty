@@ -10,11 +10,9 @@ namespace DailyDuty.Timers
     {
         public readonly List<ITimer> Timers;
 
-        private TimersWindowSettings Settings => Service.Configuration.Windows.Timers;
-
         public CountdownTimers(List<ITimer> timers)
         {
-            this.Timers = timers;
+            Timers = timers;
         }
 
         public void Draw()
