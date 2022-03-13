@@ -86,6 +86,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
+                    case AtkEventType.InputReceived:
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetPurchaseButton():
                         
                         var button = (AtkComponentButton*) atkUnitBase;

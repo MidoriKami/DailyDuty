@@ -88,6 +88,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
+                    case AtkEventType.InputReceived:
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetDepositButton():
 
                         var button = (AtkComponentButton*) atkUnitBase;

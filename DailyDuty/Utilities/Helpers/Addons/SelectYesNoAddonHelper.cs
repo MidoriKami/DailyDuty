@@ -88,6 +88,7 @@ namespace DailyDuty.Utilities.Helpers.Addons
             {
                 switch (eventType)
                 {
+                    case AtkEventType.InputReceived:
                     case AtkEventType.MouseDown when a5->RightClick == false:
 
                         Chat.Debug("YesNo::Event");
