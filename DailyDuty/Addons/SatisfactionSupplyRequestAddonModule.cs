@@ -67,8 +67,6 @@ namespace DailyDuty.Addons
             handOverButtonPressed = false;
             addonAddress = addonPointer;
 
-            AddonManager.YesNoAddonHelper.ResetState();
-
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
@@ -76,8 +74,6 @@ namespace DailyDuty.Addons
         {
             handOverButtonPressed = false;
             addonAddress = atkUnitBase;
-
-            AddonManager.YesNoAddonHelper.ResetState();
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
@@ -96,8 +92,6 @@ namespace DailyDuty.Addons
                         if (button->IsEnabled)
                         {
                             handOverButtonPressed = true;
-
-                            AddonManager.YesNoAddonHelper.ResetState();
                         }
                         break;
 

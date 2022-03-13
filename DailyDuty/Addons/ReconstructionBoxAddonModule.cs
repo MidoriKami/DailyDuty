@@ -69,8 +69,6 @@ namespace DailyDuty.Addons
             depositAmount = 0;
             addonAddress = addonPointer;
 
-            AddonManager.YesNoAddonHelper.ResetState();
-
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
@@ -79,8 +77,6 @@ namespace DailyDuty.Addons
             depositButtonPressed = false;
             depositAmount = 0;
             addonAddress = atkUnitBase;
-
-            AddonManager.YesNoAddonHelper.ResetState();
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
@@ -100,8 +96,6 @@ namespace DailyDuty.Addons
                         {
                             depositButtonPressed = true;
                             depositAmount = GetGrandTotal();
-
-                            AddonManager.YesNoAddonHelper.ResetState();
                         }
                         break;
 
