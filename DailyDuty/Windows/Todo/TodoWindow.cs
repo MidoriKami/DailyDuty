@@ -33,11 +33,6 @@ namespace DailyDuty.Windows.Todo
 
         public override void PreOpenCheck()
         {
-            IsOpen = Settings.Open;
-        }
-
-        public override bool DrawConditions()
-        {
             bool dailyTasksComplete = dailyTasks.AllTasksCompleted() || !Settings.ShowDaily;
             bool weeklyTasksComplete = weeklyTasks.AllTasksCompleted() || !Settings.ShowWeekly;
             bool tasksComplete = dailyTasksComplete && weeklyTasksComplete;
@@ -46,28 +41,28 @@ namespace DailyDuty.Windows.Todo
 
             bool hideWindow = tasksComplete && Settings.HideWhenTasksComplete;
 
+            IsOpen = Settings.Open && !hideWindow && !isInQuestEvent && Service.LoggedIn;
+
             if (Settings.HideInDuty == true && Utilities.Condition.IsBoundByDuty() == true)
             {
-                return false;
+                IsOpen = false;
             }
-
-            return !hideWindow && !isInQuestEvent && Service.LoggedIn;
         }
-
+        
         public override void PreDraw()
         {
-            Flags = Settings.ClickThrough ? DrawFlags.ClickThroughFlags : DrawFlags.DefaultFlags;
+            var bgColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(bgColor.X, bgColor.Y, bgColor.Z, Settings.Opacity));
 
-            var color = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
-
-            color = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
-            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
+            var borderColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(borderColor.X, borderColor.Y, borderColor.Z, Settings.Opacity));
         }
 
         public override void Draw()
         {
             if (IsOpen == false) return;
+
+            Flags = Settings.ClickThrough ? DrawFlags.ClickThroughFlags : DrawFlags.DefaultFlags;
 
             if(Settings.Anchor != WindowAnchor.TopLeft)
             {
@@ -83,8 +78,10 @@ namespace DailyDuty.Windows.Todo
                     if(!Settings.Anchor.HasFlag(WindowAnchor.Bottom))
                         offset.Y = 0;
 
-                    if(offset != Vector2.Zero)
+                    if (offset != Vector2.Zero)
+                    {
                         ImGui.SetWindowPos(ImGui.GetWindowPos() + offset);
+                    }
                 }
 
                 lastWindowSize = size;

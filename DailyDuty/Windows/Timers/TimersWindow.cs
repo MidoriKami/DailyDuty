@@ -28,28 +28,21 @@ namespace DailyDuty.Windows.Timers
 
         public override void PreOpenCheck()
         {
-            IsOpen = Settings.Open;
-        }
-
-        public override bool DrawConditions()
-        {
             bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
+
+            IsOpen = !isInQuestEvent && Service.LoggedIn && Settings.Open;
 
             if (Settings.HideInDuty == true)
             {
                 if (Utilities.Condition.IsBoundByDuty() == true)
                 {
-                    return false;
+                    IsOpen = false;
                 }
             }
-
-            return !isInQuestEvent && Service.LoggedIn;
         }
 
         public override void PreDraw()
         {
-            Flags = Settings.ClickThrough ? DrawFlags.ClickThroughFlags : DrawFlags.DefaultFlags;
-
             var color = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
 
@@ -60,6 +53,8 @@ namespace DailyDuty.Windows.Timers
         public override void Draw()
         {
             if (IsOpen == false) return;
+
+            Flags = Settings.ClickThrough ? DrawFlags.ClickThroughFlags : DrawFlags.DefaultFlags;
 
             countdownTimers.Draw();
         }
