@@ -121,16 +121,30 @@ namespace DailyDuty.Modules.Daily
             {
                 return;
             }
-            
-            foreach (var tracked in Settings.TrackedRoulettes)
+
+            if(Settings.SingleTask)
             {
-                if (tracked.Completed == false && tracked.Tracked == true)
+                if (IsCompleted() == false)
                 {
-                    ImGui.TextColored(colors.IncompleteColor, $"{tracked.Type} Roulette");
+                    ImGui.TextColored(colors.IncompleteColor, HeaderText);
                 }
-                else if (tracked.Completed == true && tracked.Tracked == true && showCompletedTasks)
+                else if (IsCompleted() == true && showCompletedTasks)
                 {
-                    ImGui.TextColored(colors.CompleteColor, $"{tracked.Type} Roulette");
+                    ImGui.TextColored(colors.CompleteColor, HeaderText);
+                }
+            }
+            else
+            {
+                foreach (var tracked in Settings.TrackedRoulettes)
+                {
+                    if (tracked.Completed == false && tracked.Tracked == true)
+                    {
+                        ImGui.TextColored(colors.IncompleteColor, $"{tracked.Type} Roulette");
+                    }
+                    else if (tracked.Completed == true && tracked.Tracked == true && showCompletedTasks)
+                    {
+                        ImGui.TextColored(colors.CompleteColor, $"{tracked.Type} Roulette");
+                    }
                 }
             }
         }
@@ -145,6 +159,9 @@ namespace DailyDuty.Modules.Daily
 
         public void NotificationOptions()
         {
+            ImGui.Checkbox("Single Todo Task", ref Settings.SingleTask);
+            ImGuiComponents.HelpMarker("Display this module's status as a single task in the todo window instead of each roulette separate");
+
             Draw.OnLoginReminderCheckbox(Settings);
 
             Draw.OnTerritoryChangeCheckbox(Settings);
