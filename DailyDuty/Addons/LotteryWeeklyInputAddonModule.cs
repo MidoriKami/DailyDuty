@@ -86,7 +86,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
-                    case AtkEventType.InputReceived:
+                    case AtkEventType.InputReceived when atkUnitBase == GetPurchaseButton():
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetPurchaseButton():
                         
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -109,9 +109,12 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {                
-                Chat.Debug("JumboCactpot::Finalize");
-
                 var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
+
+                // If the user navigates too quickly through the menu, yesno will finalize before addon
+                if (yesNoState == SelectYesNoAddonHelper.ButtonState.Null)
+                    yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
                 if (purchaseButtonPressed && yesPopupSelected)

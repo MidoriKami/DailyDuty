@@ -13,12 +13,13 @@ namespace DailyDuty.Utilities.Helpers.Addons
     {
         public enum ButtonState
         {
+            Null,
             Yes,
             No,
-            Null
         }
 
-        private ButtonState currentState;
+        private ButtonState currentState = ButtonState.Null;
+        private ButtonState lastState = ButtonState.Null;
 
         private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5);
         private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
@@ -45,6 +46,11 @@ namespace DailyDuty.Utilities.Helpers.Addons
         public ButtonState GetCurrentState()
         {
             return currentState;
+        }
+
+        public ButtonState GetLastState()
+        {
+            return lastState;
         }
 
         private void OnFrameworkUpdate(Framework framework)
@@ -75,8 +81,6 @@ namespace DailyDuty.Utilities.Helpers.Addons
         
         private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
         {
-            Chat.Debug("YesNo::OnSetup");
-
             currentState = ButtonState.Null;
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
@@ -91,7 +95,6 @@ namespace DailyDuty.Utilities.Helpers.Addons
                     case AtkEventType.InputReceived:
                     case AtkEventType.MouseDown when a5->RightClick == false:
 
-                        Chat.Debug("YesNo::Event");
                         var button = (AtkComponentButton*) atkUnitBase;
 
                         if (button->IsEnabled)
@@ -119,11 +122,8 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
         private void* OnFinalize(AtkUnitBase* atkUnitBase)
         {
-            Chat.Debug("YesNo::Finalize");
-            Chat.Debug("YesNo::PreFinalizedState::" + currentState);
+            lastState = currentState;
 
-            currentState = ButtonState.Null;
-            
             return finalizeHook!.Original(atkUnitBase);
         }
 

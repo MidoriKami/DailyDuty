@@ -88,7 +88,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
-                    case AtkEventType.InputReceived:
+                    case AtkEventType.InputReceived when atkUnitBase == GetDepositButton():
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetDepositButton():
 
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -112,8 +112,6 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                Chat.Debug("DomanEnclave::Finalize");
-
                 var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 

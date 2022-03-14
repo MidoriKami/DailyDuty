@@ -86,7 +86,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
-                    case AtkEventType.InputReceived:
+                    case AtkEventType.InputReceived when atkUnitBase == GetHandOverButton():
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetHandOverButton():
 
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -109,9 +109,11 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                Chat.Debug("CustomDelivery::Finalize");
-
                 var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
+
+                if (yesNoState == SelectYesNoAddonHelper.ButtonState.Null)
+                    yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
                 var nullPopup = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
 
