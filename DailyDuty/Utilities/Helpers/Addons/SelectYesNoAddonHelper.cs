@@ -1,5 +1,8 @@
 ﻿using System;
+using DailyDuty.Data.Structs;
+using DailyDuty.System;
 using Dalamud.Game;
+using Dalamud.Game.Gui;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -10,19 +13,21 @@ namespace DailyDuty.Utilities.Helpers.Addons
     {
         public enum ButtonState
         {
+            Null,
             Yes,
             No,
-            Neither,
-            Null
         }
 
-        private ButtonState lastState;
+        private ButtonState currentState = ButtonState.Null;
+        private ButtonState lastState = ButtonState.Null;
 
-        private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, void* a5);
+        private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5);
         private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
+        private delegate void* Finalize(AtkUnitBase* atkUnitBase);
 
         private Hook<EventHandle>? eventHandleHook = null;
         private Hook<OnSetup>? onSetupHook = null;
+        private Hook<Finalize>? finalizeHook = null;
 
         public SelectYesNoAddonHelper()
         {
@@ -35,11 +40,12 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
             eventHandleHook?.Dispose();
             onSetupHook?.Dispose();
+            finalizeHook?.Dispose();
         }
 
-        public void ResetState()
+        public ButtonState GetCurrentState()
         {
-            lastState = ButtonState.Null;
+            return currentState;
         }
 
         public ButtonState GetLastState()
@@ -55,49 +61,73 @@ namespace DailyDuty.Utilities.Helpers.Addons
             var yesButton = addonPointer->YesButton;
 
             if (addonPointer == null || yesButton == null) return;
-            
+
             var setupPointer = ((AtkUnitBase*)addonPointer)->AtkEventListener.vfunc[45];
             var eventHandlePointer = yesButton->AtkComponentBase.AtkEventListener.vfunc[2];
+            var finalizePointer = ((AtkUnitBase*)addonPointer)->AtkEventListener.vfunc[38];
 
             onSetupHook = new Hook<OnSetup>(new IntPtr(setupPointer), OnSetupHandler);
             eventHandleHook = new Hook<EventHandle>(new IntPtr(eventHandlePointer), OnButtonEvent);
+            finalizeHook = new Hook<Finalize>(new IntPtr(finalizePointer), OnFinalize);
 
             onSetupHook.Enable();
             eventHandleHook.Enable();
+            finalizeHook.Enable();
+
+            currentState = ButtonState.Null;
 
             Service.Framework.Update -= OnFrameworkUpdate;
         }
-
+        
         private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
         {
-            lastState = ButtonState.Neither;
+            currentState = ButtonState.Null;
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
 
-        private byte OnButtonEvent(AtkUnitBase* atkunitbase, AtkEventType eventtype, uint eventparam, AtkEvent* atkevent, void* a5)
+        private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5)
         {
-            if (eventtype == AtkEventType.MouseDown)
+            if (IsOpen())
             {
-                var pointer = GetAddonPointer();
-
-                if (pointer != null)
+                switch (eventType)
                 {
-                    if (atkunitbase == pointer->YesButton)
-                    {
-                        lastState = ButtonState.Yes;
-                    }
-                    else if (atkunitbase == pointer->NoButton)
-                    {
-                        lastState = ButtonState.No;
-                    }
+                    case AtkEventType.InputReceived:
+                    case AtkEventType.MouseDown when a5->RightClick == false:
+
+                        var button = (AtkComponentButton*) atkUnitBase;
+
+                        if (button->IsEnabled)
+                        {
+                            var pointer = GetAddonPointer();
+
+                            if (atkUnitBase == pointer->YesButton)
+                            {
+                                currentState = ButtonState.Yes;
+                            }
+                            else if (atkUnitBase == pointer->NoButton)
+                            {
+                                currentState = ButtonState.No;
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
                 }
             }
 
-            return eventHandleHook!.Original(atkunitbase, eventtype, eventparam, atkevent, a5);
+            return eventHandleHook!.Original(atkUnitBase, eventType, eventParam, atkEvent, a5);
         }
 
-        public bool IsOpen()
+        private void* OnFinalize(AtkUnitBase* atkUnitBase)
+        {
+            lastState = currentState;
+
+            return finalizeHook!.Original(atkUnitBase);
+        }
+
+        private bool IsOpen()
         {
             return GetAddonPointer() != null;
         }

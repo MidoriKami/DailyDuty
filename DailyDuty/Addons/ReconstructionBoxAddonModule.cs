@@ -69,8 +69,6 @@ namespace DailyDuty.Addons
             depositAmount = 0;
             addonAddress = addonPointer;
 
-            AddonManager.YesNoAddonHelper.ResetState();
-
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
@@ -79,8 +77,6 @@ namespace DailyDuty.Addons
             depositButtonPressed = false;
             depositAmount = 0;
             addonAddress = atkUnitBase;
-
-            AddonManager.YesNoAddonHelper.ResetState();
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
@@ -92,6 +88,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
+                    case AtkEventType.InputReceived when atkUnitBase == GetDepositButton():
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetDepositButton():
 
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -100,8 +97,6 @@ namespace DailyDuty.Addons
                         {
                             depositButtonPressed = true;
                             depositAmount = GetGrandTotal();
-
-                            AddonManager.YesNoAddonHelper.ResetState();
                         }
                         break;
 
@@ -117,7 +112,7 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
 
                 if (depositButtonPressed && yesPopupSelected)
@@ -157,19 +152,6 @@ namespace DailyDuty.Addons
             if(basePointer == null) return null;
 
             return basePointer->GetNodeById(30)->GetComponent();
-        }
-
-        private AtkComponentBase* GetCloseButton()
-        {
-            var basePointer = GetAddonPointer();
-
-            if(basePointer == null) return null;
-
-            var windowComponent = (AtkComponentNode*)basePointer->GetNodeById(31);
-            if(windowComponent == null) return null;
-
-            var closeButtonNode = Node.GetNodeByID<AtkComponentNode>(windowComponent, 2);
-            return closeButtonNode->Component;
         }
 
         private AtkTextNode* GetGrandTotalTextNode()

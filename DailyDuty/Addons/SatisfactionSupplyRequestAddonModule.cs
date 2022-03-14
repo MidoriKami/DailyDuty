@@ -4,6 +4,7 @@ using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.System;
+using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Addons;
 using Dalamud.Game;
 using Dalamud.Hooking;
@@ -67,8 +68,6 @@ namespace DailyDuty.Addons
             handOverButtonPressed = false;
             addonAddress = addonPointer;
 
-            AddonManager.YesNoAddonHelper.ResetState();
-
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
@@ -76,8 +75,6 @@ namespace DailyDuty.Addons
         {
             handOverButtonPressed = false;
             addonAddress = atkUnitBase;
-
-            AddonManager.YesNoAddonHelper.ResetState();
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
@@ -89,6 +86,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
+                    case AtkEventType.InputReceived when atkUnitBase == GetHandOverButton():
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetHandOverButton():
 
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -96,8 +94,6 @@ namespace DailyDuty.Addons
                         if (button->IsEnabled)
                         {
                             handOverButtonPressed = true;
-
-                            AddonManager.YesNoAddonHelper.ResetState();
                         }
                         break;
 
@@ -113,7 +109,11 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
+
+                if (yesNoState == SelectYesNoAddonHelper.ButtonState.Null)
+                    yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
+
                 var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
                 var nullPopup = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
 

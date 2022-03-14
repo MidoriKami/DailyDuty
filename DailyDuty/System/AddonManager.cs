@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DailyDuty.Addons;
 using DailyDuty.Interfaces;
+using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Addons;
 
 namespace DailyDuty.System
@@ -16,10 +17,12 @@ namespace DailyDuty.System
             new SatisfactionSupplyRequestAddonModule()
         };
 
-        public static readonly SelectYesNoAddonHelper YesNoAddonHelper = new();
+        public static SelectYesNoAddonHelper YesNoAddonHelper;
 
         public AddonManager()
         {
+            YesNoAddonHelper = new();
+
             //Chat.Debug("Addon Manager Loading.");
 
             //foreach (var addon in overlays)
