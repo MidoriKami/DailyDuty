@@ -22,7 +22,7 @@ namespace DailyDuty.Interfaces
 
             foreach (var module in Tasks)
             {
-                DrawTaskStatus(module);
+                module.DrawTask(Colors, ShowCompletedTasks);
             }
 
             bool allTasksComplete = Tasks
@@ -43,19 +43,6 @@ namespace DailyDuty.Interfaces
             return Tasks
                 .Where(task => task.GenericSettings.Enabled)
                 .All(task => task.IsCompleted());
-        }
-
-        private void DrawTaskStatus(ICompletable task)
-        {
-            if (task.IsCompleted() == false && task.GenericSettings.Enabled)
-            {
-                ImGui.TextColored(Colors.IncompleteColor, task.HeaderText);
-            }
-            else if (task.IsCompleted() == true && task.GenericSettings.Enabled && ShowCompletedTasks)
-            {
-                ImGui.TextColored(Colors.CompleteColor, task.HeaderText);
-            }
-
         }
     }
 }

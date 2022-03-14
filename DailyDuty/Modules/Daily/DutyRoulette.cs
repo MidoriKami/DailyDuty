@@ -4,6 +4,7 @@ using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Daily;
+using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
@@ -112,6 +113,26 @@ namespace DailyDuty.Modules.Daily
         public bool IsCompleted()
         {
             return RemainingRoulettesCount() == 0;
+        }
+
+        public void DrawTask(TaskColors colors, bool showCompletedTasks)
+        {
+            if (GenericSettings.Enabled == false)
+            {
+                return;
+            }
+            
+            foreach (var tracked in Settings.TrackedRoulettes)
+            {
+                if (tracked.Completed == false && tracked.Tracked == true)
+                {
+                    ImGui.TextColored(colors.IncompleteColor, $"{tracked.Type} Roulette");
+                }
+                else if (tracked.Completed == true && tracked.Tracked == true && showCompletedTasks)
+                {
+                    ImGui.TextColored(colors.CompleteColor, $"{tracked.Type} Roulette");
+                }
+            }
         }
 
         public void SendNotification()
