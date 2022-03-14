@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using DailyDuty.Data.Enums;
+using DailyDuty.Data.Enums.Addons;
 using DailyDuty.Data.Structs;
 using DailyDuty.System;
 using Dalamud.Game;
@@ -11,15 +14,7 @@ namespace DailyDuty.Utilities.Helpers.Addons
 {
     public unsafe class SelectYesNoAddonHelper : IDisposable
     {
-        public enum ButtonState
-        {
-            Null,
-            Yes,
-            No,
-        }
-
-        private ButtonState currentState = ButtonState.Null;
-        private ButtonState lastState = ButtonState.Null;
+        private Dictionary<AddonName, Action<YesNoState>> Listeners = new();
 
         private delegate byte EventHandle(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5);
         private delegate void* OnSetup(AtkUnitBase* atkUnitBase, int a2, void* a3);
@@ -43,16 +38,6 @@ namespace DailyDuty.Utilities.Helpers.Addons
             finalizeHook?.Dispose();
         }
 
-        public ButtonState GetCurrentState()
-        {
-            return currentState;
-        }
-
-        public ButtonState GetLastState()
-        {
-            return lastState;
-        }
-
         private void OnFrameworkUpdate(Framework framework)
         {
             if (IsOpen() == false) return;
@@ -74,14 +59,16 @@ namespace DailyDuty.Utilities.Helpers.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
-            currentState = ButtonState.Null;
-
             Service.Framework.Update -= OnFrameworkUpdate;
         }
-        
+
         private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
         {
-            currentState = ButtonState.Null;
+            //foreach (var (addon, listener) in Listeners)
+            //{
+            //    Chat.Debug("YesNo::NotifyingListeners::" + YesNoState.Opened);
+            //    listener(YesNoState.Opened);
+            //}
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
@@ -92,7 +79,7 @@ namespace DailyDuty.Utilities.Helpers.Addons
             {
                 switch (eventType)
                 {
-                    case AtkEventType.InputReceived:
+                    case AtkEventType.InputReceived when ((InputReceivedEventData*)a5)->KeyUp && ((InputReceivedEventData*)a5)->KeyCode == 1:
                     case AtkEventType.MouseDown when a5->RightClick == false:
 
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -103,11 +90,19 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
                             if (atkUnitBase == pointer->YesButton)
                             {
-                                currentState = ButtonState.Yes;
+                                foreach (var (addon, listener) in Listeners)
+                                {
+                                    //Chat.Debug("YesNo::NotifyingListeners::" + YesNoState.Yes);
+                                    listener(YesNoState.Yes);
+                                }
                             }
                             else if (atkUnitBase == pointer->NoButton)
                             {
-                                currentState = ButtonState.No;
+                                foreach (var (addon, listener) in Listeners)
+                                {
+                                    //Chat.Debug("YesNo::NotifyingListeners::" + YesNoState.No);
+                                    listener(YesNoState.No);
+                                }
                             }
                         }
                         break;
@@ -122,9 +117,32 @@ namespace DailyDuty.Utilities.Helpers.Addons
 
         private void* OnFinalize(AtkUnitBase* atkUnitBase)
         {
-            lastState = currentState;
+            //foreach (var (addon, listener) in Listeners)
+            //{
+            //    //Chat.Debug("YesNo::NotifyingListeners::" + YesNoState.Closed);
+            //    listener(YesNoState.Closed);
+            //}
 
             return finalizeHook!.Original(atkUnitBase);
+        }
+
+        public void AddListener(AddonName addon, Action<YesNoState> action)
+        {
+            if (Listeners.ContainsKey(addon) == false)
+            {
+                //Chat.Debug("YesNo::RegisteringListener::" + addon);
+                Listeners.Add(addon, action);
+            }
+            else
+            {
+                Chat.Debug("YesNo::ListenerAlreadyActive");
+            }
+        }
+
+        public void RemoveListener(AddonName addon)
+        {
+            //Chat.Debug("YesNo::RemovingListener::" + addon);
+            Listeners.Remove(addon);
         }
 
         private bool IsOpen()

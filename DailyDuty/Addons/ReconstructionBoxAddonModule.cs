@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using DailyDuty.Data.Enums;
+using DailyDuty.Data.Enums.Addons;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
@@ -10,6 +13,7 @@ using DailyDuty.Utilities.Helpers.Addons;
 using Dalamud.Game;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using ImGuiNET;
 
 namespace DailyDuty.Addons
 {
@@ -29,6 +33,8 @@ namespace DailyDuty.Addons
         private bool depositButtonPressed = false;
         private int depositAmount = 0;
         private AtkUnitBase* addonAddress = null;
+
+        private YesNoState yesNoState = YesNoState.Null;
 
         public ReconstructionBoxAddonModule()
         {
@@ -65,31 +71,51 @@ namespace DailyDuty.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
-            depositButtonPressed = false;
-            depositAmount = 0;
-            addonAddress = addonPointer;
+            Initialize(addonPointer);
 
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
-        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        private void Initialize(AtkUnitBase* addonPointer)
         {
             depositButtonPressed = false;
             depositAmount = 0;
-            addonAddress = atkUnitBase;
+            addonAddress = addonPointer;
+        }
+
+        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        {
+            Initialize(atkUnitBase);
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
+        }
+
+        private void YesNoAction(YesNoState yesNoState)
+        {
+            switch (yesNoState)
+            {
+                case YesNoState.Null:
+                    break;
+
+                case YesNoState.Yes:
+                    this.yesNoState = yesNoState;
+                    break;
+
+                case YesNoState.No:
+                    AddonManager.YesNoAddonHelper.RemoveListener(AddonName);
+                    break;
+            }
         }
         
         private byte EventHandler(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5)
         {
             // If this module is enabled
-            if (Settings.Enabled && IsReconstructionBoxOpen())
+            if (Settings.Enabled && IsReconstructionBoxOpen() && atkUnitBase == GetDepositButton())
             {
                 switch (eventType)
                 {
-                    case AtkEventType.InputReceived when atkUnitBase == GetDepositButton():
-                    case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetDepositButton():
+                    case AtkEventType.InputReceived when ((InputReceivedEventData*)a5)->KeyUp && ((InputReceivedEventData*)a5)->KeyCode == 1:
+                    case AtkEventType.MouseDown when ((MouseClickEventData*)a5)->LeftClick:
 
                         var button = (AtkComponentButton*) atkUnitBase;
 
@@ -97,6 +123,8 @@ namespace DailyDuty.Addons
                         {
                             depositButtonPressed = true;
                             depositAmount = GetGrandTotal();
+
+                            AddonManager.YesNoAddonHelper.AddListener(AddonName, YesNoAction);
                         }
                         break;
 
@@ -112,8 +140,9 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
-                var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
+                AddonManager.YesNoAddonHelper.RemoveListener(AddonName);
+
+                var yesPopupSelected = yesNoState == YesNoState.Yes;
 
                 if (depositButtonPressed && yesPopupSelected)
                 {

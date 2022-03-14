@@ -1,6 +1,6 @@
 ﻿namespace DailyDuty.Data.Enums
 {
-    internal enum AddonName
+    public enum AddonName
     {
         DutyFinder,
         ReconstructionBox,

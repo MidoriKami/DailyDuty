@@ -1,16 +1,23 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using DailyDuty.Utilities;
 
 namespace DailyDuty.Data.Structs
 {
     [StructLayout(LayoutKind.Explicit)]
-    internal unsafe struct MouseClickEventData
+    internal unsafe struct InputReceivedEventData
     {
         [FieldOffset(0x00)] private fixed byte Data[24];
 
-        [FieldOffset(0x06)] public readonly bool RightClick;
+        [FieldOffset(0x00)] public readonly byte KeyCode;
 
-        public bool LeftClick => !RightClick;
+        [FieldOffset(0x04)] public readonly bool KeyDown;
+
+        public bool KeyUp => !KeyDown;
 
         public void Print()
         {
