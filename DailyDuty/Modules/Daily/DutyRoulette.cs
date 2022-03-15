@@ -4,6 +4,7 @@ using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Daily;
+using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
@@ -114,6 +115,40 @@ namespace DailyDuty.Modules.Daily
             return RemainingRoulettesCount() == 0;
         }
 
+        public void DrawTask(TaskColors colors, bool showCompletedTasks)
+        {
+            if (GenericSettings.Enabled == false)
+            {
+                return;
+            }
+
+            if(Settings.SingleTask)
+            {
+                if (IsCompleted() == false)
+                {
+                    ImGui.TextColored(colors.IncompleteColor, HeaderText);
+                }
+                else if (IsCompleted() == true && showCompletedTasks)
+                {
+                    ImGui.TextColored(colors.CompleteColor, HeaderText);
+                }
+            }
+            else
+            {
+                foreach (var tracked in Settings.TrackedRoulettes)
+                {
+                    if (tracked.Completed == false && tracked.Tracked == true)
+                    {
+                        ImGui.TextColored(colors.IncompleteColor, $"{tracked.Type} Roulette");
+                    }
+                    else if (tracked.Completed == true && tracked.Tracked == true && showCompletedTasks)
+                    {
+                        ImGui.TextColored(colors.CompleteColor, $"{tracked.Type} Roulette");
+                    }
+                }
+            }
+        }
+
         public void SendNotification()
         {
             if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
@@ -124,6 +159,9 @@ namespace DailyDuty.Modules.Daily
 
         public void NotificationOptions()
         {
+            ImGui.Checkbox("Single Todo Task", ref Settings.SingleTask);
+            ImGuiComponents.HelpMarker("Display this module's status as a single task in the todo window instead of each roulette separate");
+
             Draw.OnLoginReminderCheckbox(Settings);
 
             Draw.OnTerritoryChangeCheckbox(Settings);

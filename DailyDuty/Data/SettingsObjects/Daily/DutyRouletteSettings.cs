@@ -4,6 +4,7 @@ namespace DailyDuty.Data.SettingsObjects.Daily
 {
     public class DutyRouletteSettings : GenericSettings
     {
+        public bool SingleTask = false;
         public TrackedRoulette[] TrackedRoulettes =
         {
             new(RouletteType.Expert),
