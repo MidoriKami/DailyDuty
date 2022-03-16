@@ -151,9 +151,22 @@ namespace DailyDuty.Modules.Daily
         
         public void Update()
         {
+            var dataChanged = false;
+
             foreach (var trackedRoulette in Settings.TrackedRoulettes)
             {
-                trackedRoulette.Completed = rouletteIncomplete(rouletteBasePointer, (byte)trackedRoulette.Type) == 0;
+                var rouletteStatus = rouletteIncomplete(rouletteBasePointer, (byte) trackedRoulette.Type) == 0;
+
+                if (trackedRoulette.Completed != rouletteStatus)
+                {
+                    trackedRoulette.Completed = rouletteStatus;
+                    dataChanged = true;
+                }
+            }
+
+            if (dataChanged == true)
+            {
+                Service.Configuration.Save();
             }
         }
 
