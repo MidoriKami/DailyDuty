@@ -13,7 +13,6 @@ namespace DailyDuty.Modules.Weekly
 {
     internal unsafe class CustomDelivery : 
         IConfigurable, 
-        //IUpdateable,
         IZoneChangeThrottledNotification,
         ILoginNotification,
         ICompletable,
@@ -48,35 +47,6 @@ namespace DailyDuty.Modules.Weekly
         void IResettable.ResetThis()
         {
             Settings.AllowancesRemaining = 12;
-        }
-
-        public void Update()
-        {
-            if (Settings.Enabled)
-            {
-                // If we are occupied by talking to a quest npc
-                if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
-                {
-                    // If a custom delivery window is open
-                    if (GetCustomDeliveryPointer() != null)
-                    {
-                        StartCustomDeliveryExchange();
-                    }
-                    // If we started an exchange, check for cutscene event
-                    if (Service.Condition[ConditionFlag.OccupiedInCutSceneEvent] == true && exchangeStarted == true)
-                    {
-                        Settings.AllowancesRemaining -= 1;
-                        Service.Configuration.Save();
-                        
-                        exchangeStarted = false;
-                    }
-                }
-                // End the exchange when we are no longer locked by OccupiedInQuestEvent
-                else if(exchangeStarted == true)
-                {
-                    exchangeStarted = false;
-                }
-            }
         }
 
         public void NotificationOptions()
