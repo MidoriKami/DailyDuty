@@ -57,9 +57,9 @@ namespace DailyDuty.Windows.Settings.Headers
                                        "Minimum:  1 Minute\n" +
                                        "Maximum: 60 Minutes");
 
-            if (Service.Configuration.System.MinutesBetweenThrottledMessages < 1)
+            if (Service.Configuration.System.MinutesBetweenThrottledMessages < 0)
             {
-                Service.Configuration.System.MinutesBetweenThrottledMessages = 1;
+                Service.Configuration.System.MinutesBetweenThrottledMessages = 0;
             }
             else if (Service.Configuration.System.MinutesBetweenThrottledMessages > 60)
             {
