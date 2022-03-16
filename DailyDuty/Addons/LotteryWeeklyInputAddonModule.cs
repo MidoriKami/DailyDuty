@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.Data.Enums;
+using DailyDuty.Data.Enums.Addons;
 using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
@@ -29,6 +30,8 @@ namespace DailyDuty.Addons
 
         private bool purchaseButtonPressed = false;
         private AtkUnitBase* addonAddress = null;
+
+        private YesNoState yesNoState = YesNoState.Null;
 
         public LotteryWeeklyInputAddonModule()
         {
@@ -65,18 +68,40 @@ namespace DailyDuty.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
-            purchaseButtonPressed = false;
-            addonAddress = addonPointer;
+            Initialize(addonPointer);
 
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
-        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        private void Initialize(AtkUnitBase* addonPointer)
         {
             purchaseButtonPressed = false;
-            addonAddress = atkUnitBase;
+            addonAddress = addonPointer;
+            yesNoState = YesNoState.Null;
+        }
+
+        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        {
+            Initialize(atkUnitBase);
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
+        }
+
+        private void YesNoAction(YesNoState yesNoState)
+        {
+            switch (yesNoState)
+            {
+                case YesNoState.Null:
+                    break;
+
+                case YesNoState.Yes:
+                    this.yesNoState = yesNoState;
+                    break;
+
+                case YesNoState.No:
+                    AddonManager.YesNoAddonHelper.RemoveListener(AddonName);
+                    break;
+            }
         }
 
         private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5)
@@ -86,7 +111,7 @@ namespace DailyDuty.Addons
             {
                 switch (eventType)
                 {
-                    case AtkEventType.InputReceived when atkUnitBase == GetPurchaseButton():
+                    case AtkEventType.InputReceived when ((InputReceivedEventData*)a5)->KeyUp && ((InputReceivedEventData*)a5)->KeyCode == 1:
                     case AtkEventType.MouseDown when a5->RightClick == false && atkUnitBase == GetPurchaseButton():
                         
                         var button = (AtkComponentButton*) atkUnitBase;
@@ -94,6 +119,9 @@ namespace DailyDuty.Addons
                         if (button->IsEnabled)
                         {
                             purchaseButtonPressed = true;
+
+                            yesNoState = YesNoState.Null;
+                            AddonManager.YesNoAddonHelper.AddListener(AddonName, YesNoAction);
                         }
                         break;
 
@@ -108,14 +136,10 @@ namespace DailyDuty.Addons
         private void* OnFinalize(AtkUnitBase* atkUnitBase)
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
-            {                
-                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
+            {                    
+                AddonManager.YesNoAddonHelper.RemoveListener(AddonName);
 
-                // If the user navigates too quickly through the menu, yesno will finalize before addon
-                if (yesNoState == SelectYesNoAddonHelper.ButtonState.Null)
-                    yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
-
-                var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
+                var yesPopupSelected = yesNoState == YesNoState.Yes;
 
                 if (purchaseButtonPressed && yesPopupSelected)
                 {
@@ -129,7 +153,7 @@ namespace DailyDuty.Addons
                     Service.Configuration.Save();
                 }
             }
-            
+
             return finalizeHook!.Original(atkUnitBase);
         }
 

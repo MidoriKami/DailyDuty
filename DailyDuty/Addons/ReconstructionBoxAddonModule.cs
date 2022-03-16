@@ -81,6 +81,7 @@ namespace DailyDuty.Addons
             depositButtonPressed = false;
             depositAmount = 0;
             addonAddress = addonPointer;
+            yesNoState = YesNoState.Null;
         }
 
         private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
@@ -124,6 +125,7 @@ namespace DailyDuty.Addons
                             depositButtonPressed = true;
                             depositAmount = GetGrandTotal();
 
+                            yesNoState = YesNoState.Null;
                             AddonManager.YesNoAddonHelper.AddListener(AddonName, YesNoAction);
                         }
                         break;

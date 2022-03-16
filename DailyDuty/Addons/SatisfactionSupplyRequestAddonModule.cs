@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.Data.Enums;
+using DailyDuty.Data.Enums.Addons;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
@@ -8,6 +9,7 @@ using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Addons;
 using Dalamud.Game;
 using Dalamud.Hooking;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons
@@ -28,6 +30,8 @@ namespace DailyDuty.Addons
 
         private bool handOverButtonPressed = false;
         private AtkUnitBase* addonAddress = null;
+
+        private YesNoState yesNoState = YesNoState.Null;
 
         public SatisfactionSupplyRequestAddonModule()
         {
@@ -65,20 +69,44 @@ namespace DailyDuty.Addons
             eventHandleHook.Enable();
             finalizeHook.Enable();
 
-            handOverButtonPressed = false;
-            addonAddress = addonPointer;
+            Initialize(addonPointer);
 
             Service.Framework.Update -= FrameworkOnUpdate;
         }
 
-        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        private void Initialize(AtkUnitBase* addonPointer)
         {
             handOverButtonPressed = false;
-            addonAddress = atkUnitBase;
+            addonAddress = addonPointer;
+            yesNoState = YesNoState.Null;
+        }
+
+        private void* OnSetupHandler(AtkUnitBase* atkUnitBase, int a2, void* a3)
+        {
+            Initialize(atkUnitBase);
 
             return onSetupHook!.Original(atkUnitBase, a2, a3);
         }
         
+        private void YesNoAction(YesNoState yesNoState)
+        {
+            switch (yesNoState)
+            {
+                case YesNoState.Null:
+                    break;
+
+                case YesNoState.Yes:
+                    this.yesNoState = yesNoState;
+                    break;
+
+                case YesNoState.No:
+                    AddonManager.YesNoAddonHelper.RemoveListener(AddonName);
+                    this.yesNoState = yesNoState;
+                    break;
+            }
+
+        }
+
         private byte OnButtonEvent(AtkUnitBase* atkUnitBase, AtkEventType eventType, uint eventParam, AtkEvent* atkEvent, MouseClickEventData* a5)
         {
             // If this module is enabled
@@ -94,6 +122,9 @@ namespace DailyDuty.Addons
                         if (button->IsEnabled)
                         {
                             handOverButtonPressed = true;
+
+                            yesNoState = YesNoState.Null;
+                            AddonManager.YesNoAddonHelper.AddListener(AddonName, YesNoAction);
                         }
                         break;
 
@@ -109,21 +140,17 @@ namespace DailyDuty.Addons
         {
             if (Settings.Enabled && atkUnitBase == addonAddress)
             {
-                var yesNoState = AddonManager.YesNoAddonHelper.GetCurrentState();
+                AddonManager.YesNoAddonHelper.RemoveListener(AddonName);
 
-                if (yesNoState == SelectYesNoAddonHelper.ButtonState.Null)
-                    yesNoState = AddonManager.YesNoAddonHelper.GetLastState();
-
-                var yesPopupSelected = yesNoState == SelectYesNoAddonHelper.ButtonState.Yes;
-                var nullPopup = yesNoState == SelectYesNoAddonHelper.ButtonState.Null;
-
-                if (handOverButtonPressed && ( yesPopupSelected || nullPopup ) )
+                bool yesNoSatisfied = yesNoState != YesNoState.No;
+                
+                if (handOverButtonPressed && yesNoSatisfied)
                 {
                     Settings.AllowancesRemaining -= 1;
                     Service.Configuration.Save();
                 }
             }
-            
+
             return finalizeHook!.Original(atkUnitBase);
         }
 
