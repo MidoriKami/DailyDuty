@@ -18,7 +18,7 @@ namespace DailyDuty.Modules.Weekly
         ILoginNotification,
         IWeeklyResettable
     {
-        public List<int> DonationGoals = new()
+        private readonly List<int> donationGoals = new()
         {
             20000,
             25000,
@@ -71,7 +71,7 @@ namespace DailyDuty.Modules.Weekly
 
             if (ImGui.BeginCombo("Target Budget", Settings.Budget.ToString("n0"), ImGuiComboFlags.PopupAlignLeft))
             {
-                foreach (var element in DonationGoals)
+                foreach (var element in donationGoals)
                 {
                     bool isSelected = element == Settings.Budget;
                     if (ImGui.Selectable(element.ToString("n0"), isSelected))
