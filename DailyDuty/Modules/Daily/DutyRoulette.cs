@@ -5,6 +5,7 @@ using DailyDuty.Data.ModuleData.DutyRoulette;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
+using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
@@ -12,21 +13,23 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Dalamud.Logging;
+using Dalamud.Utility;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Daily
 {
     internal unsafe class DutyRoulette : 
         IConfigurable,
-        IZoneChangeLogic,
         ILoginNotification,
         IZoneChangeThrottledNotification,
         ICompletable,
-        IDailyResettable
+        IDailyResettable,
+        IUpdateable
     {
         private DutyRouletteSettings Settings => Service.Configuration.Current().DutyRoulette;
         public CompletionType Type => CompletionType.Daily;
@@ -36,6 +39,12 @@ namespace DailyDuty.Modules.Daily
         [Signature("E9 ?? ?? ?? ?? 8B 93 ?? ?? ?? ?? 48 83 C4 20")]
         private readonly delegate* unmanaged<AgentInterface*, byte, byte, IntPtr> openRouletteDuty = null!;
 
+        [Signature("48 83 EC 28 84 D2 75 07 32 C0", ScanType = ScanType.Text)]
+        private readonly delegate* unmanaged<IntPtr, byte, byte> rouletteIncomplete = null;
+
+        [Signature("48 8D 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 74 0C 48 8D 4C 24", ScanType = ScanType.StaticAddress)]
+        private readonly IntPtr rouletteBasePointer = IntPtr.Zero;
+
         private readonly DalamudLinkPayload openDutyFinder;
 
         public DateTime NextReset
@@ -44,24 +53,13 @@ namespace DailyDuty.Modules.Daily
             set => Settings.NextReset = value;
         }
 
-        private readonly byte* selectedRoulette;
-
         public DutyRoulette()
         {
             SignatureHelper.Initialise(this);
 
-            // UI State Pointer
-            var clientStruct = FFXIVClientStructs.FFXIV.Client.Game.UI.UIState.Instance();
-
-            // Offset to Client::Game::UI::InstanceContent (maybe?)
-            //var offset = (byte*)clientStruct + 0x118A8;
-
-            // +330 Bytes from UIState
-            selectedRoulette = (byte*)clientStruct + 0x119F2;
-
             openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
         }
-
+        
         public void Dispose()
         {
             Service.PluginInterface.RemoveChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder);
@@ -69,37 +67,8 @@ namespace DailyDuty.Modules.Daily
 
         private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
         {
-            // Will cause crash, no touchy
-            //ClearSelectedDuties();
-        
             var agent = GetAgentContentsFinder();
             openRouletteDuty(agent, GetFirstMissingRoulette(), 0);
-        }
-
-        private void ClearSelectedDuties()
-        {
-            var addonPointer = Service.GameGui.GetAddonByName("ContentsFinder", 1);
-            if (addonPointer != IntPtr.Zero)
-            {
-                try
-                {
-                    Chat.Print("Debug", $"AddonPointer:{addonPointer:x8}");
-
-                    var vf5 = ((void**) addonPointer)[5];
-
-                    Chat.Print("Debug", $"vf5:{(IntPtr)vf5:x8}");
-
-                    var clearSelection = (delegate* unmanaged<IntPtr, byte, uint, long>) vf5;
-                    Chat.Print("Debug", $"AddonPointer:{(IntPtr)clearSelection:x8}");
-
-                    Chat.Print("Debug", "Calling fp!");
-                    clearSelection(addonPointer, 0, 15);
-                }
-                catch (Exception e)
-                {
-                    PluginLog.Information(e.Message);
-                }
-            }
         }
 
         private AgentInterface* GetAgentContentsFinder()
@@ -159,8 +128,7 @@ namespace DailyDuty.Modules.Daily
 
         public void NotificationOptions()
         {
-            ImGui.Checkbox("Single Todo Task", ref Settings.SingleTask);
-            ImGuiComponents.HelpMarker("Display this module's status as a single task in the todo window instead of each roulette separate");
+            Draw.Checkbox("Single Todo Task", ref Settings.SingleTask, "Display this module's status as a single task in the todo window instead of each roulette separate");
 
             Draw.OnLoginReminderCheckbox(Settings);
 
@@ -169,39 +137,23 @@ namespace DailyDuty.Modules.Daily
 
         public void EditModeOptions()
         {
-            EditGrid();
+
         }
     
         public void DisplayData()
         {
-            ImGui.Text("Only detects that you started a duty roulette\n" +
-                       "Does not detect successful completion");
-
-            ImGui.Spacing();
-
-            ImGui.TextColored(Colors.SoftRed, "Does not detect completion if started before reset\n" +
-                                              "and subsequently completed after reset");
-
             DisplayTrackingGrid();
 
             ImGui.Spacing();
 
             DisplayRouletteStatus();
         }
-    
-        public void HandleZoneChange(object? sender, ushort e)
+        
+        public void Update()
         {
-            if (*selectedRoulette != 0 && Condition.IsBoundByDuty() == true)
+            foreach (var trackedRoulette in Settings.TrackedRoulettes)
             {
-                var duty = Settings.TrackedRoulettes
-                    .Where(t => (int) t.Type == *selectedRoulette)
-                    .FirstOrDefault();
-
-                if (duty != null)
-                {
-                    duty.Completed = true;
-                    Service.Configuration.Save();
-                }
+                trackedRoulette.Completed = rouletteIncomplete(rouletteBasePointer, (byte)trackedRoulette.Type) == 0;
             }
         }
 
@@ -268,47 +220,6 @@ namespace DailyDuty.Modules.Daily
                     {
                         ImGui.SameLine();
                         ImGuiComponents.HelpMarker("You know it's going to be an extreme... right?");
-                    }
-                }
-
-                ImGui.EndTable();
-            }
-        }
-        private void EditGrid()
-        {
-            ImGui.Text("Set Roulette Status");
-
-            if (ImGui.BeginTable($"##{HeaderText}EditTable", 2))
-            {
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
-
-                foreach (var roulette in Settings.TrackedRoulettes)
-                {
-                    if (roulette.Tracked)
-                    {
-                        ImGui.TableNextRow();
-                        ImGui.TableNextColumn();
-                        ImGui.Text(roulette.Type.ToString());
-
-                        ImGui.TableNextColumn();
-
-                        if (roulette.Completed == false)
-                        {
-                            if (ImGui.Button($"Complete##{roulette.Type}{HeaderText}"))
-                            {
-                                roulette.Completed = true;
-                                Service.Configuration.Save();
-                            }
-                        }
-                        else
-                        {
-                            if (ImGui.Button($"Incomplete##{roulette.Type}{HeaderText}"))
-                            {
-                                roulette.Completed = false;
-                                Service.Configuration.Save();
-                            }
-                        }
                     }
                 }
 
