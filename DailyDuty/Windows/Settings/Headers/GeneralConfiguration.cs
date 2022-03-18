@@ -24,6 +24,8 @@ namespace DailyDuty.Windows.Settings.Headers
         {
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
+            Draw.Checkbox("Display Settings in Single Column", ref System.SingleColumnSettings);
+
             NotificationDelaySettings();
 
             Draw.Checkbox("Enable Chat Links", ref System.ClickableLinks, "Provides quick-action links for some DailyDuty notifications");

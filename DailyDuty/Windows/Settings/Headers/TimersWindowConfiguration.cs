@@ -32,13 +32,23 @@ namespace DailyDuty.Windows.Settings.Headers
         {
             ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
+            var numColumns = Service.Configuration.System.SingleColumnSettings ? 1 : (int)(ImGui.GetWindowSize().X / 250.0f);
+
+            ImGui.BeginTable("Timers Window Configuration Table)", numColumns);
+
+            ImGui.TableNextColumn();
             ShowHideWindow();
 
+            ImGui.TableNextColumn();
             DisableEnableClickThrough();
 
+            ImGui.TableNextColumn();
             HideInDuty();
 
+            ImGui.TableNextColumn();
             OpacitySlider();
+
+            ImGui.EndTable();
 
             if (ImGui.BeginTable("TimersWindowConfigurationTable", 8))
             {

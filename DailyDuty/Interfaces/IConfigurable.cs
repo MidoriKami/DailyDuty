@@ -1,4 +1,6 @@
-﻿using DailyDuty.Data.SettingsObjects;
+﻿using System;
+using DailyDuty.Data.SettingsObjects;
+using DailyDuty.Utilities;
 using DailyDuty.Windows.Settings.Tabs;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -17,29 +19,41 @@ namespace DailyDuty.Interfaces
 
         void ICollapsibleHeader.DrawContents()
         {
-            ImGui.Checkbox($"Enabled##{HeaderText}", ref GenericSettings.Enabled);
+            ImGui.Checkbox($"Enabled", ref GenericSettings.Enabled);
             ImGui.Spacing();
 
             if (GenericSettings.Enabled)
             {
                 ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                DisplayData();
+                var numColumns = Service.Configuration.System.SingleColumnSettings ? 1 : (int)(ImGui.GetWindowSize().X / 250.0f);
 
-                ImGui.Spacing();
+                numColumns = Math.Min(numColumns, ConfigurationTabItem.EditModeEnabled ? 3 : 2);
 
-                if (ConfigurationTabItem.EditModeEnabled)
+                if (ImGui.BeginTable($"{HeaderText} Configuration Table)", numColumns))
                 {
-                    ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+                    ImGui.TableNextColumn();
+                    DisplayData();
 
-                    EditModeOptions();
                     ImGui.Spacing();
 
-                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
-                }
+                    if (ConfigurationTabItem.EditModeEnabled)
+                    {
+                        ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                NotificationOptions();
-                ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+                        ImGui.TableNextColumn();
+                        EditModeOptions();
+                        ImGui.Spacing();
+
+                        ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+                    }
+
+                    ImGui.TableNextColumn();
+                    NotificationOptions();
+                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
+
+                    ImGui.EndTable();
+                }
             }
 
             ImGui.Spacing();
