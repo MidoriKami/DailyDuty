@@ -11,7 +11,7 @@ using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Weekly
 {
-    internal unsafe class CustomDelivery : 
+    internal class CustomDelivery : 
         IConfigurable, 
         IZoneChangeThrottledNotification,
         ILoginNotification,
@@ -22,9 +22,6 @@ namespace DailyDuty.Modules.Weekly
         public CompletionType Type => CompletionType.Weekly;
         public string HeaderText => "Custom Delivery";
         public GenericSettings GenericSettings => Settings;
-
-        private bool exchangeStarted = false;
-        private uint lastDeliveryCount = 0;
 
         public DateTime NextReset
         {
@@ -73,50 +70,6 @@ namespace DailyDuty.Modules.Weekly
         //
         //  Implementation
         //
-        private uint? GetRemainingDeliveriesCount()
-        {
-            var pointer = GetCustomDeliveryPointer();
-            if (pointer == null) return null;
-
-            var textNode = (AtkTextNode*) ((AtkUnitBase*) pointer)->GetNodeById(34);
-            if (textNode == null) return null;
-
-            var nodeText = textNode->NodeText.ToString();
-            if(nodeText == string.Empty) return null;
-
-            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
-
-            uint number = uint.Parse(resultString);
-
-            return number;
-        }
-
-        private AtkResNode* GetCustomDeliveryPointer()
-        {
-            return (AtkResNode*)Service.GameGui.GetAddonByName("SatisfactionSupply", 1);
-        }
-
-        private void StartCustomDeliveryExchange()
-        {
-            var count = GetRemainingDeliveriesCount();
-            if (count == null) return;
-
-            if (exchangeStarted == false)
-            {
-                exchangeStarted = true;
-                lastDeliveryCount = count.Value;
-            }
-            else if (exchangeStarted == true)
-            {
-                if (count.Value != lastDeliveryCount)
-                {
-                    lastDeliveryCount = count.Value;
-
-                    Settings.AllowancesRemaining -= 1;
-                    Service.Configuration.Save();
-                }
-            }
-        }
 
         private void PrintRemainingAllowances()
         {
