@@ -15,10 +15,12 @@ namespace DailyDuty.Utilities
                                                    ImGuiWindowFlags.NoCollapse |
                                                    ImGuiWindowFlags.AlwaysAutoResize;
 
-        public const ImGuiWindowFlags ClickThroughFlags = ImGuiWindowFlags.NoFocusOnAppearing |
-                                                          ImGuiWindowFlags.NoDecoration |
-                                                          ImGuiWindowFlags.NoInputs |
-                                                          ImGuiWindowFlags.AlwaysAutoResize;
+        public const ImGuiWindowFlags ManualSize = ImGuiWindowFlags.NoFocusOnAppearing |
+                                                   ImGuiWindowFlags.NoTitleBar |
+                                                   ImGuiWindowFlags.NoCollapse;
+
+        public const ImGuiWindowFlags LockPosition = ImGuiWindowFlags.NoMove |
+                                                     ImGuiWindowFlags.NoResize;
 
         public const ImGuiWindowFlags Debug = ImGuiWindowFlags.NoBringToFrontOnFocus;
     }

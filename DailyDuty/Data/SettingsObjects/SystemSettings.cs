@@ -10,5 +10,6 @@ namespace DailyDuty.Data.SettingsObjects
         public bool ClickableLinks = false;
         public bool EnableDebugOutput = false;
         public bool ShowVersionNumber = true;
+        public bool SingleColumnSettings = false;
     }
 }

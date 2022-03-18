@@ -54,7 +54,9 @@ namespace DailyDuty.Windows.Timers
         {
             if (IsOpen == false) return;
 
-            Flags = Settings.ClickThrough ? DrawFlags.ClickThroughFlags : DrawFlags.DefaultFlags;
+            Flags = DrawFlags.DefaultFlags;
+
+            Flags |= Settings.ClickThrough ? DrawFlags.LockPosition : ImGuiWindowFlags.None;
 
             countdownTimers.Draw();
         }

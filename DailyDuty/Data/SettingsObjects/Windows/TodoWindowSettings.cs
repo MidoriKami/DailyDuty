@@ -10,6 +10,7 @@ namespace DailyDuty.Data.SettingsObjects.Windows
         public bool HideWhenTasksComplete = false;
         public bool ShowTasksWhenComplete = false;
         public WindowAnchor Anchor = WindowAnchor.TopLeft;
+        public TodoWindowStyle Style = TodoWindowStyle.AutoResize;
 
         public TaskColors Colors = new();
     }

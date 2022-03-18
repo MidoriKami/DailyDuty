@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Diagnostics;
+using System.Numerics;
 using DailyDuty.Components.Graphical;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.Windows;
@@ -62,9 +64,16 @@ namespace DailyDuty.Windows.Todo
         {
             if (IsOpen == false) return;
 
-            Flags = Settings.ClickThrough ? DrawFlags.ClickThroughFlags : DrawFlags.DefaultFlags;
+            Flags = Settings.Style switch
+            {
+                TodoWindowStyle.AutoResize => DrawFlags.AutoResize,
+                TodoWindowStyle.ManualSize => DrawFlags.ManualSize,
+                _ => DrawFlags.DefaultFlags
+            };
 
-            if(Settings.Anchor != WindowAnchor.TopLeft)
+            Flags |= Settings.ClickThrough ? DrawFlags.LockPosition : ImGuiWindowFlags.None;
+
+            if(Settings.Anchor != WindowAnchor.TopLeft && Settings.Style != TodoWindowStyle.ManualSize)
             {
                 var size = ImGui.GetWindowSize();
 
