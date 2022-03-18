@@ -150,7 +150,7 @@ namespace DailyDuty.Addons
                 {
                     if (Settings.ShowTrackedDonationAmount)
                     {
-                        Chat.Print("DonationAmount", $"{depositAmount:n0} gil donated to Doman Enclave");
+                        Chat.Print("Donation Amount", $"{depositAmount:n0} gil donated to Doman Enclave");
                     }
 
                     depositButtonPressed = false;
