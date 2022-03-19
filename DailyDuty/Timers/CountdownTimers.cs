@@ -17,7 +17,7 @@ namespace DailyDuty.Timers
 
         public void Draw()
         {
-            var timers = Timers.Where(x => x.Settings.Enabled).ToArray();
+            var timers = GetEnabledTimers();
             var totalWidth = (int)ImGui.GetContentRegionAvail().X;
             var spacing = (int)ImGui.GetStyle().ItemSpacing.X;
             var i = 0;
@@ -64,6 +64,11 @@ namespace DailyDuty.Timers
 
                 i += count;
             }
+        }
+
+        public ITimer[] GetEnabledTimers()
+        {
+            return Timers.Where(x => x.Settings.Enabled).ToArray();
         }
     }
 }

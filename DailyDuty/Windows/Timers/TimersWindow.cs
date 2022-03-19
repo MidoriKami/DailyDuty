@@ -30,7 +30,7 @@ namespace DailyDuty.Windows.Timers
         public override void PreOpenCheck()
         {
             bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
-            int enabledTimers = countdownTimers.Timers.Where(x => x.Settings.Enabled).ToArray().Length;
+            int enabledTimers = countdownTimers.GetEnabledTimers().Length;
 
             IsOpen = !isInQuestEvent && Service.LoggedIn && Settings.Open && enabledTimers > 0;
 
