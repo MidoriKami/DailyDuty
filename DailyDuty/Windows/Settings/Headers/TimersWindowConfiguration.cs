@@ -144,7 +144,7 @@ namespace DailyDuty.Windows.Settings.Headers
 
         private void ShowHideWindow()
         {
-            Draw.Checkbox("Show Timers Window", ref Settings.Open, "Shows/Hides the Timers Window");
+            Draw.Checkbox("Show Timers Window", ref Settings.Open, "Shows/Hides the Timers Window when at least one timer is activated");
         }
     }
 }

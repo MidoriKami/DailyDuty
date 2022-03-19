@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Linq;
+using System.Numerics;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects.Windows;
 using DailyDuty.Interfaces;
@@ -29,8 +30,9 @@ namespace DailyDuty.Windows.Timers
         public override void PreOpenCheck()
         {
             bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
+            int enabledTimers = countdownTimers.Timers.Where(x => x.Settings.Enabled).ToArray().Length;
 
-            IsOpen = !isInQuestEvent && Service.LoggedIn && Settings.Open;
+            IsOpen = !isInQuestEvent && Service.LoggedIn && Settings.Open && enabledTimers > 0;
 
             if (Settings.HideInDuty == true)
             {
