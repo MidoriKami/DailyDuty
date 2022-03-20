@@ -11,8 +11,8 @@ namespace DailyDuty.Interfaces
 
         public void ProcessCommand(string command, string arguments)
         {
-            var primaryCommand = CommandHelper.GetPrimaryCommand(arguments);
-            var secondaryCommand = CommandHelper.GetSecondaryCommand(arguments);
+            var primaryCommand = CommandHelper.GetPrimaryCommand(arguments)?.ToLower();
+            var secondaryCommand = CommandHelper.GetSecondaryCommand(arguments)?.ToLower();
 
             if (primaryCommand != null)
             {

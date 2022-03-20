@@ -39,7 +39,9 @@ namespace DailyDuty.System
             new WondrousTails(),
 
             // Commands
-            new NoticeWindowCommands()
+            new NoticeWindowCommands(),
+            new TodoWindowCommands(),
+            new TimersWindowCommands()
         };
 
         private readonly Queue<IUpdateable> updateQueue;
