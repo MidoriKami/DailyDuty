@@ -65,5 +65,10 @@ namespace DailyDuty.Timers
                 i += count;
             }
         }
+
+        public int EnabledTimersCount()
+        {
+            return Timers.Where(timer => timer.Settings.Enabled).Count();
+        }
     }
 }

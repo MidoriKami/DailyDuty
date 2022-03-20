@@ -124,5 +124,36 @@ namespace DailyDuty.Utilities
                 ImGui.TextColored(new Vector4(185, 0, 0, 0.8f), falseString);
             }
         }
+
+        public static void DrawWordWrappedString(string message)
+        {
+            var words = message.Split(' ');
+
+            var windowWidth = ImGui.GetContentRegionAvail().X;
+            var cumulativeSize = 0.0f;
+            var padding = 8.0f;
+
+            foreach (var word in words)
+            {
+                var wordWidth = ImGui.CalcTextSize(word).X;
+
+                if (cumulativeSize == 0)
+                {
+                    ImGui.Text(word);
+                    cumulativeSize += wordWidth + padding;
+                }
+                else if ((cumulativeSize + wordWidth) < windowWidth)
+                {
+                    ImGui.SameLine();
+                    ImGui.Text(word);
+                    cumulativeSize += wordWidth + padding;
+                }
+                else if ((cumulativeSize + wordWidth) >= windowWidth)
+                {
+                    ImGui.Text(word);
+                    cumulativeSize = wordWidth + padding;
+                }
+            }
+        }
     }
 }

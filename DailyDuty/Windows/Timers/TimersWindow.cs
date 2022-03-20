@@ -58,7 +58,15 @@ namespace DailyDuty.Windows.Timers
 
             Flags |= Settings.ClickThrough ? DrawFlags.LockPosition : ImGuiWindowFlags.None;
 
-            countdownTimers.Draw();
+            if (countdownTimers.EnabledTimersCount() > 0)
+            {
+                countdownTimers.Draw();
+            }
+            else
+            {
+                const string message = "Enable which timers you would like to see here in 'Timers Window Configuration'";
+                Utilities.Draw.DrawWordWrappedString(message);
+            }
         }
 
         public override void PostDraw()
