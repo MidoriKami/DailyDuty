@@ -44,6 +44,14 @@ namespace DailyDuty.System
             new TimersWindowCommands()
         };
 
+        private readonly List<IZoneChangeLogic> zoneChangeLogicModules;
+        private readonly List<IZoneChangeThrottledNotification> zoneChangeThrottledNotificationModules;
+        private readonly List<IZoneChangeAlwaysNotification> zoneChangeAlwaysNotificationModules;
+        private readonly List<ILoginNotification> loginNotificationModules;
+        private readonly List<IResettable> resettableModules;
+        private readonly List<ICommand> commandModules;
+        private readonly List<IChatHandler> chatHandlers;
+
         private readonly Queue<IUpdateable> updateQueue;
         private readonly Stopwatch resetDelayStopwatch = new();
 
@@ -52,6 +60,13 @@ namespace DailyDuty.System
         public ModuleManager()
         {
             updateQueue = new(modules.OfType<IUpdateable>());
+            zoneChangeLogicModules = modules.OfType<IZoneChangeLogic>().ToList();
+            zoneChangeThrottledNotificationModules = modules.OfType<IZoneChangeThrottledNotification>().ToList();
+            zoneChangeAlwaysNotificationModules = modules.OfType<IZoneChangeAlwaysNotification>().ToList();
+            loginNotificationModules = modules.OfType<ILoginNotification>().ToList();
+            resettableModules = modules.OfType<IResettable>().ToList();
+            commandModules = modules.OfType<ICommand>().ToList();
+            chatHandlers = modules.OfType<IChatHandler>().ToList();
 
             Service.Framework.Update += Update;
             Service.ClientState.Login += PreOnLogin;
@@ -64,7 +79,7 @@ namespace DailyDuty.System
             var timer = reminderThrottleStopwatch;
             var timerDelay = Service.Configuration.System.MinutesBetweenThrottledMessages;
 
-            foreach (var module in modules.OfType<IZoneChangeLogic>())
+            foreach (var module in zoneChangeLogicModules)
             {
                 module.HandleZoneChange(sender, e);
             }
@@ -82,7 +97,7 @@ namespace DailyDuty.System
 
         private void ThrottledOnTerritoryChanged(object? sender, ushort @ushort)
         {
-            foreach (var module in modules.OfType<IZoneChangeThrottledNotification>())
+            foreach (var module in zoneChangeThrottledNotificationModules)
             {
                 module.TrySendNotification();
             }
@@ -90,7 +105,7 @@ namespace DailyDuty.System
 
         private void AlwaysOnTerritoryChanged(object? sender, ushort @ushort)
         {
-            foreach (var module in modules.OfType<IZoneChangeAlwaysNotification>())
+            foreach (var module in zoneChangeAlwaysNotificationModules)
             {
                 module.TrySendNotification();
             }
@@ -105,7 +120,7 @@ namespace DailyDuty.System
 
         private void OnLoginDelayed()
         {
-            foreach (var module in modules.OfType<ILoginNotification>())
+            foreach (var module in loginNotificationModules)
             {
                 module.TrySendNotification();
             }
@@ -126,7 +141,7 @@ namespace DailyDuty.System
 
         private void UpdateResets()
         {
-            foreach (var resettable in modules.OfType<IResettable>())
+            foreach (var resettable in resettableModules)
             {
                 if (!resettable.NeedsResetting()) continue;
                     
@@ -136,7 +151,7 @@ namespace DailyDuty.System
 
         public void ProcessCommand(string command, string arguments)
         {
-            foreach (var module in modules.OfType<ICommand>())
+            foreach (var module in commandModules)
             {
                 module.ProcessCommand(command, arguments);
             }
@@ -165,7 +180,7 @@ namespace DailyDuty.System
 
         private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
-            foreach (var module in modules.OfType<IChatHandler>())
+            foreach (var module in chatHandlers)
             {
                 module.HandleChat(type, senderID, ref sender, ref message, ref isHandled);
             }
