@@ -64,7 +64,6 @@ namespace DailyDuty.Windows.Todo
         {
             if (IsOpen == false) return;
 
-
             switch (Settings.Style)
             {
                 case TodoWindowStyle.AutoResize:
