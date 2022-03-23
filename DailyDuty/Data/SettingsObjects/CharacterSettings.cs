@@ -13,7 +13,7 @@ namespace DailyDuty.Data.SettingsObjects
         public BeastTribeSettings BeastTribe = new();
         public DutyRouletteSettings DutyRoulette = new();
         public GrandCompanySettings GrandCompany = new();
-        public LeviquestSettings Leviquest = new();
+        public LevequestSettings Levequest = new();
         public MiniCactpotSettings MiniCactpot = new();
         public TreasureMapSettings TreasureMap = new();
 

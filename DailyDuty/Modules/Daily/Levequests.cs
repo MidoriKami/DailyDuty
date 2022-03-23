@@ -19,7 +19,7 @@ namespace DailyDuty.Modules.Daily
         IZoneChangeThrottledNotification,
         ILoginNotification
     {
-        private LeviquestSettings Settings => Service.Configuration.Current().Leviquest;
+        private LevequestSettings Settings => Service.Configuration.Current().Levequest;
         public CompletionType Type => CompletionType.Daily;
         public string HeaderText => "Levequests";
         public GenericSettings GenericSettings => Settings;
