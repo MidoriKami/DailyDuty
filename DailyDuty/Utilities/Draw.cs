@@ -131,7 +131,9 @@ namespace DailyDuty.Utilities
 
             var windowWidth = ImGui.GetContentRegionAvail().X;
             var cumulativeSize = 0.0f;
-            var padding = 8.0f;
+            var padding = 2.0f;
+
+            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2.0f, 0.0f));
 
             foreach (var word in words)
             {
@@ -154,6 +156,8 @@ namespace DailyDuty.Utilities
                     cumulativeSize = wordWidth + padding;
                 }
             }
+
+            ImGui.PopStyleVar();
         }
     }
 }
