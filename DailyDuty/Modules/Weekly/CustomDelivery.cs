@@ -6,32 +6,37 @@ using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Weekly
 {
-    internal class CustomDelivery : 
+    internal unsafe class CustomDelivery : 
         IConfigurable, 
         IZoneChangeThrottledNotification,
         ILoginNotification,
-        ICompletable,
-        IWeeklyResettable
+        ICompletable
     {
         private CustomDeliverySettings Settings => Service.Configuration.Current().CustomDelivery;
         public CompletionType Type => CompletionType.Weekly;
         public string HeaderText => "Custom Delivery";
         public GenericSettings GenericSettings => Settings;
 
-        public DateTime NextReset
+        [Signature("0F B6 51 1B 44 0F B6 41")]
+        private readonly delegate* unmanaged<byte*, int> getCustomDeliveryAllowances = null!;
+
+        [Signature("48 8D 0D ?? ?? ?? ?? 41 0F BA EC", ScanType = ScanType.StaticAddress)]
+        private readonly byte* staticArrayPointer = null!;
+
+        public CustomDelivery()
         {
-            get => Settings.NextReset;
-            set => Settings.NextReset = value;
+            SignatureHelper.Initialise(this);
         }
 
         public bool IsCompleted()
         {
-            return Settings.AllowancesRemaining == 0;
+            return GetAllowances() == 0;
         }
 
         public void SendNotification()
@@ -39,11 +44,6 @@ namespace DailyDuty.Modules.Weekly
             if (Condition.IsBoundByDuty() == true) return;
 
             PrintRemainingAllowances();
-        }
-
-        void IResettable.ResetThis()
-        {
-            Settings.AllowancesRemaining = 12;
         }
 
         public void NotificationOptions()
@@ -55,13 +55,13 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            Draw.EditNumberField("Allowances", ref Settings.AllowancesRemaining);
         }
 
         public void DisplayData()
         {
-            Draw.NumericDisplay("Allowances Remaining", Settings.AllowancesRemaining);
+            Draw.NumericDisplay("Allowances Remaining", GetAllowances());
         }
+        
         public void Dispose()
         {
 
@@ -75,8 +75,13 @@ namespace DailyDuty.Modules.Weekly
         {
             if (Settings.AllowancesRemaining > 0)
             {
-                Chat.Print(HeaderText, $"{Settings.AllowancesRemaining} Allowances Remaining");
+                Chat.Print(HeaderText, $"{GetAllowances()} Allowances Remaining");
             }
+        }
+
+        private int GetAllowances()
+        {
+            return 12 - getCustomDeliveryAllowances(staticArrayPointer);
         }
     }
 }

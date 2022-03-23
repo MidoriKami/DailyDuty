@@ -2,11 +2,12 @@
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Interfaces;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
 
 namespace DailyDuty.Modules.Daily
 {
-    internal class GrandCompany : 
+    internal unsafe class GrandCompany : 
         ICollapsibleHeader, 
         IUpdateable,
         ICompletable
@@ -16,6 +17,11 @@ namespace DailyDuty.Modules.Daily
         public CompletionType Type => CompletionType.Daily;
         public string HeaderText => "Grand Company";
         public GenericSettings GenericSettings => Settings;
+
+        public GrandCompany()
+        {
+        }
+
         public bool IsCompleted()
         {
             return false;

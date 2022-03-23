@@ -13,8 +13,7 @@ namespace DailyDuty.System
         {
             new DutyFinderAddonModule(),
             new ReconstructionBoxAddonModule(),
-            new LotteryWeeklyInputAddonModule(),
-            new SatisfactionSupplyRequestAddonModule()
+            new LotteryWeeklyInputAddonModule()
         };
 
         public static SelectYesNoAddonHelper YesNoAddonHelper;
