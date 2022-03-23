@@ -48,7 +48,7 @@ namespace DailyDuty.Modules.Weekly
 
             if (IsCompleted() == false)
             {
-                Chat.Print(HeaderText, $"{Settings.Budget - Settings.CurrentEarnings:n0} gil remaining", domanEnclaveTeleport);
+                Chat.Print(HeaderText, $"{GetRemainingBudget():n0} gil remaining", domanEnclaveTeleport);
             }
         }
 
@@ -70,12 +70,12 @@ namespace DailyDuty.Modules.Weekly
 
             Draw.NumericDisplay("Weekly Allowance", GetWeeklyAllowance());
 
-            Draw.NumericDisplay("Remaining Budget", GetWeeklyAllowance() - GetDonatedThisWeek());
+            Draw.NumericDisplay("Remaining Budget", GetRemainingBudget());
         }
 
         public bool IsCompleted()
         {
-            return GetWeeklyAllowance() - GetDonatedThisWeek() == 0;
+            return GetRemainingBudget() == 0;
         }
 
         private short GetDonatedThisWeek()
@@ -94,6 +94,14 @@ namespace DailyDuty.Modules.Weekly
             var allowance = *(short*) adjustedAddress;
 
             return allowance;
+        }
+
+        private int GetRemainingBudget()
+        {
+            var allowance = GetWeeklyAllowance();
+            var donated = GetDonatedThisWeek();
+
+            return allowance - donated;
         }
     }
 }

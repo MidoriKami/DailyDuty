@@ -73,9 +73,11 @@ namespace DailyDuty.Modules.Weekly
 
         private void PrintRemainingAllowances()
         {
-            if (Settings.AllowancesRemaining > 0)
+            var allowances = GetAllowances();
+
+            if (allowances > 0)
             {
-                Chat.Print(HeaderText, $"{GetAllowances()} Allowances Remaining");
+                Chat.Print(HeaderText, $"{allowances} Allowances Remaining");
             }
         }
 

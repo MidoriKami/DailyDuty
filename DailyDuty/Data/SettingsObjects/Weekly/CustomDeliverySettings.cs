@@ -2,6 +2,5 @@
 {
     public class CustomDeliverySettings : GenericSettings
     {
-        public int AllowancesRemaining = 12;
     }
 }
