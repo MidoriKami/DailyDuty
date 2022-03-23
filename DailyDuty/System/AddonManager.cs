@@ -12,7 +12,6 @@ namespace DailyDuty.System
         private readonly List<IAddonModule> overlays = new()
         {
             new DutyFinderAddonModule(),
-            new ReconstructionBoxAddonModule(),
             new LotteryWeeklyInputAddonModule()
         };
 

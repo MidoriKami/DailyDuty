@@ -64,14 +64,21 @@ namespace DailyDuty.Windows.Todo
         {
             if (IsOpen == false) return;
 
-            Flags = Settings.Style switch
-            {
-                TodoWindowStyle.AutoResize => DrawFlags.AutoResize,
-                TodoWindowStyle.ManualSize => DrawFlags.ManualSize,
-                _ => DrawFlags.DefaultFlags
-            };
 
-            Flags |= Settings.ClickThrough ? DrawFlags.LockPosition : ImGuiWindowFlags.None;
+            switch (Settings.Style)
+            {
+                case TodoWindowStyle.AutoResize:
+                    Flags = DrawFlags.AutoResize;
+                    Flags |= Settings.ClickThrough ? ImGuiWindowFlags.NoInputs : ImGuiWindowFlags.None;
+                    break;
+
+                case TodoWindowStyle.ManualSize:
+                    Flags = DrawFlags.ManualSize;
+                    Flags |= Settings.ClickThrough ? DrawFlags.LockPosition : ImGuiWindowFlags.None;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             if(Settings.Anchor != WindowAnchor.TopLeft && Settings.Style != TodoWindowStyle.ManualSize)
             {

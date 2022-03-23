@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Weekly;
@@ -7,30 +9,17 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
+using Dalamud.Utility.Signatures;
 using ImGuiNET;
 
 namespace DailyDuty.Modules.Weekly
 {
-    internal class DomanEnclave : 
+    internal unsafe class DomanEnclave : 
         IConfigurable,
         ICompletable,
         IZoneChangeThrottledNotification,
-        ILoginNotification,
-        IWeeklyResettable
+        ILoginNotification
     {
-        private readonly List<int> donationGoals = new()
-        {
-            20000,
-            25000,
-            30000,
-            40000
-        };
-
-        public void Dispose()
-        {
-
-        }
-
         private DomanEnclaveSettings Settings => Service.Configuration.Current().DomanEnclave;
         public CompletionType Type => CompletionType.Weekly;
         public string HeaderText => "Doman Enclave";
@@ -38,9 +27,18 @@ namespace DailyDuty.Modules.Weekly
 
         private readonly DalamudLinkPayload domanEnclaveTeleport;
 
+        [Signature("E8 ?? ?? ?? ?? 48 85 C0 74 09 0F B6 B8")]
+        private readonly delegate* unmanaged<IntPtr> getBasePointer = null!;
+
         public DomanEnclave()
         {
+            SignatureHelper.Initialise(this);
+
             domanEnclaveTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.DomanEnclave);
+        }
+
+        public void Dispose()
+        {
 
         }
 
@@ -56,68 +54,46 @@ namespace DailyDuty.Modules.Weekly
 
         public void NotificationOptions()
         {
-            DrawWeeklyBudgetDropdown();
-
             Draw.OnLoginReminderCheckbox(Settings);
 
             Draw.OnTerritoryChangeCheckbox(Settings);
-
-            Draw.Checkbox("Show Donation Amounts", ref Settings.ShowTrackedDonationAmount, "Display a message in chat with the donation amount recorded, useful for debugging");
-        }
-
-        private void DrawWeeklyBudgetDropdown()
-        {
-            ImGui.PushItemWidth(75 * ImGuiHelpers.GlobalScale);
-
-            if (ImGui.BeginCombo("Target Budget", Settings.Budget.ToString("n0"), ImGuiComboFlags.PopupAlignLeft))
-            {
-                foreach (var element in donationGoals)
-                {
-                    bool isSelected = element == Settings.Budget;
-                    if (ImGui.Selectable(element.ToString("n0"), isSelected))
-                    {
-                        Settings.Budget = element;
-                        Service.Configuration.Save();
-                    }
-
-                    if (isSelected)
-                    {
-                        ImGui.SetItemDefaultFocus();
-                    }
-                }
-
-                ImGui.EndCombo();
-            }
-
-            ImGui.Spacing();
         }
 
         public void EditModeOptions()
         {
-            Draw.EditNumberField("Deposited This Week", 50, ref Settings.CurrentEarnings);
+
         }
 
         public void DisplayData()
         {
-            Draw.NumericDisplay("Deposited This Week", Settings.CurrentEarnings);
+            Draw.NumericDisplay("Deposited This Week", GetDonatedThisWeek());
 
-            Draw.NumericDisplay("Remaining Budget", Settings.Budget - Settings.CurrentEarnings);
+            Draw.NumericDisplay("Weekly Allowance", GetWeeklyAllowance());
+
+            Draw.NumericDisplay("Remaining Budget", GetWeeklyAllowance() - GetDonatedThisWeek());
         }
 
         public bool IsCompleted()
         {
-            return Settings.CurrentEarnings >= Settings.Budget;
+            return GetWeeklyAllowance() - GetDonatedThisWeek() == 0;
         }
 
-        public DateTime NextReset
+        private short GetDonatedThisWeek()
         {
-            get => Settings.NextReset;
-            set => Settings.NextReset = value;
+            var baseAddress = getBasePointer();
+            var donatedThisWeek = *((short*) baseAddress + 80);
+
+            return donatedThisWeek;
         }
 
-        void IResettable.ResetThis()
+        private short GetWeeklyAllowance()
         {
-            Settings.CurrentEarnings = 0;
+            var baseAddress = getBasePointer();
+            var adjustedAddress = baseAddress + 166;
+
+            var allowance = *(short*) adjustedAddress;
+
+            return allowance;
         }
     }
 }
