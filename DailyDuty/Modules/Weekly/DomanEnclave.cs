@@ -27,6 +27,12 @@ namespace DailyDuty.Modules.Weekly
         public string HeaderText => "Doman Enclave";
         public GenericSettings GenericSettings => Settings;
 
+        public DateTime NextReset
+        {
+            get => Settings.NextReset;
+            set => Settings.NextReset = value;
+        }
+
         private readonly DalamudLinkPayload domanEnclaveTeleport;
 
         [Signature("E8 ?? ?? ?? ?? 48 85 C0 74 09 0F B6 B8")]
@@ -166,13 +172,7 @@ namespace DailyDuty.Modules.Weekly
         {
             return GetWeeklyAllowance() != 0;
         }
-
-        public DateTime NextReset
-        {
-            get => Settings.NextReset;
-            set => Settings.NextReset = value;
-        }
-
+        
         void IResettable.ResetThis()
         {
             Settings.DonatedThisWeek = 0;
