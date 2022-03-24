@@ -18,7 +18,9 @@ namespace DailyDuty.Modules.Weekly
         IConfigurable,
         ICompletable,
         IZoneChangeThrottledNotification,
-        ILoginNotification
+        ILoginNotification,
+        IUpdateable,
+        IWeeklyResettable
     {
         private DomanEnclaveSettings Settings => Service.Configuration.Current().DomanEnclave;
         public CompletionType Type => CompletionType.Weekly;
@@ -46,9 +48,14 @@ namespace DailyDuty.Modules.Weekly
         {
             if (Condition.IsBoundByDuty() == true) return;
 
-            if (IsCompleted() == false)
+            if (ModuleInitialized() == false)
             {
-                Chat.Print(HeaderText, $"{GetRemainingBudget():n0} gil remaining", domanEnclaveTeleport);
+                Chat.Print(HeaderText, "Module needs to be initialized");
+                Chat.Print(HeaderText, "Please visit the Doman Enclave once");
+            }
+            else if (IsCompleted() == false)
+            {
+                Chat.Print(HeaderText, $"{GetRemainingBudget():n0} gil Remaining", domanEnclaveTeleport);
             }
         }
 
@@ -66,17 +73,61 @@ namespace DailyDuty.Modules.Weekly
 
         public void DisplayData()
         {
-            Draw.NumericDisplay("Deposited This Week", GetDonatedThisWeek());
+            if (ModuleInitialized() == false)
+            {
+                ImGui.TextColored(Colors.SoftRed, "Module not initialized\n" +
+                                                  "Please visit the Doman Enclave");
 
-            Draw.NumericDisplay("Weekly Allowance", GetWeeklyAllowance());
+                ImGui.TextColored(Colors.SoftRed, "This only needs to be done once");
+            }
+            else
+            {
+                Draw.NumericDisplay("Deposited This Week", Settings.DonatedThisWeek);
 
-            Draw.NumericDisplay("Remaining Budget", GetRemainingBudget());
+                Draw.NumericDisplay("Weekly Allowance", Settings.WeeklyAllowance);
+
+                Draw.NumericDisplay("Remaining Budget", GetRemainingBudget());
+            }
         }
 
         public bool IsCompleted()
         {
-            return GetRemainingBudget() == 0;
+            return ModuleInitialized() == true && GetRemainingBudget() == 0;
         }
+
+        public void Update()
+        {
+            if (DataAvailable() == true)
+            {
+                UpdateWeeklyAllowance();
+                UpdateDonatedThisWeek();
+            }
+        }
+
+        private void UpdateWeeklyAllowance()
+        {
+            var allowance = GetWeeklyAllowance();
+
+            if (Settings.WeeklyAllowance != allowance)
+            {
+                Settings.WeeklyAllowance = allowance;
+                Service.Configuration.Save();
+            }
+        }
+        private void UpdateDonatedThisWeek()
+        {
+            var donatedThisWeek = GetDonatedThisWeek();
+
+            if (Settings.DonatedThisWeek != donatedThisWeek)
+            {
+                Settings.DonatedThisWeek = donatedThisWeek;
+                Service.Configuration.Save();
+            }
+        }
+
+        //
+        //  Implementation
+        //
 
         private short GetDonatedThisWeek()
         {
@@ -98,10 +149,28 @@ namespace DailyDuty.Modules.Weekly
 
         private int GetRemainingBudget()
         {
-            var allowance = GetWeeklyAllowance();
-            var donated = GetDonatedThisWeek();
+            return Settings.WeeklyAllowance - Settings.DonatedThisWeek;
+        }
 
-            return allowance - donated;
+        private bool ModuleInitialized()
+        {
+            return Settings.WeeklyAllowance != 0;
+        }
+
+        private bool DataAvailable()
+        {
+            return GetWeeklyAllowance() != 0;
+        }
+
+        public DateTime NextReset
+        {
+            get => Settings.NextReset;
+            set => Settings.NextReset = value;
+        }
+
+        void IResettable.ResetThis()
+        {
+            Settings.DonatedThisWeek = 0;
         }
     }
 }
