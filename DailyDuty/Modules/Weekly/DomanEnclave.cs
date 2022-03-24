@@ -68,7 +68,12 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-
+            if (ImGui.Button("Reset Stored Data"))
+            {
+                Settings.DonatedThisWeek = 0;
+                Settings.WeeklyAllowance = 0;
+                Service.Configuration.Save();
+            }
         }
 
         public void DisplayData()
