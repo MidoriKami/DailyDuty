@@ -15,6 +15,7 @@ using Dalamud.Interface.Components;
 using Dalamud.Logging;
 using Dalamud.Utility;
 using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
@@ -47,6 +48,8 @@ namespace DailyDuty.Modules.Daily
 
         private readonly DalamudLinkPayload openDutyFinder;
 
+        private readonly AgentInterface* agentContentsFinder = Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+
         public DateTime NextReset
         {
             get => Settings.NextReset;
@@ -67,18 +70,9 @@ namespace DailyDuty.Modules.Daily
 
         private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
         {
-            var agent = GetAgentContentsFinder();
-            openRouletteDuty(agent, GetFirstMissingRoulette(), 0);
+            openRouletteDuty(agentContentsFinder, GetFirstMissingRoulette(), 0);
         }
-
-        private AgentInterface* GetAgentContentsFinder()
-        {
-            var framework = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-            var uiModule = framework->GetUiModule();
-            var agentModule = uiModule->GetAgentModule();
-            return agentModule->GetAgentByInternalId(AgentId.ContentsFinder);
-        }
-
+        
         public bool IsCompleted()
         {
             return RemainingRoulettesCount() == 0;
