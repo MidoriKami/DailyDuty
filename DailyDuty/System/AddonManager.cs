@@ -12,24 +12,7 @@ namespace DailyDuty.System
         private readonly List<IAddonModule> overlays = new()
         {
             new DutyFinderAddonModule(),
-            new LotteryWeeklyInputAddonModule()
         };
-
-        public static SelectYesNoAddonHelper YesNoAddonHelper;
-
-        public AddonManager()
-        {
-            YesNoAddonHelper = new();
-
-            //Chat.Debug("Addon Manager Loading.");
-
-            //foreach (var addon in overlays)
-            //{
-            //    Chat.Debug("Loading: " + addon.AddonName);
-            //}
-
-            //Chat.Debug("Addon Manager Loading Complete.");
-        }
 
         public void Dispose()
         {
@@ -37,8 +20,6 @@ namespace DailyDuty.System
             {
                 overlay.Dispose();
             }
-
-            YesNoAddonHelper.Dispose();
         }
     }
 }

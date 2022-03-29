@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics;
+using DailyDuty.Addons;
 using DailyDuty.Data.Enums;
-using DailyDuty.Data.ModuleData.JumboCactpot;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Weekly;
+using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Hooking;
+using Dalamud.Interface;
+using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.System.Framework;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 
@@ -22,18 +29,87 @@ namespace DailyDuty.Modules.Weekly
         ILoginNotification,
         ICompletable
     {
-        private bool collectRewardExchangeStarted;
-
         private JumboCactpotSettings Settings => Service.Configuration.Current().JumboCactpot;
+        public GenericSettings GenericSettings => Settings;
         public CompletionType Type => CompletionType.Weekly;
         public string HeaderText => "Jumbo Cactpot";
-        public GenericSettings GenericSettings => Settings;
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
+        
+        private delegate void* ReceiveEventDelegate(AgentInterface* addon, void* a2, void* a3, int a4, int a5);
+
+        // LotteryWeeklyRewardList
+        [Signature("48 89 5C 24 ?? 44 89 4C 24 ?? 4C 89 44 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24", DetourName = nameof(LotteryWeekly_ReceiveEvent))]
+        private readonly Hook<ReceiveEventDelegate>? receiveEventHook = null;
+
+        private int ticketData = -1;
+        private int manualAddTicketValue = -1;
+
+        private void* LotteryWeekly_ReceiveEvent(AgentInterface* addon, void* a2, void* a3, int a4, int a5)
+        {
+            Chat.Debug("EventReceived!");
+
+            var eventData = *(int*) ((byte*) a3 + 8);
+
+            switch (a5)
+            {
+                // Message is from JumboCactpot
+                case 0 when eventData >= 0:
+
+                    Chat.Debug($"a3: {eventData}");
+                    Chat.Debug($"a4: {a4}");
+                    Chat.Debug($"a5: {a5}");
+
+                    Chat.Debug($"Ticket Data Found: {eventData}");
+                    ticketData = eventData;
+                    break;
+
+                // Message is from SelectYesNo
+                case 5:
+                    switch (eventData)
+                    {
+                        case -1:
+                        case 1:
+                            Chat.Debug($"a3: {eventData}");
+                            Chat.Debug($"a4: {a4}");
+                            Chat.Debug($"a5: {a5}");
+
+                            Chat.Debug("YesNo: No Received, discarding ticket");
+                            ticketData = -1;
+                            break;
+
+                        case 0 when ticketData >= 0:
+
+                            Chat.Debug($"a3: {eventData}");
+                            Chat.Debug($"a4: {a4}");
+                            Chat.Debug($"a5: {a5}");
+
+                            Chat.Debug("YesNo: Yes Received, saving ticket");
+                            Settings.Tickets.Add(ticketData);
+                            ticketData = -1;
+                            Service.Configuration.Save();
+                            break;
+                    }
+
+                    break;
+            }
+
+            return receiveEventHook!.Original(addon, a2, a3, a4, a5);
+        }
+
 
         public JumboCactpot()
         {
+            SignatureHelper.Initialise(this);
+
             goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+
+            receiveEventHook?.Enable();
+        }
+
+        public void Dispose()
+        {
+            receiveEventHook?.Dispose();
         }
 
         public DateTime NextReset
@@ -44,17 +120,21 @@ namespace DailyDuty.Modules.Weekly
 
         public bool IsCompleted()
         {
-            var ticketsAvailable = GetAvailableTickets();
-            var rewardsAvailable = GetAvailableRewards();
-
-            return ticketsAvailable == 0 && rewardsAvailable == 0;
+            return Settings.Tickets.Count == 3;
         }
 
         public void SendNotification()
         {
             if (Condition.IsBoundByDuty()) return;
-     
-            Notification();
+
+            if(Settings.Tickets.Count < 3)
+            {
+                Chat.Print(HeaderText,
+                    Settings.Tickets.Count == 2
+                        ? $"{3 - Settings.Tickets.Count} Ticket Available"
+                        : $"{3 - Settings.Tickets.Count} Tickets Available", goldSaucerTeleport);
+            }
+
         }
 
         public void NotificationOptions()
@@ -66,55 +146,38 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            var removeList = new List<TicketData>();
+            ImGui.Text("Manually Add Ticket");
+            ImGui.SetNextItemWidth(100.0f * ImGuiHelpers.GlobalScale);
+            ImGui.InputInt("##AddTicketValue", ref manualAddTicketValue, 0, 0);
 
-            foreach (var ticket in Settings.CollectedTickets)
+            ImGui.SameLine();
+
+            if (ImGui.Button("Add"))
             {
-                DrawTicketData(ticket);
-
-                if (ImGui.Button($"Remove##{HeaderText}{ticket.DrawingAvailableTime}{ticket.CollectedDate}{ticket.ExpirationDate}"))
-                {
-                    removeList.Add(ticket);
-                }
-
-                ImGui.Separator();
-            }
-
-            if (ImGui.Button($"Add New##{HeaderText}"))
-            {
-                Settings.CollectedTickets.Add(new TicketData
-                {
-                    DrawingAvailableTime = GetNextReset(),
-                    ExpirationDate = GetNextReset().AddDays(7),
-                    CollectedDate = DateTime.UtcNow
-                });
+                Settings.Tickets.Add(manualAddTicketValue);
                 Service.Configuration.Save();
             }
 
-            if (removeList.Count > 0)
-            {
-                foreach (var ticket in removeList)
-                {
-                    Settings.CollectedTickets.Remove(ticket);
-                }
+            ImGui.SameLine();
 
+            if (ImGui.Button("Remove"))
+            {
+                Settings.Tickets.Remove(manualAddTicketValue);
                 Service.Configuration.Save();
             }
         }
 
         public void DisplayData()
         {
-            if (GetAvailableRewards() > 0)
+            if (Settings.Tickets.Count > 0)
             {
-                Draw.NumericDisplay("Rewards Available", GetAvailableRewards());
-            } 
-            else if (GetAvailableTickets() > 0)
-            {
-                Draw.NumericDisplay("Tickets Available", GetAvailableTickets(), Colors.Red);
+                ImGui.Text("Ticket Values");
+                ImGui.SameLine();
+                ImGui.Text("[" + string.Join("] [", Settings.Tickets) + "]");
             }
             else
             {
-                Draw.NumericDisplay("Tickets Pending", GetTicketsWaiting(), Colors.Green);
+                ImGui.Text("No Tickets Claimed");
             }
 
             var timespan = Settings.NextReset - DateTime.UtcNow;
@@ -124,79 +187,21 @@ namespace DailyDuty.Modules.Weekly
         public void Update()
         {
             UpdatePlayerRegion();
-
-            CollectReward();
-        }
-    
-        public void Dispose()
-        {
-
         }
 
-        DateTime IResettable.GetNextReset()
-        {
-            return GetNextReset();
-        }
+        DateTime IResettable.GetNextReset() => GetNextJumboCactpotReset();
 
         void IResettable.ResetThis()
         {
-            Settings.CollectedTickets.RemoveAll(t => DateTime.UtcNow > t.ExpirationDate);
+            Settings.Tickets.Clear();
         }
 
         //
         //  Implementation
         //
-        private DateTime GetNextReset()
+        private DateTime GetNextJumboCactpotReset()
         {
             return DatacenterLookup.GetDrawingTime(Settings.PlayerRegion);
-        }
-
-        private int GetAvailableTickets()
-        {
-            var now = DateTime.UtcNow;
-
-            return 3 - Settings.CollectedTickets.Count(t => now > t.CollectedDate && now < t.DrawingAvailableTime);
-        }
-
-        private int GetAvailableRewards()
-        {
-            var now = DateTime.UtcNow;
-
-            return Settings.CollectedTickets.Count(t => now > t.DrawingAvailableTime && now < t.ExpirationDate);
-        }
-
-        private int GetTicketsWaiting()
-        {
-            var now = DateTime.UtcNow;
-
-            return Settings.CollectedTickets.Count(t => now < t.DrawingAvailableTime);
-        }
-
-        private void CollectReward()
-        {
-            // If the payout info window and the MGP Reward Window are open
-            if (GetCollectRewardWindow() != null && GetRewardPopupWindow() != null)
-            {
-                collectRewardExchangeStarted = true;
-            }
-
-            // If either of them close, check states
-            else if (collectRewardExchangeStarted == true)
-            {
-                collectRewardExchangeStarted = false;
-
-                var now = DateTime.UtcNow;
-                var thisWeeksTickets = Settings.CollectedTickets
-                    .Where(t => now > t.DrawingAvailableTime)
-                    .ToList();
-
-                if (thisWeeksTickets.Count > 0)
-                {
-                    Settings.CollectedTickets.Remove(thisWeeksTickets.First());
-
-                    Service.Configuration.Save();
-                }
-            }
         }
 
         private void UpdatePlayerRegion()
@@ -207,41 +212,6 @@ namespace DailyDuty.Modules.Weekly
             if (region != null)
             {
                 Settings.PlayerRegion = region.Value;
-            }
-        }
-
-        private void DrawTicketData(TicketData data)
-        {
-            ImGui.Text("Collected: " + data.CollectedDate);
-            ImGui.Text("Drawing Time: " + data.DrawingAvailableTime);
-            ImGui.Text("Expires: " + data.ExpirationDate);
-        }
-
-        private AtkUnitBase* GetPurchaseTicketWindow()
-        {
-            return (AtkUnitBase*) Service.GameGui.GetAddonByName("LotteryWeeklyInput", 1);
-        }
-
-        private AtkUnitBase* GetCollectRewardWindow()
-        {
-            return (AtkUnitBase*) Service.GameGui.GetAddonByName("LotteryWeeklyRewardList", 1);
-        }
-
-        private AtkUnitBase* GetRewardPopupWindow()
-        {
-            return (AtkUnitBase*) Service.GameGui.GetAddonByName("GoldSaucerReward", 1);
-        }
-
-        private void Notification()
-        {
-            if (GetAvailableTickets() > 0)
-            {
-                Chat.Print(HeaderText, $"{GetAvailableTickets()} Tickets Available", goldSaucerTeleport);
-            }
-
-            if (GetAvailableRewards() > 0)
-            {
-                Chat.Print(HeaderText, $"{GetAvailableRewards()} Rewards Available", goldSaucerTeleport);
             }
         }
     }
