@@ -53,6 +53,11 @@ namespace DailyDuty.Utilities
             Print("Debug", data);
         }
 
+        public static unsafe void Debug(string data, void* address)
+        {
+            Print("Debug", data + $" {(IntPtr) address:x8}");
+        }
+
         public static unsafe void PrintAtkEvent(AtkEvent* pointer)
         {
             if(pointer == null) return;
