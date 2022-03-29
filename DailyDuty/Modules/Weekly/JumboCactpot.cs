@@ -127,7 +127,7 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            ImGui.Text("Manually Add Ticket");
+            ImGui.Text("Manually Add/Remove Ticket");
             ImGui.SetNextItemWidth(100.0f * ImGuiHelpers.GlobalScale);
             ImGui.InputInt("##AddTicketValue", ref manualAddTicketValue, 0, 0);
 
