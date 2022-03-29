@@ -47,20 +47,12 @@ namespace DailyDuty.Modules.Weekly
 
         private void* LotteryWeekly_ReceiveEvent(AgentInterface* addon, void* a2, void* a3, int a4, int a5)
         {
-            Chat.Debug("EventReceived!");
-
             var eventData = *(int*) ((byte*) a3 + 8);
 
             switch (a5)
             {
                 // Message is from JumboCactpot
                 case 0 when eventData >= 0:
-
-                    Chat.Debug($"a3: {eventData}");
-                    Chat.Debug($"a4: {a4}");
-                    Chat.Debug($"a5: {a5}");
-
-                    Chat.Debug($"Ticket Data Found: {eventData}");
                     ticketData = eventData;
                     break;
 
@@ -70,21 +62,10 @@ namespace DailyDuty.Modules.Weekly
                     {
                         case -1:
                         case 1:
-                            Chat.Debug($"a3: {eventData}");
-                            Chat.Debug($"a4: {a4}");
-                            Chat.Debug($"a5: {a5}");
-
-                            Chat.Debug("YesNo: No Received, discarding ticket");
                             ticketData = -1;
                             break;
 
                         case 0 when ticketData >= 0:
-
-                            Chat.Debug($"a3: {eventData}");
-                            Chat.Debug($"a4: {a4}");
-                            Chat.Debug($"a5: {a5}");
-
-                            Chat.Debug("YesNo: Yes Received, saving ticket");
                             Settings.Tickets.Add(ticketData);
                             ticketData = -1;
                             Service.Configuration.Save();
