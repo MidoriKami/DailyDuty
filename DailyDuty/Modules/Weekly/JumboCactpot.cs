@@ -18,6 +18,9 @@ using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
+using Condition = DailyDuty.Utilities.Condition;
+using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Modules.Weekly
 {
@@ -36,29 +39,30 @@ namespace DailyDuty.Modules.Weekly
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
         
-        private delegate void* ReceiveEventDelegate(AgentInterface* addon, void* a2, void* a3, int a4, int a5);
+        private delegate void* ReceiveEventDelegate(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
 
-        // LotteryWeeklyRewardList
+        // LotteryWeekly_ReceiveEvent
         [Signature("48 89 5C 24 ?? 44 89 4C 24 ?? 4C 89 44 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24", DetourName = nameof(LotteryWeekly_ReceiveEvent))]
         private readonly Hook<ReceiveEventDelegate>? receiveEventHook = null;
 
         private int ticketData = -1;
         private int manualAddTicketValue = -1;
 
-        private void* LotteryWeekly_ReceiveEvent(AgentInterface* addon, void* a2, void* a3, int a4, int a5)
+        private void* LotteryWeekly_ReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)
         {
-            var eventData = *(int*) ((byte*) a3 + 8);
+            //var data = *(int*) ((byte*) eventData + 8);
+            var data = eventData->Int;
 
-            switch (a5)
+            switch (senderID)
             {
                 // Message is from JumboCactpot
-                case 0 when eventData >= 0:
-                    ticketData = eventData;
+                case 0 when data >= 0:
+                    ticketData = data;
                     break;
 
                 // Message is from SelectYesNo
                 case 5:
-                    switch (eventData)
+                    switch (data)
                     {
                         case -1:
                         case 1:
@@ -71,11 +75,16 @@ namespace DailyDuty.Modules.Weekly
                             Service.Configuration.Save();
                             break;
                     }
+                    break;
 
+                default:
+                    //Chat.Debug($"a3: {data}");
+                    //Chat.Debug($"a4: {eventDataItemCount}");
+                    //Chat.Debug($"a5: {senderID}");
                     break;
             }
 
-            return receiveEventHook!.Original(addon, a2, a3, a4, a5);
+            return receiveEventHook!.Original(addon, a2, eventData, eventDataItemCount, senderID);
         }
 
 
@@ -154,7 +163,9 @@ namespace DailyDuty.Modules.Weekly
             {
                 ImGui.Text("Ticket Values");
                 ImGui.SameLine();
-                ImGui.Text("[" + string.Join("] [", Settings.Tickets) + "]");
+
+                var formatString = string.Concat(Settings.Tickets.Select(i => $"[{i:D4}] "));
+                ImGui.Text(formatString);
             }
             else
             {
