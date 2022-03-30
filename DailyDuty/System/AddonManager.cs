@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using DailyDuty.Addons;
 using DailyDuty.Interfaces;
-using DailyDuty.Utilities;
-using DailyDuty.Utilities.Helpers.Addons;
 
 namespace DailyDuty.System
 {
