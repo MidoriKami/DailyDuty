@@ -163,9 +163,7 @@ namespace DailyDuty.Modules.Weekly
             {
                 ImGui.Text("Ticket Values");
                 ImGui.SameLine();
-
-                var formatString = string.Concat(Settings.Tickets.Select(i => $"[{i:D4}] "));
-                ImGui.Text(formatString);
+                ImGui.Text(string.Concat(Settings.Tickets.Select(i => $"[{i:D4}] ")));
             }
             else
             {
