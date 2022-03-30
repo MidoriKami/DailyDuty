@@ -56,6 +56,7 @@ namespace DailyDuty.Utilities.Helpers
                 if (localPlayer != null)
                 {
                     config.CharacterSettingsMap[characterID].CharacterName = localPlayer.Name.ToString();
+                    Service.Configuration.Save();
                 }
                 else
                 {
@@ -71,6 +72,8 @@ namespace DailyDuty.Utilities.Helpers
         {
             Service.LoggedIn = true;
             _currentCharacter = Service.ClientState.LocalContentId;
+
+            UpdatePlayerName(_currentCharacter);
         }
 
         private static bool CharacterExists(ulong characterID)
