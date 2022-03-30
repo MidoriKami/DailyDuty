@@ -140,20 +140,20 @@ namespace DailyDuty.Modules.Weekly
         //  Implementation
         //
 
-        private short GetDonatedThisWeek()
+        private ushort GetDonatedThisWeek()
         {
             var baseAddress = getBasePointer();
-            var donatedThisWeek = *((short*) baseAddress + 80);
+            var donatedThisWeek = *((ushort*) baseAddress + 80);
 
             return donatedThisWeek;
         }
 
-        private short GetWeeklyAllowance()
+        private ushort GetWeeklyAllowance()
         {
             var baseAddress = getBasePointer();
             var adjustedAddress = baseAddress + 166;
 
-            var allowance = *(short*) adjustedAddress;
+            var allowance = *(ushort*) adjustedAddress;
 
             return allowance;
         }
