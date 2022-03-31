@@ -48,9 +48,8 @@ namespace DailyDuty.Modules.Weekly
         private int ticketData = -1;
         private int manualAddTicketValue = -1;
 
-        private void* LotteryWeekly_ReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)
+        private void* LotteryWeekly_ReceiveEvent(AgentInterface* agent, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)
         {
-            //var data = *(int*) ((byte*) eventData + 8);
             var data = eventData->Int;
 
             switch (senderID)
@@ -76,15 +75,9 @@ namespace DailyDuty.Modules.Weekly
                             break;
                     }
                     break;
-
-                default:
-                    //Chat.Debug($"a3: {data}");
-                    //Chat.Debug($"a4: {eventDataItemCount}");
-                    //Chat.Debug($"a5: {senderID}");
-                    break;
             }
 
-            return receiveEventHook!.Original(addon, a2, eventData, eventDataItemCount, senderID);
+            return receiveEventHook!.Original(agent, a2, eventData, eventDataItemCount, senderID);
         }
 
 
