@@ -48,6 +48,13 @@ namespace DailyDuty.Utilities
             ImGui.Text($"{value}");
         }
 
+        public static void NumericDisplay(string label, string formattedString)
+        {
+            ImGui.Text(label);
+            ImGui.SameLine();
+            ImGui.Text(formattedString);
+        }
+
         public static void NumericDisplay(string label, int value, Vector4 color)
         {
             ImGui.Text(label);

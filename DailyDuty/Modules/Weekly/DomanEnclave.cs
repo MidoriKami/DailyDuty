@@ -93,11 +93,11 @@ namespace DailyDuty.Modules.Weekly
             }
             else
             {
-                Draw.NumericDisplay("Deposited This Week", Settings.DonatedThisWeek);
+                Draw.NumericDisplay("Deposited This Week", $"{Settings.DonatedThisWeek:n0}");
 
-                Draw.NumericDisplay("Weekly Allowance", Settings.WeeklyAllowance);
+                Draw.NumericDisplay("Weekly Allowance", $"{Settings.WeeklyAllowance:n0}");
 
-                Draw.NumericDisplay("Remaining Budget", GetRemainingBudget());
+                Draw.NumericDisplay("Remaining Budget", $"{GetRemainingBudget():n0}");
             }
         }
 
