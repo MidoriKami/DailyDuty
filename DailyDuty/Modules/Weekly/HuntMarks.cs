@@ -46,7 +46,10 @@ namespace DailyDuty.Modules.Weekly
         {
             if (Condition.IsBoundByDuty() == true) return;
 
-            Chat.Print(HeaderText, $"{GetIncompleteCount()} Hunts Remaining");
+            if (GetIncompleteCount() != 0)
+            {
+                Chat.Print(HeaderText, $"{GetIncompleteCount()} Hunts Remaining");
+            }
         }
     
         public void NotificationOptions()
