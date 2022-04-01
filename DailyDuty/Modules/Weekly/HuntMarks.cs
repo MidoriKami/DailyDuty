@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.HuntMarks;
 using DailyDuty.Data.SettingsObjects;
@@ -8,7 +9,6 @@ using DailyDuty.Utilities;
 using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
-#pragma warning disable CS0649
 
 namespace DailyDuty.Modules.Weekly
 {
@@ -33,23 +33,20 @@ namespace DailyDuty.Modules.Weekly
 
         // https://github.com/SheepGoMeh/HuntBuddy/blob/master/Structs/MobHuntStruct.cs
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
-        private EliteHuntStruct* huntData;
+        private readonly MobHuntStruct* huntData = null;
 
         public HuntMarks()
         {
             SignatureHelper.Initialise(this);
         }
 
-        public bool IsCompleted()
-        {
-            return CountUnclaimed() == 0;
-        }
+        public bool IsCompleted() => GetIncompleteCount() == 0;
 
         public void SendNotification()
         {
             if (Condition.IsBoundByDuty() == true) return;
 
-            DisplayNotification();
+            Chat.Print(HeaderText, $"{GetIncompleteCount()} Hunts Remaining");
         }
     
         public void NotificationOptions()
@@ -61,12 +58,75 @@ namespace DailyDuty.Modules.Weekly
 
         public void EditModeOptions()
         {
-            EditHuntStatus();
+            ImGui.Text("Force Update");
+            ImGui.Spacing();
+
+            if (ImGui.BeginTable("##EditTable", 2))
+            {
+                foreach (var hunt in Settings.TrackedHunts)
+                {
+                    var label = hunt.Expansion.Description();
+
+                    ImGui.TableNextColumn();
+                    ImGui.Text(label);
+
+                    ImGui.SameLine();
+                    ImGui.TableNextColumn();
+
+                    if (ImGui.Button("Force Update"))
+                    {
+                        hunt.State = hunt.State switch
+                        {
+                            TrackedHuntState.Unobtained => TrackedHuntState.Obtained,
+                            _ => hunt.State
+                        };
+                    }
+                }
+
+                ImGui.EndTable();
+            }
         }
     
         public void DisplayData()
         {
-            DisplayHuntStatus();
+            ImGui.Text("Only the checked lines will be evaluated for notifications");
+            ImGui.Spacing();
+
+            if (ImGui.BeginTable("##DataTable", 2))
+            {
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 150f * ImGuiHelpers.GlobalScale);
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
+
+                foreach (var hunt in Settings.TrackedHunts)
+                {
+                    var label = hunt.Expansion.Description();
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    if (ImGui.Checkbox($"##{hunt.Expansion}", ref hunt.Tracked))
+                    {
+                        Service.Configuration.Save();
+                    }
+                    ImGui.SameLine();
+                    ImGui.Text(label);
+
+                    ImGui.TableNextColumn();
+                    switch (hunt.State)
+                    {
+                        case TrackedHuntState.Unobtained:
+                            ImGui.TextColored(Colors.Red, "Hunt Mark Available");
+                            break;
+                        case TrackedHuntState.Obtained:
+                            ImGui.TextColored(Colors.Orange, "Mark Obtained");
+                            break;
+                        case TrackedHuntState.Killed:
+                            ImGui.TextColored(Colors.Green, "Mark Killed");
+                            break;
+                    }
+                }
+
+                ImGui.EndTable();
+            }
         }
     
         public void Dispose()
@@ -78,117 +138,75 @@ namespace DailyDuty.Modules.Weekly
         {
             foreach (var hunt in Settings.TrackedHunts)
             {
-                var obtained = huntData->Obtained(hunt.Expansion);
-
-                if (obtained == true && hunt.Obtained == false)
-                {
-                    hunt.Obtained = true;
-                    Service.Configuration.Save();
-                }
-            } 
+                UpdateState(hunt);
+            }
         }
 
         void IResettable.ResetThis()
         {
             foreach (var hunt in Settings.TrackedHunts)
             {
-                hunt.Obtained = false;
+                hunt.State = TrackedHuntState.Unobtained;
             }
-        }
-
-        private int CountUnclaimed()
-        {
-            var count = 0;
-
-            foreach (var hunt in Settings.TrackedHunts)
-            {
-                var obtained = huntData->Obtained(hunt.Expansion) || hunt.Obtained;
-
-                if (hunt is { Obtained: false, Tracked: true } somevar)
-                    count++;
-            }
-
-            return count;
         }
 
         //
         // Implementation
         //
-        private void DisplayNotification()
-        {
-            var unclaimed = CountUnclaimed();
 
-            if (unclaimed > 0)
+        private void UpdateState(TrackedHunt hunt)
+        {
+            var obtained = GetObtained(hunt.Expansion);
+            var eliteKillCount = GetEliteKillCount(hunt.Expansion);
+
+            switch (hunt.State)
             {
-                Chat.Print(HeaderText, $"{unclaimed} Elite Marks Unclaimed");
+                case TrackedHuntState.Unobtained when obtained == true:
+                    hunt.State = TrackedHuntState.Obtained;
+                    Service.Configuration.Save();
+                    break;
+
+                case TrackedHuntState.Obtained when obtained == false && eliteKillCount != 1:
+                    hunt.State = TrackedHuntState.Unobtained;
+                    Service.Configuration.Save();
+                    break;
+
+                case TrackedHuntState.Obtained when eliteKillCount == 1:
+                    hunt.State = TrackedHuntState.Killed;
+                    Service.Configuration.Save();
+                    break;
             }
         }
 
-        private void DisplayHuntStatus()
+        private bool GetObtained(ExpansionType expansion)
         {
-            ImGui.Text("Only the checked lines will be evaluated for notifications");
-            ImGui.Spacing();
-
-            if (ImGui.BeginTable($"##EditTable{HeaderText}", 2))
+            return expansion switch
             {
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 150f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
-
-                foreach (var hunt in Settings.TrackedHunts)
-                {
-                    var label = hunt.Expansion.ToString();
-
-                    ImGui.TableNextRow();
-                    ImGui.TableNextColumn();
-                    if (ImGui.Checkbox($"##{hunt.Expansion}{HeaderText}", ref hunt.Tracked))
-                    {
-                        Service.Configuration.Save();
-                    }
-                    ImGui.SameLine();
-                    ImGui.Text(label);
-
-                    ImGui.TableNextColumn();
-                    Draw.ConditionalText(huntData->Obtained(hunt.Expansion) || hunt.Obtained, "Mark Obtained", "Hunt Mark Available");
-                }
-
-                ImGui.EndTable();
-            }
+                ExpansionType.RealmReborn => huntData->RealmReborn.ObtainedEliteHuntBill,
+                ExpansionType.Heavensward => huntData->HeavensWard.ObtainedEliteHuntBill,
+                ExpansionType.Stormblood => huntData->StormBlood.ObtainedEliteHuntBill,
+                ExpansionType.Shadowbringers => huntData->ShadowBringers.ObtainedEliteHuntBill,
+                ExpansionType.Endwalker => huntData->Endwalker.ObtainedEliteHuntBill,
+                _ => false
+            };
         }
 
-        private void EditHuntStatus()
+        private int GetEliteKillCount(ExpansionType expansion)
         {
-            if (ImGui.BeginTable($"##EditTable{HeaderText}", 3))
+            return expansion switch
             {
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 120f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 120f * ImGuiHelpers.GlobalScale);
+                ExpansionType.RealmReborn => huntData->RealmReborn.EliteMark,
+                ExpansionType.Heavensward => huntData->HeavensWard.EliteMark,
+                ExpansionType.Stormblood => huntData->StormBlood.EliteMark,
+                ExpansionType.Shadowbringers => huntData->ShadowBringers.EliteMark,
+                ExpansionType.Endwalker => huntData->Endwalker.EliteMark,
+                _ => 0
+            };
+        }
 
-                foreach (var hunt in Settings.TrackedHunts)
-                {
-                    var label = hunt.Expansion.ToString();
-
-                    ImGui.TableNextRow();
-                    ImGui.TableNextColumn();
-                    ImGui.Text(label);
-
-                    ImGui.TableNextColumn();
-                    if (ImGui.Button($"Collected##{label}{HeaderText}", ImGuiHelpers.ScaledVector2(100, 25)))
-                    {
-                        hunt.Obtained = true;
-                        Service.Configuration.Save();
-                    }
-
-                    ImGui.TableNextColumn();
-                    if (ImGui.Button($"Not Collected##{label}{HeaderText}", ImGuiHelpers.ScaledVector2(100, 25)))
-                    {
-                        hunt.Obtained = false;
-                        Service.Configuration.Save();
-                    }
-
-                }
-
-                ImGui.EndTable();
-            }
+        private int GetIncompleteCount()
+        {
+            return Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
         }
     }
 }

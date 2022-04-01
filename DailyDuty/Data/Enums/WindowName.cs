@@ -5,6 +5,8 @@
         Settings,
         Todo,
         Timers,
-        Notice
+        Notice,
+
+        Debug_HuntMarkHelper
     }
 }

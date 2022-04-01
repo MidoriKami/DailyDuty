@@ -1,16 +1,11 @@
-﻿namespace DailyDuty.Data.ModuleData.HuntMarks
+﻿using DailyDuty.Data.Enums;
+
+namespace DailyDuty.Data.ModuleData.HuntMarks
 {
     public class TrackedHunt
     {
-        public readonly ExpansionType Expansion;
-        public bool Tracked;
-        public bool Obtained;
-
-        public TrackedHunt(ExpansionType expansion, bool tracked)
-        {
-            Expansion = expansion;
-            Tracked = tracked;
-            Obtained = false;
-        }
+        public ExpansionType Expansion { get; init; }
+        public bool Tracked = false;
+        public TrackedHuntState State { get; set; }
     }
 }
