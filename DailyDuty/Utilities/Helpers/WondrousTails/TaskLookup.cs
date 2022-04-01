@@ -98,6 +98,7 @@ namespace DailyDuty.Utilities.Helpers.WondrousTails
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
+                // Palace of the Dead / Heaven on High
                 case 53:
                     return Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                         !.Where(m => m.ContentType.Value?.RowId is 21)
@@ -111,8 +112,8 @@ namespace DailyDuty.Utilities.Helpers.WondrousTails
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
-                // Rival Wings
-                case 67 or 54:
+                // PvP
+                case 67 or 54 or 52:
                     return new List<uint>();
 
             }
