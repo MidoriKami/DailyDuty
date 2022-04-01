@@ -68,6 +68,8 @@ namespace DailyDuty.Modules.Weekly
             {
                 foreach (var hunt in Settings.TrackedHunts)
                 {
+                    ImGui.PushID((int)hunt.Expansion);
+
                     var label = hunt.Expansion.Description();
 
                     ImGui.TableNextColumn();
@@ -84,6 +86,8 @@ namespace DailyDuty.Modules.Weekly
                             _ => hunt.State
                         };
                     }
+
+                    ImGui.PopID();
                 }
 
                 ImGui.EndTable();
@@ -117,7 +121,7 @@ namespace DailyDuty.Modules.Weekly
                     switch (hunt.State)
                     {
                         case TrackedHuntState.Unobtained:
-                            ImGui.TextColored(Colors.Red, "Hunt Mark Available");
+                            ImGui.TextColored(Colors.Red, "Mark Available");
                             break;
                         case TrackedHuntState.Obtained:
                             ImGui.TextColored(Colors.Orange, "Mark Obtained");
