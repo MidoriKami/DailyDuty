@@ -3,6 +3,58 @@ using System.Runtime.InteropServices;
 
 namespace DailyDuty.Data.ModuleData.HuntMarks
 {
+    [Flags]
+    public enum RealmRebornFlags : int
+    {
+        HuntBill = 0x000001,
+        Elite = 0x000010
+    }
+
+    [Flags]
+    public enum HeavenswardFlags : int
+    {
+        LevelOne = 0x000002,
+        LevelTwo = 0x000004,
+        LevelThree = 0x000008,
+        Elite = 0x000020
+    }
+
+    [Flags]
+    public enum StormbloodFlags : int
+    {
+        LevelOne = 0x000040,
+        LevelTwo = 0x000080,
+        LevelThree = 0x000100,
+        Elite = 0x000200
+    }
+
+    [Flags]
+    public enum ShadowbringersFlags : int
+    {
+        OneNut = 0x000400,
+        TwoNut = 0x000800,
+        ThreeNut = 0x001000,
+        Elite = 0x002000
+    }
+
+    [Flags]
+    public enum EndwalkerFlags
+    {
+        Junior = 0x004000,
+        Associate = 0x008000,
+        Senior = 0x010000,
+        Elite = 0x020000
+    }
+
+    public static class HuntFlags
+    {
+        public static RealmRebornFlags RealmReborn;
+        public static HeavenswardFlags Heavensward;
+        public static StormbloodFlags Stormblood;
+        public static ShadowbringersFlags Shadowbringers;
+        public static EndwalkerFlags Endwalker;
+    }
+
     [StructLayout(LayoutKind.Explicit, Size = 0x14)]
     public unsafe struct MarkBillKillCounts
     {
@@ -24,10 +76,10 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
         [FieldOffset(0x2C)] public MarkBillKillCounts KillCounts;
         [FieldOffset(0x7C)] public readonly int EliteMark;
 
-        [FieldOffset(0x194)] private readonly byte Flags;
+        [FieldOffset(0x194)] public readonly RealmRebornFlags Flags;
 
-        public bool ObtainedHuntBill => (Flags & 0b0000_0001) != 0;
-        public bool ObtainedEliteHuntBill => (Flags & 0b0001_0000) != 0;
+        public bool ObtainedHuntBill => Flags.HasFlag(RealmRebornFlags.HuntBill);
+        public bool ObtainedEliteHuntBill => Flags.HasFlag(RealmRebornFlags.Elite);
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 0x198)]
@@ -43,16 +95,16 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
         [FieldOffset(0x68)] public MarkBillKillCounts LevelThree;
         [FieldOffset(0x90)] public readonly int EliteMark;
 
-        [FieldOffset(0x194)] private readonly byte Flags;
+        [FieldOffset(0x194)] public readonly HeavenswardFlags Flags;
 
-        public bool ObtainedLevelOne => (Flags & 0b0000_0010) != 0;
-        public bool ObtainedLevelTwo => (Flags & 0b0000_0100) != 0;
-        public bool ObtainedLevelThree => (Flags & 0b0000_1000) != 0;
-        public bool ObtainedEliteHuntBill => (Flags & 0b0010_0000) != 0;
+        public bool ObtainedLevelOne => Flags.HasFlag(HeavenswardFlags.LevelOne);
+        public bool ObtainedLevelTwo => Flags.HasFlag(HeavenswardFlags.LevelTwo);
+        public bool ObtainedLevelThree => Flags.HasFlag(HeavenswardFlags.LevelThree);
+        public bool ObtainedEliteHuntBill => Flags.HasFlag(HeavenswardFlags.Elite);
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 0x198)]
-    public unsafe struct StormBloodHunts
+    public struct StormBloodHunts
     {
         [FieldOffset(0x20)] public readonly byte LevelOneID;
         [FieldOffset(0x21)] public readonly byte LevelTwoID;
@@ -64,12 +116,12 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
         [FieldOffset(0xCC)] public MarkBillKillCounts LevelThree;
         [FieldOffset(0xE0)] public readonly int EliteMark;
 
-        [FieldOffset(0x194)] private fixed byte Flags[2];
+        [FieldOffset(0x194)] private readonly StormbloodFlags Flags;
 
-        public bool ObtainedLevelOne => (Flags[0] & 0b0100_0000) != 0;
-        public bool ObtainedLevelTwo => (Flags[0] & 0b1000_0000) != 0;
-        public bool ObtainedLevelThree => (Flags[1] & 0b0000_0001) != 0;
-        public bool ObtainedEliteHuntBill => (Flags[1] & 0b0000_0010) != 0;
+        public bool ObtainedLevelOne => Flags.HasFlag(StormbloodFlags.LevelOne);
+        public bool ObtainedLevelTwo => Flags.HasFlag(StormbloodFlags.LevelTwo);
+        public bool ObtainedLevelThree => Flags.HasFlag(StormbloodFlags.LevelThree);
+        public bool ObtainedEliteHuntBill => Flags.HasFlag(StormbloodFlags.Elite);
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 0x198)]
@@ -85,16 +137,16 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
         [FieldOffset(0x11C)] public MarkBillKillCounts ThreeNut;
         [FieldOffset(0x130)] public readonly int EliteMark;
 
-        [FieldOffset(0x195)] private readonly byte Flags;
+        [FieldOffset(0x194)] private readonly ShadowbringersFlags Flags;
 
-        public bool ObtainedOneNut => (Flags & 0b0000_0100) != 0;
-        public bool ObtainedTwoNut => (Flags & 0b0000_1000) != 0;
-        public bool ObtainedThreeNut => (Flags & 0b0001_0000) != 0;
-        public bool ObtainedEliteHuntBill => (Flags & 0b0010_0000) != 0;
+        public bool ObtainedOneNut => Flags.HasFlag(ShadowbringersFlags.OneNut);
+        public bool ObtainedTwoNut => Flags.HasFlag(ShadowbringersFlags.TwoNut);
+        public bool ObtainedThreeNut => Flags.HasFlag(ShadowbringersFlags.ThreeNut);
+        public bool ObtainedEliteHuntBill => Flags.HasFlag(ShadowbringersFlags.Elite);
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 0x198)]
-    public unsafe struct EndwalkerHunts
+    public struct EndwalkerHunts
     {
         [FieldOffset(0x28)] public readonly byte JuniorID;
         [FieldOffset(0x29)] public readonly byte AssociateID;
@@ -106,14 +158,13 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
         [FieldOffset(0x16C)] public MarkBillKillCounts Senior;
         [FieldOffset(0x180)] public readonly int EliteMark;
 
-        [FieldOffset(0x195)] private fixed byte Flags[2];
+        [FieldOffset(0x194)] public readonly EndwalkerFlags Flags;
 
-        public bool ObtainedJunior => (Flags[0] & 0b0100_0000) != 0;
-        public bool ObtainedAssociate => (Flags[0] & 0b1000_0000) != 0;
-        public bool ObtainedSenior => (Flags[1] & 0b0000_0001) != 0;
-        public bool ObtainedEliteHuntBill => (Flags[1] & 0b0000_0010) != 0;
+        public bool ObtainedJunior => Flags.HasFlag(EndwalkerFlags.Junior);
+        public bool ObtainedAssociate => Flags.HasFlag(EndwalkerFlags.Associate);
+        public bool ObtainedSenior => Flags.HasFlag(EndwalkerFlags.Senior);
+        public bool ObtainedEliteHuntBill => Flags.HasFlag(EndwalkerFlags.Elite);
     }
-
 
     //[Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
     [StructLayout(LayoutKind.Explicit, Size = 0x198)]
