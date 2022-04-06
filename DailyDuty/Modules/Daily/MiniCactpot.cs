@@ -3,15 +3,18 @@ using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Interfaces;
+using DailyDuty.Modules.Weekly;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Hooking;
+using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules.Daily
 {
     internal unsafe class MiniCactpot : 
         IConfigurable,
-        IUpdateable,
         IDailyResettable,
         IZoneChangeThrottledNotification,
         ILoginNotification,
@@ -22,14 +25,33 @@ namespace DailyDuty.Modules.Daily
         public CompletionType Type => CompletionType.Daily;
         public string HeaderText => "Mini Cactpot";
 
-        private bool exchangeStarted;
-
         private readonly DalamudLinkPayload goldSaucerTeleport;
+
+        private delegate IntPtr ShowDelegate(AgentInterface* addon, void* a2, void* a3);
+
+        // LotteryDaily_Show
+        [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
+        private readonly Hook<ShowDelegate>? receiveEventHook = null;
+
+        public IntPtr LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
+        {
+            Settings.TicketsRemaining -= 1;
+
+            return receiveEventHook!.Original(addon, a2, a3);
+        }
 
         public MiniCactpot()
         {
-            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+            SignatureHelper.Initialise(this);
 
+            receiveEventHook?.Enable();
+
+            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+        }
+
+        public void Dispose()
+        {
+            receiveEventHook?.Dispose();
         }
 
         public DateTime NextReset
@@ -54,19 +76,10 @@ namespace DailyDuty.Modules.Daily
         {
             Draw.NumericDisplay("Tickets Remaining", Settings.TicketsRemaining);
         }
-
-        public void Dispose()
-        {
-        }
-
+        
         public bool IsCompleted()
         {
             return Settings.TicketsRemaining == 0;
-        }
-
-        public void Update()
-        {
-            UpdateMiniCactpot();
         }
 
         void IResettable.ResetThis()
@@ -80,30 +93,6 @@ namespace DailyDuty.Modules.Daily
             {
                 Chat.Print(HeaderText, $"{Settings.TicketsRemaining} Tickets Remaining", goldSaucerTeleport);
             }
-        }
-
-        //
-        // Implementation
-        //
-        private void UpdateMiniCactpot()
-        {
-            if (GetMiniCactpotPointer() != null)
-            {
-                if (exchangeStarted == false)
-                {
-                    exchangeStarted = true;
-                }
-            }
-            else if(exchangeStarted == true)
-            {
-                exchangeStarted = false;
-                Settings.TicketsRemaining -= 1;
-                Service.Configuration.Save();
-            }
-        }
-        private AddonLotteryDaily* GetMiniCactpotPointer()
-        {
-            return (AddonLotteryDaily*) Service.GameGui.GetAddonByName("LotteryDaily", 1);
         }
     }
 }
