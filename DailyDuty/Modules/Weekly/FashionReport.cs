@@ -50,11 +50,8 @@ namespace DailyDuty.Modules.Weekly
         {
         }
 
-        public bool IsCompleted()
-        {
-            return FashionReportComplete();
-        }
-    
+        public bool IsCompleted() => FashionReportComplete();
+
         public void SendNotification()
         {
             if (Condition.IsBoundByDuty() == true) return;

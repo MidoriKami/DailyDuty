@@ -34,10 +34,12 @@ namespace DailyDuty.Modules.Weekly
             SignatureHelper.Initialise(this);
         }
 
-        public bool IsCompleted()
+        public void Dispose()
         {
-            return GetAllowances() == 0;
+
         }
+
+        public bool IsCompleted() => GetAllowances() == 0;
 
         public void SendNotification()
         {
@@ -57,15 +59,7 @@ namespace DailyDuty.Modules.Weekly
         {
         }
 
-        public void DisplayData()
-        {
-            Draw.NumericDisplay("Allowances Remaining", GetAllowances());
-        }
-        
-        public void Dispose()
-        {
-
-        }
+        public void DisplayData() => Draw.NumericDisplay("Allowances Remaining", GetAllowances());
 
         //
         //  Implementation

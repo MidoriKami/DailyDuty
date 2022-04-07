@@ -9,6 +9,7 @@ using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers.Delegates;
 using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
@@ -39,11 +40,9 @@ namespace DailyDuty.Modules.Weekly
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
         
-        private delegate void* ReceiveEventDelegate(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
-
         // LotteryWeekly_ReceiveEvent
         [Signature("48 89 5C 24 ?? 44 89 4C 24 ?? 4C 89 44 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24", DetourName = nameof(LotteryWeekly_ReceiveEvent))]
-        private readonly Hook<ReceiveEventDelegate>? receiveEventHook = null;
+        private readonly Hook<Functions.Agent.ReceiveEvent>? receiveEventHook = null;
 
         private int ticketData = -1;
         private int manualAddTicketValue = -1;
@@ -80,7 +79,6 @@ namespace DailyDuty.Modules.Weekly
             return receiveEventHook!.Original(agent, a2, eventData, eventDataItemCount, senderID);
         }
 
-
         public JumboCactpot()
         {
             SignatureHelper.Initialise(this);
@@ -101,10 +99,7 @@ namespace DailyDuty.Modules.Weekly
             set => Settings.NextReset = value;
         }
 
-        public bool IsCompleted()
-        {
-            return Settings.Tickets.Count == 3;
-        }
+        public bool IsCompleted() => Settings.Tickets.Count == 3;
 
         public void SendNotification()
         {
@@ -167,17 +162,11 @@ namespace DailyDuty.Modules.Weekly
             Draw.TimeSpanDisplay("Next Ticket Drawing", timespan);
         }
 
-        public void Update()
-        {
-            UpdatePlayerRegion();
-        }
+        public void Update() => UpdatePlayerRegion();
 
         DateTime IResettable.GetNextReset() => GetNextJumboCactpotReset();
 
-        void IResettable.ResetThis()
-        {
-            Settings.Tickets.Clear();
-        }
+        void IResettable.ResetThis() => Settings.Tickets.Clear();
 
         //
         //  Implementation

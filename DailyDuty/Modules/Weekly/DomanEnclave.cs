@@ -101,10 +101,7 @@ namespace DailyDuty.Modules.Weekly
             }
         }
 
-        public bool IsCompleted()
-        {
-            return ModuleInitialized() == true && GetRemainingBudget() == 0;
-        }
+        public bool IsCompleted() => ModuleInitialized() == true && GetRemainingBudget() == 0;
 
         public void Update()
         {
@@ -114,6 +111,10 @@ namespace DailyDuty.Modules.Weekly
                 UpdateDonatedThisWeek();
             }
         }
+
+        //
+        //  Implementation
+        //
 
         private void UpdateWeeklyAllowance()
         {
@@ -136,10 +137,6 @@ namespace DailyDuty.Modules.Weekly
             }
         }
 
-        //
-        //  Implementation
-        //
-
         private ushort GetDonatedThisWeek()
         {
             var baseAddress = getBasePointer();
@@ -158,24 +155,12 @@ namespace DailyDuty.Modules.Weekly
             return allowance;
         }
 
-        private int GetRemainingBudget()
-        {
-            return Settings.WeeklyAllowance - Settings.DonatedThisWeek;
-        }
+        private int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
 
-        private bool ModuleInitialized()
-        {
-            return Settings.WeeklyAllowance != 0;
-        }
+        private bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
 
-        private bool DataAvailable()
-        {
-            return GetWeeklyAllowance() != 0;
-        }
-        
-        void IResettable.ResetThis()
-        {
-            Settings.DonatedThisWeek = 0;
-        }
+        private bool DataAvailable() => GetWeeklyAllowance() != 0;
+
+        void IResettable.ResetThis() => Settings.DonatedThisWeek = 0;
     }
 }

@@ -27,16 +27,12 @@ namespace DailyDuty.Modules.Daily
         ICompletable,
         IChatHandler
     {
-
         private TreasureMapSettings Settings => Service.Configuration.Current().TreasureMap;
         public CompletionType Type => CompletionType.Daily;
         public string HeaderText => "Treasure Map";
         public GenericSettings GenericSettings => Settings;
 
         private readonly HashSet<int> mapLevels;
-        
-        private int editHours = 0;
-        private int editMinutes = 0;
         private int SelectedMinimumMapLevel
         {
             get
@@ -134,31 +130,7 @@ namespace DailyDuty.Modules.Daily
 
         public void EditModeOptions()
         {
-            ImGui.Text("Enter how much time should be remaining");
 
-            ImGui.Text("HH:MM");
-            ImGui.SameLine();
-
-            ImGui.SetNextItemWidth(25f * ImGuiHelpers.GlobalScale);
-            ImGui.InputInt($"##{HeaderText}MapHoursCorrection", ref editHours, 0, 0);
-
-            ImGui.SameLine();
-            ImGui.SetNextItemWidth(25f * ImGuiHelpers.GlobalScale);
-            ImGui.InputInt($"##{HeaderText}MapMinutesCorrection", ref editMinutes, 0, 0);
-            ImGui.SameLine();
-
-            if (ImGui.Button($"Collect##{HeaderText}CollectButton"))
-            {
-                var mapPeriod = TimeSpan.FromHours(18);
-                var timespan = TimeSpan.FromHours(editHours) + TimeSpan.FromMinutes(editMinutes);
-
-                var delta = mapPeriod - timespan;
-
-                var now = DateTime.Now;
-
-                Settings.LastMapGathered = now.Subtract(delta);
-                Service.Configuration.Save();
-            }
         }
 
         public void DisplayData()
@@ -199,7 +171,6 @@ namespace DailyDuty.Modules.Daily
         {
             return TimeUntilNextMap() == TimeSpan.Zero;
         }
-
 
         private bool IsMap(uint itemID)
         {

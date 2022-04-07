@@ -5,6 +5,7 @@ using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Weekly;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers.Delegates;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
@@ -27,13 +28,11 @@ namespace DailyDuty.Modules.Daily
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
 
-        private delegate IntPtr ShowDelegate(AgentInterface* addon, void* a2, void* a3);
-
         // LotteryDaily_Show
         [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
-        private readonly Hook<ShowDelegate>? receiveEventHook = null;
+        private readonly Hook<Functions.Agent.LotteryDaily.Show>? receiveEventHook = null;
 
-        public IntPtr LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
+        public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
         {
             Settings.TicketsRemaining -= 1;
 
