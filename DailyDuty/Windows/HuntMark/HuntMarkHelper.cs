@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.Data.Enums;
+﻿using DailyDuty.Data.Enums;
 using DailyDuty.Data.ModuleData.HuntMarks;
 using DailyDuty.Interfaces;
-using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using Newtonsoft.Json;
 
-namespace DailyDuty.Utilities.Helpers.HuntMarks
+namespace DailyDuty.Windows.HuntMark
 {
     internal unsafe class HuntMarkHelper : Window, IWindow
     {
@@ -50,29 +43,14 @@ namespace DailyDuty.Utilities.Helpers.HuntMarks
 
         private void PrintStruct()
         {
-            if (ImGui.CollapsingHeader("A Realm Reborn"))
+            for (var i = HuntMarkType.RealmReborn_LevelOne; i <= HuntMarkType.Endwalker_Elite; ++i)
             {
-                ImGui.Text(huntStruct->RealmReborn.ToJson());
-            }
+                if (ImGui.CollapsingHeader(i.ToString()))
+                {
+                    var data = huntStruct->Get(i);
 
-            if (ImGui.CollapsingHeader("Heavensward"))
-            {
-                ImGui.Text(huntStruct->HeavensWard.ToJson());
-            }
-
-            if (ImGui.CollapsingHeader("Stormblood"))
-            {
-                ImGui.Text(huntStruct->StormBlood.ToJson());
-            }            
-            
-            if (ImGui.CollapsingHeader("Shadowbringers"))
-            {
-                ImGui.Text(huntStruct->ShadowBringers.ToJson());
-            }
-
-            if (ImGui.CollapsingHeader("Endwalker"))
-            {
-                ImGui.Text(huntStruct->Endwalker.ToJson());
+                    ImGui.Text(data.ToJson());
+                }
             }
         }
     }
