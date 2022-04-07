@@ -11,12 +11,13 @@ using DailyDuty.Data.SettingsObjects.Daily;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers.Delegates;
 using DailyDuty.Utilities.Helpers.WondrousTails;
-using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 
@@ -30,29 +31,30 @@ namespace DailyDuty.Addons
 
         public AddonName AddonName => AddonName.DutyFinder;
 
-        private delegate void AddonOnDraw(AtkUnitBase* atkUnitBase);
-        private delegate void* AddonOnFinalize(AtkUnitBase* atkUnitBase);
-        private delegate byte AddonOnUpdate(AtkUnitBase* atkUnitBase);
-        private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);
-
         [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
         private readonly WondrousTailsStruct* wondrousTails = null;
 
-        private Hook<AddonOnDraw>? onDrawHook = null;
-        private Hook<AddonOnFinalize>? onFinalizeHook = null;
-        private Hook<AddonOnUpdate>? onUpdateHook = null;
-        private Hook<AddonOnRefresh>? onRefreshHook = null;
+        [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
+        private readonly Hook<Functions.Agent.AgentContentsFinder.Show>? contentsFinderShowHook = null;
+
+        private Hook<Functions.Addon.Draw>? onDrawHook = null;
+        private Hook<Functions.Addon.Finalize>? onFinalizeHook = null;
+        private Hook<Functions.Addon.Update>? onUpdateHook = null;
+        private Hook<Functions.Addon.OnRefresh>? onRefreshHook = null;
 
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
         private readonly List<DutyFinderSearchResult> dutyRouletteDuties = new();
         private IEnumerable<TrackedRoulette> DutyRoulettes => DutyRouletteSettings.TrackedRoulettes;
         private List<(ButtonState, List<uint>)> wondrousTailsStatus;
 
+        private bool defaultColorSaved = false;
         private ByteColor userDefaultTextColor;
-
+        
         public DutyFinderAddonModule()
         {
             SignatureHelper.Initialise(this);
+
+            contentsFinderShowHook?.Enable();
 
             var contentFinderData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
                 !.Where(cfc => cfc.Name != string.Empty);
@@ -83,45 +85,11 @@ namespace DailyDuty.Addons
             }
 
             wondrousTailsStatus = GetAllTaskData().ToList();
-
-            Service.Framework.Update += FrameworkOnUpdate;
         }
 
-        private void FrameworkOnUpdate(Framework framework)
-        {
-            if (IsContentFinderOpen() != true) return;
-
-            var addonContentsFinder = GetContentsFinderPointer();
-
-            if (addonContentsFinder == null) return;
-
-            var textNode = GetListItemTextNode(6);
-
-            if(textNode == null) return;
-
-            var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
-            var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
-            var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-            var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
-
-            onDrawHook ??= new Hook<AddonOnDraw>(new IntPtr(drawAddress), OnDraw);
-            onFinalizeHook ??= new Hook<AddonOnFinalize>(new IntPtr(finalizeAddress), OnFinalize);
-            onUpdateHook ??= new Hook<AddonOnUpdate>(new IntPtr(updateAddress), OnUpdate);
-            onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), OnRefresh);
-
-            onDrawHook.Enable();
-            onFinalizeHook.Enable();
-            onUpdateHook.Enable();
-            onRefreshHook.Enable();
-
-            userDefaultTextColor = textNode->TextColor;
-
-            Service.Framework.Update -= FrameworkOnUpdate;
-        }
-        
         public void Dispose()
         {
-            Service.Framework.Update -= FrameworkOnUpdate;
+            contentsFinderShowHook?.Dispose();
 
             onDrawHook?.Dispose();
             onFinalizeHook?.Dispose();
@@ -129,7 +97,45 @@ namespace DailyDuty.Addons
             onRefreshHook?.Dispose();
         }
 
-        private byte OnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3)
+        private void* ContentsFinder_Show(void* a1)
+        {
+            var result = contentsFinderShowHook!.Original(a1);
+
+            var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+            var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+
+            if (contentsFinderAgent->IsAgentActive())
+            {
+                var addonContentsFinder = GetContentsFinderPointer();
+
+                if (addonContentsFinder == null)
+                {
+                    Chat.Debug("Addon null");
+                    return result;
+                }
+
+                var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
+                var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
+                var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
+                var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
+
+                onDrawHook ??= new Hook<Functions.Addon.Draw>(new IntPtr(drawAddress), ContentsFinder_Draw);
+                onFinalizeHook ??= new Hook<Functions.Addon.Finalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
+                onUpdateHook ??= new Hook<Functions.Addon.Update>(new IntPtr(updateAddress), ContentsFinder_Update);
+                onRefreshHook ??= new Hook<Functions.Addon.OnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
+
+                onDrawHook.Enable();
+                onFinalizeHook.Enable();
+                onUpdateHook.Enable();
+                onRefreshHook.Enable();
+
+                contentsFinderShowHook!.Disable();
+            }
+
+            return result;
+        }
+
+        private byte ContentsFinder_OnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3)
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
@@ -157,19 +163,7 @@ namespace DailyDuty.Addons
             return result;
         }
 
-        private void ResetDefaultTextColor()
-        {
-            foreach (var i in Enumerable.Range(61001, 15).Append(6))
-            {
-                var id = (uint)i;
-
-                var textNode = GetListItemTextNode(id);
-
-                textNode->TextColor = userDefaultTextColor;
-            }
-        }
-
-        private byte OnUpdate(AtkUnitBase* atkUnitBase)
+        private byte ContentsFinder_Update(AtkUnitBase* atkUnitBase)
         {
             var result = onUpdateHook!.Original(atkUnitBase);
 
@@ -180,38 +174,22 @@ namespace DailyDuty.Addons
             return result;
         }
 
-        private void UpdateWondrousTails()
-        {
-            foreach (var i in Enumerable.Range(61001, 15).Append(6))
-            {
-                var id = (uint)i;
-
-                var taskState = IsWondrousTailsDuty(id);
-
-                if (taskState == null)
-                {
-                    SetImageNodeVisibility(id, 29, false);
-                    SetImageNodeVisibility(id, 30, false);
-                }
-                else if (taskState == ButtonState.Unavailable)
-                {
-                    SetImageNodeVisibility(id, 29, false);
-                    SetImageNodeVisibility(id, 30, true);
-                }
-                else if (taskState is ButtonState.AvailableNow or ButtonState.Completable)
-                {
-                    SetImageNodeVisibility(id, 29, true);
-                    SetImageNodeVisibility(id, 30, false);
-                }
-            }
-        }
-
-        private void OnDraw(AtkUnitBase* atkUnitBase)
+        private void ContentsFinder_Draw(AtkUnitBase* atkUnitBase)
         {
             onDrawHook!.Original(atkUnitBase);
             if (atkUnitBase == null) return;
 
             if (Settings.Enabled == false) return;
+
+            if (defaultColorSaved == false)
+            {
+                var textNode = GetListItemTextNode(6);
+
+                if (textNode == null) return;
+
+                userDefaultTextColor = textNode->TextColor;
+                defaultColorSaved = true;
+            }
 
             if (Settings.WondrousTailsOverlayEnabled == true && WondrousTailsSettings.Enabled)
             {
@@ -237,6 +215,95 @@ namespace DailyDuty.Addons
             else
             {
                 ResetDefaultTextColor();
+            }
+        }
+
+        private void* ContentsFinder_Finalize(AtkUnitBase* atkUnitBase)
+        {
+            if (atkUnitBase == null) return null;
+
+            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            {
+                var id = (uint) i;
+                DestroyNode(id, 29);
+                DestroyNode(id, 30);
+            }
+
+            return onFinalizeHook!.Original(atkUnitBase);
+        }
+
+        //
+        //  Implementation
+        //
+
+        private void DestroyNode(uint id, uint nodeId)
+        {
+            var firstNode = GetListItemNode(id);
+
+            if (firstNode == null) return;
+
+            var uldManager = firstNode->Component->UldManager;
+            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, nodeId, NodeType.Image);
+
+            if (customNode != null)
+            {
+                if (customNode->AtkResNode.PrevSiblingNode != null)
+                    customNode->AtkResNode.PrevSiblingNode->NextSiblingNode = customNode->AtkResNode.NextSiblingNode;
+
+                if (customNode->AtkResNode.NextSiblingNode != null)
+                    customNode->AtkResNode.NextSiblingNode->PrevSiblingNode = customNode->AtkResNode.PrevSiblingNode;
+
+
+                firstNode->Component->UldManager.UpdateDrawNodeList();
+
+                customNode->PartsList->Parts->UldAsset->AtkTexture.Destroy(true);
+                IMemorySpace.Free(customNode->PartsList->Parts->UldAsset, (ulong) sizeof(AtkUldAsset));
+
+                IMemorySpace.Free(customNode->PartsList->Parts, (ulong) sizeof(AtkUldPart));
+
+                IMemorySpace.Free(customNode->PartsList, (ulong) sizeof(AtkUldPartsList));
+                
+                customNode->UnloadTexture();
+                customNode->AtkResNode.Destroy(true);
+                IMemorySpace.Free(customNode, (ulong)sizeof(AtkImageNode));
+            }
+        }
+
+        private void ResetDefaultTextColor()
+        {
+            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            {
+                var id = (uint)i;
+
+                var textNode = GetListItemTextNode(id);
+
+                textNode->TextColor = userDefaultTextColor;
+            }
+        }
+
+        private void UpdateWondrousTails()
+        {
+            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            {
+                var id = (uint)i;
+
+                var taskState = IsWondrousTailsDuty(id);
+
+                if (taskState == null)
+                {
+                    SetImageNodeVisibility(id, 29, false);
+                    SetImageNodeVisibility(id, 30, false);
+                }
+                else if (taskState == ButtonState.Unavailable)
+                {
+                    SetImageNodeVisibility(id, 29, false);
+                    SetImageNodeVisibility(id, 30, true);
+                }
+                else if (taskState is ButtonState.AvailableNow or ButtonState.Completable)
+                {
+                    SetImageNodeVisibility(id, 29, true);
+                    SetImageNodeVisibility(id, 30, false);
+                }
             }
         }
 
@@ -298,57 +365,6 @@ namespace DailyDuty.Addons
 
             return null;
         }
-
-        private void* OnFinalize(AtkUnitBase* atkUnitBase)
-        {
-            if (atkUnitBase == null) return null;
-
-            foreach (var i in Enumerable.Range(61001, 15).Append(6))
-            {
-                var id = (uint) i;
-                DestroyNode(id, 29);
-                DestroyNode(id, 30);
-            }
-
-            return onFinalizeHook!.Original(atkUnitBase);
-        }
-
-        private void DestroyNode(uint id, uint nodeId)
-        {
-            var firstNode = GetListItemNode(id);
-
-            if (firstNode == null) return;
-
-            var uldManager = firstNode->Component->UldManager;
-            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, nodeId, NodeType.Image);
-
-            if (customNode != null)
-            {
-                if (customNode->AtkResNode.PrevSiblingNode != null)
-                    customNode->AtkResNode.PrevSiblingNode->NextSiblingNode = customNode->AtkResNode.NextSiblingNode;
-
-                if (customNode->AtkResNode.NextSiblingNode != null)
-                    customNode->AtkResNode.NextSiblingNode->PrevSiblingNode = customNode->AtkResNode.PrevSiblingNode;
-
-
-                firstNode->Component->UldManager.UpdateDrawNodeList();
-
-                customNode->PartsList->Parts->UldAsset->AtkTexture.Destroy(true);
-                IMemorySpace.Free(customNode->PartsList->Parts->UldAsset, (ulong) sizeof(AtkUldAsset));
-
-                IMemorySpace.Free(customNode->PartsList->Parts, (ulong) sizeof(AtkUldPart));
-
-                IMemorySpace.Free(customNode->PartsList, (ulong) sizeof(AtkUldPartsList));
-                
-                customNode->UnloadTexture();
-                customNode->AtkResNode.Destroy(true);
-                IMemorySpace.Free(customNode, (ulong)sizeof(AtkImageNode));
-            }
-        }
-        
-        //
-        //  Implementation
-        //
 
         private ButtonState? IsWondrousTailsDuty(uint id)
         {
@@ -423,11 +439,6 @@ namespace DailyDuty.Addons
             }
         }
 
-        private bool IsContentFinderOpen()
-        {
-            return GetContentsFinderPointer() != null;
-        }
-
         private AtkUnitBase* GetContentsFinderPointer()
         {
             return (AtkUnitBase*)Service.GameGui.GetAddonByName("ContentsFinder", 1);
@@ -471,7 +482,6 @@ namespace DailyDuty.Addons
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
             customNode->AtkResNode.Type = NodeType.Image;
             customNode->AtkResNode.NodeID = newNodeID;
-            //customNode->AtkResNode.Flags = 0b100011; //35
             customNode->AtkResNode.Flags = 8243;
             customNode->AtkResNode.DrawFlags = 0;
             customNode->WrapMode = 1;
@@ -493,8 +503,6 @@ namespace DailyDuty.Addons
                 return null;
             }
 
-            //part->U = 97;
-            //part->V = 65;
             part->U = (ushort)textureCoordinates.X;
             part->V = (ushort)textureCoordinates.Y;
             part->Width = 20;
@@ -515,7 +523,6 @@ namespace DailyDuty.Addons
             part->UldAsset = asset;
             customNode->PartsList = partsList;
 
-            //customNode->LoadTexture("ui/uld/WeeklyBingo_hr1.tex");
             customNode->LoadTexture("ui/uld/WeeklyBingo.tex");
 
             customNode->AtkResNode.ToggleVisibility(true);
