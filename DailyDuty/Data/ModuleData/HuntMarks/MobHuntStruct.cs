@@ -27,19 +27,19 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
 
     public class HuntData
     {
-        public byte HuntID { get; set; }
-        public HuntMarkType HuntType { get; set; }
+        public byte HuntID { get; init; }
+        public HuntMarkType HuntType { get; init; }
         public KillCounts KillCounts { get; init; } = new();
         public bool Obtained { get; init; }
     }
 
     public class KillCounts
     {
-        public int First { get; set; }
-        public int Second { get; set; }
-        public int Third { get; set; }
-        public int Fourth { get; set; }
-        public int Fifth { get; set; }
+        public int First { get; init; }
+        public int Second { get; init; }
+        public int Third { get; init; }
+        public int Fourth { get; init; }
+        public int Fifth { get; init; }
     }
 
     //[Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
