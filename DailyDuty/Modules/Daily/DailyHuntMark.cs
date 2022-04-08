@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using DailyDuty.Data.Enums;
@@ -131,40 +132,69 @@ namespace DailyDuty.Modules.Daily
             ImGui.Text("Selected lines will be evaluated for notifications");
             ImGui.Spacing();
 
-            if (ImGui.BeginTable("##DataTable", 2))
+            foreach (var expansion in Enum.GetValues<ExpansionType>())
             {
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 85f * ImGuiHelpers.GlobalScale);
+                ImGui.PushID((int)expansion);
 
-                foreach (var hunt in Settings.TrackedHunts)
+                if (ImGui.CollapsingHeader(expansion.Description()))
                 {
-                    var label = hunt.Type.Description();
+                    ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
 
-                    ImGui.TableNextRow();
-                    ImGui.TableNextColumn();
-                    if (ImGui.Checkbox($"##{hunt.Type}", ref hunt.Tracked))
+                    if (ImGui.BeginTable("##DataTable", 2))
                     {
-                        Service.Configuration.Save();
-                    }
-                    ImGui.SameLine();
-                    ImGui.Text(label);
+                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
 
-                    ImGui.TableNextColumn();
-                    switch (hunt.State)
-                    {
-                        case TrackedHuntState.Unobtained:
-                            ImGui.TextColored(Colors.Red, "Mark Available");
-                            break;
-                        case TrackedHuntState.Obtained:
-                            ImGui.TextColored(Colors.Orange, "Mark Obtained");
-                            break;
-                        case TrackedHuntState.Killed:
-                            ImGui.TextColored(Colors.Green, "Mark Killed");
-                            break;
+                        ImGui.TableNextRow();
+                        ImGui.TableNextColumn();
+                        if (ImGui.Button("Track All", ImGuiHelpers.ScaledVector2(100f, 23f)))
+                        {
+                            SetAllByExpansion(expansion, true);
+                            Service.Configuration.Save();
+                        }
+
+                        ImGui.TableNextColumn();
+                        if (ImGui.Button("Untrack All", ImGuiHelpers.ScaledVector2(100f, 23f)))
+                        {
+                            SetAllByExpansion(expansion, false);
+                            Service.Configuration.Save();
+                        }
+
+                        foreach (var hunt in Settings.TrackedHunts)
+                        {
+                            if (GetExpansionForHuntType(hunt.Type) == expansion)
+                            {
+                                var label = GetLabelForHuntType(hunt.Type);
+
+                                ImGui.TableNextRow();
+                                ImGui.TableNextColumn();
+                                if (ImGui.Checkbox($"##{hunt.Type}", ref hunt.Tracked))
+                                {
+                                    Service.Configuration.Save();
+                                }
+                                ImGui.SameLine();
+                                ImGui.Text(label);
+
+                                ImGui.TableNextColumn();
+                                switch (hunt.State)
+                                {
+                                    case TrackedHuntState.Unobtained:
+                                        ImGui.TextColored(Colors.Red, "Mark Available");
+                                        break;
+                                    case TrackedHuntState.Obtained:
+                                        ImGui.TextColored(Colors.Orange, "Mark Obtained");
+                                        break;
+                                    case TrackedHuntState.Killed:
+                                        ImGui.TextColored(Colors.Green, "Mark Killed");
+                                        break;
+                                }
+                            }
+                        }
+                        ImGui.EndTable();
                     }
+                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
                 }
-
-                ImGui.EndTable();
+                ImGui.PopID();
             }
         }
 
@@ -235,6 +265,75 @@ namespace DailyDuty.Modules.Daily
                     hunt.State = TrackedHuntState.Killed;
                     Service.Configuration.Save();
                     break;
+            }
+        }
+
+        private ExpansionType GetExpansionForHuntType(HuntMarkType type)
+        {
+            switch (type)
+            {
+                case HuntMarkType.RealmReborn_LevelOne:
+                    return ExpansionType.RealmReborn;
+
+                case HuntMarkType.Heavensward_LevelOne:
+                case HuntMarkType.Heavensward_LevelTwo:
+                case HuntMarkType.Heavensward_LevelThree:
+                    return ExpansionType.Heavensward;
+
+                case HuntMarkType.Stormblood_LevelOne:
+                case HuntMarkType.Stormblood_LevelTwo:
+                case HuntMarkType.Stormblood_LevelThree:
+                    return ExpansionType.Stormblood;
+
+                case HuntMarkType.Shadowbringers_LevelOne:
+                case HuntMarkType.Shadowbringers_LevelTwo:
+                case HuntMarkType.Shadowbringers_LevelThree:
+                    return ExpansionType.Shadowbringers;
+
+                case HuntMarkType.Endwalker_LevelOne:
+                case HuntMarkType.Endwalker_LevelTwo:
+                case HuntMarkType.Endwalker_LevelThree:
+                    return ExpansionType.Endwalker;
+
+                case HuntMarkType.RealmReborn_Elite:
+                case HuntMarkType.Heavensward_Elite:
+                case HuntMarkType.Stormblood_Elite:
+                case HuntMarkType.Shadowbringers_Elite:
+                case HuntMarkType.Endwalker_Elite:
+                default:
+                    return new();
+            }
+        }
+
+        private string GetLabelForHuntType(HuntMarkType type)
+        {
+            return type switch
+            {
+                HuntMarkType.RealmReborn_LevelOne => "Level 1",
+                HuntMarkType.Heavensward_LevelOne => "Level 1",
+                HuntMarkType.Heavensward_LevelTwo => "Level 2",
+                HuntMarkType.Heavensward_LevelThree => "Level 3",
+                HuntMarkType.Stormblood_LevelOne => "Level 1",
+                HuntMarkType.Stormblood_LevelTwo => "Level 2",
+                HuntMarkType.Stormblood_LevelThree => "Level 3",
+                HuntMarkType.Shadowbringers_LevelOne => "Level 1",
+                HuntMarkType.Shadowbringers_LevelTwo => "Level 2",
+                HuntMarkType.Shadowbringers_LevelThree => "Level 3",
+                HuntMarkType.Endwalker_LevelOne => "Level 1",
+                HuntMarkType.Endwalker_LevelTwo => "Level 2",
+                HuntMarkType.Endwalker_LevelThree => "Level 3",
+                _ => "Unknown HuntType"
+            };
+        }
+
+        private void SetAllByExpansion(ExpansionType expansion, bool tracked)
+        {
+            foreach (var hunt in Settings.TrackedHunts)
+            {
+                if (GetExpansionForHuntType(hunt.Type) == expansion)
+                {
+                    hunt.Tracked = tracked;
+                }
             }
         }
 
