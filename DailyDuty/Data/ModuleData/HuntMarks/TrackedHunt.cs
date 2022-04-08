@@ -4,7 +4,7 @@ namespace DailyDuty.Data.ModuleData.HuntMarks
 {
     public class TrackedHunt
     {
-        public ExpansionType Expansion { get; init; }
+        public HuntMarkType Type { get; init; }
         public bool Tracked = false;
         public TrackedHuntState State { get; set; }
     }

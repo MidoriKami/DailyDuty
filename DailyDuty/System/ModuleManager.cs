@@ -26,6 +26,7 @@ namespace DailyDuty.System
             new GrandCompany(),
             new Levequests(),
             new TreasureMap(),
+            new DailyHuntMark(),
 
             // Weekly
             new BlueMageLog(),
@@ -33,7 +34,7 @@ namespace DailyDuty.System
             new CustomDelivery(),
             new DomanEnclave(),
             new FashionReport(),
-            new HuntMarks(),
+            new WeeklyHuntMark(),
             new JumboCactpot(),
             new MaskedCarnival(),
             new WondrousTails(),
@@ -41,7 +42,8 @@ namespace DailyDuty.System
             // Commands
             new NoticeWindowCommands(),
             new TodoWindowCommands(),
-            new TimersWindowCommands()
+            new TimersWindowCommands(),
+            new HuntMarkHelperCommand()
         };
 
         private readonly List<IZoneChangeLogic> zoneChangeLogicModules;

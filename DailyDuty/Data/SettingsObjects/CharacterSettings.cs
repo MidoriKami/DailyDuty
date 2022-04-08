@@ -16,6 +16,7 @@ namespace DailyDuty.Data.SettingsObjects
         public LevequestSettings Levequest = new();
         public MiniCactpotSettings MiniCactpot = new();
         public TreasureMapSettings TreasureMap = new();
+        public DailyHuntMarksSettings DailyHuntMarks = new();
 
         //Weekly
         public BlueMageLogSettings BlueMageLog = new();
@@ -23,7 +24,7 @@ namespace DailyDuty.Data.SettingsObjects
         public CustomDeliverySettings CustomDelivery = new();
         public DomanEnclaveSettings DomanEnclave = new();
         public FashionReportSettings FashionReport = new();
-        public HuntMarksSettings HuntMarks = new();
+        public WeeklyHuntMarksSettings WeeklyHuntMarks = new();
         public JumboCactpotSettings JumboCactpot = new();
         public MaskedCarnivalSettings MaskedCarnival = new();
         public WondrousTailsSettings WondrousTails = new();
