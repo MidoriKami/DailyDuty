@@ -29,12 +29,12 @@ namespace DailyDuty.System
             new DailyHuntMark(),
 
             // Weekly
+            new WeeklyHuntMark(),
             new BlueMageLog(),
             new ChallengeLog(),
             new CustomDelivery(),
             new DomanEnclave(),
             new FashionReport(),
-            new WeeklyHuntMark(),
             new JumboCactpot(),
             new MaskedCarnival(),
             new WondrousTails(),
