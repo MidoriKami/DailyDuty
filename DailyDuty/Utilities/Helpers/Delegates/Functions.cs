@@ -33,5 +33,14 @@ namespace DailyDuty.Utilities.Helpers.Delegates
             }
         }
 
+        internal static class Other
+        {
+            internal static class MobHunt
+            {
+                public delegate void MarkObtained(void* a1, byte a2, int a3);
+                public delegate void MobKill(void* a1, byte a2, uint a3, uint a4);
+                public delegate void MarkComplete(void* a1, byte a2);
+            }
+        }
     }
 }

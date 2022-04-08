@@ -6,15 +6,17 @@ using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using DailyDuty.Utilities.Helpers.Delegates;
+using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 
 namespace DailyDuty.Modules.Weekly
 {
     internal unsafe class HuntMarks : 
         IConfigurable, 
-        IUpdateable,
         IWeeklyResettable,
         ILoginNotification,
         IZoneChangeThrottledNotification,
@@ -31,6 +33,15 @@ namespace DailyDuty.Modules.Weekly
             set => Settings.NextReset = value;
         }
 
+        [Signature("80 FA 12 0F 83 ?? ?? ?? ?? 55 56", DetourName = nameof(MobHunt_MarkObtained))]
+        private readonly Hook<Functions.Other.MobHunt.MarkObtained>? markObtainedHook = null;
+
+        [Signature("80 FA 12 0F 83 ?? ?? ?? ?? 48 89 6C 24", DetourName = nameof(MobHunt_OnHuntKill))]
+        private readonly Hook<Functions.Other.MobHunt.MobKill>? onHuntKill = null;
+
+        [Signature("48 83 EC 28 80 FA 12 73 7E", DetourName = nameof(MobHunt_MarkComplete))]
+        private readonly Hook<Functions.Other.MobHunt.MarkComplete>? markComplete = null;
+
         // https://github.com/SheepGoMeh/HuntBuddy/blob/master/Structs/MobHuntStruct.cs
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private readonly MobHuntStruct* huntData = null;
@@ -38,6 +49,17 @@ namespace DailyDuty.Modules.Weekly
         public HuntMarks()
         {
             SignatureHelper.Initialise(this);
+
+            onHuntKill?.Enable();
+            markObtainedHook?.Enable();
+            markComplete?.Enable();
+        }
+
+        public void Dispose()
+        {
+            onHuntKill?.Dispose();
+            markObtainedHook?.Dispose();
+            markComplete?.Dispose();
         }
 
         public bool IsCompleted() => GetIncompleteCount() == 0;
@@ -51,7 +73,7 @@ namespace DailyDuty.Modules.Weekly
                 Chat.Print(HeaderText, $"{GetIncompleteCount()} Hunts Remaining");
             }
         }
-    
+
         public void NotificationOptions()
         {
             Draw.OnLoginReminderCheckbox(Settings);
@@ -93,10 +115,10 @@ namespace DailyDuty.Modules.Weekly
                 ImGui.EndTable();
             }
         }
-    
+
         public void DisplayData()
         {
-            ImGui.Text("Only the checked lines will be evaluated for notifications");
+            ImGui.Text("Selected lines will be evaluated for notifications");
             ImGui.Spacing();
 
             if (ImGui.BeginTable("##DataTable", 2))
@@ -135,20 +157,34 @@ namespace DailyDuty.Modules.Weekly
                 ImGui.EndTable();
             }
         }
-    
-        public void Dispose()
-        {
 
+        private void MobHunt_MarkObtained(void* a1, byte a2, int a3)
+        {
+            Chat.Debug("HuntMarks::MarkObtained::Updating");
+
+            Update();
+
+            markObtainedHook!.Original(a1, a2, a3);
         }
 
-        public void Update()
+        private void MobHunt_OnHuntKill(void* a1, byte a2, uint a3, uint a4)
         {
-            foreach (var hunt in Settings.TrackedHunts)
-            {
-                UpdateState(hunt);
-            }
+            Chat.Debug("HuntMarks::HuntMobKilled::Updating");
+
+            Update();
+
+            onHuntKill!.Original(a1, a2, a3, a4);
         }
 
+        private void MobHunt_MarkComplete(void* a1, byte a2)
+        {
+            Chat.Debug("HuntMarks::MarkComplete::Updating");
+
+            Update();
+
+            markComplete!.Original(a1, a2);
+        }
+        
         void IResettable.ResetThis()
         {
             foreach (var hunt in Settings.TrackedHunts)
@@ -161,53 +197,47 @@ namespace DailyDuty.Modules.Weekly
         // Implementation
         //
 
+        private void Update()
+        {
+            foreach (var hunt in Settings.TrackedHunts)
+            {
+                UpdateState(hunt);
+            }
+        }
+
         private void UpdateState(TrackedHunt hunt)
         {
-            var obtained = GetObtained(hunt.Expansion);
-            var eliteKillCount = GetEliteKillCount(hunt.Expansion);
+            var data = GetHuntData(hunt.Expansion);
 
             switch (hunt.State)
             {
-                case TrackedHuntState.Unobtained when obtained == true:
+                case TrackedHuntState.Unobtained when data.Obtained == true:
                     hunt.State = TrackedHuntState.Obtained;
                     Service.Configuration.Save();
                     break;
 
-                case TrackedHuntState.Obtained when obtained == false && eliteKillCount != 1:
+                case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
                     hunt.State = TrackedHuntState.Unobtained;
                     Service.Configuration.Save();
                     break;
 
-                case TrackedHuntState.Obtained when eliteKillCount == 1:
+                case TrackedHuntState.Obtained when data.KillCounts.First == 1:
                     hunt.State = TrackedHuntState.Killed;
                     Service.Configuration.Save();
                     break;
             }
         }
 
-        private bool GetObtained(ExpansionType expansion)
+        private HuntData GetHuntData(ExpansionType expansion)
         {
             return expansion switch
             {
-                ExpansionType.RealmReborn => huntData->RealmReborn.ObtainedEliteHuntBill,
-                ExpansionType.Heavensward => huntData->HeavensWard.ObtainedEliteHuntBill,
-                ExpansionType.Stormblood => huntData->StormBlood.ObtainedEliteHuntBill,
-                ExpansionType.Shadowbringers => huntData->ShadowBringers.ObtainedEliteHuntBill,
-                ExpansionType.Endwalker => huntData->Endwalker.ObtainedEliteHuntBill,
-                _ => false
-            };
-        }
-
-        private int GetEliteKillCount(ExpansionType expansion)
-        {
-            return expansion switch
-            {
-                ExpansionType.RealmReborn => huntData->RealmReborn.EliteMark,
-                ExpansionType.Heavensward => huntData->HeavensWard.EliteMark,
-                ExpansionType.Stormblood => huntData->StormBlood.EliteMark,
-                ExpansionType.Shadowbringers => huntData->ShadowBringers.EliteMark,
-                ExpansionType.Endwalker => huntData->Endwalker.EliteMark,
-                _ => 0
+                ExpansionType.RealmReborn => huntData->Get(HuntMarkType.RealmReborn_Elite),
+                ExpansionType.Heavensward => huntData->Get(HuntMarkType.Heavensward_Elite),
+                ExpansionType.Stormblood => huntData->Get(HuntMarkType.Stormblood_Elite),
+                ExpansionType.Shadowbringers => huntData->Get(HuntMarkType.Shadowbringers_Elite),
+                ExpansionType.Endwalker => huntData->Get(HuntMarkType.Endwalker_Elite),
+                _ => new()
             };
         }
 
