@@ -10,7 +10,7 @@ namespace DailyDuty.Windows.HuntMark
 {
     internal unsafe class HuntMarkHelper : Window, IWindow
     {
-        public new WindowName WindowName => WindowName.Debug_HuntMarkHelper;
+        public new WindowName WindowName => WindowName.HuntHelper;
 
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private readonly MobHuntStruct* huntStruct = null;
@@ -20,18 +20,11 @@ namespace DailyDuty.Windows.HuntMark
             SignatureHelper.Initialise(this);
 
             Service.WindowSystem.AddWindow(this);
-
-            IsOpen = true;
         }
 
         public void Dispose()
         {
             Service.WindowSystem.RemoveWindow(this);
-        }
-
-        public override void PreOpenCheck()
-        {
-            IsOpen = true;
         }
 
         public override void Draw()

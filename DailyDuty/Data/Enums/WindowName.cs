@@ -6,7 +6,6 @@
         Todo,
         Timers,
         Notice,
-
-        Debug_HuntMarkHelper
+        HuntHelper
     }
 }

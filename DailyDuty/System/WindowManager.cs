@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
+using DailyDuty.Windows.HuntMark;
 using DailyDuty.Windows.Notice;
 using DailyDuty.Windows.Settings;
 using DailyDuty.Windows.Timers;
@@ -18,9 +19,7 @@ namespace DailyDuty.System
             new TodoWindow(),
             new TimersWindow(),
             new NoticeWindow(),
-
-            // Debug Windows
-            //new HuntMarkHelper()
+            new HuntMarkHelper()
         };
 
         public void Dispose()
