@@ -45,14 +45,18 @@ namespace DailyDuty.Components.Graphical
 
         private void DrawVersionNumber()
         {
-            var x = ImGui.GetWindowWidth() / 2 - 43 * ImGuiHelpers.GlobalScale;
+            var assemblyInformation = Assembly.GetExecutingAssembly().FullName!.Split(',');
+
+            var versionString = assemblyInformation[1].Replace('=', ' ');
+
+            var stringSize = ImGui.CalcTextSize(versionString);
+
+            var x = ImGui.GetWindowWidth() / 2 - (stringSize.X / 2) * ImGuiHelpers.GlobalScale;
             var y = ImGui.GetWindowHeight() - 25 * ImGuiHelpers.GlobalScale;
             
             ImGui.SetCursorPos(new Vector2(x, y));
 
-            var assemblyInformation = Assembly.GetExecutingAssembly().FullName!.Split(',');
-
-            ImGui.TextColored(Colors.Grey, assemblyInformation[1].Replace('=', ' '));
+            ImGui.TextColored(Colors.Grey, versionString);
         }
     }
 }
