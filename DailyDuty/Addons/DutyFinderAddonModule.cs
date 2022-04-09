@@ -101,35 +101,38 @@ namespace DailyDuty.Addons
         {
             var result = contentsFinderShowHook!.Original(a1);
 
-            var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-            var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
-
-            if (contentsFinderAgent->IsAgentActive())
+            if (Settings.Enabled)
             {
-                var addonContentsFinder = GetContentsFinderPointer();
+                var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+                var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
 
-                if (addonContentsFinder == null)
+                if (contentsFinderAgent->IsAgentActive())
                 {
-                    Chat.Debug("Addon null");
-                    return result;
+                    var addonContentsFinder = GetContentsFinderPointer();
+
+                    if (addonContentsFinder == null)
+                    {
+                        Chat.Debug("Addon null");
+                        return result;
+                    }
+
+                    var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
+                    var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
+                    var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
+                    var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
+
+                    onDrawHook ??= new Hook<Functions.Addon.Draw>(new IntPtr(drawAddress), ContentsFinder_Draw);
+                    onFinalizeHook ??= new Hook<Functions.Addon.Finalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
+                    onUpdateHook ??= new Hook<Functions.Addon.Update>(new IntPtr(updateAddress), ContentsFinder_Update);
+                    onRefreshHook ??= new Hook<Functions.Addon.OnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
+
+                    onDrawHook.Enable();
+                    onFinalizeHook.Enable();
+                    onUpdateHook.Enable();
+                    onRefreshHook.Enable();
+
+                    contentsFinderShowHook!.Disable();
                 }
-
-                var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
-                var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
-                var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-                var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
-
-                onDrawHook ??= new Hook<Functions.Addon.Draw>(new IntPtr(drawAddress), ContentsFinder_Draw);
-                onFinalizeHook ??= new Hook<Functions.Addon.Finalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
-                onUpdateHook ??= new Hook<Functions.Addon.Update>(new IntPtr(updateAddress), ContentsFinder_Update);
-                onRefreshHook ??= new Hook<Functions.Addon.OnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
-
-                onDrawHook.Enable();
-                onFinalizeHook.Enable();
-                onUpdateHook.Enable();
-                onRefreshHook.Enable();
-
-                contentsFinderShowHook!.Disable();
             }
 
             return result;
