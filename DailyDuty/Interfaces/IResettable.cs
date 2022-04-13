@@ -15,11 +15,16 @@ namespace DailyDuty.Interfaces
 
         public void DoReset()
         {
-            ResetThis();
+            var storedNextReset = GetNextReset();
 
-            NextReset = GetNextReset();
+            if (storedNextReset != DateTime.MinValue)
+            {
+                ResetThis();
 
-            Service.Configuration.Save();
+                NextReset = storedNextReset;
+
+                Service.Configuration.Save();
+            }
         }
 
         protected void ResetThis();
