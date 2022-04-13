@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using DailyDuty.Data.Enums;
+﻿using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Weekly;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules.Weekly
@@ -23,7 +19,7 @@ namespace DailyDuty.Modules.Weekly
         public string HeaderText => "Custom Delivery";
         public GenericSettings GenericSettings => Settings;
 
-        [Signature("0F B6 51 1B 44 0F B6 41")]
+        [Signature("0F B6 41 20 4C 8B C1")]
         private readonly delegate* unmanaged<byte*, int> getCustomDeliveryAllowances = null!;
 
         [Signature("48 8D 0D ?? ?? ?? ?? 41 0F BA EC", ScanType = ScanType.StaticAddress)]
