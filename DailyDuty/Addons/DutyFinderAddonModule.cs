@@ -116,10 +116,10 @@ namespace DailyDuty.Addons
                         return result;
                     }
 
-                    var drawAddress = addonContentsFinder->AtkEventListener.vfunc[40];
-                    var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[38];
-                    var updateAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-                    var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[47];
+                    var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
+                    var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
+                    var updateAddress = addonContentsFinder->AtkEventListener.vfunc[40];
+                    var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
 
                     onDrawHook ??= new Hook<Functions.Addon.Draw>(new IntPtr(drawAddress), ContentsFinder_Draw);
                     onFinalizeHook ??= new Hook<Functions.Addon.Finalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
