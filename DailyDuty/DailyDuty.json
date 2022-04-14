@@ -12,6 +12,5 @@
   "InternalName": "dailyduty",
   "AssemblyVersion": "0.0.0.1",
   "RepoUrl": "https://github.com/MidoriKami/DailyDuty",
-  "ApplicableVersion": "any",
-  "DalamudApiLevel": 5
+  "ApplicableVersion": "any"
 }
