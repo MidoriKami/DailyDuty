@@ -112,13 +112,53 @@ namespace DailyDuty.Utilities.Helpers.WondrousTails
                         .Select(m => m.TerritoryType.Value!.RowId)
                         .ToList();
 
+                // The Binding Coil of Bahamut
+                case 121:
+                    return new List<uint>() { 93, 94, 95, 96, 97 };
+
+                // The Second Coil of Bahamut
+                case 122:
+                    return new List<uint>() { 98, 99, 100, 101 };
+
+                // The Final Coil of Bahamut
+                case 123:
+                    return new List<uint>() { 107, 108, 109, 110 };
+
+                // Alexander: Gordias
+                case 124:
+                    return new List<uint>() { 112, 113, 114, 115 };
+
+                // Alexander: Midas
+                case 125:
+                    return new List<uint>() { 136, 137, 138, 139 };
+
+                // Alexander: The Creator
+                case 126:
+                    return new List<uint>() { 186, 187, 188, 189 };
+
+                // Omega: Deltascape
+                case 127:
+                    return new List<uint>() { 252, 253, 254, 255 };
+
+                // Omega: Sigmascape
+                case 128:
+                    return new List<uint>() { 286, 287, 288, 289 };
+
+                // Omega: Alphascape
+                case 129:
+                    return new List<uint>() { 587, 588, 589, 590 };
+
                 // PvP
                 case 67 or 54 or 52:
                     return new List<uint>();
 
             }
 
-            PluginLog.Information($"[WondrousTails] Unrecognized ID: {id}");
+            if (id != 0)
+            {
+                PluginLog.Information($"[WondrousTails] Unrecognized ID: {id}");
+            }
+
             return new List<uint>();
         }
 
