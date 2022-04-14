@@ -26,7 +26,7 @@ namespace DailyDuty.System
             new GrandCompany(),
             new Levequests(),
             new TreasureMap(),
-            new DailyHuntMark(),
+            //new DailyHuntMark(),
 
             // Weekly
             new WeeklyHuntMark(),
