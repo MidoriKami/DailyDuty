@@ -10,7 +10,6 @@ using DailyDuty.Utilities.Helpers.Delegates;
 using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 
 namespace DailyDuty.Modules.Weekly
@@ -164,29 +163,29 @@ namespace DailyDuty.Modules.Weekly
 
         private void MobHunt_MarkObtained(void* a1, byte a2, int a3)
         {
+            markObtainedHook!.Original(a1, a2, a3);
+
             Chat.Debug("WeeklyHuntMark::MarkObtained::Updating");
 
             Update();
-
-            markObtainedHook!.Original(a1, a2, a3);
         }
 
         private void MobHunt_OnHuntKill(void* a1, byte a2, uint a3, uint a4)
         {
+            onHuntKill!.Original(a1, a2, a3, a4);
+
             Chat.Debug("WeeklyHuntMark::HuntMobKilled::Updating");
 
             Update();
-
-            onHuntKill!.Original(a1, a2, a3, a4);
         }
 
         private void MobHunt_MarkComplete(void* a1, byte a2)
         {
+            markComplete!.Original(a1, a2);
+
             Chat.Debug("WeeklyHuntMark::MarkComplete::Updating");
 
             Update();
-
-            markComplete!.Original(a1, a2);
         }
         
         void IResettable.ResetThis()

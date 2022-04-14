@@ -200,29 +200,29 @@ namespace DailyDuty.Modules.Daily
 
         private void MobHunt_MarkObtained(void* a1, byte a2, int a3)
         {
+            markObtainedHook!.Original(a1, a2, a3);
+
             Chat.Debug("DailyHuntMark::MarkObtained::Updating");
 
             Update();
-
-            markObtainedHook!.Original(a1, a2, a3);
         }
 
         private void MobHunt_OnHuntKill(void* a1, byte a2, uint a3, uint a4)
         {
+            huntKillHook!.Original(a1, a2, a3, a4);
+
             Chat.Debug("DailyHuntMark::HuntMobKilled::Updating");
 
             Update();
-
-            huntKillHook!.Original(a1, a2, a3, a4);
         }
 
         private void MobHunt_MarkComplete(void* a1, byte a2)
         {
+            markCompleteHook!.Original(a1, a2);
+
             Chat.Debug("DailyHuntMark::MarkComplete::Updating");
 
             Update();
-
-            markCompleteHook!.Original(a1, a2);
         }
         
         void IResettable.ResetThis()
