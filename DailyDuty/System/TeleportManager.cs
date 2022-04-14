@@ -27,11 +27,14 @@ namespace DailyDuty.System
             payloads.Add(TeleportPayloads.GoldSaucerTeleport, AddPayload(TeleportPayloads.GoldSaucerTeleport));
             payloads.Add(TeleportPayloads.IdyllshireTeleport, AddPayload(TeleportPayloads.IdyllshireTeleport));
             payloads.Add(TeleportPayloads.DomanEnclave, AddPayload(TeleportPayloads.DomanEnclave));
-
         }
 
         private DalamudLinkPayload AddPayload(TeleportPayloads payload)
         {
+            // Ensure that this specific link handler hasn't been registered already
+            // Chat link handlers are plugin specific using internal name as a key
+            Service.PluginInterface.RemoveChatLinkHandler((uint)payload);
+
             return Service.PluginInterface.AddChatLinkHandler((uint)payload, HandleTeleport);
         }
 
