@@ -1,33 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Intrinsics;
-using DailyDuty.Addons;
 using DailyDuty.Data.Enums;
 using DailyDuty.Data.SettingsObjects;
 using DailyDuty.Data.SettingsObjects.Weekly;
-using DailyDuty.Data.Structs;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using DailyDuty.Utilities.Helpers.Delegates;
-using DailyDuty.Utilities.Helpers.JumboCactpot;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
-using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Modules.Weekly
 {
     internal unsafe class JumboCactpot : 
         IConfigurable, 
-        IUpdateable,
         IResettable,
         IZoneChangeThrottledNotification,
         ILoginNotification,
@@ -112,7 +103,6 @@ namespace DailyDuty.Modules.Weekly
                         ? $"{3 - Settings.Tickets.Count} Ticket Available"
                         : $"{3 - Settings.Tickets.Count} Tickets Available", goldSaucerTeleport);
             }
-
         }
 
         public void NotificationOptions()
@@ -162,29 +152,8 @@ namespace DailyDuty.Modules.Weekly
             Draw.TimeSpanDisplay("Next Ticket Drawing", timespan);
         }
 
-        public void Update() => UpdatePlayerRegion();
-
-        DateTime IResettable.GetNextReset() => GetNextJumboCactpotReset();
+        DateTime IResettable.GetNextReset() => Time.NextJumboCactpotReset();
 
         void IResettable.ResetThis() => Settings.Tickets.Clear();
-
-        //
-        //  Implementation
-        //
-        private DateTime GetNextJumboCactpotReset()
-        {
-            return DatacenterLookup.GetDrawingTime(Settings.PlayerRegion);
-        }
-
-        private void UpdatePlayerRegion()
-        {
-            if (Settings.PlayerRegion != 0) return;
-
-            var region = DatacenterLookup.TryGetPlayerDatacenter();
-            if (region != null)
-            {
-                Settings.PlayerRegion = region.Value;
-            }
-        }
     }
 }

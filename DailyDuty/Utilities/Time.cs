@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using Dalamud.Logging;
+using Lumina.Excel.GeneratedSheets;
+using Action = System.Action;
 
 namespace DailyDuty.Utilities
 {
@@ -77,6 +81,39 @@ namespace DailyDuty.Utilities
                 stopwatch.Start();
                 function();
             }
+        }
+
+        public static DateTime NextJumboCactpotReset()
+        {
+            var region = LookupDatacenterRegion(Service.ClientState.LocalPlayer?.HomeWorld.GameData?.DataCenter.Row);
+
+            return region switch
+            {
+                // Japan
+                1 => NextDayOfWeek(DayOfWeek.Saturday, 12),
+
+                // North America
+                2 => NextDayOfWeek(DayOfWeek.Sunday, 2),
+
+                // Europe
+                3 => NextDayOfWeek(DayOfWeek.Saturday, 19),
+
+                // Australia
+                4 => NextDayOfWeek(DayOfWeek.Saturday, 9),
+
+                // Unknown Region
+                _ => DateTime.MinValue
+            };
+        }
+
+        private static byte LookupDatacenterRegion(uint? playerDatacenterID)
+        {
+            if (playerDatacenterID == null) return 0;
+
+            return Service.DataManager.GetExcelSheet<WorldDCGroupType>()!
+                .Where(world => world.RowId == playerDatacenterID.Value)
+                .Select(dc => dc.Region)
+                .FirstOrDefault();
         }
     }
 }
