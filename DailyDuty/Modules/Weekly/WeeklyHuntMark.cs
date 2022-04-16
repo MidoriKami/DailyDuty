@@ -19,7 +19,8 @@ namespace DailyDuty.Modules.Weekly
         IWeeklyResettable,
         ILoginNotification,
         IZoneChangeThrottledNotification,
-        ICompletable
+        ICompletable,
+        IUpdateable
     {
 
         private WeeklyHuntMarksSettings Settings => Service.Configuration.Current().WeeklyHuntMarks;
@@ -32,15 +33,6 @@ namespace DailyDuty.Modules.Weekly
             set => Settings.NextReset = value;
         }
 
-        [Signature("80 FA 12 0F 83 ?? ?? ?? ?? 55 56", DetourName = nameof(MobHunt_MarkObtained))]
-        private readonly Hook<Functions.Other.MobHunt.MarkObtained>? markObtainedHook = null;
-
-        [Signature("80 FA 12 0F 83 ?? ?? ?? ?? 48 89 6C 24", DetourName = nameof(MobHunt_OnHuntKill))]
-        private readonly Hook<Functions.Other.MobHunt.MobKill>? onHuntKill = null;
-
-        [Signature("48 83 EC 28 80 FA 12 73 7E", DetourName = nameof(MobHunt_MarkComplete))]
-        private readonly Hook<Functions.Other.MobHunt.MarkComplete>? markComplete = null;
-
         // https://github.com/SheepGoMeh/HuntBuddy/blob/master/Structs/MobHuntStruct.cs
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private readonly MobHuntStruct* huntData = null;
@@ -48,17 +40,11 @@ namespace DailyDuty.Modules.Weekly
         public WeeklyHuntMark()
         {
             SignatureHelper.Initialise(this);
-
-            onHuntKill?.Enable();
-            markObtainedHook?.Enable();
-            markComplete?.Enable();
         }
 
         public void Dispose()
         {
-            onHuntKill?.Dispose();
-            markObtainedHook?.Dispose();
-            markComplete?.Dispose();
+
         }
 
         public bool IsCompleted() => GetIncompleteCount() == 0;
@@ -161,33 +147,6 @@ namespace DailyDuty.Modules.Weekly
             }
         }
 
-        private void MobHunt_MarkObtained(void* a1, byte a2, int a3)
-        {
-            markObtainedHook!.Original(a1, a2, a3);
-
-            Chat.Debug("WeeklyHuntMark::MarkObtained::Updating");
-
-            Update();
-        }
-
-        private void MobHunt_OnHuntKill(void* a1, byte a2, uint a3, uint a4)
-        {
-            onHuntKill!.Original(a1, a2, a3, a4);
-
-            Chat.Debug("WeeklyHuntMark::HuntMobKilled::Updating");
-
-            Update();
-        }
-
-        private void MobHunt_MarkComplete(void* a1, byte a2)
-        {
-            markComplete!.Original(a1, a2);
-
-            Chat.Debug("WeeklyHuntMark::MarkComplete::Updating");
-
-            Update();
-        }
-        
         void IResettable.ResetThis()
         {
             foreach (var hunt in Settings.TrackedHunts)
@@ -196,17 +155,17 @@ namespace DailyDuty.Modules.Weekly
             }
         }
 
-        //
-        // Implementation
-        //
-
-        private void Update()
+        public void Update()
         {
             foreach (var hunt in Settings.TrackedHunts)
             {
                 UpdateState(hunt);
             }
         }
+
+        //
+        // Implementation
+        //
 
         private void UpdateState(TrackedHunt hunt)
         {
@@ -219,10 +178,10 @@ namespace DailyDuty.Modules.Weekly
                     Service.Configuration.Save();
                     break;
 
-                case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
-                    hunt.State = TrackedHuntState.Unobtained;
-                    Service.Configuration.Save();
-                    break;
+                //case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
+                //    hunt.State = TrackedHuntState.Unobtained;
+                //    Service.Configuration.Save();
+                //    break;
 
                 case TrackedHuntState.Obtained when data.KillCounts.First == 1:
                     hunt.State = TrackedHuntState.Killed;
