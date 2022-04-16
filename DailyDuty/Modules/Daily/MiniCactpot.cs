@@ -35,6 +35,7 @@ namespace DailyDuty.Modules.Daily
         public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
         {
             Settings.TicketsRemaining -= 1;
+            Service.Configuration.Save();
 
             return receiveEventHook!.Original(addon, a2, a3);
         }
