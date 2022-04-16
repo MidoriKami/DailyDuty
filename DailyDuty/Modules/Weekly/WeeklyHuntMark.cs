@@ -178,10 +178,10 @@ namespace DailyDuty.Modules.Weekly
                     Service.Configuration.Save();
                     break;
 
-                //case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
-                //    hunt.State = TrackedHuntState.Unobtained;
-                //    Service.Configuration.Save();
-                //    break;
+                case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
+                    hunt.State = TrackedHuntState.Unobtained;
+                    Service.Configuration.Save();
+                    break;
 
                 case TrackedHuntState.Obtained when data.KillCounts.First == 1:
                     hunt.State = TrackedHuntState.Killed;
