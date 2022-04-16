@@ -23,20 +23,20 @@ namespace DailyDuty.System
             new MiniCactpot(),
             new BeastTribe(),
             new DutyRoulette(),
-            new GrandCompany(),
+            //new GrandCompany(),
             new Levequests(),
             new TreasureMap(),
             //new DailyHuntMark(),
 
             // Weekly
             new WeeklyHuntMark(),
-            new BlueMageLog(),
-            new ChallengeLog(),
+            //new BlueMageLog(),
+            //new ChallengeLog(),
             new CustomDelivery(),
             new DomanEnclave(),
             new FashionReport(),
             new JumboCactpot(),
-            new MaskedCarnival(),
+            //new MaskedCarnival(),
             new WondrousTails(),
 
             // Commands
