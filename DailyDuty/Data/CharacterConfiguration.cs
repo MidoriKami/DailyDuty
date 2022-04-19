@@ -15,9 +15,12 @@ namespace DailyDuty.Data
         
         public void Save()
         {
-            var configFileInfo = Configuration.GetConfigFileInfo(CharacterName);
+            if (LocalContentID != 0)
+            {
+                var configFileInfo = Configuration.GetConfigFileInfo(CharacterName);
 
-            File.WriteAllText(configFileInfo.FullName, JsonConvert.SerializeObject(this, Formatting.Indented));
+                File.WriteAllText(configFileInfo.FullName, JsonConvert.SerializeObject(this, Formatting.Indented));
+            }
         }
     }
 }
