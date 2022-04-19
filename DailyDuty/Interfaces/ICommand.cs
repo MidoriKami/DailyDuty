@@ -1,26 +1,39 @@
-﻿using System.Collections.Generic;
-using DailyDuty.Utilities.Helpers;
-
-namespace DailyDuty.Interfaces
+﻿namespace DailyDuty.Interfaces
 {
     internal interface ICommand
     {
-        protected List<string> ModuleCommands { get; }
-
-        protected void Execute(string primaryCommand, string? secondaryCommand);
+        protected void Execute(string? primaryCommand, string? secondaryCommand);
 
         public void ProcessCommand(string command, string arguments)
         {
-            var primaryCommand = CommandHelper.GetPrimaryCommand(arguments)?.ToLower();
-            var secondaryCommand = CommandHelper.GetSecondaryCommand(arguments)?.ToLower();
+            var primaryCommand = GetPrimaryCommand(arguments)?.ToLower();
+            var secondaryCommand = GetSecondaryCommand(arguments)?.ToLower();
 
-            if (primaryCommand != null)
+            Execute(primaryCommand, secondaryCommand);
+        }
+
+        private static string? GetSecondaryCommand(string arguments)
+        {
+            var stringArray = arguments.Split(' ');
+
+            if (stringArray.Length == 1)
             {
-                if (ModuleCommands.Contains(primaryCommand))
-                {
-                    Execute(primaryCommand, secondaryCommand);
-                }
+                return null;
             }
+
+            return stringArray[1];
+        }
+
+        private static string? GetPrimaryCommand(string arguments)
+        {
+            var stringArray = arguments.Split(' ');
+
+            if (stringArray[0] == string.Empty)
+            {
+                return null;
+            }
+
+            return stringArray[0];
         }
     }
 }

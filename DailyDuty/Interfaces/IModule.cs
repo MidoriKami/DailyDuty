@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace DailyDuty.Interfaces
 {
-    internal interface IDrawable
+    internal interface IModule
     {
-        void Draw();
     }
 }

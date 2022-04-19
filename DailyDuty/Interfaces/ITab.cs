@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DailyDuty.Interfaces
 {
-    internal interface IDrawable
+    internal interface ITab : IDrawable
     {
-        void Draw();
+        string TabName { get; }
     }
 }

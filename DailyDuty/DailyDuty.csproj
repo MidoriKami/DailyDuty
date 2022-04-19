@@ -71,4 +71,9 @@
 		</Reference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Graphical\" />
+	  <Folder Include="Modules\" />
+	</ItemGroup>
+
 </Project>
