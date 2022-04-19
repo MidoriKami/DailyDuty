@@ -16,7 +16,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
     {
         private readonly ITabBar tabBar = new ModuleSelectionTabBar();
 
-        public DailyDutyWindow() : base("DailyDuty Window")
+        public DailyDutyWindow() : base("DailyDuty Settings###DailyDutyMainWindow")
         {
             Service.WindowSystem.AddWindow(this);
 
@@ -35,9 +35,17 @@ namespace DailyDuty.Windows.DailyDutyWindow
             Service.WindowSystem.RemoveWindow(this);
         }
 
+        public override void PreOpenCheck()
+        {
+            if (Service.ClientState.IsPvP)
+                IsOpen = false;
+        }
+
         public override void Draw()
         {
             if (!IsOpen) return;
+
+            WindowName = "DailyDuty Settings - " + Service.CharacterConfiguration.CharacterName + "###DailyDutyMainWindow";
 
             var availableArea = ImGui.GetContentRegionAvail();
 
@@ -48,7 +56,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
             var moduleSettingsWidth = availableArea.X * (1.0f - ratio) - padding;
 
-            if (ImGui.BeginChild("ModuleSelection", ImGuiHelpers.ScaledVector2(moduleSelectionWidth, availableArea.Y), true))
+            if (ImGui.BeginChild("ModuleSelection", ImGuiHelpers.ScaledVector2(moduleSelectionWidth, availableArea.Y * ImGuiHelpers.GlobalScale), true))
             {
                 tabBar.Draw();
 
@@ -57,7 +65,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
             ImGui.SameLine();
 
-            if (ImGui.BeginChild("ModuleSettings", ImGuiHelpers.ScaledVector2(moduleSettingsWidth, availableArea.Y), true))
+            if (ImGui.BeginChild("ModuleSettings", ImGuiHelpers.ScaledVector2(moduleSettingsWidth, availableArea.Y * ImGuiHelpers.GlobalScale), true))
             {
 
 
