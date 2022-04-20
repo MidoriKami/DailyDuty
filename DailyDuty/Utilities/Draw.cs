@@ -119,6 +119,13 @@ namespace DailyDuty.Utilities
             var thickness = 2.0f  * ImGuiHelpers.GlobalScale;
             var segmentResolution = 10;
 
+            // Body Text
+            ImGui.SetCursorPos(new Vector2(curveRadius + 2.0f, curveRadius));
+            ImGui.PushTextWrapPos(size.X - (curveRadius * 0.5f));
+            ImGui.Text(contents);
+            size.Y = ImGui.GetItemRectMax().Y - ImGui.GetItemRectMin().Y + curveRadius;
+            ImGui.PopTextWrapPos();
+
             var topLeftCurveCenter = new Vector2(startPosition.X + curveRadius, startPosition.Y + curveRadius);
             var topRightCurveCenter = new Vector2(startPosition.X + size.X - curveRadius, startPosition.Y + curveRadius);
             var bottomLeftCurveCenter = new Vector2(startPosition.X + curveRadius, startPosition.Y + size.Y - curveRadius);
