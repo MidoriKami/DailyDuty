@@ -17,6 +17,8 @@ namespace DailyDuty.Data
         {
             if (LocalContentID != 0)
             {
+                Chat.Log("Saving", $"{DateTime.Now} - {CharacterName} Saved");
+
                 var configFileInfo = Configuration.GetConfigFileInfo(CharacterName);
 
                 File.WriteAllText(configFileInfo.FullName, JsonConvert.SerializeObject(this, Formatting.Indented));
