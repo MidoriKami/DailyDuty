@@ -46,7 +46,11 @@ namespace DailyDuty
             Service.ClientState.Logout += Configuration.Logout;
         }
 
-        private void OnCommand(string command, string arguments) => Service.System.ExecuteCommand(command, arguments);
+        private void OnCommand(string command, string arguments)
+        {
+            Service.System.ExecuteCommand(command, arguments);
+            Service.WindowManager.ExecuteCommand(command, arguments);
+        }
 
         private void DrawUI() => Service.WindowSystem.Draw();
 
