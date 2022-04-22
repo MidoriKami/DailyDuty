@@ -11,7 +11,7 @@ namespace DailyDuty.System
         private readonly List<object> dataObjects = new()
         {
             // Modules
-            new WondrousTailsDutyFinderOverlay(),
+
 
         };
 
