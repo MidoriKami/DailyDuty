@@ -34,7 +34,9 @@ namespace DailyDuty
         public static WindowSystem WindowSystem { get; } = new("DailyDuty");
         public static DailyDutySystem System { get; set; } = null!;
         public static WindowManager WindowManager { get; set; } = null!;
-        public static SystemConfiguration SystemConfiguration { get; set; } = new();
-        public static CharacterConfiguration CharacterConfiguration { get; set; } = new();
+        public static SystemConfiguration SystemConfiguration { get; set; } = null!;
+        public static CharacterConfiguration CharacterConfiguration { get; set; } = null!;
+
+        public static bool LoggedIn = false;
     }
 }
