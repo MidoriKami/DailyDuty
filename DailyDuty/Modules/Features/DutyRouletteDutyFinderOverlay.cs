@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
+using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
 
@@ -20,28 +17,42 @@ namespace DailyDuty.Modules.Features
 
         public InfoBox? AboutInformationBox { get; } = new()
         {
-            Label = Strings.Features.InformationLabel,
+            Label = Strings.Common.InformationLabel,
             ContentsAction = () =>
             {
                 ImGui.TextColored(Colors.SoftRed, Strings.Features.DutyRouletteDutyFinderOverlayInformationDisclaimer);
                 ImGui.Text(Strings.Features.DutyRouletteDutyFinderOverlayDescription);
             }
-
         };
-
         public InfoBox? AutomationInformationBox { get; } = new()
         {
-            Label = Strings.Features.DutyRouletteDutyFinderOverlayAutomationLabel,
+            Label = Strings.Common.DataCollectionLabel,
             ContentsAction = () =>
             {
                 ImGui.Text(Strings.Features.DutyRouletteDutyFinderOverlayAutomationInformation);
             }
         };
-
         public InfoBox? TechnicalInformation { get; } = new()
         {
-
+            Label = Strings.Common.TechnicalInformationLabel,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Features.DutyRouletteDutyFinderOverlayTechnicalDescription);
+            }
         };
+
+        public readonly InfoBox Options = new()
+        {
+            Label = Strings.Configuration.OptionsTabLabel,
+            ContentsAction = () =>
+            {
+                Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled);
+            },
+        };
+
+        public TextureWrap? AboutImage { get; }
+        public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
+        private static DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
 
         public DutyRouletteDutyFinderOverlay()
         {
@@ -51,18 +62,23 @@ namespace DailyDuty.Modules.Features
             AboutImage = Service.PluginInterface.UiBuilder.LoadImage(imagePath);
         }
 
-        public TextureWrap? AboutImage { get; }
-
-        public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
-
         public void DrawTabItem()
         {
-            ImGui.Text(Strings.Features.DutyRouletteDutyFinderOverlayLabel);
+            if (Settings.Enabled)
+            {
+                ImGui.TextColored(Colors.SoftGreen, Strings.Features.DutyRouletteDutyFinderOverlayLabel);
+            }
+            else
+            {
+                ImGui.TextColored(Colors.SoftRed, Strings.Features.DutyRouletteDutyFinderOverlayLabel);
+            }
         }
 
         public void DrawOptionsContents()
         {
-            
+            ImGuiHelpers.ScaledDummy(10.0f);
+
+            Options.DrawCentered(0.8f);
         }
     }
 }
