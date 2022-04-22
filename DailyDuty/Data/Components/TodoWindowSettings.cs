@@ -1,6 +1,6 @@
 ﻿using DailyDuty.Enums;
 
-namespace DailyDuty.Data
+namespace DailyDuty.Data.Components
 {
     public class TodoWindowSettings : GenericWindowSettings
     {

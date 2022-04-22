@@ -25,7 +25,6 @@ namespace DailyDuty.Interfaces
 
                 ImGui.PushID(item.ConfigurationPaneLabel);
 
-
                 var headerHoveredColor = ImGui.GetStyle().Colors[(int) ImGuiCol.HeaderHovered];
                 var textSelectedColor = ImGui.GetStyle().Colors[(int) ImGuiCol.Header];
                 ImGui.PushStyleColor(ImGuiCol.HeaderHovered, headerHoveredColor with {W = 0.1f});

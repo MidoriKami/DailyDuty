@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Data;
+using DailyDuty.Data.Components;
 using DailyDuty.System;
 using Dalamud.Data;
 using Dalamud.Game;

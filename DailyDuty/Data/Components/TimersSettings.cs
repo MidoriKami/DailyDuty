@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Data
+﻿namespace DailyDuty.Data.Components
 {
     public class TimersSettings
     {

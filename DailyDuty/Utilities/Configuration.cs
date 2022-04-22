@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using DailyDuty.Data;
+using DailyDuty.Data.Components;
 using Dalamud.Game;
 using Newtonsoft.Json;
 

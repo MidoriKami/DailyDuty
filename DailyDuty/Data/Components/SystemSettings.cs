@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DailyDuty.Data
+namespace DailyDuty.Data.Components
 {
     [Serializable]
     public class SystemSettings

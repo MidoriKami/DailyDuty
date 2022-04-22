@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using DailyDuty.Utilities;
 
-namespace DailyDuty.Data
+namespace DailyDuty.Data.Components
 {
     public class TimerStyle
     {

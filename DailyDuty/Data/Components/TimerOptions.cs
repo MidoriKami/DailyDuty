@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DailyDuty.Data
+namespace DailyDuty.Data.Components
 {
     public class TimerOptions
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Dalamud.Configuration;
 
-namespace DailyDuty.Data
+namespace DailyDuty.Data.Components
 {
     [Serializable]
     public class SystemConfiguration : IPluginConfiguration

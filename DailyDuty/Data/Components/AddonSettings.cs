@@ -1,6 +1,6 @@
 ﻿using DailyDuty.Data.ModuleSettings;
 
-namespace DailyDuty.Data
+namespace DailyDuty.Data.Components
 {
     public class AddonSettings
     {
