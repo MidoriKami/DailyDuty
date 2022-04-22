@@ -16,14 +16,10 @@ namespace DailyDuty.Interfaces
     internal interface IConfigurable
     {
         string ConfigurationPaneLabel { get; }
-
         InfoBox? AboutInformationBox { get; }
         InfoBox? AutomationInformationBox { get; }
-
         InfoBox? TechnicalInformation { get; }
-
         TextureWrap? AboutImage { get; }
-
         TabFlags TabFlags { get; }
 
         void DrawTabItem();
@@ -92,7 +88,6 @@ namespace DailyDuty.Interfaces
 
         void DrawAboutContents()
         {
-            
             var region = ImGui.GetContentRegionAvail();
             var elementWidth = new Vector2(region.X * 0.80f, region.X * 0.45f);
             var currentPosition = ImGui.GetCursorPos();
@@ -134,6 +129,8 @@ namespace DailyDuty.Interfaces
                 TechnicalInformation.Size = elementWidth;
                 TechnicalInformation.Draw();
             }
+
+            ImGuiHelpers.ScaledDummy(20.0f);
         }
 
         void DrawOptionsContents()
