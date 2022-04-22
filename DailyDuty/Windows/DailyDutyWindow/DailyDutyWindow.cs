@@ -1,4 +1,6 @@
-﻿using DailyDuty.Enums;
+﻿using System.Numerics;
+using DailyDuty.Data;
+using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -11,9 +13,11 @@ namespace DailyDuty.Windows.DailyDutyWindow
     {
         private readonly SelectionPane selectionPane = new()
         {
-            Padding = 4.0f,
-            ScreenRatio = 0.5f,
+            Padding = 6.0f,
+            ScreenRatio = 0.4f,
         };
+
+        private SettingsWindowSettings Settings => Service.SystemConfiguration.Windows.Settings;
 
         public DailyDutyWindow() : base("###DailyDutyMainWindow")
         {
@@ -38,8 +42,11 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
         public override void PreOpenCheck()
         {
-            if (Service.SystemConfiguration.DeveloperMode)
-                IsOpen = true;
+            //if (Service.SystemConfiguration.DeveloperMode)
+            //    IsOpen = true;
+
+            if (Service.LoggedIn == false)
+                IsOpen = false;
 
             if (Service.ClientState.IsPvP)
                 IsOpen = false;
@@ -50,6 +57,12 @@ namespace DailyDuty.Windows.DailyDutyWindow
             if (!IsOpen) return;
 
             WindowName = Strings.Configuration.DailyDutySettingsLabel + " - " + Service.CharacterConfiguration.CharacterName + "###DailyDutyMainWindow";
+
+            var backgroundColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(backgroundColor.X, backgroundColor.Y, backgroundColor.Z, Settings.Opacity));
+
+            var borderColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(borderColor.X, borderColor.Y, borderColor.Z, Settings.Opacity));
         }
 
         public override void Draw()
@@ -57,7 +70,18 @@ namespace DailyDuty.Windows.DailyDutyWindow
             if (!IsOpen) return;
 
             selectionPane.Draw();
+        }
 
+        public override void PostDraw()
+        {
+            ImGui.PopStyleColor(2);
+        }
+
+        // Todo: Add Popup notification on save
+        public override void OnClose()
+        {
+            Service.SystemConfiguration.Save();
+            Service.CharacterConfiguration.Save();
         }
 
         void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
