@@ -32,8 +32,9 @@ namespace DailyDuty.Graphical
         {
             var scaledPadding = Padding * ImGuiHelpers.GlobalScale;
             var moduleSelectionWidth = AvailableArea.X * ScreenRatio - scaledPadding;
+            var remainderWidth = AvailableArea.X - moduleSelectionWidth;
 
-            if (ImGui.BeginChild("SelectionPane", new Vector2(moduleSelectionWidth, AvailableArea.Y), true))
+            if (ImGui.BeginChild("SelectionPane", new Vector2(moduleSelectionWidth, 0), true))
             {
                 DrawSelectionPane();
 
@@ -42,7 +43,7 @@ namespace DailyDuty.Graphical
 
             ImGui.SameLine();
 
-            if (ImGui.BeginChild("ConfigurationPane", new Vector2(AvailableArea.X - moduleSelectionWidth - scaledPadding, -1), true))
+            if (ImGui.BeginChild("ConfigurationPane", new Vector2(remainderWidth - scaledPadding, 0), true, ImGuiWindowFlags.NoScrollbar))
             {
                 if (selectedTab?.SelectedTabItem != null)
                 {
