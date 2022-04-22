@@ -12,18 +12,16 @@ namespace DailyDuty.Graphical
         public Vector4 Color { get; set; } = Colors.White;
         public Action ContentsAction { get; set; } = () => { ImGui.Text("Action Not Set"); };
         public float CurveRadius { get; set; } = 15.0f;
-        public Vector2 Size { get; set; } = new Vector2();
+        public Vector2 Size { get; set; } = Vector2.Zero;
         public float BorderThickness { get; set; } = 2.0f;
         public int SegmentResolution { get; set; } = 10;
-        public Vector2 Offset { get; set; }
+        public Vector2 Offset { get; set; } = Vector2.Zero;
         public string Label { get; set; } = "Label Not Set";
-        public bool AutoResize = true;
-
+        public bool AutoResize { get; set; } = true;
         private ImDrawListPtr DrawList => ImGui.GetWindowDrawList();
         private uint ColorU32 => ImGui.GetColorU32(Color);
         private Vector2 StartPosition { get; set; }
-
-        public bool Debug = false;
+        public bool Debug { get; set; } = false;
 
         public void Draw()
         {
@@ -37,6 +35,11 @@ namespace DailyDuty.Graphical
 
             DrawContents();
 
+            if (Size == Vector2.Zero)
+            {
+                Size = ImGui.GetContentRegionAvail() with { Y = ImGui.GetItemRectMax().Y - ImGui.GetItemRectMin().Y + CurveRadius * 2.0f };
+            }
+
             if (AutoResize)
             {
                 Size = Size with {Y = ImGui.GetItemRectMax().Y - ImGui.GetItemRectMin().Y + CurveRadius * 2.0f};
@@ -45,6 +48,17 @@ namespace DailyDuty.Graphical
             DrawCorners();
 
             DrawBorders();
+        }
+
+        public void DrawCentered(float percentSize)
+        {
+            var region = ImGui.GetContentRegionAvail();
+            var currentPosition = ImGui.GetCursorPos();
+            var width = new Vector2(region.X * percentSize);
+            ImGui.SetCursorPos(currentPosition with {X = region.X / 2.0f - width.X / 2.0f });
+
+            Size = width;
+            Draw();
         }
 
         private void DrawContents()
@@ -93,18 +107,17 @@ namespace DailyDuty.Graphical
         {
             var color = Debug ? ImGui.GetColorU32(Colors.Red) : ColorU32;
 
-            DrawList.AddLine(new Vector2(StartPosition.X - 0.5f, StartPosition.Y + CurveRadius), new Vector2(StartPosition.X - 0.5f, StartPosition.Y + Size.Y - CurveRadius), color, BorderThickness);
-            DrawList.AddLine(new Vector2(StartPosition.X + Size.X - 0.5f, StartPosition.Y + CurveRadius), new Vector2(StartPosition.X + Size.X - 0.5f, StartPosition.Y + Size.Y - CurveRadius), color, BorderThickness);
-            DrawList.AddLine(new Vector2(StartPosition.X + CurveRadius, StartPosition.Y + Size.Y - 0.5f), new Vector2(StartPosition.X + Size.X - CurveRadius, StartPosition.Y + Size.Y - 0.5f), color, BorderThickness);
+            DrawList.AddLine(new Vector2(StartPosition.X - 0.5f, StartPosition.Y + CurveRadius - 0.5f), new Vector2(StartPosition.X - 0.5f, StartPosition.Y + Size.Y - CurveRadius + 0.5f), color, BorderThickness);
+            DrawList.AddLine(new Vector2(StartPosition.X + Size.X - 0.5f, StartPosition.Y + CurveRadius - 0.5f), new Vector2(StartPosition.X + Size.X - 0.5f, StartPosition.Y + Size.Y - CurveRadius + 0.5f), color, BorderThickness);
+            DrawList.AddLine(new Vector2(StartPosition.X + CurveRadius - 0.5f, StartPosition.Y + Size.Y - 0.5f), new Vector2(StartPosition.X + Size.X - CurveRadius + 0.5f, StartPosition.Y + Size.Y - 0.5f), color, BorderThickness);
 
-            // Top Line
             var textSize = ImGui.CalcTextSize(Label);
             var textStartPadding = 7.0f * ImGuiHelpers.GlobalScale;
             var textEndPadding = 7.0f * ImGuiHelpers.GlobalScale;
             var textVerticalOffset = textSize.Y / 2.0f;
 
             DrawList.AddText(new Vector2(StartPosition.X + CurveRadius + textStartPadding, StartPosition.Y - textVerticalOffset), ColorU32, Label);
-            DrawList.AddLine(new Vector2(StartPosition.X + CurveRadius + textStartPadding + textSize.X + textEndPadding, StartPosition.Y - 0.5f), new Vector2(StartPosition.X + Size.X - CurveRadius, StartPosition.Y - 0.5f), color, BorderThickness);
+            DrawList.AddLine(new Vector2(StartPosition.X + CurveRadius + textStartPadding + textSize.X + textEndPadding, StartPosition.Y - 0.5f), new Vector2(StartPosition.X + Size.X - CurveRadius + 0.5f, StartPosition.Y - 0.5f), color, BorderThickness);
         }
 
         private float DegreesToRadians(double degrees)
