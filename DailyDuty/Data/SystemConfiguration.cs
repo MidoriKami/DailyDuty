@@ -11,6 +11,11 @@ namespace DailyDuty.Data
         public bool DeveloperMode = false;
         public bool EchoLogToChat = false;
 
+        public SystemSettings System = new();
+        public TimersSettings Timers = new();
+        public WindowsSettings Windows = new();
+        public AddonSettings Addons = new();
+
         public void Save() => Service.PluginInterface.SavePluginConfig(this);
     }
 }
