@@ -27,6 +27,8 @@ namespace DailyDuty.Utilities
 
                 Chat.Log("LoginLogic", "Removing Login Listener");
 
+                Service.LoggedIn = true;
+
                 Service.Framework.Update -= LoginLogic;
             }
         }
@@ -34,6 +36,8 @@ namespace DailyDuty.Utilities
         public static void Logout(object? sender, EventArgs e)
         {
             Chat.Log("Logout", $"Logging out of '{Service.CharacterConfiguration.CharacterName}'");
+
+            Service.LoggedIn = false;
 
             Service.CharacterConfiguration = NullCharacterConfiguration;
         }
@@ -117,6 +121,8 @@ namespace DailyDuty.Utilities
                         };
                         Service.CharacterConfiguration.Save();
                     }
+
+                    Service.LoggedIn = true;
                 }
             }
         }
