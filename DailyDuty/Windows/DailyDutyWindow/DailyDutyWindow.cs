@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DailyDuty.Enums;
+using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
-using DailyDuty.Utilities;
-using DailyDuty.Windows.DailyDutyWindow.SelectionTabBar;
-using Dalamud.Interface;
+using DailyDuty.Localization;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
 namespace DailyDuty.Windows.DailyDutyWindow
 {
-    internal class DailyDutyWindow : Window, IDisposable, ICommand
+    internal class DailyDutyWindow : Window, ICommand, IWindow
     {
-        private readonly ITabBar tabBar = new ModuleSelectionTabBar();
+        private readonly SelectionPane selectionPane = new()
+        {
+            Padding = 4.0f,
+            ScreenRatio = 0.5f,
+        };
 
-        public DailyDutyWindow() : base("DailyDuty Settings###DailyDutyMainWindow")
+        public DailyDutyWindow() : base("###DailyDutyMainWindow")
         {
             Service.WindowSystem.AddWindow(this);
 
@@ -33,44 +32,32 @@ namespace DailyDuty.Windows.DailyDutyWindow
         public void Dispose()
         {
             Service.WindowSystem.RemoveWindow(this);
+
+            selectionPane.Dispose();
         }
 
         public override void PreOpenCheck()
         {
+            if (Service.SystemConfiguration.DeveloperMode)
+                IsOpen = true;
+
             if (Service.ClientState.IsPvP)
                 IsOpen = false;
+        }
+
+        public override void PreDraw()
+        {
+            if (!IsOpen) return;
+
+            WindowName = Strings.Configuration.DailyDutySettingsLabel + " - " + Service.CharacterConfiguration.CharacterName + "###DailyDutyMainWindow";
         }
 
         public override void Draw()
         {
             if (!IsOpen) return;
 
-            WindowName = "DailyDuty Settings - " + Service.CharacterConfiguration.CharacterName + "###DailyDutyMainWindow";
+            selectionPane.Draw();
 
-            var availableArea = ImGui.GetContentRegionAvail();
-
-            var ratio = 0.50f;
-            var padding = 4.0f;
-
-            var moduleSelectionWidth = availableArea.X * (ratio) - padding;
-
-            var moduleSettingsWidth = availableArea.X * (1.0f - ratio) - padding;
-
-            if (ImGui.BeginChild("ModuleSelection", ImGuiHelpers.ScaledVector2(moduleSelectionWidth, availableArea.Y * ImGuiHelpers.GlobalScale), true))
-            {
-                tabBar.Draw();
-
-                ImGui.EndChild();
-            }
-
-            ImGui.SameLine();
-
-            if (ImGui.BeginChild("ModuleSettings", ImGuiHelpers.ScaledVector2(moduleSettingsWidth, availableArea.Y * ImGuiHelpers.GlobalScale), true))
-            {
-
-
-                ImGui.EndChild();
-            }
         }
 
         void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
@@ -80,5 +67,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
                 Toggle();
             }
         }
+
+        WindowName IWindow.WindowName => Enums.WindowName.Main;
     }
 }

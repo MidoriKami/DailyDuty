@@ -1,38 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Interfaces;
-using DailyDuty.Windows.DailyDutyWindow;
-using Dalamud.Interface.Windowing;
+using DailyDuty.Modules.Features;
 
 namespace DailyDuty.System
 {
     public class DailyDutySystem : IDisposable
     {
-        // Windows
-        private readonly List<Window> windows = new()
+        private readonly List<object> dataObjects = new()
         {
-            new DailyDutyWindow(),
-        };
-
-        // Modules
-        private readonly List<IModule> modules = new()
-        {
+            // Modules
+            new WondrousTailsDutyFinderOverlay(),
 
         };
 
-        private readonly List<ICommand> commandList = new();
+        internal readonly List<ICommand> CommandList = new();
 
         public DailyDutySystem()
         {
-            commandList.AddRange(windows.OfType<ICommand>());
+            CommandList.AddRange(dataObjects.OfType<ICommand>());
         }
 
         public void ExecuteCommand(string command, string arguments)
         {
-            foreach (var eachCommand in commandList)
+            foreach (var eachCommand in CommandList)
             {
                 eachCommand.ProcessCommand(command, arguments);
             }
@@ -40,6 +32,10 @@ namespace DailyDuty.System
 
         public void Dispose()
         {
+            foreach (var module in dataObjects.OfType<IDisposable>())
+            {
+                module.Dispose();
+            }
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using CheapLoc;
+using DailyDuty.Enums;
+using DailyDuty.System;
 using DailyDuty.Utilities;
+using DailyDuty.Windows.DailyDutyWindow;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
 
@@ -19,6 +22,8 @@ namespace DailyDuty
 
             Configuration.Startup();
 
+            Loc.SetupWithFallbacks();
+
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
             {
@@ -30,6 +35,10 @@ namespace DailyDuty
                 HelpMessage = "shorthand command to open configuration window"
             });
 
+            // Create Custom Services
+            Service.System = new DailyDutySystem();
+            Service.WindowManager = new WindowManager();
+
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
@@ -37,14 +46,25 @@ namespace DailyDuty
             Service.ClientState.Logout += Configuration.Logout;
         }
 
-        private void OnCommand(string command, string arguments) => Service.DailyDuty.ExecuteCommand(command, arguments);
+        private void OnCommand(string command, string arguments) => Service.System.ExecuteCommand(command, arguments);
 
         private void DrawUI() => Service.WindowSystem.Draw();
 
-        private void DrawConfigUI() => Service.WindowSystem.Windows.First(window => window.WindowName == "DailyDuty Window").IsOpen = true;
+        private void DrawConfigUI()
+        {
+            var window = Service.WindowManager.GetWindowOfType<DailyDutyWindow>(WindowName.Main);
+
+            if (window != null)
+            {
+                window.IsOpen = true;
+            }
+        }
 
         public void Dispose()
         {
+            Service.System.Dispose();
+            Service.WindowManager.Dispose();
+
             Service.ClientState.Login -= Configuration.Login;
             Service.ClientState.Logout -= Configuration.Logout;
 
@@ -55,8 +75,6 @@ namespace DailyDuty
             Service.Commands.RemoveHandler(ShorthandCommand);
 
             Configuration.Cleanup();
-
-            Service.CharacterConfiguration.Save();
         }
     }
 }

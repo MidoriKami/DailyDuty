@@ -1,15 +1,23 @@
-﻿using DailyDuty.Interfaces;
+﻿using System.Collections.Generic;
+using System.Numerics;
+using DailyDuty.Interfaces;
+using DailyDuty.Localization;
+using DailyDuty.Modules.Features;
 using ImGuiNET;
 
 namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
     internal class FeaturesTab : ITab
     {
-        public string TabName => "Features";
-
-        public void Draw()
+        public IConfigurable? SelectedTabItem { get; set; }
+        public List<IConfigurable> TabItems { get; set; } = new()
         {
-            ImGui.Text("Oh snap, it actually worked.");
-        }
+            new WondrousTailsDutyFinderOverlay(),
+            new DutyRouletteDutyFinderOverlay()
+        };
+
+        public string TabName => Strings.Tabs.FeaturesTabLabel;
+        public string Description => Strings.Tabs.FeaturesTabDescription;
+
     }
 }

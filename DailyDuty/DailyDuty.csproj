@@ -33,11 +33,13 @@
 
 	<ItemGroup>
 		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
+
+		<Content Include="..\images\DutyRouletteDutyFinderOverlay.png" Link="images\DutyRouletteDutyFinderOverlay.png" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 
 	<ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.6" />
+    <PackageReference Include="DalamudPackager" Version="2.1.7" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -57,6 +59,10 @@
 			<HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<Reference Include="CheapLoc">
+			<HintPath>$(DalamudLibPath)CheapLoc.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
 		<Reference Include="ImGuiScene">
 			<HintPath>$(DalamudLibPath)ImGuiScene.dll</HintPath>
 			<Private>false</Private>
@@ -69,11 +75,6 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Graphical\" />
-	  <Folder Include="Modules\" />
 	</ItemGroup>
 
 </Project>

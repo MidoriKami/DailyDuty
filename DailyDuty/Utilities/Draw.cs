@@ -3,7 +3,7 @@ using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+using Action = System.Action;
 
 namespace DailyDuty.Utilities
 {
@@ -108,23 +108,28 @@ namespace DailyDuty.Utilities
             ImGui.PopStyleVar();
         }
 
-        public static void InfoBox(Vector2 size, string label, string contents)
+        public static void InfoBox(float width, string label, Action contents, Vector2 padding = default)
         {
             var drawList = ImGui.GetWindowDrawList();
             var color = ImGui.GetColorU32(Colors.White);
-            var startPosition = ImGui.GetCursorScreenPos();
+            var startPosition = ImGui.GetCursorScreenPos() + padding;
+            width -= padding.X * 2;
 
-            size *= ImGuiHelpers.GlobalScale;
             var curveRadius = 20.0f * ImGuiHelpers.GlobalScale;
             var thickness = 2.0f  * ImGuiHelpers.GlobalScale;
             var segmentResolution = 10;
+            var textHeight = ImGui.CalcTextSize("a") / 2.0f;
 
-            // Body Text
-            ImGui.SetCursorPos(new Vector2(curveRadius + 2.0f, curveRadius));
-            ImGui.PushTextWrapPos(size.X - (curveRadius * 0.5f));
-            ImGui.Text(contents);
-            size.Y = ImGui.GetItemRectMax().Y - ImGui.GetItemRectMin().Y + curveRadius;
+            // Contents
+            ImGui.SetCursorScreenPos(startPosition + new Vector2(curveRadius, curveRadius) - textHeight);
+            ImGui.PushTextWrapPos(width - (curveRadius * 0.5f));
+            ImGui.BeginGroup();
+            contents();
+            ImGui.EndGroup();
+            var contentsSize = ImGui.GetItemRectMax().Y - ImGui.GetItemRectMin().Y + curveRadius;
             ImGui.PopTextWrapPos();
+
+            var size = new Vector2(width, contentsSize);
 
             var topLeftCurveCenter = new Vector2(startPosition.X + curveRadius, startPosition.Y + curveRadius);
             var topRightCurveCenter = new Vector2(startPosition.X + size.X - curveRadius, startPosition.Y + curveRadius);
