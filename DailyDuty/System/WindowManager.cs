@@ -31,5 +31,13 @@ namespace DailyDuty.System
 
             return settingsWindow;
         }
+
+        public void ExecuteCommand(string command, string arguments)
+        {
+            foreach (var eachCommand in windowList.OfType<ICommand>())
+            {
+                eachCommand.ProcessCommand(command, arguments);
+            }
+        }
     }
 }
