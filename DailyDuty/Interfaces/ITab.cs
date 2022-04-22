@@ -16,32 +16,38 @@ namespace DailyDuty.Interfaces
         {
             ImGui.PushStyleColor(ImGuiCol.FrameBg, Vector4.Zero);
 
-            if (ImGui.BeginListBox("", new Vector2(-1, -1)))
+            ImGui.BeginListBox("", new Vector2(-1, -1));
+
+            ImGui.PopStyleColor(1);
+
+            foreach (var item in TabItems)
             {
 
-                foreach (var item in TabItems)
+                ImGui.PushID(item.ConfigurationPaneLabel);
+
+
+                var headerHoveredColor = ImGui.GetStyle().Colors[(int) ImGuiCol.HeaderHovered];
+                var textSelectedColor = ImGui.GetStyle().Colors[(int) ImGuiCol.Header];
+                ImGui.PushStyleColor(ImGuiCol.HeaderHovered, headerHoveredColor with {W = 0.1f});
+                ImGui.PushStyleColor(ImGuiCol.Header, textSelectedColor with {W = 0.1f});
+
+                if (ImGui.Selectable("", SelectedTabItem == item))
                 {
-
-                    ImGui.PushID(item.ConfigurationPaneLabel);
-
-                    if (ImGui.Selectable("", SelectedTabItem == item))
-                    {
-                        SelectedTabItem = item;
-                    }
-
-                    ImGui.SameLine();
-
-                    item.DrawTabItem();
-
-                    ImGui.Spacing();
-
-                    ImGui.PopID();
+                    SelectedTabItem = item;
                 }
 
-                ImGui.EndListBox();
+                ImGui.PopStyleColor(2);
+
+                ImGui.SameLine();
+
+                item.DrawTabItem();
+
+                ImGui.Spacing();
+
+                ImGui.PopID();
             }
 
-            ImGui.PopStyleColor();
+            ImGui.EndListBox();
         }
     }
 }
