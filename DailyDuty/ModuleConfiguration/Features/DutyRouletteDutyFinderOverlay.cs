@@ -1,5 +1,4 @@
-﻿using System.IO;
-using DailyDuty.Data.ModuleSettings;
+﻿using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
@@ -9,12 +8,11 @@ using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
 
-namespace DailyDuty.Modules.Features
+namespace DailyDuty.ModuleConfiguration.Features
 {
     internal class DutyRouletteDutyFinderOverlay : IConfigurable
     {
-        public string ConfigurationPaneLabel { get; } = Strings.Features.DutyRouletteDutyFinderOverlayLabel;
-
+        public string ConfigurationPaneLabel => Strings.Features.DutyRouletteDutyFinderOverlayLabel;
         public InfoBox? AboutInformationBox { get; } = new()
         {
             Label = Strings.Common.InformationLabel,
@@ -26,7 +24,7 @@ namespace DailyDuty.Modules.Features
         };
         public InfoBox? AutomationInformationBox { get; } = new()
         {
-            Label = Strings.Common.DataCollectionLabel,
+            Label = Strings.Common.AutomationInformationLabel,
             ContentsAction = () =>
             {
                 ImGui.Text(Strings.Features.DutyRouletteDutyFinderOverlayAutomationInformation);
@@ -40,38 +38,33 @@ namespace DailyDuty.Modules.Features
                 ImGui.Text(Strings.Features.DutyRouletteDutyFinderOverlayTechnicalDescription);
             }
         };
+        public TextureWrap? AboutImage { get; }
+        public TabFlags TabFlags => TabFlags.About | TabFlags.Options | TabFlags.Log;
+        public ModuleName ModuleName => ModuleName.DutyRouletteDutyFinderOverlay;
+        private static DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
 
         public readonly InfoBox Options = new()
         {
             Label = Strings.Configuration.OptionsTabLabel,
             ContentsAction = () =>
             {
-                Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled);
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled))
+                {
+                    Service.LogManager.LogMessage(ModuleName.DutyRouletteDutyFinderOverlay, Settings.Enabled ? "Enabled" : "Disabled");
+                    Service.SystemConfiguration.Save();
+                }
             },
         };
 
-        public TextureWrap? AboutImage { get; }
-        public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
-        private static DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
-
         public DutyRouletteDutyFinderOverlay()
         {
-            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
-            var imagePath = Path.Combine(assemblyLocation, $@"images\DutyRouletteDutyFinderOverlay.png");
-
-            AboutImage = Service.PluginInterface.UiBuilder.LoadImage(imagePath);
+            AboutImage = Image.LoadImage("DutyRouletteDutyFinderOverlay");
         }
 
         public void DrawTabItem()
         {
-            if (Settings.Enabled)
-            {
-                ImGui.TextColored(Colors.SoftGreen, Strings.Features.DutyRouletteDutyFinderOverlayLabel);
-            }
-            else
-            {
-                ImGui.TextColored(Colors.SoftRed, Strings.Features.DutyRouletteDutyFinderOverlayLabel);
-            }
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed,
+                Strings.Features.DutyRouletteDutyFinderOverlayLabel);
         }
 
         public void DrawOptionsContents()
@@ -79,6 +72,14 @@ namespace DailyDuty.Modules.Features
             ImGuiHelpers.ScaledDummy(10.0f);
 
             Options.DrawCentered(0.8f);
+        }
+
+        public void DrawLogContents()
+        {
+            foreach (var message in Service.LogManager.GetMessages(ModuleName.DutyRouletteDutyFinderOverlay))
+            {
+                message.Draw();
+            }
         }
     }
 }

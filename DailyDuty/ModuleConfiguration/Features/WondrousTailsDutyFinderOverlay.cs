@@ -5,7 +5,7 @@ using DailyDuty.Localization;
 using ImGuiNET;
 using ImGuiScene;
 
-namespace DailyDuty.Modules.Features
+namespace DailyDuty.ModuleConfiguration.Features
 {
     internal class WondrousTailsDutyFinderOverlay : IConfigurable
     {
@@ -15,6 +15,7 @@ namespace DailyDuty.Modules.Features
         public InfoBox? AboutInformationBox { get; }
 
         public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
+        public ModuleName ModuleName => ModuleName.WondrousTailsDutyFinderOverlay;
 
         public void DrawTabItem()
         {
