@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Localization;
+using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
@@ -21,6 +19,7 @@ namespace DailyDuty.Interfaces
         InfoBox? TechnicalInformation { get; }
         TextureWrap? AboutImage { get; }
         TabFlags TabFlags { get; }
+        ModuleName ModuleName { get; }
 
         void DrawTabItem();
         
@@ -40,13 +39,17 @@ namespace DailyDuty.Interfaces
 
         void DrawTabs()
         {
-            if (ImGui.BeginTabBar("SelectionPaneTabBar", ImGuiTabBarFlags.Reorderable))
+            if (ImGui.BeginTabBar("SelectionPaneTabBar", ImGuiTabBarFlags.None))
             {
                 if (TabFlags.HasFlag(TabFlags.About))
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.AboutTabLabel))
                     {
+                        ImGui.BeginChild("AboutContentsChild");
+
                         DrawAboutContents();
+
+                        ImGui.EndChild();
 
                         ImGui.EndTabItem();
                     }
@@ -56,7 +59,11 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.StatusTabLabel))
                     {
+                        ImGui.BeginChild("StatusContentsChild");
+
                         DrawStatusContents();
+
+                        ImGui.EndChild();
 
                         ImGui.EndTabItem();
                     }
@@ -66,7 +73,11 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.OptionsTabLabel))
                     {
+                        ImGui.BeginChild("OptionsContentsChild");
+
                         DrawOptionsContents();
+
+                        ImGui.EndChild();
 
                         ImGui.EndTabItem();
                     }
@@ -76,7 +87,33 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.LogTabLabel))
                     {
-                        DrawLogContents();
+                        ImGui.BeginChild("LogContentsChild");
+
+                        ImGui.Spacing();
+
+                        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10.0f, 8.0f));
+
+                        var logMessages = Service.LogManager.GetMessages(ModuleName).ToList();
+
+                        if (logMessages.Count == 0)
+                        {
+                            var contentCenter = ImGui.GetContentRegionAvail() / 2.0f;
+                            var textSize = ImGui.CalcTextSize(Strings.Common.EmptyContentsLabel) / 2.0f;
+
+                            ImGui.SetCursorPos(contentCenter - textSize);
+                            ImGui.TextWrapped(Strings.Common.EmptyContentsLabel);
+                        }
+                        else
+                        {
+                            foreach (var message in logMessages)
+                            {
+                                message.Draw();
+                            }
+                        }
+
+                        ImGui.PopStyleVar();
+
+                        ImGui.EndChild();
 
                         ImGui.EndTabItem();
                     }
@@ -89,48 +126,40 @@ namespace DailyDuty.Interfaces
         void DrawAboutContents()
         {
             var region = ImGui.GetContentRegionAvail();
-            var elementWidth = new Vector2(region.X * 0.80f, region.X * 0.45f);
             var currentPosition = ImGui.GetCursorPos();
 
             if (AboutImage != null)
             {
-                ImGuiHelpers.ScaledDummy(20.0f);
-                ImGui.SetCursorPos(currentPosition with {X = region.X / 2.0f - elementWidth.X / 2.0f });
+                var imageRatio = (float)AboutImage.Height / AboutImage.Width;
+                var width = region.X * 0.80f;
+                var height = width * imageRatio;
+                var elementWidth = new Vector2(width, height);
+                ImGui.SetCursorPos(currentPosition with { X = region.X / 2.0f - elementWidth.X / 2.0f, Y = currentPosition.Y + 10.0f * ImGuiHelpers.GlobalScale });
+                var startPosition = ImGui.GetCursorScreenPos();
+
                 ImGui.Image(AboutImage.ImGuiHandle, elementWidth);
+                Draw.Rectangle(startPosition, elementWidth, 3.0f);
+
+                ImGuiHelpers.ScaledDummy(20.0f);
             }
 
             if (AboutInformationBox != null)
             {
-                ImGuiHelpers.ScaledDummy(20.0f);
-                currentPosition = ImGui.GetCursorPos();
-                ImGui.SetCursorPos(currentPosition with {X = region.X / 2.0f - elementWidth.X / 2.0f });
-
-                AboutInformationBox.Size = elementWidth;
-                AboutInformationBox.Draw();
+                AboutInformationBox.DrawCentered(0.80f);
+                ImGuiHelpers.ScaledDummy(30.0f);
             }
-
             
             if (AutomationInformationBox != null)
             {
-                ImGuiHelpers.ScaledDummy(20.0f);
-                currentPosition = ImGui.GetCursorPos();
-                ImGui.SetCursorPos(currentPosition with {X = region.X / 2.0f - elementWidth.X / 2.0f });
-
-                AutomationInformationBox.Size = elementWidth;
-                AutomationInformationBox.Draw();
+                AutomationInformationBox.DrawCentered(0.80f);
+                ImGuiHelpers.ScaledDummy(30.0f);
             }
 
             if (TechnicalInformation != null)
             {
+                TechnicalInformation.DrawCentered(0.80f);
                 ImGuiHelpers.ScaledDummy(20.0f);
-                currentPosition = ImGui.GetCursorPos();
-                ImGui.SetCursorPos(currentPosition with {X = region.X / 2.0f - elementWidth.X / 2.0f });
-
-                TechnicalInformation.Size = elementWidth;
-                TechnicalInformation.Draw();
             }
-
-            ImGuiHelpers.ScaledDummy(20.0f);
         }
 
         void DrawOptionsContents()
