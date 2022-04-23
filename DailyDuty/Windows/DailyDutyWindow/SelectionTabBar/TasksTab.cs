@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.ModuleConfiguration.Features;
+using DailyDuty.ModuleConfiguration;
 
 namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
