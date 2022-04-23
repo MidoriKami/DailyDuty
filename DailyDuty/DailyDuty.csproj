@@ -32,11 +32,8 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
-
-		<Content Include="..\images\DutyRouletteDutyFinderOverlay.png" Link="images\DutyRouletteDutyFinderOverlay.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
-
 
 	<ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.7" />
