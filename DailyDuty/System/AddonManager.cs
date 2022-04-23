@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DailyDuty.Interfaces;
-using DailyDuty.Modules;
 using DailyDuty.Modules.Features;
 
 namespace DailyDuty.System

@@ -1,21 +1,21 @@
-﻿using System;
+﻿using System.Linq;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 
-namespace DailyDuty.ModuleConfiguration.Features
+namespace DailyDuty.ModuleConfiguration
 {
     internal class DutyRoulette : IConfigurable
     {
         public string ConfigurationPaneLabel => Strings.Module.DutyRouletteLabel;
-
         public InfoBox? AboutInformationBox { get; } = new()
         {
             Label = Strings.Common.InformationLabel,
@@ -45,31 +45,40 @@ namespace DailyDuty.ModuleConfiguration.Features
         public ModuleName ModuleName => ModuleName.DutyRoulette;
         private static DutyRouletteSettings Settings => Service.CharacterConfiguration.DutyRoulette;
 
-
         private readonly InfoBox currentStatus = new()
         {
             Label = Strings.Common.CurrentStatusLabel,
             ContentsAction = () =>
             {
-                if (ImGui.BeginTable($"##Status", 2))
+                var numTracked = Settings.TrackedRoulettes.Count(t => t.Tracked);
+
+                if (numTracked == 0)
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
-            
-                    foreach (var tracked in Settings.TrackedRoulettes)
+                    ImGui.TextColored(Colors.Red, Strings.Module.DutyRouletteNothingTrackedDescriptionWarning);
+                    ImGui.Text(Strings.Module.DutyRouletteNothingTrackedDescription);
+                }
+                else
+                {
+                    if (ImGui.BeginTable($"##Status", 2))
                     {
-                        if (tracked.Tracked == true)
+                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+            
+                        foreach (var tracked in Settings.TrackedRoulettes)
                         {
-                            ImGui.TableNextRow();
-                            ImGui.TableNextColumn();
-                            ImGui.Text(tracked.Type.ToString());
+                            if (tracked.Tracked == true)
+                            {
+                                ImGui.TableNextRow();
+                                ImGui.TableNextColumn();
+                                ImGui.Text(tracked.Type.ToString());
 
-                            ImGui.TableNextColumn();
-                            Draw.CompleteIncomplete(tracked.Completed);
+                                ImGui.TableNextColumn();
+                                Draw.CompleteIncomplete(tracked.Completed);
+                            }
                         }
-                    }
 
-                    ImGui.EndTable();
+                        ImGui.EndTable();
+                    }
                 }
             }
         };
@@ -88,7 +97,7 @@ namespace DailyDuty.ModuleConfiguration.Features
                         ImGui.TableNextColumn();
                         if (ImGui.Checkbox($"{roulette.Type}", ref roulette.Tracked))
                         {
-                            Service.LogManager.LogMessage(ModuleName.DutyRoulette, $"{roulette.Type} " + (roulette.Tracked ? "Tracking Enabled" : "Tracking Disabled"));
+                            Service.LogManager.LogMessage(ModuleName.DutyRoulette, $"{roulette.Type} " + (roulette.Tracked ? "Enabled" : "Disabled"));
                             Service.CharacterConfiguration.Save();
                         }
 
@@ -130,8 +139,45 @@ namespace DailyDuty.ModuleConfiguration.Features
 
                 if(Draw.Checkbox(Strings.Common.NotifyOnZoneChangeLabel, ref Settings.ZoneChangeReminder, Strings.Common.NotifyOnZoneChangeHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Zone Change Notifications" + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Zone Change Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
+        private readonly InfoBox clickableLink = new()
+        {
+            Label = Strings.Common.ClickableLinkLabel,
+            ContentsAction = () =>
+            {
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableClickableLink, Strings.Module.DutyRouletteClickableLinkDescription))
+                {
+                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Clickable Link " + (Settings.EnableClickableLink ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
+        private readonly InfoBox completionStatus = new()
+        {
+            Label = Strings.Common.CompletionStatusLabel,
+            ContentsAction = () =>
+            {
+                var module = Service.ModuleManager.GetModule<DutyRouletteModule>();
+
+                if (ImGui.BeginTable($"", 2))
+                {
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.Text(Strings.Common.AllTasksLabel);
+
+                    ImGui.TableNextColumn();
+                    Draw.CompleteIncomplete(module.IsCompleted());
+
+                    ImGui.EndTable();
                 }
             }
         };
@@ -157,13 +203,21 @@ namespace DailyDuty.ModuleConfiguration.Features
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered(0.80f);
 
+            ImGuiHelpers.ScaledDummy(30.0f);
+            clickableLink.DrawCentered(0.80f);
+
             ImGuiHelpers.ScaledDummy(20.0f);
         }
 
         public void DrawStatusContents()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
+            completionStatus.DrawCentered(0.80f);
+
+            ImGuiHelpers.ScaledDummy(30.0f);
             currentStatus.DrawCentered(0.80f);
+
+            ImGuiHelpers.ScaledDummy(20.0f);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -58,7 +59,7 @@ namespace DailyDuty.Utilities
 
         public static void CompleteIncomplete(bool complete)
         {
-            ConditionalText(complete, "Complete", "Incomplete");
+            ConditionalText(complete, Strings.Common.CompleteLabel, Strings.Common.IncompleteLabel);
         }
 
         public static void ConditionalText(bool condition, string trueString, string falseString)
