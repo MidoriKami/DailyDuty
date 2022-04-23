@@ -14,7 +14,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
         private readonly SelectionPane selectionPane = new()
         {
             Padding = 6.0f,
-            ScreenRatio = 0.4f,
+            SelectionPaneWidth = 300.0f
         };
 
         private SettingsWindowSettings Settings => Service.SystemConfiguration.Windows.Settings;
