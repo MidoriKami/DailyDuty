@@ -5,7 +5,7 @@ namespace DailyDuty.Data.ModuleSettings
 {
     public class DutyRouletteSettings : GenericSettings
     {
-        public bool SingleTask = false;
+        public bool EnableClickableLink = false;
         public TrackedRoulette[] TrackedRoulettes =
         {
             new(RouletteType.Expert),

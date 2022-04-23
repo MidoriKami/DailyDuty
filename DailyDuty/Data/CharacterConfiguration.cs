@@ -16,6 +16,7 @@ namespace DailyDuty.Data
         public string World = "UnknownWorld";
 
         public DutyRouletteSettings DutyRoulette = new();
+        public WondrousTailsSettings WondrousTails = new();
         
         public void Save()
         {
