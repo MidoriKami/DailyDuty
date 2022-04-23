@@ -120,10 +120,6 @@ namespace DailyDuty.Graphical
             DrawList.AddLine(new Vector2(StartPosition.X + CurveRadius + textStartPadding + textSize.X + textEndPadding, StartPosition.Y - 0.5f), new Vector2(StartPosition.X + Size.X - CurveRadius + 0.5f, StartPosition.Y - 0.5f), color, BorderThickness);
         }
 
-        private float DegreesToRadians(double degrees)
-        {
-            float radians = (float)((Math.PI / 180) * degrees);
-            return (radians);
-        }
+        private float DegreesToRadians(float degrees) => MathF.PI / 180 * degrees;
     }
 }
