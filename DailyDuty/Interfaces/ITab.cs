@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using ImGuiNET;
 
@@ -21,7 +22,7 @@ namespace DailyDuty.Interfaces
 
             ImGui.PopStyleColor(1);
 
-            foreach (var item in TabItems)
+            foreach (var item in TabItems.OrderBy(item => item.ModuleName))
             {
 
                 ImGui.PushID(item.ConfigurationPaneLabel);
