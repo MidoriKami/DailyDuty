@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow.SelectionTabBar;
 using Dalamud.Interface;
 using ImGuiNET;
 
 namespace DailyDuty.Graphical
 {
-    internal class SelectionPane : IDisposable, IDrawable
+    internal class SelectionPane : IDrawable
     {
         private Vector2 AvailableArea => ImGui.GetContentRegionAvail();
         public float Padding { get; set; }
@@ -22,11 +25,6 @@ namespace DailyDuty.Graphical
             new FeaturesTab(),
             new TasksTab(),
         };
-
-        public void Dispose()
-        {
-
-        }
 
         public void Draw()
         {
@@ -88,11 +86,13 @@ namespace DailyDuty.Graphical
 
                         ImGui.Spacing();
 
-                        if (ImGui.BeginChild("SelectionPaneTabBarChild", new Vector2(0,0), false))
+                        if (ImGui.BeginChild("SelectionPaneTabBarChild", new Vector2(0,-25), false))
                         {
                             tab.DrawTabContents();
                             ImGui.EndChild();
                         }
+
+                        DrawVersionText();
 
                         ImGui.PopID();
 
@@ -111,6 +111,24 @@ namespace DailyDuty.Graphical
             var userColor = ImGui.GetStyle().Colors[(int) ImGuiCol.Text];
 
             return userColor with {W = 0.5f};
+        }
+
+        private string GetVersionText()
+        {
+            var assemblyInformation = Assembly.GetExecutingAssembly().FullName!.Split(',');
+
+            return assemblyInformation[1].Replace('=', ' ');
+        }
+
+        private void DrawVersionText()
+        {
+            var region = ImGui.GetContentRegionAvail();
+            var versionText = GetVersionText();
+            var versionTextSize = ImGui.CalcTextSize(versionText) / 2.0f;
+            var cursorStart = ImGui.GetCursorPos();
+            cursorStart.X += region.X / 2.0f - versionTextSize.X;
+            ImGui.SetCursorPos(cursorStart);
+            ImGui.TextColored(Colors.Grey, versionText);
         }
     }
 }

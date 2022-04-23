@@ -36,8 +36,6 @@ namespace DailyDuty.Windows.DailyDutyWindow
         public void Dispose()
         {
             Service.WindowSystem.RemoveWindow(this);
-
-            selectionPane.Dispose();
         }
 
         public override void PreOpenCheck()
