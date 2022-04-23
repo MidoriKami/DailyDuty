@@ -1,4 +1,5 @@
-﻿using DailyDuty.Data.ModuleSettings;
+﻿using DailyDuty.Data.FeaturesSettings;
+using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
@@ -39,7 +40,7 @@ namespace DailyDuty.ModuleConfiguration.Features
             }
         };
         public TextureWrap? AboutImage { get; }
-        public TabFlags TabFlags => TabFlags.About | TabFlags.Options | TabFlags.Log;
+        public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
         public ModuleName ModuleName => ModuleName.DutyRouletteDutyFinderOverlay;
         private static DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
 
@@ -50,7 +51,6 @@ namespace DailyDuty.ModuleConfiguration.Features
             {
                 if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled))
                 {
-                    Service.LogManager.LogMessage(ModuleName.DutyRouletteDutyFinderOverlay, Settings.Enabled ? "Enabled" : "Disabled");
                     Service.SystemConfiguration.Save();
                 }
             },
@@ -72,14 +72,6 @@ namespace DailyDuty.ModuleConfiguration.Features
             ImGuiHelpers.ScaledDummy(10.0f);
 
             Options.DrawCentered(0.8f);
-        }
-
-        public void DrawLogContents()
-        {
-            foreach (var message in Service.LogManager.GetMessages(ModuleName.DutyRouletteDutyFinderOverlay))
-            {
-                message.Draw();
-            }
         }
     }
 }

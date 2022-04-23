@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Data.ModuleSettings
+﻿namespace DailyDuty.Data.FeaturesSettings
 {
     public class WondrousTailsDutyFinderOverlaySettings
     {
