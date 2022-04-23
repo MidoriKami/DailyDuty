@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace DailyDuty.Data.ModuleSettings
+﻿namespace DailyDuty.Data.ModuleSettings
 {
     public class WondrousTailsDutyFinderOverlaySettings
     {
