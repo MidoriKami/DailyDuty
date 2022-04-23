@@ -1,5 +1,4 @@
 ﻿using CheapLoc;
-using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Localization
 {
