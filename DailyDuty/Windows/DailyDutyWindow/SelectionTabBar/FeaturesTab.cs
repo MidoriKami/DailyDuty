@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.Modules.Features;
-using ImGuiNET;
+using DailyDuty.ModuleConfiguration.Features;
 
 namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
@@ -18,6 +16,5 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 
         public string TabName => Strings.Tabs.FeaturesTabLabel;
         public string Description => Strings.Tabs.FeaturesTabDescription;
-
     }
 }

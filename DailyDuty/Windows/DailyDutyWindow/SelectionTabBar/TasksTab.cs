@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using DailyDuty.ModuleConfiguration.Features;
 
 namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
@@ -9,7 +10,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
         public IConfigurable? SelectedTabItem { get; set; }
         public List<IConfigurable> TabItems { get; set; } = new()
         {
-
+            new DutyRoulette(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;
