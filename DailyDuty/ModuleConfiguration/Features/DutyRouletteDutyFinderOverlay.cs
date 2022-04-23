@@ -40,7 +40,7 @@ namespace DailyDuty.ModuleConfiguration.Features
         };
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
-        public ModuleName ModuleName => ModuleName.DutyRouletteDutyFinderOverlay;
+        public ModuleType ModuleType => ModuleType.DutyRouletteDutyFinderOverlay;
         private static DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
 
         public readonly InfoBox Options = new()

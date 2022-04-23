@@ -7,7 +7,7 @@ namespace DailyDuty.Data.Components
 {
     public class LogMessage
     {
-        public ModuleName ModuleName { get; set; }
+        public ModuleType ModuleType { get; set; }
         public DateTime Time { get; set; }
         public string Message { get; set; } = string.Empty;
 

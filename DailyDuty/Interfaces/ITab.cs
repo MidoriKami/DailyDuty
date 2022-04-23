@@ -7,8 +7,8 @@ namespace DailyDuty.Interfaces
 {
     internal interface ITab
     {
-        IConfigurable? SelectedTabItem { get; set; }
-        List<IConfigurable> TabItems { get; set; }
+        ITabItem? SelectedTabItem { get; set; }
+        List<ITabItem> TabItems { get; set; }
         string TabName { get; }
 
         string Description { get; }
@@ -22,10 +22,10 @@ namespace DailyDuty.Interfaces
 
             ImGui.PopStyleColor(1);
 
-            foreach (var item in TabItems.OrderBy(item => item.ModuleName))
+            foreach (var item in TabItems.OrderBy(item => item.ModuleType))
             {
 
-                ImGui.PushID(item.ConfigurationPaneLabel);
+                ImGui.PushID(item.ModuleType.ToString());
 
                 var headerHoveredColor = ImGui.GetStyle().Colors[(int) ImGuiCol.HeaderHovered];
                 var textSelectedColor = ImGui.GetStyle().Colors[(int) ImGuiCol.Header];

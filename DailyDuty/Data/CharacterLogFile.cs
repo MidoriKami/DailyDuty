@@ -17,7 +17,7 @@ namespace DailyDuty.Data
         public ulong LocalContentID = 0;
         public string World = "UnknownWorld";
 
-        public Dictionary<ModuleName, List<LogMessage>> Messages = new();
+        public Dictionary<ModuleType, List<LogMessage>> Messages = new();
 
         public void Save()
         {

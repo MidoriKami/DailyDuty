@@ -10,6 +10,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
+using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.ModuleConfiguration
 {
@@ -42,7 +43,7 @@ namespace DailyDuty.ModuleConfiguration
         };
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.All;
-        public ModuleName ModuleName => ModuleName.DutyRoulette;
+        public ModuleType ModuleType => ModuleType.DutyRoulette;
         private static DutyRouletteSettings Settings => Service.CharacterConfiguration.DutyRoulette;
 
         private readonly InfoBox currentStatus = new()
@@ -97,7 +98,7 @@ namespace DailyDuty.ModuleConfiguration
                         ImGui.TableNextColumn();
                         if (ImGui.Checkbox($"{roulette.Type}", ref roulette.Tracked))
                         {
-                            Service.LogManager.LogMessage(ModuleName.DutyRoulette, $"{roulette.Type} " + (roulette.Tracked ? "Enabled" : "Disabled"));
+                            Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{roulette.Type} " + (roulette.Tracked ? "Enabled" : "Disabled"));
                             Service.CharacterConfiguration.Save();
                         }
 
@@ -120,7 +121,7 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled))
                 {
-                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, Settings.Enabled ? "Enabled" : "Disabled");
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, Settings.Enabled ? "Enabled" : "Disabled");
                     Service.CharacterConfiguration.Save();
                 }
             }
@@ -133,13 +134,13 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if(Draw.Checkbox(Strings.Common.NotifyOnLoginLabel, ref Settings.LoginReminder, Strings.Common.NotifyOnLoginHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Login Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Login Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
 
                 if(Draw.Checkbox(Strings.Common.NotifyOnZoneChangeLabel, ref Settings.ZoneChangeReminder, Strings.Common.NotifyOnZoneChangeHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Zone Change Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Zone Change Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
             }
@@ -152,7 +153,7 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableClickableLink, Strings.Module.DutyRouletteClickableLinkDescription))
                 {
-                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Clickable Link " + (Settings.EnableClickableLink ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Clickable Link " + (Settings.EnableClickableLink ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
             }
@@ -191,7 +192,7 @@ namespace DailyDuty.ModuleConfiguration
         {
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.DutyRouletteLabel);
         }
-
+        
         public void DrawOptionsContents()
         {
             ImGuiHelpers.ScaledDummy(10.0f);

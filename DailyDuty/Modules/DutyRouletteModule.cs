@@ -84,7 +84,7 @@ namespace DailyDuty.Modules
 
                     if (IsCompleted())
                     {
-                        Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Module Completed");
+                        Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Module Completed");
                     }
 
                     Service.CharacterConfiguration.Save();
@@ -96,7 +96,7 @@ namespace DailyDuty.Modules
         {
             foreach (var task in Settings.TrackedRoulettes)
             {
-                Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Daily Reset - Resetting");
+                Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Daily Reset - Resetting");
 
                 task.Completed = false;
             }

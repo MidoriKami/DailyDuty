@@ -11,7 +11,7 @@ namespace DailyDuty.System
     {
         public CharacterLogFile Log { get; set; } = new();
 
-        public void LogMessage(ModuleName module, string message)
+        public void LogMessage(ModuleType module, string message)
         {
             if (!Log.Messages.ContainsKey(module))
             {
@@ -29,21 +29,21 @@ namespace DailyDuty.System
             moduleMessages.Add(new LogMessage()
             {
                 Message = message,
-                ModuleName = module,
+                ModuleType = module,
                 Time = DateTime.UtcNow,
             });
 
             Save();
         }
 
-        public IEnumerable<LogMessage> GetMessages(ModuleName moduleName)
+        public IEnumerable<LogMessage> GetMessages(ModuleType moduleType)
         {
-            if (!Log.Messages.ContainsKey(moduleName))
+            if (!Log.Messages.ContainsKey(moduleType))
             {
-                Log.Messages[moduleName] = new List<LogMessage>();
+                Log.Messages[moduleType] = new List<LogMessage>();
             }
 
-            return Log.Messages[moduleName].OrderByDescending(m => m.Time);
+            return Log.Messages[moduleType].OrderByDescending(m => m.Time);
         }
 
         public void Save()

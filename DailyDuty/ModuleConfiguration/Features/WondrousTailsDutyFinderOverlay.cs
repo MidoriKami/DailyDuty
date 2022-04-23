@@ -40,7 +40,7 @@ namespace DailyDuty.ModuleConfiguration.Features
             }
         };
         public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
-        public ModuleName ModuleName => ModuleName.WondrousTailsDutyFinderOverlay;
+        public ModuleType ModuleType => ModuleType.WondrousTailsDutyFinderOverlay;
         private static WondrousTailsDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.WondrousTailsOverlaySettings;
 
         public readonly InfoBox Options = new()
