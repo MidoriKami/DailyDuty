@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Interfaces;
-using DailyDuty.Modules.Features;
 
 namespace DailyDuty.System
 {
-    public class DailyDutySystem : IDisposable
+    public class SystemManager : IDisposable
     {
         private readonly List<object> dataObjects = new()
         {
@@ -17,7 +16,7 @@ namespace DailyDuty.System
 
         internal readonly List<ICommand> CommandList = new();
 
-        public DailyDutySystem()
+        public SystemManager()
         {
             CommandList.AddRange(dataObjects.OfType<ICommand>());
         }

@@ -33,8 +33,10 @@ namespace DailyDuty
         [PluginService] public static ToastGui Toast { get; private set; } = null!;
 
         public static WindowSystem WindowSystem { get; } = new("DailyDuty");
-        public static DailyDutySystem System { get; set; } = null!;
+        public static SystemManager SystemManager { get; set; } = null!;
         public static WindowManager WindowManager { get; set; } = null!;
+        public static AddonManager AddonManager { get; set; } = null!;
+        public static LogManager LogManager { get; set; } = null!;
         public static SystemConfiguration SystemConfiguration { get; set; } = null!;
         public static CharacterConfiguration CharacterConfiguration { get; set; } = null!;
 
