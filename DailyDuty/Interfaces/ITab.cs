@@ -14,7 +14,8 @@ namespace DailyDuty.Interfaces
 
         public void DrawTabContents()
         {
-            ImGui.PushStyleColor(ImGuiCol.FrameBg, Vector4.Zero);
+            var frameBgColor = ImGui.GetStyle().Colors[(int) ImGuiCol.FrameBg];
+            ImGui.PushStyleColor(ImGuiCol.FrameBg, frameBgColor with {W = 0.05f});
 
             ImGui.BeginListBox("", new Vector2(-1, -1));
 
