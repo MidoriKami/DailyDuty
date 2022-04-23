@@ -13,7 +13,7 @@ namespace DailyDuty.Data.Components
 
         public void Draw()
         {
-            ImGui.TextColored(Colors.Grey, $"[{Time}]:");
+            ImGui.TextColored(Colors.Grey, $"[{Time.ToLocalTime()}]:");
             ImGui.SameLine();
             ImGui.Text(Message);
         }
