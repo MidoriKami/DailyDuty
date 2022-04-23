@@ -1,9 +1,10 @@
 ﻿namespace DailyDuty.Enums
 {
-    public enum ModuleName
+    public enum ModuleType
     {
         DutyRouletteDutyFinderOverlay,
         WondrousTailsDutyFinderOverlay,
         DutyRoulette,
+        Timers
     }
 }
