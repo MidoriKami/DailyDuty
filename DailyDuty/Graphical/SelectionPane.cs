@@ -12,15 +12,15 @@ namespace DailyDuty.Graphical
     internal class SelectionPane : IDisposable, IDrawable
     {
         private Vector2 AvailableArea => ImGui.GetContentRegionAvail();
-        public float ScreenRatio { get; set; }
         public float Padding { get; set; }
+        public float SelectionPaneWidth { get; set; }
 
         private ITab? selectedTab = null;
 
         private readonly List<ITab> tabs = new()
         {
             new FeaturesTab(),
-
+            new TasksTab(),
         };
 
         public void Dispose()
@@ -31,10 +31,10 @@ namespace DailyDuty.Graphical
         public void Draw()
         {
             var scaledPadding = Padding * ImGuiHelpers.GlobalScale;
-            var moduleSelectionWidth = AvailableArea.X * ScreenRatio - scaledPadding;
+            var moduleSelectionWidth = SelectionPaneWidth *ImGuiHelpers.GlobalScale + Padding;
             var remainderWidth = AvailableArea.X - moduleSelectionWidth;
 
-            if (ImGui.BeginChild("SelectionPane", new Vector2(moduleSelectionWidth, 0), true))
+            if (ImGui.BeginChild("SelectionPane", new Vector2(moduleSelectionWidth, 0), false))
             {
                 DrawSelectionPane();
 
@@ -43,7 +43,13 @@ namespace DailyDuty.Graphical
 
             ImGui.SameLine();
 
-            if (ImGui.BeginChild("ConfigurationPane", new Vector2(remainderWidth - scaledPadding, 0), true, ImGuiWindowFlags.NoScrollbar))
+            Utilities.Draw.VerticalLine();
+
+            ImGuiHelpers.ScaledDummy(0.0f);
+
+            ImGui.SameLine();
+
+            if (ImGui.BeginChild("ConfigurationPane", new Vector2(remainderWidth - scaledPadding - (10.0f * ImGuiHelpers.GlobalScale), 0), false, ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse))
             {
                 if (selectedTab?.SelectedTabItem != null)
                 {
