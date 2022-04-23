@@ -20,8 +20,6 @@ namespace DailyDuty
             pluginInterface.Create<Service>();
             Service.Chat.Enable();
 
-            Configuration.Startup();
-
             Loc.SetupWithFallbacks();
 
             // Register Slash Commands
@@ -36,8 +34,13 @@ namespace DailyDuty
             });
 
             // Create Custom Services
-            Service.System = new DailyDutySystem();
+            Service.LogManager = new LogManager();
+            Service.SystemManager = new SystemManager();
             Service.WindowManager = new WindowManager();
+            Service.AddonManager = new AddonManager();
+
+            // Load Configurations
+            Configuration.Startup();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -48,7 +51,7 @@ namespace DailyDuty
 
         private void OnCommand(string command, string arguments)
         {
-            Service.System.ExecuteCommand(command, arguments);
+            Service.SystemManager.ExecuteCommand(command, arguments);
             Service.WindowManager.ExecuteCommand(command, arguments);
         }
 
@@ -66,8 +69,10 @@ namespace DailyDuty
 
         public void Dispose()
         {
-            Service.System.Dispose();
+            Service.SystemManager.Dispose();
             Service.WindowManager.Dispose();
+            Service.LogManager.Dispose();
+            Service.AddonManager.Dispose();
 
             Service.ClientState.Login -= Configuration.Login;
             Service.ClientState.Logout -= Configuration.Logout;
