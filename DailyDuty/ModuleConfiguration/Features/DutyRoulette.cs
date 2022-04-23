@@ -1,4 +1,5 @@
-﻿using DailyDuty.Data.ModuleSettings;
+﻿using System;
+using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
@@ -23,7 +24,6 @@ namespace DailyDuty.ModuleConfiguration.Features
                 ImGui.Text(Strings.Module.DutyRouletteInformation);
             }
         };
-
         public InfoBox? AutomationInformationBox { get; } = new()
         {
             Label = Strings.Common.AutomationInformationLabel,
@@ -32,7 +32,6 @@ namespace DailyDuty.ModuleConfiguration.Features
                 ImGui.Text(Strings.Module.DutyRouletteAutomationInformation);
             }
         };
-
         public InfoBox? TechnicalInformation { get; } = new()
         {
             Label = Strings.Common.TechnicalInformationLabel,
@@ -41,8 +40,13 @@ namespace DailyDuty.ModuleConfiguration.Features
                 ImGui.Text(Strings.Module.DutyRouletteTechnicalInformation);
             }
         };
+        public TextureWrap? AboutImage { get; }
+        public TabFlags TabFlags => TabFlags.All;
+        public ModuleName ModuleName => ModuleName.DutyRoulette;
+        private static DutyRouletteSettings Settings => Service.CharacterConfiguration.DutyRoulette;
 
-        private InfoBox CurrentStatus = new()
+
+        private readonly InfoBox currentStatus = new()
         {
             Label = Strings.Common.CurrentStatusLabel,
             ContentsAction = () =>
@@ -69,10 +73,6 @@ namespace DailyDuty.ModuleConfiguration.Features
                 }
             }
         };
-
-        public TextureWrap? AboutImage { get; }
-        public TabFlags TabFlags => TabFlags.All;
-        public ModuleName ModuleName => ModuleName.DutyRoulette;
 
         private readonly InfoBox trackedRoulettes = new()
         {
@@ -112,12 +112,29 @@ namespace DailyDuty.ModuleConfiguration.Features
                 if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled))
                 {
                     Service.LogManager.LogMessage(ModuleName.DutyRoulette, Settings.Enabled ? "Enabled" : "Disabled");
-                    Service.SystemConfiguration.Save();
+                    Service.CharacterConfiguration.Save();
                 }
             }
         };
 
-        private static DutyRouletteSettings Settings => Service.CharacterConfiguration.DutyRoulette;
+        private readonly InfoBox notificationOptions = new()
+        {
+            Label = Strings.Common.NotificationOptionsLabel,
+            ContentsAction = () =>
+            {
+                if(Draw.Checkbox(Strings.Common.NotifyOnLoginLabel, ref Settings.LoginReminder, Strings.Common.NotifyOnLoginHelpText))
+                {
+                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Login Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+
+                if(Draw.Checkbox(Strings.Common.NotifyOnZoneChangeLabel, ref Settings.ZoneChangeReminder, Strings.Common.NotifyOnZoneChangeHelpText))
+                {
+                    Service.LogManager.LogMessage(ModuleName.DutyRoulette, "Zone Change Notifications" + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
 
         public DutyRoulette()
         {
@@ -137,13 +154,16 @@ namespace DailyDuty.ModuleConfiguration.Features
             ImGuiHelpers.ScaledDummy(30.0f);
             trackedRoulettes.DrawCentered(0.80f);
 
+            ImGuiHelpers.ScaledDummy(30.0f);
+            notificationOptions.DrawCentered(0.80f);
+
             ImGuiHelpers.ScaledDummy(20.0f);
         }
 
         public void DrawStatusContents()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
-            CurrentStatus.DrawCentered(0.80f);
+            currentStatus.DrawCentered(0.80f);
         }
     }
 }

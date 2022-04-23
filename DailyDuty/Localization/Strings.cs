@@ -13,6 +13,12 @@ namespace DailyDuty.Localization
             public readonly string EmptyContentsLabel = Loc.Localize("EmptyContentsLabel", "No information to display");
             public readonly string CurrentStatusLabel = Loc.Localize("CurrentStatusLabel", "Current Status");
             public readonly string CompletionStatusLabel = Loc.Localize("CompletionStatusLabel", "Completion Status");
+            public readonly string NotificationOptionsLabel = Loc.Localize("NotificationOptionsLabel", "Notification Options");
+
+            public readonly string NotifyOnLoginLabel = Loc.Localize("NotifyOnLoginLabel", "Send Notifications on Login");
+            public readonly string NotifyOnLoginHelpText = Loc.Localize("NotifyOnLoginHelpText", "If this module is incomplete or has relevant messages send a notification when you login to a character.");
+            public readonly string NotifyOnZoneChangeLabel = Loc.Localize("NotifyOnZoneChangeLabel", "Send Notifications on Zone Change");
+            public readonly string NotifyOnZoneChangeHelpText = Loc.Localize("NotifyOnZoneChangeHelpText", "If this module is incomplete or has relevant messages send a notification when you change zones.");
         }
 
         public class TabStrings
