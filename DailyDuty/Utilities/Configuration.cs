@@ -56,6 +56,13 @@ namespace DailyDuty.Utilities
             LoadCharacterLog();
         }
 
+        public static void Save()
+        {
+            Service.SystemConfiguration.Save();
+            Service.CharacterConfiguration.Save();
+            Service.LogManager.Save();
+        }
+
         public static void Cleanup()
         {
             Service.Framework.Update -= LoginLogic;
