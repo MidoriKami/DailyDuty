@@ -1,9 +1,7 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using Action = System.Action;
 
 namespace DailyDuty.Utilities
 {
@@ -46,14 +44,16 @@ namespace DailyDuty.Utilities
             ImGui.PopItemWidth();
         }
 
-        public static void Checkbox(string label, ref bool refValue, string helpText = "")
+        public static bool Checkbox(string label, ref bool refValue, string helpText = "")
         {
-            ImGui.Checkbox($"{label}", ref refValue);
+            var result = ImGui.Checkbox($"{label}", ref refValue);
 
             if (helpText != string.Empty)
             {
                 ImGuiComponents.HelpMarker(helpText);
             }
+
+            return result;
         }
 
         public static void CompleteIncomplete(bool complete)
@@ -108,69 +108,22 @@ namespace DailyDuty.Utilities
             ImGui.PopStyleVar();
         }
 
-        public static void InfoBox(float width, string label, Action contents, Vector2 padding = default)
+        public static void Rectangle(Vector2 position, Vector2 size, float thickness)
         {
             var drawList = ImGui.GetWindowDrawList();
             var color = ImGui.GetColorU32(Colors.White);
-            var startPosition = ImGui.GetCursorScreenPos() + padding;
-            width -= padding.X * 2;
 
-            var curveRadius = 20.0f * ImGuiHelpers.GlobalScale;
-            var thickness = 2.0f  * ImGuiHelpers.GlobalScale;
-            var segmentResolution = 10;
-            var textHeight = ImGui.CalcTextSize("a") / 2.0f;
-
-            // Contents
-            ImGui.SetCursorScreenPos(startPosition + new Vector2(curveRadius, curveRadius) - textHeight);
-            ImGui.PushTextWrapPos(width - (curveRadius * 0.5f));
-            ImGui.BeginGroup();
-            contents();
-            ImGui.EndGroup();
-            var contentsSize = ImGui.GetItemRectMax().Y - ImGui.GetItemRectMin().Y + curveRadius;
-            ImGui.PopTextWrapPos();
-
-            var size = new Vector2(width, contentsSize);
-
-            var topLeftCurveCenter = new Vector2(startPosition.X + curveRadius, startPosition.Y + curveRadius);
-            var topRightCurveCenter = new Vector2(startPosition.X + size.X - curveRadius, startPosition.Y + curveRadius);
-            var bottomLeftCurveCenter = new Vector2(startPosition.X + curveRadius, startPosition.Y + size.Y - curveRadius);
-            var bottomRightCurveCenter = new Vector2(startPosition.X + size.X - curveRadius, startPosition.Y + size.Y - curveRadius);
-
-            drawList.PathArcTo(topLeftCurveCenter, curveRadius, DegreesToRadians(180), DegreesToRadians(270), segmentResolution);
-            drawList.PathStroke(color, ImDrawFlags.None, thickness);
-
-            drawList.PathArcTo(topRightCurveCenter, curveRadius, DegreesToRadians(360), DegreesToRadians(270), segmentResolution);
-            drawList.PathStroke(color, ImDrawFlags.None, thickness);
-
-            drawList.PathArcTo(bottomLeftCurveCenter, curveRadius, DegreesToRadians(90), DegreesToRadians(180), segmentResolution);
-            drawList.PathStroke(color, ImDrawFlags.None, thickness);
-
-            drawList.PathArcTo(bottomRightCurveCenter, curveRadius, DegreesToRadians(0), DegreesToRadians(90), segmentResolution);
-            drawList.PathStroke(color, ImDrawFlags.None, thickness);
-
-            // Left Line
-            drawList.AddLine(new Vector2(startPosition.X - 0.5f, startPosition.Y + curveRadius), new Vector2(startPosition.X - 0.5f, startPosition.Y + size.Y - curveRadius), color, thickness);
-
-            // Right Line
-            drawList.AddLine(new Vector2(startPosition.X + size.X - 0.5f, startPosition.Y + curveRadius), new Vector2(startPosition.X + size.X - 0.5f, startPosition.Y + size.Y - curveRadius), color, thickness);
-
-            // Bottom Line
-            drawList.AddLine(new Vector2(startPosition.X + curveRadius, startPosition.Y + size.Y - 0.5f), new Vector2(startPosition.X + size.X - curveRadius, startPosition.Y + size.Y - 0.5f), color, thickness);
-
-            // Top Line
-            var textSize = ImGui.CalcTextSize(label);
-            var textStartPadding = 7.0f * ImGuiHelpers.GlobalScale;
-            var textEndPadding = 7.0f * ImGuiHelpers.GlobalScale;
-            var textVerticalOffset = textSize.Y / 2.0f;
-
-            drawList.AddText(new Vector2(startPosition.X + curveRadius + textStartPadding, startPosition.Y - textVerticalOffset), color, label);
-            drawList.AddLine(new Vector2(startPosition.X + curveRadius + textStartPadding + textSize.X + textEndPadding, startPosition.Y - 0.5f), new Vector2(startPosition.X + size.X - curveRadius, startPosition.Y - 0.5f), color, thickness);
+            drawList.AddRect(position, position + size, color, 5.0f, ImDrawFlags.None, thickness);
         }
 
-        public static float DegreesToRadians(double degrees)
+        public static void VerticalLine()
         {
-            float radians = (float)((Math.PI / 180) * degrees);
-            return (radians);
+            var contentArea = ImGui.GetContentRegionAvail();
+            var cursor = ImGui.GetCursorScreenPos();
+            var drawList = ImGui.GetWindowDrawList();
+            var color = ImGui.GetColorU32(Colors.White);
+
+            drawList.AddLine(cursor, cursor with {Y = cursor.Y + contentArea.Y}, color, 1.0f);
         }
     }
 }

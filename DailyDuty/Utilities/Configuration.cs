@@ -25,6 +25,7 @@ namespace DailyDuty.Utilities
                 Chat.Log("LoginLogic", $"Logging into Character '{(Service.ClientState.LocalPlayer?.Name.TextValue ?? "Null Local Player")}'");
 
                 LoadCharacterConfiguration();
+                LoadCharacterLog();
 
                 Chat.Log("LoginLogic", "Removing Login Listener");
 
@@ -45,9 +46,14 @@ namespace DailyDuty.Utilities
 
         public static void Startup()
         {
+            if (Service.ClientState.IsLoggedIn)
+                Service.LoggedIn = true;
+
             LoadSystemConfiguration();
 
             LoadCharacterConfiguration();
+
+            LoadCharacterLog();
         }
 
         public static void Cleanup()
@@ -59,13 +65,13 @@ namespace DailyDuty.Utilities
         //  Helpers
         //
 
-        private static CharacterConfiguration LoadConfiguration(string characterName)
+        private static CharacterConfiguration LoadConfiguration(ulong contentID)
         {
-            var configFileInfo = GetConfigFileInfo(characterName);
+            var configFileInfo = GetConfigFileInfo(contentID);
 
             if (configFileInfo.Exists)
             {
-                var fileText = File.ReadAllText(GetConfigFileInfo(characterName).FullName);
+                var fileText = File.ReadAllText(configFileInfo.FullName);
 
                 var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
 
@@ -77,11 +83,36 @@ namespace DailyDuty.Utilities
             }
         }
 
-        public static FileInfo GetConfigFileInfo(string characterName)
+        private static CharacterLogFile LoadCharacterLogFile(ulong contentID)
+        {
+            var characterLogFile = GetLogFileInfo(contentID);
+
+            if (characterLogFile.Exists)
+            {
+                var fileText = File.ReadAllText(characterLogFile.FullName);
+
+                var loadedCharacterLogFile = JsonConvert.DeserializeObject<CharacterLogFile>(fileText);
+
+                return loadedCharacterLogFile ?? new CharacterLogFile();
+            }
+            else
+            {
+                return new CharacterLogFile();
+            }
+        }
+
+        public static FileInfo GetConfigFileInfo(ulong contentID)
         {
             var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
+            
+            return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.json");
+        }
 
-            return new FileInfo(pluginConfigDirectory.FullName + $@"\{characterName}.json");
+        public static FileInfo GetLogFileInfo(ulong contentID)
+        {
+            var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
+            
+            return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.log");
         }
 
         private static void LoadSystemConfiguration()
@@ -104,26 +135,65 @@ namespace DailyDuty.Utilities
             if (Service.ClientState.IsLoggedIn)
             {
                 var playerData = Service.ClientState.LocalPlayer;
+                var contentId = Service.ClientState.LocalContentId;
 
-                if (playerData != null)
+                if (playerData != null && playerData.HomeWorld.GameData != null)
                 {
-                    var configFileInfo = GetConfigFileInfo(playerData.Name.TextValue);
+                    var playerName = playerData.Name.TextValue;
+                    var playerWorld = playerData.HomeWorld.GameData.Name.ToString();
+
+                    var configFileInfo = GetConfigFileInfo(contentId);
 
                     if (configFileInfo.Exists)
                     {
-                        Service.CharacterConfiguration = LoadConfiguration(playerData.Name.TextValue);
+                        Service.CharacterConfiguration = LoadConfiguration(contentId);
+                        Service.CharacterConfiguration.CharacterName = playerName;
+                        Service.CharacterConfiguration.World = playerWorld;
                     }
                     else
                     {
                         Service.CharacterConfiguration = new CharacterConfiguration
                         {
-                            CharacterName = playerData.Name.TextValue,
-                            LocalContentID = Service.ClientState.LocalContentId
+                            CharacterName = playerName,
+                            LocalContentID = contentId,
+                            World = playerWorld,
                         };
                         Service.CharacterConfiguration.Save();
                     }
+                }
+            }
+        }
 
-                    Service.LoggedIn = true;
+        private static void LoadCharacterLog()
+        {
+            if (Service.ClientState.IsLoggedIn)
+            {
+                var playerData = Service.ClientState.LocalPlayer;
+                var contentId = Service.ClientState.LocalContentId;
+
+                if (playerData != null && playerData.HomeWorld.GameData != null)
+                {
+                    var playerName = playerData.Name.TextValue;
+                    var playerWorld = playerData.HomeWorld.GameData.Name.ToString();
+
+                    var logFileInfo = GetLogFileInfo(contentId);
+
+                    if (logFileInfo.Exists)
+                    {
+                        Service.LogManager.Log = LoadCharacterLogFile(contentId);
+                        Service.LogManager.Log.CharacterName = playerName;
+                        Service.LogManager.Log.World = playerWorld;
+                    }
+                    else
+                    {
+                        Service.LogManager.Log = new CharacterLogFile()
+                        {
+                            CharacterName = playerName,
+                            LocalContentID = contentId,
+                            World = playerWorld,
+                        };
+                        Service.LogManager.Save();
+                    }
                 }
             }
         }
