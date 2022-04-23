@@ -69,7 +69,9 @@ namespace DailyDuty.Graphical
             ImGui.PushTextWrapPos(Size.X);
 
             ImGui.BeginGroup();
+            ImGui.PushID(Label);
             ContentsAction?.Invoke();
+            ImGui.PopID();
             ImGui.EndGroup();
 
             ImGui.PopTextWrapPos();
