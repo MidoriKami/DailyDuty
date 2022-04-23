@@ -38,6 +38,7 @@ namespace DailyDuty
             Service.SystemManager = new SystemManager();
             Service.WindowManager = new WindowManager();
             Service.AddonManager = new AddonManager();
+            Service.ModuleManager = new ModuleManager();
 
             // Load Configurations
             Configuration.Startup();
@@ -73,6 +74,7 @@ namespace DailyDuty
             Service.WindowManager.Dispose();
             Service.LogManager.Dispose();
             Service.AddonManager.Dispose();
+            Service.ModuleManager.Dispose();
 
             Service.ClientState.Login -= Configuration.Login;
             Service.ClientState.Logout -= Configuration.Logout;
