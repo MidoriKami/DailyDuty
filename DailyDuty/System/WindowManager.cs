@@ -9,7 +9,7 @@ namespace DailyDuty.System
 {
     public class WindowManager : IDisposable
     {
-        private readonly List<IWindow> windowList = new()
+        private readonly List<IDisposable> windowList = new()
         {
             new DailyDutyWindow(),
         };
@@ -22,14 +22,10 @@ namespace DailyDuty.System
             }
         }
 
-        public T? GetWindowOfType<T>(WindowName name)
+        public T? GetWindowOfType<T>()
         {
-            var settingsWindow = windowList
-                .Where(w => w.WindowName == name)
-                .OfType<T>()
-                .FirstOrDefault();
+            return windowList.OfType<T>().FirstOrDefault();
 
-            return settingsWindow;
         }
 
         public void ExecuteCommand(string command, string arguments)

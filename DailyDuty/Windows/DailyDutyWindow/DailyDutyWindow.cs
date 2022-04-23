@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -9,7 +10,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.DailyDutyWindow
 {
-    internal class DailyDutyWindow : Window, ICommand, IWindow
+    internal class DailyDutyWindow : Window, ICommand, IDisposable
     {
         private readonly SelectionPane selectionPane = new()
         {
@@ -89,7 +90,5 @@ namespace DailyDuty.Windows.DailyDutyWindow
                 Toggle();
             }
         }
-
-        WindowName IWindow.WindowName => Enums.WindowName.Main;
     }
 }
