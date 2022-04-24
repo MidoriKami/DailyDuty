@@ -17,6 +17,8 @@ namespace DailyDuty.Data
 
         public DutyRouletteSettings DutyRoulette = new();
         public WondrousTailsSettings WondrousTails = new();
+        public JumboCactpotSettings JumboCactpot = new();
+        public TreasureMapSettings TreasureMap = new();
         
         public void Save()
         {
