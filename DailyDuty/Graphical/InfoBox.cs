@@ -50,7 +50,7 @@ namespace DailyDuty.Graphical
             DrawBorders();
         }
 
-        public void DrawCentered(float percentSize)
+        public void DrawCentered(float percentSize = 0.80f)
         {
             var region = ImGui.GetContentRegionAvail();
             var currentPosition = ImGui.GetCursorPos();
@@ -70,9 +70,7 @@ namespace DailyDuty.Graphical
 
             ImGui.BeginGroup();
             ImGui.PushID(Label);
-            ImGui.PushStyleColor(ImGuiCol.Text, Colors.Grey);
             ContentsAction();
-            ImGui.PopStyleColor();
             ImGui.PopID();
             ImGui.EndGroup();
 
