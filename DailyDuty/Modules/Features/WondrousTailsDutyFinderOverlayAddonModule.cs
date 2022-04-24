@@ -10,7 +10,6 @@ using DailyDuty.Structs;
 using DailyDuty.Utilities;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -21,7 +20,6 @@ namespace DailyDuty.Modules.Features
     internal unsafe class WondrousTailsDutyFinderOverlayAddonModule : IDisposable
     {
         private WondrousTailsDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.WondrousTailsOverlaySettings;
-        //private WondrousTailsSettings WondrousTailsSettings => Service.CharacterConfiguration.WondrousTails;
 
         private delegate void* AgentShow(void* a1);
         private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
@@ -35,18 +33,15 @@ namespace DailyDuty.Modules.Features
         [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
         private readonly Hook<AgentShow>? contentsFinderShowHook = null;
 
-        private Hook<AddonDraw>? onDrawHook = null;
-        private Hook<AddonFinalize>? onFinalizeHook = null;
-        private Hook<AddonUpdate>? onUpdateHook = null;
-        private Hook<AddonOnRefresh>? onRefreshHook = null;
+        private Hook<AddonDraw>? onDrawHook;
+        private Hook<AddonFinalize>? onFinalizeHook;
+        private Hook<AddonUpdate>? onUpdateHook;
+        private Hook<AddonOnRefresh>? onRefreshHook;
 
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
 
         private List<(ButtonState, List<uint>)> wondrousTailsStatus;
 
-        private bool defaultColorSaved = false;
-        private ByteColor userDefaultTextColor;
-        
         public WondrousTailsDutyFinderOverlayAddonModule()
         {
             SignatureHelper.Initialise(this);
@@ -148,18 +143,6 @@ namespace DailyDuty.Modules.Features
         {
             onDrawHook!.Original(atkUnitBase);
             if (atkUnitBase == null) return;
-
-            if (Settings.Enabled == false) return;
-
-            if (defaultColorSaved == false)
-            {
-                var textNode = GetListItemTextNode(6);
-
-                if (textNode == null) return;
-
-                userDefaultTextColor = textNode->TextColor;
-                defaultColorSaved = true;
-            }
 
             if (Settings.Enabled)
             {
@@ -337,13 +320,6 @@ namespace DailyDuty.Modules.Features
             return Node.GetNodeByID<AtkComponentNode>(GetTreeListBaseNode(), nodeID);
         }
 
-        private AtkResNode* GetTabBarNode()
-        {
-            var addonNode = GetContentsFinderPointer();
-
-            return (AtkResNode*) addonNode->GetNodeById(40);
-        }
-
         private AtkTextNode* GetTextNode(AtkComponentNode* listItemNode)
         {
             return Node.GetNodeByID<AtkTextNode>(listItemNode, 5);
@@ -360,7 +336,7 @@ namespace DailyDuty.Modules.Features
             return textNode;
         }
         
-        private AtkImageNode* MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates, Vector2 positionOffset = default)
+        private void MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates, Vector2 positionOffset = default)
         {
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
             customNode->AtkResNode.Type = NodeType.Image;
@@ -371,9 +347,10 @@ namespace DailyDuty.Modules.Features
             customNode->Flags = 0;
 
             var partsList = (AtkUldPartsList*)IMemorySpace.GetUISpace()->Malloc((ulong)sizeof(AtkUldPartsList), 8);
-            if (partsList == null) {
+            if (partsList == null)
+            {
                 customNode->AtkResNode.Destroy(true);
-                return null;
+                return;
             }
 
             partsList->Id = 0;
@@ -383,7 +360,7 @@ namespace DailyDuty.Modules.Features
             if (part == null) {
                 IMemorySpace.Free(partsList, (ulong)sizeof(AtkUldPartsList));
                 customNode->AtkResNode.Destroy(true);
-                return null;
+                return;
             }
 
             part->U = (ushort)textureCoordinates.X;
@@ -398,7 +375,7 @@ namespace DailyDuty.Modules.Features
                 IMemorySpace.Free(part, (ulong)sizeof(AtkUldPart));
                 IMemorySpace.Free(partsList, (ulong)sizeof(AtkUldPartsList));
                 customNode->AtkResNode.Destroy(true);
-                return null;
+                return;
             }
 
             asset->Id = 0;
@@ -428,8 +405,6 @@ namespace DailyDuty.Modules.Features
             customNode->AtkResNode.NextSiblingNode = beforeNode;
 
             rootNode->Component->UldManager.UpdateDrawNodeList();
-
-            return customNode;
         }
 
         private IEnumerable<(ButtonState, List<uint>)> GetAllTaskData()
@@ -460,24 +435,6 @@ namespace DailyDuty.Modules.Features
             {
                 customNode->AtkResNode.ToggleVisibility(visible);
             }
-        }
-
-        private bool IsTabSelected(DutyFinderTab tab)
-        {
-            var tabNodeId = 41 + (uint) tab;
-
-            var baseNode = GetContentsFinderPointer();
-            if(baseNode == null) return false;
-
-            var specificTab = baseNode->GetNodeById(tabNodeId);
-            if(specificTab == null) return false;
-
-            var tabComponentNode = specificTab->GetAsAtkComponentNode();
-            if(tabComponentNode == null) return false;
-
-            var targetResNode = Node.GetNodeByID<AtkResNode>(tabComponentNode, 5);
-
-            return targetResNode->AddRed > 16;
         }
     }
 }
