@@ -29,6 +29,7 @@ namespace DailyDuty.Graphical.TabItems
 
                 ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
                 ImGui.InputInt("", ref Settings.MinutesBetweenThrottledMessages, 0, 0);
+                Settings.MinutesBetweenThrottledMessages = Math.Max(0, Settings.MinutesBetweenThrottledMessages);
 
                 ImGui.SameLine();
                 ImGui.Text(Strings.Common.MinutesLabel);
