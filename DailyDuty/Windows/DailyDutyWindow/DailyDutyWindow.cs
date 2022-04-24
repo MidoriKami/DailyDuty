@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.Data;
-using DailyDuty.Enums;
+using DailyDuty.Data.Components;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -18,7 +17,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
             SelectionPaneWidth = 300.0f
         };
 
-        private SettingsWindowSettings Settings => Service.SystemConfiguration.Windows.Settings;
+        private MainWindowSettings MainWindow => Service.SystemConfiguration.Windows.MainWindow;
 
         public DailyDutyWindow() : base("###DailyDutyMainWindow")
         {
@@ -58,10 +57,10 @@ namespace DailyDuty.Windows.DailyDutyWindow
             WindowName = Strings.Configuration.DailyDutySettingsLabel + " - " + Service.CharacterConfiguration.CharacterName + "###DailyDutyMainWindow";
 
             var backgroundColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(backgroundColor.X, backgroundColor.Y, backgroundColor.Z, Settings.Opacity));
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(backgroundColor.X, backgroundColor.Y, backgroundColor.Z, MainWindow.Opacity));
 
             var borderColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
-            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(borderColor.X, borderColor.Y, borderColor.Z, Settings.Opacity));
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(borderColor.X, borderColor.Y, borderColor.Z, MainWindow.Opacity));
         }
 
         public override void Draw()

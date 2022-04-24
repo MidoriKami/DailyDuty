@@ -8,7 +8,7 @@ namespace DailyDuty.Interfaces
 
         public void TrySendNotification()
         {
-            if (GenericSettings.ZoneChangeReminder == true && GenericSettings.Enabled == true)
+            if (GenericSettings.ZoneChangeReminder && GenericSettings.Enabled)
             {
                 SendNotification();
             }

@@ -10,7 +10,6 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
-using NotImplementedException = System.NotImplementedException;
 
 namespace DailyDuty.ModuleConfiguration
 {
@@ -67,7 +66,7 @@ namespace DailyDuty.ModuleConfiguration
             
                         foreach (var tracked in Settings.TrackedRoulettes)
                         {
-                            if (tracked.Tracked == true)
+                            if (tracked.Tracked)
                             {
                                 ImGui.TableNextRow();
                                 ImGui.TableNextColumn();

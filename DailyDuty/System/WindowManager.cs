@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Windows.DailyDutyWindow;
 

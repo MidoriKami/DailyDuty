@@ -3,7 +3,7 @@
 namespace DailyDuty.Enums
 {
     [Flags]
-    internal enum TabFlags : int
+    internal enum TabFlags
     {
         About = 1 << 0,
         Options = 1 << 1,
