@@ -10,7 +10,6 @@ namespace DailyDuty.Interfaces
         ITabItem? SelectedTabItem { get; set; }
         List<ITabItem> TabItems { get; set; }
         string TabName { get; }
-
         string Description { get; }
 
         public void DrawTabContents()
@@ -24,7 +23,6 @@ namespace DailyDuty.Interfaces
 
             foreach (var item in TabItems.OrderBy(item => item.ModuleType))
             {
-
                 ImGui.PushID(item.ModuleType.ToString());
 
                 var headerHoveredColor = ImGui.GetStyle().Colors[(int) ImGuiCol.HeaderHovered];

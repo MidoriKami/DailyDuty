@@ -140,6 +140,8 @@ namespace DailyDuty.Interfaces
                 ImGuiHelpers.ScaledDummy(20.0f);
             }
 
+            ImGui.PushStyleColor(ImGuiCol.Text, Colors.Grey);
+
             if (AboutInformationBox != null)
             {
                 AboutInformationBox.DrawCentered(0.80f);
@@ -157,6 +159,8 @@ namespace DailyDuty.Interfaces
                 TechnicalInformation.DrawCentered(0.80f);
                 ImGuiHelpers.ScaledDummy(20.0f);
             }
+
+            ImGui.PopStyleColor();
         }
 
         void DrawOptionsContents()
