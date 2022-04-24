@@ -164,6 +164,7 @@ namespace DailyDuty.ModuleConfiguration
             ContentsAction = () =>
             {
                 var module = Service.ModuleManager.GetModule<DutyRouletteModule>();
+                if(module == null) return;
 
                 if (ImGui.BeginTable($"", 2))
                 {
@@ -195,16 +196,16 @@ namespace DailyDuty.ModuleConfiguration
         public void DrawOptionsContents()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
-            options.DrawCentered(0.80f);
+            options.DrawCentered();
             
             ImGuiHelpers.ScaledDummy(30.0f);
-            trackedRoulettes.DrawCentered(0.80f);
+            trackedRoulettes.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
-            notificationOptions.DrawCentered(0.80f);
+            notificationOptions.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
-            clickableLink.DrawCentered(0.80f);
+            clickableLink.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }
@@ -212,10 +213,10 @@ namespace DailyDuty.ModuleConfiguration
         public void DrawStatusContents()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
-            completionStatus.DrawCentered(0.80f);
+            completionStatus.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
-            currentStatus.DrawCentered(0.80f);
+            currentStatus.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }

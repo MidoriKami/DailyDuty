@@ -144,19 +144,19 @@ namespace DailyDuty.Interfaces
 
             if (AboutInformationBox != null)
             {
-                AboutInformationBox.DrawCentered(0.80f);
+                AboutInformationBox.DrawCentered();
                 ImGuiHelpers.ScaledDummy(30.0f);
             }
             
             if (AutomationInformationBox != null)
             {
-                AutomationInformationBox.DrawCentered(0.80f);
+                AutomationInformationBox.DrawCentered();
                 ImGuiHelpers.ScaledDummy(30.0f);
             }
 
             if (TechnicalInformation != null)
             {
-                TechnicalInformation.DrawCentered(0.80f);
+                TechnicalInformation.DrawCentered();
                 ImGuiHelpers.ScaledDummy(20.0f);
             }
 

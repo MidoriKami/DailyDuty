@@ -52,10 +52,10 @@ namespace DailyDuty.Graphical.TabItems.Special
         {
             ImGuiHelpers.ScaledDummy(10.0f);
 
-            logOperations.DrawCentered(0.80f);
+            logOperations.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
-            logStatus.DrawCentered(0.80f);
+            logStatus.DrawCentered();
             
             ImGuiHelpers.ScaledDummy(10.0f);
         }

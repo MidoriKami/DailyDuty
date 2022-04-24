@@ -70,7 +70,7 @@ namespace DailyDuty.ModuleConfiguration.Features
         {
             ImGuiHelpers.ScaledDummy(10.0f);
 
-            Options.DrawCentered(0.8f);
+            Options.DrawCentered();
         }
     }
 }
