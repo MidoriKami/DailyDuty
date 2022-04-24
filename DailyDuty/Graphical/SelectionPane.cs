@@ -16,12 +16,13 @@ namespace DailyDuty.Graphical
         public float Padding { get; set; }
         public float SelectionPaneWidth { get; set; }
 
-        private ITab? selectedTab = null;
+        private ITab? selectedTab;
 
         private readonly List<ITab> tabs = new()
         {
             new FeaturesTab(),
             new TasksTab(),
+            new TimersTab(),
         };
 
         public void Draw()
