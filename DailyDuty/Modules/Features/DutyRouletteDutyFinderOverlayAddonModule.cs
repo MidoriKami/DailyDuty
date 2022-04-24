@@ -28,13 +28,13 @@ namespace DailyDuty.Modules.Features
         [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
         private readonly Hook<AgentShow>? contentsFinderShowHook = null;
 
-        private Hook<AddonDraw>? onDrawHook = null;
-        private Hook<AddonOnRefresh>? onRefreshHook = null;
+        private Hook<AddonDraw>? onDrawHook;
+        private Hook<AddonOnRefresh>? onRefreshHook;
 
         private readonly List<DutyFinderSearchResult> dutyRouletteDuties = new();
         private IEnumerable<TrackedRoulette> DutyRoulettes => DutyRouletteSettings.TrackedRoulettes;
 
-        private bool defaultColorSaved = false;
+        private bool defaultColorSaved;
         private ByteColor userDefaultTextColor;
         
         public DutyRouletteDutyFinderOverlayAddonModule()
