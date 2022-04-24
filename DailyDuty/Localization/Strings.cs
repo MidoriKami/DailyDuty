@@ -24,6 +24,8 @@ namespace DailyDuty.Localization
             public readonly string CompleteLabel = Loc.Localize("CompleteLabel", "Complete");
             public readonly string IncompleteLabel = Loc.Localize("IncompleteLabel", "Incomplete");
             public readonly string AllTasksLabel = Loc.Localize("AllTasksLabel", "All Tasks Status");
+
+            public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
 
         public class TabStrings
@@ -75,7 +77,23 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteNothingTrackedDescriptionWarning = Loc.Localize("DutyRouletteNothingTrackedDescriptionWarning", "There are no roulettes tracked");
             public readonly string DutyRouletteNothingTrackedDescription = Loc.Localize("DutyRouletteNothingTrackedDescription", "Select roulettes to track in 'Options'");
             public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "roulettes remaining");
+            public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "roulette remaining");
             public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder.");
+        }
+
+        public class TimersStrings
+        {
+            public readonly string TimersLabel = Loc.Localize("TimersLabel", "Timers");
+
+            public readonly string DailyResetLabel = Loc.Localize("DailyResetLabel", "Daily Reset");
+            public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Weekly Fashion Report");
+            public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotLabel", "Weekly Jumbo Cactpot");
+            public readonly string LeveAllowanceLabel = Loc.Localize("LeveAllowanceLabel", "Daily Leve Allowance");
+            public readonly string TreasureMapLabel = Loc.Localize("TreasureMapLabel", "Daily Treasure Map");
+            public readonly string WeeklyResetLabel = Loc.Localize("WeeklyResetLabel", "Weekly Reset");
+
+            public readonly string TimersBarColorLabel = Loc.Localize("TimersBarColorLabel", "Progress bar color");
+            public readonly string TimersHideSecondsLabel = Loc.Localize("TimersHideSecondsLabel", "Hide seconds");
         }
 
         public static readonly TabStrings Tabs = new();
@@ -83,5 +101,6 @@ namespace DailyDuty.Localization
         public static readonly FeaturesStrings Features = new();
         public static readonly CommonStrings Common = new();
         public static readonly ModuleStrings Module = new();
+        public static readonly TimersStrings Timers = new();
     }
 }

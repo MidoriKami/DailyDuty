@@ -62,12 +62,26 @@ namespace DailyDuty.Modules
             {
                 if (Settings.EnableClickableLink)
                 {
-                    Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemaining, openDutyFinder);
+                    if (RemainingRoulettesCount() > 1)
+                    {
+                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemaining, openDutyFinder);
+                    }
+                    else
+                    {
+                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemainingSingular, openDutyFinder);
+                    }
                 }
                 else
                 {
-                    Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemaining);
+                    if (RemainingRoulettesCount() > 1)
+                    {
+                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemaining);
+                    }
+                    else
+                    {
+                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemainingSingular);
 
+                    }
                 }
             }
         }
@@ -94,10 +108,10 @@ namespace DailyDuty.Modules
 
         void IResettable.ResetThis()
         {
+            Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Daily Reset - Resetting");
+
             foreach (var task in Settings.TrackedRoulettes)
             {
-                Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Daily Reset - Resetting");
-
                 task.Completed = false;
             }
         }
@@ -109,7 +123,7 @@ namespace DailyDuty.Modules
         private int RemainingRoulettesCount()
         {
             return Settings.TrackedRoulettes
-                .Where(r => r.Tracked == true)
+                .Where(r => r.Tracked)
                 .Count(r => !r.Completed);
         }
 
