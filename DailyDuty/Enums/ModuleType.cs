@@ -8,6 +8,7 @@
         Timers,
         MainWindowSettings,
         LogDebug,
-        NotificationSettings
+        NotificationSettings,
+        WondrousTails,
     }
 }

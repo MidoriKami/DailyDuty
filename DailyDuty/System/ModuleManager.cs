@@ -19,6 +19,7 @@ namespace DailyDuty.System
         {
             // Daily
             new DutyRouletteModule(),
+            new WondrousTailsModule(),
 
         };
 
@@ -145,9 +146,9 @@ namespace DailyDuty.System
             return completableModules;
         }
 
-        public T GetModule<T>()
+        public T? GetModule<T>()
         {
-            return modules.OfType<T>().First();
+            return modules.OfType<T>().FirstOrDefault();
         }
 
         private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)

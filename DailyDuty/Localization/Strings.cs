@@ -44,7 +44,7 @@ namespace DailyDuty.Localization
             public readonly string SettingsTabLabel = Loc.Localize("SettingsTabLabel", "Settings");
             public readonly string SettingsTabDescription = Loc.Localize("SettingsTabDescription", "Settings specific to this window");
             public readonly string TasksTabLabel = Loc.Localize("TasksTabLabel", "Tasks");
-            public readonly string TasksTabDescription = Loc.Localize("TasksTabDescription", "View and Configure Daily and Weekly tasks");
+            public readonly string TasksTabDescription = Loc.Localize("TasksTabDescription", "View and configure daily and weekly tasks");
             public readonly string TimersTabLabel = Loc.Localize("TimersTabLabel", "Timers");
             public readonly string TimersTabDescription = Loc.Localize("TimersTabDescription", "Vew time until various daily and weekly tasks reset");
         }
@@ -89,6 +89,13 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "roulettes remaining");
             public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "roulette remaining");
             public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder.");
+
+            public readonly string WondrousTailsNumStamps = Loc.Localize("WondrousTailsNumStamps", "Stamps"); 
+            public readonly string WondrousTailsBookStatusLabel = Loc.Localize("WondrousTailsBookStatusLabel", "Book Status");
+            public readonly string WondrousTailsLabel = Loc.Localize("WondrousTailsLabel", "Wondrous Tails");
+            public readonly string WondrousTailsInformation = Loc.Localize("WondrousTailsInformation", "Wondrous Tails is a level 60 weekly activity that allows players to complete old content to earn rewards. With some randomized elements, Wondrous Tails is an interesting way to revisit old duties every week.\n\nWeekly rewards include half of a level worth's of experience to whichever job turns in the book, and selectable rewards such as tomestones or MGP vouchers.");
+            public readonly string WondrousTailsAutomationInformation = Loc.Localize("WondrousTailsAutomationInformation", "Wondrous Tails data is extracted directly from game data, and will always be in sync with the current status of your book. No user interaction is required to keep data synchronized.");
+            public readonly string WondrousTailsTechnicalDescription = Loc.Localize("WondrousTailsTechnicalDescription", "The game code does not clear the wondrous tails data when you complete your book even if you turn it in without 9 stamps.\n\nThis module will only consider a wondrous tails book complete once you have 9 stamps placed.");
         }
 
         public class TimersStrings
