@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Data.Components;
 using Dalamud.Logging;
 using Lumina.Excel.GeneratedSheets;
 
@@ -115,39 +116,39 @@ namespace DailyDuty.Utilities
 
                 // The Binding Coil of Bahamut
                 case 121:
-                    return new List<uint>() { 93, 94, 95, 96, 97 };
+                    return new List<uint>() { 241, 242, 243, 244, 245 };
 
                 // The Second Coil of Bahamut
                 case 122:
-                    return new List<uint>() { 98, 99, 100, 101 };
+                    return new List<uint>() { 355, 356, 357, 358 };
 
                 // The Final Coil of Bahamut
                 case 123:
-                    return new List<uint>() { 107, 108, 109, 110 };
+                    return new List<uint>() { 193, 194, 195, 196 };
 
                 // Alexander: Gordias
                 case 124:
-                    return new List<uint>() { 112, 113, 114, 115 };
+                    return new List<uint>() { 442, 443, 444, 445 };
 
                 // Alexander: Midas
                 case 125:
-                    return new List<uint>() { 136, 137, 138, 139 };
+                    return new List<uint>() {520, 521, 522, 523};
 
                 // Alexander: The Creator
                 case 126:
-                    return new List<uint>() { 186, 187, 188, 189 };
+                    return new List<uint>() { 580, 581, 582, 583 };
 
                 // Omega: Deltascape
                 case 127:
-                    return new List<uint>() { 252, 253, 254, 255 };
+                    return new List<uint>() { 691, 692, 693, 694 };
 
                 // Omega: Sigmascape
                 case 128:
-                    return new List<uint>() { 286, 287, 288, 289 };
+                    return new List<uint>() { 748, 749, 750, 751 };
 
                 // Omega: Alphascape
                 case 129:
-                    return new List<uint>() { 587, 588, 589, 590 };
+                    return new List<uint>() { 798, 799, 800, 801 };
 
                 // PvP
                 case 67 or 54 or 52:
@@ -180,6 +181,15 @@ namespace DailyDuty.Utilities
                 .FirstOrDefault();
 
             return data;
+        }
+
+        public static void PrintTasks(List<WondrousTailsTask> tasks)
+        {
+            foreach (var task in tasks)
+            {
+                var message = $"TaskState: [{task.TaskState}], DutyList: [{string.Join(", ", task.DutyList)}]";
+                Chat.Log("WondrousTailsTask", message);
+            }
         }
     }
 }

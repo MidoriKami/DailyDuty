@@ -40,7 +40,7 @@ namespace DailyDuty.Modules.Features
 
         private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
 
-        private List<(ButtonState, List<uint>)> wondrousTailsStatus;
+        private List<WondrousTailsTask> wondrousTailsStatus;
 
         public WondrousTailsDutyFinderOverlayAddonModule()
         {
@@ -62,7 +62,7 @@ namespace DailyDuty.Modules.Features
                 });
             }
 
-            wondrousTailsStatus = GetAllTaskData().ToList();
+            wondrousTailsStatus = GetAllTaskData();
         }
 
         public void Dispose()
@@ -241,11 +241,11 @@ namespace DailyDuty.Modules.Features
 
         private ButtonState? InWondrousTailsBook(uint duty)
         {
-            foreach (var (buttonState, task) in wondrousTailsStatus)
+            foreach (var taskStatus in wondrousTailsStatus)
             {
-                if (task.Contains(duty))
+                if (taskStatus.DutyList.Contains(duty))
                 {
-                    return buttonState;
+                    return taskStatus.TaskState;
                 }
             }
 
@@ -407,16 +407,20 @@ namespace DailyDuty.Modules.Features
             rootNode->Component->UldManager.UpdateDrawNodeList();
         }
 
-        private IEnumerable<(ButtonState, List<uint>)> GetAllTaskData()
+        private List<WondrousTailsTask> GetAllTaskData()
         {
-            var result = new (ButtonState, List<uint>)[16];
+            var result = new List<WondrousTailsTask>();
 
-            for (int i = 0; i < 16; ++i)
+            for (var i = 0; i < 16; ++i)
             {
                 var taskButtonState = wondrousTails->TaskStatus(i);
                 var instances = TaskLookup.GetInstanceListFromID(wondrousTails->Tasks[i]);
 
-                result[i] = (taskButtonState, instances);
+                result.Add(new WondrousTailsTask()
+                {
+                    DutyList = instances,
+                    TaskState = taskButtonState,
+                });
             }
 
             return result;
