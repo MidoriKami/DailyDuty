@@ -59,7 +59,7 @@ namespace DailyDuty.Localization
 
         public class ConfigurationStrings
         {
-            public readonly string DailyDutySettingsLabel = Loc.Localize("DailyDutySettingsLabel", "DailyDuty Settings");
+            public readonly string DailyDutySettingsLabel = Loc.Localize("DailyDutySettingsLabel", "DailyDuty");
             public readonly string NoSelectionDescription = Loc.Localize("NoSelectionInformation", "Select an item to configure in the left pane");
             public readonly string AboutTabLabel = Loc.Localize("AboutTabLabel", "About");
             public readonly string OptionsTabLabel = Loc.Localize("OptionsTabLabel", "Options");
