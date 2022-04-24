@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.Graphical.TabItems.Special;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 
@@ -10,7 +11,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 
         public List<ITabItem> TabItems { get; set; } = new()
         {
-
+            new LogDebugTabItem(),
         };
 
         public string TabName => Strings.Tabs.DebugTabLabel;
