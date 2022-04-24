@@ -64,16 +64,16 @@ namespace DailyDuty.System
 
             if (Service.LoggedIn == false) return;
 
-            AlwaysOnTerritoryChanged(sender, e);
+            AlwaysOnTerritoryChanged();
 
             if(timer.Elapsed.Minutes >= timerDelay || timer.IsRunning == false)
             {
                 reminderThrottleStopwatch.Restart();
-                ThrottledOnTerritoryChanged(sender, e);
+                ThrottledOnTerritoryChanged();
             }
         }
 
-        private void ThrottledOnTerritoryChanged(object? sender, ushort @ushort)
+        private void ThrottledOnTerritoryChanged()
         {
             foreach (var module in zoneChangeThrottledNotificationModules)
             {
@@ -81,7 +81,7 @@ namespace DailyDuty.System
             }
         }
 
-        private void AlwaysOnTerritoryChanged(object? sender, ushort @ushort)
+        private void AlwaysOnTerritoryChanged()
         {
             foreach (var module in zoneChangeAlwaysNotificationModules)
             {
@@ -91,7 +91,7 @@ namespace DailyDuty.System
 
         private void PreOnLogin(object? sender, EventArgs e)
         {
-            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
+            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ => OnLoginDelayed());
 
             reminderThrottleStopwatch.Restart();
         }
