@@ -63,9 +63,9 @@ namespace DailyDuty.Data.Components
             },
         };
 
-        public bool UseShortName = false;
+        public bool UseShortName;
         public bool ShowSeconds = true;
-        public bool CondensedDisplay = false;
+        public bool CondensedDisplay;
     }
 
     public static class TimerOptionsExtensions

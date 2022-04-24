@@ -3,7 +3,7 @@
     public class WindowsSettings
     {
         public TodoWindowSettings Todo = new();
-        public SettingsWindowSettings Settings = new();
+        public MainWindowSettings MainWindow = new();
         public TimersWindowSettings Timers = new();
     }
 }
