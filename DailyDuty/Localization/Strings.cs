@@ -25,6 +25,12 @@ namespace DailyDuty.Localization
             public readonly string IncompleteLabel = Loc.Localize("IncompleteLabel", "Incomplete");
             public readonly string AllTasksLabel = Loc.Localize("AllTasksLabel", "All Tasks Status");
 
+            public readonly string StyleOptionsLabel = Loc.Localize("StyleOptionsLabel", "Style Options");
+            public readonly string OpacityLabel = Loc.Localize("OpacityLabel", "Opacity");
+
+            public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
+            public readonly string SaveLabel = Loc.Localize("SaveLabel", "Save");
+
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
 
@@ -65,6 +71,10 @@ namespace DailyDuty.Localization
             public readonly string OptionsTabLabel = Loc.Localize("OptionsTabLabel", "Options");
             public readonly string StatusTabLabel = Loc.Localize("StatusTabLabel", "Status");
             public readonly string LogTabLabel = Loc.Localize("LogTabLabel", "Log");
+            public readonly string MainWindowConfigurationLabel = Loc.Localize("MainWindowConfigurationLabel", "Main Window");
+            public readonly string NotificationsConfigurationLabel = Loc.Localize("NotificationsConfigurationLabel", "Notifications");
+            public readonly string NotificationsThrottleLabel = Loc.Localize("NotificationsThrottleLabel", "Notifications Throttle");
+            public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls how frequently Daily Duty is allowed to send you chat notifications.\n\nDefault: 5 Minutes.");
         }
 
         public class ModuleStrings
