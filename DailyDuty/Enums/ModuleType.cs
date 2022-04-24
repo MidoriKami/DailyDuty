@@ -5,6 +5,9 @@
         DutyRouletteDutyFinderOverlay,
         WondrousTailsDutyFinderOverlay,
         DutyRoulette,
-        Timers
+        Timers,
+        MainWindowSettings,
+        LogDebug,
+        NotificationSettings
     }
 }
