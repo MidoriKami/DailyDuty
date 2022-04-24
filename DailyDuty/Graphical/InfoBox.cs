@@ -70,7 +70,9 @@ namespace DailyDuty.Graphical
 
             ImGui.BeginGroup();
             ImGui.PushID(Label);
-            ContentsAction?.Invoke();
+            ImGui.PushStyleColor(ImGuiCol.Text, Colors.Grey);
+            ContentsAction();
+            ImGui.PopStyleColor();
             ImGui.PopID();
             ImGui.EndGroup();
 
