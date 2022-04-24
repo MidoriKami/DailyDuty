@@ -23,7 +23,16 @@ namespace DailyDuty.Graphical
             new FeaturesTab(),
             new TasksTab(),
             new TimersTab(),
+            new SettingsTab(),
         };
+
+        public SelectionPane()
+        {
+            if (Service.SystemConfiguration.DeveloperMode)
+            {
+                tabs.Add(new DebugTab());
+            }
+        }
 
         public void Draw()
         {
