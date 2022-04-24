@@ -1,5 +1,4 @@
 ﻿using CheapLoc;
-using DailyDuty.Enums;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow;
@@ -33,15 +32,18 @@ namespace DailyDuty
                 HelpMessage = "shorthand command to open configuration window"
             });
 
-            // Create Custom Services
+
+            // Initialize Log Manager for Configuration
             Service.LogManager = new LogManager();
-            Service.SystemManager = new SystemManager();
-            Service.WindowManager = new WindowManager();
-            Service.AddonManager = new AddonManager();
-            Service.ModuleManager = new ModuleManager();
 
             // Load Configurations
             Configuration.Startup();
+
+            // Create Custom Services
+            Service.TimerManager = new TimerManager();
+            Service.WindowManager = new WindowManager();
+            Service.AddonManager = new AddonManager();
+            Service.ModuleManager = new ModuleManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -52,15 +54,15 @@ namespace DailyDuty
 
         private void OnCommand(string command, string arguments)
         {
-            Service.SystemManager.ExecuteCommand(command, arguments);
             Service.WindowManager.ExecuteCommand(command, arguments);
+            Service.ModuleManager.ProcessCommand(command, arguments);
         }
 
         private void DrawUI() => Service.WindowSystem.Draw();
 
         private void DrawConfigUI()
         {
-            var window = Service.WindowManager.GetWindowOfType<DailyDutyWindow>(WindowName.Main);
+            var window = Service.WindowManager.GetWindowOfType<DailyDutyWindow>();
 
             if (window != null)
             {
@@ -70,11 +72,11 @@ namespace DailyDuty
 
         public void Dispose()
         {
-            Service.SystemManager.Dispose();
             Service.WindowManager.Dispose();
             Service.LogManager.Dispose();
             Service.AddonManager.Dispose();
             Service.ModuleManager.Dispose();
+            Service.TimerManager.Dispose();
 
             Service.ClientState.Login -= Configuration.Login;
             Service.ClientState.Logout -= Configuration.Logout;
