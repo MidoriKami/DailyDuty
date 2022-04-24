@@ -2,7 +2,7 @@
 
 namespace DailyDuty.Data.Components
 {
-    public class TodoWindowSettings : GenericWindowSettings
+    public class TodoWindowSettings
     {
         public bool ShowDaily = true;
         public bool ShowWeekly = true;
