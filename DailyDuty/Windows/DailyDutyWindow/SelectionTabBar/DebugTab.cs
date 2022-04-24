@@ -6,9 +6,9 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
     internal class DebugTab : ITab
     {
-        public IConfigurable? SelectedTabItem { get; set; }
+        public ITabItem? SelectedTabItem { get; set; }
 
-        public List<IConfigurable> TabItems { get; set; } = new()
+        public List<ITabItem> TabItems { get; set; } = new()
         {
 
         };

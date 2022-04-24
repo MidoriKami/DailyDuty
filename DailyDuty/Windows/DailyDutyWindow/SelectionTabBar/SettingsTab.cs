@@ -6,8 +6,8 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
     internal class SettingsTab : ITab
     {
-        public IConfigurable? SelectedTabItem { get; set; }
-        public List<IConfigurable> TabItems { get; set; } = new()
+        public ITabItem? SelectedTabItem { get; set; }
+        public List<ITabItem> TabItems { get; set; } = new()
         {
 
         };

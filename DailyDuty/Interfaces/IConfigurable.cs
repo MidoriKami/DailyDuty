@@ -11,7 +11,7 @@ using ImGuiScene;
 
 namespace DailyDuty.Interfaces
 {
-    internal interface IConfigurable
+    internal interface IConfigurable : ITabItem
     {
         string ConfigurationPaneLabel { get; }
         InfoBox? AboutInformationBox { get; }
@@ -19,11 +19,8 @@ namespace DailyDuty.Interfaces
         InfoBox? TechnicalInformation { get; }
         TextureWrap? AboutImage { get; }
         TabFlags TabFlags { get; }
-        ModuleName ModuleName { get; }
 
-        void DrawTabItem();
-        
-        void DrawConfigurationPane()
+        void ITabItem.DrawConfigurationPane()
         {
             var contentWidth = ImGui.GetContentRegionAvail().X;
             var textWidth = ImGui.CalcTextSize(ConfigurationPaneLabel).X;
@@ -93,7 +90,7 @@ namespace DailyDuty.Interfaces
 
                         ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10.0f, 8.0f));
 
-                        var logMessages = Service.LogManager.GetMessages(ModuleName).ToList();
+                        var logMessages = Service.LogManager.GetMessages(ModuleType).ToList();
 
                         if (logMessages.Count == 0)
                         {
@@ -168,11 +165,6 @@ namespace DailyDuty.Interfaces
         }
 
         void DrawStatusContents()
-        {
-            throw new NotImplementedException();
-        }
-
-        void DrawLogContents()
         {
             throw new NotImplementedException();
         }
