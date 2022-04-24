@@ -10,8 +10,8 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
         public ITabItem? SelectedTabItem { get; set; }
         public List<ITabItem> TabItems { get; set; } = new()
         {
-            new MainWindowSettingsTabItem(),
-            new NotificationSettingsTabItem(),
+            new StyleTabItem(),
+            new NotificationsTabItem(),
         };
 
         public string TabName => Strings.Tabs.SettingsTabLabel;

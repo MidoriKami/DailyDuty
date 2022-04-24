@@ -12,7 +12,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Graphical.TabItems
 {
-    internal class MainWindowSettingsTabItem : ITabItem
+    internal class StyleTabItem : ITabItem
     {
         public ModuleType ModuleType => ModuleType.MainWindowSettings;
         private static MainWindowSettings Settings => Service.SystemConfiguration.Windows.MainWindow;
@@ -36,7 +36,7 @@ namespace DailyDuty.Graphical.TabItems
 
         public void DrawTabItem()
         {
-            ImGui.Text(Strings.Configuration.MainWindowConfigurationLabel);
+            ImGui.Text(Strings.Common.StyleLabel);
         }
 
         public void DrawConfigurationPane()

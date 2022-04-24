@@ -12,7 +12,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Graphical.TabItems
 {
-    internal class NotificationSettingsTabItem : ITabItem
+    internal class NotificationsTabItem : ITabItem
     {
         public ModuleType ModuleType => ModuleType.NotificationSettings;
 
