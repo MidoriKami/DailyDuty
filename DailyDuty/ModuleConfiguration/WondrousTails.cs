@@ -127,25 +127,6 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
-        private readonly InfoBox notificationOptions = new()
-        {
-            Label = Strings.Common.NotificationOptionsLabel,
-            ContentsAction = () =>
-            {
-                if(Draw.Checkbox(Strings.Common.NotifyOnLoginLabel, ref Settings.LoginReminder, Strings.Common.NotifyOnLoginHelpText))
-                {
-                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Login Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
-                    Service.CharacterConfiguration.Save();
-                }
-
-                if(Draw.Checkbox(Strings.Common.NotifyOnZoneChangeLabel, ref Settings.ZoneChangeReminder, Strings.Common.NotifyOnZoneChangeHelpText))
-                {
-                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Zone Change Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
-                    Service.CharacterConfiguration.Save();
-                }
-            }
-        };
-
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.All;
 
@@ -179,9 +160,6 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             clickableLink.DrawCentered();
-
-            ImGuiHelpers.ScaledDummy(30.0f);
-            notificationOptions.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }
