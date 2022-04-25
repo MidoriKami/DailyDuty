@@ -13,7 +13,7 @@ namespace DailyDuty.Graphical.TabItems
         public ModuleType ModuleType => ModuleType.MainWindowSettings;
         private static MainWindowSettings Settings => Service.SystemConfiguration.Windows.MainWindow;
 
-        private static Stopwatch StyleStopwatch = new Stopwatch();
+        private static readonly Stopwatch StyleStopwatch = new();
 
         private readonly InfoBox style = new()
         {
