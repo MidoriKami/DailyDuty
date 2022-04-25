@@ -21,7 +21,7 @@ namespace DailyDuty.Interfaces
 
             ImGui.PopStyleColor(1);
 
-            foreach (var item in TabItems.OrderBy(item => item.ModuleType))
+            foreach (var item in TabItems.OrderBy(item => item.ModuleType.ToString()))
             {
                 ImGui.PushID(item.ModuleType.ToString());
 
