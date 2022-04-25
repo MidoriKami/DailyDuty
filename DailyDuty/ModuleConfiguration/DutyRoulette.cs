@@ -206,10 +206,10 @@ namespace DailyDuty.ModuleConfiguration
             trackedRoulettes.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
-            notificationOptions.DrawCentered();
-
-            ImGuiHelpers.ScaledDummy(30.0f);
             clickableLink.DrawCentered();
+            
+            ImGuiHelpers.ScaledDummy(30.0f);
+            notificationOptions.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }
