@@ -20,6 +20,7 @@ namespace DailyDuty.System
             // Daily
             new DutyRouletteModule(),
             new WondrousTailsModule(),
+            new TreasureMapModule(),
 
         };
 

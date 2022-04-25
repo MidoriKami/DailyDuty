@@ -12,6 +12,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
         {
             new DutyRoulette(),
             new WondrousTails(),
+            new TreasureMap(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;

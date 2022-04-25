@@ -49,12 +49,28 @@ namespace DailyDuty.System
                 Period = TimeSpan.FromDays(1),
                 UpdateNextReset = Time.NextLeveAllowanceReset
             },
-            //new CountdownTimer()
-            //{
-            //    Label = Strings.Timers.TreasureMapLabel,
-            //    Period = TimeSpan.FromHours(18),
-            //    UpdateNextReset = Time.
-            //},
+            new CountdownTimer()
+            {
+                Label = Strings.Timers.TreasureMapLabel,
+                Period = TimeSpan.FromHours(18),
+                UpdateNextReset = () =>
+                {
+                    var harvestTime = Service.CharacterConfiguration.TreasureMap.LastMapGathered;
+                    var nextAvailableTime = harvestTime.AddHours(18);
+
+                    var remainingTime = nextAvailableTime - DateTime.UtcNow;
+
+                    if (remainingTime < TimeSpan.Zero)
+                    {
+                        return DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        return nextAvailableTime;
+                    }
+
+                }
+            },
             new CountdownTimer()
             {
                 Label = Strings.Timers.WeeklyResetLabel,

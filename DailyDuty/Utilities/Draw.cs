@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
+using DailyDuty.Data.Components;
 using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
@@ -90,6 +92,32 @@ namespace DailyDuty.Utilities
             var color = ImGui.GetColorU32(Colors.White);
 
             drawList.AddLine(cursor, cursor with {Y = cursor.Y + contentArea.Y}, color, 1.0f);
+        }
+
+        public static string Format(this TimeSpan span, bool showSeconds = true)
+        {
+            string result = "";
+
+            if (span.Days > 0)
+            {
+                if (span.Days == 1)
+                {
+                    result = $"{span.Days} day, ";
+                }
+                else if (span.Days > 1)
+                {
+                    result = $"{span.Days} days, ";
+                }
+            }
+
+            result += $"{span.Hours:00}:{span.Minutes:00}";
+
+            if (showSeconds)
+            {
+                result += $":{span.Seconds:00}";
+            }
+
+            return result;
         }
     }
 }

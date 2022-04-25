@@ -10,5 +10,6 @@
         LogDebug,
         NotificationSettings,
         WondrousTails,
+        TreasureMap
     }
 }
