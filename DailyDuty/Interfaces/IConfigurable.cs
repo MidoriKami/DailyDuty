@@ -130,13 +130,19 @@ namespace DailyDuty.Interfaces
                 var imageRatio = (float)AboutImage.Height / AboutImage.Width;
                 var width = region.X * 0.80f;
                 var height = width * imageRatio;
-                var elementWidth = new Vector2(width, height);
-                ImGui.SetCursorPos(currentPosition with { X = region.X / 2.0f - elementWidth.X / 2.0f, Y = currentPosition.Y + 10.0f * ImGuiHelpers.GlobalScale });
+                var imageSize = new Vector2(width, height);
+                var insetVector = new Vector2(2.5f);
+
+                ImGui.SetCursorPos(currentPosition with { X = region.X / 2.0f - imageSize.X / 2.0f, Y = currentPosition.Y + 10.0f * ImGuiHelpers.GlobalScale });
                 var startPosition = ImGui.GetCursorScreenPos();
+                var imageStart = startPosition + insetVector;
+                var imageStop = startPosition + imageSize - insetVector;
 
-                ImGui.Image(AboutImage.ImGuiHandle, elementWidth);
-                Draw.Rectangle(startPosition, elementWidth, 3.0f);
+                ImGui.GetWindowDrawList().AddRectFilled(startPosition, startPosition + imageSize, ImGui.GetColorU32(Colors.White), 40.0f);
 
+                ImGui.GetWindowDrawList().AddImageRounded(AboutImage.ImGuiHandle, imageStart, imageStop, Vector2.Zero, Vector2.One, ImGui.GetColorU32(Colors.White), 40.0f);
+
+                ImGui.SetCursorScreenPos(startPosition + imageSize);
                 ImGuiHelpers.ScaledDummy(20.0f);
             }
 
