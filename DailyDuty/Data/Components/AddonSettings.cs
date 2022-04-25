@@ -1,4 +1,4 @@
-﻿using DailyDuty.Data.FeaturesSettings;
+﻿using DailyDuty.Data.ModuleSettings;
 
 namespace DailyDuty.Data.Components
 {

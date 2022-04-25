@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using DailyDuty.Utilities;
 
-namespace DailyDuty.Data.FeaturesSettings
+namespace DailyDuty.Data.ModuleSettings
 {
     public class DutyRouletteDutyFinderOverlaySettings
     {

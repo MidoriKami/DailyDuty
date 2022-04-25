@@ -19,6 +19,7 @@ namespace DailyDuty.Data
         public WondrousTailsSettings WondrousTails = new();
         public JumboCactpotSettings JumboCactpot = new();
         public TreasureMapSettings TreasureMap = new();
+        public BeastTribeSettings BeastTribe = new();
         
         public void Save()
         {

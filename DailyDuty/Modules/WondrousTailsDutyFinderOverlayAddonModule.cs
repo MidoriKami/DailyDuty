@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using DailyDuty.Data.Components;
-using DailyDuty.Data.FeaturesSettings;
+using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Structs;
 using DailyDuty.Utilities;
