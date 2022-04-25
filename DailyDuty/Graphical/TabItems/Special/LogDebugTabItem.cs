@@ -37,7 +37,7 @@ namespace DailyDuty.Graphical.TabItems.Special
                 {
                     foreach (var key in Service.LogManager.Log.Messages.Keys)
                     {
-                        ImGui.Text($"Key: {key} : {Service.LogManager.Log.Messages[key].Count} messages");
+                        ImGui.Text($"[{key}]: {Service.LogManager.Log.Messages[key].Count}");
                     }
                 }
             }
