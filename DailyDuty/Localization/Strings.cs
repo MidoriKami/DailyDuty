@@ -23,7 +23,8 @@ namespace DailyDuty.Localization
 
             public readonly string CompleteLabel = Loc.Localize("CompleteLabel", "Complete");
             public readonly string IncompleteLabel = Loc.Localize("IncompleteLabel", "Incomplete");
-            public readonly string AllTasksLabel = Loc.Localize("AllTasksLabel", "All Tasks Status");
+            public readonly string AllTasksLabel = Loc.Localize("AllTasksLabel", "All Tasks Status");            
+            public readonly string AvailableNowLabel = Loc.Localize("AvailableNowLabel", "Available Now");
 
             public readonly string StyleOptionsLabel = Loc.Localize("StyleOptionsLabel", "Style Options");
             public readonly string OpacityLabel = Loc.Localize("OpacityLabel", "Opacity");

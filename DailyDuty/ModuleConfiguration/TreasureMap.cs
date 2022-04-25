@@ -122,11 +122,11 @@ namespace DailyDuty.ModuleConfiguration
                     var span = module.TimeUntilNextMap();
                     if (span == TimeSpan.Zero)
                     {
-                        ImGui.TextColored(new(0, 255, 0, 255), $" {span.Format()}");
+                        ImGui.TextColored(new(0, 255, 0, 255), Strings.Common.AvailableNowLabel);
                     }
                     else
                     {
-                        ImGui.Text($" {span.Format()}");
+                        ImGui.Text($"{span.Format()}");
                     }
 
                     ImGui.EndTable();
