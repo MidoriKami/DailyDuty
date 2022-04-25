@@ -154,6 +154,8 @@ namespace DailyDuty.System
 
         private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
+            if (Service.LoggedIn == false) return;
+
             foreach (var module in chatHandlers)
             {
                 module.HandleChat(type, senderID, ref sender, ref message, ref isHandled);
