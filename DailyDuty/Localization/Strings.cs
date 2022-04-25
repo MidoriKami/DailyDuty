@@ -88,7 +88,7 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteNothingTrackedDescription = Loc.Localize("DutyRouletteNothingTrackedDescription", "Select roulettes to track in 'Options'");
             public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "roulettes remaining");
             public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "roulette remaining");
-            public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder.");
+            public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder");
 
             public readonly string WondrousTailsNumStamps = Loc.Localize("WondrousTailsNumStamps", "Stamps"); 
             public readonly string WondrousTailsBookStatusLabel = Loc.Localize("WondrousTailsBookStatusLabel", "Book Status");
@@ -96,6 +96,14 @@ namespace DailyDuty.Localization
             public readonly string WondrousTailsInformation = Loc.Localize("WondrousTailsInformation", "Wondrous Tails is a level 60 weekly activity that allows players to complete old content to earn rewards. With some randomized elements, Wondrous Tails is an interesting way to revisit old duties every week.\n\nWeekly rewards include half of a level worth's of experience to whichever job turns in the book, and selectable rewards such as tomestones or MGP vouchers.");
             public readonly string WondrousTailsAutomationInformation = Loc.Localize("WondrousTailsAutomationInformation", "Wondrous Tails data is extracted directly from game data, and will always be in sync with the current status of your book. No user interaction is required to keep data synchronized.");
             public readonly string WondrousTailsTechnicalDescription = Loc.Localize("WondrousTailsTechnicalDescription", "The game code does not clear the wondrous tails data when you complete your book even if you turn it in without 9 stamps.\n\nThis module will only consider a wondrous tails book complete once you have 9 stamps placed.");
+            public readonly string WondrousTailsOpenBookClickableLinkDescription = Loc.Localize("WondrousTailsOpenBookClickableLinkDescription", "Notifications can be clicked on to open you Wondrous Tails book");
+            public readonly string WondrousTailsUnavailableMessage = Loc.Localize("WondrousTailsUnavailableMessage", "This instance is available for a stamp if you re-roll it");
+            public readonly string WondrousTailsUnavailableRerollMessage = Loc.Localize("", "You have {0} Re-Rolls Available");
+            public readonly string WondrousTailsAvailableMessage = Loc.Localize("WondrousTailsAvailableMessage", "A stamp is already available for this instance");
+            public readonly string WondrousTailsCompletableMessage = Loc.Localize("WondrousTailsCompletableMessage", "Completing this instance will reward you with a stamp");
+            public readonly string WondrousTailsClaimableMessage = Loc.Localize("WondrousTailsClaimableMessage", "You can claim a stamp for the last instance");
+            public readonly string WondrousTailsInstanceNotificationsLabel = Loc.Localize("WondrousTailsInstanceNotificationsLabel", "Duty Start/End Notification");
+            public readonly string WondrousTailsInstanceNotificationsDescription = Loc.Localize("WondrousTailsInstanceNotificationsDescription", "Send notifications at the start of a duty if the duty is a part of your Wondrous Tails book\nAdditionally, sends notifications after completing a duty to remind you to collect your stamp");
         }
 
         public class TimersStrings
