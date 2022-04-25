@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.Data.ModuleSettings;
+﻿using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
@@ -98,8 +93,42 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox options = new()
+        {
+            Label = Strings.Configuration.OptionsTabLabel,
+            ContentsAction = () =>
+            {
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled))
+                {
+                    Service.LogManager.LogMessage(ModuleType.WondrousTails, Settings.Enabled ? "Enabled" : "Disabled");
+                    Service.CharacterConfiguration.Save();
+                }
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Module.WondrousTailsInstanceNotificationsLabel, ref Settings.InstanceNotifications, Strings.Module.WondrousTailsInstanceNotificationsDescription))
+                {
+                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Instance Notifications " + (Settings.InstanceNotifications ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
+        private readonly InfoBox clickableLink = new()
+        {
+            Label = Strings.Common.ClickableLinkLabel,
+            ContentsAction = () =>
+            {
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableOpenBookLink, Strings.Module.WondrousTailsOpenBookClickableLinkDescription))
+                {
+                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Clickable Link " + (Settings.EnableOpenBookLink ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
         public TextureWrap? AboutImage { get; }
-        public TabFlags TabFlags => TabFlags.About | TabFlags.Status;
+        public TabFlags TabFlags => TabFlags.All;
 
         private static WondrousTailsSettings Settings => Service.CharacterConfiguration.WondrousTails;
 
@@ -120,6 +149,17 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             currentStatus.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(20.0f);
+        }
+
+        public void DrawOptionsContents()
+        {
+            ImGuiHelpers.ScaledDummy(10.0f);
+            options.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            clickableLink.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }
