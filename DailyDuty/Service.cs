@@ -37,6 +37,7 @@ namespace DailyDuty
         public static LogManager LogManager { get; set; } = null!;
         public static ModuleManager ModuleManager { get; set; } = null!;
         public static TimerManager TimerManager { get; set; } = null!;
+        public static TeleportManager TeleportManager { get; set; } = null!;
         public static SystemConfiguration SystemConfiguration { get; set; } = null!;
         public static CharacterConfiguration CharacterConfiguration { get; set; } = null!;
 

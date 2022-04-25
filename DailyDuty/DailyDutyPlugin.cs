@@ -40,6 +40,7 @@ namespace DailyDuty
             Configuration.Startup();
 
             // Create Custom Services
+            Service.TeleportManager = new TeleportManager();
             Service.TimerManager = new TimerManager();
             Service.WindowManager = new WindowManager();
             Service.AddonManager = new AddonManager();
@@ -72,6 +73,7 @@ namespace DailyDuty
 
         public void Dispose()
         {
+            Service.TeleportManager.Dispose();
             Service.WindowManager.Dispose();
             Service.LogManager.Dispose();
             Service.AddonManager.Dispose();
