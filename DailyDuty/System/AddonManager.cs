@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DailyDuty.Modules.Features;
+using DailyDuty.Modules;
 
 namespace DailyDuty.System
 {

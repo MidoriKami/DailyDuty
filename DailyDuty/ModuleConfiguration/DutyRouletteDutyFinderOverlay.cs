@@ -8,7 +8,7 @@ using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
 
-namespace DailyDuty.ModuleConfiguration.Features
+namespace DailyDuty.ModuleConfiguration
 {
     internal class DutyRouletteDutyFinderOverlay : IConfigurable
     {
