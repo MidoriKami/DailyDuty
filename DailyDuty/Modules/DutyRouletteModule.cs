@@ -15,7 +15,8 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules
 {
-    internal unsafe class DutyRouletteModule : 
+    internal unsafe class DutyRouletteModule :
+        IDisposable,
         ILoginNotification,
         IZoneChangeThrottledNotification,
         ICompletable,
@@ -46,7 +47,13 @@ namespace DailyDuty.Modules
         {
             SignatureHelper.Initialise(this);
 
+            Service.PluginInterface.RemoveChatLinkHandler((uint)FunctionalPayloads.OpenRouletteDutyFinder);
             openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
+        }
+
+        public void Dispose()
+        {
+            Service.PluginInterface.RemoveChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder);
         }
 
         private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
@@ -80,7 +87,6 @@ namespace DailyDuty.Modules
                     else
                     {
                         Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemainingSingular);
-
                     }
                 }
             }
@@ -96,9 +102,11 @@ namespace DailyDuty.Modules
                 {
                     trackedRoulette.Completed = rouletteStatus;
 
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{trackedRoulette.Type} Completed");
+
                     if (IsCompleted())
                     {
-                        Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Module Completed");
+                        Service.LogManager.LogMessage(ModuleType.DutyRoulette, "All Tasks Completed");
                     }
 
                     Service.CharacterConfiguration.Save();

@@ -150,7 +150,11 @@ namespace DailyDuty.ModuleConfiguration
             Label = Strings.Common.ClickableLinkLabel,
             ContentsAction = () =>
             {
-                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableClickableLink, Strings.Module.DutyRouletteClickableLinkDescription))
+                ImGui.Text(Strings.Module.DutyRouletteClickableLinkDescription);
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableClickableLink))
                 {
                     Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Clickable Link " + (Settings.EnableClickableLink ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();

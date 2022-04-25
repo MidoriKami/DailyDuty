@@ -62,7 +62,7 @@ namespace DailyDuty.Modules.Features
                 });
             }
 
-            wondrousTailsStatus = GetAllTaskData();
+            wondrousTailsStatus = WondrousTailsModule.GetAllTaskData(wondrousTails);
         }
 
         public void Dispose()
@@ -122,7 +122,7 @@ namespace DailyDuty.Modules.Features
 
             if (Settings.Enabled)
             {
-                wondrousTailsStatus = GetAllTaskData().ToList();
+                wondrousTailsStatus = WondrousTailsModule.GetAllTaskData(wondrousTails);
             }
 
             return result;
@@ -405,25 +405,6 @@ namespace DailyDuty.Modules.Features
             customNode->AtkResNode.NextSiblingNode = beforeNode;
 
             rootNode->Component->UldManager.UpdateDrawNodeList();
-        }
-
-        private List<WondrousTailsTask> GetAllTaskData()
-        {
-            var result = new List<WondrousTailsTask>();
-
-            for (var i = 0; i < 16; ++i)
-            {
-                var taskButtonState = wondrousTails->TaskStatus(i);
-                var instances = TaskLookup.GetInstanceListFromID(wondrousTails->Tasks[i]);
-
-                result.Add(new WondrousTailsTask()
-                {
-                    DutyList = instances,
-                    TaskState = taskButtonState,
-                });
-            }
-
-            return result;
         }
 
         private void SetImageNodeVisibility(uint id, uint nodeTypeID, bool visible)

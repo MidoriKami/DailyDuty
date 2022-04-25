@@ -62,15 +62,19 @@ namespace DailyDuty.ModuleConfiguration.Features
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed,
-                Strings.Features.DutyRouletteDutyFinderOverlayLabel);
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Features.DutyRouletteDutyFinderOverlayLabel);
         }
 
         public void DrawOptionsContents()
         {
-            ImGuiHelpers.ScaledDummy(10.0f);
 
+            ImGuiHelpers.ScaledDummy(10.0f);
             Options.DrawCentered();
+            
+            ImGuiHelpers.ScaledDummy(30.0f);
+
+
+            ImGuiHelpers.ScaledDummy(10.0f);
         }
     }
 }
