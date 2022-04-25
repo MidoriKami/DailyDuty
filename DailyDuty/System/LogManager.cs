@@ -23,7 +23,7 @@ namespace DailyDuty.System
 
             if (moduleMessagesCount > 30)
             {
-                moduleMessages.RemoveAt(moduleMessagesCount - 1);
+                moduleMessages.RemoveAt(0);
             }
 
             moduleMessages.Add(new LogMessage()
