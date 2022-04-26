@@ -140,6 +140,14 @@ namespace DailyDuty.ModuleConfiguration
         public void DrawTabItem()
         {
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.WondrousTailsLabel);
+
+            if (Settings.Enabled)
+            {
+                var module = Service.ModuleManager.GetModule<WondrousTailsModule>();
+                if(module == null) return;
+            
+                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+            }
         }
 
         public void DrawStatusContents()
