@@ -89,8 +89,8 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteTechnicalInformation = Loc.Localize("DutyRouletteTechnicalInformation", "You can configure this module to alert you when the specified duties have not yet been completed today.\n\nOny the duties selected for tracking in the Options tab will be considered for notifications.\n\nSome listed roulettes may not be available due to not being unlocked or due to being unavailable until a later patch. It is not recommended to track roulettes you do not have access to.");
             public readonly string DutyRouletteNothingTrackedDescriptionWarning = Loc.Localize("DutyRouletteNothingTrackedDescriptionWarning", "There are no roulettes tracked");
             public readonly string DutyRouletteNothingTrackedDescription = Loc.Localize("DutyRouletteNothingTrackedDescription", "Select roulettes to track in 'Options'");
-            public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "roulettes remaining");
-            public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "roulette remaining");
+            public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "Roulettes Remaining");
+            public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "Roulette Remaining");
             public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder");
 
             public readonly string WondrousTailsNumStamps = Loc.Localize("WondrousTailsNumStamps", "Stamps"); 
@@ -101,7 +101,7 @@ namespace DailyDuty.Localization
             public readonly string WondrousTailsTechnicalDescription = Loc.Localize("WondrousTailsTechnicalDescription", "The game code does not clear the wondrous tails data when you complete your book even if you turn it in without 9 stamps.\n\nThis module will only consider a wondrous tails book complete once you have 9 stamps placed.");
             public readonly string WondrousTailsOpenBookClickableLinkDescription = Loc.Localize("WondrousTailsOpenBookClickableLinkDescription", "Notifications can be clicked on to open you Wondrous Tails book");
             public readonly string WondrousTailsUnavailableMessage = Loc.Localize("WondrousTailsUnavailableMessage", "This instance is available for a stamp if you re-roll it");
-            public readonly string WondrousTailsUnavailableRerollMessage = Loc.Localize("", "You have {0} Re-Rolls Available");
+            public readonly string WondrousTailsUnavailableRerollMessage = Loc.Localize("WondrousTailsUnavailableRerollMessage", "You have {0} Re-Rolls Available");
             public readonly string WondrousTailsAvailableMessage = Loc.Localize("WondrousTailsAvailableMessage", "A stamp is already available for this instance");
             public readonly string WondrousTailsCompletableMessage = Loc.Localize("WondrousTailsCompletableMessage", "Completing this instance will reward you with a stamp");
             public readonly string WondrousTailsClaimableMessage = Loc.Localize("WondrousTailsClaimableMessage", "You can claim a stamp for the last instance");
@@ -111,7 +111,7 @@ namespace DailyDuty.Localization
             public readonly string TreasureMapLabel = Loc.Localize("TreasureMapLabel", "Treasure Map");
             public readonly string TreasureMapInformation = Loc.Localize("TreasureMapInformation", "Treasure Maps are items that can be gathered by Disciples of the Land once every 18 hours. These maps can then be opened as part of a mini-event for various rewards. Alternatively, these maps can be sold on the market board.\n\nYou can only hold one of each type of map at a time.");
             public readonly string TreasureMapAutomationInformation = Loc.Localize("TreasureMapAutomationInformation", "Treasure map data is gathered by reading chat information when the treasure map is gathered. If DailyDuty was installed after you collected a map, you must wait until you are able to collect a map for tracking to begin.");
-            public readonly string TreasureMapAvailableMessage = Loc.Localize("TreasureMapAvailableMessage", "treasure map available");
+            public readonly string TreasureMapAvailableMessage = Loc.Localize("TreasureMapAvailableMessage", "Treasure Map Available");
             public readonly string TreasureMapTimeUntilNextMap = Loc.Localize("TreasureMapTimeUntilNextMap", "Next Map");
             public readonly string TreasureMapStatusLabel = Loc.Localize("TreasureMapStatusLabel", "Treasure Map Status");
 
@@ -119,15 +119,16 @@ namespace DailyDuty.Localization
             public readonly string BeastTribeInformation = Loc.Localize("BeastTribeInformation", "Beast Tribes are a daily task that can be completed for experience rewards and to earn progress towards beast tribes affiliations unlocking unique dyes, glamours, mounts, and housing items.");
             public readonly string BeastTribeAutomationInformation = Loc.Localize("BeastTribeAutomationInformation", "Beast tribe allowance information is extracted directly from game data and will always be in sync with the current status of the game.");
             public readonly string BeastTribeTechnicalInformation = Loc.Localize("BeastTribeTechnicalInformation", "DailyDuty provides options to alert you when you are at a threshold of allowances, either by directly imputing the threshold, or by specifying how many beast tribes-worth of allowances you wish to track.\n\nUpon reaching a new tier in each beast tribe you get 3 additional allowances for that tribe, DailyDuty is unable to track this information and will not consider the extra allowances for tracking purposes.");
-            public readonly string BeastTribeAllowancesRemainingLabel = Loc.Localize("BeastTribeAllowancesRemainingLabel", "allowances remaining");
+            public readonly string BeastTribeAllowancesRemainingLabel = Loc.Localize("BeastTribeAllowancesRemainingLabel", "Above Allowance Threshold");
             public readonly string BeastTribeMarkCompleteWhenLabel = Loc.Localize("BeastTribeMarkCompleteWhenLabel", "Mark Complete When");
 
             public readonly string LevequestLabel = Loc.Localize("LevequestLabel", "Levequest");
             public readonly string LevequestInformation = Loc.Localize("LevequestInformation", "Levequests are repeatable quests players can perform to earn experience, gil and items. Unlike regular quests, which can only be performed once per character, levequests can be performed again and again as long as the player has Leve allowances.");
             public readonly string LevequestAutomationInformation = Loc.Localize("LevequestAutomationInformation", "Levequest information is extracted directly from game data and will always be in sync with the current status of the game.");
             public readonly string LevequestTechnicalInformation = Loc.Localize("LevequestTechnicalInformation", "Once a levequest is accepted the allowance is spent, if you then cancel the levequest the allowance is not returned.");
-            public readonly string LevequestAboveThresholdLabel = Loc.Localize("LevequestAboveThresholdLabel", "above allowance threshold");
+            public readonly string LevequestAboveThresholdLabel = Loc.Localize("LevequestAboveThresholdLabel", "Above Allowance Threshold");
             public readonly string LevequestAcceptedLabel = Loc.Localize("LevequestAcceptedLabel", "Accepted");
+            public readonly string LevequestNextAllowanceLabel = Loc.Localize("LevequestNextAllowanceLabel", "Next Allowances");
 
         }
 

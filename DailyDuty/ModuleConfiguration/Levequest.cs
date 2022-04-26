@@ -108,6 +108,29 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox nextAllowance = new()
+        {
+            Label = Strings.Module.LevequestNextAllowanceLabel,
+            ContentsAction = () =>
+            {
+                if (ImGui.BeginTable($"", 2))
+                {
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.Text(Strings.Module.LevequestNextAllowanceLabel);
+
+                    ImGui.TableNextColumn();
+                    var span = Time.NextLeveAllowanceReset() - DateTime.UtcNow;
+                    ImGui.Text(span.Format());
+
+                    ImGui.EndTable();
+                }
+            }
+        };
+
         private readonly InfoBox options = new()
         {
             Label = Strings.Configuration.OptionsTabLabel,
@@ -210,6 +233,9 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             currentStatus.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            nextAllowance.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }

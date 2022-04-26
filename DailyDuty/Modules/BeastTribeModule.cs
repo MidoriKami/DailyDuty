@@ -51,7 +51,7 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.BeastTribeLabel, $"{GetRemainingAllowances()} " + Strings.Module.BeastTribeAllowancesRemainingLabel);
+                Chat.Print(Strings.Module.BeastTribeLabel, Strings.Module.BeastTribeAllowancesRemainingLabel);
             }
         }
 
