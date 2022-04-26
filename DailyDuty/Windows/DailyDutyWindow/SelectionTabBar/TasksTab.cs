@@ -14,6 +14,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new WondrousTails(),
             new TreasureMap(),
             new BeastTribe(),
+            new Levequest(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;

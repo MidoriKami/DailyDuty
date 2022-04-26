@@ -20,6 +20,7 @@ namespace DailyDuty.Data
         public JumboCactpotSettings JumboCactpot = new();
         public TreasureMapSettings TreasureMap = new();
         public BeastTribeSettings BeastTribe = new();
+        public LevequestSettings Levequest = new();
         
         public void Save()
         {

@@ -122,6 +122,13 @@ namespace DailyDuty.Localization
             public readonly string BeastTribeAllowancesRemainingLabel = Loc.Localize("BeastTribeAllowancesRemainingLabel", "allowances remaining");
             public readonly string BeastTribeMarkCompleteWhenLabel = Loc.Localize("BeastTribeMarkCompleteWhenLabel", "Mark Complete When");
 
+            public readonly string LevequestLabel = Loc.Localize("LevequestLabel", "Levequest");
+            public readonly string LevequestInformation = Loc.Localize("LevequestInformation", "Levequests are repeatable quests players can perform to earn experience, gil and items. Unlike regular quests, which can only be performed once per character, levequests can be performed again and again as long as the player has Leve allowances.");
+            public readonly string LevequestAutomationInformation = Loc.Localize("LevequestAutomationInformation", "Levequest information is extracted directly from game data and will always be in sync with the current status of the game.");
+            public readonly string LevequestTechnicalInformation = Loc.Localize("LevequestTechnicalInformation", "Once a levequest is accepted the allowance is spent, if you then cancel the levequest the allowance is not returned.");
+            public readonly string LevequestAboveThresholdLabel = Loc.Localize("LevequestAboveThresholdLabel", "above allowance threshold");
+            public readonly string LevequestAcceptedLabel = Loc.Localize("LevequestAcceptedLabel", "Accepted");
+
         }
 
         public class TimersStrings

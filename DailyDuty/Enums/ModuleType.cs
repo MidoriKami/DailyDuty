@@ -11,6 +11,7 @@
         NotificationSettings,
         WondrousTails,
         TreasureMap,
-        BeastTribe
+        BeastTribe,
+        Levequest
     }
 }
