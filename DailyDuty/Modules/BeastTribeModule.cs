@@ -18,7 +18,7 @@ namespace DailyDuty.Modules
         ILoginNotification,
         IZoneChangeThrottledNotification
     {
-        public CompletionType Type { get; }
+        public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
 
         [Signature("45 33 C9 48 81 C1 ?? ?? ?? ?? 45 8D 51 02")]
