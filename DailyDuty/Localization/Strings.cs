@@ -32,6 +32,8 @@ namespace DailyDuty.Localization
             public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
             public readonly string SaveLabel = Loc.Localize("SaveLabel", "Save");
             public readonly string StyleLabel = Loc.Localize("StyleLabel", "Style");
+            public readonly string AllowancesLabel = Loc.Localize("AllowancesLabel", "Allowances");
+            public readonly string AllowancesRemainingLabel = Loc.Localize("AllowancesRemainingLabel", "Allowances Remaining");
 
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
@@ -107,11 +109,19 @@ namespace DailyDuty.Localization
             public readonly string WondrousTailsInstanceNotificationsDescription = Loc.Localize("WondrousTailsInstanceNotificationsDescription", "Send notifications at the start of a duty if the duty is a part of your Wondrous Tails book\nAdditionally, sends notifications after completing a duty to remind you to collect your stamp");
 
             public readonly string TreasureMapLabel = Loc.Localize("TreasureMapLabel", "Treasure Map");
-            public readonly string TreasureMapInformation = Loc.Localize("TreasureMapInformation", "Treasure Maps are items that can be gathered by Disciples of the Land once every 18 hours. These maps can then be opened as part of a mini-event for various rewards. Alternatively, these maps can be sold on the marketboard.\n\nYou can only hold one of each type of map at a time.");
+            public readonly string TreasureMapInformation = Loc.Localize("TreasureMapInformation", "Treasure Maps are items that can be gathered by Disciples of the Land once every 18 hours. These maps can then be opened as part of a mini-event for various rewards. Alternatively, these maps can be sold on the market board.\n\nYou can only hold one of each type of map at a time.");
             public readonly string TreasureMapAutomationInformation = Loc.Localize("TreasureMapAutomationInformation", "Treasure map data is gathered by reading chat information when the treasure map is gathered. If DailyDuty was installed after you collected a map, you must wait until you are able to collect a map for tracking to begin.");
             public readonly string TreasureMapAvailableMessage = Loc.Localize("TreasureMapAvailableMessage", "treasure map available");
             public readonly string TreasureMapTimeUntilNextMap = Loc.Localize("TreasureMapTimeUntilNextMap", "Next Map");
             public readonly string TreasureMapStatusLabel = Loc.Localize("TreasureMapStatusLabel", "Treasure Map Status");
+
+            public readonly string BeastTribeLabel = Loc.Localize("BeastTribeLabel", "Beast Tribe");
+            public readonly string BeastTribeInformation = Loc.Localize("BeastTribeInformation", "Beast Tribes are a daily task that can be completed for experience rewards and to earn progress towards beast tribes affiliations unlocking unique dyes, glamours, mounts, and housing items.");
+            public readonly string BeastTribeAutomationInformation = Loc.Localize("BeastTribeAutomationInformation", "Beast tribe allowance information is extracted directly from game data and will always be in sync with the current status of the game.");
+            public readonly string BeastTribeTechnicalInformation = Loc.Localize("BeastTribeTechnicalInformation", "DailyDuty provides options to alert you when you are at a threshold of allowances, either by directly imputing the threshold, or by specifying how many beast tribes-worth of allowances you wish to track.\n\nUpon reaching a new tier in each beast tribe you get 3 additional allowances for that tribe, DailyDuty is unable to track this information and will not consider the extra allowances for tracking purposes.");
+            public readonly string BeastTribeAllowancesRemainingLabel = Loc.Localize("BeastTribeAllowancesRemainingLabel", "allowances remaining");
+            public readonly string BeastTribeMarkCompleteWhenLabel = Loc.Localize("BeastTribeMarkCompleteWhenLabel", "Mark Complete When");
+
         }
 
         public class TimersStrings

@@ -21,6 +21,7 @@ namespace DailyDuty.System
             new DutyRouletteModule(),
             new WondrousTailsModule(),
             new TreasureMapModule(),
+            new BeastTribeModule(),
 
         };
 

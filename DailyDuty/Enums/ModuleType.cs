@@ -10,6 +10,7 @@
         LogDebug,
         NotificationSettings,
         WondrousTails,
-        TreasureMap
+        TreasureMap,
+        BeastTribe
     }
 }

@@ -64,6 +64,16 @@ namespace DailyDuty.Utilities
             ConditionalText(complete, Strings.Common.CompleteLabel, Strings.Common.IncompleteLabel);
         }
 
+        public static void CompleteIncompleteRightAligned(bool complete)
+        {
+            var region = ImGui.GetContentRegionAvail();
+            var text = complete ? Strings.Common.CompleteLabel : Strings.Common.IncompleteLabel;
+            var textSize = ImGui.CalcTextSize(text);
+
+            ImGui.SameLine(region.X - textSize.X - 10.0f * ImGuiHelpers.GlobalScale);
+            CompleteIncomplete(complete);
+        }
+
         public static void ConditionalText(bool condition, string trueString, string falseString)
         {
             if (condition)
