@@ -89,7 +89,7 @@ namespace DailyDuty.Utilities
             }
         }
 
-        private static CharacterLogFile LoadCharacterLogFile(ulong contentID)
+        public static CharacterLogFile LoadCharacterLogFile(ulong contentID)
         {
             var characterLogFile = GetLogFileInfo(contentID);
 
