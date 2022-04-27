@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using DailyDuty.Localization;
-using Dalamud.Utility;
 
 namespace DailyDuty.Enums
 {

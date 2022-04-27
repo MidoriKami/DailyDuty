@@ -1,5 +1,4 @@
-﻿using System.Runtime.Intrinsics.X86;
-using DailyDuty.Data.Components;
+﻿using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Data.ModuleSettings

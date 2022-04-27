@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using ImGuiNET;
 
 

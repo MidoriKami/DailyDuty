@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using DailyDuty.Data.ModuleSettings;
-using DailyDuty.ModuleConfiguration;
 using DailyDuty.Utilities;
 using Newtonsoft.Json;
 
