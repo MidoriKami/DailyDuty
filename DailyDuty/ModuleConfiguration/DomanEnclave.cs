@@ -72,6 +72,23 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox clickableLink = new()
+        {
+            Label = Strings.Common.ClickableLinkLabel,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Module.DomanEnclaveClickableLinkDescription);
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableClickableLink))
+                {
+                    Service.LogManager.LogMessage(ModuleType.DomanEnclave, "Clickable Link " + (Settings.EnableClickableLink ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
         private readonly InfoBox currentStatus = new()
         {
             Label = Strings.Common.CurrentStatusLabel,
@@ -175,6 +192,9 @@ namespace DailyDuty.ModuleConfiguration
         {
             ImGuiHelpers.ScaledDummy(10.0f);
             options.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            clickableLink.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered();

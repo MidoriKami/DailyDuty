@@ -45,7 +45,7 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.DomanEnclaveLabel, $"{GetRemainingBudget():n0} " + Strings.Module.DomanEnclaveGilRemainingLabel, domanEnclaveTeleport);
+                Chat.Print(Strings.Module.DomanEnclaveLabel, $"{GetRemainingBudget():n0} " + Strings.Module.DomanEnclaveGilRemainingLabel, Settings.EnableClickableLink ? domanEnclaveTeleport : null);
             }
         }
 

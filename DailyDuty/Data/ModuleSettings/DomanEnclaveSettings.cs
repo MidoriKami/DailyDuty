@@ -6,5 +6,6 @@ namespace DailyDuty.Data.ModuleSettings
     {
         public int DonatedThisWeek = 0;
         public int WeeklyAllowance = 0;
+        public bool EnableClickableLink = false;
     }
 }
