@@ -20,8 +20,14 @@ namespace DailyDuty.Utilities
             Service.Chat.Print(stringBuilder.BuiltString);
         }
 
-        public static void Print(string tag, string message, DalamudLinkPayload payload)
+        public static void Print(string tag, string message, DalamudLinkPayload? payload)
         {
+            if (payload == null)
+            {
+                Print(tag, message);
+                return;
+            }
+
             var stringBuilder = new SeStringBuilder();
             stringBuilder.AddUiForeground(45);
             stringBuilder.AddText($"[DailyDuty] ");
