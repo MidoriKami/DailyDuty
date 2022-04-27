@@ -4,6 +4,7 @@ using DailyDuty.Data.Components;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using Dalamud.Interface.Internal.Notifications;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -75,9 +76,10 @@ namespace DailyDuty.Windows.DailyDutyWindow
             ImGui.PopStyleColor(2);
         }
 
-        // Todo: Add Popup notification on save
         public override void OnClose()
         {
+            Service.PluginInterface.UiBuilder.AddNotification("System Settings Saved", "Daily Duty", NotificationType.Success);
+
             Service.SystemConfiguration.Save();
             Service.CharacterConfiguration.Save();
         }
