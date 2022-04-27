@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -12,7 +8,6 @@ using DailyDuty.Localization;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
-using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 
