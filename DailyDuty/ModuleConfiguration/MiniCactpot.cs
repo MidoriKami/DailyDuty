@@ -110,6 +110,23 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox clickableLink = new()
+        {
+            Label = Strings.Common.ClickableLinkLabel,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Module.MiniCactpotClickableLinkDescription);
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableClickableLink))
+                {
+                    Service.LogManager.LogMessage(ModuleType.MiniCactpot, "Clickable Link " + (Settings.EnableClickableLink ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
         private readonly InfoBox notificationOptions = new()
         {
             Label = Strings.Common.NotificationOptionsLabel,
@@ -167,6 +184,9 @@ namespace DailyDuty.ModuleConfiguration
         {
             ImGuiHelpers.ScaledDummy(10.0f);
             options.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            clickableLink.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered();

@@ -145,6 +145,7 @@ namespace DailyDuty.Localization
             public readonly string MiniCactpotAutomationInformation = Loc.Localize("MiniCactpotAutomationInformation", "Tracking is done by monitoring the opening of the Mini Cactpot ticket. If DailyDuty was installed after you did your daily Mini Cactpot, it will not be tracked.");
             public readonly string MiniCactpotTechnicalInformation = Loc.Localize("MiniCactpotTechnicalInformation", "The game removes your Mini Cactpot ticket allowance the moment you spend the MGP to purchase the ticket, and the window is opened, if your game is closed or crashes after the ticket window opened, that ticket will be lost.");
             public readonly string MiniCactpotTicketsRemainingLabel = Loc.Localize("MiniCactpotTicketsRemainingLabel", "Tickets Remaining");
+            public readonly string MiniCactpotClickableLinkDescription = Loc.Localize("MiniCactpotClickableLinkDescription", "Notifications can be clocked on to teleport to the Gold Saucer");
 
             public readonly string CustomDeliveryLabel = Loc.Localize("CustomDeliveryLabel", "Custom Delivery");
             public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafters or gatherers scripts, exp rewards, various materia, folklore tomes, and more.");

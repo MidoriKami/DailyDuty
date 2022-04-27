@@ -53,7 +53,7 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.MiniCactpotLabel, Strings.Module.MiniCactpotTicketsRemainingLabel, goldSaucerTeleport);
+                Chat.Print(Strings.Module.MiniCactpotLabel, Strings.Module.MiniCactpotTicketsRemainingLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
             }
         }
 
