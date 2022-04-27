@@ -34,6 +34,9 @@ namespace DailyDuty.Localization
             public readonly string StyleLabel = Loc.Localize("StyleLabel", "Style");
             public readonly string AllowancesLabel = Loc.Localize("AllowancesLabel", "Allowances");
             public readonly string AllowancesRemainingLabel = Loc.Localize("AllowancesRemainingLabel", "Allowances Remaining");
+            public readonly string LessThanLabel = Loc.Localize("LessThanLabel", "Less Than");
+            public readonly string LessThanOrEqualLabel = Loc.Localize("LessThanOrEqualLabel", "Less Than or Equal To");
+            public readonly string EqualToLabel = Loc.Localize("EqualToLabel", "Equal To");
 
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }

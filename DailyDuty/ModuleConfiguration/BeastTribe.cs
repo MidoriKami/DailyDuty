@@ -142,11 +142,11 @@ namespace DailyDuty.ModuleConfiguration
                 var contentWidth = ImGui.GetContentRegionAvail();
 
                 ImGui.SetNextItemWidth(contentWidth.X * 0.40f);
-                if (ImGui.BeginCombo("", Settings.ComparisonMode.ToString()))
+                if (ImGui.BeginCombo("", Settings.ComparisonMode.GetLabel()))
                 {
                     foreach (var value in Enum.GetValues<ComparisonMode>())
                     {
-                        if (ImGui.Selectable(value.ToString(), Settings.ComparisonMode == value))
+                        if (ImGui.Selectable(value.GetLabel(), Settings.ComparisonMode == value))
                         {
                             Service.LogManager.LogMessage(ModuleType.BeastTribe, "Comparison Mode - " + value);
                             Settings.ComparisonMode = value;
