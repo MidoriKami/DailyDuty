@@ -42,7 +42,7 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.AboutTabLabel))
                     {
-                        ImGui.BeginChild("AboutContentsChild");
+                        ImGui.BeginChild("AboutContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
 
                         DrawAboutContents();
 
@@ -56,7 +56,7 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.StatusTabLabel))
                     {
-                        ImGui.BeginChild("StatusContentsChild");
+                        ImGui.BeginChild("StatusContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
 
                         DrawStatusContents();
 
@@ -70,7 +70,7 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.OptionsTabLabel))
                     {
-                        ImGui.BeginChild("OptionsContentsChild");
+                        ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
 
                         DrawOptionsContents();
 
@@ -84,7 +84,7 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.LogTabLabel))
                     {
-                        ImGui.BeginChild("LogContentsChild");
+                        ImGui.BeginChild("LogContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
 
                         ImGui.Spacing();
 
