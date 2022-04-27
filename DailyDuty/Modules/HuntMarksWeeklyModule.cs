@@ -44,6 +44,8 @@ namespace DailyDuty.Modules
 
         void IResettable.ResetThis()
         {
+            Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, "Weekly Reset - Resetting");
+
             foreach (var hunt in Settings.TrackedHunts)
             {
                 hunt.State = TrackedHuntState.Unobtained;

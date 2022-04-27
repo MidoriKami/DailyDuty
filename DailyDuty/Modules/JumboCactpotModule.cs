@@ -61,7 +61,13 @@ namespace DailyDuty.Modules
 
         DateTime IResettable.GetNextReset() => Time.NextJumboCactpotReset();
 
-        void IResettable.ResetThis() => Settings.Tickets.Clear();
+        void IResettable.ResetThis()
+        {
+            Service.LogManager.LogMessage(ModuleType.JumboCactpot, "Weekly Reset - Resetting");
+
+            Settings.Tickets.Clear();
+        }
+
         public bool IsCompleted() => Settings.Tickets.Count == 3;
 
         private void* LotteryWeekly_ReceiveEvent(AgentInterface* agent, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)

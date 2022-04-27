@@ -56,6 +56,8 @@ namespace DailyDuty.Modules
 
         void IResettable.ResetThis()
         {
+            Service.LogManager.LogMessage(ModuleType.MiniCactpot, "Daily Reset - Resetting");
+
             Settings.TicketsRemaining = 3;
         }
 

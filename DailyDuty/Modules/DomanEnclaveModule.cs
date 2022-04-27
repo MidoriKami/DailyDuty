@@ -102,6 +102,11 @@ namespace DailyDuty.Modules
         private bool DataAvailable() => GetWeeklyAllowance() != 0;
         private bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
         DateTime IResettable.GetNextReset() => Time.NextWeeklyReset();
-        void IResettable.ResetThis() => Settings.DonatedThisWeek = 0;
+        void IResettable.ResetThis()
+        {
+            Service.LogManager.LogMessage(ModuleType.DomanEnclave, "Weekly Reset - Resetting");
+
+            Settings.DonatedThisWeek = 0;
+        }
     }
 }

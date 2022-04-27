@@ -95,6 +95,8 @@ namespace DailyDuty.Modules
 
         void IResettable.ResetThis()
         {
+            Service.LogManager.LogMessage(ModuleType.FashionReport, "Weekly Reset - Resetting");
+
             Settings.AllowancesRemaining = 4;
             Settings.HighestWeeklyScore = 0;
         }
