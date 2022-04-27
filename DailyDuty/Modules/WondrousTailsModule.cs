@@ -81,14 +81,14 @@ namespace DailyDuty.Modules
         {
             if (Settings.Enabled == false) return;
 
-            if (Condition.IsBoundByDuty() && Settings.InstanceNotifications == true && !IsCompleted())
+            if (Condition.IsBoundByDuty() && Settings.InstanceNotifications && !IsCompleted())
             {
                 var e = Service.ClientState.TerritoryType;
                 lastInstanceWasDuty = true;
                 lastDutyInstanceID = e;
                 OnDutyStartNotification();
             }
-            else if(lastInstanceWasDuty == true && Settings.InstanceNotifications == true && !IsCompleted())
+            else if(lastInstanceWasDuty && Settings.InstanceNotifications && !IsCompleted())
             {
                 OnDutyEndNotification();
                 lastInstanceWasDuty = false;

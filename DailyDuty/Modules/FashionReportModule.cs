@@ -41,7 +41,7 @@ namespace DailyDuty.Modules
             if (Settings.Enabled)
             {
                 // If we are occupied by talking to a quest npc
-                if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] == true)
+                if (Service.Condition[ConditionFlag.OccupiedInQuestEvent])
                 {
                     // If FashionReport Windows are open
                     if (GetFashionReportScoreGauge() != null && GetFashionReportInfoWindow() != null)

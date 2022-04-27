@@ -69,7 +69,7 @@ namespace DailyDuty.Modules
 
             switch (hunt.State)
             {
-                case TrackedHuntState.Unobtained when data.Obtained == true:
+                case TrackedHuntState.Unobtained when data.Obtained:
                     hunt.State = TrackedHuntState.Obtained;
                     Service.CharacterConfiguration.Save();
                     break;

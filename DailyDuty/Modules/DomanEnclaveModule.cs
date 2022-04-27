@@ -51,7 +51,7 @@ namespace DailyDuty.Modules
 
         public void Update()
         {
-            if (DataAvailable() == true)
+            if (DataAvailable())
             {
                 UpdateWeeklyAllowance();
                 UpdateDonatedThisWeek();
