@@ -6,5 +6,6 @@ namespace DailyDuty.Data.ModuleSettings
     public class JumboCactpotSettings : GenericSettings
     {
         public List<int> Tickets = new();
+        public bool EnableClickableLink = false;
     }
 }

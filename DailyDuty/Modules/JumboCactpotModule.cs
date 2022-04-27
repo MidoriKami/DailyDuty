@@ -58,7 +58,7 @@ namespace DailyDuty.Modules
                 Chat.Print(Strings.Module.JumboCactpotLabel,
                     Settings.Tickets.Count == 2
                         ? $"{3 - Settings.Tickets.Count} " + Strings.Module.JumboCactpotTicketAvailableLabel
-                        : $"{3 - Settings.Tickets.Count} " + Strings.Module.JumboCactpotTicketsAvailableLabel, goldSaucerTeleport);
+                        : $"{3 - Settings.Tickets.Count} " + Strings.Module.JumboCactpotTicketsAvailableLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
             }
         }
 
