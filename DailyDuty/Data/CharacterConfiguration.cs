@@ -26,7 +26,9 @@ namespace DailyDuty.Data
         public CustomDeliverySettings CustomDelivery = new();
         public DomanEnclaveSettings DomanEnclave = new();
         public FashionReportSettings FashionReport = new();
-        
+        public WeeklyHuntMarksSettings WeeklyHuntMarks = new();
+        public DailyHuntMarksSettings DailyHuntMarks = new();
+
         public void Save()
         {
             if (LocalContentID != 0)

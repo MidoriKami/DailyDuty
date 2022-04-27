@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DailyDuty.Data.Components;
+using DailyDuty.Data.ModuleSettings;
+using DailyDuty.Enums;
+using DailyDuty.Interfaces;
+using DailyDuty.Localization;
+using DailyDuty.Structs;
+using DailyDuty.Utilities;
+using Dalamud.Utility.Signatures;
+
+namespace DailyDuty.Modules
+{
+    internal unsafe class HuntMarksWeeklyModule :
+        IResettable,
+        ILoginNotification,
+        IZoneChangeThrottledNotification,
+        ICompletable,
+        IUpdateable
+    {
+        public GenericSettings GenericSettings => Settings;
+        public CompletionType Type => CompletionType.Weekly;
+
+        [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
+        private readonly MobHuntStruct* huntData = null;
+
+        private static WeeklyHuntMarksSettings Settings => Service.CharacterConfiguration.WeeklyHuntMarks;
+
+        public HuntMarksWeeklyModule()
+        {
+            SignatureHelper.Initialise(this);
+        }
+
+        public void SendNotification()
+        {
+            if (!IsCompleted() && !Condition.IsBoundByDuty())
+            {
+                Chat.Print(Strings.Module.HuntMarksWeeklyLabel, $"{GetIncompleteCount()} " + Strings.Module.HuntMarksHuntsRemainingLabel);
+            }
+        }
+
+        DateTime IResettable.GetNextReset() => Time.NextWeeklyReset();
+
+        void IResettable.ResetThis()
+        {
+            foreach (var hunt in Settings.TrackedHunts)
+            {
+                hunt.State = TrackedHuntState.Unobtained;
+            }
+        }
+
+        public bool IsCompleted() => GetIncompleteCount() == 0;
+
+
+        public void Update()
+        {
+            foreach (var hunt in Settings.TrackedHunts)
+            {
+                UpdateState(hunt);
+            }
+        }
+
+        private void UpdateState(TrackedHunt hunt)
+        {
+            var data = huntData->Get(hunt.Type);
+
+            switch (hunt.State)
+            {
+                case TrackedHuntState.Unobtained when data.Obtained == true:
+                    hunt.State = TrackedHuntState.Obtained;
+                    Service.CharacterConfiguration.Save();
+                    break;
+
+                case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
+                    hunt.State = TrackedHuntState.Unobtained;
+                    Service.CharacterConfiguration.Save();
+                    break;
+
+                case TrackedHuntState.Obtained when data.KillCounts.First == 1:
+                    hunt.State = TrackedHuntState.Killed;
+                    Service.CharacterConfiguration.Save();
+                    break;
+            }
+        }
+
+        public ExpansionType GetExpansionForHuntType(HuntMarkType type)
+        {
+            return type switch
+            {
+                HuntMarkType.RealmReborn_Elite => ExpansionType.RealmReborn,
+                HuntMarkType.Heavensward_Elite => ExpansionType.Heavensward,
+                HuntMarkType.Stormblood_Elite => ExpansionType.Stormblood,
+                HuntMarkType.Shadowbringers_Elite => ExpansionType.Shadowbringers,
+                HuntMarkType.Endwalker_Elite => ExpansionType.Endwalker,
+                _ => new()
+            };
+        }
+
+        private int GetIncompleteCount()
+        {
+            return Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
+        }
+    }
+}

@@ -28,6 +28,7 @@ namespace DailyDuty.System
             new DomanEnclaveModule(),
             new FashionReportModule(),
             new JumboCactpotModule(),
+            new HuntMarksWeeklyModule(),
 
         };
 

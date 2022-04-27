@@ -39,6 +39,12 @@ namespace DailyDuty.Localization
             public readonly string EqualToLabel = Loc.Localize("EqualToLabel", "Equal To");
             public readonly string NoneRecordedLabel = Loc.Localize("NoneRecordedLabel", "None Recorded");
 
+            public readonly string RealmRebornLabel = Loc.Localize("RealmRebornLabel", "A Realm Reborn");
+            public readonly string HeavenswardLabel = Loc.Localize("HeavenwardLabel", "Heavensward");
+            public readonly string StormbloodLabel = Loc.Localize("StormbloodLabel", "Stormblood");
+            public readonly string ShadowbringersLabel = Loc.Localize("ShadowbringersLabel", "Shadowbringers");
+            public readonly string EndwalkerLabel = Loc.Localize("EndwalkerLabel", "Endwalker");
+
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
 
@@ -172,6 +178,17 @@ namespace DailyDuty.Localization
             public readonly string JumboCactpotTicketsLabel = Loc.Localize("JumboCactpotTicketsLabel", "Tickets");
             public readonly string JumboCactpotTicketsAvailableLabel = Loc.Localize("JumboCactpotTicketsAvailableLabel", "Tickets Available");
             public readonly string JumboCactpotTicketAvailableLabel = Loc.Localize("JumboCactpotTicketAvailableLabel", "Ticket Available");
+
+            public readonly string HuntMarksWeeklyLabel = Loc.Localize("HuntMarksWeeklyLabel", "Hunt Marks (Weekly)");
+            public readonly string HuntMarksWeeklyInformation = Loc.Localize("HuntMarksWeeklyInformation", "Weekly Hunts are also know as 'Elite Hunts', these are weekly hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards, of note are the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.");
+            public readonly string HuntMarksWeeklyAutomationInformation = Loc.Localize("HuntMarksWeeklyAutomationInformation", "Hunt Data is tracked automatically via game data and will always be in sync with the game.");
+            public readonly string HuntMarksWeeklyTechnicalInformation = Loc.Localize("HuntMarksWeeklyTechnicalInformation", "While the data is always in sync with the game, the game does not clear this data on reset, instead it only clears it when you pick up the new hunt mark item.\n\nDailyDuty will reset its copy of this tracked data each week and attempt to start tracking once a new hunt mark is picked up.");
+            public readonly string HuntMarksHuntsRemainingLabel = Loc.Localize("HuntMarksHuntsRemainingLabel", "Hunts Remaining");
+            public readonly string HuntMarksTrackedHuntsLabel = Loc.Localize("HuntMarksTrackedHuntsLabel", "Tracked Hunts");
+            public readonly string HuntMarksTrackLabel = Loc.Localize("HuntMarksTrackLabel", "Track Hunt");
+            public readonly string HuntMarksMarkAvailableLabel = Loc.Localize("HuntMarksMarkAvailableLabel", "Mark Available");
+            public readonly string HuntMarksMarkObtainedLabel = Loc.Localize("HuntMarksMarkObtainedLabel", "Mark Obtained");
+            public readonly string HuntMarksMarkKilledLabel = Loc.Localize("HuntMarksMarkKilledLabel", "Mark Killed");
 
 
         }

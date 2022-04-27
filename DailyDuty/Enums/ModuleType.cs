@@ -17,6 +17,7 @@
         CustomDelivery,
         DomanEnclave,
         FashionReport,
-        JumboCactpot
+        JumboCactpot,
+        HuntMarksWeekly
     }
 }
