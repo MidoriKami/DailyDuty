@@ -23,6 +23,7 @@ namespace DailyDuty.System
             new TreasureMapModule(),
             new BeastTribeModule(),
             new LevequestModule(),
+            new MiniCactpotModule(),
 
         };
 

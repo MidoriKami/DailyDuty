@@ -80,7 +80,7 @@ namespace DailyDuty.Localization
             public readonly string LogTabLabel = Loc.Localize("LogTabLabel", "Log");
             public readonly string NotificationsConfigurationLabel = Loc.Localize("NotificationsConfigurationLabel", "Notifications");
             public readonly string NotificationsThrottleLabel = Loc.Localize("NotificationsThrottleLabel", "Notifications Throttle");
-            public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls how frequently Daily Duty is allowed to send you chat notifications.\n\nDefault: 5 Minutes.");
+            public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls how frequently Daily Duty is allowed to send you chat notifications.\n\nDefault: 5 Minutes");
         }
 
         public class ModuleStrings
@@ -133,6 +133,11 @@ namespace DailyDuty.Localization
             public readonly string LevequestAcceptedLabel = Loc.Localize("LevequestAcceptedLabel", "Accepted");
             public readonly string LevequestNextAllowanceLabel = Loc.Localize("LevequestNextAllowanceLabel", "Next Allowances");
 
+            public readonly string MiniCactpotLabel = Loc.Localize("MiniCactpotLabel", "Mini Cactpot");
+            public readonly string MiniCactpotInformation = Loc.Localize("MiniCactpotInformation", "Mini Cactpot is a daily scratch-card like activity you can do three times per day. Each mini cactpot ticket awards a various amount of MGP up to 10,000 MGP per ticket.");
+            public readonly string MiniCactpotAutomationInformation = Loc.Localize("MiniCactpotAutomationInformation", "Tracking is done by monitoring the opening of the Mini Cactpot ticket. If DailyDuty was installed after you did your daily Mini Cactpot, it will not be tracked.");
+            public readonly string MiniCactpotTechnicalInformation = Loc.Localize("MiniCactpotTechnicalInformation", "The game removes your Mini Cactpot ticket allowance the moment you spend the MGP to purchase the ticket, and the window is opened, if your game is closed or crashes after the ticket window opened, that ticket will be lost.");
+            public readonly string MiniCactpotTicketsRemainingLabel = Loc.Localize("MiniCactpotTicketsRemainingLabel", "Tickets Remaining");
         }
 
         public class TimersStrings

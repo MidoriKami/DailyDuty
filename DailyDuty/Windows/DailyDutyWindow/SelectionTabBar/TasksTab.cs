@@ -15,6 +15,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new TreasureMap(),
             new BeastTribe(),
             new Levequest(),
+            new MiniCactpot(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;

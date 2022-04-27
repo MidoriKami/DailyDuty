@@ -12,6 +12,7 @@
         WondrousTails,
         TreasureMap,
         BeastTribe,
-        Levequest
+        Levequest,
+        MiniCactpot
     }
 }

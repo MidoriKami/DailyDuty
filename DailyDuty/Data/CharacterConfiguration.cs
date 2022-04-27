@@ -21,6 +21,7 @@ namespace DailyDuty.Data
         public TreasureMapSettings TreasureMap = new();
         public BeastTribeSettings BeastTribe = new();
         public LevequestSettings Levequest = new();
+        public MiniCactpotSettings MiniCactpot = new();
         
         public void Save()
         {
