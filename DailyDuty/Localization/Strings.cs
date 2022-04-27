@@ -158,6 +158,12 @@ namespace DailyDuty.Localization
             public readonly string FashionReportTechnicalInformation = Loc.Localize("FashionReportTechnicalInformation", "It is not possible to update the fashion report data outside of judging due to the strange behavior of the data only being available if you speak to the NPC a second time after presenting for judging.\n\nThe Fashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available if the completion conditions are not met.");
             public readonly string FashionReportHighestScoreLabel = Loc.Localize("FashionReportHighestScoreLabel", "Highest Score");
             public readonly string FashionReportAvailableLabel = Loc.Localize("FashionReportAvailableLabel", "Report Opens");
+            public readonly string FashionReportSingleModeLabel = Loc.Localize("FashionReportSingleModeLabel", "Single");
+            public readonly string FashionReportEightyPlusLabel = Loc.Localize("FashionReportEightyPlusLabel", "80 Plus");
+            public readonly string FashionReportAllLabel = Loc.Localize("FashionReportAllLabel", "All");
+            public readonly string FashionReportSingleModeDescription = Loc.Localize("FashionReportSingleModeDescription", "Only notify if no allowances have been spent this week and fashion report is available for turn-in");
+            public readonly string FashionReportEightyPlusDescription = Loc.Localize("FashionReportEightyPlusDescription", "Notify if any allowances remain this week, the highest score is below 80 and fashion report is available for turn-in");
+            public readonly string FashionReportAllDescription = Loc.Localize("FashionReportAllDescription", "Notify if any allowances remain this week and fashion report is available for turn-in");
 
             public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotLabel", "Jumbo Cactpot");
             public readonly string JumboCactpotInformation = Loc.Localize("JumboCactpotInformation", "Jumbo Cactpot is a weekly task where you can purchase 3 lottery tickets. These tickets allow you to pick any 4-digit number you wish, and depending on how many numbers are matched at the drawing the following week, you can earn MGP.");

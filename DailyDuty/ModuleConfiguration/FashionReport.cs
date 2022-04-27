@@ -11,6 +11,7 @@ using DailyDuty.Localization;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 
@@ -47,7 +48,7 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
-                private readonly InfoBox completionStatus = new()
+        private readonly InfoBox completionStatus = new()
         {
             Label = Strings.Common.CompletionStatusLabel,
             ContentsAction = () =>
@@ -68,6 +69,39 @@ namespace DailyDuty.ModuleConfiguration
                     Draw.CompleteIncomplete(module.IsCompleted());
 
                     ImGui.EndTable();
+                }
+            }
+        };
+        
+        private readonly InfoBox modeSelect = new()
+        {
+            Label = Strings.Module.BeastTribeMarkCompleteWhenLabel,
+            ContentsAction = () =>
+            {
+                var mode = (int) Settings.Mode;
+
+                if (ImGui.BeginTable("ModeSelectTable", 3))
+                {
+                    ImGui.TableNextColumn();
+                    ImGui.RadioButton(Strings.Module.FashionReportSingleModeLabel, ref mode, (int)FashionReportMode.Single);
+                    ImGuiComponents.HelpMarker(Strings.Module.FashionReportSingleModeDescription);
+
+                    ImGui.TableNextColumn();
+                    ImGui.RadioButton(Strings.Module.FashionReportEightyPlusLabel, ref mode, (int)FashionReportMode.Plus80);
+                    ImGuiComponents.HelpMarker(Strings.Module.FashionReportEightyPlusDescription);
+
+                    ImGui.TableNextColumn();
+                    ImGui.RadioButton(Strings.Module.FashionReportAllLabel, ref mode, (int)FashionReportMode.All);
+                    ImGuiComponents.HelpMarker(Strings.Module.FashionReportAllDescription);
+
+                    ImGui.EndTable();
+                }
+
+                if (Settings.Mode != (FashionReportMode) mode)
+                {
+                    Settings.Mode = (FashionReportMode) mode;
+                    Service.LogManager.LogMessage(ModuleType.FashionReport, "Mode Changed - " + Settings.Mode);
+                    Service.CharacterConfiguration.Save();
                 }
             }
         };
@@ -209,6 +243,8 @@ namespace DailyDuty.ModuleConfiguration
             ImGuiHelpers.ScaledDummy(10.0f);
             options.DrawCentered();
 
+            ImGuiHelpers.ScaledDummy(30.0f);
+            modeSelect.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered();
