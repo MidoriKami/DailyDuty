@@ -30,7 +30,7 @@ namespace DailyDuty.Modules
 
         public void SendNotification()
         {
-            if (!IsCompleted() && Condition.IsBoundByDuty() == false)
+            if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
                 Chat.Print(Strings.Module.TreasureMapLabel, Strings.Module.TreasureMapAvailableMessage);
             }

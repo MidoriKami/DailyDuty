@@ -65,7 +65,7 @@ namespace DailyDuty.Modules
 
         public void SendNotification()
         {
-            if (RemainingRoulettesCount() > 0 && Condition.IsBoundByDuty() == false)
+            if (RemainingRoulettesCount() > 0 && !Condition.IsBoundByDuty())
             {
                 if (Settings.EnableClickableLink)
                 {
