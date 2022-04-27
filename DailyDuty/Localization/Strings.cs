@@ -131,7 +131,7 @@ namespace DailyDuty.Localization
             public readonly string LevequestTechnicalInformation = Loc.Localize("LevequestTechnicalInformation", "Once a levequest is accepted the allowance is spent, if you then cancel the levequest the allowance is not returned.");
             public readonly string LevequestAboveThresholdLabel = Loc.Localize("LevequestAboveThresholdLabel", "Above Allowance Threshold");
             public readonly string LevequestAcceptedLabel = Loc.Localize("LevequestAcceptedLabel", "Accepted");
-            public readonly string LevequestNextAllowanceLabel = Loc.Localize("LevequestNextAllowanceLabel", "Next Allowances");
+            public readonly string NextAllowanceLabel = Loc.Localize("NextAllowanceLabel", "Next Allowances");
 
             public readonly string MiniCactpotLabel = Loc.Localize("MiniCactpotLabel", "Mini Cactpot");
             public readonly string MiniCactpotInformation = Loc.Localize("MiniCactpotInformation", "Mini Cactpot is a daily scratch-card like activity you can do three times per day. Each mini cactpot ticket awards a various amount of MGP up to 10,000 MGP per ticket.");
@@ -151,18 +151,25 @@ namespace DailyDuty.Localization
             public readonly string DomanEnclaveBudgetRemainingLabel = Loc.Localize("DomanEnclaveBudgetRemainingLabel", "Budget Remaining");
             public readonly string DomanEnclaveCurrentAllowanceLabel = Loc.Localize("DomanEnclaveCurrentAllowanceLabel", "Current Allowance");
 
+            public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Fashion Report");
+            public readonly string FashionReportInformation = Loc.Localize("FashionReportInformation", "Fashion Report is a weekly task you can complete for MGP rewards. Simply 'Present yourself for judging' once a week without any effort will reward you 10,000 MGP. You can attempt to create an outfit for a higher score for additional MGP rewards and titles.");
+            public readonly string FashionReportAutomationInformation = Loc.Localize("FashionReportAutomationInformation", "Fashion Report data is collected when you present yourself for judging, the current high score and allowances remaining is extracted from the UI when the judging is complete.");
+            public readonly string FashionReportTechnicalInformation = Loc.Localize("FashionReportTechnicalInformation", "It is not possible to update the fashion report data outside of judging due to the strange behavior of the data only being available if you speak to the NPC a second time after presenting for judging.\n\nThe Fashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available if the completion conditions are not met.");
+            public readonly string FashionReportHighestScoreLabel = Loc.Localize("FashionReportHighestScoreLabel", "Highest Score");
+            public readonly string FashionReportAvailableLabel = Loc.Localize("FashionReportAvailableLabel", "Report Opens");
+
         }
 
         public class TimersStrings
         {
             public readonly string TimersLabel = Loc.Localize("TimersLabel", "Timers");
 
-            public readonly string DailyResetLabel = Loc.Localize("DailyResetLabel", "Daily Reset");
-            public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Weekly Fashion Report");
-            public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotLabel", "Weekly Jumbo Cactpot");
-            public readonly string LeveAllowanceLabel = Loc.Localize("LeveAllowanceLabel", "Daily Leve Allowance");
-            public readonly string TreasureMapLabel = Loc.Localize("TreasureMapLabel", "Daily Treasure Map");
-            public readonly string WeeklyResetLabel = Loc.Localize("WeeklyResetLabel", "Weekly Reset");
+            public readonly string DailyResetLabel = Loc.Localize("DailyResetTimerLabel", "Daily Reset");
+            public readonly string FashionReportLabel = Loc.Localize("FashionReportTimerLabel", "Weekly Fashion Report");
+            public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotTimerLabel", "Weekly Jumbo Cactpot");
+            public readonly string LeveAllowanceLabel = Loc.Localize("LeveAllowanceTimerLabel", "Daily Leve Allowance");
+            public readonly string TreasureMapLabel = Loc.Localize("TreasureMapTimerLabel", "Daily Treasure Map");
+            public readonly string WeeklyResetLabel = Loc.Localize("WeeklyResetTimerLabel", "Weekly Reset");
 
             public readonly string TimersBarColorLabel = Loc.Localize("TimersBarColorLabel", "Progress bar color");
             public readonly string TimersHideSecondsLabel = Loc.Localize("TimersHideSecondsLabel", "Hide seconds");

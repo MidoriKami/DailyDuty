@@ -26,6 +26,7 @@ namespace DailyDuty.System
             new MiniCactpotModule(),
             new CustomDeliveryModule(),
             new DomanEnclaveModule(),
+            new FashionReportModule(),
 
         };
 

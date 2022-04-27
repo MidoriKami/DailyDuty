@@ -25,6 +25,7 @@ namespace DailyDuty.Data
         public MiniCactpotSettings MiniCactpot = new();
         public CustomDeliverySettings CustomDelivery = new();
         public DomanEnclaveSettings DomanEnclave = new();
+        public FashionReportSettings FashionReport = new();
         
         public void Save()
         {

@@ -15,6 +15,7 @@
         Levequest,
         MiniCactpot,
         CustomDelivery,
-        DomanEnclave
+        DomanEnclave,
+        FashionReport
     }
 }
