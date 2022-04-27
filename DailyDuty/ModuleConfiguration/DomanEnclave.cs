@@ -97,7 +97,7 @@ namespace DailyDuty.ModuleConfiguration
                     ImGui.Text(Strings.Module.DomanEnclaveCurrentAllowanceLabel);
 
                     ImGui.TableNextColumn();
-                    ImGui.TextColored(module.IsCompleted() ? Colors.Green : Colors.Orange, module.GetWeeklyAllowance().ToString());
+                    ImGui.TextColored(module.IsCompleted() ? Colors.Green : Colors.Orange, Settings.WeeklyAllowance.ToString());
 
 
                     ImGui.EndTable();
