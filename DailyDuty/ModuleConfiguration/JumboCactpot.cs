@@ -83,7 +83,7 @@ namespace DailyDuty.ModuleConfiguration
                 if (ImGui.BeginTable($"", 2))
                 {
                     ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -94,6 +94,32 @@ namespace DailyDuty.ModuleConfiguration
                     ImGui.Text(Settings.Tickets.Count == 0
                         ? Strings.Common.NoneRecordedLabel
                         : string.Concat(Settings.Tickets.Select(i => $"[{i:D4}] ")));
+
+                    ImGui.EndTable();
+                }
+            }
+        };
+
+        private readonly InfoBox nextAllowance = new()
+        {
+            Label = Strings.Module.JumboCactpotNextDrawingLabel,
+            ContentsAction = () =>
+            {
+                var module = Service.ModuleManager.GetModule<FashionReportModule>();
+                if(module == null) return;
+
+                if (ImGui.BeginTable($"", 2))
+                {
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.Text(Strings.Module.JumboCactpotNextDrawingLabel);
+
+                    ImGui.TableNextColumn();
+                    var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
+                    ImGui.Text(span.Format());
 
                     ImGui.EndTable();
                 }
@@ -163,6 +189,9 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             currentStatus.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            nextAllowance.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }

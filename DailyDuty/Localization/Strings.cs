@@ -178,6 +178,7 @@ namespace DailyDuty.Localization
             public readonly string JumboCactpotTicketsLabel = Loc.Localize("JumboCactpotTicketsLabel", "Tickets");
             public readonly string JumboCactpotTicketsAvailableLabel = Loc.Localize("JumboCactpotTicketsAvailableLabel", "Tickets Available");
             public readonly string JumboCactpotTicketAvailableLabel = Loc.Localize("JumboCactpotTicketAvailableLabel", "Ticket Available");
+            public readonly string JumboCactpotNextDrawingLabel = Loc.Localize("JumboCactpotNextDrawingLabel", "Next Drawing");
 
             public readonly string HuntMarksWeeklyLabel = Loc.Localize("HuntMarksWeeklyLabel", "Hunt Marks (Weekly)");
             public readonly string HuntMarksWeeklyInformation = Loc.Localize("HuntMarksWeeklyInformation", "Weekly Hunts are also know as 'Elite Hunts', these are weekly hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards, of note are the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.");
