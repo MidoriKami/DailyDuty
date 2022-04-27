@@ -110,7 +110,7 @@ namespace DailyDuty.ModuleConfiguration
 
         private readonly InfoBox nextAllowance = new()
         {
-            Label = Strings.Module.LevequestNextAllowanceLabel,
+            Label = Strings.Module.NextAllowanceLabel,
             ContentsAction = () =>
             {
                 if (ImGui.BeginTable($"", 2))
@@ -120,7 +120,7 @@ namespace DailyDuty.ModuleConfiguration
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
-                    ImGui.Text(Strings.Module.LevequestNextAllowanceLabel);
+                    ImGui.Text(Strings.Module.NextAllowanceLabel);
 
                     ImGui.TableNextColumn();
                     var span = Time.NextLeveAllowanceReset() - DateTime.UtcNow;
