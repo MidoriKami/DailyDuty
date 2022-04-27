@@ -134,8 +134,6 @@ namespace DailyDuty.Windows.LogBrowser
             switch (primaryCommand)
             {
                 case "loghelper":
-                    Chat.Debug("Opening LogHelper");
-                    Chat.Debug($"Developer Mode Status: {Service.SystemConfiguration.DeveloperMode}");
                     IsOpen = true;
                     break;
 
