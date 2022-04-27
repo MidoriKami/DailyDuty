@@ -65,6 +65,8 @@ namespace DailyDuty.Modules
         public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
         {
             Settings.TicketsRemaining -= 1;
+            
+            Service.LogManager.LogMessage(ModuleType.MiniCactpot, $"Mini Cactpot Ticket Purchased");
             Service.CharacterConfiguration.Save();
 
             return receiveEventHook!.Original(addon, a2, a3);
