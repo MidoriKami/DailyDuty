@@ -77,18 +77,18 @@ namespace DailyDuty.Modules
                     case FashionReportMode.Single:
                         if(Settings.AllowancesRemaining == 4)
                         {
-                            Chat.Print(Strings.Module.FashionReportLabel, Strings.Common.AvailableNowLabel, goldSaucerTeleport);
+                            Chat.Print(Strings.Module.FashionReportLabel, Strings.Common.AvailableNowLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
                         }
                         break;
                     case FashionReportMode.Plus80:
                         if (Settings.HighestWeeklyScore < 80)
                         {
-                            Chat.Print(Strings.Module.FashionReportLabel, $"{Settings.AllowancesRemaining} " + Strings.Common.AllowancesRemainingLabel, goldSaucerTeleport);
-                            Chat.Print(Strings.Module.FashionReportLabel,$"{Settings.HighestWeeklyScore} " + Strings.Module.FashionReportHighestScoreLabel, goldSaucerTeleport);
+                            Chat.Print(Strings.Module.FashionReportLabel, $"{Settings.AllowancesRemaining} " + Strings.Common.AllowancesRemainingLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
+                            Chat.Print(Strings.Module.FashionReportLabel,$"{Settings.HighestWeeklyScore} " + Strings.Module.FashionReportHighestScoreLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
                         }
                         break;
                     case FashionReportMode.All:
-                        Chat.Print(Strings.Module.FashionReportLabel, $"{Settings.AllowancesRemaining} " + Strings.Common.AllowancesRemainingLabel, goldSaucerTeleport);
+                        Chat.Print(Strings.Module.FashionReportLabel, $"{Settings.AllowancesRemaining} " + Strings.Common.AllowancesRemainingLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
                         break;
                 }
             }

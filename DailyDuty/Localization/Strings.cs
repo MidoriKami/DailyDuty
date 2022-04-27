@@ -171,6 +171,7 @@ namespace DailyDuty.Localization
             public readonly string FashionReportSingleModeDescription = Loc.Localize("FashionReportSingleModeDescription", "Only notify if no allowances have been spent this week and fashion report is available for turn-in");
             public readonly string FashionReportEightyPlusDescription = Loc.Localize("FashionReportEightyPlusDescription", "Notify if any allowances remain this week, the highest score is below 80 and fashion report is available for turn-in");
             public readonly string FashionReportAllDescription = Loc.Localize("FashionReportAllDescription", "Notify if any allowances remain this week and fashion report is available for turn-in");
+            public readonly string FashionReportClickableLinkDescription = Loc.Localize("FashionReportClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
 
             public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotLabel", "Jumbo Cactpot");
             public readonly string JumboCactpotInformation = Loc.Localize("JumboCactpotInformation", "Jumbo Cactpot is a weekly task where you can purchase 3 lottery tickets. These tickets allow you to pick any 4-digit number you wish, and depending on how many numbers are matched at the drawing the following week, you can earn MGP.");

@@ -8,5 +8,6 @@ namespace DailyDuty.Data.ModuleSettings
         public int AllowancesRemaining = 4;
         public int HighestWeeklyScore = 0;
         public FashionReportMode Mode;
+        public bool EnableClickableLink = false;
     }
 }
