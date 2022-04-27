@@ -65,30 +65,13 @@ namespace DailyDuty.Modules
 
         public void SendNotification()
         {
-            if (RemainingRoulettesCount() > 0 && !Condition.IsBoundByDuty())
+            if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                if (Settings.EnableClickableLink)
-                {
-                    if (RemainingRoulettesCount() > 1)
-                    {
-                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemaining, openDutyFinder);
-                    }
-                    else
-                    {
-                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemainingSingular, openDutyFinder);
-                    }
-                }
-                else
-                {
-                    if (RemainingRoulettesCount() > 1)
-                    {
-                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemaining);
-                    }
-                    else
-                    {
-                        Chat.Print(Strings.Module.DutyRouletteLabel, $"{RemainingRoulettesCount()} " + Strings.Module.DutyRouletteRoulettesRemainingSingular);
-                    }
-                }
+                Chat.Print(Strings.Module.DutyRouletteLabel,
+                    $"{RemainingRoulettesCount()} " + (RemainingRoulettesCount() > 1
+                        ? Strings.Module.DutyRouletteRoulettesRemaining
+                        : Strings.Module.DutyRouletteRoulettesRemainingSingular),
+                    Settings.EnableClickableLink ? openDutyFinder : null);
             }
         }
 
