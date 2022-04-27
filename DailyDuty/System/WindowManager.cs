@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.Windows.DailyDutyWindow;
+using DailyDuty.Windows.LogBrowser;
 
 namespace DailyDuty.System
 {
@@ -11,6 +12,7 @@ namespace DailyDuty.System
         private readonly List<IDisposable> windowList = new()
         {
             new DailyDutyWindow(),
+            new LogBrowserWindow(),
         };
 
         public void Dispose()

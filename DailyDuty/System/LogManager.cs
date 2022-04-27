@@ -21,7 +21,7 @@ namespace DailyDuty.System
             var moduleMessages = Log.Messages[module];
             var moduleMessagesCount = moduleMessages.Count;
 
-            if (moduleMessagesCount > 30)
+            if (moduleMessagesCount >= 100)
             {
                 moduleMessages.RemoveAt(0);
             }
