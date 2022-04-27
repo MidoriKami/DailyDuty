@@ -13,6 +13,7 @@
         TreasureMap,
         BeastTribe,
         Levequest,
-        MiniCactpot
+        MiniCactpot,
+        CustomDelivery
     }
 }

@@ -22,6 +22,7 @@ namespace DailyDuty.Data
         public BeastTribeSettings BeastTribe = new();
         public LevequestSettings Levequest = new();
         public MiniCactpotSettings MiniCactpot = new();
+        public CustomDeliverySettings CustomDelivery = new();
         
         public void Save()
         {

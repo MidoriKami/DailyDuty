@@ -24,6 +24,7 @@ namespace DailyDuty.System
             new BeastTribeModule(),
             new LevequestModule(),
             new MiniCactpotModule(),
+            new CustomDeliveryModule(),
 
         };
 
