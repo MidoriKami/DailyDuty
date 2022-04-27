@@ -54,9 +54,9 @@ namespace DailyDuty
             // Create Custom Services
             Service.TeleportManager = new TeleportManager();
             Service.TimerManager = new TimerManager();
+            Service.ModuleManager = new ModuleManager();
             Service.WindowManager = new WindowManager();
             Service.AddonManager = new AddonManager();
-            Service.ModuleManager = new ModuleManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
