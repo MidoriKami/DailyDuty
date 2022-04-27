@@ -26,6 +26,7 @@ namespace DailyDuty.Modules
         public static DutyRouletteSettings Settings => Service.CharacterConfiguration.DutyRoulette;
         public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
+        public string DisplayName => Strings.Module.DutyRouletteLabel;
 
         private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
         private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);

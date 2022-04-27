@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DailyDuty.Data.Components;
+﻿using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
@@ -19,6 +14,7 @@ namespace DailyDuty.Modules
         ICompletable
     {
         public GenericSettings GenericSettings => Settings;
+        public string DisplayName => Strings.Module.CustomDeliveryLabel;
         public CompletionType Type => CompletionType.Weekly;
         private static CustomDeliverySettings Settings => Service.CharacterConfiguration.CustomDelivery;
 

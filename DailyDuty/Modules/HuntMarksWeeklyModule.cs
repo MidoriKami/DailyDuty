@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
@@ -23,6 +20,7 @@ namespace DailyDuty.Modules
     {
         public GenericSettings GenericSettings => Settings;
         public CompletionType Type => CompletionType.Weekly;
+        public string DisplayName => Strings.Module.HuntMarksWeeklyLabel;
 
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private readonly MobHuntStruct* huntData = null;

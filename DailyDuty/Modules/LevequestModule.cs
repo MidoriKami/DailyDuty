@@ -17,6 +17,7 @@ namespace DailyDuty.Modules
         public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
         private static LevequestSettings Settings => Service.CharacterConfiguration.Levequest;
+        public string DisplayName => Strings.Module.LevequestLabel;
 
         [Signature("88 05 ?? ?? ?? ?? 0F B7 41 06", ScanType = ScanType.StaticAddress)]
         private readonly LevequestStruct* levequestStruct = null;

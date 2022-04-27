@@ -25,6 +25,7 @@ namespace DailyDuty.Modules
         private static WondrousTailsSettings Settings => Service.CharacterConfiguration.WondrousTails;
         public CompletionType Type => CompletionType.Weekly;
         public GenericSettings GenericSettings => Settings;
+        public string DisplayName => Strings.Module.WondrousTailsLabel;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3, uint a4, short a5);
 

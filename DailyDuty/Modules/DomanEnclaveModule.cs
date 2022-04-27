@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
@@ -23,6 +19,7 @@ namespace DailyDuty.Modules
     {
         public CompletionType Type => CompletionType.Weekly;
         public GenericSettings GenericSettings => Settings;
+        public string DisplayName => Strings.Module.DomanEnclaveLabel;
         private static DomanEnclaveSettings Settings => Service.CharacterConfiguration.DomanEnclave;
 
         private delegate IntPtr GetPointerDelegate();

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
@@ -26,6 +22,7 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         public CompletionType Type => CompletionType.Daily;
         private static MiniCactpotSettings Settings => Service.CharacterConfiguration.MiniCactpot;
+        public string DisplayName => Strings.Module.MiniCactpotLabel;
 
         private delegate void* AgentShow(AgentInterface* addon, void* a2, void* a3);
 

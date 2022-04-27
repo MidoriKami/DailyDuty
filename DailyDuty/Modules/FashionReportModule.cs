@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
@@ -27,6 +23,7 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         public CompletionType Type => CompletionType.Weekly;
         public static FashionReportSettings Settings => Service.CharacterConfiguration.FashionReport;
+        public string DisplayName => Strings.Module.FashionReportLabel;
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
         private bool exchangeStarted;

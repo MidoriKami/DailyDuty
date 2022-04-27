@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
@@ -13,7 +10,6 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Lumina.Excel.GeneratedSheets;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules
@@ -27,6 +23,7 @@ namespace DailyDuty.Modules
         public CompletionType Type => CompletionType.Weekly;
         public GenericSettings GenericSettings => Settings;
         public static TreasureMapSettings Settings => Service.CharacterConfiguration.TreasureMap;
+        public string DisplayName => Strings.Module.TreasureMapLabel;
 
         public void SendNotification()
         {
