@@ -37,6 +37,7 @@ namespace DailyDuty.Localization
             public readonly string LessThanLabel = Loc.Localize("LessThanLabel", "Less Than");
             public readonly string LessThanOrEqualLabel = Loc.Localize("LessThanOrEqualLabel", "Less Than or Equal To");
             public readonly string EqualToLabel = Loc.Localize("EqualToLabel", "Equal To");
+            public readonly string NoneRecordedLabel = Loc.Localize("NoneRecordedLabel", "None Recorded");
 
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
@@ -157,6 +158,15 @@ namespace DailyDuty.Localization
             public readonly string FashionReportTechnicalInformation = Loc.Localize("FashionReportTechnicalInformation", "It is not possible to update the fashion report data outside of judging due to the strange behavior of the data only being available if you speak to the NPC a second time after presenting for judging.\n\nThe Fashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available if the completion conditions are not met.");
             public readonly string FashionReportHighestScoreLabel = Loc.Localize("FashionReportHighestScoreLabel", "Highest Score");
             public readonly string FashionReportAvailableLabel = Loc.Localize("FashionReportAvailableLabel", "Report Opens");
+
+            public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotLabel", "Jumbo Cactpot");
+            public readonly string JumboCactpotInformation = Loc.Localize("JumboCactpotInformation", "Jumbo Cactpot is a weekly task where you can purchase 3 lottery tickets. These tickets allow you to pick any 4-digit number you wish, and depending on how many numbers are matched at the drawing the following week, you can earn MGP.");
+            public readonly string JumboCactpotAutomationInformation = Loc.Localize("JumboCactpotAutomationInformation", "Jumbo Cactpot data is collected when you purchase your tickets. If DailyDuty was not installed when you purchased your tickets it will be unable to track them for that week.");
+            public readonly string JumboCactpotTechnicalInformation = Loc.Localize("JumboCactpotTechnicalInformation", "While DailyDuty displays the value of the tickets collected, the only information needed to track the status is how many tickets have been purchased.\n\nUpon weekly reset the stored tickets will be removed and you will be prompted to purchase new tickets, if you have any pending rewards you will have to collect them to be able to collect your new tickets.");
+            public readonly string JumboCactpotTicketsLabel = Loc.Localize("JumboCactpotTicketsLabel", "Tickets");
+            public readonly string JumboCactpotTicketsAvailableLabel = Loc.Localize("JumboCactpotTicketsAvailableLabel", "Tickets Available");
+            public readonly string JumboCactpotTicketAvailableLabel = Loc.Localize("JumboCactpotTicketAvailableLabel", "Ticket Available");
+
 
         }
 

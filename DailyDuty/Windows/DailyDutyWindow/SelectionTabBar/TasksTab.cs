@@ -19,6 +19,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new CustomDelivery(),
             new DomanEnclave(),
             new FashionReport(),
+            new JumboCactpot()
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;

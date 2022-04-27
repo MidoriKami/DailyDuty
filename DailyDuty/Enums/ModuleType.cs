@@ -16,6 +16,7 @@
         MiniCactpot,
         CustomDelivery,
         DomanEnclave,
-        FashionReport
+        FashionReport,
+        JumboCactpot
     }
 }
