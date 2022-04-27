@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
+using DailyDuty.Modules;
 using DailyDuty.Structs;
 using DailyDuty.Utilities;
 using Dalamud.Hooking;
@@ -15,7 +16,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 
-namespace DailyDuty.Modules
+namespace DailyDuty.Features
 {
     internal unsafe class WondrousTailsDutyFinderOverlayAddonModule : IDisposable
     {

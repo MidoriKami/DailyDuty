@@ -13,7 +13,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 
-namespace DailyDuty.Modules
+namespace DailyDuty.Features
 {
     internal unsafe class DutyRouletteDutyFinderOverlayAddonModule : IDisposable
     {
