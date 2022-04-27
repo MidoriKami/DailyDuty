@@ -98,13 +98,19 @@ namespace DailyDuty.ModuleConfiguration
             Label = Strings.Common.ClickableLinkLabel,
             ContentsAction = () =>
             {
-                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableOpenBookLink, Strings.Module.WondrousTailsOpenBookClickableLinkDescription))
+                ImGui.Text(Strings.Module.WondrousTailsOpenBookClickableLinkDescription);
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableOpenBookLink))
                 {
-                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Clickable Link " + (Settings.EnableOpenBookLink ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.DomanEnclave, "Clickable Link " + (Settings.EnableOpenBookLink ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
             }
         };
+
+
 
         private readonly InfoBox options = new()
         {
