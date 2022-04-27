@@ -1,8 +1,10 @@
-﻿using CheapLoc;
+﻿using System;
+using CheapLoc;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow;
 using Dalamud.Game.Command;
+using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace DailyDuty
@@ -20,6 +22,16 @@ namespace DailyDuty
             Service.Chat.Enable();
 
             Loc.SetupWithFallbacks();
+
+            try
+            {
+                Loc.ExportLocalizable();
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error(e.Message);
+                throw;
+            }
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
