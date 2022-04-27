@@ -14,6 +14,7 @@
         BeastTribe,
         Levequest,
         MiniCactpot,
-        CustomDelivery
+        CustomDelivery,
+        DomanEnclave
     }
 }

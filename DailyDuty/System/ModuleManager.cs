@@ -25,6 +25,7 @@ namespace DailyDuty.System
             new LevequestModule(),
             new MiniCactpotModule(),
             new CustomDeliveryModule(),
+            new DomanEnclaveModule(),
 
         };
 

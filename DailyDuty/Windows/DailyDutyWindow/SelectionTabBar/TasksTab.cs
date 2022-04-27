@@ -17,6 +17,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new Levequest(),
             new MiniCactpot(),
             new CustomDelivery(),
+            new DomanEnclave(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;

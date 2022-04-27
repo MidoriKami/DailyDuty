@@ -143,6 +143,14 @@ namespace DailyDuty.Localization
             public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafters or gatherers scripts, exp rewards, various materia, folklore tomes, and more.");
             public readonly string CustomDeliveryAutomationInformation = Loc.Localize("CustomDeliveryAutomationInformation", "Custom Delivery information is gathered directly from game data, and will always be in sync with the current status of the game.");
 
+            public readonly string DomanEnclaveLabel = Loc.Localize("DomanEnclaveLabel", "Doman Enclave");
+            public readonly string DomanEnclaveInformation = Loc.Localize("DomanEnclaveInformation", "The Doman Enclave is a weekly task you can complete for gil rewards. You donate junk items in exchange for a multiple of their value in gil back, resulting in profit. The reward multiplier increases higher the more you progress the Doman Enclave.");
+            public readonly string DomanEnclaveAutomationInformation = Loc.Localize("DomanEnclaveAutomationInformation", "Doman Enclave data is tracked automatically, but only while you are actually in the Doman Enclave area.");
+            public readonly string DomanEnclaveTechnicalInformation = Loc.Localize("DomanEnclaveTechnicalInformation", "Once you visit the Doman Enclave, Daily Duty attempts to keep a copy of the status, and reset that status at the start of a new week. If the data somehow becomes out of sync, simply visit the Doman Enclave and it will automatically re-sync.");
+            public readonly string DomanEnclaveGilRemainingLabel = Loc.Localize("DomanEnclaveGilRemainingLabel", "gil Remaining");
+            public readonly string DomanEnclaveBudgetRemainingLabel = Loc.Localize("DomanEnclaveBudgetRemainingLabel", "Budget Remaining");
+            public readonly string DomanEnclaveCurrentAllowanceLabel = Loc.Localize("DomanEnclaveCurrentAllowanceLabel", "Current Allowance");
+
         }
 
         public class TimersStrings

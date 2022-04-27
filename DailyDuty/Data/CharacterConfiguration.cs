@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using DailyDuty.Data.ModuleSettings;
+using DailyDuty.ModuleConfiguration;
 using DailyDuty.Utilities;
 using Newtonsoft.Json;
 
@@ -23,6 +24,7 @@ namespace DailyDuty.Data
         public LevequestSettings Levequest = new();
         public MiniCactpotSettings MiniCactpot = new();
         public CustomDeliverySettings CustomDelivery = new();
+        public DomanEnclaveSettings DomanEnclave = new();
         
         public void Save()
         {
