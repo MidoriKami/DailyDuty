@@ -127,7 +127,7 @@ namespace DailyDuty.Localization
             public readonly string LogTabLabel = Loc.Localize("LogTabLabel", "Log");
             public readonly string NotificationsConfigurationLabel = Loc.Localize("NotificationsConfigurationLabel", "Notifications");
             public readonly string NotificationsThrottleLabel = Loc.Localize("NotificationsThrottleLabel", "Notifications Throttle");
-            public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls the frequency of chat notificatiions from DailyDuty.\n\nDefault: 5 Minutes");
+            public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes");
         }
 
         public class ModuleStrings
@@ -183,13 +183,13 @@ namespace DailyDuty.Localization
 
             public readonly string MiniCactpotLabel = Loc.Localize("MiniCactpotLabel", "Mini Cactpot");
             public readonly string MiniCactpotInformation = Loc.Localize("MiniCactpotInformation", "Mini Cactpot is a daily scratch-card like activity you can do three times per day. Each Mini Cactpot ticket awards a various amount of MGP up to 10,000 MGP per ticket.");
-            public readonly string MiniCactpotAutomationInformation = Loc.Localize("MiniCactpotAutomationInformation", "Tracking is done by monitoring the opening of the Mini Cactpot ticket. If DailyDuty was installed after you have compelted your daily Mini Cactpot, it will not be tracked.");
+            public readonly string MiniCactpotAutomationInformation = Loc.Localize("MiniCactpotAutomationInformation", "Tracking is done by monitoring the opening of the Mini Cactpot ticket. If DailyDuty was installed after you have completed your daily Mini Cactpot, it will not be tracked.");
             public readonly string MiniCactpotTechnicalInformation = Loc.Localize("MiniCactpotTechnicalInformation", "The game removes your Mini Cactpot ticket allowance when the window is opened and you spend the MGP to purchase the ticket. If your game is closed or crashes after the ticket window opened, that ticket will be lost.");
             public readonly string MiniCactpotTicketsRemainingLabel = Loc.Localize("MiniCactpotTicketsRemainingLabel", "Tickets Remaining");
             public readonly string MiniCactpotClickableLinkDescription = Loc.Localize("MiniCactpotClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
 
             public readonly string CustomDeliveryLabel = Loc.Localize("CustomDeliveryLabel", "Custom Delivery");
-            public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gatherering scripts, exp rewards, various materia, folklore tomes, and more.");
+            public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gathering scripts, exp rewards, various materia, folklore tomes, and more.");
             public readonly string CustomDeliveryAutomationInformation = Loc.Localize("CustomDeliveryAutomationInformation", "Custom Delivery information is gathered directly from the game's data, and will always be in sync with the current status of the game.");
 
             public readonly string DomanEnclaveLabel = Loc.Localize("DomanEnclaveLabel", "Doman Enclave");
