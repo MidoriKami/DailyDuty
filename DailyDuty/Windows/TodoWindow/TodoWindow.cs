@@ -15,14 +15,14 @@ namespace DailyDuty.Windows.TodoWindow
     {
         private readonly TaskCategoryDisplay dailyTasks = new()
         {
-            Tasks = Service.ModuleManager.GetCompletables(CompletionType.Daily).ToList(),
+            Tasks = Service.ModuleManager.GetCompletables(CompletionType.Daily).OrderBy(task => task.DisplayName).ToList(),
             HeaderText = Strings.Common.DailyTasksLabel,
             Colors = Service.SystemConfiguration.Windows.Todo.Colors
         };
 
         private readonly TaskCategoryDisplay weeklyTasks = new()
         {
-            Tasks = Service.ModuleManager.GetCompletables(CompletionType.Weekly).ToList(),
+            Tasks = Service.ModuleManager.GetCompletables(CompletionType.Weekly).OrderBy(task => task.DisplayName).ToList(),
             HeaderText = Strings.Common.WeeklyTasksLabel,
             Colors = Service.SystemConfiguration.Windows.Todo.Colors
         };
