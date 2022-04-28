@@ -20,12 +20,17 @@ namespace DailyDuty.Features
         private DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
         private DutyRouletteSettings DutyRouletteSettings => Service.CharacterConfiguration.DutyRoulette;
 
+        private delegate void* AgentHide(void* a1);
         private delegate void* AgentShow(void* a1);
         private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
         private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
+        
 
         [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
         private readonly Hook<AgentShow>? contentsFinderShowHook = null;
+
+        [Signature("48 89 5C 24 ?? 57 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 48 8B CB E8 ?? ?? ?? ?? 48 8B CB", DetourName = nameof(ContentsFinder_Hide))]
+        private readonly Hook<AgentHide>? contentsFinderHideHook = null;
 
         private Hook<AddonDraw>? onDrawHook;
         private Hook<AddonOnRefresh>? onRefreshHook;
@@ -41,7 +46,7 @@ namespace DailyDuty.Features
             SignatureHelper.Initialise(this);
 
             contentsFinderShowHook?.Enable();
-            
+
             var rouletteData = Service.DataManager.GetExcelSheet<ContentRoulette>()
                 !.Where(cr => cr.Name != string.Empty);
 
@@ -60,9 +65,17 @@ namespace DailyDuty.Features
         public void Dispose()
         {
             contentsFinderShowHook?.Dispose();
+            contentsFinderHideHook?.Dispose();
 
             onDrawHook?.Dispose();
             onRefreshHook?.Dispose();
+
+            var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+            var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+            if (contentsFinderAgent->IsAgentActive())
+            {
+                ResetDefaultTextColor();
+            }
         }
 
         private void* ContentsFinder_Show(void* a1)
@@ -86,6 +99,7 @@ namespace DailyDuty.Features
 
                     var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
                     var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
+                    var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
 
                     onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
                     onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
@@ -93,6 +107,7 @@ namespace DailyDuty.Features
                     onDrawHook.Enable();
                     onRefreshHook.Enable();
 
+                    contentsFinderHideHook?.Enable();
                     contentsFinderShowHook!.Disable();
                 }
             }
@@ -154,7 +169,14 @@ namespace DailyDuty.Features
                 ResetDefaultTextColor();
             }
         }
-        
+
+        private void* ContentsFinder_Hide(void* a1)
+        {
+            ResetDefaultTextColor();
+
+            return contentsFinderHideHook!.Original(a1);
+        }
+
         //
         //  Implementation
         //
@@ -170,6 +192,7 @@ namespace DailyDuty.Features
                 textNode->TextColor = userDefaultTextColor;
             }
         }
+
         private void SetRouletteColors()
         {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
