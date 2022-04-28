@@ -20,7 +20,7 @@ namespace DailyDuty.Modules
         ICompletable,
         IChatHandler
     {
-        public CompletionType Type => CompletionType.Weekly;
+        public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
         public static TreasureMapSettings Settings => Service.CharacterConfiguration.TreasureMap;
         public string DisplayName => Strings.Module.TreasureMapLabel;
