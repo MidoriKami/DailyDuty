@@ -66,13 +66,13 @@ namespace DailyDuty.Modules
         {
             SignatureHelper.Initialise(this);
 
-            Service.PluginInterface.RemoveChatLinkHandler((uint)FunctionalPayloads.OpenRouletteDutyFinder);
-            openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
+            Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenRouletteDutyFinder);
+            openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) ChatPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
         }
 
         public void Dispose()
         {
-            Service.PluginInterface.RemoveChatLinkHandler((uint) FunctionalPayloads.OpenRouletteDutyFinder);
+            Service.PluginInterface.RemoveChatLinkHandler((uint) ChatPayloads.OpenRouletteDutyFinder);
         }
 
         private void OpenRouletteDutyFinder(uint arg1, SeString arg2)

@@ -34,7 +34,7 @@ namespace DailyDuty.Modules
         {
             SignatureHelper.Initialise(this);
 
-            domanEnclaveTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.DomanEnclave);
+            domanEnclaveTeleport = Service.TeleportManager.GetPayload(ChatPayloads.DomanEnclave);
         }
 
         public bool IsCompleted() => ModuleInitialized() && GetRemainingBudget() == 0;

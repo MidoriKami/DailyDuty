@@ -39,7 +39,7 @@ namespace DailyDuty.Modules
         {
             SignatureHelper.Initialise(this);
 
-            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+            goldSaucerTeleport = Service.TeleportManager.GetPayload(ChatPayloads.GoldSaucerTeleport);
 
             receiveEventHook?.Enable();
         }

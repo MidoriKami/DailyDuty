@@ -49,15 +49,15 @@ namespace DailyDuty.Modules
         {
             SignatureHelper.Initialise(this);
 
-            Service.PluginInterface.RemoveChatLinkHandler((uint)FunctionalPayloads.OpenWondrousTailsBook);
-            openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)FunctionalPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
+            Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
+            openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
 
-            idyllshireTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.IdyllshireTeleport);
+            idyllshireTeleport = Service.TeleportManager.GetPayload(ChatPayloads.IdyllshireTeleport);
         }
 
         public void Dispose()
         {
-            Service.PluginInterface.RemoveChatLinkHandler((uint)FunctionalPayloads.OpenWondrousTailsBook);
+            Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
         }
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)

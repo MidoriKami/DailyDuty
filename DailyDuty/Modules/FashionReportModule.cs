@@ -31,7 +31,7 @@ namespace DailyDuty.Modules
 
         public FashionReportModule()
         {
-            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+            goldSaucerTeleport = Service.TeleportManager.GetPayload(ChatPayloads.GoldSaucerTeleport);
         }
 
         public void Update()

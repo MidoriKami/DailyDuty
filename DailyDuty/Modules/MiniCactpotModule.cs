@@ -39,7 +39,7 @@ namespace DailyDuty.Modules
 
             receiveEventHook?.Enable();
 
-            goldSaucerTeleport = Service.TeleportManager.GetPayload(TeleportPayloads.GoldSaucerTeleport);
+            goldSaucerTeleport = Service.TeleportManager.GetPayload(ChatPayloads.GoldSaucerTeleport);
         }
 
         public void Dispose()
