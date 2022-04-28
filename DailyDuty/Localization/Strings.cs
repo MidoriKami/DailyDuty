@@ -49,14 +49,10 @@ namespace DailyDuty.Localization
             public readonly string WeeklyTasksLabel = Loc.Localize("WeeklyTasksLabel", "Weekly Tasks");
             public readonly string DailyTasksLabel = Loc.Localize("DailyTasksLabel", "Daily Tasks");
 
-            public readonly string BottomLabel = Loc.Localize("BottomLabel", "Bottom");
-            public readonly string RightLabel = Loc.Localize("RightLabel", "Right");
             public readonly string TopLeftLabel = Loc.Localize("TopLeftLabel", "Top Left");
             public readonly string TopRightLabel = Loc.Localize("TopRightLabel", "Top Right");
             public readonly string BottomLeftLabel = Loc.Localize("BottomLeftLabel", "Bottom Left");
             public readonly string BottomRightLabel = Loc.Localize("BottomRightLabel", "Bottom Right");
-            public readonly string TopLabel = Loc.Localize("TopLabel", "Top");
-            public readonly string LeftLabel = Loc.Localize("LeftLabel", "Left");
             public readonly string AutoResizeLabel = Loc.Localize("AutoResizeLabel", "Auto Resize");
             public readonly string ManualSizeLabel = Loc.Localize("ManualSizeLabel", "Manual Size");
 
@@ -98,9 +94,7 @@ namespace DailyDuty.Localization
             public readonly string TodoWindowHideWhenCompleteLabel = Loc.Localize("TodoWindowHideWhenCompleteLabel", "All Tasks are Complete");
             public readonly string TodoWindowTaskDisplayOptionsLabel = Loc.Localize("TodoWindowTaskDisplayOptionsLabel", "Task Display Options");
             public readonly string TodoWindowShowWhenCompleteLabel = Loc.Localize("TodoWindowShowWhenCompleteLabel", "Show Completed Tasks");
-            public readonly string TodoWindowAnchorLocationLabel = Loc.Localize("TodoWindowAnchorLocationLabel", "Anchor Point");
             public readonly string TodoWindowHideInDutyLabel = Loc.Localize("TodoWindowHideInDutyLabel", "In a Duty");
-            public readonly string TodoWindowColorConfigurationLabel = Loc.Localize("TodoWindowColorConfigurationLabel", "Color Configuration");
             public readonly string TodoWindowHeaderColorLabel = Loc.Localize("TodoWindowHeaderColorLabel", "Task Category Color");
             public readonly string TodoWindowIncompleteTaskColorLabel = Loc.Localize("TodoWindowIncompleteTaskColorLabel", "Incomplete Task Color");
             public readonly string TodoWindowCompleteTaskColorLabel = Loc.Localize("TodoWindowCompleteTaskColorLabel", "Complete Task Color");
