@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.Features;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.ModuleConfiguration;
 
 namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
@@ -11,7 +11,8 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
         public List<ITabItem> TabItems { get; set; } = new()
         {
             new WondrousTailsDutyFinderOverlay(),
-            new DutyRouletteDutyFinderOverlay()
+            new DutyRouletteDutyFinderOverlay(),
+            new TodoWindowConfiguration(),
         };
 
         public string TabName => Strings.Tabs.FeaturesTabLabel;

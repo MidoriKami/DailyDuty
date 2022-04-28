@@ -18,6 +18,7 @@
         DomanEnclave,
         FashionReport,
         JumboCactpot,
-        HuntMarksWeekly
+        HuntMarksWeekly,
+        TodoWindow
     }
 }

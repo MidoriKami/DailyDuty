@@ -1,13 +1,29 @@
+using System;
+using DailyDuty.Localization;
+
 namespace DailyDuty.Enums
 {
+    [Flags]
     public enum WindowAnchor
     {
-        Bottom = 1,
-        Right = 2,
-        
         TopLeft = 0,
-        TopRight = Right,
-        BottomLeft = Bottom,
-        BottomRight = Bottom | Right
+        TopRight = 1,
+        BottomLeft = 2,
+        BottomRight = 1 | 2
+    }
+
+    public static class WindowAnchorExtensions
+    {
+        public static string GetLabel(this WindowAnchor anchor)
+        {
+            return anchor switch
+            {
+                WindowAnchor.TopLeft => Strings.Common.TopLeftLabel,
+                WindowAnchor.TopRight => Strings.Common.TopRightLabel,
+                WindowAnchor.BottomLeft => Strings.Common.BottomLeftLabel,
+                WindowAnchor.BottomRight => Strings.Common.BottomRightLabel,
+                _ => throw new ArgumentOutOfRangeException(nameof(anchor), anchor, null)
+            };
+        }
     }
 }

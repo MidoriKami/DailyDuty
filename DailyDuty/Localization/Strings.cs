@@ -28,6 +28,7 @@ namespace DailyDuty.Localization
 
             public readonly string StyleOptionsLabel = Loc.Localize("StyleOptionsLabel", "Style Options");
             public readonly string OpacityLabel = Loc.Localize("OpacityLabel", "Opacity");
+            public readonly string ClickthroughLabel = Loc.Localize("ClickthroughLabel", "Clickthrough");
 
             public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
             public readonly string SaveLabel = Loc.Localize("SaveLabel", "Save");
@@ -44,6 +45,20 @@ namespace DailyDuty.Localization
             public readonly string StormbloodLabel = Loc.Localize("StormbloodLabel", "Stormblood");
             public readonly string ShadowbringersLabel = Loc.Localize("ShadowbringersLabel", "Shadowbringers");
             public readonly string EndwalkerLabel = Loc.Localize("EndwalkerLabel", "Endwalker");
+
+            public readonly string WeeklyTasksLabel = Loc.Localize("WeeklyTasksLabel", "Weekly Tasks");
+            public readonly string DailyTasksLabel = Loc.Localize("DailyTasksLabel", "Daily Tasks");
+
+            public readonly string BottomLabel = Loc.Localize("BottomLabel", "Bottom");
+            public readonly string RightLabel = Loc.Localize("RightLabel", "Right");
+            public readonly string TopLeftLabel = Loc.Localize("TopLeftLabel", "Top Left");
+            public readonly string TopRightLabel = Loc.Localize("TopRightLabel", "Top Right");
+            public readonly string BottomLeftLabel = Loc.Localize("BottomLeftLabel", "Bottom Left");
+            public readonly string BottomRightLabel = Loc.Localize("BottomRightLabel", "Bottom Right");
+            public readonly string TopLabel = Loc.Localize("TopLabel", "Top");
+            public readonly string LeftLabel = Loc.Localize("LeftLabel", "Left");
+            public readonly string AutoResizeLabel = Loc.Localize("AutoResizeLabel", "Auto Resize");
+            public readonly string ManualSizeLabel = Loc.Localize("ManualSizeLabel", "Manual Size");
 
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
@@ -74,6 +89,23 @@ namespace DailyDuty.Localization
             public readonly string WondrousTailsDutyFinderOverlayDescription = Loc.Localize("WondrousTailsDutyFinderOverlayDescription", "Adds a clover icon to duties in the Duty Finder if that duty is in your Wondrous Tails book.\n\nThe clover will be golden if that duty is able to be completed to reward you a stamp.\n\nThe clover will be hollow if that duty has already been claimed for a stamp.");
             public readonly string WondrousTailsDutyFinderOverlayAutomationInformation = Loc.Localize("WondrousTailsDutyFinderOverlayAutomationInformation", "The Wondrous Tails duty availability is read directly from game data.\n\nThe Duty Finder may need to be opened and then closed again to refresh the displayed data.");
             public readonly string WondrousTailsDutyFinderOverlayTechnicalDescription = Loc.Localize("WondrousTailsDutyFinderOverlayTechnicalDescription", "The game code does not clear the task data when you complete your book for the week. This will cause the Duty Finder to reflect the status of the last obtained book.");
+
+            public readonly string TodoWindowLabel = Loc.Localize("TodoWindowLabel", "Todo Window");
+            public readonly string TodoWindowTaskSelectionLabel = Loc.Localize("TodoWindowTaskSelectionLabel", "Task Selection");
+            public readonly string TodoWindowShowDailyLabel = Loc.Localize("TodoWindowShowDailyLabel", "Show Daily Tasks");
+            public readonly string TodoWindowShowWeeklyLabel = Loc.Localize("TodoWindowShowWeeklyLabel", "Show Weekly Tasks");
+            public readonly string TodoWindowHideWindowWhenLabel = Loc.Localize("TodoWindowHideWindowWhenLabel", "Hide Window When");
+            public readonly string TodoWindowHideWhenCompleteLabel = Loc.Localize("TodoWindowHideWhenCompleteLabel", "All Tasks are Complete");
+            public readonly string TodoWindowTaskDisplayOptionsLabel = Loc.Localize("TodoWindowTaskDisplayOptionsLabel", "Task Display Options");
+            public readonly string TodoWindowShowWhenCompleteLabel = Loc.Localize("TodoWindowShowWhenCompleteLabel", "Show Completed Tasks");
+            public readonly string TodoWindowAnchorLocationLabel = Loc.Localize("TodoWindowAnchorLocationLabel", "Anchor Point");
+            public readonly string TodoWindowHideInDutyLabel = Loc.Localize("TodoWindowHideInDutyLabel", "In a Duty");
+            public readonly string TodoWindowColorConfigurationLabel = Loc.Localize("TodoWindowColorConfigurationLabel", "Color Configuration");
+            public readonly string TodoWindowHeaderColorLabel = Loc.Localize("TodoWindowHeaderColorLabel", "Task Category Color");
+            public readonly string TodoWindowIncompleteTaskColorLabel = Loc.Localize("TodoWindowIncompleteTaskColorLabel", "Incomplete Task Color");
+            public readonly string TodoWindowCompleteTaskColorLabel = Loc.Localize("TodoWindowCompleteTaskColorLabel", "Complete Task Color");
+            public readonly string TodoWindowResizeStyleLabel = Loc.Localize("TodoWindowResizeStyleLabel", "Window Resize Options");
+            public readonly string TodoWindowInformation = Loc.Localize("TodoWindowInformation", "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.");
 
         }
 
@@ -159,6 +191,7 @@ namespace DailyDuty.Localization
             public readonly string DomanEnclaveBudgetRemainingLabel = Loc.Localize("DomanEnclaveBudgetRemainingLabel", "Budget Remaining");
             public readonly string DomanEnclaveCurrentAllowanceLabel = Loc.Localize("DomanEnclaveCurrentAllowanceLabel", "Current Allowance");
             public readonly string DomanEnclaveClickableLinkDescription = Loc.Localize("DomanEnclaveClickableLinkDescription", "Notifications can be clicked on to teleport to the Doman Enclave");
+            public readonly string DomanEnclaveInitializationWarning = Loc.Localize("DDomanEnclaveInitializationWarning", "Please visit the doman enclave to initialize data");
 
             public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Fashion Report");
             public readonly string FashionReportInformation = Loc.Localize("FashionReportInformation", "Fashion Report is a weekly task you can complete for MGP rewards. Simply 'Present yourself for judging' once a week without any effort will reward you 10,000 MGP. You can attempt to create an outfit for a higher score for additional MGP rewards and titles.");
