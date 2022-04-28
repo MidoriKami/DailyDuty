@@ -148,14 +148,14 @@ namespace DailyDuty.Localization
             public readonly string MiniCactpotClickableLinkDescription = Loc.Localize("MiniCactpotClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
 
             public readonly string CustomDeliveryLabel = Loc.Localize("CustomDeliveryLabel", "Custom Delivery");
-            public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various craftering or gatherering scripts, exp rewards, various materia, folklore tomes, and more.");
+            public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gatherering scripts, exp rewards, various materia, folklore tomes, and more.");
             public readonly string CustomDeliveryAutomationInformation = Loc.Localize("CustomDeliveryAutomationInformation", "Custom Delivery information is gathered directly from the game's data, and will always be in sync with the current status of the game.");
 
             public readonly string DomanEnclaveLabel = Loc.Localize("DomanEnclaveLabel", "Doman Enclave");
             public readonly string DomanEnclaveInformation = Loc.Localize("DomanEnclaveInformation", "The Doman Enclave is a weekly task you can complete for gil rewards. You donate junk items in exchange for a multiple of their value in gil back, resulting in profit. The reward multiplier increases higher the more you progress through the Doman Enclave.");
             public readonly string DomanEnclaveAutomationInformation = Loc.Localize("DomanEnclaveAutomationInformation", "Doman Enclave data is tracked automatically, but only while you are actually in the Doman Enclave area.");
             public readonly string DomanEnclaveTechnicalInformation = Loc.Localize("DomanEnclaveTechnicalInformation", "Once you visit the Doman Enclave, DailyDuty attempts to keep a copy of the status, and will reset that status at the start of a new week. If the data somehow becomes out of sync, simply re-visit the Doman Enclave and it will automatically re-sync.");
-            public readonly string DomanEnclaveGilRemainingLabel = Loc.Localize("DomanEnclaveGilRemainingLabel", "Gil Remaining");
+            public readonly string DomanEnclaveGilRemainingLabel = Loc.Localize("DomanEnclaveGilRemainingLabel", "gil Remaining");
             public readonly string DomanEnclaveBudgetRemainingLabel = Loc.Localize("DomanEnclaveBudgetRemainingLabel", "Budget Remaining");
             public readonly string DomanEnclaveCurrentAllowanceLabel = Loc.Localize("DomanEnclaveCurrentAllowanceLabel", "Current Allowance");
             public readonly string DomanEnclaveClickableLinkDescription = Loc.Localize("DomanEnclaveClickableLinkDescription", "Notifications can be clicked on to teleport to the Doman Enclave");
@@ -185,7 +185,7 @@ namespace DailyDuty.Localization
             public readonly string JumboCactpotClickableLinkDescription = Loc.Localize("JumboCactpotClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
 
             public readonly string HuntMarksWeeklyLabel = Loc.Localize("HuntMarksWeeklyLabel", "Hunt Marks (Weekly)");
-            public readonly string HuntMarksWeeklyInformation = Loc.Localize("HuntMarksWeeklyInformation", "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. Of note are the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.");
+            public readonly string HuntMarksWeeklyInformation = Loc.Localize("HuntMarksWeeklyInformation", "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. A reward that is of note is the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.");
             public readonly string HuntMarksWeeklyAutomationInformation = Loc.Localize("HuntMarksWeeklyAutomationInformation", "Hunt data is tracked automatically via the game's data and will always be in sync with the game.");
             public readonly string HuntMarksWeeklyTechnicalInformation = Loc.Localize("HuntMarksWeeklyTechnicalInformation", "While the data is always in sync with the game, the game does not clear this data on reset. Instead, it only clears the data when you pick up the new hunt mark item.\n\nDailyDuty will reset its copy of the tracked data each week and attempt to start tracking when a new hunt mark is picked up.");
             public readonly string HuntMarksHuntsRemainingLabel = Loc.Localize("HuntMarksHuntsRemainingLabel", "Hunts Remaining");
