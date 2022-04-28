@@ -100,7 +100,7 @@ namespace DailyDuty.Modules
 
         public int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
         private bool DataAvailable() => GetWeeklyAllowance() != 0;
-        private bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
+        public bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
         DateTime IResettable.GetNextReset() => Time.NextWeeklyReset();
         void IResettable.ResetThis()
         {
