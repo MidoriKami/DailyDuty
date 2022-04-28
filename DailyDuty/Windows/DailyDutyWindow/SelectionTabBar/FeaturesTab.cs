@@ -13,6 +13,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new WondrousTailsDutyFinderOverlay(),
             new DutyRouletteDutyFinderOverlay(),
             new TodoWindowConfiguration(),
+            new TimersWindowConfiguration(),
         };
 
         public string TabName => Strings.Tabs.FeaturesTabLabel;

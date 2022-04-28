@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Data.Components;
 using DailyDuty.Localization;
+using DailyDuty.Timers;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -9,43 +11,6 @@ namespace DailyDuty.Utilities
 {
     internal static class Draw
     {
-        public static void NumericDisplay(string label, int value)
-        {
-            ImGui.Text(label + ": ");
-            ImGui.SameLine();
-            ImGui.Text($"{value}");
-        }
-
-        public static void NumericDisplay(string label, string formattedString)
-        {
-            ImGui.Text(label  + ": ");
-            ImGui.SameLine();
-            ImGui.Text(formattedString);
-        }
-
-        public static void NumericDisplay(string label, int value, Vector4 color)
-        {
-            ImGui.Text(label + ": ");
-            ImGui.SameLine();
-            ImGui.TextColored(color, $"{value}");
-        }
-
-        public static void EditNumberField(string label, ref int refValue)
-        {
-            EditNumberField(label, 30, ref refValue);
-        }
-
-        public static void EditNumberField(string label, float fieldWidth, ref int refValue)
-        {
-            ImGui.Text(label + ": ");
-
-            ImGui.SameLine();
-
-            ImGui.PushItemWidth(fieldWidth * ImGuiHelpers.GlobalScale);
-            ImGui.InputInt($"##{label}", ref refValue, 0, 0);
-            ImGui.PopItemWidth();
-        }
-
         public static bool Checkbox(string label, ref bool refValue, string helpText = "")
         {
             var result = ImGui.Checkbox($"{label}", ref refValue);
@@ -71,6 +36,22 @@ namespace DailyDuty.Utilities
 
             ImGui.SameLine(region.X - textSize.X - 10.0f * ImGuiHelpers.GlobalScale);
             CompleteIncomplete(complete);
+        }
+
+        public static void TextRightAligned(string text, Vector4? color = null)
+        {
+            var region = ImGui.GetContentRegionAvail();
+            var textSize = ImGui.CalcTextSize(text);
+
+            ImGui.SameLine(region.X - textSize.X - 10.0f * ImGuiHelpers.GlobalScale);
+            if (color == null)
+            {
+                ImGui.Text(text);
+            }
+            else
+            {
+                ImGui.TextColored(color.Value, text);
+            }
         }
 
         public static void ConditionalText(bool condition, string trueString, string falseString)

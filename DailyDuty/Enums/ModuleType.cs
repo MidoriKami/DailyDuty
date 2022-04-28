@@ -19,6 +19,7 @@
         FashionReport,
         JumboCactpot,
         HuntMarksWeekly,
-        TodoWindow
+        TodoWindow,
+        TimersWindow
     }
 }

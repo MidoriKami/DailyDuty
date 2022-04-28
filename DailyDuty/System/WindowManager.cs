@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.Windows.DailyDutyWindow;
 using DailyDuty.Windows.LogBrowser;
+using DailyDuty.Windows.TimersWindow;
 using DailyDuty.Windows.TodoWindow;
 
 namespace DailyDuty.System
@@ -14,7 +15,8 @@ namespace DailyDuty.System
         {
             new DailyDutyWindow(),
             new LogBrowserWindow(),
-            new TodoWindow()
+            new TodoWindow(),
+            new TimersWindow(),
         };
 
         public void Dispose()

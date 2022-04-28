@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DailyDuty.Data.Components;
 using DailyDuty.Localization;
 using DailyDuty.Timers;
 using DailyDuty.Utilities;
@@ -8,13 +9,16 @@ namespace DailyDuty.System
 {
     public class TimerManager : IDisposable
     {
+        private static TimersSettings Settings => Service.SystemConfiguration.Timers;
+
         public readonly List<CountdownTimer> Timers = new()
         {
             new CountdownTimer()
             {
                 Label = Strings.Timers.DailyResetLabel,
                 Period = TimeSpan.FromDays(1),
-                UpdateNextReset = Time.NextDailyReset
+                UpdateNextReset = Time.NextDailyReset,
+                TimerSettings = Settings.Daily
             },
             new CountdownTimer()
             {
@@ -35,19 +39,22 @@ namespace DailyDuty.System
                     {
                         return Time.NextFashionReportReset();
                     }
-                }
+                },
+                TimerSettings = Settings.FashionReport
             },
             new CountdownTimer()
             {
                 Label = Strings.Timers.JumboCactpotLabel,
                 Period = TimeSpan.FromDays(7),
-                UpdateNextReset = Time.NextJumboCactpotReset
+                UpdateNextReset = Time.NextJumboCactpotReset,
+                TimerSettings = Settings.JumboCactpot,
             },
             new CountdownTimer()
             {
                 Label = Strings.Timers.LeveAllowanceLabel,
                 Period = TimeSpan.FromDays(1),
-                UpdateNextReset = Time.NextLeveAllowanceReset
+                UpdateNextReset = Time.NextLeveAllowanceReset,
+                TimerSettings = Settings.LeveAllowance,
             },
             new CountdownTimer()
             {
@@ -68,14 +75,15 @@ namespace DailyDuty.System
                     {
                         return nextAvailableTime;
                     }
-
-                }
+                },
+                TimerSettings = Settings.TreasureMap,
             },
             new CountdownTimer()
             {
                 Label = Strings.Timers.WeeklyResetLabel,
                 Period = TimeSpan.FromDays(7),
-                UpdateNextReset = Time.NextWeeklyReset
+                UpdateNextReset = Time.NextWeeklyReset,
+                TimerSettings = Settings.Weekly
             }
         };
 

@@ -56,6 +56,8 @@ namespace DailyDuty.Localization
             public readonly string AutoResizeLabel = Loc.Localize("AutoResizeLabel", "Auto Resize");
             public readonly string ManualSizeLabel = Loc.Localize("ManualSizeLabel", "Manual Size");
 
+            public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
+
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
 
@@ -101,6 +103,18 @@ namespace DailyDuty.Localization
             public readonly string TodoWindowResizeStyleLabel = Loc.Localize("TodoWindowResizeStyleLabel", "Window Resize Options");
             public readonly string TodoWindowInformation = Loc.Localize("TodoWindowInformation", "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.");
             public readonly string TodoWindowEnableExpandedInfo = Loc.Localize("TodoWindowEnableExpandedInfo", "Expanded Todo Display");
+
+            public readonly string TimersWindowEnableTimersWarning = Loc.Localize("TimersWindowEnableTimersWarning", "Enable which timers you would like to see here in 'Timers Window Configuration'");
+            public readonly string TimersWindowLabel = Loc.Localize("TimersWindowLabel", "Timers Window");
+            public readonly string TimersWindowInformation = Loc.Localize("TimersWindowInformation", "The timers window allows you to view the time until various resets as a handy user interface element.");
+            public readonly string TimersWindowTimerConfigurationLabel = Loc.Localize("TimersWindowTimerConfigurationLabel", "Timers Configuration");
+            public readonly string TimersWindowTimersEnableLabel = Loc.Localize("TimersWindowTimersEnableLabel", "Enable Timers");
+            public readonly string TimersWindowForegroundColorLabel = Loc.Localize("TimersWindowForegroundColorLabel", "Foreground Color");
+            public readonly string TimersWindowBackgroundColorLabel = Loc.Localize("TimersWindowBackgroundColorLabel", "Background Color");
+            public readonly string TimersWindowTextColorLabel = Loc.Localize("TimersWindowTextColorLabel", "Text Color");
+            public readonly string TimersWindowFitToWindowLabel = Loc.Localize("TimersWindowFitToWindowLabel", "Fit to Window");
+            public readonly string TimersWindowSizeLabel = Loc.Localize("TimersWindowSizeLabel", "Size");
+
         }
 
         public class ConfigurationStrings

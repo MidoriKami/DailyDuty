@@ -2,6 +2,7 @@
 using System.Numerics;
 using DailyDuty.Data.Components;
 using DailyDuty.Interfaces;
+using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -14,6 +15,7 @@ namespace DailyDuty.Timers
         public TimeSpan Period { get; init; }
         public Func<DateTime>? UpdateNextReset { get; init; }
         private DateTime NextReset { get; set; }
+        public TimerSettings TimerSettings { get; init; }
 
         public void Draw()
         {
@@ -43,6 +45,33 @@ namespace DailyDuty.Timers
             ImGui.Text(FormatTimeSpan(remainingTime, Settings.HideSeconds));
 
             ImGui.PopID();
+        }
+
+        public void DrawStyled()
+        {
+            Update();
+
+            ImGui.PushStyleColor(ImGuiCol.FrameBg, TimerSettings.TimerStyle.BackgroundColor);
+            ImGui.PushStyleColor(ImGuiCol.PlotHistogram, TimerSettings.TimerStyle.ForegroundColor);
+
+            ImGui.BeginGroup();
+            
+            var remainingTime = NextReset - DateTime.UtcNow;
+            var deltaTime = 1.0f - (float)(remainingTime / Period);
+            var cursorStart = ImGui.GetCursorPos();
+            ImGui.ProgressBar(deltaTime, new(TimerSettings.TimerStyle.Size, 20), "");
+
+            ImGui.SetCursorPos(new Vector2(cursorStart.X + TimerSettings.TimerStyle.Padding, cursorStart.Y));
+            ImGui.TextColored(TimerSettings.TimerStyle.TextColor, Label);
+
+            var timeText = remainingTime.Format();
+            var timeTextSize = ImGui.CalcTextSize(timeText);
+            ImGui.SetCursorPos(new Vector2(cursorStart.X + TimerSettings.TimerStyle.Size - TimerSettings.TimerStyle.Padding - timeTextSize.X, cursorStart.Y));
+            ImGui.TextColored(TimerSettings.TimerStyle.TextColor, remainingTime.Format());
+
+            ImGui.EndGroup();
+
+            ImGui.PopStyleColor(2);
         }
 
         private void Update()
