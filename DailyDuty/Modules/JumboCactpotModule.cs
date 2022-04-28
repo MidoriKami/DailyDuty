@@ -24,6 +24,7 @@ namespace DailyDuty.Modules
         public string DisplayName => Strings.Module.JumboCactpotLabel;
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
+        public Action? ExpandedDisplay => null;
 
         private delegate void* AddonReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
 

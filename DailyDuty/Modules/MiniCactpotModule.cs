@@ -23,6 +23,7 @@ namespace DailyDuty.Modules
         public CompletionType Type => CompletionType.Daily;
         private static MiniCactpotSettings Settings => Service.CharacterConfiguration.MiniCactpot;
         public string DisplayName => Strings.Module.MiniCactpotLabel;
+        public Action? ExpandedDisplay => null;
 
         private delegate void* AgentShow(AgentInterface* addon, void* a2, void* a3);
 

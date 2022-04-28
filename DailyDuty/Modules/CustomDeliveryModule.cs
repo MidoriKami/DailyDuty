@@ -1,4 +1,5 @@
-﻿using DailyDuty.Data.Components;
+﻿using System;
+using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
@@ -17,6 +18,7 @@ namespace DailyDuty.Modules
         public string DisplayName => Strings.Module.CustomDeliveryLabel;
         public CompletionType Type => CompletionType.Weekly;
         private static CustomDeliverySettings Settings => Service.CharacterConfiguration.CustomDelivery;
+        public Action? ExpandedDisplay => null;
 
         private delegate int GetCustomDeliveryAllowancesDelegate(byte* array);
 

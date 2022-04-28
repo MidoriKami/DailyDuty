@@ -40,6 +40,24 @@ namespace DailyDuty.ModuleConfiguration
                 ImGui.Text(Strings.Module.DutyRouletteTechnicalInformation);
             }
         };
+
+        private InfoBox? TodoWindowExpandedInfo { get; } = new()
+        {
+            Label = Strings.Features.TodoWindowEnableExpandedInfo,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Module.DutyRouletteExpandedInfo);
+
+                ImGuiHelpers.ScaledDummy(10.0f);
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.ExpandedDisplay))
+                {
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Expanded Display - " + (Settings.ExpandedDisplay ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.All;
         public ModuleType ModuleType => ModuleType.DutyRoulette;
@@ -99,12 +117,6 @@ namespace DailyDuty.ModuleConfiguration
                         {
                             Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{roulette.Type} " + (roulette.Tracked ? "Enabled" : "Disabled"));
                             Service.CharacterConfiguration.Save();
-                        }
-
-                        if (roulette.Type == RouletteType.Mentor)
-                        {
-                            ImGui.SameLine();
-                            ImGuiComponents.HelpMarker("You know it's going to be an extreme... right?");
                         }
                     }
 
@@ -216,6 +228,9 @@ namespace DailyDuty.ModuleConfiguration
             ImGuiHelpers.ScaledDummy(30.0f);
             clickableLink.DrawCentered();
             
+            ImGuiHelpers.ScaledDummy(30.0f);
+            TodoWindowExpandedInfo!.DrawCentered();
+
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered();
 

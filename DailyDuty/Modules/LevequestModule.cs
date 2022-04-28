@@ -1,4 +1,5 @@
-﻿using DailyDuty.Data.Components;
+﻿using System;
+using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
@@ -18,6 +19,7 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         private static LevequestSettings Settings => Service.CharacterConfiguration.Levequest;
         public string DisplayName => Strings.Module.LevequestLabel;
+        public Action? ExpandedDisplay => null;
 
         [Signature("88 05 ?? ?? ?? ?? 0F B7 41 06", ScanType = ScanType.StaticAddress)]
         private readonly LevequestStruct* levequestStruct = null;

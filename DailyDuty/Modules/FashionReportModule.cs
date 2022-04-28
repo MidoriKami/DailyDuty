@@ -24,6 +24,7 @@ namespace DailyDuty.Modules
         public CompletionType Type => CompletionType.Weekly;
         public static FashionReportSettings Settings => Service.CharacterConfiguration.FashionReport;
         public string DisplayName => Strings.Module.FashionReportLabel;
+        public Action? ExpandedDisplay => null;
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
         private bool exchangeStarted;

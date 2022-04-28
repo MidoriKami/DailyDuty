@@ -21,6 +21,7 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         public string DisplayName => Strings.Module.DomanEnclaveLabel;
         private static DomanEnclaveSettings Settings => Service.CharacterConfiguration.DomanEnclave;
+        public Action? ExpandedDisplay => null;
 
         private delegate IntPtr GetPointerDelegate();
 

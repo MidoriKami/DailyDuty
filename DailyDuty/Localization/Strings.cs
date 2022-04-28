@@ -100,7 +100,7 @@ namespace DailyDuty.Localization
             public readonly string TodoWindowCompleteTaskColorLabel = Loc.Localize("TodoWindowCompleteTaskColorLabel", "Complete Task Color");
             public readonly string TodoWindowResizeStyleLabel = Loc.Localize("TodoWindowResizeStyleLabel", "Window Resize Options");
             public readonly string TodoWindowInformation = Loc.Localize("TodoWindowInformation", "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.");
-
+            public readonly string TodoWindowEnableExpandedInfo = Loc.Localize("TodoWindowEnableExpandedInfo", "Expanded Todo Display");
         }
 
         public class ConfigurationStrings
@@ -128,6 +128,7 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "Roulettes Remaining");
             public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "Roulette Remaining");
             public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder");
+            public readonly string DutyRouletteExpandedInfo = Loc.Localize("DutyRouletteExpandedInfo", "Displays individual incomplete duties in the todo window.");
 
             public readonly string WondrousTailsNumStamps = Loc.Localize("WondrousTailsNumStamps", "Stamps"); 
             public readonly string WondrousTailsBookStatusLabel = Loc.Localize("WondrousTailsBookStatusLabel", "Book Status");

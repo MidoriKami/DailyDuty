@@ -24,6 +24,7 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         public static TreasureMapSettings Settings => Service.CharacterConfiguration.TreasureMap;
         public string DisplayName => Strings.Module.TreasureMapLabel;
+        public Action? ExpandedDisplay => null;
 
         public void SendNotification()
         {

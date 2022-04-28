@@ -12,6 +12,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using ImGuiNET;
 
 namespace DailyDuty.Modules
 {
@@ -27,6 +28,23 @@ namespace DailyDuty.Modules
         public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
         public string DisplayName => Strings.Module.DutyRouletteLabel;
+
+        public Action? ExpandedDisplay => () =>
+        {
+            var settings = Service.SystemConfiguration.Windows.Todo;
+
+            foreach (var tracked in Settings.TrackedRoulettes)
+            {
+                if (!tracked.Completed && tracked.Tracked)
+                {
+                    ImGui.TextColored(settings.Colors.IncompleteColor, $"{tracked.Type} Roulette");
+                }
+                else if (tracked.Completed && tracked.Tracked && settings.ShowTasksWhenComplete)
+                {
+                    ImGui.TextColored(settings.Colors.CompleteColor, $"{tracked.Type} Roulette");
+                }
+            }
+        };
 
         private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
         private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);

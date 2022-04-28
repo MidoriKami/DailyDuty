@@ -17,6 +17,7 @@ namespace DailyDuty.Modules
         public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
         public string DisplayName => Strings.Module.BeastTribeLabel;
+        public Action? ExpandedDisplay => null;
 
         [Signature("45 33 C9 48 81 C1 ?? ?? ?? ?? 45 8D 51 02")]
         private readonly delegate* unmanaged<IntPtr, int> getBeastTribeAllowance = null!;
