@@ -23,15 +23,15 @@ namespace DailyDuty
 
             Loc.SetupWithFallbacks();
 
-            try
-            {
-                Loc.ExportLocalizable();
-            }
-            catch (Exception e)
-            {
-                PluginLog.Error(e.Message);
-                throw;
-            }
+            //try
+            //{
+            //    Loc.ExportLocalizable();
+            //}
+            //catch (Exception e)
+            //{
+            //    PluginLog.Error(e.Message);
+            //    throw;
+            //}
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
