@@ -41,10 +41,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
         public override void PreOpenCheck()
         {
-            //if (Service.SystemConfiguration.DeveloperMode)
-            //    IsOpen = true;
-
-            if (Service.LoggedIn == false)
+            if (!Service.LoggedIn)
                 IsOpen = false;
 
             if (Service.ClientState.IsPvP)
