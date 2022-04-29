@@ -61,7 +61,7 @@ namespace DailyDuty.Windows.LogBrowser
 
         public override void PreOpenCheck()
         {
-            if (!Service.SystemConfiguration.DeveloperMode)
+            if (!Service.SystemConfiguration.DeveloperMode || Service.ClientState.IsPvP)
                 IsOpen = false;
         }
 

@@ -38,7 +38,7 @@ namespace DailyDuty.Windows.TodoWindow
 
         public override void PreOpenCheck()
         {
-            if (!Service.LoggedIn)
+            if (!Service.LoggedIn || Service.ClientState.IsPvP)
             {
                 IsOpen = false;
                 return;
