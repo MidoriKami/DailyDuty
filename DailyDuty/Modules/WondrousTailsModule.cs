@@ -81,8 +81,6 @@ namespace DailyDuty.Modules
 
         void IZoneChangeAlwaysNotification.SendNotification()
         {
-            if (Settings.Enabled == false) return;
-
             if (Condition.IsBoundByDuty() && Settings.InstanceNotifications && !IsCompleted())
             {
                 var e = Service.ClientState.TerritoryType;
