@@ -16,7 +16,7 @@ namespace DailyDuty.Windows.LogBrowser
     internal class LogBrowserWindow : Window, ICommand, IDisposable
     {
 
-        private List<CharacterLogFile> logFiles = new();
+        private readonly List<CharacterLogFile> logFiles = new();
         private CharacterLogFile? selectedLogFile = null;
 
         public LogBrowserWindow() : base("DailyDuty Log Browser")
