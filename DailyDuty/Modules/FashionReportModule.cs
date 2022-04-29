@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using FFXIVClientStructs.FFXIV.Component.GUI;
+using Dalamud.Hooking;
+using Dalamud.Utility.Signatures;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules
 {
     internal unsafe class FashionReportModule :
-        IUpdateable,
         IResettable,
         ILoginNotification,
         IZoneChangeThrottledNotification,
-        ICompletable
+        ICompletable,
+        IDisposable
     {
         public GenericSettings GenericSettings => Settings;
         public CompletionType Type => CompletionType.Weekly;
@@ -27,45 +26,70 @@ namespace DailyDuty.Modules
         public Action? ExpandedDisplay => null;
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
-        private bool exchangeStarted;
+
+        private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
+
+        [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
+        private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
+
+        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6,  byte a7)
+        {
+            var result = goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
+
+            if (Service.TargetManager.Target?.DataId == 1025176)
+            {
+                int allowances = Settings.AllowancesRemaining;
+                int score = Settings.HighestWeeklyScore;
+
+                switch (a7)
+                {
+                    // When speaking to Masked Rose, gets update information
+                    case 5:
+                        allowances = a6[1];
+                        score = a6[0];
+                        break;
+
+                    // During turn in, gets new score
+                    case 3:
+                        score = a6[0];
+                        break;
+
+                    // During turn in, gets new allowances
+                    case 1:
+                        allowances = a6[0];
+                        break;
+                }
+
+                if (Settings.AllowancesRemaining != allowances)
+                {
+                    Settings.AllowancesRemaining = allowances;
+                    Service.CharacterConfiguration.Save();
+                }
+
+                if (Settings.HighestWeeklyScore != score)
+                {
+                    Settings.HighestWeeklyScore = score;
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+
+            return result;
+        }
 
         public FashionReportModule()
         {
+            SignatureHelper.Initialise(this);
+
+            goldSaucerUpdateHook?.Enable();
+
             goldSaucerTeleport = Service.TeleportManager.GetPayload(ChatPayloads.GoldSaucerTeleport);
         }
 
-        public void Update()
+        public void Dispose()
         {
-            if (Settings.Enabled)
-            {
-                // If we are occupied by talking to a quest npc
-                if (Service.Condition[ConditionFlag.OccupiedInQuestEvent])
-                {
-                    // If FashionReport Windows are open
-                    if (GetFashionReportScoreGauge() != null && GetFashionReportInfoWindow() != null)
-                    {
-                        if (exchangeStarted == false)
-                        {
-                            var allowances = GetRemainingAllowances();
-
-                            if (allowances != null)
-                            {
-                                exchangeStarted = true;
-
-                                Settings.AllowancesRemaining = allowances.Value - 1;
-                                Settings.HighestWeeklyScore = GetHighScore();
-                                Service.CharacterConfiguration.Save();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    exchangeStarted = false;
-                }
-            }
+            goldSaucerUpdateHook?.Dispose();
         }
-
+        
         public void SendNotification()
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
@@ -134,70 +158,6 @@ namespace DailyDuty.Modules
             var now = DateTime.UtcNow;
 
             return now > reportOpen && now < reportClosed;
-        }
-
-        private int? GetRemainingAllowances()
-        {
-            var pointer = GetFashionReportInfoWindow();
-            if (pointer == null) return null;
-
-            var textNode = (AtkTextNode*)pointer->GetNodeById(32);
-            if (textNode == null) return null;
-
-            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
-
-            var number = int.Parse(resultString);
-            if (number == 0) return null;
-
-            return number;
-        }
-
-        private int GetHighScore()
-        {
-            var gaugeScore = GetGaugeScore() ?? 0;
-            var windowScore = GetWindowScore() ?? 0;
-
-            return Math.Max(gaugeScore, windowScore);
-        }
-
-        private int? GetGaugeScore()
-        {
-            var pointer = GetFashionReportScoreGauge();
-            if (pointer == null) return null;
-
-            var textNode = (AtkCounterNode*)pointer->GetNodeById(12);
-            if(textNode == null) return null;
-
-            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
-
-            var number = int.Parse(resultString);
-
-            return number;
-        }
-
-        private int? GetWindowScore()
-        {
-            var pointer = GetFashionReportInfoWindow();
-            if (pointer == null) return null;
-
-            var textNode = (AtkTextNode*)pointer->GetNodeById(33);
-            if (textNode == null) return null;
-
-            var resultString = Regex.Match(textNode->NodeText.ToString(), @"\d+").Value;
-
-            var number = int.Parse(resultString);
-
-            return number;
-        }
-
-        private AtkUnitBase* GetFashionReportScoreGauge()
-        {
-            return (AtkUnitBase*)Service.GameGui.GetAddonByName("FashionCheckScoreGauge", 1);
-        }
-
-        private AtkUnitBase* GetFashionReportInfoWindow()
-        {
-            return (AtkUnitBase*)Service.GameGui.GetAddonByName("FashionCheck", 1);
         }
     }
 }

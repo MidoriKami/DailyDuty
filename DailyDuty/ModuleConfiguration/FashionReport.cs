@@ -32,6 +32,8 @@ namespace DailyDuty.ModuleConfiguration
             ContentsAction = () =>
             {
                 ImGui.Text(Strings.Module.FashionReportAutomationInformation);
+                ImGui.Spacing();
+                ImGui.TextColored(Colors.Orange, Strings.Module.FashionReportReSyncInformation);
             }
         };
 
