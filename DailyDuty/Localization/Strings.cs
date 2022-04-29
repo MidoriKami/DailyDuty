@@ -201,7 +201,7 @@ namespace DailyDuty.Localization
             public readonly string DomanEnclaveBudgetRemainingLabel = Loc.Localize("DomanEnclaveBudgetRemainingLabel", "Budget Remaining");
             public readonly string DomanEnclaveCurrentAllowanceLabel = Loc.Localize("DomanEnclaveCurrentAllowanceLabel", "Current Allowance");
             public readonly string DomanEnclaveClickableLinkDescription = Loc.Localize("DomanEnclaveClickableLinkDescription", "Notifications can be clicked on to teleport to the Doman Enclave");
-            public readonly string DomanEnclaveInitializationWarning = Loc.Localize("DDomanEnclaveInitializationWarning", "Please visit the doman enclave to initialize data");
+            public readonly string DomanEnclaveInitializationWarning = Loc.Localize("DDomanEnclaveInitializationWarning", "Please visit the Doman Enclave to initialize data");
 
             public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Fashion Report");
             public readonly string FashionReportInformation = Loc.Localize("FashionReportInformation", "Fashion Report is a weekly task you can complete for MGP. Simply 'Present yourself for judging' once a week without any effort and be rewarded with 10,000 MGP. You can attempt to create an outfit for a higher score, additional MGP, and titles.");
