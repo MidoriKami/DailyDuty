@@ -145,13 +145,13 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if(Draw.Checkbox(Strings.Common.NotifyOnLoginLabel, ref Settings.LoginReminder, Strings.Common.NotifyOnLoginHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Login Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Login Notifications " + (Settings.LoginReminder ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
 
                 if(Draw.Checkbox(Strings.Common.NotifyOnZoneChangeLabel, ref Settings.ZoneChangeReminder, Strings.Common.NotifyOnZoneChangeHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Zone Change Notifications " + (Settings.Enabled ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Zone Change Notifications " + (Settings.ZoneChangeReminder ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
             }
