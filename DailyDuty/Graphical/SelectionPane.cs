@@ -132,6 +132,13 @@ namespace DailyDuty.Graphical
         {
             var region = ImGui.GetContentRegionAvail();
             var versionText = GetVersionText();
+
+            if (Service.SystemConfiguration.DeveloperMode)
+            {
+                var commitInfo = Assembly.GetExecutingAssembly().GetCustomAttribute< AssemblyInformationalVersionAttribute >()?.InformationalVersion ?? "Unknown";
+                versionText += " - " + commitInfo;
+            }
+
             var versionTextSize = ImGui.CalcTextSize(versionText) / 2.0f;
             var cursorStart = ImGui.GetCursorPos();
             cursorStart.X += region.X / 2.0f - versionTextSize.X;

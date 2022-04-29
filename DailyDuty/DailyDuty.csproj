@@ -21,6 +21,16 @@
     <OutputPath>$(AppData)\XIVLauncher\devPlugins\DailyDuty\</OutputPath>
   </PropertyGroup>
 
+	<Target Name="GetGitHash" BeforeTargets="GetAssemblyVersion" Returns="InformationalVersion">
+		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+		</Exec>
+
+		<PropertyGroup>
+			<InformationalVersion>$(GitCommitHash)</InformationalVersion>
+		</PropertyGroup>
+	</Target>
+
   <ItemGroup>
     <None Remove="DailyDuty.json" />
     <None Remove="README.md" />

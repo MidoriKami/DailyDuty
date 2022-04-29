@@ -51,7 +51,6 @@ namespace DailyDuty.Graphical.TabItems.Special
         public void DrawConfigurationPane()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
-
             logOperations.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
