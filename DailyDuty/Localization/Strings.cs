@@ -15,6 +15,11 @@ namespace DailyDuty.Localization
             public readonly string CompletionStatusLabel = Loc.Localize("CompletionStatusLabel", "Completion Status");
             public readonly string NotificationOptionsLabel = Loc.Localize("NotificationOptionsLabel", "Notification Options");
             public readonly string ClickableLinkLabel = Loc.Localize("ClickableLinkLabel", "Clickable Link");
+            
+            public readonly string TaskDisplayOptionsLabel = Loc.Localize("TaskDisplayOptionsLabel", "Task Display Options");
+            public readonly string TaskHeaderColorLabel = Loc.Localize("TaskHeaderColorLabel", "Task Category Color");
+            public readonly string TaskIncompleteTaskColorLabel = Loc.Localize("TaskIncompleteTaskColorLabel", "Incomplete Task Color");
+            public readonly string TaskCompleteTaskColorLabel = Loc.Localize("TaskCompleteTaskColorLabel", "Complete Task Color");
 
             public readonly string NotifyOnLoginLabel = Loc.Localize("NotifyOnLoginLabel", "Send Notifications on Login");
             public readonly string NotifyOnLoginHelpText = Loc.Localize("NotifyOnLoginHelpText", "If this module is incomplete or has relevant messages send a notification when you login to a character.");
@@ -82,7 +87,7 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteDutyFinderOverlayInformationDisclaimer = Loc.Localize("DutyRouletteDutyFinderOverlayInformationDisclaimer", "Requires task module 'Duty Roulette' to be enabled to function");
             public readonly string DutyRouletteDutyFinderOverlayDescription = Loc.Localize("DutyRouletteDutyFinderOverlayDescription", "Changes the colors of the 'Duty Roulette' text in the Duty Finder to reflect the daily completion status.");
             public readonly string DutyRouletteDutyFinderOverlayTechnicalDescription = Loc.Localize("DutyRouletteDutyFinderOverlayTechnicalDescription", "Use the 'Duty Roulette' module to configure which roulettes are colored.\n\nYou can also set the 'complete' and 'incomplete' colors in the 'Duty Roulette' module\n\nRoulettes that are not tracked will not be colored, regardless of their completion status.");
-            
+
             public readonly string WondrousTailsDutyFinderOverlayLabel = Loc.Localize("WondrousTailsDutyFinderOverlayLabel", "Wondrous Tails Duty Finder Overlay");
             public readonly string WondrousTailsDutyFinderOverlayDescription = Loc.Localize("WondrousTailsDutyFinderOverlayDescription", "Adds a clover icon next to the duties in the Duty Finder, if that duty is in your Wondrous Tails book.\n\nThe clover will be golden if that duty is able to be completed to reward you a stamp.\n\nThe clover will be hollow if that duty has already been claimed for a stamp.");
             public readonly string WondrousTailsDutyFinderOverlayAutomationInformation = Loc.Localize("WondrousTailsDutyFinderOverlayAutomationInformation", "The Wondrous Tails duties are read directly from game data.\n\nThe Duty Finder may need to be opened and closed again to refresh the displayed data.");
@@ -94,12 +99,8 @@ namespace DailyDuty.Localization
             public readonly string TodoWindowShowWeeklyLabel = Loc.Localize("TodoWindowShowWeeklyLabel", "Show Weekly Tasks");
             public readonly string TodoWindowHideWindowWhenLabel = Loc.Localize("TodoWindowHideWindowWhenLabel", "Hide Window When");
             public readonly string TodoWindowHideWhenCompleteLabel = Loc.Localize("TodoWindowHideWhenCompleteLabel", "All Tasks are Complete");
-            public readonly string TodoWindowTaskDisplayOptionsLabel = Loc.Localize("TodoWindowTaskDisplayOptionsLabel", "Task Display Options");
             public readonly string TodoWindowShowWhenCompleteLabel = Loc.Localize("TodoWindowShowWhenCompleteLabel", "Show Completed Tasks");
             public readonly string TodoWindowHideInDutyLabel = Loc.Localize("TodoWindowHideInDutyLabel", "In a Duty");
-            public readonly string TodoWindowHeaderColorLabel = Loc.Localize("TodoWindowHeaderColorLabel", "Task Category Color");
-            public readonly string TodoWindowIncompleteTaskColorLabel = Loc.Localize("TodoWindowIncompleteTaskColorLabel", "Incomplete Task Color");
-            public readonly string TodoWindowCompleteTaskColorLabel = Loc.Localize("TodoWindowCompleteTaskColorLabel", "Complete Task Color");
             public readonly string TodoWindowResizeStyleLabel = Loc.Localize("TodoWindowResizeStyleLabel", "Window Resize Options");
             public readonly string TodoWindowInformation = Loc.Localize("TodoWindowInformation", "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.");
             public readonly string TodoWindowEnableExpandedInfo = Loc.Localize("TodoWindowEnableExpandedInfo", "Expanded Todo Display");

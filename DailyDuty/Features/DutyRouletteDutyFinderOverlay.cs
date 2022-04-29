@@ -55,6 +55,23 @@ namespace DailyDuty.Features
             },
         };
 
+        private readonly InfoBox displayOptions = new()
+        {
+            Label = Strings.Common.TaskDisplayOptionsLabel,
+            ContentsAction = () =>
+            {
+                if (ImGui.ColorEdit4(Strings.Common.TaskCompleteTaskColorLabel, ref Settings.CompleteColor, ImGuiColorEditFlags.NoInputs))
+                {
+                    Service.SystemConfiguration.Save();
+                }
+
+                if (ImGui.ColorEdit4(Strings.Common.TaskIncompleteTaskColorLabel, ref Settings.IncompleteColor, ImGuiColorEditFlags.NoInputs))
+                {
+                    Service.SystemConfiguration.Save();
+                }
+            }
+        };
+
         public DutyRouletteDutyFinderOverlay()
         {
             AboutImage = Image.LoadImage("DutyRouletteDutyFinderOverlay");
@@ -72,7 +89,7 @@ namespace DailyDuty.Features
             Options.DrawCentered();
             
             ImGuiHelpers.ScaledDummy(30.0f);
-
+            displayOptions.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(10.0f);
         }

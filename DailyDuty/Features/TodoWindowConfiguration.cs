@@ -92,7 +92,7 @@ namespace DailyDuty.Features
 
         private readonly InfoBox displayOptions = new()
         {
-            Label = Strings.Features.TodoWindowTaskDisplayOptionsLabel,
+            Label = Strings.Common.TaskDisplayOptionsLabel,
             ContentsAction = () =>
             {
                 if (Draw.Checkbox(Strings.Features.TodoWindowShowWhenCompleteLabel, ref Settings.ShowTasksWhenComplete))
@@ -102,11 +102,20 @@ namespace DailyDuty.Features
 
                 ImGuiHelpers.ScaledDummy(10.0f);
 
-                ImGui.ColorEdit4(Strings.Features.TodoWindowHeaderColorLabel, ref Settings.Colors.HeaderColor, ImGuiColorEditFlags.NoInputs);
+                if (ImGui.ColorEdit4(Strings.Common.TaskHeaderColorLabel, ref Settings.Colors.HeaderColor, ImGuiColorEditFlags.NoInputs))
+                {
+                    Service.SystemConfiguration.Save();
+                }
 
-                ImGui.ColorEdit4(Strings.Features.TodoWindowCompleteTaskColorLabel, ref Settings.Colors.CompleteColor, ImGuiColorEditFlags.NoInputs);
+                if (ImGui.ColorEdit4(Strings.Common.TaskCompleteTaskColorLabel, ref Settings.Colors.CompleteColor, ImGuiColorEditFlags.NoInputs))
+                {
+                    Service.SystemConfiguration.Save();
+                }
 
-                ImGui.ColorEdit4(Strings.Features.TodoWindowIncompleteTaskColorLabel, ref Settings.Colors.IncompleteColor, ImGuiColorEditFlags.NoInputs);
+                if (ImGui.ColorEdit4(Strings.Common.TaskIncompleteTaskColorLabel, ref Settings.Colors.IncompleteColor, ImGuiColorEditFlags.NoInputs))
+                {
+                    Service.SystemConfiguration.Save();
+                }
             }
         };
 
