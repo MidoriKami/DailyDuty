@@ -188,6 +188,7 @@ namespace DailyDuty.Localization
             public readonly string MiniCactpotTechnicalInformation = Loc.Localize("MiniCactpotTechnicalInformation", "The game removes your Mini Cactpot ticket allowance when the window is opened and you spend the MGP to purchase the ticket. If your game is closed or crashes after the ticket window opened, that ticket will be lost.");
             public readonly string MiniCactpotTicketsRemainingLabel = Loc.Localize("MiniCactpotTicketsRemainingLabel", "Tickets Remaining");
             public readonly string MiniCactpotClickableLinkDescription = Loc.Localize("MiniCactpotClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
+            public readonly string MiniCactpotReSyncInformation = Loc.Localize("MiniCactpotReSyncInformation", "You can force a re-sync of Mini Cactpot allowances by speaking to the 'Mini Cactpot Broker' and selecting 'Purchase a Mini Cactpot ticket'");
 
             public readonly string CustomDeliveryLabel = Loc.Localize("CustomDeliveryLabel", "Custom Delivery");
             public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gathering scripts, exp rewards, various materia, folklore tomes, and more.");
@@ -201,7 +202,7 @@ namespace DailyDuty.Localization
             public readonly string DomanEnclaveBudgetRemainingLabel = Loc.Localize("DomanEnclaveBudgetRemainingLabel", "Budget Remaining");
             public readonly string DomanEnclaveCurrentAllowanceLabel = Loc.Localize("DomanEnclaveCurrentAllowanceLabel", "Current Allowance");
             public readonly string DomanEnclaveClickableLinkDescription = Loc.Localize("DomanEnclaveClickableLinkDescription", "Notifications can be clicked on to teleport to the Doman Enclave");
-            public readonly string DomanEnclaveInitializationWarning = Loc.Localize("DDomanEnclaveInitializationWarning", "Please visit the Doman Enclave to initialize data");
+            public readonly string DomanEnclaveInitializationWarning = Loc.Localize("DDomanEnclaveInitializationWarning", "You can re-sync Doman Enclave data by visiting the Doman Enclave");
 
             public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Fashion Report");
             public readonly string FashionReportInformation = Loc.Localize("FashionReportInformation", "Fashion Report is a weekly task you can complete for MGP. Simply 'Present yourself for judging' once a week without any effort and be rewarded with 10,000 MGP. You can attempt to create an outfit for a higher score, additional MGP, and titles.");
@@ -226,6 +227,7 @@ namespace DailyDuty.Localization
             public readonly string JumboCactpotTicketAvailableLabel = Loc.Localize("JumboCactpotTicketAvailableLabel", "Ticket Available");
             public readonly string JumboCactpotNextDrawingLabel = Loc.Localize("JumboCactpotNextDrawingLabel", "Next Drawing");
             public readonly string JumboCactpotClickableLinkDescription = Loc.Localize("JumboCactpotClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
+            public readonly string JumboCactpotReSyncInformation = Loc.Localize("JumboCactpotReSyncInformation", "You can force a re-sync of ticket data by speaking to the 'Jumbo Cactpot Broker'");
 
             public readonly string HuntMarksWeeklyLabel = Loc.Localize("HuntMarksWeeklyLabel", "Hunt Marks (Weekly)");
             public readonly string HuntMarksWeeklyInformation = Loc.Localize("HuntMarksWeeklyInformation", "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. A reward that is of note is the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.");

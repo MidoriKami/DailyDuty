@@ -32,6 +32,8 @@ namespace DailyDuty.ModuleConfiguration
             ContentsAction = () =>
             {
                 ImGui.Text(Strings.Module.JumboCactpotAutomationInformation);
+                ImGui.Spacing();
+                ImGui.TextColored(Colors.Orange, Strings.Module.JumboCactpotReSyncInformation);
             }
         };
 
