@@ -74,6 +74,21 @@ namespace DailyDuty.Features
             onFinalizeHook?.Dispose();
             onUpdateHook?.Dispose();
             onRefreshHook?.Dispose();
+
+            var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+            var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+            if (contentsFinderAgent->IsAgentActive())
+            {
+                var addonPointer = GetContentsFinderPointer();
+
+                foreach (var i in Enumerable.Range(61001, 15).Append(6))
+                {
+                    var id = (uint)i;
+
+                    SetImageNodeVisibility(addonPointer, id, 29, false);
+                    SetImageNodeVisibility(addonPointer, id, 30, false);
+                }
+            }
         }
 
         private void* ContentsFinder_Show(void* a1)
@@ -135,7 +150,7 @@ namespace DailyDuty.Features
 
             if (Settings.Enabled == false) return result;
             
-            UpdateWondrousTails();
+            UpdateWondrousTails(atkUnitBase);
             
             return result;
         }
@@ -151,7 +166,7 @@ namespace DailyDuty.Features
                 {
                     var id = (uint)i;
 
-                    AddImageNodeByID(id);
+                    AddImageNodeByID(atkUnitBase, id);
                 }
             }
         }
@@ -162,9 +177,10 @@ namespace DailyDuty.Features
 
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
-                var id = (uint) i;
-                DestroyNode(id, 29);
-                DestroyNode(id, 30);
+                var id = (uint)i;
+
+                SetImageNodeVisibility(atkUnitBase, id, 29, false);
+                SetImageNodeVisibility(atkUnitBase, id, 30, false);
             }
 
             return onFinalizeHook!.Original(atkUnitBase);
@@ -173,49 +189,15 @@ namespace DailyDuty.Features
         //
         //  Implementation
         //
-
-        private void DestroyNode(uint id, uint nodeId)
+        private ButtonState? IsWondrousTailsDuty(AtkUnitBase* baseNode, uint id)
         {
-            var firstNode = GetListItemNode(id);
-
-            if (firstNode == null) return;
-
-            var uldManager = firstNode->Component->UldManager;
-            var customNode = Node.GetNodeByID<AtkImageNode>(uldManager, nodeId, NodeType.Image);
-
-            if (customNode != null)
-            {
-                if (customNode->AtkResNode.PrevSiblingNode != null)
-                    customNode->AtkResNode.PrevSiblingNode->NextSiblingNode = customNode->AtkResNode.NextSiblingNode;
-
-                if (customNode->AtkResNode.NextSiblingNode != null)
-                    customNode->AtkResNode.NextSiblingNode->PrevSiblingNode = customNode->AtkResNode.PrevSiblingNode;
-
-
-                firstNode->Component->UldManager.UpdateDrawNodeList();
-
-                customNode->PartsList->Parts->UldAsset->AtkTexture.Destroy(true);
-                IMemorySpace.Free(customNode->PartsList->Parts->UldAsset, (ulong) sizeof(AtkUldAsset));
-
-                IMemorySpace.Free(customNode->PartsList->Parts, (ulong) sizeof(AtkUldPart));
-
-                IMemorySpace.Free(customNode->PartsList, (ulong) sizeof(AtkUldPartsList));
-                
-                customNode->UnloadTexture();
-                customNode->AtkResNode.Destroy(true);
-                IMemorySpace.Free(customNode, (ulong)sizeof(AtkImageNode));
-            }
-        }
-
-        private ButtonState? IsWondrousTailsDuty(uint id)
-        {
-            var textNode = GetListItemTextNode(id);
+            var textNode = GetListItemTextNode(baseNode, id);
 
             if(textNode == null) return null;
 
             var nodeString = textNode->NodeText.ToString().ToLower();
             var nodeRegexString = Regex.Replace(nodeString, "[^\\p{L}\\p{N}]", "");
-
+            
             var containsEllipsis = nodeString.Contains("...");
 
             foreach (var result in contentFinderDuties)
@@ -253,38 +235,38 @@ namespace DailyDuty.Features
             return null;
         }
 
-        private void UpdateWondrousTails()
+        private void UpdateWondrousTails(AtkUnitBase* baseNode)
         {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint)i;
 
-                var taskState = IsWondrousTailsDuty(id);
+                var taskState = IsWondrousTailsDuty(baseNode, id);
 
                 if (taskState == null)
                 {
-                    SetImageNodeVisibility(id, 29, false);
-                    SetImageNodeVisibility(id, 30, false);
+                    SetImageNodeVisibility(baseNode, id, 29, false);
+                    SetImageNodeVisibility(baseNode, id, 30, false);
                 }
                 else if (taskState == ButtonState.Unavailable)
                 {
-                    SetImageNodeVisibility(id, 29, false);
-                    SetImageNodeVisibility(id, 30, true);
+                    SetImageNodeVisibility(baseNode, id, 29, false);
+                    SetImageNodeVisibility(baseNode, id, 30, true);
                 }
                 else if (taskState is ButtonState.AvailableNow or ButtonState.Completable)
                 {
-                    SetImageNodeVisibility(id, 29, true);
-                    SetImageNodeVisibility(id, 30, false);
+                    SetImageNodeVisibility(baseNode, id, 29, true);
+                    SetImageNodeVisibility(baseNode, id, 30, false);
                 }
             }
         }
 
-        private void AddImageNodeByID(uint id)
+        private void AddImageNodeByID(AtkUnitBase* baseNode, uint id)
         {
-            var treeNode = GetTreeListBaseNode();
-            var targetNode = GetListItemNode(id);
 
-            if (treeNode == null || targetNode == null) return;
+            var targetNode = GetListItemNode(baseNode, id);
+
+            if (targetNode == null) return;
 
             var uldManager = targetNode->Component->UldManager;
             var cloverNode = Node.GetNodeByID<AtkImageNode>(uldManager, 29, NodeType.Image);
@@ -311,14 +293,15 @@ namespace DailyDuty.Features
             return (AtkUnitBase*)Service.GameGui.GetAddonByName("ContentsFinder", 1);
         }
 
-        private AtkComponentNode* GetTreeListBaseNode()
+        private AtkComponentNode* GetListItemNode(AtkUnitBase* rootNode, uint nodeID)
         {
-            return Node.GetComponentNode(GetContentsFinderPointer(), 52);
-        }
+            var treeListBaseNode = Node.GetComponentNode(rootNode, 52);
 
-        private AtkComponentNode* GetListItemNode(uint nodeID)
-        {
-            return Node.GetNodeByID<AtkComponentNode>(GetTreeListBaseNode(), nodeID);
+            if (treeListBaseNode == null) return null;
+
+            var listItemNode = Node.GetNodeByID<AtkComponentNode>(treeListBaseNode, nodeID);
+
+            return listItemNode;
         }
 
         private AtkTextNode* GetTextNode(AtkComponentNode* listItemNode)
@@ -326,9 +309,9 @@ namespace DailyDuty.Features
             return Node.GetNodeByID<AtkTextNode>(listItemNode, 5);
         }
 
-        private AtkTextNode* GetListItemTextNode(uint id)
+        private AtkTextNode* GetListItemTextNode(AtkUnitBase* rootNode, uint id)
         {
-            var listItemNode = GetListItemNode(id);
+            var listItemNode = GetListItemNode(rootNode, id);
 
             if(listItemNode == null) return null;
 
@@ -336,7 +319,7 @@ namespace DailyDuty.Features
 
             return textNode;
         }
-        
+
         private void MakeImageNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates, Vector2 positionOffset = default)
         {
             var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
@@ -408,9 +391,9 @@ namespace DailyDuty.Features
             rootNode->Component->UldManager.UpdateDrawNodeList();
         }
 
-        private void SetImageNodeVisibility(uint id, uint nodeTypeID, bool visible)
+        private void SetImageNodeVisibility(AtkUnitBase* baseNode, uint id, uint nodeTypeID, bool visible)
         {
-            var firstNode = GetListItemNode(id);
+            var firstNode = GetListItemNode(baseNode, id);
 
             if (firstNode == null) return;
 
