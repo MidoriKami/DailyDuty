@@ -63,12 +63,14 @@ namespace DailyDuty.Modules
                 if (Settings.AllowancesRemaining != allowances)
                 {
                     Settings.AllowancesRemaining = allowances;
+                    Service.LogManager.LogMessage(ModuleType.FashionReport, "Remaining Allowances Updated " + Settings.AllowancesRemaining);
                     Service.CharacterConfiguration.Save();
                 }
 
                 if (Settings.HighestWeeklyScore != score)
                 {
                     Settings.HighestWeeklyScore = score;
+                    Service.LogManager.LogMessage(ModuleType.FashionReport, "Highest Score Updated " + Settings.HighestWeeklyScore);
                     Service.CharacterConfiguration.Save();
                 }
             }

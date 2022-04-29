@@ -71,16 +71,19 @@ namespace DailyDuty.Modules
             switch (hunt.State)
             {
                 case TrackedHuntState.Unobtained when data.Obtained:
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, $"{hunt.Type} - Mark Bill Obtained");
                     hunt.State = TrackedHuntState.Obtained;
                     Service.CharacterConfiguration.Save();
                     break;
 
                 case TrackedHuntState.Obtained when data.Obtained == false && data.KillCounts.First != 1:
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, $"{hunt.Type} - Mark Bill Unobtained");
                     hunt.State = TrackedHuntState.Unobtained;
                     Service.CharacterConfiguration.Save();
                     break;
 
                 case TrackedHuntState.Obtained when data.KillCounts.First == 1:
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, $"{hunt.Type} - Mark Killed");
                     hunt.State = TrackedHuntState.Killed;
                     Service.CharacterConfiguration.Save();
                     break;

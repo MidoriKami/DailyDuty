@@ -50,6 +50,7 @@ namespace DailyDuty.Modules
                     if (Settings.TicketsRemaining != a6[4])
                     {
                         Settings.TicketsRemaining = a6[4];
+                        Service.LogManager.LogMessage(ModuleType.MiniCactpot, "ReSync - Tickets Remaining " + Settings.TicketsRemaining);
                         Service.CharacterConfiguration.Save();
                     }
                 }
@@ -58,6 +59,7 @@ namespace DailyDuty.Modules
                     if (Settings.TicketsRemaining != 0)
                     {
                         Settings.TicketsRemaining = 0;
+                        Service.LogManager.LogMessage(ModuleType.MiniCactpot, "ReSync - Tickets Remaining " + Settings.TicketsRemaining);
                         Service.CharacterConfiguration.Save();
                     }
                 }

@@ -55,6 +55,7 @@ namespace DailyDuty.Modules
                     {
                         if (!Settings.Tickets.Contains(ticketValue))
                         {
+                            Service.LogManager.LogMessage(ModuleType.JumboCactpot, "ReSync - New Ticket found " + ticketValue);
                             Settings.Tickets.Add(ticketValue);
                             Service.CharacterConfiguration.Save();
                         }
