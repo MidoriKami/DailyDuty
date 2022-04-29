@@ -207,17 +207,17 @@ namespace DailyDuty.Features
 
                     if (rouletteState is {Tracked: true, Completed: true})
                     {
-                        textNode->TextColor.R = (byte) (Settings.DutyRouletteCompleteColor.X * 255);
-                        textNode->TextColor.G = (byte) (Settings.DutyRouletteCompleteColor.Y * 255);
-                        textNode->TextColor.B = (byte) (Settings.DutyRouletteCompleteColor.Z * 255);
-                        textNode->TextColor.A = (byte) (Settings.DutyRouletteCompleteColor.W * 255);
+                        textNode->TextColor.R = (byte) (Settings.CompleteColor.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.CompleteColor.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.CompleteColor.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.CompleteColor.W * 255);
                     }
                     else if (rouletteState is {Tracked: true, Completed: false})
                     {
-                        textNode->TextColor.R = (byte) (Settings.DutyRouletteIncompleteColor.X * 255);
-                        textNode->TextColor.G = (byte) (Settings.DutyRouletteIncompleteColor.Y * 255);
-                        textNode->TextColor.B = (byte) (Settings.DutyRouletteIncompleteColor.Z * 255);
-                        textNode->TextColor.A = (byte) (Settings.DutyRouletteIncompleteColor.W * 255);
+                        textNode->TextColor.R = (byte) (Settings.IncompleteColor.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.IncompleteColor.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.IncompleteColor.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.IncompleteColor.W * 255);
                     }
                     else
                     {
