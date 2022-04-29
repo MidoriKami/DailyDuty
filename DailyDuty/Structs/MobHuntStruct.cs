@@ -1,6 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.Runtime.InteropServices;
-using Dalamud.Utility;
+using DailyDuty.Enums;
+using DailyDuty.Localization;
 
 // ReSharper disable InconsistentNaming
 
@@ -8,24 +9,24 @@ namespace DailyDuty.Structs
 {
     public enum HuntMarkType
     {
-        [Description("Level 1 :: A Realm Reborn")] RealmReborn_LevelOne = 0,
-        [Description("Level 1 :: Heavensward")] Heavensward_LevelOne = 1,
-        [Description("Level 2 :: Heavensward")] Heavensward_LevelTwo = 2,
-        [Description("Level 3 :: Heavensward")] Heavensward_LevelThree = 3,
-        [Description("Elite :: A Realm Reborn")] RealmReborn_Elite = 4,
-        [Description("Elite :: Heavensward")] Heavensward_Elite = 5,
-        [Description("Level 1 :: Stormblood")] Stormblood_LevelOne = 6,
-        [Description("Level 2 :: Stormblood")] Stormblood_LevelTwo = 7,
-        [Description("Level 3 :: Stormblood")] Stormblood_LevelThree = 8,
-        [Description("Elite :: Stormblood")] Stormblood_Elite = 9,
-        [Description("Level 1 :: Shadowbringers")] Shadowbringers_LevelOne = 10,
-        [Description("Level 2 :: Shadowbringers")] Shadowbringers_LevelTwo = 11,
-        [Description("Level 3 :: Shadowbringers")] Shadowbringers_LevelThree = 12,
-        [Description("Elite :: Shadowbringers")] Shadowbringers_Elite = 13,
-        [Description("Level 1 :: Endwalker")] Endwalker_LevelOne = 14,
-        [Description("Level 2 :: Endwalker")] Endwalker_LevelTwo = 15,
-        [Description("Level 3 :: Endwalker")] Endwalker_LevelThree = 16,
-        [Description("Elite :: Endwalker")] Endwalker_Elite = 17
+        RealmReborn_LevelOne = 0,
+        Heavensward_LevelOne = 1,
+        Heavensward_LevelTwo = 2,
+        Heavensward_LevelThree = 3,
+        RealmReborn_Elite = 4,
+        Heavensward_Elite = 5,
+        Stormblood_LevelOne = 6,
+        Stormblood_LevelTwo = 7,
+        Stormblood_LevelThree = 8,
+        Stormblood_Elite = 9,
+        Shadowbringers_LevelOne = 10,
+        Shadowbringers_LevelTwo = 11,
+        Shadowbringers_LevelThree = 12,
+        Shadowbringers_Elite = 13,
+        Endwalker_LevelOne = 14,
+        Endwalker_LevelTwo = 15,
+        Endwalker_LevelThree = 16,
+        Endwalker_Elite = 17
     }
 
     public class HuntData
@@ -78,9 +79,86 @@ namespace DailyDuty.Structs
 
     public static class HuntMarkTypeExtensions
     {
-        public static string Description(this HuntMarkType value)
+        public static string GetLabel(this HuntMarkType value)
         {
-            return value.GetAttribute<DescriptionAttribute>().Description;
+            var expansionLabel = value.GetExpansion().GetLabel();
+            var level = value.GetLevel();
+
+            return expansionLabel + " " + level;
+        }
+
+        public static ExpansionType GetExpansion(this HuntMarkType type)
+        {
+            switch (type)
+            {
+                case HuntMarkType.RealmReborn_Elite:
+                case HuntMarkType.RealmReborn_LevelOne:
+                    return ExpansionType.RealmReborn;
+
+                case HuntMarkType.Heavensward_LevelOne:
+                case HuntMarkType.Heavensward_LevelTwo:
+                case HuntMarkType.Heavensward_LevelThree:
+                case HuntMarkType.Heavensward_Elite:
+                    return ExpansionType.Heavensward;
+
+                case HuntMarkType.Stormblood_LevelOne:
+                case HuntMarkType.Stormblood_LevelTwo:
+                case HuntMarkType.Stormblood_LevelThree:
+                case HuntMarkType.Stormblood_Elite:
+                    return ExpansionType.Stormblood;
+
+                case HuntMarkType.Shadowbringers_LevelOne:
+                case HuntMarkType.Shadowbringers_LevelTwo:
+                case HuntMarkType.Shadowbringers_LevelThree:
+                case HuntMarkType.Shadowbringers_Elite:
+                    return ExpansionType.Shadowbringers;
+
+                case HuntMarkType.Endwalker_LevelOne:
+                case HuntMarkType.Endwalker_LevelTwo:
+                case HuntMarkType.Endwalker_LevelThree:
+                case HuntMarkType.Endwalker_Elite:
+                    return ExpansionType.Endwalker;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
+
+        public static string GetLevel(this HuntMarkType type)
+        {
+            switch (type)
+            {
+                case HuntMarkType.RealmReborn_LevelOne:
+                case HuntMarkType.Heavensward_LevelOne:
+                case HuntMarkType.Stormblood_LevelOne:
+                case HuntMarkType.Shadowbringers_LevelOne:
+                case HuntMarkType.Endwalker_LevelOne:
+                    return Strings.Common.LevelOneLabel;
+
+                case HuntMarkType.Shadowbringers_LevelTwo:
+                case HuntMarkType.Endwalker_LevelTwo:
+                case HuntMarkType.Heavensward_LevelTwo:
+                case HuntMarkType.Stormblood_LevelTwo:
+                    return Strings.Common.LevelTwoLabel;
+
+
+                case HuntMarkType.Stormblood_LevelThree:
+                case HuntMarkType.Shadowbringers_LevelThree:
+                case HuntMarkType.Endwalker_LevelThree:
+                case HuntMarkType.Heavensward_LevelThree:
+                    return Strings.Common.LevelThreeLabel;
+
+
+                case HuntMarkType.Heavensward_Elite:
+                case HuntMarkType.Stormblood_Elite:
+                case HuntMarkType.Endwalker_Elite:
+                case HuntMarkType.Shadowbringers_Elite:
+                case HuntMarkType.RealmReborn_Elite:
+                    return Strings.Common.EliteLabel;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
         }
     }
 }

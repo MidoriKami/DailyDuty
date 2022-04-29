@@ -14,7 +14,7 @@ namespace DailyDuty.Enums
 
     public static class ExpansionTypeExtensions
     {
-        public static string Description(this ExpansionType value)
+        public static string GetLabel(this ExpansionType value)
         {
             switch (value)
             {

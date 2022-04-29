@@ -61,6 +61,11 @@ namespace DailyDuty.Localization
             public readonly string AutoResizeLabel = Loc.Localize("AutoResizeLabel", "Auto Resize");
             public readonly string ManualSizeLabel = Loc.Localize("ManualSizeLabel", "Manual Size");
 
+            public readonly string LevelOneLabel = Loc.Localize("LevelOneLabel", "Level 1");
+            public readonly string LevelTwoLabel = Loc.Localize("LevelTwoLabel", "Level 2");
+            public readonly string LevelThreeLabel = Loc.Localize("LevelThreeLabel", "Level 3");
+            public readonly string EliteLabel = Loc.Localize("EliteLabel", "Elite");
+
             public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
 
             public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");

@@ -4,6 +4,7 @@ using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Modules;
+using DailyDuty.Structs;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -82,7 +83,7 @@ namespace DailyDuty.ModuleConfiguration
 
                     foreach (var hunt in Settings.TrackedHunts)
                     {
-                        var label = module.GetExpansionForHuntType(hunt.Type).Description();
+                        var label = hunt.Type.GetExpansion().GetLabel();
 
                         ImGui.TableNextRow();
                         ImGui.TableNextColumn();
@@ -136,7 +137,7 @@ namespace DailyDuty.ModuleConfiguration
 
                     foreach (var hunt in Settings.TrackedHunts)
                     {
-                        var label = module.GetExpansionForHuntType(hunt.Type).Description();
+                        var label = hunt.Type.GetExpansion().GetLabel();
 
                         ImGui.TableNextRow();
                         ImGui.TableNextColumn();

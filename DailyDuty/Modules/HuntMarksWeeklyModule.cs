@@ -89,20 +89,7 @@ namespace DailyDuty.Modules
                     break;
             }
         }
-
-        public ExpansionType GetExpansionForHuntType(HuntMarkType type)
-        {
-            return type switch
-            {
-                HuntMarkType.RealmReborn_Elite => ExpansionType.RealmReborn,
-                HuntMarkType.Heavensward_Elite => ExpansionType.Heavensward,
-                HuntMarkType.Stormblood_Elite => ExpansionType.Stormblood,
-                HuntMarkType.Shadowbringers_Elite => ExpansionType.Shadowbringers,
-                HuntMarkType.Endwalker_Elite => ExpansionType.Endwalker,
-                _ => new()
-            };
-        }
-
+        
         private int GetIncompleteCount()
         {
             return Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
