@@ -30,6 +30,7 @@ namespace DailyDuty
         [PluginService] public static GameGui GameGui { get; private set; } = null!;
         [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
         [PluginService] public static ToastGui Toast { get; private set; } = null!;
+        [PluginService] public static TargetManager TargetManager { get; private set; } = null!;
 
         public static WindowSystem WindowSystem { get; } = new("DailyDuty");
         public static WindowManager WindowManager { get; set; } = null!;
