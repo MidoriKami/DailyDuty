@@ -135,6 +135,7 @@ namespace DailyDuty.Windows.LogBrowser
                     break;
 
                 case "supersecretpassword":
+                    Chat.Debug("Welcome back Commander");
                     Service.SystemConfiguration.DeveloperMode = true;
                     Service.SystemConfiguration.Save();
                     break;
