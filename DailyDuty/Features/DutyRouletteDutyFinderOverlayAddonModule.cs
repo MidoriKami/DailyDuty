@@ -20,19 +20,17 @@ namespace DailyDuty.Features
         private DutyRouletteDutyFinderOverlaySettings Settings => Service.SystemConfiguration.Addons.DutyRouletteOverlaySettings;
         private DutyRouletteSettings DutyRouletteSettings => Service.CharacterConfiguration.DutyRoulette;
 
-        private delegate void* AgentHide(void* a1);
         private delegate void* AgentShow(void* a1);
         private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
         private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
-        
+        private delegate void* AddonFinalize(AtkUnitBase* atkUnitBase);
+
 
         [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
         private readonly Hook<AgentShow>? contentsFinderShowHook = null;
 
-        [Signature("48 89 5C 24 ?? 57 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 48 8B CB E8 ?? ?? ?? ?? 48 8B CB", DetourName = nameof(ContentsFinder_Hide))]
-        private readonly Hook<AgentHide>? contentsFinderHideHook = null;
-
         private Hook<AddonDraw>? onDrawHook;
+        private Hook<AddonFinalize>? onFinalizeHook;
         private Hook<AddonOnRefresh>? onRefreshHook;
 
         private readonly List<DutyFinderSearchResult> dutyRouletteDuties = new();
@@ -65,7 +63,6 @@ namespace DailyDuty.Features
         public void Dispose()
         {
             contentsFinderShowHook?.Dispose();
-            contentsFinderHideHook?.Dispose();
 
             onDrawHook?.Dispose();
             onRefreshHook?.Dispose();
@@ -74,7 +71,8 @@ namespace DailyDuty.Features
             var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
             if (contentsFinderAgent->IsAgentActive())
             {
-                ResetDefaultTextColor();
+                var addonPointer = GetContentsFinderPointer();
+                ResetDefaultTextColor(addonPointer);
             }
         }
 
@@ -103,11 +101,12 @@ namespace DailyDuty.Features
 
                     onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
                     onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
+                    onFinalizeHook ??= new Hook<AddonFinalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
 
                     onDrawHook.Enable();
+                    onFinalizeHook.Enable();
                     onRefreshHook.Enable();
 
-                    contentsFinderHideHook?.Enable();
                     contentsFinderShowHook!.Disable();
                 }
             }
@@ -123,16 +122,16 @@ namespace DailyDuty.Features
             {
                 if (IsTabSelected(DutyFinderTab.Roulette) == false)
                 {
-                    ResetDefaultTextColor();
+                    ResetDefaultTextColor(atkUnitBase);
                 }
                 else
                 {
-                    SetRouletteColors();
+                    SetRouletteColors(atkUnitBase);
                 }
             }
             else
             {
-                ResetDefaultTextColor();
+                ResetDefaultTextColor(atkUnitBase);
             }
             
             return result;
@@ -145,7 +144,7 @@ namespace DailyDuty.Features
 
             if (defaultColorSaved == false)
             {
-                var textNode = GetListItemTextNode(6);
+                var textNode = GetListItemTextNode(atkUnitBase, 6);
 
                 if (textNode == null) return;
 
@@ -157,53 +156,55 @@ namespace DailyDuty.Features
             {
                 if (IsTabSelected(DutyFinderTab.Roulette) == false)
                 {
-                    ResetDefaultTextColor();
+                    ResetDefaultTextColor(atkUnitBase);
                 }
                 else
                 {
-                    SetRouletteColors();
+                    SetRouletteColors(atkUnitBase);
                 }
             }
             else
             {
-                ResetDefaultTextColor();
+                ResetDefaultTextColor(atkUnitBase);
             }
         }
 
-        private void* ContentsFinder_Hide(void* a1)
+        private void* ContentsFinder_Finalize(AtkUnitBase* atkUnitBase)
         {
-            ResetDefaultTextColor();
+            if (atkUnitBase == null) return null;
 
-            return contentsFinderHideHook!.Original(a1);
+            ResetDefaultTextColor(atkUnitBase);
+
+            return onFinalizeHook!.Original(atkUnitBase);
         }
 
         //
         //  Implementation
         //
 
-        private void ResetDefaultTextColor()
+        private void ResetDefaultTextColor(AtkUnitBase* rootNode)
         {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint)i;
 
-                var textNode = GetListItemTextNode(id);
+                var textNode = GetListItemTextNode(rootNode, id);
 
                 textNode->TextColor = userDefaultTextColor;
             }
         }
 
-        private void SetRouletteColors()
+        private void SetRouletteColors(AtkUnitBase* rootNode)
         {
             foreach (var i in Enumerable.Range(61001, 15).Append(6))
             {
                 var id = (uint) i;
 
-                var rouletteState = IsRouletteDuty(id);
+                var rouletteState = IsRouletteDuty(rootNode, id);
 
                 if (rouletteState != null)
                 {
-                    var textNode = GetListItemTextNode(id);
+                    var textNode = GetListItemTextNode(rootNode, id);
 
                     if (rouletteState is {Tracked: true, Completed: true})
                     {
@@ -227,9 +228,9 @@ namespace DailyDuty.Features
             }
         }
 
-        private TrackedRoulette? IsRouletteDuty(uint id)
+        private TrackedRoulette? IsRouletteDuty(AtkUnitBase* rootNode, uint id)
         {
-            var textNode = GetListItemTextNode(id);
+            var textNode = GetListItemTextNode(rootNode, id);
 
             var nodeString = textNode->NodeText.ToString().ToLower();
             var nodeRegexString = Regex.Replace(nodeString, "[^\\p{L}\\p{N}]", "");
@@ -253,23 +254,26 @@ namespace DailyDuty.Features
         {
             return (AtkUnitBase*)Service.GameGui.GetAddonByName("ContentsFinder", 1);
         }
-        private AtkComponentNode* GetTreeListBaseNode()
+
+        private AtkComponentNode* GetListItemNode(AtkUnitBase* rootNode, uint nodeID)
         {
-            return Node.GetComponentNode(GetContentsFinderPointer(), 52);
+            var treeListBaseNode = Node.GetComponentNode(rootNode, 52);
+
+            if (treeListBaseNode == null) return null;
+
+            var listItemNode = Node.GetNodeByID<AtkComponentNode>(treeListBaseNode, nodeID);
+
+            return listItemNode;
         }
 
-        private AtkComponentNode* GetListItemNode(uint nodeID)
-        {
-            return Node.GetNodeByID<AtkComponentNode>(GetTreeListBaseNode(), nodeID);
-        }
         private AtkTextNode* GetTextNode(AtkComponentNode* listItemNode)
         {
             return Node.GetNodeByID<AtkTextNode>(listItemNode, 5);
         }
 
-        private AtkTextNode* GetListItemTextNode(uint id)
+        private AtkTextNode* GetListItemTextNode(AtkUnitBase* rootNode, uint id)
         {
-            var listItemNode = GetListItemNode(id);
+            var listItemNode = GetListItemNode(rootNode, id);
 
             if(listItemNode == null) return null;
 
