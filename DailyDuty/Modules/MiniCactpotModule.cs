@@ -33,11 +33,45 @@ namespace DailyDuty.Modules
 
         private readonly DalamudLinkPayload goldSaucerTeleport;
 
+        private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
+
+        [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
+        private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
+
+        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7)
+        {
+            var result = goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
+
+            //1010445 Mini Cactpot Broker
+            if (Service.TargetManager.Target?.DataId == 1010445)
+            {
+                if (a7 == 5)
+                {
+                    if (Settings.TicketsRemaining != a6[4])
+                    {
+                        Settings.TicketsRemaining = a6[4];
+                        Service.CharacterConfiguration.Save();
+                    }
+                }
+                else
+                {
+                    if (Settings.TicketsRemaining != 0)
+                    {
+                        Settings.TicketsRemaining = 0;
+                        Service.CharacterConfiguration.Save();
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public MiniCactpotModule()
         {
             SignatureHelper.Initialise(this);
 
             receiveEventHook?.Enable();
+            goldSaucerUpdateHook?.Enable();
 
             goldSaucerTeleport = Service.TeleportManager.GetPayload(ChatPayloads.GoldSaucerTeleport);
         }
@@ -45,6 +79,7 @@ namespace DailyDuty.Modules
         public void Dispose()
         {
             receiveEventHook?.Dispose();
+            goldSaucerUpdateHook?.Dispose();
         }
 
         public void SendNotification()
