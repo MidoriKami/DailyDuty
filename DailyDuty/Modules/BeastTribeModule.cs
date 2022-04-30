@@ -19,11 +19,14 @@ namespace DailyDuty.Modules
         public string DisplayName => Strings.Module.BeastTribeLabel;
         public Action? ExpandedDisplay => null;
 
+        private delegate int GetBeastTribeAllowancesDelegate(IntPtr agent);
+        private delegate IntPtr GetBeastTribeAgentDelegate();
+
         [Signature("45 33 C9 48 81 C1 ?? ?? ?? ?? 45 8D 51 02")]
-        private readonly delegate* unmanaged<IntPtr, int> getBeastTribeAllowance = null!;
+        private readonly GetBeastTribeAllowancesDelegate getBeastTribeAllowance = null!;
 
         [Signature("E8 ?? ?? ?? ?? 0F B7 DB")]
-        private readonly delegate* unmanaged<IntPtr> getBeastTribeBasePointer = null!;
+        private readonly GetBeastTribeAgentDelegate getBeastTribeBasePointer = null!;
         private static BeastTribeSettings Settings => Service.CharacterConfiguration.BeastTribe;
 
         public BeastTribeModule()
