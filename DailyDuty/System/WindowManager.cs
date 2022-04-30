@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.Windows.DailyDutyWindow;
-using DailyDuty.Windows.LogBrowser;
+using DailyDuty.Windows.HuntHelperWindow;
+using DailyDuty.Windows.LogBrowserWindow;
 using DailyDuty.Windows.TimersWindow;
 using DailyDuty.Windows.TodoWindow;
 
@@ -17,6 +18,7 @@ namespace DailyDuty.System
             new LogBrowserWindow(),
             new TodoWindow(),
             new TimersWindow(),
+            new HuntHelperWindow()
         };
 
         public void Dispose()

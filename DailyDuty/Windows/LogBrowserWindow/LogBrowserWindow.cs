@@ -10,8 +10,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-
-namespace DailyDuty.Windows.LogBrowser
+namespace DailyDuty.Windows.LogBrowserWindow
 {
     internal class LogBrowserWindow : Window, ICommand, IDisposable
     {
