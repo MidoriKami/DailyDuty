@@ -212,7 +212,7 @@ namespace DailyDuty.Localization
             public readonly string FashionReportLabel = Loc.Localize("FashionReportLabel", "Fashion Report");
             public readonly string FashionReportInformation = Loc.Localize("FashionReportInformation", "Fashion Report is a weekly task you can complete for MGP. Simply 'Present yourself for judging' once a week without any effort and be rewarded with 10,000 MGP. You can attempt to create an outfit for a higher score, additional MGP, and titles.");
             public readonly string FashionReportAutomationInformation = Loc.Localize("FashionReportAutomationInformation", "Fashion Report data is collected when you present yourself for judging. The current high score and allowances remaining is extracted from the UI when the judging is complete.");
-            public readonly string FashionReportTechnicalInformation = Loc.Localize("FashionReportTechnicalInformation", "It is not possible to update the fashion report data outside of judging due to the strange behavior of the data only being available if you speak to the NPC a second time after presenting for judging.\n\nThe Fashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available or the completion conditions are not met.");
+            public readonly string FashionReportTechnicalInformation = Loc.Localize("FashionReportTechnicalInformation", "Data is collected both when you interact with 'Masked Rose' and when you are actually presenting yourself for judging. This should keep the data in sync with the game data at all times.\n\nFashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available or the completion conditions are not met.");
             public readonly string FashionReportHighestScoreLabel = Loc.Localize("FashionReportHighestScoreLabel", "Highest Score");
             public readonly string FashionReportAvailableLabel = Loc.Localize("FashionReportAvailableLabel", "Report Open");
             public readonly string FashionReportSingleModeLabel = Loc.Localize("FashionReportSingleModeLabel", "Single");
@@ -249,6 +249,29 @@ namespace DailyDuty.Localization
 
         }
 
+        public class CommandStrings
+        {
+            public readonly string TimersCommand = Loc.Localize("TimersCommand", "timers");
+            public readonly string TodoCommand = Loc.Localize("TodoCommand", "todo");
+
+            public readonly string On = Loc.Localize("On", "on");
+            public readonly string Enable = Loc.Localize("Enable", "enable");
+            public readonly string Show = Loc.Localize("Show", "show");
+            public readonly string Off = Loc.Localize("Off", "off");
+            public readonly string Disable = Loc.Localize("Disable", "disable");
+            public readonly string Hide = Loc.Localize("Hide", "hide");
+            public readonly string Close = Loc.Localize("Close", "close");
+            public readonly string Open = Loc.Localize("Open", "open");
+            public readonly string Toggle = Loc.Localize("Toggle", "toggle");
+            public readonly string Help = Loc.Localize("Help", "help");
+            public readonly string Core = Loc.Localize("Core", "Core");
+
+            public readonly string TimersShowHelp = Loc.Localize("TimersShowHelp", "\n/dd timers - Shows this help message\n/dd timers help - Shows this help message\n/dd timers (on | enable | show | open) - Shows the timers window\n/dd timers (off | disable | hide | close) - Hides the timers window\n/dd timers (toggle) - Toggle the timers window");
+            public readonly string TodoShowHelp = Loc.Localize("TodoShowHelp", "\n/dd todo - Shows this help message\n/dd todo help - Shows this help message\n/dd todo (on | enable | show | open) - Shows the todo window\n/dd todo (off | disable | hide | close) - Hides the todo window\n/dd todo (toggle) - Toggle the todo window");
+
+            public readonly string HelpCommands = Loc.Localize("HelpCommands", "Command Overview\n/dd - Show or Hide Main Window\n/dd timers help - Show timer sub-commands\n/dd todo help - Show todo sub-commands");
+        }
+
         public class TimersStrings
         {
             public readonly string TimersLabel = Loc.Localize("TimersLabel", "Timers");
@@ -270,5 +293,6 @@ namespace DailyDuty.Localization
         public static readonly CommonStrings Common = new();
         public static readonly ModuleStrings Module = new();
         public static readonly TimersStrings Timers = new();
+        public static readonly CommandStrings Command = new();
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DailyDuty.Interfaces
+﻿using DailyDuty.Localization;
+
+namespace DailyDuty.Interfaces
 {
     internal interface ICommand
     {
@@ -34,6 +36,56 @@
             }
 
             return stringArray[0];
+        }
+
+        public static bool OpenCommand(string? command)
+        {
+            if (command == Strings.Command.On)
+                return true;
+
+            if (command == Strings.Command.Enable)
+                return true;
+
+            if (command == Strings.Command.Show)
+                return true;
+
+            if (command == Strings.Command.Open)
+                return true;
+
+            return false;
+        }
+
+        public static bool CloseCommand(string? command)
+        {
+            if (command == Strings.Command.Off)
+                return true;
+
+            if (command == Strings.Command.Disable)
+                return true;
+
+            if (command == Strings.Command.Hide)
+                return true;
+
+            if (command == Strings.Command.Close)
+                return true;
+
+            return false;
+        }
+
+        public static bool ToggleCommand(string? command)
+        {
+            if (command == Strings.Command.Toggle)
+                return true;
+
+            return false;
+        }
+
+        public static bool HelpCommand(string? command)
+        {
+            if (command == Strings.Command.Help || command == null)
+                return true;
+
+            return false;
         }
     }
 }
