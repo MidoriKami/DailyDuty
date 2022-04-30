@@ -171,6 +171,7 @@ namespace DailyDuty.Localization
             public readonly string TreasureMapAvailableMessage = Loc.Localize("TreasureMapAvailableMessage", "Treasure Map Available");
             public readonly string TreasureMapTimeUntilNextMap = Loc.Localize("TreasureMapTimeUntilNextMap", "Next Map");
             public readonly string TreasureMapStatusLabel = Loc.Localize("TreasureMapStatusLabel", "Treasure Map Status");
+            public readonly string TreasureMapReSyncInformation = Loc.Localize("TreasureMapReSyncInformation", "You can force a re-sync of Treasure Map by opening the 'Timers' menu");
 
             public readonly string BeastTribeLabel = Loc.Localize("BeastTribeLabel", "Beast Tribe");
             public readonly string BeastTribeInformation = Loc.Localize("BeastTribeInformation", "Beast Tribes are a daily task that can be completed for experience rewards and to earn progress towards beast tribes affiliations that will unlock unique dyes, glamours, mounts, and housing items.");

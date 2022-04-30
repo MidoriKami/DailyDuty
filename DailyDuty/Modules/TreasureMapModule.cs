@@ -10,21 +10,73 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Hooking;
+using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Action = System.Action;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules
 {
-    internal class TreasureMapModule :
+    internal unsafe class TreasureMapModule :
         IZoneChangeThrottledNotification,
         ILoginNotification,
         ICompletable,
-        IChatHandler
+        IChatHandler,
+        IDisposable
     {
         public CompletionType Type => CompletionType.Daily;
         public GenericSettings GenericSettings => Settings;
         public static TreasureMapSettings Settings => Service.CharacterConfiguration.TreasureMap;
         public string DisplayName => Strings.Module.TreasureMapLabel;
         public Action? ExpandedDisplay => null;
+
+
+        private delegate void* TimersWindowDelegate(void* a1, void* a2, byte a3);
+        [Signature("E8 ?? ?? ?? ?? 48 8B 4E 10 48 8B 01 44 39 76 20", DetourName = nameof(TimersWindowOpened))]
+        private readonly Hook<TimersWindowDelegate>? timersWindowHook = null!;
+
+        private delegate long GetNextMapAvailableTimeDelegate(UIState* uiState);
+        [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]
+        private readonly GetNextMapAvailableTimeDelegate GetNextMapUnixTimestamp = null!;
+
+        private void* TimersWindowOpened(void* a1, void* a2, byte a3)
+        {
+            var result = timersWindowHook!.Original(a1, a2, a3);
+
+            var nextAvailable = GetNextMapAvailableTime();
+
+            if (nextAvailable != DateTime.MinValue)
+            {
+                var storedTime = Settings.LastMapGathered;
+                storedTime = storedTime.AddSeconds(-storedTime.Second);
+
+                var retrievedTime = nextAvailable;
+                retrievedTime = retrievedTime.AddSeconds(-retrievedTime.Second).AddHours(-18);
+
+                if (storedTime != retrievedTime)
+                {
+                    Settings.LastMapGathered = retrievedTime;
+                    Service.LogManager.LogMessage(ModuleType.TreasureMap, $"ReSyncing Time - LastGathered: {retrievedTime.ToLocalTime()}");
+
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+
+            return result;
+        }
+
+        public TreasureMapModule()
+        {
+            SignatureHelper.Initialise(this);
+
+            timersWindowHook?.Enable();
+        }
+
+        public void Dispose()
+        {
+            timersWindowHook?.Dispose();
+        }
 
         public void SendNotification()
         {
@@ -80,6 +132,13 @@ namespace DailyDuty.Modules
             {
                 return nextAvailableTime - DateTime.UtcNow;
             }
+        }
+
+        private DateTime GetNextMapAvailableTime()
+        {
+            var unixTimestamp = GetNextMapUnixTimestamp(UIState.Instance());
+
+            return unixTimestamp == -1 ? DateTime.MinValue : DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).UtcDateTime;
         }
     }
 }

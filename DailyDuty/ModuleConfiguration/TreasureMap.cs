@@ -32,6 +32,8 @@ namespace DailyDuty.ModuleConfiguration
             ContentsAction = () =>
             {
                 ImGui.Text(Strings.Module.TreasureMapAutomationInformation);
+                ImGui.Spacing();
+                ImGui.TextColored(Colors.Orange, Strings.Module.TreasureMapReSyncInformation);
             }
         };
 
