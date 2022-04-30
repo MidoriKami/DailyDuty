@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using DailyDuty.Enums;
 using DailyDuty.Localization;
+using Lumina.Excel.GeneratedSheets;
 
 // ReSharper disable InconsistentNaming
 
@@ -35,6 +36,35 @@ namespace DailyDuty.Structs
         public HuntMarkType HuntType { get; init; }
         public KillCounts KillCounts { get; init; } = new();
         public bool Obtained { get; init; }
+
+        public KillCounts GetRequiredKillCounts()
+        {
+            var orderTypeSheet = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!;
+            var huntOrderSheet = Service.DataManager.GetExcelSheet<MobHuntOrder>()!;
+
+            var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
+            var targetRow = indexOffset + HuntID - 1;
+
+            return new KillCounts()
+            {
+                First = huntOrderSheet.GetRow(targetRow, 0)!.NeededKills,
+                Second = huntOrderSheet.GetRow(targetRow, 1)!.NeededKills,
+                Third = huntOrderSheet.GetRow(targetRow, 2)!.NeededKills,
+                Fourth = huntOrderSheet.GetRow(targetRow, 3)!.NeededKills,
+                Fifth = huntOrderSheet.GetRow(targetRow, 4)!.NeededKills,
+            };
+        }
+
+        public string GetTargetName(uint targetIndex)
+        {
+            var orderTypeSheet = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!;
+            var huntOrderSheet = Service.DataManager.GetExcelSheet<MobHuntOrder>()!;
+
+            var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
+            var targetRow = indexOffset + HuntID - 1u;
+
+            return huntOrderSheet.GetRow(targetRow, targetIndex - 1u)!.Target.Value!.Name.Value!.Singular;
+        }
     }
 
     public class KillCounts
