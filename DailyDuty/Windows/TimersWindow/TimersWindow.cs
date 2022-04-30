@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Data.Components;
+using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Timers;
 using DailyDuty.Utilities;
@@ -12,7 +13,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.TimersWindow
 {
-    internal class TimersWindow : Window, IDisposable
+    internal class TimersWindow : Window, IDisposable, ICommand
     {
         private readonly List<CountdownTimer> countdownTimers;
 
@@ -48,11 +49,11 @@ namespace DailyDuty.Windows.TimersWindow
 
         public override void PreDraw()
         {
-            var color = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
+            var backgroundColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(backgroundColor.X, backgroundColor.Y, backgroundColor.Z, Settings.Opacity));
 
-            color = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
-            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(color.X, color.Y, color.Z, Settings.Opacity));
+            var borderColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
+            ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(borderColor.X, borderColor.Y, borderColor.Z, Settings.Opacity));
         }
 
         public override void Draw()
@@ -132,6 +133,26 @@ namespace DailyDuty.Windows.TimersWindow
         public void Dispose()
         {
             Service.WindowSystem.RemoveWindow(this);
+        }
+
+        void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
+        {
+            if (primaryCommand == Strings.Command.TimersCommand)
+            {
+                if (ICommand.OpenCommand(secondaryCommand))
+                    IsOpen = true;
+
+                if (ICommand.CloseCommand(secondaryCommand))
+                    IsOpen = false;
+
+                if (ICommand.ToggleCommand(secondaryCommand))
+                    IsOpen = !IsOpen;
+
+                if (ICommand.HelpCommand(secondaryCommand))
+                {
+                    Chat.Print(Strings.Features.TimersWindowLabel, Strings.Command.TimersShowHelp);
+                }
+            }
         }
     }
 }

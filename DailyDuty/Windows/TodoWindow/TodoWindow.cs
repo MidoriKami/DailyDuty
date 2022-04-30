@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;
+using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Conditions;
@@ -11,7 +12,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Windows.TodoWindow
 {
-    internal class TodoWindow : Window, IDisposable
+    internal class TodoWindow : Window, IDisposable, ICommand
     {
         private readonly TaskCategoryDisplay dailyTasks = new()
         {
@@ -134,6 +135,26 @@ namespace DailyDuty.Windows.TodoWindow
         public void Dispose()
         {
             Service.WindowSystem.RemoveWindow(this);
+        }
+
+        void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
+        {
+            if (primaryCommand == Strings.Command.TodoCommand)
+            {
+                if (ICommand.OpenCommand(secondaryCommand))
+                    IsOpen = true;
+
+                if (ICommand.CloseCommand(secondaryCommand))
+                    IsOpen = false;
+
+                if (ICommand.ToggleCommand(secondaryCommand))
+                    IsOpen = !IsOpen;
+
+                if (ICommand.HelpCommand(secondaryCommand))
+                {
+                    Chat.Print(Strings.Features.TodoWindowLabel, Strings.Command.TodoShowHelp);
+                }
+            }
         }
     }
 }

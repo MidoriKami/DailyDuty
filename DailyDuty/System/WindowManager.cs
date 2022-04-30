@@ -30,7 +30,6 @@ namespace DailyDuty.System
         public T? GetWindowOfType<T>()
         {
             return windowList.OfType<T>().FirstOrDefault();
-
         }
 
         public void ExecuteCommand(string command, string arguments)

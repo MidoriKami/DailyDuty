@@ -1,10 +1,9 @@
-﻿using System;
-using CheapLoc;
+﻿using CheapLoc;
+using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow;
 using Dalamud.Game.Command;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace DailyDuty
@@ -69,6 +68,11 @@ namespace DailyDuty
         {
             Service.WindowManager.ExecuteCommand(command, arguments);
             Service.ModuleManager.ProcessCommand(command, arguments);
+
+            if (arguments == Strings.Command.Help)
+            {
+                Chat.Print(Strings.Command.Core, Strings.Command.HelpCommands);
+            }
         }
 
         private void DrawUI() => Service.WindowSystem.Draw();
