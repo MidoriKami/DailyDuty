@@ -43,10 +43,12 @@ namespace DailyDuty.Modules
 
             //1010445 Mini Cactpot Broker
             //1010446 Jumbo Cactpot Broker
-
+            
             if (Service.TargetManager.Target?.DataId == 1010446)
             {
-                //a6[2,3,4]
+                Service.LogManager.LogMessage(ModuleType.JumboCactpot, "ReSyncing Tickets");
+                Settings.Tickets.Clear();
+
                 for(var i = 0; i < 3; ++i)
                 {
                     var ticketValue = a6[i + 2];
@@ -55,12 +57,12 @@ namespace DailyDuty.Modules
                     {
                         if (!Settings.Tickets.Contains(ticketValue))
                         {
-                            Service.LogManager.LogMessage(ModuleType.JumboCactpot, "ReSync - New Ticket found " + ticketValue);
                             Settings.Tickets.Add(ticketValue);
-                            Service.CharacterConfiguration.Save();
                         }
                     }
                 }
+
+                Service.CharacterConfiguration.Save();
             }
 
             return result;
