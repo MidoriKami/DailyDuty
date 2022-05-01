@@ -29,6 +29,7 @@ namespace DailyDuty.System
             new FashionReportModule(),
             new JumboCactpotModule(),
             new HuntMarksWeeklyModule(),
+            new HuntMarksDailyModule(),
 
         };
 

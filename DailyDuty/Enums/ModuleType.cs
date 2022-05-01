@@ -20,6 +20,7 @@
         JumboCactpot,
         HuntMarksWeekly,
         TodoWindow,
-        TimersWindow
+        TimersWindow,
+        HuntMarksDaily
     }
 }

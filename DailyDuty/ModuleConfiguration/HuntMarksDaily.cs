@@ -1,6 +1,6 @@
-﻿using System;
+﻿using System.Globalization;
 using System.Linq;
-using System.Numerics;
+using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -12,19 +12,20 @@ using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.ModuleConfiguration
 {
-    internal class HuntMarksWeekly : IConfigurable
+    internal class HuntMarksDaily : IConfigurable
     {
-        public ModuleType ModuleType => ModuleType.HuntMarksWeekly;
-        public string ConfigurationPaneLabel => Strings.Module.HuntMarksWeeklyLabel;
+        public ModuleType ModuleType => ModuleType.HuntMarksDaily;
+        public string ConfigurationPaneLabel => Strings.Module.HuntMarksDailyLabel;
         public InfoBox? AboutInformationBox { get; } = new()
         {
             Label = Strings.Common.InformationLabel,
             ContentsAction = () =>
             {
-                ImGui.Text(Strings.Module.HuntMarksWeeklyInformation);
+                ImGui.Text(Strings.Module.HuntMarksDailyInformation);
             }
         };
 
@@ -45,13 +46,13 @@ namespace DailyDuty.ModuleConfiguration
                 ImGui.Text(Strings.Module.HuntMarksTechnicalInformation);
             }
         };
-
+        
         private readonly InfoBox completionStatus = new()
         {
             Label = Strings.Common.CompletionStatusLabel,
             ContentsAction = () =>
             {
-                var module = Service.ModuleManager.GetModule<HuntMarksWeeklyModule>();
+                var module = Service.ModuleManager.GetModule<HuntMarksDailyModule>();
                 if(module == null) return;
 
                 if (ImGui.BeginTable($"", 2))
@@ -82,7 +83,7 @@ namespace DailyDuty.ModuleConfiguration
                 }
                 else if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 150f * ImGuiHelpers.GlobalScale);
                     ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
 
                     foreach (var hunt in Settings.TrackedHunts.Where(hunt => hunt.Tracked))
@@ -112,7 +113,7 @@ namespace DailyDuty.ModuleConfiguration
                 }
             }
         };
-
+        
         private readonly InfoBox options = new()
         {
             Label = Strings.Configuration.OptionsTabLabel,
@@ -120,7 +121,7 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.Enabled))
                 {
-                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, Settings.Enabled ? "Enabled" : "Disabled");
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, Settings.Enabled ? "Enabled" : "Disabled");
                     Service.CharacterConfiguration.Save();
                 }
             }
@@ -131,17 +132,20 @@ namespace DailyDuty.ModuleConfiguration
             Label = Strings.Module.HuntMarksTrackedHuntsLabel,
             ContentsAction = () =>
             {
-                var module = Service.ModuleManager.GetModule<HuntMarksWeeklyModule>();
-                if(module == null) return;
-
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 150f * ImGuiHelpers.GlobalScale);
                     ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.TableNextColumn();
+
+                    DrawTrackUntrackButton();
 
                     foreach (var hunt in Settings.TrackedHunts)
                     {
-                        var label = hunt.Type.GetExpansion().GetLabel();
+                        var label = hunt.Type.GetLabel();
 
                         ImGui.TableNextRow();
                         ImGui.TableNextColumn();
@@ -150,7 +154,7 @@ namespace DailyDuty.ModuleConfiguration
                         ImGui.TableNextColumn();
                         if (ImGui.Checkbox($"{Strings.Module.HuntMarksTrackLabel}##{hunt.Type}", ref hunt.Tracked))
                         {
-                            Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, label + (hunt.Tracked ? " Tracked" : " Untracked"));
+                            Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, label + (hunt.Tracked ? " Tracked" : " Untracked"));
                             Service.CharacterConfiguration.Save();
                         }
                     }
@@ -160,6 +164,34 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private static void DrawTrackUntrackButton()
+        {
+            if (Settings.TrackedHunts.All(hunt => hunt.Tracked))
+            {
+                if (ImGui.Button(Strings.Module.HuntMarksUntrackAllLabel, ImGuiHelpers.ScaledVector2(100.0f, 23.0f)))
+                {
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, "Untrack All Selected");
+
+                    foreach (var hunt in Settings.TrackedHunts)
+                    {
+                        hunt.Tracked = false;
+                    }
+                }
+            }
+            else
+            {
+                if (ImGui.Button(Strings.Module.HuntMarksTrackAllLabel, ImGuiHelpers.ScaledVector2(100.0f, 23.0f)))
+                {
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, "Track All Selected");
+
+                    foreach (var hunt in Settings.TrackedHunts)
+                    {
+                        hunt.Tracked = true;
+                    }
+                }
+            }
+        }
+
         private readonly InfoBox notificationOptions = new()
         {
             Label = Strings.Common.NotificationOptionsLabel,
@@ -167,13 +199,13 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if(Draw.Checkbox(Strings.Common.NotifyOnLoginLabel, ref Settings.LoginReminder, Strings.Common.NotifyOnLoginHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, "Login Notifications " + (Settings.LoginReminder ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, "Login Notifications " + (Settings.LoginReminder ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
 
                 if(Draw.Checkbox(Strings.Common.NotifyOnZoneChangeLabel, ref Settings.ZoneChangeReminder, Strings.Common.NotifyOnZoneChangeHelpText))
                 {
-                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, "Zone Change Notifications " + (Settings.ZoneChangeReminder ? "Enabled" : "Disabled"));
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, "Zone Change Notifications " + (Settings.ZoneChangeReminder ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
             }
@@ -182,20 +214,21 @@ namespace DailyDuty.ModuleConfiguration
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.All;
 
-        private static WeeklyHuntMarksSettings Settings => Service.CharacterConfiguration.WeeklyHuntMarks;
 
-        public HuntMarksWeekly()
+        private static DailyHuntMarksSettings Settings => Service.CharacterConfiguration.DailyHuntMarks;
+
+        public HuntMarksDaily()
         {
-            AboutImage = Image.LoadImage("WeeklyHuntMarks");
+            AboutImage = Image.LoadImage("DailyHuntMarks");
         }
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.HuntMarksWeeklyLabel);
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.HuntMarksDailyLabel);
 
             if (Settings.Enabled)
             {
-                var module = Service.ModuleManager.GetModule<HuntMarksWeeklyModule>();
+                var module = Service.ModuleManager.GetModule<HuntMarksDailyModule>();
                 if(module == null) return;
 
                 Draw.CompleteIncompleteRightAligned(module.IsCompleted());
@@ -209,7 +242,7 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             currentStatus.DrawCentered();
-            
+
             ImGuiHelpers.ScaledDummy(30.0f);
             DrawTargetInfo();
 
@@ -235,48 +268,26 @@ namespace DailyDuty.ModuleConfiguration
             var module = Service.ModuleManager.GetModule<HuntMarksWeeklyModule>();
             if(module == null) return;
 
-            foreach (var hunt in Settings.TrackedHunts.Where(hunt => hunt.Tracked && hunt.State == TrackedHuntState.Obtained))
+            foreach (var hunt in Settings.TrackedHunts.Where(hunt => hunt.Tracked && hunt.State == TrackedHuntState.Obtained).GroupBy(hunt => hunt.Type.GetExpansion()))
             {
                 new InfoBox()
                 {
-                    Label = hunt.Type.GetExpansion().GetLabel(),
+                    Label = hunt.Key.GetLabel(),
                     ContentsAction = () =>
                     {
-                        var huntData = module.HuntData->Get(hunt.Type);
-
-                        if (ImGui.BeginTable($"", 2))
+                        foreach (var specificHunt in hunt)
                         {
-                            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
-                            ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 150f * ImGuiHelpers.GlobalScale);
+                            ImGui.Text(specificHunt.Type.GetLevel());
 
+                            var huntData = module.HuntData->Get(specificHunt.Type);
 
-                            ImGui.TableNextRow();
-                            ImGui.TableNextColumn();
-                            ImGui.Text(Strings.Module.HuntMarksTargetName);
+                            DrawHuntInfoTable(huntData);
 
-                            ImGui.TableNextColumn();
-                            ImGui.Text(huntData.TargetInfo[0].Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
+                            ImGuiHelpers.ScaledDummy(5.0f);
 
-                            ImGui.TableNextRow();
-                            ImGui.TableNextColumn();
-                            ImGui.Text(Strings.Module.HuntMarksTargetLocation);
-                            
-                            ImGui.TableNextColumn();
-                            ImGui.Text(huntData.TargetInfo[0].Target.Value?.TerritoryType.Value?.PlaceName.Value?.Name ?? "Unable to Read Table");
+                            DrawTeleportButton(specificHunt, huntData);
 
-                            ImGui.EndTable();
-                        }
-
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        var cursorStart = ImGui.GetCursorPos();
-                        var buttonSize = ImGuiHelpers.ScaledVector2(100.0f, 23.0f);
-                        ImGui.SetCursorPos(cursorStart with{X = cursorStart.X + 100.0f * ImGuiHelpers.GlobalScale - buttonSize.X /2.0f});
-
-                        if (ImGui.Button(Strings.Common.TeleportLabel + $"###{hunt.Type}", buttonSize))
-                        {
-                            var targetID = huntData.TargetInfo[0].Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
-                            Service.TeleportManager.Teleport(targetID);
+                            ImGuiHelpers.ScaledDummy(5.0f);
                         }
                     }
 
@@ -284,6 +295,88 @@ namespace DailyDuty.ModuleConfiguration
 
                 ImGuiHelpers.ScaledDummy(30.0f);
             }
+        }
+
+        private void DrawTeleportButton(TrackedHunt specificHunt, HuntData huntData)
+        {
+            var cursorStart = ImGui.GetCursorPos();
+            var buttonSize = ImGuiHelpers.ScaledVector2(100.0f, 23.0f);
+            ImGui.SetCursorPos(cursorStart with
+            {
+                X = cursorStart.X + 100.0f * ImGuiHelpers.GlobalScale - buttonSize.X / 2.0f
+            });
+
+            if (ImGui.Button(Strings.Common.TeleportLabel + $"###{specificHunt.Type}", buttonSize))
+            {
+                var targetID = GetFirstIncomplete(huntData)?.Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
+                Service.TeleportManager.Teleport(targetID);
+            }
+        }
+
+        private void DrawHuntInfoTable(HuntData huntData)
+        {
+            if (ImGui.BeginTable($"", 2))
+            {
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 175f * ImGuiHelpers.GlobalScale);
+
+                ImGui.TableNextRow();
+                DrawTargetName(huntData);
+
+                ImGui.TableNextRow();
+                DrawTargetLocation(huntData);
+
+                ImGui.EndTable();
+            }
+        }
+
+        private void DrawTargetLocation(HuntData huntData)
+        {
+            ImGui.TableNextColumn();
+            ImGui.Text(Strings.Module.HuntMarksTargetLocation);
+
+            ImGui.TableNextColumn();
+            ImGui.Text(GetFirstIncomplete(huntData)?.Target.Value?.TerritoryType.Value?.PlaceName.Value?.Name ??
+                       "Unable to Read Table");
+        }
+
+        private void DrawTargetName(HuntData huntData)
+        {
+            ImGui.TableNextColumn();
+            ImGui.Text(Strings.Module.HuntMarksTargetName);ImGui.TableNextColumn();
+            var name = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(
+                GetFirstIncomplete(huntData)?.Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
+            ImGui.Text(name);
+            var currentKills = GetFirstIncompleteCurrentKillCount(huntData);
+            var neededKills = GetFirstIncomplete(huntData)?.NeededKills;
+            ImGui.SameLine();
+            ImGui.Text($"{currentKills}/{neededKills}");
+        }
+
+        private MobHuntOrder? GetFirstIncomplete(HuntData data)
+        {
+            var targetInfo = data.TargetInfo;
+
+            for (int i = 0; i < 5; ++i)
+            {
+                if (targetInfo[i].NeededKills > data.KillCounts[i])
+                    return targetInfo[i];
+            }
+
+            return null;
+        }
+
+        private int GetFirstIncompleteCurrentKillCount(HuntData data)
+        {
+            var targetInfo = data.TargetInfo;
+
+            for (int i = 0; i < 5; ++i)
+            {
+                if (targetInfo[i].NeededKills > data.KillCounts[i])
+                    return data.KillCounts[i];
+            }
+
+            return 0;
         }
     }
 }

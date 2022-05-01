@@ -21,6 +21,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new FashionReport(),
             new JumboCactpot(),
             new HuntMarksWeekly(),
+            new HuntMarksDaily(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;

@@ -9,10 +9,12 @@ using DailyDuty.Localization;
 using DailyDuty.Structs;
 using DailyDuty.Utilities;
 using Dalamud.Utility.Signatures;
+using Action = System.Action;
+using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules
 {
-    internal unsafe class HuntMarksWeeklyModule :
+    internal unsafe class HuntMarksDailyModule :
         IResettable,
         ILoginNotification,
         IZoneChangeThrottledNotification,
@@ -20,17 +22,17 @@ namespace DailyDuty.Modules
         IUpdateable
     {
         public GenericSettings GenericSettings => Settings;
-        public CompletionType Type => CompletionType.Weekly;
-        public string DisplayName => Strings.Module.HuntMarksWeeklyLabel;
+        public CompletionType Type => CompletionType.Daily;
+        public string DisplayName => Strings.Module.HuntMarksDailyLabel;
 
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         public readonly MobHuntStruct* HuntData = null;
         public Action? ExpandedDisplay => null;
 
-        private static WeeklyHuntMarksSettings Settings => Service.CharacterConfiguration.WeeklyHuntMarks;
+        private static DailyHuntMarksSettings Settings => Service.CharacterConfiguration.DailyHuntMarks;
         private readonly Stopwatch updateStopwatch = new();
 
-        public HuntMarksWeeklyModule()
+        public HuntMarksDailyModule()
         {
             SignatureHelper.Initialise(this);
         }
@@ -39,7 +41,7 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.HuntMarksWeeklyLabel, $"{GetIncompleteCount()} " + Strings.Module.HuntMarksHuntsRemainingLabel);
+                Chat.Print(Strings.Module.HuntMarksDailyLabel, $"{GetIncompleteCount()} " + Strings.Module.HuntMarksHuntsRemainingLabel);
             }
         }
 
@@ -47,7 +49,7 @@ namespace DailyDuty.Modules
 
         void IResettable.ResetThis()
         {
-            Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, "Weekly Reset - Resetting");
+            Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, "Daily Reset - Resetting");
 
             foreach (var hunt in Settings.TrackedHunts)
             {
@@ -81,23 +83,36 @@ namespace DailyDuty.Modules
                     Service.CharacterConfiguration.Save();
                     break;
 
-                case TrackedHuntState.Obtained when !data.Obtained && data.KillCounts[0] != 1:
+                case TrackedHuntState.Obtained when !data.Obtained && !AllTargetsKilled(data):
                     Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, $"{hunt.Type} - Mark Bill Unobtained");
                     hunt.State = TrackedHuntState.Unobtained;
                     Service.CharacterConfiguration.Save();
                     break;
 
-                case TrackedHuntState.Obtained when data.KillCounts[0] == 1:
-                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, $"{hunt.Type} - Mark Killed");
+                case TrackedHuntState.Obtained when AllTargetsKilled(data):
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksWeekly, $"{hunt.Type} - Mark Bill Complete");
                     hunt.State = TrackedHuntState.Killed;
                     Service.CharacterConfiguration.Save();
                     break;
             }
         }
-
+        
         private int GetIncompleteCount()
         {
             return Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
+        }
+
+        public static bool AllTargetsKilled(HuntData data)
+        {
+            var targetInfo = data.TargetInfo;
+
+            for (int i = 0; i < 5; ++i)
+            {
+                if (targetInfo[i].NeededKills != data.KillCounts[i])
+                    return false;
+            }
+            
+            return true;
         }
     }
 }
