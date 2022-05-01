@@ -206,15 +206,12 @@ namespace DailyDuty.Features
                 Service.SystemConfiguration.Save();
             }
 
-            if (!timer.TimerSettings.TimerStyle.StretchToFit)
+            ImGui.SameLine();
+            ImGui.TableNextColumn();
+            ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
+            if (ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600))
             {
-                ImGui.SameLine();
-                ImGui.TableNextColumn();
-                ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
-                if (ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600))
-                {
-                    settingsStopwatch.Restart();
-                }
+                settingsStopwatch.Restart();
             }
         }
 
