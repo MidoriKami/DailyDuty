@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Data.ModuleSettings;
@@ -252,7 +253,9 @@ namespace DailyDuty.ModuleConfiguration
 
                             ImGui.TableNextRow();
                             ImGui.TableNextColumn();
-                            ImGui.Text(Strings.Module.HuntMarksTargetName);
+                            var name = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(
+                                huntData.TargetInfo[0].Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
+                            ImGui.Text(name);
 
                             ImGui.TableNextColumn();
                             ImGui.Text(huntData.TargetInfo[0].Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
