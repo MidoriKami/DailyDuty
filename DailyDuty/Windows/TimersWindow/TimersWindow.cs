@@ -31,19 +31,14 @@ namespace DailyDuty.Windows.TimersWindow
             if (!Service.LoggedIn || Service.ClientState.IsPvP)
             {
                 IsOpen = false;
-                return;
             }
-
-            bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
-
-            IsOpen = !isInQuestEvent && Settings.Enabled;
-
-            if (Settings.HideInDuty == true)
+            else if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] || (Utilities.Condition.IsBoundByDuty() && Settings.HideInDuty))
             {
-                if (Utilities.Condition.IsBoundByDuty() == true)
-                {
-                    IsOpen = false;
-                }
+                IsOpen = false;
+            }
+            else
+            {
+                IsOpen = Settings.Enabled;
             }
         }
 
@@ -140,13 +135,13 @@ namespace DailyDuty.Windows.TimersWindow
             if (primaryCommand == Strings.Command.TimersCommand)
             {
                 if (ICommand.OpenCommand(secondaryCommand))
-                    IsOpen = true;
+                    Settings.Enabled = true;
 
                 if (ICommand.CloseCommand(secondaryCommand))
-                    IsOpen = false;
+                    Settings.Enabled  = false;
 
                 if (ICommand.ToggleCommand(secondaryCommand))
-                    IsOpen = !IsOpen;
+                    Settings.Enabled  = !Settings.Enabled ;
 
                 if (ICommand.HelpCommand(secondaryCommand))
                 {

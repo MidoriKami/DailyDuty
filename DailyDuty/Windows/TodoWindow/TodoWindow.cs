@@ -42,22 +42,20 @@ namespace DailyDuty.Windows.TodoWindow
             if (!Service.LoggedIn || Service.ClientState.IsPvP)
             {
                 IsOpen = false;
-                return;
             }
-
-            bool dailyTasksComplete = dailyTasks.AllTasksCompleted() || !Settings.ShowDaily;
-            bool weeklyTasksComplete = weeklyTasks.AllTasksCompleted() || !Settings.ShowWeekly;
-            bool tasksComplete = dailyTasksComplete && weeklyTasksComplete;
-
-            bool isInQuestEvent = Service.Condition[ConditionFlag.OccupiedInQuestEvent];
-
-            bool hideWindow = tasksComplete && Settings.HideWhenTasksComplete;
-
-            IsOpen = Settings.Enabled && !hideWindow && !isInQuestEvent && Service.LoggedIn;
-
-            if (Settings.HideInDuty && Utilities.Condition.IsBoundByDuty())
+            else if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] || (Utilities.Condition.IsBoundByDuty() && Settings.HideInDuty))
             {
                 IsOpen = false;
+            }
+            else
+            {
+                bool dailyTasksComplete = dailyTasks.AllTasksCompleted() || !Settings.ShowDaily;
+                bool weeklyTasksComplete = weeklyTasks.AllTasksCompleted() || !Settings.ShowWeekly;
+                bool tasksComplete = dailyTasksComplete && weeklyTasksComplete;
+
+                bool hideWindow = tasksComplete && Settings.HideWhenTasksComplete;
+
+                IsOpen = Settings.Enabled && !hideWindow;
             }
         }
         
@@ -142,13 +140,13 @@ namespace DailyDuty.Windows.TodoWindow
             if (primaryCommand == Strings.Command.TodoCommand)
             {
                 if (ICommand.OpenCommand(secondaryCommand))
-                    IsOpen = true;
+                    Settings.Enabled = true;
 
                 if (ICommand.CloseCommand(secondaryCommand))
-                    IsOpen = false;
+                    Settings.Enabled  = false;
 
                 if (ICommand.ToggleCommand(secondaryCommand))
-                    IsOpen = !IsOpen;
+                    Settings.Enabled  = !Settings.Enabled ;
 
                 if (ICommand.HelpCommand(secondaryCommand))
                 {
