@@ -2,6 +2,7 @@
 using System.Linq;
 using DailyDuty.Enums;
 using Dalamud.Game.ClientState.Aetherytes;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Utilities
 {
@@ -23,6 +24,13 @@ namespace DailyDuty.Utilities
             return Service.AetheryteList
                 .Where(e => e.AetheryteData.GameData?.RowId == id)
                 .First();
+        }
+
+        public static AetheryteEntry? Get(uint location)
+        {
+            return Service.AetheryteList
+                .Where(e => e.TerritoryId == location)
+                .FirstOrDefault();
         }
     }
 }

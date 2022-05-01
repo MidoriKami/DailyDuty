@@ -8,6 +8,8 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
+using Lumina.Excel.GeneratedSheets;
+using Aetheryte = DailyDuty.Utilities.Aetheryte;
 
 namespace DailyDuty.System
 {
@@ -68,6 +70,19 @@ namespace DailyDuty.System
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(command), command, "Un-configured Teleport Location");
+            }
+        }
+
+        public void Teleport(uint? territoryType)
+        {
+            if (territoryType != null)
+            {
+                var aetheryte = Aetheryte.Get(territoryType.Value);
+
+                if (aetheryte != null)
+                {
+                    Teleport(aetheryte);
+                }
             }
         }
 
