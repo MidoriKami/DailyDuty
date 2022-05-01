@@ -35,45 +35,67 @@ namespace DailyDuty.Structs
         public byte HuntID { get; init; }
         public HuntMarkType HuntType { get; init; }
         public KillCounts KillCounts { get; init; } = new();
-        public bool Obtained { get; init; }
-
-        public KillCounts GetRequiredKillCounts()
+        public HuntInfo TargetInfo
         {
-            var orderTypeSheet = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!;
-            var huntOrderSheet = Service.DataManager.GetExcelSheet<MobHuntOrder>()!;
-
-            var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
-            var targetRow = indexOffset + HuntID - 1;
-
-            return new KillCounts()
+            get
             {
-                First = huntOrderSheet.GetRow(targetRow, 0)!.NeededKills,
-                Second = huntOrderSheet.GetRow(targetRow, 1)!.NeededKills,
-                Third = huntOrderSheet.GetRow(targetRow, 2)!.NeededKills,
-                Fourth = huntOrderSheet.GetRow(targetRow, 3)!.NeededKills,
-                Fifth = huntOrderSheet.GetRow(targetRow, 4)!.NeededKills,
-            };
+                var orderTypeSheet = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!;
+                var huntOrderSheet = Service.DataManager.GetExcelSheet<MobHuntOrder>()!;
+
+                var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
+                var targetRow = indexOffset + HuntID - 1;
+
+                if (IsElite)
+                {
+                    return new HuntInfo
+                    {
+                        [0] = huntOrderSheet.GetRow(targetRow, 0)!,
+                    };
+                }
+                else
+                {
+                    return new HuntInfo
+                    {
+                        [0] = huntOrderSheet.GetRow(targetRow, 0)!,
+                        [1] = huntOrderSheet.GetRow(targetRow, 1)!,
+                        [2] = huntOrderSheet.GetRow(targetRow, 2)!,
+                        [3] = huntOrderSheet.GetRow(targetRow, 3)!,
+                        [4] = huntOrderSheet.GetRow(targetRow, 4)!,
+                    };
+                }
+            }
         }
 
-        public string GetTargetName(uint targetIndex)
+        public bool Obtained { get; init; }
+        public bool IsElite => HuntType is 
+            HuntMarkType.Endwalker_Elite or 
+            HuntMarkType.Shadowbringers_Elite or 
+            HuntMarkType.Stormblood_Elite or 
+            HuntMarkType.Heavensward_Elite or 
+            HuntMarkType.RealmReborn_Elite;
+        }
+
+    public class HuntInfo
+    {
+        private MobHuntOrder[] Raw { get; set; } = new MobHuntOrder[5];
+
+        public MobHuntOrder this[int i]
         {
-            var orderTypeSheet = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!;
-            var huntOrderSheet = Service.DataManager.GetExcelSheet<MobHuntOrder>()!;
-
-            var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
-            var targetRow = indexOffset + HuntID - 1u;
-
-            return huntOrderSheet.GetRow(targetRow, targetIndex - 1u)!.Target.Value!.Name.Value!.Singular;
+            get => Raw[i];
+            set => Raw[i] = value;
         }
     }
 
     public class KillCounts
     {
-        public int First { get; init; }
-        public int Second { get; init; }
-        public int Third { get; init; }
-        public int Fourth { get; init; }
-        public int Fifth { get; init; }
+        private int[] Raw { get; set; } = new int[5];
+
+        public int this[int i]
+        {
+            get => Raw[i];
+            set => Raw[i] = value;
+        }
+        
     }
 
     //[Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
@@ -90,15 +112,15 @@ namespace DailyDuty.Structs
         {
             int index = (int)type;
 
-            return new HuntData()
+            return new HuntData
             {
-                KillCounts = new KillCounts()
+                KillCounts = new KillCounts
                 {
-                    First = CurrentKills[(index * 5) + 0],
-                    Second = CurrentKills[(index * 5) + 1],
-                    Third = CurrentKills[(index * 5) + 2],
-                    Fourth = CurrentKills[(index * 5) + 3],
-                    Fifth = CurrentKills[(index * 5) + 4]
+                    [0] = CurrentKills[(index * 5) + 0],
+                    [1] = CurrentKills[(index * 5) + 1],
+                    [2] = CurrentKills[(index * 5) + 2],
+                    [3] = CurrentKills[(index * 5) + 3],
+                    [4] = CurrentKills[(index * 5) + 4]
                 },
                 HuntID = ID[index],
                 Obtained = (Flags & (1 << index)) != 0,
