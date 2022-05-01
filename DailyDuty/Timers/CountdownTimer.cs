@@ -12,10 +12,11 @@ namespace DailyDuty.Timers
     {
         private static MainWindowSettings Settings => Service.SystemConfiguration.Windows.MainWindow;
         public string Label { get; init; } = "Label Not Set";
+        public string ShortLabel { get; init; } = "Short Label Not Set";
         public TimeSpan Period { get; init; }
         public Func<DateTime>? UpdateNextReset { get; init; }
         private DateTime NextReset { get; set; }
-        public TimerSettings TimerSettings { get; init; }
+        public TimerSettings TimerSettings { get; init; } = new();
 
         public void Draw()
         {
@@ -62,12 +63,12 @@ namespace DailyDuty.Timers
             ImGui.ProgressBar(deltaTime, new(TimerSettings.TimerStyle.Size, 20), "");
 
             ImGui.SetCursorPos(new Vector2(cursorStart.X + TimerSettings.TimerStyle.Padding, cursorStart.Y));
-            ImGui.TextColored(TimerSettings.TimerStyle.TextColor, Label);
+            ImGui.TextColored(TimerSettings.TimerStyle.TextColor, TimerSettings.TimerStyle.Options.UseShortName ? ShortLabel : Label);
 
-            var timeText = remainingTime.Format();
+            var timeText = Format(remainingTime);
             var timeTextSize = ImGui.CalcTextSize(timeText);
             ImGui.SetCursorPos(new Vector2(cursorStart.X + TimerSettings.TimerStyle.Size - TimerSettings.TimerStyle.Padding - timeTextSize.X, cursorStart.Y));
-            ImGui.TextColored(TimerSettings.TimerStyle.TextColor, remainingTime.Format());
+            ImGui.TextColored(TimerSettings.TimerStyle.TimeColor, timeText);
 
             ImGui.EndGroup();
 
@@ -99,6 +100,41 @@ namespace DailyDuty.Timers
             {
                 return baseString;
             }
+        }
+
+        public string Format(TimeSpan span)
+        {
+            var options = TimerSettings.TimerStyle.Options;
+            
+            string result = "";
+
+            if (span.Days > 0)
+            {
+                if (options.CondensedDisplay)
+                {
+                    result = $"{span.Days}:";
+                }
+                else
+                {
+                    if (span.Days == 1)
+                    {
+                        result = $"{span.Days} day, ";
+                    }
+                    else if (span.Days > 1)
+                    {
+                        result = $"{span.Days} days, ";
+                    }
+                }
+            }
+
+            result += $"{span.Hours:00}:{span.Minutes:00}";
+
+            if (options.ShowSeconds)
+            {
+                result += $":{span.Seconds:00}";
+            }
+
+            return result;
         }
     }
 }

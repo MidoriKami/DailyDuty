@@ -9,6 +9,7 @@ namespace DailyDuty.Data.Components
         public Vector4 BackgroundColor = Colors.Black;
         public Vector4 ForegroundColor = Colors.Purple;
         public Vector4 TextColor = Colors.White;
+        public Vector4 TimeColor = Colors.White;
         public int Padding = 5;
         public int Size = 200;
         public bool StretchToFit = false;

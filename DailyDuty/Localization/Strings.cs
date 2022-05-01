@@ -36,7 +36,6 @@ namespace DailyDuty.Localization
             public readonly string ClickthroughLabel = Loc.Localize("ClickthroughLabel", "Clickthrough");
 
             public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
-            public readonly string SaveLabel = Loc.Localize("SaveLabel", "Save");
             public readonly string StyleLabel = Loc.Localize("StyleLabel", "Style");
             public readonly string AllowancesLabel = Loc.Localize("AllowancesLabel", "Allowances");
             public readonly string AllowancesRemainingLabel = Loc.Localize("AllowancesRemainingLabel", "Allowances Remaining");
@@ -69,8 +68,6 @@ namespace DailyDuty.Localization
             public readonly string TeleportLabel = Loc.Localize("TeleportLabel", "Teleport");
 
             public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
-
-            public readonly string RequiresTeleporterPluginDescription = Loc.Localize("RequiresTeleporterPluginDescription", "This feature requires the plugin 'Teleporter' to be installed to function.");
         }
 
         public class TabStrings
@@ -115,11 +112,11 @@ namespace DailyDuty.Localization
             public readonly string TimersWindowEnableTimersWarning = Loc.Localize("TimersWindowEnableTimersWarning", "Enable which timers you would like to see here in 'Timers Window Configuration'");
             public readonly string TimersWindowLabel = Loc.Localize("TimersWindowLabel", "Timers Window");
             public readonly string TimersWindowInformation = Loc.Localize("TimersWindowInformation", "The timers window allows you to view the time until various resets as a handy user interface element.");
-            public readonly string TimersWindowTimerConfigurationLabel = Loc.Localize("TimersWindowTimerConfigurationLabel", "Timers Configuration");
             public readonly string TimersWindowTimersEnableLabel = Loc.Localize("TimersWindowTimersEnableLabel", "Enable Timers");
             public readonly string TimersWindowForegroundColorLabel = Loc.Localize("TimersWindowForegroundColorLabel", "Foreground Color");
             public readonly string TimersWindowBackgroundColorLabel = Loc.Localize("TimersWindowBackgroundColorLabel", "Background Color");
             public readonly string TimersWindowTextColorLabel = Loc.Localize("TimersWindowTextColorLabel", "Text Color");
+            public readonly string TimersWindowTimeColorLabel = Loc.Localize("TimersWindowTimeColorLabel", "Time Color");
             public readonly string TimersWindowFitToWindowLabel = Loc.Localize("TimersWindowFitToWindowLabel", "Fit to Window");
             public readonly string TimersWindowSizeLabel = Loc.Localize("TimersWindowSizeLabel", "Size");
 
@@ -230,7 +227,7 @@ namespace DailyDuty.Localization
             public readonly string JumboCactpotLabel = Loc.Localize("JumboCactpotLabel", "Jumbo Cactpot");
             public readonly string JumboCactpotInformation = Loc.Localize("JumboCactpotInformation", "Jumbo Cactpot is a weekly task where you can purchase 3 lottery tickets. These tickets allow you to pick any 4-digit number you wish, and depending on how many numbers are matched at the drawing the following week, you can earn MGP.");
             public readonly string JumboCactpotAutomationInformation = Loc.Localize("JumboCactpotAutomationInformation", "Jumbo Cactpot data is collected when you purchase your tickets. If DailyDuty was not installed when you purchased your tickets it will be unable to track your tickets for that week.");
-            public readonly string JumboCactpotTechnicalInformation = Loc.Localize("JumboCactpotTechnicalInformation", "While DailyDuty displays the value of the tickets collected, the only information needed to track the status is how many tickets have been purchased.\n\nUpon weekly reset the stored tickets will be removed and you will be prompted to purchase new tickets. If you have any pending rewards, you will have to collect your tickets in order to purchase new tickets.");
+            public readonly string JumboCactpotTechnicalInformation = Loc.Localize("JumboCactpotTechnicalInformation", "While DailyDuty displays the value of the tickets collected, the only information needed to track the status is how many tickets have been purchased.\n\nUpon weekly reset the stored tickets will be removed and you will be prompted to purchase new tickets. If you have any pending rewards, you will have to collect your tickets in order to purchase new tickets.\n\nDue to how the fallback re-sync system works, if you speak to the 'Jumbo Cactpot Broker' before collecting your rewards, last-weeks tickets will get re-logged and the task will be marked as complete. Speaking to the 'Jumbo Cactpot Broker' after collecting your rewards will re-sync the status back to incomplete.");
             public readonly string JumboCactpotTicketsLabel = Loc.Localize("JumboCactpotTicketsLabel", "Tickets");
             public readonly string JumboCactpotTicketsAvailableLabel = Loc.Localize("JumboCactpotTicketsAvailableLabel", "Tickets Available");
             public readonly string JumboCactpotTicketAvailableLabel = Loc.Localize("JumboCactpotTicketAvailableLabel", "Ticket Available");
@@ -248,10 +245,8 @@ namespace DailyDuty.Localization
             public readonly string HuntMarksMarkAvailableLabel = Loc.Localize("HuntMarksMarkAvailableLabel", "Mark Available");
             public readonly string HuntMarksMarkObtainedLabel = Loc.Localize("HuntMarksMarkObtainedLabel", "Mark Obtained");
             public readonly string HuntMarksMarkKilledLabel = Loc.Localize("HuntMarksMarkKilledLabel", "Mark Killed");
-            public readonly string HuntMarksTargetInfoLabel = Loc.Localize("HuntMarksTargetInfoLabel", "Target Info");
             public readonly string HuntMarksTargetName = Loc.Localize("HuntMarksTargetName", "Target Name");
             public readonly string HuntMarksTargetLocation = Loc.Localize("HuntMarksTargetLocation", "Target Location");
-            public readonly string HuntMarksTeleportToLocation = Loc.Localize("HuntMarksTeleportToLocation", "Teleport to Location");
             public readonly string HuntMarksNoHuntsTracked = Loc.Localize("HuntMarksNoHuntsTracked", "No Hunts Tracked");
             public readonly string HuntMarksTrackAllLabel = Loc.Localize("HuntMarksTrackAllLabel", "Track All");
             public readonly string HuntMarksUntrackAllLabel = Loc.Localize("HuntMarksUntrackAllLabel", "Untrack All");
@@ -295,6 +290,13 @@ namespace DailyDuty.Localization
             public readonly string LeveAllowanceLabel = Loc.Localize("LeveAllowanceTimerLabel", "Daily Leve Allowance");
             public readonly string TreasureMapLabel = Loc.Localize("TreasureMapTimerLabel", "Daily Treasure Map");
             public readonly string WeeklyResetLabel = Loc.Localize("WeeklyResetTimerLabel", "Weekly Reset");
+
+            public readonly string DailyResetShortLabel = Loc.Localize("DailyResetShortLabel", "Daily");
+            public readonly string FashionReportShortLabel = Loc.Localize("FashionReportShortLabel", "Fashion");
+            public readonly string JumboCactpotShortLabel = Loc.Localize("JumboCactpotShortLabel", "Jumbo");
+            public readonly string LeveAllowanceShortLabel = Loc.Localize("LeveAllowanceShortLabel", "Leve");
+            public readonly string TreasureMapShortLabel = Loc.Localize("TreasureMapShortLabel", "Map");
+            public readonly string WeeklyResetShortLabel = Loc.Localize("WeeklyResetShortLabel", "Weekly");
 
             public readonly string TimersBarColorLabel = Loc.Localize("TimersBarColorLabel", "Progress bar color");
             public readonly string TimersHideSecondsLabel = Loc.Localize("TimersHideSecondsLabel", "Hide seconds");

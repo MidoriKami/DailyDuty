@@ -103,68 +103,6 @@ namespace DailyDuty.Features
             }
         };
 
-        private static readonly InfoBox TimersConfiguration = new()
-        {
-            Label = Strings.Features.TimersWindowTimerConfigurationLabel,
-            ContentsAction = () =>
-            {
-                foreach (var timer in Service.TimerManager.Timers.Where(t => t.TimerSettings.Enabled))
-                {
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                    
-                    ImGui.Text(timer.Label);
-
-                    if (ImGui.ColorEdit4(Strings.Features.TimersWindowForegroundColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.ForegroundColor, ImGuiColorEditFlags.NoInputs))
-                    {
-                        Service.SystemConfiguration.Save();
-                    }
-                    
-                    ImGui.SameLine();
-
-                    if (ImGui.ColorEdit4(Strings.Features.TimersWindowBackgroundColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.BackgroundColor, ImGuiColorEditFlags.NoInputs))
-                    {
-                        Service.SystemConfiguration.Save();
-                    }
-                    ImGui.SameLine();
-
-                    if (ImGui.ColorEdit4(Strings.Features.TimersWindowTextColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.TextColor, ImGuiColorEditFlags.NoInputs))
-                    {
-                        Service.SystemConfiguration.Save();
-                    }
-
-                    if (Draw.Checkbox(Strings.Features.TimersWindowFitToWindowLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.StretchToFit))
-                    {
-                        Service.SystemConfiguration.Save();
-                    }
-
-                    if (!timer.TimerSettings.TimerStyle.StretchToFit)
-                    {
-                        ImGui.SameLine();
-                        ImGui.TableNextColumn();
-                        ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
-                        if (ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600))
-                        {
-                            settingsStopwatch.Restart();
-                        }
-                    }
-
-                    if (ImGui.Button($"{Strings.Common.ResetLabel}##{timer.Label}", ImGuiHelpers.ScaledVector2(100, 25)))
-                    {
-                        timer.TimerSettings.TimerStyle = new TimerStyle();
-                        Service.SystemConfiguration.Save();
-                    }
-
-                    if (settingsStopwatch.ElapsedMilliseconds > 500)
-                    {
-                        settingsStopwatch.Reset();
-                        Service.SystemConfiguration.Save();
-                    }
-
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                }
-            }
-        };
-
         public InfoBox? AutomationInformationBox { get; }
         public InfoBox? TechnicalInformation { get; }
         public TextureWrap? AboutImage { get; }
@@ -192,12 +130,120 @@ namespace DailyDuty.Features
             enableTimers.DrawCentered();
             
             ImGuiHelpers.ScaledDummy(30.0f);
-            TimersConfiguration.DrawCentered();
-            
-            ImGuiHelpers.ScaledDummy(30.0f);
             windowHiding.DrawCentered();
+            
+            ImGuiHelpers.ScaledDummy(20.0f);
+            DrawTimersConfiguration();
 
             ImGuiHelpers.ScaledDummy(20.0f);
+        }
+
+
+        private void DrawTimersConfiguration()
+        {
+            foreach (var timer in Service.TimerManager.Timers.Where(t => t.TimerSettings.Enabled))
+            {
+                ImGuiHelpers.ScaledDummy(10.0f);
+
+                new InfoBox()
+                {
+                    Label = timer.Label,
+                    ContentsAction = () =>
+                    {
+                        DrawTimer(timer);
+                    }
+
+                }.DrawCentered();
+
+                ImGuiHelpers.ScaledDummy(10.0f);
+            }
+            
+        }
+
+        private static void DrawTimer(CountdownTimer timer)
+        {
+            DrawColorOptions(timer);
+
+            DrawFitToWindowOptions(timer);
+
+            DrawFormattingOptions(timer);
+
+            if (ImGui.Button($"{Strings.Common.ResetLabel}##{timer.Label}", ImGuiHelpers.ScaledVector2(100, 25)))
+            {
+                timer.TimerSettings.TimerStyle = new TimerStyle();
+                Service.SystemConfiguration.Save();
+            }
+
+            if (settingsStopwatch.ElapsedMilliseconds > 500)
+            {
+                settingsStopwatch.Reset();
+                Service.SystemConfiguration.Save();
+            }
+        }
+
+        private static void DrawFormattingOptions(CountdownTimer timer)
+        {
+            ImGui.SetNextItemWidth(200.0f * ImGuiHelpers.GlobalScale);
+            if (ImGui.BeginCombo($"{Strings.Common.StyleLabel}##{timer.Label}FormatDropdown", timer.TimerSettings.TimerStyle.Options.Format(), ImGuiComboFlags.PopupAlignLeft))
+            {
+                foreach (var options in TimerOptions.OptionsSamples)
+                {
+                    if (ImGui.Selectable(options.Format(), options == timer.TimerSettings.TimerStyle.Options))
+                    {
+                        timer.TimerSettings.TimerStyle.Options = options;
+                        Service.SystemConfiguration.Save();
+                    }
+                }
+
+                ImGui.EndCombo();
+            }
+        }
+
+        private static void DrawFitToWindowOptions(CountdownTimer timer)
+        {
+            if (Draw.Checkbox(Strings.Features.TimersWindowFitToWindowLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.StretchToFit))
+            {
+                Service.SystemConfiguration.Save();
+            }
+
+            if (!timer.TimerSettings.TimerStyle.StretchToFit)
+            {
+                ImGui.SameLine();
+                ImGui.TableNextColumn();
+                ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
+                if (ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600))
+                {
+                    settingsStopwatch.Restart();
+                }
+            }
+        }
+
+        // Draws as a 2x2 grid
+        private static void DrawColorOptions(CountdownTimer timer)
+        {
+            if (ImGui.ColorEdit4(Strings.Features.TimersWindowForegroundColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.ForegroundColor, ImGuiColorEditFlags.NoInputs))
+            {
+                Service.SystemConfiguration.Save();
+            }
+
+            ImGui.SameLine(150.0f * ImGuiHelpers.GlobalScale);
+
+            if (ImGui.ColorEdit4(Strings.Features.TimersWindowBackgroundColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.BackgroundColor, ImGuiColorEditFlags.NoInputs))
+            {
+                Service.SystemConfiguration.Save();
+            }
+
+            if (ImGui.ColorEdit4(Strings.Features.TimersWindowTextColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.TextColor, ImGuiColorEditFlags.NoInputs))
+            {
+                Service.SystemConfiguration.Save();
+            }
+
+            ImGui.SameLine(150.0f * ImGuiHelpers.GlobalScale);
+
+            if (ImGui.ColorEdit4(Strings.Features.TimersWindowTimeColorLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.TimeColor, ImGuiColorEditFlags.NoInputs))
+            {
+                Service.SystemConfiguration.Save();
+            }
         }
     }
 }

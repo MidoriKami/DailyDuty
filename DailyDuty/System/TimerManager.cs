@@ -16,6 +16,7 @@ namespace DailyDuty.System
             new CountdownTimer()
             {
                 Label = Strings.Timers.DailyResetLabel,
+                ShortLabel = Strings.Timers.DailyResetShortLabel,
                 Period = TimeSpan.FromDays(1),
                 UpdateNextReset = Time.NextDailyReset,
                 TimerSettings = Settings.Daily
@@ -23,6 +24,7 @@ namespace DailyDuty.System
             new CountdownTimer()
             {
                 Label = Strings.Timers.FashionReportLabel,
+                ShortLabel = Strings.Timers.FashionReportShortLabel,
                 Period = TimeSpan.FromDays(7),
                 UpdateNextReset = () =>
                 {
@@ -45,6 +47,7 @@ namespace DailyDuty.System
             new CountdownTimer()
             {
                 Label = Strings.Timers.JumboCactpotLabel,
+                ShortLabel = Strings.Timers.JumboCactpotShortLabel,
                 Period = TimeSpan.FromDays(7),
                 UpdateNextReset = Time.NextJumboCactpotReset,
                 TimerSettings = Settings.JumboCactpot,
@@ -52,6 +55,7 @@ namespace DailyDuty.System
             new CountdownTimer()
             {
                 Label = Strings.Timers.LeveAllowanceLabel,
+                ShortLabel = Strings.Timers.LeveAllowanceShortLabel,
                 Period = TimeSpan.FromDays(1),
                 UpdateNextReset = Time.NextLeveAllowanceReset,
                 TimerSettings = Settings.LeveAllowance,
@@ -59,6 +63,7 @@ namespace DailyDuty.System
             new CountdownTimer()
             {
                 Label = Strings.Timers.TreasureMapLabel,
+                ShortLabel = Strings.Timers.TreasureMapShortLabel,
                 Period = TimeSpan.FromHours(18),
                 UpdateNextReset = () =>
                 {
@@ -81,6 +86,7 @@ namespace DailyDuty.System
             new CountdownTimer()
             {
                 Label = Strings.Timers.WeeklyResetLabel,
+                ShortLabel = Strings.Timers.WeeklyResetShortLabel,
                 Period = TimeSpan.FromDays(7),
                 UpdateNextReset = Time.NextWeeklyReset,
                 TimerSettings = Settings.Weekly
