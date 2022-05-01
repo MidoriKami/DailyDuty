@@ -26,7 +26,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(700, 400),
+                MinimumSize = new(775, 400),
                 MaximumSize = new(9999,9999)
             };
 
