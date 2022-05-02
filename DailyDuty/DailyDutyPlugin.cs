@@ -1,13 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using DailyDuty.Data;
-using DailyDuty.Data.Enums;
+﻿using CheapLoc;
+using DailyDuty.Localization;
+using DailyDuty.System;
 using DailyDuty.Utilities;
-using DailyDuty.Utilities.Helpers;
-using DailyDuty.Windows.Settings;
-using Dalamud.Game;
+using DailyDuty.Windows.DailyDutyWindow;
 using Dalamud.Game.Command;
-using Dalamud.IoC;
 using Dalamud.Plugin;
 
 namespace DailyDuty
@@ -18,20 +14,23 @@ namespace DailyDuty
         private const string SettingsCommand = "/dailyduty";
         private const string ShorthandCommand = "/dd";
 
-        private readonly Stopwatch stopwatch = new();
-
-        public DailyDutyPlugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface)
+        public DailyDutyPlugin(DalamudPluginInterface pluginInterface)
         {
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
-            
-            // If configuration json exists load it, if not make new config object
-            Service.Configuration = Service.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            Service.Configuration.Initialize(Service.PluginInterface);
-            Service.ClientState.Logout += OnLogout;
-
             Service.Chat.Enable();
+
+            Loc.SetupWithFallbacks();
+
+            //try
+            //{
+            //    Loc.ExportLocalizable();
+            //}
+            //catch (Exception e)
+            //{
+            //    PluginLog.Error(e.Message);
+            //    throw;
+            //}
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
@@ -44,81 +43,69 @@ namespace DailyDuty
                 HelpMessage = "shorthand command to open configuration window"
             });
 
-            // Create Systems
-            Service.TimerManager = new();
-            Service.TeleportManager = new();
-            Service.ModuleManager = new();
-            Service.WindowManager = new();
-            Service.AddonManager = new();
+
+            // Initialize Log Manager for Configuration
+            Service.LogManager = new LogManager();
+
+            // Load Configurations
+            Configuration.Startup();
+
+            // Create Custom Services
+            Service.TeleportManager = new TeleportManager();
+            Service.TimerManager = new TimerManager();
+            Service.ModuleManager = new ModuleManager();
+            Service.WindowManager = new WindowManager();
+            Service.AddonManager = new AddonManager();
 
             // Register draw callbacks
             Service.PluginInterface.UiBuilder.Draw += DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
-            Service.Framework.Update += OnFrameworkUpdate;
+            Service.ClientState.Login += Configuration.Login;
+            Service.ClientState.Logout += Configuration.Logout;
         }
 
         private void OnCommand(string command, string arguments)
         {
-            if (arguments == string.Empty)
-            {
-                var settingsWindow = Service.WindowManager.GetWindowOfType<SettingsWindow>(WindowName.Settings);
+            Service.WindowManager.ExecuteCommand(command, arguments);
+            Service.ModuleManager.ProcessCommand(command, arguments);
 
-                settingsWindow?.Toggle();
-            }
-            else
+            if (arguments == Strings.Command.Help)
             {
-                Service.ModuleManager.ProcessCommand(command, arguments);
+                Chat.Print(Strings.Command.Core, Strings.Command.HelpCommands);
             }
         }
 
-        private void OnLogout(object? sender, EventArgs e)
-        {
-            ConfigurationHelper.Logout();
-        }
-
-        private void OnFrameworkUpdate(Framework framework)
-        {
-            Time.UpdateDelayed(stopwatch, TimeSpan.FromMilliseconds(100), UpdateSelectedCharacter);
-        }
-
-        private void UpdateSelectedCharacter()
-        {
-            // If content id is valid and we aren't already logged in
-            if (Service.ClientState.LocalContentId != 0 && Service.LoggedIn == false)
-            {
-                // login
-                ConfigurationHelper.Login();
-            }
-        }
-
-        private void DrawUI()
-        {
-            Service.WindowSystem.Draw();
-        }
+        private void DrawUI() => Service.WindowSystem.Draw();
 
         private void DrawConfigUI()
         {
-            var settingsWindow = Service.WindowManager.GetWindowOfType<SettingsWindow>(WindowName.Settings);
+            var window = Service.WindowManager.GetWindowOfType<DailyDutyWindow>();
 
-            settingsWindow?.Toggle();
+            if (window != null)
+            {
+                window.IsOpen = true;
+            }
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Dispose();
-            Service.WindowManager.Dispose();
-            Service.ModuleManager.Dispose();
             Service.TeleportManager.Dispose();
+            Service.WindowManager.Dispose();
+            Service.LogManager.Dispose();
+            Service.AddonManager.Dispose();
+            Service.ModuleManager.Dispose();
             Service.TimerManager.Dispose();
 
-            Service.ClientState.Logout -= OnLogout;
+            Service.ClientState.Login -= Configuration.Login;
+            Service.ClientState.Logout -= Configuration.Logout;
 
             Service.PluginInterface.UiBuilder.Draw -= DrawUI;
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
-            Service.Framework.Update -= OnFrameworkUpdate;
 
             Service.Commands.RemoveHandler(SettingsCommand);
             Service.Commands.RemoveHandler(ShorthandCommand);
+
+            Configuration.Cleanup();
         }
     }
 }

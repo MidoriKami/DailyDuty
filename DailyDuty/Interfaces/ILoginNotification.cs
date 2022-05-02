@@ -1,4 +1,4 @@
-﻿using DailyDuty.Data.SettingsObjects;
+﻿using DailyDuty.Data.Components;
 
 namespace DailyDuty.Interfaces
 {
@@ -8,7 +8,7 @@ namespace DailyDuty.Interfaces
 
         public void TrySendNotification()
         {
-            if (GenericSettings.LoginReminder == true && GenericSettings.Enabled == true)
+            if (GenericSettings.LoginReminder && GenericSettings.Enabled)
             {
                 SendNotification();
             }

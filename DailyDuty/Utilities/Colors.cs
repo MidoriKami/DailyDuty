@@ -16,5 +16,6 @@ namespace DailyDuty.Utilities
         public static Vector4 SoftRed = new Vector4(0.8f, 0.2f, 0.2f, 1.0f);
         public static Vector4 Grey = new Vector4(0.6f, 0.6f, 0.6f, 1.0f);
         public static Vector4 Orange = new Vector4(1.0f, 165.0f / 255.0f, 0.0f, 1.0f);
+        public static Vector4 SoftGreen = new Vector4(0.2f, 0.8f, 0.2f, 1.0f);
     }
 }

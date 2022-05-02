@@ -1,6 +1,6 @@
-﻿using DailyDuty.Data.Enums;
-using DailyDuty.Data.SettingsObjects;
-using DailyDuty.Data.SettingsObjects.Windows.SubComponents;
+﻿using System;
+using DailyDuty.Data.Components;
+using DailyDuty.Enums;
 using ImGuiNET;
 
 namespace DailyDuty.Interfaces
@@ -8,19 +8,27 @@ namespace DailyDuty.Interfaces
     internal interface ICompletable
     {
         public CompletionType Type { get; }
-        public string HeaderText { get; }
-        public GenericSettings GenericSettings { get; }
-
         public bool IsCompleted();
+        public GenericSettings GenericSettings { get; }
+        public string DisplayName { get; }
+        public Action? ExpandedDisplay { get; }
+
         public void DrawTask(TaskColors colors, bool showCompletedTasks)
         {
-            if (IsCompleted() == false && GenericSettings.Enabled)
+            if (GenericSettings.ExpandedDisplay && GenericSettings.Enabled)
             {
-                ImGui.TextColored(colors.IncompleteColor, HeaderText);
+                ExpandedDisplay?.Invoke();
             }
-            else if (IsCompleted() == true && GenericSettings.Enabled && showCompletedTasks)
+            else
             {
-                ImGui.TextColored(colors.CompleteColor, HeaderText);
+                if (!IsCompleted() && GenericSettings.Enabled)
+                {
+                    ImGui.TextColored(colors.IncompleteColor, DisplayName);
+                }
+                else if (IsCompleted() && GenericSettings.Enabled && showCompletedTasks)
+                {
+                    ImGui.TextColored(colors.CompleteColor, DisplayName);
+                }
             }
         }
     }

@@ -4,7 +4,7 @@
     <Authors></Authors>
     <Company></Company>
     <Version>1.0</Version>
-	<AssemblyVersion>1.5.0.2</AssemblyVersion>
+	<AssemblyVersion>2.0.1.0</AssemblyVersion>
     <Description></Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
@@ -21,6 +21,16 @@
     <OutputPath>$(AppData)\XIVLauncher\devPlugins\DailyDuty\</OutputPath>
   </PropertyGroup>
 
+	<Target Name="GetGitHash" BeforeTargets="GetAssemblyVersion" Returns="InformationalVersion">
+		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low">
+			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+		</Exec>
+
+		<PropertyGroup>
+			<InformationalVersion>$(GitCommitHash)</InformationalVersion>
+		</PropertyGroup>
+	</Target>
+
   <ItemGroup>
     <None Remove="DailyDuty.json" />
     <None Remove="README.md" />
@@ -32,12 +42,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="..\images\icon.png" Link="images\icon.png" CopyToOutputDirectory="Always" />
+		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.6" />
+    <PackageReference Include="DalamudPackager" Version="2.1.7" />
   </ItemGroup>
 
 	<ItemGroup>
@@ -55,6 +64,10 @@
 		</Reference>
 		<Reference Include="ImGui.NET">
 			<HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="CheapLoc">
+			<HintPath>$(DalamudLibPath)CheapLoc.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<Reference Include="ImGuiScene">

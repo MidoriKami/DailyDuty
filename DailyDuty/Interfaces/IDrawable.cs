@@ -2,6 +2,6 @@
 {
     internal interface IDrawable
     {
-        public void Draw();
+        void Draw();
     }
 }

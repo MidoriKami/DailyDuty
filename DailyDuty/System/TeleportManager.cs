@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using DailyDuty.Data.Enums;
+using DailyDuty.Enums;
 using DailyDuty.Utilities;
-using DailyDuty.Utilities.Helpers;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
+using Lumina.Excel.GeneratedSheets;
+using Aetheryte = DailyDuty.Utilities.Aetheryte;
 
 namespace DailyDuty.System
 {
@@ -18,18 +19,18 @@ namespace DailyDuty.System
         // https://github.com/goaaats/Dalamud.FindAnything/blob/a74cd2bd23997b9ffa6c573abb3c30cdc4798b9b/Dalamud.FindAnything/FindAnythingPlugin.cs
         private readonly ICallGateSubscriber<uint, byte, bool> teleportIpc;
 
-        private readonly Dictionary<TeleportPayloads, DalamudLinkPayload> payloads = new();
+        private readonly Dictionary<ChatPayloads, DalamudLinkPayload> payloads = new();
 
         public TeleportManager()
         {
             teleportIpc = Service.PluginInterface.GetIpcSubscriber<uint, byte, bool>("Teleport");
 
-            payloads.Add(TeleportPayloads.GoldSaucerTeleport, AddPayload(TeleportPayloads.GoldSaucerTeleport));
-            payloads.Add(TeleportPayloads.IdyllshireTeleport, AddPayload(TeleportPayloads.IdyllshireTeleport));
-            payloads.Add(TeleportPayloads.DomanEnclave, AddPayload(TeleportPayloads.DomanEnclave));
+            payloads.Add(ChatPayloads.GoldSaucerTeleport, AddPayload(ChatPayloads.GoldSaucerTeleport));
+            payloads.Add(ChatPayloads.IdyllshireTeleport, AddPayload(ChatPayloads.IdyllshireTeleport));
+            payloads.Add(ChatPayloads.DomanEnclave, AddPayload(ChatPayloads.DomanEnclave));
         }
 
-        private DalamudLinkPayload AddPayload(TeleportPayloads payload)
+        private DalamudLinkPayload AddPayload(ChatPayloads payload)
         {
             // Ensure that this specific link handler hasn't been registered already
             // Chat link handlers are plugin specific using internal name as a key
@@ -46,29 +47,42 @@ namespace DailyDuty.System
             }
         }
         
-        public DalamudLinkPayload GetPayload(TeleportPayloads payload)
+        public DalamudLinkPayload GetPayload(ChatPayloads payload)
         {
             return payloads[payload];
         }
 
         private void HandleTeleport(uint command, SeString message)
         {
-            switch ((TeleportPayloads) command)
+            switch ((ChatPayloads) command)
             {
-                case TeleportPayloads.IdyllshireTeleport:
-                    Teleport(AetheryteHelper.Get(TeleportLocation.Idyllshire));
+                case ChatPayloads.IdyllshireTeleport:
+                    Teleport(Aetheryte.Get(TeleportLocation.Idyllshire));
                     break;
 
-                case TeleportPayloads.GoldSaucerTeleport:
-                    Teleport(AetheryteHelper.Get(TeleportLocation.GoldSaucer));
+                case ChatPayloads.GoldSaucerTeleport:
+                    Teleport(Aetheryte.Get(TeleportLocation.GoldSaucer));
                     break;
 
-                case TeleportPayloads.DomanEnclave:
-                    Teleport(AetheryteHelper.Get(TeleportLocation.DomanEnclave));
+                case ChatPayloads.DomanEnclave:
+                    Teleport(Aetheryte.Get(TeleportLocation.DomanEnclave));
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(command), command, "Un-configured Teleport Location");
+            }
+        }
+
+        public void Teleport(uint? territoryType)
+        {
+            if (territoryType != null)
+            {
+                var aetheryte = Aetheryte.Get(territoryType.Value);
+
+                if (aetheryte != null)
+                {
+                    Teleport(aetheryte);
+                }
             }
         }
 

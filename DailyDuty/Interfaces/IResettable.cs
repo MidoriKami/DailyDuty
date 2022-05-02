@@ -1,14 +1,15 @@
 ﻿using System;
+using DailyDuty.Data.Components;
 
 namespace DailyDuty.Interfaces
 {
     internal interface IResettable
     {
-        public DateTime NextReset { get; set; }
+        public GenericSettings GenericSettings { get; }
 
         public bool NeedsResetting()
         {
-            return DateTime.UtcNow > NextReset;
+            return DateTime.UtcNow > GenericSettings.NextReset;
         }
 
         protected DateTime GetNextReset();
@@ -17,13 +18,13 @@ namespace DailyDuty.Interfaces
         {
             var storedNextReset = GetNextReset();
 
-            if (storedNextReset != DateTime.MinValue)
+            if (storedNextReset != DateTime.MinValue && Service.LoggedIn)
             {
                 ResetThis();
 
-                NextReset = storedNextReset;
+                GenericSettings.NextReset = storedNextReset;
 
-                Service.Configuration.Save();
+                Service.CharacterConfiguration.Save();
             }
         }
 

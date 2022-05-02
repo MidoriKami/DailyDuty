@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Data.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Windows.HuntMark;
-using DailyDuty.Windows.Notice;
-using DailyDuty.Windows.Settings;
-using DailyDuty.Windows.Timers;
-using DailyDuty.Windows.Todo;
+using DailyDuty.Windows.DailyDutyWindow;
+using DailyDuty.Windows.HuntHelperWindow;
+using DailyDuty.Windows.LogBrowserWindow;
+using DailyDuty.Windows.TimersWindow;
+using DailyDuty.Windows.TodoWindow;
 
 namespace DailyDuty.System
 {
     public class WindowManager : IDisposable
     {
-        private readonly List<IWindow> windowList = new()
+        private readonly List<IDisposable> windowList = new()
         {
-            new SettingsWindow(),
+            new DailyDutyWindow(),
+            new LogBrowserWindow(),
             new TodoWindow(),
             new TimersWindow(),
-            new NoticeWindow(),
-            new HuntMarkHelper()
+            new HuntHelperWindow()
         };
 
         public void Dispose()
@@ -30,14 +29,17 @@ namespace DailyDuty.System
             }
         }
 
-        public T? GetWindowOfType<T>(WindowName name)
+        public T? GetWindowOfType<T>()
         {
-            var settingsWindow = windowList
-                .Where(w => w.WindowName == name)
-                .OfType<T>()
-                .FirstOrDefault();
+            return windowList.OfType<T>().FirstOrDefault();
+        }
 
-            return settingsWindow;
+        public void ExecuteCommand(string command, string arguments)
+        {
+            foreach (var eachCommand in windowList.OfType<ICommand>())
+            {
+                eachCommand.ProcessCommand(command, arguments);
+            }
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DailyDuty.Enums;
 
 namespace DailyDuty.Interfaces
 {
-    internal interface ITabItem : IDisposable
+    internal interface ITabItem
     {
-        string TabName { get; }
+        ModuleType ModuleType { get; }
 
-        void Draw();
+        void DrawTabItem();
 
+        void DrawConfigurationPane();
     }
 }

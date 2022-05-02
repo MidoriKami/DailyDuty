@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using DailyDuty.Data.Enums;
+using DailyDuty.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Modules.Command;
-using DailyDuty.Modules.Daily;
-using DailyDuty.Modules.Weekly;
+using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.Text;
@@ -20,30 +18,19 @@ namespace DailyDuty.System
         private readonly List<object> modules = new()
         {
             // Daily
-            new MiniCactpot(),
-            new BeastTribe(),
-            new DutyRoulette(),
-            //new GrandCompany(),
-            new Levequests(),
-            new TreasureMap(),
-            //new DailyHuntMark(),
+            new DutyRouletteModule(),
+            new WondrousTailsModule(),
+            new TreasureMapModule(),
+            new BeastTribeModule(),
+            new LevequestModule(),
+            new MiniCactpotModule(),
+            new CustomDeliveryModule(),
+            new DomanEnclaveModule(),
+            new FashionReportModule(),
+            new JumboCactpotModule(),
+            new HuntMarksWeeklyModule(),
+            new HuntMarksDailyModule(),
 
-            // Weekly
-            new WeeklyHuntMark(),
-            //new BlueMageLog(),
-            //new ChallengeLog(),
-            new CustomDelivery(),
-            new DomanEnclave(),
-            new FashionReport(),
-            new JumboCactpot(),
-            //new MaskedCarnival(),
-            new WondrousTails(),
-
-            // Commands
-            new NoticeWindowCommands(),
-            new TodoWindowCommands(),
-            new TimersWindowCommands(),
-            new HuntMarkHelperCommand()
         };
 
         private readonly List<IZoneChangeLogic> zoneChangeLogicModules;
@@ -79,7 +66,7 @@ namespace DailyDuty.System
         private void PreOnTerritoryChanged(object? sender, ushort e)
         {
             var timer = reminderThrottleStopwatch;
-            var timerDelay = Service.Configuration.System.MinutesBetweenThrottledMessages;
+            var timerDelay = Service.SystemConfiguration.System.MinutesBetweenThrottledMessages;
 
             foreach (var module in zoneChangeLogicModules)
             {
@@ -88,16 +75,24 @@ namespace DailyDuty.System
 
             if (Service.LoggedIn == false) return;
 
-            AlwaysOnTerritoryChanged(sender, e);
+            if (Service.SystemConfiguration.System.MessageDelay)
+            {
+                if (!Time.CompareAdjustedDays(DateTime.Now.DayOfWeek, Service.SystemConfiguration.System.DelayDay))
+                {
+                    return;
+                }
+            }
+
+            AlwaysOnTerritoryChanged();
 
             if(timer.Elapsed.Minutes >= timerDelay || timer.IsRunning == false)
             {
                 reminderThrottleStopwatch.Restart();
-                ThrottledOnTerritoryChanged(sender, e);
+                ThrottledOnTerritoryChanged();
             }
         }
 
-        private void ThrottledOnTerritoryChanged(object? sender, ushort @ushort)
+        private void ThrottledOnTerritoryChanged()
         {
             foreach (var module in zoneChangeThrottledNotificationModules)
             {
@@ -105,7 +100,7 @@ namespace DailyDuty.System
             }
         }
 
-        private void AlwaysOnTerritoryChanged(object? sender, ushort @ushort)
+        private void AlwaysOnTerritoryChanged()
         {
             foreach (var module in zoneChangeAlwaysNotificationModules)
             {
@@ -115,13 +110,21 @@ namespace DailyDuty.System
 
         private void PreOnLogin(object? sender, EventArgs e)
         {
-            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(task => OnLoginDelayed());
+            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ => OnLoginDelayed());
 
             reminderThrottleStopwatch.Restart();
         }
 
         private void OnLoginDelayed()
         {
+            if (Service.SystemConfiguration.System.MessageDelay)
+            {
+                if (!Time.CompareAdjustedDays(DateTime.Now.DayOfWeek, Service.SystemConfiguration.System.DelayDay))
+                {
+                    return;
+                }
+            }
+
             foreach (var module in loginNotificationModules)
             {
                 module.TrySendNotification();
@@ -169,19 +172,15 @@ namespace DailyDuty.System
             return completableModules;
         }
 
-        internal List<ICollapsibleHeader> GetCollapsibleHeaders(CompletionType type)
+        public T? GetModule<T>()
         {
-            var collapsibleHeaders = modules
-                .OfType<ICompletable>()
-                .Where(module => module.Type == type)
-                .OfType<ICollapsibleHeader>()
-                .ToList();
-
-            return collapsibleHeaders;
+            return modules.OfType<T>().FirstOrDefault();
         }
 
         private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
+            if (!Service.LoggedIn) return;
+
             foreach (var module in chatHandlers)
             {
                 module.HandleChat(type, senderID, ref sender, ref message, ref isHandled);
