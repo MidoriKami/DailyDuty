@@ -16,6 +16,5 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 
         public string TabName => Strings.Tabs.DebugTabLabel;
         public string Description => Strings.Tabs.DebugTabDescription;
-
     }
 }

@@ -131,8 +131,14 @@ namespace DailyDuty.Windows.LogBrowserWindow
                     break;
 
                 case "supersecretpassword":
-                    Chat.Debug("Welcome back Commander");
+                    Chat.Debug("Password Accepted - Admin Mode Enabled");
                     Service.SystemConfiguration.DeveloperMode = true;
+                    Service.SystemConfiguration.Save();
+                    break;
+
+                case "goodnight" when Service.SystemConfiguration.DeveloperMode:
+                    Chat.Debug("Good Night - Admin Mode Disabled");
+                    Service.SystemConfiguration.DeveloperMode = false;
                     Service.SystemConfiguration.Save();
                     break;
             }
