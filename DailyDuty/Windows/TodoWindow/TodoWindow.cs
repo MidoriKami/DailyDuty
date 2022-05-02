@@ -70,8 +70,6 @@ namespace DailyDuty.Windows.TodoWindow
 
         public override void Draw()
         {
-            if (IsOpen == false) return;
-
             switch (Settings.Style)
             {
                 case TodoWindowStyle.AutoResize:

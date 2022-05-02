@@ -66,10 +66,7 @@ namespace DailyDuty.Windows.LogBrowserWindow
 
         public override void Draw()
         {
-            if(!IsOpen) return;
-
             var contentWidth = ImGui.GetContentRegionAvail();
-            var cursor = ImGui.GetCursorPos();
 
             if(ImGui.BeginChild("SelectionPane", ImGuiHelpers.ScaledVector2(250.0f, -29.0f), true))
             {

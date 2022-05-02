@@ -53,8 +53,6 @@ namespace DailyDuty.Windows.TimersWindow
 
         public override void Draw()
         {
-            if (IsOpen == false) return;
-
             Flags = DrawFlags.DefaultFlags;
 
             Flags |= Settings.ClickThrough ? ImGuiWindowFlags.NoInputs : ImGuiWindowFlags.None;

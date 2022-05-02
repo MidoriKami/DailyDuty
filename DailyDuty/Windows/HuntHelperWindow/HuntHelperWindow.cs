@@ -34,8 +34,6 @@ namespace DailyDuty.Windows.HuntHelperWindow
 
         public override void Draw()
         {
-            if (IsOpen == false) return;
-
             PrintStruct();
         }
 
