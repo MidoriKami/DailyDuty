@@ -1,4 +1,6 @@
-﻿namespace DailyDuty.Enums
+﻿using Lumina.Excel.GeneratedSheets;
+
+namespace DailyDuty.Enums
 {
     public enum RouletteType
     {
@@ -13,5 +15,13 @@
         Normal = 17,
         Mentor = 9,
         Frontline = 7
+    }
+
+    public static class RouletteTypeExtensions
+    {
+        public static string LookupName(this RouletteType type)
+        {
+            return Service.DataManager.GetExcelSheet<ContentRoulette>()!.GetRow((uint) type)!.Category.RawString;
+        }
     }
 }

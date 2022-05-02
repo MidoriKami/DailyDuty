@@ -87,7 +87,7 @@ namespace DailyDuty.ModuleConfiguration
                             {
                                 ImGui.TableNextRow();
                                 ImGui.TableNextColumn();
-                                ImGui.Text(tracked.Type.ToString());
+                                ImGui.Text(tracked.Type.LookupName());
 
                                 ImGui.TableNextColumn();
                                 Draw.CompleteIncomplete(tracked.Completed);
@@ -112,9 +112,9 @@ namespace DailyDuty.ModuleConfiguration
                     foreach (var roulette in Settings.TrackedRoulettes)
                     {
                         ImGui.TableNextColumn();
-                        if (ImGui.Checkbox($"{roulette.Type}", ref roulette.Tracked))
+                        if (ImGui.Checkbox($"{roulette.Type.LookupName()}", ref roulette.Tracked))
                         {
-                            Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{roulette.Type} " + (roulette.Tracked ? "Enabled" : "Disabled"));
+                            Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{roulette.Type.LookupName()} " + (roulette.Tracked ? "Enabled" : "Disabled"));
                             Service.CharacterConfiguration.Save();
                         }
                     }

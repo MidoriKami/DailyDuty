@@ -8,17 +8,51 @@ namespace DailyDuty.Data.ModuleSettings
         public bool EnableClickableLink = false;
         public TrackedRoulette[] TrackedRoulettes =
         {
-            new(RouletteType.Expert),
-            new(RouletteType.Level90),
-            new(RouletteType.Level50607080),
-            new(RouletteType.Leveling),
-            new(RouletteType.Trials),
-            new(RouletteType.MSQ),
-            new(RouletteType.Guildhest),
-            new(RouletteType.Alliance),
-            new(RouletteType.Normal),
-            new(RouletteType.Frontline),
-            new(RouletteType.Mentor)
+            new()
+            {
+                Type = RouletteType.Expert
+            },
+            // Disabled until Patch 6.2
+            //new()
+            //{
+            //    Type = RouletteType.Level90
+            //},
+            new()
+            {
+                Type = RouletteType.Level50607080
+            },
+            new()
+            {
+                Type = RouletteType.Leveling
+            },
+            new()
+            {
+                Type = RouletteType.Trials
+            },
+            new()
+            {
+                Type = RouletteType.MSQ
+            },
+            new()
+            {
+                Type = RouletteType.Guildhest
+            },
+            new()
+            {
+                Type = RouletteType.Alliance
+            },
+            new()
+            {
+                Type = RouletteType.Normal
+            },
+            new()
+            {
+                Type = RouletteType.Frontline
+            },
+            new()
+            {
+                Type = RouletteType.Mentor
+            }
         };
     }
 }

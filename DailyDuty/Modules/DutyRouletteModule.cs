@@ -37,11 +37,11 @@ namespace DailyDuty.Modules
             {
                 if (!tracked.Completed && tracked.Tracked)
                 {
-                    ImGui.TextColored(settings.Colors.IncompleteColor, $"{tracked.Type} Roulette");
+                    ImGui.TextColored(settings.Colors.IncompleteColor, $"{tracked.Type.LookupName()} Roulette");
                 }
                 else if (tracked.Completed && tracked.Tracked && settings.ShowTasksWhenComplete)
                 {
-                    ImGui.TextColored(settings.Colors.CompleteColor, $"{tracked.Type} Roulette");
+                    ImGui.TextColored(settings.Colors.CompleteColor, $"{tracked.Type.LookupName()} Roulette");
                 }
             }
         };
@@ -104,7 +104,7 @@ namespace DailyDuty.Modules
                 {
                     trackedRoulette.Completed = rouletteStatus;
 
-                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{trackedRoulette.Type} Completed");
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, $"{trackedRoulette.Type.LookupName()} Completed");
 
                     if (IsCompleted())
                     {
