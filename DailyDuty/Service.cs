@@ -41,6 +41,7 @@ namespace DailyDuty
         public static TeleportManager TeleportManager { get; set; } = null!;
         public static SystemConfiguration SystemConfiguration { get; set; } = null!;
         public static CharacterConfiguration CharacterConfiguration { get; set; } = null!;
+        public static Dalamud.Localization Localization { get; set; } = null!;
 
         public static bool LoggedIn = false;
     }

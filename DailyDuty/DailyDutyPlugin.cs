@@ -1,10 +1,11 @@
-﻿using CheapLoc;
-using DailyDuty.Localization;
+﻿using System.IO;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow;
 using Dalamud.Game.Command;
+using Dalamud.Logging;
 using Dalamud.Plugin;
+using Strings = DailyDuty.Localization.Strings;
 
 namespace DailyDuty
 {
@@ -19,19 +20,14 @@ namespace DailyDuty
             // Create Static Services for use everywhere
             pluginInterface.Create<Service>();
             Service.Chat.Enable();
+            
+            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
+            var filePath = Path.Combine(assemblyLocation, @"translations");
 
-            Loc.SetupWithFallbacks();
+            Service.Localization = new Dalamud.Localization(filePath, "DailyDuty_");
 
-            //try
-            //{
-            //    Loc.ExportLocalizable();
-            //}
-            //catch (Exception e)
-            //{
-            //    PluginLog.Error(e.Message);
-            //    throw;
-            //}
-
+            LoadLocalization(pluginInterface.UiLanguage);
+            
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
             {
@@ -62,8 +58,16 @@ namespace DailyDuty
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.ClientState.Login += Configuration.Login;
             Service.ClientState.Logout += Configuration.Logout;
+            Service.Localization.LocalizationChanged += LoadLocalization;
         }
 
+        private void LoadLocalization(string languageCode)
+        {
+            PluginLog.Information($"Loading Localization for {languageCode}");
+
+            Service.Localization.SetupWithLangCode(languageCode);
+        }
+        
         private void OnCommand(string command, string arguments)
         {
             Service.WindowManager.ExecuteCommand(command, arguments);
@@ -106,6 +110,9 @@ namespace DailyDuty
             Service.Commands.RemoveHandler(HelpCommand);
 
             Configuration.Cleanup();
+
+            Service.Localization.LocalizationChanged -= LoadLocalization;
+            Service.Localization.ExportLocalizable();
         }
     }
 }
