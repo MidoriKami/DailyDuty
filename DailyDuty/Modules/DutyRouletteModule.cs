@@ -29,7 +29,7 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         public string DisplayName => Strings.Module.DutyRouletteLabel;
 
-        public Action? ExpandedDisplay => () =>
+        public Action ExpandedDisplay => () =>
         {
             var settings = Service.SystemConfiguration.Windows.Todo;
 

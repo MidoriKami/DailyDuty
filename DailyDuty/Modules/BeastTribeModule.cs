@@ -9,7 +9,7 @@ using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules
 {
-    internal unsafe class BeastTribeModule :
+    internal class BeastTribeModule :
         ICompletable,
         ILoginNotification,
         IZoneChangeThrottledNotification

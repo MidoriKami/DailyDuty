@@ -16,7 +16,7 @@ namespace DailyDuty.Windows.LogBrowserWindow
     {
 
         private readonly List<CharacterLogFile> logFiles = new();
-        private CharacterLogFile? selectedLogFile = null;
+        private CharacterLogFile? selectedLogFile;
 
         public LogBrowserWindow() : base("DailyDuty Log Browser")
         {

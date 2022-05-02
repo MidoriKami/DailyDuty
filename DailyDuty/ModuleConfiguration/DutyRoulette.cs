@@ -7,7 +7,6 @@ using DailyDuty.Localization;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
-using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 

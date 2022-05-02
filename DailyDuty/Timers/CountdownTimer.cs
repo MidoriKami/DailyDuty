@@ -2,7 +2,6 @@
 using System.Numerics;
 using DailyDuty.Data.Components;
 using DailyDuty.Interfaces;
-using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 

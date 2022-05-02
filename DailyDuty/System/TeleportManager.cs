@@ -8,7 +8,6 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
-using Lumina.Excel.GeneratedSheets;
 using Aetheryte = DailyDuty.Utilities.Aetheryte;
 
 namespace DailyDuty.System

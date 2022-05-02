@@ -34,11 +34,11 @@ namespace DailyDuty.Modules
 
         private delegate void* TimersWindowDelegate(void* a1, void* a2, byte a3);
         [Signature("E8 ?? ?? ?? ?? 48 8B 4E 10 48 8B 01 44 39 76 20", DetourName = nameof(TimersWindowOpened))]
-        private readonly Hook<TimersWindowDelegate>? timersWindowHook = null!;
+        private readonly Hook<TimersWindowDelegate>? timersWindowHook = null;
 
         private delegate long GetNextMapAvailableTimeDelegate(UIState* uiState);
         [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]
-        private readonly GetNextMapAvailableTimeDelegate GetNextMapUnixTimestamp = null!;
+        private readonly GetNextMapAvailableTimeDelegate getNextMapUnixTimestamp = null!;
 
         private void* TimersWindowOpened(void* a1, void* a2, byte a3)
         {
@@ -136,7 +136,7 @@ namespace DailyDuty.Modules
 
         private DateTime GetNextMapAvailableTime()
         {
-            var unixTimestamp = GetNextMapUnixTimestamp(UIState.Instance());
+            var unixTimestamp = getNextMapUnixTimestamp(UIState.Instance());
 
             return unixTimestamp == -1 ? DateTime.MinValue : DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).UtcDateTime;
         }

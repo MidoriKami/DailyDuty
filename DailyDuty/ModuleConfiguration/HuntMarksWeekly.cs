@@ -1,7 +1,5 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;

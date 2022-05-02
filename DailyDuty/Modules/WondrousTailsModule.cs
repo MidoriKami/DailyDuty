@@ -40,10 +40,9 @@ namespace DailyDuty.Modules
         private const uint WondrousTailsBookItemID = 2002023;
 
         private readonly DalamudLinkPayload openWondrousTails;
-        private readonly DalamudLinkPayload idyllshireTeleport;
 
-        private uint lastDutyInstanceID = 0;
-        private bool lastInstanceWasDuty = false;
+        private uint lastDutyInstanceID;
+        private bool lastInstanceWasDuty;
 
         public WondrousTailsModule()
         {
@@ -51,8 +50,6 @@ namespace DailyDuty.Modules
 
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
             openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
-
-            idyllshireTeleport = Service.TeleportManager.GetPayload(ChatPayloads.IdyllshireTeleport);
         }
 
         public void Dispose()

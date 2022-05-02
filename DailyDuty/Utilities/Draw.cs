@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.Data.Components;
 using DailyDuty.Localization;
-using DailyDuty.Timers;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;

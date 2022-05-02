@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.Globalization;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;

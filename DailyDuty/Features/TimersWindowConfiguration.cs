@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -76,8 +72,6 @@ namespace DailyDuty.Features
             Label = Strings.Features.TimersWindowTimersEnableLabel,
             ContentsAction = () =>
             {
-                var region = ImGui.GetContentRegionAvail();
-
                 if (ImGui.BeginTable($"", 2))
                 {
                     ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 150f * ImGuiHelpers.GlobalScale);
@@ -103,8 +97,8 @@ namespace DailyDuty.Features
             }
         };
 
-        public InfoBox? AutomationInformationBox { get; }
-        public InfoBox? TechnicalInformation { get; }
+        public InfoBox? AutomationInformationBox => null;
+        public InfoBox? TechnicalInformation => null;
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
 

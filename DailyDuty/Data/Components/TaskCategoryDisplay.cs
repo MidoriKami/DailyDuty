@@ -28,7 +28,7 @@ namespace DailyDuty.Data.Components
                 .Where(task => task.GenericSettings.Enabled)
                 .All(task => task.IsCompleted());
 
-            if (allTasksComplete == true && !ShowCompletedTasks)
+            if (allTasksComplete && !ShowCompletedTasks)
             {
                 ImGui.TextColored(Colors.CompleteColor, "All Tasks Complete");
                 ImGui.Spacing();

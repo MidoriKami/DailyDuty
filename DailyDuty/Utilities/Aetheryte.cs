@@ -2,7 +2,6 @@
 using System.Linq;
 using DailyDuty.Enums;
 using Dalamud.Game.ClientState.Aetherytes;
-using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Utilities
 {

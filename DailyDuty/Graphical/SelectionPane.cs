@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
-using DailyDuty.Graphical.TabItems;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;

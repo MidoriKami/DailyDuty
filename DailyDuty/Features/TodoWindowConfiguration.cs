@@ -6,7 +6,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
-using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using ImGuiScene;
 
@@ -16,7 +15,7 @@ namespace DailyDuty.Features
     {
         public ModuleType ModuleType => ModuleType.TodoWindow;
         public string ConfigurationPaneLabel => Strings.Features.TodoWindowLabel;
-        private static readonly Stopwatch settingsStopwatch = new();
+        private static readonly Stopwatch SettingsStopwatch = new();
         public InfoBox? AboutInformationBox { get; } = new()
         {
             Label = Strings.Common.InformationLabel,
@@ -44,12 +43,12 @@ namespace DailyDuty.Features
                 ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
                 if (ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f))
                 {
-                    settingsStopwatch.Restart();
+                    SettingsStopwatch.Restart();
                 }
 
-                if (settingsStopwatch.ElapsedMilliseconds > 500)
+                if (SettingsStopwatch.ElapsedMilliseconds > 500)
                 {
-                    settingsStopwatch.Reset();
+                    SettingsStopwatch.Reset();
                     Service.SystemConfiguration.Save();
                 }
             }
@@ -163,8 +162,8 @@ namespace DailyDuty.Features
             }
         };
 
-        public InfoBox? AutomationInformationBox { get; }
-        public InfoBox? TechnicalInformation { get; }
+        public InfoBox? AutomationInformationBox => null;
+        public InfoBox? TechnicalInformation => null;
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.About | TabFlags.Options;
 
