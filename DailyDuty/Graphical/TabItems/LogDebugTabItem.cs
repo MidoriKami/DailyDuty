@@ -50,13 +50,18 @@ namespace DailyDuty.Graphical.TabItems
 
         public void DrawConfigurationPane()
         {
-            ImGuiHelpers.ScaledDummy(10.0f);
-            logOperations.DrawCentered();
+            if(ImGui.BeginChild("###DebugChild"))
+            {
+                ImGuiHelpers.ScaledDummy(10.0f);
+                logOperations.DrawCentered();
 
-            ImGuiHelpers.ScaledDummy(30.0f);
-            logStatus.DrawCentered();
+                ImGuiHelpers.ScaledDummy(30.0f);
+                logStatus.DrawCentered();
             
-            ImGuiHelpers.ScaledDummy(10.0f);
+                ImGuiHelpers.ScaledDummy(30.0f);
+
+                ImGui.EndChild();
+            }
         }
     }
 }
