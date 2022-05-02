@@ -5,7 +5,7 @@ using DailyDuty.Interfaces;
 using Dalamud.Interface;
 using ImGuiNET;
 
-namespace DailyDuty.Graphical.TabItems.Special
+namespace DailyDuty.Graphical.TabItems
 {
     internal class LogDebugTabItem : ITabItem
     {

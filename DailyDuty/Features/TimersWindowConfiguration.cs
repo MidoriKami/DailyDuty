@@ -21,7 +21,7 @@ namespace DailyDuty.Features
     {
         public ModuleType ModuleType => ModuleType.TimersWindow;
 
-        private static readonly Stopwatch settingsStopwatch = new();
+        private static readonly Stopwatch SettingsStopwatch = new();
         public string ConfigurationPaneLabel => Strings.Features.TimersWindowLabel;
 
         public InfoBox? AboutInformationBox { get; } = new()
@@ -48,12 +48,12 @@ namespace DailyDuty.Features
                 ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
                 if (ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f))
                 {
-                    settingsStopwatch.Restart();
+                    SettingsStopwatch.Restart();
                 }
 
-                if (settingsStopwatch.ElapsedMilliseconds > 500)
+                if (SettingsStopwatch.ElapsedMilliseconds > 500)
                 {
-                    settingsStopwatch.Reset();
+                    SettingsStopwatch.Reset();
                     Service.SystemConfiguration.Save();
                 }
             }
@@ -174,9 +174,9 @@ namespace DailyDuty.Features
                 Service.SystemConfiguration.Save();
             }
 
-            if (settingsStopwatch.ElapsedMilliseconds > 500)
+            if (SettingsStopwatch.ElapsedMilliseconds > 500)
             {
-                settingsStopwatch.Reset();
+                SettingsStopwatch.Reset();
                 Service.SystemConfiguration.Save();
             }
         }
@@ -211,7 +211,7 @@ namespace DailyDuty.Features
             ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
             if (ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600))
             {
-                settingsStopwatch.Restart();
+                SettingsStopwatch.Restart();
             }
         }
 

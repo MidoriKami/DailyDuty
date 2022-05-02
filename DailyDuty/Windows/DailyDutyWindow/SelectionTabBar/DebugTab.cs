@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DailyDuty.Graphical.TabItems.Special;
+using DailyDuty.Graphical.TabItems;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 
