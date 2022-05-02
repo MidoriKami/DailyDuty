@@ -39,7 +39,7 @@ namespace DailyDuty.Windows.HuntHelperWindow
 
         private void PrintStruct()
         {
-            for (var i = HuntMarkType.RealmReborn_LevelOne; i <= HuntMarkType.Endwalker_Elite; ++i)
+            for (var i = HuntMarkType.RealmRebornLevelOne; i <= HuntMarkType.EndwalkerElite; ++i)
             {
                 if (ImGui.CollapsingHeader(i.ToString()))
                 {

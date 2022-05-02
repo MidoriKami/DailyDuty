@@ -9,19 +9,19 @@ namespace DailyDuty.Data.ModuleSettings
         // ReSharper disable once FieldCanBeMadeReadOnly.Global
         public TrackedHunt[] TrackedHunts = 
         {
-            new() { Type = HuntMarkType.RealmReborn_LevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Heavensward_LevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Heavensward_LevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Heavensward_LevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Stormblood_LevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Stormblood_LevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Stormblood_LevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Shadowbringers_LevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Shadowbringers_LevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Shadowbringers_LevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Endwalker_LevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Endwalker_LevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
-            new() { Type = HuntMarkType.Endwalker_LevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.RealmRebornLevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.HeavenswardLevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.HeavenswardLevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.HeavenswardLevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.StormbloodLevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.StormbloodLevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.StormbloodLevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.ShadowbringersLevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.ShadowbringersLevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.ShadowbringersLevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.EndwalkerLevelOne, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.EndwalkerLevelTwo, State = TrackedHuntState.Unobtained, Tracked = false},
+            new() { Type = HuntMarkType.EndwalkerLevelThree, State = TrackedHuntState.Unobtained, Tracked = false},
         };
     }
 }

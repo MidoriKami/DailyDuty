@@ -359,7 +359,7 @@ namespace DailyDuty.ModuleConfiguration
 
             for (int i = 0; i < 5; ++i)
             {
-                if (targetInfo[i].NeededKills > data.KillCounts[i])
+                if (targetInfo[i]?.NeededKills > data.KillCounts[i])
                     return targetInfo[i];
             }
 
@@ -372,7 +372,7 @@ namespace DailyDuty.ModuleConfiguration
 
             for (int i = 0; i < 5; ++i)
             {
-                if (targetInfo[i].NeededKills > data.KillCounts[i])
+                if (targetInfo[i]?.NeededKills > data.KillCounts[i])
                     return data.KillCounts[i];
             }
 

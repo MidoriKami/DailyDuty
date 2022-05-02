@@ -241,7 +241,7 @@ namespace DailyDuty.Localization
 
             public readonly string HuntMarksWeeklyLabel = Loc.Localize("HuntMarksWeeklyLabel", "Hunt Marks (Weekly)");
             public readonly string HuntMarksWeeklyInformation = Loc.Localize("HuntMarksWeeklyInformation", "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. A reward that is of note is the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.");
-            public readonly string HuntMarksAutomationInformation = Loc.Localize("HuntMarksAutomationInformation", "Hunt data is tracked automatically via the game's data and will always be in sync with the game.");
+            public readonly string HuntMarksAutomationInformation = Loc.Localize("HuntMarksAutomationInformation", "Hunt data is tracked by observing changes in the games stored data. If DailyDuty was not installed when you obtained a hunt mark then it can not be tracked correctly.");
             public readonly string HuntMarksTechnicalInformation = Loc.Localize("HuntMarksTechnicalInformation", "While the data is always in sync with the game, the game does not clear this data on reset. Instead, it only clears the data when you pick up the new hunt mark item.\n\nDailyDuty will reset its copy of the tracked data each week and attempt to start tracking when a new hunt mark is picked up.");
             public readonly string HuntMarksHuntsRemainingLabel = Loc.Localize("HuntMarksHuntsRemainingLabel", "Hunts Remaining");
             public readonly string HuntMarksTrackedHuntsLabel = Loc.Localize("HuntMarksTrackedHuntsLabel", "Tracked Hunts");

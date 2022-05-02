@@ -1,11 +1,9 @@
-﻿using System;
-using CheapLoc;
+﻿using CheapLoc;
 using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow;
 using Dalamud.Game.Command;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace DailyDuty
@@ -13,8 +11,8 @@ namespace DailyDuty
     public sealed class DailyDutyPlugin : IDalamudPlugin
     {
         public string Name => "DailyDuty";
-        private const string SettingsCommand = "/dailyduty";
-        private const string ShorthandCommand = "/dd";
+        private const string SettingsCommand = "/dd";
+        private const string HelpCommand = "/dd help";
 
         public DailyDutyPlugin(DalamudPluginInterface pluginInterface)
         {
@@ -24,15 +22,15 @@ namespace DailyDuty
 
             Loc.SetupWithFallbacks();
 
-            try
-            {
-                Loc.ExportLocalizable();
-            }
-            catch (Exception e)
-            {
-                PluginLog.Error(e.Message);
-                throw;
-            }
+            //try
+            //{
+            //    Loc.ExportLocalizable();
+            //}
+            //catch (Exception e)
+            //{
+            //    PluginLog.Error(e.Message);
+            //    throw;
+            //}
 
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
@@ -40,9 +38,9 @@ namespace DailyDuty
                 HelpMessage = "open configuration window"
             });
 
-            Service.Commands.AddHandler(ShorthandCommand, new CommandInfo(OnCommand)
+            Service.Commands.AddHandler(HelpCommand, new CommandInfo(OnCommand)
             {
-                HelpMessage = "shorthand command to open configuration window"
+                HelpMessage = "display a list of all available sub-commands"
             });
 
 
@@ -105,7 +103,7 @@ namespace DailyDuty
             Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
 
             Service.Commands.RemoveHandler(SettingsCommand);
-            Service.Commands.RemoveHandler(ShorthandCommand);
+            Service.Commands.RemoveHandler(HelpCommand);
 
             Configuration.Cleanup();
         }

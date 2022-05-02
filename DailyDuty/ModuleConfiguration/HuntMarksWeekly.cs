@@ -252,18 +252,18 @@ namespace DailyDuty.ModuleConfiguration
                             ImGui.TableNextRow();
                             ImGui.TableNextColumn();
                             var name = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(
-                                huntData.TargetInfo[0].Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
+                                huntData.TargetInfo[0]?.Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
                             ImGui.Text(name);
 
                             ImGui.TableNextColumn();
-                            ImGui.Text(huntData.TargetInfo[0].Target.Value?.Name.Value?.Singular ?? "Unable to Read Table");
+                            ImGui.Text(huntData.TargetInfo.FirstName ?? "Unable to Read Table");
 
                             ImGui.TableNextRow();
                             ImGui.TableNextColumn();
                             ImGui.Text(Strings.Module.HuntMarksTargetLocation);
                             
                             ImGui.TableNextColumn();
-                            ImGui.Text(huntData.TargetInfo[0].Target.Value?.TerritoryType.Value?.PlaceName.Value?.Name ?? "Unable to Read Table");
+                            ImGui.Text(huntData.TargetInfo[0]?.Target.Value?.TerritoryType.Value?.PlaceName.Value?.Name ?? "Unable to Read Table");
 
                             ImGui.EndTable();
                         }
@@ -276,7 +276,7 @@ namespace DailyDuty.ModuleConfiguration
 
                         if (ImGui.Button(Strings.Common.TeleportLabel + $"###{hunt.Type}", buttonSize))
                         {
-                            var targetID = huntData.TargetInfo[0].Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
+                            var targetID = huntData.TargetInfo[0]?.Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
                             Service.TeleportManager.Teleport(targetID);
                         }
                     }

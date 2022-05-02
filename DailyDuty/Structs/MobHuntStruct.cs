@@ -4,30 +4,28 @@ using DailyDuty.Enums;
 using DailyDuty.Localization;
 using Lumina.Excel.GeneratedSheets;
 
-// ReSharper disable InconsistentNaming
-
 namespace DailyDuty.Structs
 {
     public enum HuntMarkType
     {
-        RealmReborn_LevelOne = 0,
-        Heavensward_LevelOne = 1,
-        Heavensward_LevelTwo = 2,
-        Heavensward_LevelThree = 3,
-        RealmReborn_Elite = 4,
-        Heavensward_Elite = 5,
-        Stormblood_LevelOne = 6,
-        Stormblood_LevelTwo = 7,
-        Stormblood_LevelThree = 8,
-        Stormblood_Elite = 9,
-        Shadowbringers_LevelOne = 10,
-        Shadowbringers_LevelTwo = 11,
-        Shadowbringers_LevelThree = 12,
-        Shadowbringers_Elite = 13,
-        Endwalker_LevelOne = 14,
-        Endwalker_LevelTwo = 15,
-        Endwalker_LevelThree = 16,
-        Endwalker_Elite = 17
+        RealmRebornLevelOne = 0,
+        HeavenswardLevelOne = 1,
+        HeavenswardLevelTwo = 2,
+        HeavenswardLevelThree = 3,
+        RealmRebornElite = 4,
+        HeavenswardElite = 5,
+        StormbloodLevelOne = 6,
+        StormbloodLevelTwo = 7,
+        StormbloodLevelThree = 8,
+        StormbloodElite = 9,
+        ShadowbringersLevelOne = 10,
+        ShadowbringersLevelTwo = 11,
+        ShadowbringersLevelThree = 12,
+        ShadowbringersElite = 13,
+        EndwalkerLevelOne = 14,
+        EndwalkerLevelTwo = 15,
+        EndwalkerLevelThree = 16,
+        EndwalkerElite = 17
     }
 
     public class HuntData
@@ -44,6 +42,11 @@ namespace DailyDuty.Structs
 
                 var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
                 var targetRow = indexOffset + HuntID - 1;
+
+                if (HuntID == 0)
+                {
+                    return new HuntInfo();
+                }
 
                 if (IsElite)
                 {
@@ -68,27 +71,39 @@ namespace DailyDuty.Structs
 
         public bool Obtained { get; init; }
         public bool IsElite => HuntType is 
-            HuntMarkType.Endwalker_Elite or 
-            HuntMarkType.Shadowbringers_Elite or 
-            HuntMarkType.Stormblood_Elite or 
-            HuntMarkType.Heavensward_Elite or 
-            HuntMarkType.RealmReborn_Elite;
-        }
+            HuntMarkType.EndwalkerElite or 
+            HuntMarkType.ShadowbringersElite or 
+            HuntMarkType.StormbloodElite or 
+            HuntMarkType.HeavenswardElite or 
+            HuntMarkType.RealmRebornElite;
+    }
 
     public class HuntInfo
     {
-        private MobHuntOrder[] Raw { get; set; } = new MobHuntOrder[5];
+        private MobHuntOrder?[] Raw { get; set; } = new MobHuntOrder[5];
 
-        public MobHuntOrder this[int i]
+        public string? FirstName => Raw[0]?.Target.Value?.Name.Value?.Singular.RawString;
+        public string? SecondName => Raw[1]?.Target.Value?.Name.Value?.Singular.RawString;
+        public string? ThirdName => Raw[2]?.Target.Value?.Name.Value?.Singular.RawString;
+        public string? FourthName => Raw[3]?.Target.Value?.Name.Value?.Singular.RawString;
+        public string? FifthName => Raw[4]?.Target.Value?.Name.Value?.Singular.RawString;
+
+        public MobHuntOrder? this[int i]
         {
             get => Raw[i];
-            set => Raw[i] = value;
+            init => Raw[i] = value;
         }
     }
 
     public class KillCounts
     {
         private int[] Raw { get; set; } = new int[5];
+
+        public int First => Raw[0];
+        public int Second => Raw[1];
+        public int Third => Raw[2];
+        public int Fourth => Raw[3];
+        public int Fifth => Raw[4];
 
         public int this[int i]
         {
@@ -143,32 +158,32 @@ namespace DailyDuty.Structs
         {
             switch (type)
             {
-                case HuntMarkType.RealmReborn_Elite:
-                case HuntMarkType.RealmReborn_LevelOne:
+                case HuntMarkType.RealmRebornElite:
+                case HuntMarkType.RealmRebornLevelOne:
                     return ExpansionType.RealmReborn;
 
-                case HuntMarkType.Heavensward_LevelOne:
-                case HuntMarkType.Heavensward_LevelTwo:
-                case HuntMarkType.Heavensward_LevelThree:
-                case HuntMarkType.Heavensward_Elite:
+                case HuntMarkType.HeavenswardLevelOne:
+                case HuntMarkType.HeavenswardLevelTwo:
+                case HuntMarkType.HeavenswardLevelThree:
+                case HuntMarkType.HeavenswardElite:
                     return ExpansionType.Heavensward;
 
-                case HuntMarkType.Stormblood_LevelOne:
-                case HuntMarkType.Stormblood_LevelTwo:
-                case HuntMarkType.Stormblood_LevelThree:
-                case HuntMarkType.Stormblood_Elite:
+                case HuntMarkType.StormbloodLevelOne:
+                case HuntMarkType.StormbloodLevelTwo:
+                case HuntMarkType.StormbloodLevelThree:
+                case HuntMarkType.StormbloodElite:
                     return ExpansionType.Stormblood;
 
-                case HuntMarkType.Shadowbringers_LevelOne:
-                case HuntMarkType.Shadowbringers_LevelTwo:
-                case HuntMarkType.Shadowbringers_LevelThree:
-                case HuntMarkType.Shadowbringers_Elite:
+                case HuntMarkType.ShadowbringersLevelOne:
+                case HuntMarkType.ShadowbringersLevelTwo:
+                case HuntMarkType.ShadowbringersLevelThree:
+                case HuntMarkType.ShadowbringersElite:
                     return ExpansionType.Shadowbringers;
 
-                case HuntMarkType.Endwalker_LevelOne:
-                case HuntMarkType.Endwalker_LevelTwo:
-                case HuntMarkType.Endwalker_LevelThree:
-                case HuntMarkType.Endwalker_Elite:
+                case HuntMarkType.EndwalkerLevelOne:
+                case HuntMarkType.EndwalkerLevelTwo:
+                case HuntMarkType.EndwalkerLevelThree:
+                case HuntMarkType.EndwalkerElite:
                     return ExpansionType.Endwalker;
 
                 default:
@@ -180,32 +195,32 @@ namespace DailyDuty.Structs
         {
             switch (type)
             {
-                case HuntMarkType.RealmReborn_LevelOne:
-                case HuntMarkType.Heavensward_LevelOne:
-                case HuntMarkType.Stormblood_LevelOne:
-                case HuntMarkType.Shadowbringers_LevelOne:
-                case HuntMarkType.Endwalker_LevelOne:
+                case HuntMarkType.RealmRebornLevelOne:
+                case HuntMarkType.HeavenswardLevelOne:
+                case HuntMarkType.StormbloodLevelOne:
+                case HuntMarkType.ShadowbringersLevelOne:
+                case HuntMarkType.EndwalkerLevelOne:
                     return Strings.Common.LevelOneLabel;
 
-                case HuntMarkType.Shadowbringers_LevelTwo:
-                case HuntMarkType.Endwalker_LevelTwo:
-                case HuntMarkType.Heavensward_LevelTwo:
-                case HuntMarkType.Stormblood_LevelTwo:
+                case HuntMarkType.ShadowbringersLevelTwo:
+                case HuntMarkType.EndwalkerLevelTwo:
+                case HuntMarkType.HeavenswardLevelTwo:
+                case HuntMarkType.StormbloodLevelTwo:
                     return Strings.Common.LevelTwoLabel;
 
 
-                case HuntMarkType.Stormblood_LevelThree:
-                case HuntMarkType.Shadowbringers_LevelThree:
-                case HuntMarkType.Endwalker_LevelThree:
-                case HuntMarkType.Heavensward_LevelThree:
+                case HuntMarkType.StormbloodLevelThree:
+                case HuntMarkType.ShadowbringersLevelThree:
+                case HuntMarkType.EndwalkerLevelThree:
+                case HuntMarkType.HeavenswardLevelThree:
                     return Strings.Common.LevelThreeLabel;
 
 
-                case HuntMarkType.Heavensward_Elite:
-                case HuntMarkType.Stormblood_Elite:
-                case HuntMarkType.Endwalker_Elite:
-                case HuntMarkType.Shadowbringers_Elite:
-                case HuntMarkType.RealmReborn_Elite:
+                case HuntMarkType.HeavenswardElite:
+                case HuntMarkType.StormbloodElite:
+                case HuntMarkType.EndwalkerElite:
+                case HuntMarkType.ShadowbringersElite:
+                case HuntMarkType.RealmRebornElite:
                     return Strings.Common.EliteLabel;
 
                 default:
