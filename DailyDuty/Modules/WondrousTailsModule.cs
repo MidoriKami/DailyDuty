@@ -62,13 +62,13 @@ namespace DailyDuty.Modules
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
         {
-            if (ItemContextMenuAgent != IntPtr.Zero && InventoryContainsBook())
+            if (ItemContextMenuAgent != IntPtr.Zero && InventoryContainsWondrousTailsBook())
             {
                 useItemFunction(ItemContextMenuAgent, WondrousTailsBookItemID, 9999, 0, 0);
             }
         }
 
-        private bool InventoryContainsBook()
+        public static bool InventoryContainsWondrousTailsBook()
         {
             var inventoryManager = InventoryManager.Instance();
 

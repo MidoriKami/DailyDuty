@@ -243,7 +243,7 @@ namespace DailyDuty.Features
 
                 var taskState = IsWondrousTailsDuty(baseNode, id);
 
-                if (taskState == null)
+                if (taskState == null || !WondrousTailsModule.InventoryContainsWondrousTailsBook())
                 {
                     SetImageNodeVisibility(baseNode, id, 29, false);
                     SetImageNodeVisibility(baseNode, id, 30, false);
