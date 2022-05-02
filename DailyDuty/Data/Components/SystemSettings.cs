@@ -6,5 +6,7 @@ namespace DailyDuty.Data.Components
     public class SystemSettings
     {
         public int MinutesBetweenThrottledMessages = 5;
+        public bool MessageDelay = false;
+        public DayOfWeek DelayDay = DayOfWeek.Tuesday;
     }
 }

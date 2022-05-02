@@ -1,8 +1,11 @@
 ﻿using System;
+using System.ComponentModel.Design;
+using System.Globalization;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -32,6 +35,44 @@ namespace DailyDuty.Graphical.TabItems
             }
         };
 
+        private readonly InfoBox messageSuppression = new()
+        {
+            Label = Strings.Configuration.NotificationsDelayLabel,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Configuration.NotificationsDelayDescription);
+
+                ImGuiHelpers.ScaledDummy(10.0f);
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.MessageDelay))
+                {
+                    Service.SystemConfiguration.Save();
+                }
+
+                if (Settings.MessageDelay)
+                {
+                    var clientLanguage = Service.PluginInterface.UiLanguage;
+                    var cultureInfo = new CultureInfo(clientLanguage);
+
+                    ImGuiHelpers.ScaledDummy(5.0f);
+
+                    ImGui.PushItemWidth(150.0f * ImGuiHelpers.GlobalScale);
+                    if (ImGui.BeginCombo("###Weekday", cultureInfo.DateTimeFormat.GetDayName(Settings.DelayDay)))
+                    {
+                        foreach (var day in Enum.GetValues<DayOfWeek>())
+                        {
+                            if (ImGui.Selectable(cultureInfo.DateTimeFormat.GetDayName(day), Settings.DelayDay == day))
+                            {
+                                Settings.DelayDay = day;
+                                Service.SystemConfiguration.Save();
+                            }
+                        }
+
+                        ImGui.EndCombo();
+                    }
+                }
+            }
+        };
+
         public void DrawTabItem()
         {
             ImGui.Text(Strings.Configuration.NotificationsConfigurationLabel);
@@ -41,8 +82,9 @@ namespace DailyDuty.Graphical.TabItems
         {
             ImGuiHelpers.ScaledDummy(10.0f);
             notificationThrottle.DrawCentered();
-            
-            //ImGuiHelpers.ScaledDummy(30.0f);
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            messageSuppression.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }

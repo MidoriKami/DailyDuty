@@ -75,6 +75,14 @@ namespace DailyDuty.System
 
             if (Service.LoggedIn == false) return;
 
+            if (Service.SystemConfiguration.System.MessageDelay)
+            {
+                if (!Time.CompareAdjustedDays(DateTime.Now.DayOfWeek, Service.SystemConfiguration.System.DelayDay))
+                {
+                    return;
+                }
+            }
+
             AlwaysOnTerritoryChanged();
 
             if(timer.Elapsed.Minutes >= timerDelay || timer.IsRunning == false)
@@ -109,6 +117,14 @@ namespace DailyDuty.System
 
         private void OnLoginDelayed()
         {
+            if (Service.SystemConfiguration.System.MessageDelay)
+            {
+                if (!Time.CompareAdjustedDays(DateTime.Now.DayOfWeek, Service.SystemConfiguration.System.DelayDay))
+                {
+                    return;
+                }
+            }
+
             foreach (var module in loginNotificationModules)
             {
                 module.TrySendNotification();

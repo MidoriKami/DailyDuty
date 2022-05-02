@@ -114,5 +114,24 @@ namespace DailyDuty.Utilities
                 .Select(dc => dc.Region)
                 .FirstOrDefault();
         }
+
+        public static int GetAdjustedWeekday(DayOfWeek targetDay, DayOfWeek weekBase = DayOfWeek.Tuesday)
+        {
+            var offset = 7 - (int) weekBase;
+            var targetDayIndex = (int) targetDay;
+
+            targetDayIndex += offset;
+            targetDayIndex %= 7;
+
+            return targetDayIndex;
+        }
+
+        public static bool CompareAdjustedDays(DayOfWeek current, DayOfWeek target, DayOfWeek weekBase = DayOfWeek.Tuesday)
+        {
+            var currentIndex = GetAdjustedWeekday(current, weekBase);
+            var targetIndex = GetAdjustedWeekday(target, weekBase);
+
+            return currentIndex >= targetIndex;
+        }
     }
 }
