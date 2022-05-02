@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
+using DailyDuty.Graphical.TabItems;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
@@ -24,15 +25,8 @@ namespace DailyDuty.Graphical
             new TasksTab(),
             new TimersTab(),
             new SettingsTab(),
+            new DebugTab()
         };
-
-        public SelectionPane()
-        {
-            if (Service.SystemConfiguration.DeveloperMode)
-            {
-                tabs.Add(new DebugTab());
-            }
-        }
 
         public void Draw()
         {
@@ -83,6 +77,11 @@ namespace DailyDuty.Graphical
             {
                 foreach (var tab in tabs)
                 {
+                    if (tab.GetType() == typeof(DebugTab) && !Service.SystemConfiguration.DeveloperMode)
+                    {
+                        continue;
+                    }
+
                     if (ImGui.BeginTabItem(tab.TabName))
                     {
                         ImGui.PushID(tab.TabName);
