@@ -73,7 +73,7 @@ namespace DailyDuty.ModuleConfiguration
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
-                    ImGui.Text(Strings.Common.AllowancesLabel);
+                    ImGui.Text(Strings.Module.CustomDeliveryAllowancesLabel);
 
                     ImGui.TableNextColumn();
                     ImGui.TextColored(module.IsCompleted() ? Colors.Green : Colors.Orange, module.GetRemainingAllowances().ToString());

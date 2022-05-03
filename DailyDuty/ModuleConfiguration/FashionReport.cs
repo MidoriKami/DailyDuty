@@ -119,7 +119,7 @@ namespace DailyDuty.ModuleConfiguration
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
-                    ImGui.Text(Strings.Common.AllowancesLabel);
+                    ImGui.Text(Strings.Module.FashionReportAllowancesLabel);
 
                     ImGui.TableNextColumn();
                     ImGui.TextColored(module.IsCompleted() ? Colors.Green : Colors.Orange, Settings.AllowancesRemaining.ToString());
