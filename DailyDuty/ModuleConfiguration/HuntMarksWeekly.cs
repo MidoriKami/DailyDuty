@@ -273,11 +273,13 @@ namespace DailyDuty.ModuleConfiguration
                         var cursorStart = ImGui.GetCursorPos();
                         var buttonSize = ImGuiHelpers.ScaledVector2(100.0f, 23.0f);
                         ImGui.SetCursorPos(cursorStart with{X = cursorStart.X + 100.0f * ImGuiHelpers.GlobalScale - buttonSize.X /2.0f});
-
-                        if (ImGui.Button(Strings.Common.TeleportLabel + $"###{hunt.Type}", buttonSize))
+                        var targetID = huntData.TargetInfo[0]?.Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
+                        if (targetID != null)
                         {
-                            var targetID = huntData.TargetInfo[0]?.Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
-                            Service.TeleportManager.Teleport(targetID);
+                            if (ImGui.Button(Strings.Common.TeleportLabel + $"###{hunt.Type}", buttonSize))
+                            {
+                                Service.TeleportManager.Teleport(targetID);
+                            }
                         }
                     }
 

@@ -306,10 +306,14 @@ namespace DailyDuty.ModuleConfiguration
                 X = cursorStart.X + 100.0f * ImGuiHelpers.GlobalScale - buttonSize.X / 2.0f
             });
 
-            if (ImGui.Button(Strings.Common.TeleportLabel + $"###{specificHunt.Type}", buttonSize))
+            var targetID = GetFirstIncomplete(huntData)?.Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
+
+            if (targetID != null)
             {
-                var targetID = GetFirstIncomplete(huntData)?.Target.Value?.TerritoryType.Value?.TerritoryType.Value?.RowId;
-                Service.TeleportManager.Teleport(targetID);
+                if (ImGui.Button(Strings.Common.TeleportLabel + $"###{specificHunt.Type}", buttonSize))
+                {
+                    Service.TeleportManager.Teleport(targetID);
+                }
             }
         }
 
