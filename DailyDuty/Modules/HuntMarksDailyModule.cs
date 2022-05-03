@@ -45,7 +45,7 @@ namespace DailyDuty.Modules
             }
         }
 
-        DateTime IResettable.GetNextReset() => Time.NextWeeklyReset();
+        DateTime IResettable.GetNextReset() => Time.NextDailyReset();
 
         void IResettable.ResetThis()
         {
