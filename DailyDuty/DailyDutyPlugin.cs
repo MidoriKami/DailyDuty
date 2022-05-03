@@ -26,12 +26,7 @@ namespace DailyDuty
 
             Service.Localization = new Dalamud.Localization(filePath, "DailyDuty_");
             LoadLocalization(pluginInterface.UiLanguage);
-
-            if (Service.SystemConfiguration.DeveloperMode)
-            {
-                Service.Localization.ExportLocalizable();
-            }
-
+            
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
             {
@@ -116,6 +111,10 @@ namespace DailyDuty
             Configuration.Cleanup();
 
             Service.Localization.LocalizationChanged -= LoadLocalization;
+            if (Service.SystemConfiguration.DeveloperMode)
+            {
+                Service.Localization.ExportLocalizable();
+            }
         }
     }
 }
