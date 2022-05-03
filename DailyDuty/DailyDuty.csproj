@@ -87,4 +87,8 @@
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy &quot;C:\Program Files (x86)\Steam\steamapps\common\FINAL FANTASY XIV Online\game\DailyDuty_Localizable.json&quot; &quot;$(ProjectDir)..\translations\DailyDuty_Localizable.json&quot; /Y&#xD;&#xA;" />
+	</Target>
 </Project>
