@@ -38,7 +38,6 @@ namespace DailyDuty.Localization
             public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
             public readonly string StyleLabel = Loc.Localize("StyleLabel", "Style");
             public readonly string AllowancesLabel = Loc.Localize("AllowancesLabel", "Allowances");
-            public readonly string AllowancesRemainingLabel = Loc.Localize("AllowancesRemainingLabel", "Allowances Remaining");
             public readonly string LessThanLabel = Loc.Localize("LessThanLabel", "Less Than");
             public readonly string LessThanOrEqualLabel = Loc.Localize("LessThanOrEqualLabel", "Less Than or Equal To");
             public readonly string EqualToLabel = Loc.Localize("EqualToLabel", "Equal To");
@@ -138,8 +137,6 @@ namespace DailyDuty.Localization
             public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes");
             public readonly string NotificationsDelayLabel = Loc.Localize("NotificationsDelayLabel", "Notifications Delay");
             public readonly string NotificationsDelayDescription = Loc.Localize("NotificationsDelayDescription", "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'");
-            public readonly string NotificationsDelaySuppressionLabel = Loc.Localize("NotificationsDelaySuppressionLabel", "Suppress Until");
-
         }
 
         public class ModuleStrings
@@ -198,7 +195,6 @@ namespace DailyDuty.Localization
             public readonly string MiniCactpotInformation = Loc.Localize("MiniCactpotInformation", "Mini Cactpot is a daily scratch-card like activity you can do three times per day. Each Mini Cactpot ticket awards a various amount of MGP up to 10,000 MGP per ticket.");
             public readonly string MiniCactpotAutomationInformation = Loc.Localize("MiniCactpotAutomationInformation", "Tracking is done by monitoring the opening of the Mini Cactpot ticket. If DailyDuty was installed after you have completed your daily Mini Cactpot, it will not be tracked.");
             public readonly string MiniCactpotTechnicalInformation = Loc.Localize("MiniCactpotTechnicalInformation", "The game removes your Mini Cactpot ticket allowance when the window is opened and you spend the MGP to purchase the ticket. If your game is closed or crashes after the ticket window opened, that ticket will be lost.");
-            public readonly string MiniCactpotTicketsRemainingLabel = Loc.Localize("MiniCactpotTicketsRemainingLabel", "Tickets Remaining");
             public readonly string MiniCactpotClickableLinkDescription = Loc.Localize("MiniCactpotClickableLinkDescription", "Notifications can be clicked on to teleport to the Gold Saucer");
             public readonly string MiniCactpotReSyncInformation = Loc.Localize("MiniCactpotReSyncInformation", "You can force a re-sync of Mini Cactpot allowances by speaking to the 'Mini Cactpot Broker' and selecting 'Purchase a Mini Cactpot ticket'");
             public readonly string MiniCactpotAllowancesLabel = Loc.Localize("MiniCactpotAllowancesLabel", "Allowances Available");

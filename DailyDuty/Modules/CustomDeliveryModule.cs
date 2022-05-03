@@ -37,7 +37,7 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.CustomDeliveryLabel, $"{GetRemainingAllowances()} " + Strings.Common.AllowancesRemainingLabel);
+                Chat.Print(Strings.Module.CustomDeliveryLabel, $"{GetRemainingAllowances()} " + Strings.Module.CustomDeliveryAllowancesLabel);
             }
         }
 

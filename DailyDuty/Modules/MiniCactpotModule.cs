@@ -88,7 +88,7 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.MiniCactpotLabel, Settings.TicketsRemaining + " " + Strings.Module.MiniCactpotTicketsRemainingLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
+                Chat.Print(Strings.Module.MiniCactpotLabel, Settings.TicketsRemaining + " " + Strings.Module.MiniCactpotAllowancesLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
             }
         }
 
