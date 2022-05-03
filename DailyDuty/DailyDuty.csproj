@@ -46,6 +46,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="..\translations\**" Link="translations\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+
+	<ItemGroup>
     <PackageReference Include="DalamudPackager" Version="2.1.7" />
   </ItemGroup>
 
@@ -83,5 +87,4 @@
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
-
 </Project>

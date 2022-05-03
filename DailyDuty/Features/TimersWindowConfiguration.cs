@@ -97,6 +97,49 @@ namespace DailyDuty.Features
             }
         };
 
+        private static TimerStyle _newConfiguration = new TimerStyle();
+
+        private readonly InfoBox applyAll = new()
+        {
+            Label = Strings.Common.ApplyAllLabel,
+            ContentsAction = () =>
+            {
+                ImGui.SetNextItemWidth(200.0f * ImGuiHelpers.GlobalScale);
+                if (ImGui.BeginCombo($"{Strings.Common.StyleLabel}##ApplyAllFormatDropdown", _newConfiguration.Options.Format(), ImGuiComboFlags.PopupAlignLeft))
+                {
+                    foreach (var optionsPreset in TimerOptions.OptionsSamples)
+                    {
+                        if (ImGui.Selectable(optionsPreset.Format(), optionsPreset == _newConfiguration.Options))
+                        {
+                            _newConfiguration.Options = optionsPreset;
+                        }
+                    }
+
+                    ImGui.EndCombo();
+                }
+
+                if (ImGui.Button(Strings.Common.ApplyAllLabel, ImGuiHelpers.ScaledVector2(80, 25)))
+                {
+                    foreach (var timer in Service.TimerManager.Timers.Where(t => t.TimerSettings.Enabled))
+                    {
+                        timer.TimerSettings.TimerStyle.Options = _newConfiguration.Options;
+                    }
+                    Service.SystemConfiguration.Save();
+                }
+
+                ImGui.SameLine();
+
+                if (ImGui.Button(Strings.Common.ResetAllLabel, ImGuiHelpers.ScaledVector2(80, 25)))
+                {
+                    foreach (var timer in Service.TimerManager.Timers.Where(t => t.TimerSettings.Enabled))
+                    {
+                        timer.TimerSettings.TimerStyle.Options = new TimerOptions();
+                    }
+                    Service.SystemConfiguration.Save();
+                }
+            }
+        };
+
         public InfoBox? AutomationInformationBox => null;
         public InfoBox? TechnicalInformation => null;
         public TextureWrap? AboutImage { get; }
@@ -112,7 +155,6 @@ namespace DailyDuty.Features
         public void DrawTabItem()
         {
             ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Features.TimersWindowLabel);
-
         }
 
         public void DrawOptionsContents()
@@ -125,7 +167,10 @@ namespace DailyDuty.Features
             
             ImGuiHelpers.ScaledDummy(30.0f);
             windowHiding.DrawCentered();
-            
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            applyAll.DrawCentered();
+
             ImGuiHelpers.ScaledDummy(20.0f);
             DrawTimersConfiguration();
 

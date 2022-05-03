@@ -65,9 +65,12 @@ namespace DailyDuty.Localization
             public readonly string LevelThreeLabel = Loc.Localize("LevelThreeLabel", "Level 3");
             public readonly string EliteLabel = Loc.Localize("EliteLabel", "Elite");
 
+            public readonly string ApplyAllLabel = Loc.Localize("ApplyAllLabel", "Apply All");
+
             public readonly string TeleportLabel = Loc.Localize("TeleportLabel", "Teleport");
 
             public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
+            public readonly string ResetAllLabel = Loc.Localize("ResetAllLabel", "Reset All");
         }
 
         public class TabStrings
