@@ -61,8 +61,6 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
         public override void Draw()
         {
-            if (!IsOpen) return;
-
             selectionPane.Draw();
         }
 
