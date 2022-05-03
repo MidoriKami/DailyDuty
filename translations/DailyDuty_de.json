@@ -195,12 +195,20 @@
     "message": "Elite",
     "description": "CommonStrings..ctor"
   },
+  "ApplyAllLabel": {
+    "message": "Apply All",
+    "description": "CommonStrings..ctor"
+  },
   "TeleportLabel": {
     "message": "Teleport",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
     "message": "Reset",
+    "description": "CommonStrings..ctor"
+  },
+  "ResetAllLabel": {
+    "message": "Reset All",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
@@ -619,6 +627,10 @@
     "message": "You can force a re-sync of Mini Cactpot allowances by speaking to the 'Mini Cactpot Broker' and selecting 'Purchase a Mini Cactpot ticket'",
     "description": "ModuleStrings..ctor"
   },
+  "MiniCactpotAllowancesLabel": {
+    "message": "Allowances Available",
+    "description": "ModuleStrings..ctor"
+  },
   "CustomDeliveryLabel": {
     "message": "Custom Delivery",
     "description": "ModuleStrings..ctor"
@@ -629,6 +641,10 @@
   },
   "CustomDeliveryAutomationInformation": {
     "message": "Custom Delivery information is gathered directly from the game's data, and will always be in sync with the current status of the game.",
+    "description": "ModuleStrings..ctor"
+  },
+  "CustomDeliveryAllowancesLabel": {
+    "message": "Allowances Available",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveLabel": {
@@ -723,6 +739,10 @@
     "message": "You can re-sync Fashion Report data by speaking to 'Masked Rose'",
     "description": "ModuleStrings..ctor"
   },
+  "FashionReportAllowancesLabel": {
+    "message": "Allowances Available",
+    "description": "ModuleStrings..ctor"
+  },
   "JumboCactpotLabel": {
     "message": "Jumbo Cactpot",
     "description": "ModuleStrings..ctor"
@@ -772,7 +792,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksAutomationInformation": {
-    "message": "Hunt data is tracked automatically via the game's data and will always be in sync with the game.",
+    "message": "Hunt data is tracked by observing changes in the games stored data. If DailyDuty was not installed when you obtained a hunt mark then it can not be tracked correctly.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTechnicalInformation": {
