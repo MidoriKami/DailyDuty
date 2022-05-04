@@ -107,10 +107,6 @@
     "message": "Allowances",
     "description": "CommonStrings..ctor"
   },
-  "AllowancesRemainingLabel": {
-    "message": "Allowances Remaining",
-    "description": "CommonStrings..ctor"
-  },
   "LessThanLabel": {
     "message": "Less Than",
     "description": "CommonStrings..ctor"
@@ -415,10 +411,6 @@
     "message": "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'",
     "description": "ConfigurationStrings..ctor"
   },
-  "NotificationsDelaySuppressionLabel": {
-    "message": "Suppress Until",
-    "description": "ConfigurationStrings..ctor"
-  },
   "DutyRouletteLabel": {
     "message": "Duty Roulette",
     "description": "ModuleStrings..ctor"
@@ -613,10 +605,6 @@
   },
   "MiniCactpotTechnicalInformation": {
     "message": "The game removes your Mini Cactpot ticket allowance when the window is opened and you spend the MGP to purchase the ticket. If your game is closed or crashes after the ticket window opened, that ticket will be lost.",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotTicketsRemainingLabel": {
-    "message": "Tickets Remaining",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotClickableLinkDescription": {
