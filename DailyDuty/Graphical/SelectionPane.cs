@@ -36,9 +36,8 @@ namespace DailyDuty.Graphical
             if (ImGui.BeginChild("SelectionPane", new Vector2(moduleSelectionWidth, 0), false))
             {
                 DrawSelectionPane();
-
-                ImGui.EndChild();
             }
+            ImGui.EndChild();
 
             ImGui.SameLine();
 
@@ -52,7 +51,7 @@ namespace DailyDuty.Graphical
             {
                 if (selectedTab?.SelectedTabItem != null)
                 {
-                    selectedTab?.SelectedTabItem?.DrawConfigurationPane();
+                    selectedTab.SelectedTabItem.DrawConfigurationPane();
                 }
                 else
                 {
@@ -63,9 +62,8 @@ namespace DailyDuty.Graphical
                     ImGui.SetCursorPos(center);
                     ImGui.Text(Strings.Configuration.NoSelectionDescription);
                 }
-
-                ImGui.EndChild();
             }
+            ImGui.EndChild();
         }
 
         private void DrawSelectionPane()
@@ -95,8 +93,8 @@ namespace DailyDuty.Graphical
                         if (ImGui.BeginChild("SelectionPaneTabBarChild", new Vector2(0,-25), false))
                         {
                             tab.DrawTabContents();
-                            ImGui.EndChild();
                         }
+                        ImGui.EndChild();
 
                         DrawVersionText();
 

@@ -50,7 +50,7 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
         public override void PreDraw()
         {
-            WindowName = Strings.Configuration.DailyDutySettingsLabel + " - " + Service.CharacterConfiguration.CharacterName + "###DailyDutyMainWindow";
+            WindowName = $"{Strings.Configuration.DailyDutySettingsLabel} - {Service.CharacterConfiguration.CharacterName}###DailyDutyMainWindow";
 
             var backgroundColor = ImGui.GetStyle().Colors[(int)ImGuiCol.WindowBg];
             ImGui.PushStyleColor(ImGuiCol.WindowBg, new Vector4(backgroundColor.X, backgroundColor.Y, backgroundColor.Z, MainWindow.Opacity));

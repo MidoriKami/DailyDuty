@@ -57,7 +57,7 @@ namespace DailyDuty
             Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
             Service.ClientState.Login += Configuration.Login;
             Service.ClientState.Logout += Configuration.Logout;
-            Service.Localization.LocalizationChanged += LoadLocalization;
+            Service.PluginInterface.LanguageChanged += LoadLocalization;
         }
 
         private void LoadLocalization(string languageCode)
@@ -65,6 +65,14 @@ namespace DailyDuty
             PluginLog.Information($"Loading Localization for {languageCode}");
 
             Service.Localization.SetupWithLangCode(languageCode);
+
+            Strings.Tabs = new();
+            Strings.Configuration = new();
+            Strings.Features = new();
+            Strings.Common = new();
+            Strings.Module = new();
+            Strings.Timers = new();
+            Strings.Command = new();
         }
         
         private void OnCommand(string command, string arguments)
@@ -110,11 +118,11 @@ namespace DailyDuty
 
             Configuration.Cleanup();
 
-            Service.Localization.LocalizationChanged -= LoadLocalization;
-            if (Service.SystemConfiguration.DeveloperMode)
-            {
-                Service.Localization.ExportLocalizable();
-            }
+            Service.PluginInterface.LanguageChanged -= LoadLocalization;
+            //if (Service.SystemConfiguration.DeveloperMode)
+            //{
+            //    Service.Localization.ExportLocalizable();
+            //}
         }
     }
 }

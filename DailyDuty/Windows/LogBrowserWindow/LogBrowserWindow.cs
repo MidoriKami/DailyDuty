@@ -70,20 +70,20 @@ namespace DailyDuty.Windows.LogBrowserWindow
 
             if(ImGui.BeginChild("SelectionPane", ImGuiHelpers.ScaledVector2(250.0f, -29.0f), true))
             {
-                ImGui.BeginListBox("###CharacterSelectListBox", new Vector2(-1));
-
-                foreach (var characterLogFile in logFiles.OrderBy(log => log.CharacterName))
+                if (ImGui.BeginListBox("###CharacterSelectListBox", new Vector2(-1)))
                 {
-                    if (ImGui.Selectable(characterLogFile.CharacterName, selectedLogFile == characterLogFile))
+                    foreach (var characterLogFile in logFiles.OrderBy(log => log.CharacterName))
                     {
-                        selectedLogFile = characterLogFile;
+                        if (ImGui.Selectable(characterLogFile.CharacterName, selectedLogFile == characterLogFile))
+                        {
+                            selectedLogFile = characterLogFile;
+                        }
                     }
+
+                    ImGui.EndListBox();
                 }
-
-                ImGui.EndListBox();
-
-                ImGui.EndChild();
             }
+            ImGui.EndChild();
 
             var cursorPosition = ImGui.GetCursorPos();
 
@@ -111,9 +111,8 @@ namespace DailyDuty.Windows.LogBrowserWindow
 
                     ImGui.EndTabBar();
                 }
-
-                ImGui.EndChild();
             }
+            ImGui.EndChild();
 
             ImGui.SetCursorPos(cursorPosition);
             if (ImGui.Button("Refresh", ImGuiHelpers.ScaledVector2(250.0f, 25)))

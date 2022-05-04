@@ -59,9 +59,8 @@ namespace DailyDuty.Graphical.TabItems
                 logStatus.DrawCentered();
             
                 ImGuiHelpers.ScaledDummy(30.0f);
-
-                ImGui.EndChild();
             }
+            ImGui.EndChild();
         }
     }
 }

@@ -42,9 +42,10 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.AboutTabLabel))
                     {
-                        ImGui.BeginChild("AboutContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
-
-                        DrawAboutContents();
+                        if (ImGui.BeginChild("AboutContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
+                        {
+                            DrawAboutContents();
+                        }
 
                         ImGui.EndChild();
 
@@ -56,9 +57,10 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.StatusTabLabel))
                     {
-                        ImGui.BeginChild("StatusContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
-
-                        DrawStatusContents();
+                        if (ImGui.BeginChild("StatusContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
+                        {
+                            DrawStatusContents();
+                        }
 
                         ImGui.EndChild();
 
@@ -70,10 +72,11 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.OptionsTabLabel))
                     {
-                        ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
+                        if (ImGui.BeginChild("OptionsContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
+                        {
+                            DrawOptionsContents();
 
-                        DrawOptionsContents();
-
+                        }
                         ImGui.EndChild();
 
                         ImGui.EndTabItem();
@@ -84,32 +87,33 @@ namespace DailyDuty.Interfaces
                 {
                     if (ImGui.BeginTabItem(Strings.Configuration.LogTabLabel))
                     {
-                        ImGui.BeginChild("LogContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar);
-
-                        ImGui.Spacing();
-
-                        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10.0f, 8.0f));
-
-                        var logMessages = Service.LogManager.GetMessages(ModuleType).ToList();
-
-                        if (logMessages.Count == 0)
+                        if (ImGui.BeginChild("LogContentsChild", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.AlwaysVerticalScrollbar))
                         {
-                            var contentCenter = ImGui.GetContentRegionAvail() / 2.0f;
-                            var textSize = ImGui.CalcTextSize(Strings.Common.EmptyContentsLabel) / 2.0f;
+                            ImGui.Spacing();
 
-                            ImGui.SetCursorPos(contentCenter - textSize);
-                            ImGui.TextWrapped(Strings.Common.EmptyContentsLabel);
-                        }
-                        else
-                        {
-                            foreach (var message in logMessages)
+                            ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, ImGuiHelpers.ScaledVector2(10.0f, 8.0f));
+
+                            var logMessages = Service.LogManager.GetMessages(ModuleType).ToList();
+
+                            if (logMessages.Count == 0)
                             {
-                                message.Draw();
+                                var contentCenter = ImGui.GetContentRegionAvail() / 2.0f;
+                                var textSize = ImGui.CalcTextSize(Strings.Common.EmptyContentsLabel) / 2.0f;
+
+                                ImGui.SetCursorPos(contentCenter - textSize);
+                                ImGui.TextWrapped(Strings.Common.EmptyContentsLabel);
                             }
+                            else
+                            {
+                                foreach (var message in logMessages)
+                                {
+                                    message.Draw();
+                                }
+                            }
+
+                            ImGui.PopStyleVar();
+
                         }
-
-                        ImGui.PopStyleVar();
-
                         ImGui.EndChild();
 
                         ImGui.EndTabItem();

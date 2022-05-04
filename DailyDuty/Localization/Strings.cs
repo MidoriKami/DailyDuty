@@ -308,12 +308,12 @@ namespace DailyDuty.Localization
             public readonly string TimersHideSecondsLabel = Loc.Localize("TimersHideSecondsLabel", "Hide seconds");
         }
 
-        public static readonly TabStrings Tabs = new();
-        public static readonly ConfigurationStrings Configuration = new();
-        public static readonly FeaturesStrings Features = new();
-        public static readonly CommonStrings Common = new();
-        public static readonly ModuleStrings Module = new();
-        public static readonly TimersStrings Timers = new();
-        public static readonly CommandStrings Command = new();
+        public static TabStrings Tabs = new();
+        public static ConfigurationStrings Configuration = new();
+        public static FeaturesStrings Features = new();
+        public static CommonStrings Common = new();
+        public static ModuleStrings Module = new();
+        public static TimersStrings Timers = new();
+        public static CommandStrings Command = new();
     }
 }

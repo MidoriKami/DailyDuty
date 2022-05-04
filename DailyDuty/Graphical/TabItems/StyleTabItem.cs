@@ -20,7 +20,7 @@ namespace DailyDuty.Graphical.TabItems
             Label = Strings.Common.StyleOptionsLabel,
             ContentsAction = () =>
             {
-                ImGui.PushItemWidth(175 * ImGuiHelpers.GlobalScale);
+                ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
                 if (ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f))
                 {
                     StyleStopwatch.Restart();

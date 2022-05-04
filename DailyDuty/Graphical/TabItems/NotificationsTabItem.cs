@@ -25,7 +25,7 @@ namespace DailyDuty.Graphical.TabItems
                 
                 ImGuiHelpers.ScaledDummy(10.0f);
 
-                ImGui.PushItemWidth(50 * ImGuiHelpers.GlobalScale);
+                ImGui.SetNextItemWidth(50 * ImGuiHelpers.GlobalScale);
                 ImGui.InputInt("", ref Settings.MinutesBetweenThrottledMessages, 0, 0);
                 Settings.MinutesBetweenThrottledMessages = Math.Max(0, Settings.MinutesBetweenThrottledMessages);
 
@@ -54,7 +54,7 @@ namespace DailyDuty.Graphical.TabItems
 
                     ImGuiHelpers.ScaledDummy(5.0f);
 
-                    ImGui.PushItemWidth(150.0f * ImGuiHelpers.GlobalScale);
+                    ImGui.SetNextItemWidth(150.0f * ImGuiHelpers.GlobalScale);
                     if (ImGui.BeginCombo("###Weekday", cultureInfo.DateTimeFormat.GetDayName(Settings.DelayDay)))
                     {
                         foreach (var day in Enum.GetValues<DayOfWeek>())
