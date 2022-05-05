@@ -4,95 +4,95 @@
     "description": "CommonStrings..ctor"
   },
   "AutomationInformationLabel": {
-    "message": "Data Collection",
+    "message": "Collecte de données",
     "description": "CommonStrings..ctor"
   },
   "TechnicalInformationLabel": {
-    "message": "Technical Information",
+    "message": "Informations techniques",
     "description": "CommonStrings..ctor"
   },
   "EnabledLabel": {
-    "message": "Enabled",
+    "message": "Activé",
     "description": "CommonStrings..ctor"
   },
   "EmptyContentsLabel": {
-    "message": "No information to display",
+    "message": "Aucune information à afficher",
     "description": "CommonStrings..ctor"
   },
   "CurrentStatusLabel": {
-    "message": "Current Status",
+    "message": "État actuel",
     "description": "CommonStrings..ctor"
   },
   "CompletionStatusLabel": {
-    "message": "Completion Status",
+    "message": "Progression",
     "description": "CommonStrings..ctor"
   },
   "NotificationOptionsLabel": {
-    "message": "Notification Options",
+    "message": "Options de notification",
     "description": "CommonStrings..ctor"
   },
   "ClickableLinkLabel": {
-    "message": "Clickable Link",
+    "message": "Lien cliquable",
     "description": "CommonStrings..ctor"
   },
   "TaskDisplayOptionsLabel": {
-    "message": "Task Display Options",
+    "message": "Options d’affichage des tâches",
     "description": "CommonStrings..ctor"
   },
   "TaskHeaderColorLabel": {
-    "message": "Task Category Color",
+    "message": "Couleur de la catégorie de tâche",
     "description": "CommonStrings..ctor"
   },
   "TaskIncompleteTaskColorLabel": {
-    "message": "Incomplete Task Color",
+    "message": "Couleur des tâches incomplètes",
     "description": "CommonStrings..ctor"
   },
   "TaskCompleteTaskColorLabel": {
-    "message": "Complete Task Color",
+    "message": "Couleur des tâches complétées",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginLabel": {
-    "message": "Send Notifications on Login",
+    "message": "Envoyer des notifications lors de la connexion",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you login to a character.",
+    "message": "Si ce module est incomplet ou a des messages pertinents, envoyer une notification lorsque vous vous connectez sur un personnage.",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeLabel": {
-    "message": "Send Notifications on Zone Change",
+    "message": "Envoyer des notifications lors d'un changement de zone",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you change zones.",
+    "message": "Si ce module est incomplet ou a des messages pertinents, envoyer une notification lorsque vous vous changez de zone.",
     "description": "CommonStrings..ctor"
   },
   "CompleteLabel": {
-    "message": "Complete",
+    "message": "Terminé",
     "description": "CommonStrings..ctor"
   },
   "IncompleteLabel": {
-    "message": "Incomplete",
+    "message": "Incomplet",
     "description": "CommonStrings..ctor"
   },
   "AllTasksLabel": {
-    "message": "All Tasks Status",
+    "message": "Statut de toutes les tâches",
     "description": "CommonStrings..ctor"
   },
   "AvailableNowLabel": {
-    "message": "Available Now",
+    "message": "Disponible maintenant",
     "description": "CommonStrings..ctor"
   },
   "StyleOptionsLabel": {
-    "message": "Style Options",
+    "message": "Options de style",
     "description": "CommonStrings..ctor"
   },
   "OpacityLabel": {
-    "message": "Opacity",
+    "message": "Opacité",
     "description": "CommonStrings..ctor"
   },
   "ClickthroughLabel": {
-    "message": "Clickthrough",
+    "message": "Clic à travers",
     "description": "CommonStrings..ctor"
   },
   "MinutesLabel": {
@@ -104,23 +104,23 @@
     "description": "CommonStrings..ctor"
   },
   "AllowancesLabel": {
-    "message": "Allowances",
+    "message": "Autorisations",
     "description": "CommonStrings..ctor"
   },
   "LessThanLabel": {
-    "message": "Less Than",
+    "message": "Inférieur à",
     "description": "CommonStrings..ctor"
   },
   "LessThanOrEqualLabel": {
-    "message": "Less Than or Equal To",
+    "message": "Inférieur ou égal à",
     "description": "CommonStrings..ctor"
   },
   "EqualToLabel": {
-    "message": "Equal To",
+    "message": "Égal à",
     "description": "CommonStrings..ctor"
   },
   "NoneRecordedLabel": {
-    "message": "None Recorded",
+    "message": "Aucune donnée enregistrée",
     "description": "CommonStrings..ctor"
   },
   "RealmRebornLabel": {
@@ -144,99 +144,99 @@
     "description": "CommonStrings..ctor"
   },
   "WeeklyTasksLabel": {
-    "message": "Weekly Tasks",
+    "message": "Tâches hebdomadaires",
     "description": "CommonStrings..ctor"
   },
   "DailyTasksLabel": {
-    "message": "Daily Tasks",
+    "message": "Tâches quotidiennes",
     "description": "CommonStrings..ctor"
   },
   "TopLeftLabel": {
-    "message": "Top Left",
+    "message": "Supérieur gauche",
     "description": "CommonStrings..ctor"
   },
   "TopRightLabel": {
-    "message": "Top Right",
+    "message": "Supérieur droit",
     "description": "CommonStrings..ctor"
   },
   "BottomLeftLabel": {
-    "message": "Bottom Left",
+    "message": "Inférieur gauche",
     "description": "CommonStrings..ctor"
   },
   "BottomRightLabel": {
-    "message": "Bottom Right",
+    "message": "Inférieur droit",
     "description": "CommonStrings..ctor"
   },
   "AutoResizeLabel": {
-    "message": "Auto Resize",
+    "message": "Taille automatique",
     "description": "CommonStrings..ctor"
   },
   "ManualSizeLabel": {
-    "message": "Manual Size",
+    "message": "Taille manuelle",
     "description": "CommonStrings..ctor"
   },
   "LevelOneLabel": {
-    "message": "Level 1",
+    "message": "Niveau 1",
     "description": "CommonStrings..ctor"
   },
   "LevelTwoLabel": {
-    "message": "Level 2",
+    "message": "Niveau 2",
     "description": "CommonStrings..ctor"
   },
   "LevelThreeLabel": {
-    "message": "Level 3",
+    "message": "Niveau 3",
     "description": "CommonStrings..ctor"
   },
   "EliteLabel": {
-    "message": "Elite",
+    "message": "Élite",
     "description": "CommonStrings..ctor"
   },
   "ApplyAllLabel": {
-    "message": "Apply All",
+    "message": "Appliquer tout",
     "description": "CommonStrings..ctor"
   },
   "TeleportLabel": {
-    "message": "Teleport",
+    "message": "Téléportation",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
-    "message": "Reset",
+    "message": "Réinitialiser",
     "description": "CommonStrings..ctor"
   },
   "ResetAllLabel": {
-    "message": "Reset All",
+    "message": "Tout réinitialiser",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
-    "message": "Features",
+    "message": "Caractéristiques",
     "description": "TabStrings..ctor"
   },
   "FeaturesTabDescription": {
-    "message": "Main features of DailyDuty to add QoL",
+    "message": "Caractéristiques principales de DailyDuty pour se faciliter la vie",
     "description": "TabStrings..ctor"
   },
   "DebugTabLabel": {
-    "message": "Debug",
+    "message": "Débogage",
     "description": "TabStrings..ctor"
   },
   "DebugTabString": {
-    "message": "Settings for debugging or showing more information",
+    "message": "Paramètres pour déboguer ou afficher plus d'informations",
     "description": "TabStrings..ctor"
   },
   "SettingsTabLabel": {
-    "message": "Settings",
+    "message": "Réglages",
     "description": "TabStrings..ctor"
   },
   "SettingsTabDescription": {
-    "message": "Settings specific to this window",
+    "message": "Réglages spécifiques à cette fenêtre",
     "description": "TabStrings..ctor"
   },
   "TasksTabLabel": {
-    "message": "Tasks",
+    "message": "Tâches",
     "description": "TabStrings..ctor"
   },
   "TasksTabDescription": {
-    "message": "View and configure daily and weekly tasks",
+    "message": "Voir et configurer les tâches quotidiennes et hebdomadaires",
     "description": "TabStrings..ctor"
   },
   "TimersTabLabel": {
@@ -244,127 +244,127 @@
     "description": "TabStrings..ctor"
   },
   "TimersTabDescription": {
-    "message": "View time until various daily and weekly tasks reset",
+    "message": "Afficher le temps jusqu'à la réinitialisation de diverses tâches quotidiennes et hebdomadaires",
     "description": "TabStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayLabel": {
-    "message": "Duty Roulette Duty Finder Overlay",
+    "message": "Overlay des Missions Aléatoires pour l'Outil de Mission",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayAutomationInformation": {
-    "message": "The 'Duty Roulette' status is gathered directly from internal game data and will always be precisely in sync with the game.",
+    "message": "Le statut des 'Missions Aléatoires' est collecté directement à partir des données internes du jeu et sera toujours synchronisé avec le jeu.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayInformationDisclaimer": {
-    "message": "Requires task module 'Duty Roulette' to be enabled to function",
+    "message": "Nécessite que le module 'Missions Aléatoires' soit activé pour fonctionner",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayDescription": {
-    "message": "Changes the colors of the 'Duty Roulette' text in the Duty Finder to reflect the daily completion status.",
+    "message": "Modifie les couleurs du texte des 'Missions Aléatoires' dans l'Outil de Mission pour refléter le statut d'achèvement quotidien.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayTechnicalDescription": {
-    "message": "Use the 'Duty Roulette' module to configure which roulettes are colored.\n\nYou can also set the 'complete' and 'incomplete' colors in the 'Duty Roulette' module\n\nRoulettes that are not tracked will not be colored, regardless of their completion status.",
+    "message": "Utilisez le module 'Missions Aléatoires' pour configurer quelles missions sont colorées.\n\nVous pouvez également définir les couleurs 'Terminé' et 'Incomplet' dans le module 'Missions Aléatoires'\n\nLes missions non suivies ne seront pas colorées, indépendamment de leur statut d'achèvement.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayLabel": {
-    "message": "Wondrous Tails Duty Finder Overlay",
+    "message": "Overlay du Carnet de Khloé pour l'Outil de Mission",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayDescription": {
-    "message": "Adds a clover icon next to the duties in the Duty Finder, if that duty is in your Wondrous Tails book.\n\nThe clover will be golden if that duty is able to be completed to reward you a stamp.\n\nThe clover will be hollow if that duty has already been claimed for a stamp.",
+    "message": "Ajoute une icône de trèfle à côté des missions de l'Outil de mission, si cette mission est dans votre Carnet de Khloe.\n\nLe trèfle sera doré si cette mission peut être complétée pour vous octroyer une vignette.\n\nLe trèfle sera vide si cette mission a déjà été réclamée pour une vignette.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayAutomationInformation": {
-    "message": "The Wondrous Tails duties are read directly from game data.\n\nThe Duty Finder may need to be opened and closed again to refresh the displayed data.",
+    "message": "Les missions du Carnet de Khloe sont lues directement à partir des données du jeu.\n\nL'Outil de Mission peut avoir besoin d'être ouvert et fermé à nouveau pour actualiser les données affichées.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayTechnicalDescription": {
-    "message": "The game code will not clear the task's data when you complete your book for the week. This will cause the Duty Finder to reflect the status of the last obtained book.",
+    "message": "Le code du jeu n'effacera pas les données de la tâche lorsque vous compléterez votre carnet pour la semaine. Cela fera en sorte que l'Outil de mission reflète le statut du dernier carnet obtenu.",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowLabel": {
-    "message": "Todo Window",
+    "message": "Fenêtre \"À faire\"",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowTaskSelectionLabel": {
-    "message": "Task Selection",
+    "message": "Sélection des Tâches",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowDailyLabel": {
-    "message": "Show Daily Tasks",
+    "message": "Afficher les Tâches Quotidiennes",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWeeklyLabel": {
-    "message": "Show Weekly Tasks",
+    "message": "Afficher les Tâches Hebdomadaires",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideWindowWhenLabel": {
-    "message": "Hide Window When",
+    "message": "Cacher la Fenêtre Quand",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideWhenCompleteLabel": {
-    "message": "All Tasks are Complete",
+    "message": "Toutes les Tâches sont Terminées",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWhenCompleteLabel": {
-    "message": "Show Completed Tasks",
+    "message": "Afficher les Tâches Terminées",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideInDutyLabel": {
-    "message": "In a Duty",
+    "message": "Dans une Mission",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowResizeStyleLabel": {
-    "message": "Window Resize Options",
+    "message": "Options de redimensionnement",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowInformation": {
-    "message": "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.",
+    "message": "La fenêtre \"To Do\" est une petite fenêtre affichant les tâches que vous suivez. Cette fenêtre est utile pour déterminer ce qu'il vous reste à faire en un coup d'œil.",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowEnableExpandedInfo": {
-    "message": "Expanded Todo Display",
+    "message": "Affichage étendu ddans la fenêtre \"To Do\"",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
-    "message": "Enable which timers you would like to see here in 'Timers Window Configuration'",
+    "message": "Activez les timers que vous souhaitez voir ici dans la 'Configuration de la Fenêtre des Timers'",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowLabel": {
-    "message": "Timers Window",
+    "message": "Fenêtre des Timers",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowInformation": {
-    "message": "The timers window allows you to view the time until various resets as a handy user interface element.",
+    "message": "La fenêtre des timers vous permet de voir le temps restant avant certaines réinitialisations dans un seul et pratique élément d'interface.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimersEnableLabel": {
-    "message": "Enable Timers",
+    "message": "Activer les Timers",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowForegroundColorLabel": {
-    "message": "Foreground Color",
+    "message": "Couleur du premier plan",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowBackgroundColorLabel": {
-    "message": "Background Color",
+    "message": "Couleur de l'arrière-plan",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTextColorLabel": {
-    "message": "Text Color",
+    "message": "Couleur du texte",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimeColorLabel": {
-    "message": "Time Color",
+    "message": "Couleur du temps",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowFitToWindowLabel": {
-    "message": "Fit to Window",
+    "message": "Adapter à la fenêtre",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowSizeLabel": {
-    "message": "Size",
+    "message": "Taille",
     "description": "FeaturesStrings..ctor"
   },
   "DailyDutySettingsLabel": {
@@ -372,11 +372,11 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NoSelectionInformation": {
-    "message": "Select an item to configure in the left pane",
+    "message": "Sélectionnez un élément à configurer dans le panneau de gauche",
     "description": "ConfigurationStrings..ctor"
   },
   "AboutTabLabel": {
-    "message": "About",
+    "message": "À propos",
     "description": "ConfigurationStrings..ctor"
   },
   "OptionsTabLabel": {
@@ -384,7 +384,7 @@
     "description": "ConfigurationStrings..ctor"
   },
   "StatusTabLabel": {
-    "message": "Status",
+    "message": "Statut",
     "description": "ConfigurationStrings..ctor"
   },
   "LogTabLabel": {
@@ -396,199 +396,199 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleLabel": {
-    "message": "Notifications Throttle",
+    "message": "Limitation des notifications",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleDescription": {
-    "message": "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes",
+    "message": "Ce paramètre contrôle la fréquence des notifications de DailyDuty dans le chat.\n\nPar défaut : 5 minutes",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayLabel": {
-    "message": "Notifications Delay",
+    "message": "Délai des notifications",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayDescription": {
-    "message": "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'",
+    "message": "Empêche les notifications de s'afficher avant le jour de la semaine sélectionné. Le début de la semaine est 'Mardi'",
     "description": "ConfigurationStrings..ctor"
   },
   "DutyRouletteLabel": {
-    "message": "Duty Roulette",
+    "message": "Missions Aléatoires",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteTrackedRoulettesLabel": {
-    "message": "Select Roulettes to Track",
+    "message": "Sélectionner les Missions à suivre",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteInformation": {
-    "message": "The Duty Roulette is a daily task that awards experience and gil once a day per completion.\n\nAdditional rewards such as various tomestones and grand company seals are rewarded depending on roulette type and level of job you queue as.",
+    "message": "Les Missions Aléatoires sont des tâches quotidiennes qui octroient de l'expérience et des gils une fois par jour lors de la complétion.\n\nDes récompenses supplémentaires telles que des Mémoquartzs et des Sceaux de Grande Compagnie peuvent être octroyées en fonction du type de missions et du niveau du job avec lequelle vous lancez la mission.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteAutomationInformation": {
-    "message": "This module is entirely automatic, no user interaction is required.\n\nThe completion status of each roulette is gathered directly from the game's data.",
+    "message": "Ce module est entièrement automatique, aucune interaction utilisateur n'est requise.\n\nLe statut d'achèvement de chaque mission est collecté directement à partir des données du jeu.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteTechnicalInformation": {
-    "message": "You can configure this module to alert you when specified duties have not yet been completed today.\n\nOnly the duties selected for tracking in the Options tab will give notifications.\n\nSome listed roulettes may not be available due to not being unlocked or due to being unavailable until a later patch. It is not recommended to track roulettes you do not have access to.",
+    "message": "Vous pouvez configurer ce module pour vous alerter lorsque les missions spécifiées n'ont pas encore été complétées aujourd'hui.\n\nSeules les missions sélectionnées pour le suivi dans l'onglet Options donneront des notifications.\n\nCertaines missions aléatoires listées peuvent ne pas être disponibles en raison de leur déblocage ou de leur indisponibilité jusqu'à un patch ultérieur. Il n'est pas recommandé de suivre les missions aléatoires auxquelles vous n'avez pas accès.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteNothingTrackedDescriptionWarning": {
-    "message": "There are no roulettes tracked",
+    "message": "Il n'y a pas de missions aléatoires suivies",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteNothingTrackedDescription": {
-    "message": "Select roulettes to track in 'Options'",
+    "message": "Sélectionnez les missions aléatoires à suivre dans 'Options'",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteRoulettesRemaining": {
-    "message": "Roulettes Remaining",
+    "message": "Missions aléatoires restantes",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteRoulettesRemainingSingular": {
-    "message": "Roulette Remaining",
+    "message": "Mission aléatoire restante",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteClickableLinkDescription": {
-    "message": "Notifications can be clicked on to open the Duty Finder",
+    "message": "Vous pouvez cliquer sur les notifications pour ouvrir l'Outil de Mission",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteExpandedInfo": {
-    "message": "Displays individual incomplete duties in the todo window.",
+    "message": "Affiche les missions individuelles incomplètes dans la fenêtre \"To Do\".",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
-    "message": "Stamps",
+    "message": "Vignettes",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsBookStatusLabel": {
-    "message": "Book Status",
+    "message": "Statut du Carnet",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsLabel": {
-    "message": "Wondrous Tails",
+    "message": "Carnet de Khloe",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInformation": {
-    "message": "Wondrous Tails is a level 60 weekly activity that allows players to complete old content to earn rewards. With some randomized elements, Wondrous Tails is an interesting way to revisit these older duties every week.\n\nWeekly rewards include half of a level worth's of experience to whichever job turns in the book, and selectable rewards such as tomestones or MGP vouchers.",
+    "message": "Le Carnet de Khloe est une activité hebdomadaire de niveau 60 qui permet aux joueurs de compléter l'ancien contenu pour gagner des récompenses. Avec quelques éléments aléatoires, le Carnet de Khloe est un moyen intéressant de revisiter chaque semaine ces anciennes missions.\n\nLes récompenses hebdomadaires comprennent la moitié de l'expérience d'un niveau pour n'importe quel job rendant le Carnet, et des récompenses sélectionnables telles que des Mémoquartzs ou des coupons du Gold Saucer.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsAutomationInformation": {
-    "message": "Wondrous Tails data is extracted directly from the game's data, and will always be in sync with the current status of your book. No user interaction is required to keep this data synchronized.",
+    "message": "Les données du Carnet de Khloe sont extraites directement des données du jeu et seront toujours synchronisées avec l'état actuel de votre livre. Aucune interaction utilisateur n'est nécessaire pour garder ces données synchronisées.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsTechnicalDescription": {
-    "message": "The game code will not clear the Wondrous Tails data when you complete your book, even if you turn it in without 9 stamps.\n\nThis module will only consider a Wondrous Tails book complete once you have 9 stamps placed.",
+    "message": "Le code du jeu n'effacera pas les données du Carnet de Khloe lorsque vous compléterez votre livre, même si vous le rendez sans les 9 vignettes.\n\nCe module ne prendra en compte un Carnet de Khloe complet qu'une fois que vous aurez placé 9 vignettes.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsOpenBookClickableLinkDescription": {
-    "message": "Notifications can be clicked on to open your Wondrous Tails book",
+    "message": "Vous pouvez cliquer sur les notifications pour ouvrir votre Carnet de Khloe",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsUnavailableMessage": {
-    "message": "This instance is available for a stamp if you re-roll it",
+    "message": "Cette mission peut vous octroyer une vignette si vous la transférez",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsUnavailableRerollMessage": {
-    "message": "You have {0} Re-Rolls Available",
+    "message": "Vous avez {0} Transferts disponibles",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsAvailableMessage": {
-    "message": "A stamp is already available for this instance",
+    "message": "Une vignette est déjà disponible pour cette mission",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsCompletableMessage": {
-    "message": "Completing this instance will reward you with a stamp",
+    "message": "Compléter cette mission vous octroiera une vignette",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsClaimableMessage": {
-    "message": "You can claim a stamp for the last instance",
+    "message": "Vous pouvez réclamer une vignette pour la dernière mission",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInstanceNotificationsLabel": {
-    "message": "Duty Start/End Notification",
+    "message": "Notification de Début/Fin de mission",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInstanceNotificationsDescription": {
-    "message": "Send notifications at the start of a duty, if that duty is a part of your Wondrous Tails book\nAdditionally, it will send notifications after completing a duty, reminding you to collect your stamp",
+    "message": "Envoie des notifications au début d'une mission, si cette mission fait partie de votre Carnet de Khloe\nDe plus, une notification sera envoyée après avoir complété la mission pour vous rappeler de collecter votre vignette",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
-    "message": "Treasure Map",
+    "message": "Carte au Trésor",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapInformation": {
-    "message": "Treasure Maps are gatherable items with the Disciples of Land jobs once every 18 hours. These maps can be opened as part of a mini-event for various rewards. Alternatively, these maps can be sold on the market board.\n\nYou can only hold one of each type of map at a time.",
+    "message": "Les Cartes au Trésor sont des objets collectables avec les métiers de Disciples de la Terre, une fois toutes les 18 heures. Ces cartes peuvent être ouvertes dans le cadre d'un mini-événement pour diverses récompenses. Alternativement, ces cartes peuvent être vendues sur le tableau des ventes.\n\nVous ne pouvez conserver qu'une seule carte d'un même type à la fois.",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAutomationInformation": {
-    "message": "Treasure map data is gathered by reading chat information when the treasure map is gathered. If DailyDuty was installed after you have collected a map, you must wait until you are able to collect another map for the tracking to begin.",
+    "message": "Les données de Carte au trésor sont collectées en lisant les informations du chat quand la carte au trésor est collectée. Si DailyDuty a été installé après avoir collecté une carte, vous devrez attendre de pouvoir collecter une autre carte pour que le suivi commence.",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAvailableMessage": {
-    "message": "Treasure Map Available",
+    "message": "Carte au Trésor disponible",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapTimeUntilNextMap": {
-    "message": "Next Map",
+    "message": "Carte suivante",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapStatusLabel": {
-    "message": "Treasure Map Status",
+    "message": "Statut de la Carte au Trésor",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapReSyncInformation": {
-    "message": "You can force a re-sync of Treasure Map by opening the 'Timers' menu",
+    "message": "Vous pouvez forcer une nouvelle synchronisation de la Carte au Trésor en ouvrant le menu 'Timers'",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeLabel": {
-    "message": "Beast Tribe",
+    "message": "Tribus Barbares",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeInformation": {
-    "message": "Beast Tribes are a daily task that can be completed for experience rewards and to earn progress towards beast tribes affiliations that will unlock unique dyes, glamours, mounts, and housing items.",
+    "message": "Les Tribus Barbares sont des tâches quotidiennes qui peuvent être accomplies pour obtenir des récompenses d'expérience et pour progresser dans les réputations de tribus qui débloqueront des teintures uniques, des mirages, des montures et des objets de logement.",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeAutomationInformation": {
-    "message": "Beast tribe allowance information is extracted directly from the game's data and will always be in sync with the current status of the game.",
+    "message": "Les autorisations de quêtes de Tribus Barbares sont extraites directement des données du jeu et seront toujours synchronisées avec l'état actuel du jeu.",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeTechnicalInformation": {
-    "message": "DailyDuty provides options to alert you when you are at a threshold of allowances, either by directly imputing the threshold, or by specifying how many beast tribes-worth of allowances you wish to track.\n\nUpon reaching a new tier in each beast tribe you get 3 additional allowances for that tribe, DailyDuty is unable to track this information and will not consider the extra allowances for tracking purposes.",
+    "message": "DailyDuty propose des options pour vous alerter lorsque vous êtes à un seuil d'autorisations, soit en indiquant directement le seuil, soit en spécifiant combien de quêtes de tribus barbares vous voulez suivre.\n\nEn atteignant un nouveau niveau dans chaque tribu, vous obtenez 3 autorisations supplémentaires pour cette tribu, DailyDuty n'est pas en mesure de suivre ces informations et ne tiendra pas compte des autorisations supplémentaires à des fins de suivi.",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeAllowancesRemainingLabel": {
-    "message": "Above Allowance Threshold",
+    "message": "Au-dessus du seuil d'autorisations",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeMarkCompleteWhenLabel": {
-    "message": "Mark Complete When",
+    "message": "Marquer comme terminé quand",
     "description": "ModuleStrings..ctor"
   },
   "LevequestLabel": {
-    "message": "Levequest",
+    "message": "Mandats",
     "description": "ModuleStrings..ctor"
   },
   "LevequestInformation": {
-    "message": "Levequests are repeatable quests players can perform to earn experience, gil and items. Unlike regular quests, which can only be performed once per character, levequests can be repeated as long as the player has Leve allowances.",
+    "message": "Les Mandats sont des quêtes répétables que les joueurs peuvent effectuer pour gagner de l'expérience, des gils et des objets. Contrairement aux quêtes ordinaires, qui ne peuvent être exécutées qu'une seule fois par personnage, les Mandats peuvent être répétés tant que le joueur a des autorisations de Mandat.",
     "description": "ModuleStrings..ctor"
   },
   "LevequestAutomationInformation": {
-    "message": "Levequest information is extracted directly from the game's data and will always be in sync with the current status of the game.",
+    "message": "Les informations de Mandats sont extraites directement des données du jeu et seront toujours synchronisées avec l'état actuel du jeu.",
     "description": "ModuleStrings..ctor"
   },
   "LevequestTechnicalInformation": {
-    "message": "Once a levequest is accepted the allowance is spent, if you cancel the levequest the allowance is not returned.",
+    "message": "Une fois qu'un Mandat est accepté, l'autorisation est dépensée, et si vous annulez le Mandat, l'autorisation n'est pas remboursée.",
     "description": "ModuleStrings..ctor"
   },
   "LevequestAboveThresholdLabel": {
-    "message": "Above Allowance Threshold",
+    "message": "Au-dessus du seuil d'autorisations",
     "description": "ModuleStrings..ctor"
   },
   "LevequestAcceptedLabel": {
-    "message": "Accepted",
+    "message": "Acceptées",
     "description": "ModuleStrings..ctor"
   },
   "NextAllowanceLabel": {
-    "message": "Next Allowances",
+    "message": "Autorisations suivantes",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotLabel": {
@@ -596,107 +596,107 @@
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotInformation": {
-    "message": "Mini Cactpot is a daily scratch-card like activity you can do three times per day. Each Mini Cactpot ticket awards a various amount of MGP up to 10,000 MGP per ticket.",
+    "message": "Le Mini Cactpot est une activité quotidienne de grattage de carte que vous pouvez faire trois fois par jour. Chaque ticket de Mini Cactpot octroie un montant variable de PGS, jusqu'à 10,000 PGS par ticket.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotAutomationInformation": {
-    "message": "Tracking is done by monitoring the opening of the Mini Cactpot ticket. If DailyDuty was installed after you have completed your daily Mini Cactpot, it will not be tracked.",
+    "message": "Le suivi se fait en surveillant l'ouverture du ticket Mini Cactpot. Si DailyDuty a été installé après avoir complété votre Mini Cactpot quotidien, il ne sera pas suivi.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotTechnicalInformation": {
-    "message": "The game removes your Mini Cactpot ticket allowance when the window is opened and you spend the MGP to purchase the ticket. If your game is closed or crashes after the ticket window opened, that ticket will be lost.",
+    "message": "Le jeu supprime votre allocation de ticket Mini Cactpot lorsque la fenêtre est ouverte et que vous dépensez les PGS pour acheter le ticket. Si votre partie est fermée ou plante après l'ouverture de la fenêtre de ticket, ce ticket sera perdu.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotClickableLinkDescription": {
-    "message": "Notifications can be clicked on to teleport to the Gold Saucer",
+    "message": "Vous pouvez cliquer sur les notifications pour vous téléporter au Gold Saucer",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotReSyncInformation": {
-    "message": "You can force a re-sync of Mini Cactpot allowances by speaking to the 'Mini Cactpot Broker' and selecting 'Purchase a Mini Cactpot ticket'",
+    "message": "Vous pouvez forcer une nouvelle synchronisation des autorisations de Mini Cactpot en parlant au 'Courtier de Mini Cactpot' et en sélectionnant 'Jouer au Mini Cactpot'",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotAllowancesLabel": {
-    "message": "Allowances Available",
+    "message": "Autorisations disponibles",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryLabel": {
-    "message": "Custom Delivery",
+    "message": "Commandes spéciales",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryInformation": {
-    "message": "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gathering scripts, exp rewards, various materia, folklore tomes, and more.",
+    "message": "Les Commandes Spéciales sont une tâche hebdomadaire d'artisan/récolteur que vous pouvez accomplir pour divers assignats d'artisant ou de récolte, des récompenses d'Exp, divers matériaux, des livres de légendes locales, et plus encore.",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAutomationInformation": {
-    "message": "Custom Delivery information is gathered directly from the game's data, and will always be in sync with the current status of the game.",
+    "message": "Les informations de Commandes Spéciales sont extraites directement des données du jeu et seront toujours synchronisées avec l'état actuel du jeu.",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAllowancesLabel": {
-    "message": "Allowances Available",
+    "message": "Autorisations disponibles",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveLabel": {
-    "message": "Doman Enclave",
+    "message": "Quartier Enclavé de Doma",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInformation": {
-    "message": "The Doman Enclave is a weekly task you can complete for gil rewards. You donate junk items in exchange for a multiple of their value in gil back, resulting in profit. The reward multiplier increases higher the more you progress through the Doman Enclave.",
+    "message": "Le Quartier Enclavé de Doma est une tâche hebdomadaire que vous pouvez compléter pour obtenir des récompenses en Gils. Vous donnez des objets indésirables en échange d'un multiple de leur valeur en Gils, entraînant un profit. Le multiplicateur de récompense augmente au fur et à mesure d evotre progression dans le Quartier Enclavé.",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveAutomationInformation": {
-    "message": "Doman Enclave data is tracked automatically, but only while you are actually in the Doman Enclave area.",
+    "message": "Les données du Quartier Enclavé de Doma sont suivies automatiquement, mais seulement lorsque vous êtes dans la zone du Quartier Enclavé.",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveTechnicalInformation": {
-    "message": "Once you visit the Doman Enclave, DailyDuty attempts to keep a copy of the status, and will reset that status at the start of a new week. If the data somehow becomes out of sync, simply re-visit the Doman Enclave and it will automatically re-sync.",
+    "message": "Une fois que vous avez visité le Quartier Enclavé de Doma, DailyDuty tente de conserver une copie du statut, et réinitialisera ce statut au début d'une nouvelle semaine. Si les données deviennent désynchronisées d'une manière ou d'une autre, il suffit de revisiter le Quartier Enclavé et elle se resynchroniseront automatiquement.",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveGilRemainingLabel": {
-    "message": "gil Remaining",
+    "message": "Gils restants",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveBudgetRemainingLabel": {
-    "message": "Budget Remaining",
+    "message": "Budget restant",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveCurrentAllowanceLabel": {
-    "message": "Current Allowance",
+    "message": "Solde actuel",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveClickableLinkDescription": {
-    "message": "Notifications can be clicked on to teleport to the Doman Enclave",
+    "message": "Vous pouvez cliquer sur les notifications pour vous téléporter au Quartier Enclavé de Doma",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInitializationWarning": {
-    "message": "You can re-sync Doman Enclave data by visiting the Doman Enclave",
+    "message": "Vous pouvez re-synchroniser les données du Quartier Enclavé de Doma en visitant le Quartier Enclavé",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportLabel": {
-    "message": "Fashion Report",
+    "message": "Revue de Mode",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportInformation": {
-    "message": "Fashion Report is a weekly task you can complete for MGP. Simply 'Present yourself for judging' once a week without any effort and be rewarded with 10,000 MGP. You can attempt to create an outfit for a higher score, additional MGP, and titles.",
+    "message": "La Revue de Mode est une tâche hebdomadaire que vous pouvez accomplir pour obetnir des PGS. Il vous suffit de vous 'Demander une évaluation' une fois par semaine sans aucun effort pour être récompensé par 10 000 PGS. Vous pouvez essayer de créer une tenue pour un meilleur score, des PGS supplémentaires et des titres.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAutomationInformation": {
-    "message": "Fashion Report data is collected when you present yourself for judging. The current high score and allowances remaining is extracted from the UI when the judging is complete.",
+    "message": "Les données de la Revue de Mode sont collectées lorsque vous vous présentez pour être évalué. Le meilleur score actuel et les autorisations restantes sont extraits de l'interface utilisateur lorsque l'évaluation est terminée.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportTechnicalInformation": {
-    "message": "Data is collected both when you interact with 'Masked Rose' and when you are actually presenting yourself for judging. This should keep the data in sync with the game data at all times.\n\nFashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available or the completion conditions are not met.",
+    "message": "Les données sont collectées à la fois lorsque vous interagissez avec 'Masked Rose' et lorsque vous vous présentez pour être évalué. Cela devrait garder les données en synchronisation avec les données du jeu à tout moment.\n\nLe statut de la Revue de Mode sera affiché comme 'Terminé' tant que la Revue de Mode n'est pas disponible, et 'Incomplet' une fois disponible ou lorsque les conditions d'achèvement ne sont pas remplies.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportHighestScoreLabel": {
-    "message": "Highest Score",
+    "message": "Meilleur score",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAvailableLabel": {
-    "message": "Report Open",
+    "message": "Ouverture de la Revue",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportSingleModeLabel": {
-    "message": "Single",
+    "message": "Unique",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportEightyPlusLabel": {
@@ -704,139 +704,139 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllLabel": {
-    "message": "All",
+    "message": "Tout",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportSingleModeDescription": {
-    "message": "Only notify if no allowances have been spent this week and Fashion Report is available for turn-in",
+    "message": "Notifier uniquement si aucune évaluation n'a été dépensée cette semaine et que la Revue de Mode est disponible pour être rendue",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportEightyPlusDescription": {
-    "message": "Notify if any allowances remain this week, the highest score is below 80 and Fashion Report is available for turn-in",
+    "message": "Notifier si des évaluations sont encore disponibles cette semaine, le score le plus élevé est inférieur à 80 et la Revue de Mode est disponible pour être rendue",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllDescription": {
-    "message": "Notify if any allowances remain this week and fashion report is available for turn-in",
+    "message": "Notifier si des évaluations sont encore disponibles cette semaine et que la Revue de Mode est disponible pour être rendue",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportClickableLinkDescription": {
-    "message": "Notifications can be clicked on to teleport to the Gold Saucer",
+    "message": "Vous pouvez cliquer sur les notifications pour vous téléporter au Gold Saucer",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportReSyncInformation": {
-    "message": "You can re-sync Fashion Report data by speaking to 'Masked Rose'",
+    "message": "Vous pouvez re-synchroniser les données de la revue de Mode en parlant à 'Masked Rose'",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllowancesLabel": {
-    "message": "Allowances Available",
+    "message": "Évaluations disponibles",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotLabel": {
-    "message": "Jumbo Cactpot",
+    "message": "Méga Cactpot",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotInformation": {
-    "message": "Jumbo Cactpot is a weekly task where you can purchase 3 lottery tickets. These tickets allow you to pick any 4-digit number you wish, and depending on how many numbers are matched at the drawing the following week, you can earn MGP.",
+    "message": "Le Méga Cactpot est une tâche hebdomadaire pour laquelle vous pouvez acheter 3 billets de loterie. Ces billets vous permettent de choisir n'importe quel numéro à 4 chiffres que vous souhaitez, et en fonction du nombre de chiffres correspondants au tirage la semaine suivante, vous pouvez gagner des PGS.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotAutomationInformation": {
-    "message": "Jumbo Cactpot data is collected when you purchase your tickets. If DailyDuty was not installed when you purchased your tickets it will be unable to track your tickets for that week.",
+    "message": "Les données de Méga Cactpot sont collectées lorsque vous achetez vos billets. Si DailyDuty n'a pas été installé lorsque vous avez acheté vos billets, il ne sera pas en mesure de suivre vos billets pour cette semaine.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTechnicalInformation": {
-    "message": "While DailyDuty displays the value of the tickets collected, the only information needed to track the status is how many tickets have been purchased.\n\nUpon weekly reset the stored tickets will be removed and you will be prompted to purchase new tickets. If you have any pending rewards, you will have to collect your tickets in order to purchase new tickets.\n\nDue to how the fallback re-sync system works, if you speak to the 'Jumbo Cactpot Broker' before collecting your rewards, last-weeks tickets will get re-logged and the task will be marked as complete. Speaking to the 'Jumbo Cactpot Broker' after collecting your rewards will re-sync the status back to incomplete.",
+    "message": "Bien que DailyDuty affiche la valeur des billets achetés, la seule information nécessaire pour suivre le statut est le nombre de billets achetés.\n\nLors de la réinitialisation hebdomadaire, les tickets stockés seront supprimés et vous serez invité à acheter de nouveaux billets. Si vous avez des récompenses en attente, vous devrez les collecter pour acheter de nouveaux billets.\n\nEn raison de la façon dont le système de re-synchronisation de secours fonctionne, si vous parlez à la 'Courtière du Méga Cactpot' avant de collecter vos récompenses, les tickets de la semaine dernière seront réenregistrés et la tâche sera marquée comme terminée. Parler à la 'Courtière du Méga Cactpot' après avoir collecté vos récompenses resynchronisera le statut à incomplet.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsLabel": {
-    "message": "Tickets",
+    "message": "Billets",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsAvailableLabel": {
-    "message": "Tickets Available",
+    "message": "Billets disponibles",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketAvailableLabel": {
-    "message": "Ticket Available",
+    "message": "Billet disponible",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotNextDrawingLabel": {
-    "message": "Next Drawing",
+    "message": "Prochain tirage",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotClickableLinkDescription": {
-    "message": "Notifications can be clicked on to teleport to the Gold Saucer",
+    "message": "Vous pouvez cliquer sur les notifications pour vous téléporter au Gold Saucer",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotReSyncInformation": {
-    "message": "You can force a re-sync of ticket data by speaking to the 'Jumbo Cactpot Broker'",
+    "message": "Vous pouvez forcer une nouvelle synchronisation des données de billet en parlant à la 'Courtière du Méga Cactpot'",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyLabel": {
-    "message": "Hunt Marks (Weekly)",
+    "message": "Contrats de Chasse (Hebdomadaire)",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyInformation": {
-    "message": "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. A reward that is of note is the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.",
+    "message": "Les Contrats de Chasses Hebdomadaires sont aussi connues sous le nom de 'Contrats d'Élite', Ce sont les Chasses Hebdomadaires que vous pouvez faire pour diverses monnaies de chasse telles que les Insignes Alliés, les Insignes Centurio et les Insignes de Chasse.\n\nCes monnaies peuvent être échangées contre diverses récompenses. Une récompense notable est le Billet de Transport Ethéré, qui permet de se téléporter sans payer de Gils.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksAutomationInformation": {
-    "message": "Hunt data is tracked by observing changes in the games stored data. If DailyDuty was not installed when you obtained a hunt mark then it can not be tracked correctly.",
+    "message": "Les données de chasse sont suivies en observant les changements dans les données stockées dans les jeux. Si DailyDuty n'a pas été installé lorsque vous avez complété un contrat de chasse, il ne peut pas être suivi correctement.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTechnicalInformation": {
-    "message": "While the data is always in sync with the game, the game does not clear this data on reset. Instead, it only clears the data when you pick up the new hunt mark item.\n\nDailyDuty will reset its copy of the tracked data each week and attempt to start tracking when a new hunt mark is picked up.",
+    "message": "Bien que les données soient toujours synchronisées avec le jeu, le jeu ne supprime pas ces données lors de la réinitialisation. Au lieu de cela, il ne supprime les données que lorsque vous ramassez le nouvel objet de contrat de chasse.\n\nDailyDuty réinitialisera sa copie des données suivies chaque semaine et tentera de commencer à suivre de nouveaux contrats de chasse.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntsRemainingLabel": {
-    "message": "Hunts Remaining",
+    "message": "Chasses restantes",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackedHuntsLabel": {
-    "message": "Tracked Hunts",
+    "message": "Chasses suivies",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackLabel": {
-    "message": "Track Hunt",
+    "message": "Suivre la Chasse",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkAvailableLabel": {
-    "message": "Mark Available",
+    "message": "Contrat Disponible",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkObtainedLabel": {
-    "message": "Mark Obtained",
+    "message": "Contrat Obtenu",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkKilledLabel": {
-    "message": "Mark Killed",
+    "message": "Contrat éliminé",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTargetName": {
-    "message": "Target Name",
+    "message": "Nom de la cible",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTargetLocation": {
-    "message": "Target Location",
+    "message": "Emplacement de la cible",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksNoHuntsTracked": {
-    "message": "No Hunts Tracked",
+    "message": "Pas de Chasses suivies",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackAllLabel": {
-    "message": "Track All",
+    "message": "Tout suivre",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksUntrackAllLabel": {
-    "message": "Untrack All",
+    "message": "Ne plus suivre tout",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {
-    "message": "Hunt Marks (Daily)",
+    "message": "Contrats de Chasse (Quotidien)",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyInformation": {
-    "message": "Daily Hunts are low rank hunts that are available each day. These hunts involve killing a specific number of fairly common enemies.",
+    "message": "Les Contrats de Chasse quotidiens sont des chasses de niveau inférieur qui sont disponibles chaque jour. Ces chasses impliquent de tuer un certain nombre d'ennemis assez communs.",
     "description": "ModuleStrings..ctor"
   },
   "TimersCommand": {
@@ -852,11 +852,11 @@
     "description": "CommandStrings..ctor"
   },
   "Enable": {
-    "message": "enable",
+    "message": "activer",
     "description": "CommandStrings..ctor"
   },
   "Show": {
-    "message": "show",
+    "message": "afficher",
     "description": "CommandStrings..ctor"
   },
   "Off": {
@@ -864,27 +864,27 @@
     "description": "CommandStrings..ctor"
   },
   "Disable": {
-    "message": "disable",
+    "message": "désactiver",
     "description": "CommandStrings..ctor"
   },
   "Hide": {
-    "message": "hide",
+    "message": "cacher",
     "description": "CommandStrings..ctor"
   },
   "Close": {
-    "message": "close",
+    "message": "fermer",
     "description": "CommandStrings..ctor"
   },
   "Open": {
-    "message": "open",
+    "message": "ouvrir",
     "description": "CommandStrings..ctor"
   },
   "Toggle": {
-    "message": "toggle",
+    "message": "activer",
     "description": "CommandStrings..ctor"
   },
   "Help": {
-    "message": "help",
+    "message": "aide",
     "description": "CommandStrings..ctor"
   },
   "Core": {
@@ -892,15 +892,15 @@
     "description": "CommandStrings..ctor"
   },
   "TimersShowHelp": {
-    "message": "\n/dd timers - Shows this help message\n/dd timers help - Shows this help message\n/dd timers (on | enable | show | open) - Shows the timers window\n/dd timers (off | disable | hide | close) - Hides the timers window\n/dd timers (toggle) - Toggle the timers window",
+    "message": "\n/dd timers - Affiche ce message d'aide\n/dd timers aide - Affiche ce message d'aide\n/dd timers (on | activer | afficher | ouvrir) - Affiche la fenêtre de Timers\n/dd timers (off | désactiver | cacher | fermer) - Cache la fenêtre de Timers\n/dd timers (activer) - Active/désactive la fenêtre de Timers",
     "description": "CommandStrings..ctor"
   },
   "TodoShowHelp": {
-    "message": "\n/dd todo - Shows this help message\n/dd todo help - Shows this help message\n/dd todo (on | enable | show | open) - Shows the todo window\n/dd todo (off | disable | hide | close) - Hides the todo window\n/dd todo (toggle) - Toggle the todo window",
+    "message": "\n/dd todo - Affiche ce message d'aide\n/dd todo aide - Affiche ce message d'aide\n/dd todo (on | activer | afficher | ouvrir) - Affiche la fenêtre To Do\n/dd todo (off | désactiver | cacher | fermer) - Cache la fenêtre To Do\n/dd todo (activer) - Active/désactive la fenêtre To Do",
     "description": "CommandStrings..ctor"
   },
   "HelpCommands": {
-    "message": "Command Overview\n/dd - Show or Hide Main Window\n/dd timers help - Show timer sub-commands\n/dd todo help - Show todo sub-commands",
+    "message": "Command Overview\n/dd - Affiche ou cache la fenêtre principale\n/dd timers aide - Affiche les sous-commandes des timers\n/dd todo aide - Affiche les sous-commandes de la fenêtre To Do",
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {
@@ -908,59 +908,59 @@
     "description": "TimersStrings..ctor"
   },
   "DailyResetTimerLabel": {
-    "message": "Daily Reset",
+    "message": "Réinitialisation quotidienne",
     "description": "TimersStrings..ctor"
   },
   "FashionReportTimerLabel": {
-    "message": "Weekly Fashion Report",
+    "message": "Revue de Mode Hebdomadaire",
     "description": "TimersStrings..ctor"
   },
   "JumboCactpotTimerLabel": {
-    "message": "Weekly Jumbo Cactpot",
+    "message": "Méga Cactpot Hebdomadaire",
     "description": "TimersStrings..ctor"
   },
   "LeveAllowanceTimerLabel": {
-    "message": "Daily Leve Allowance",
+    "message": "Autorisations de Mandat Quotidiennes",
     "description": "TimersStrings..ctor"
   },
   "TreasureMapTimerLabel": {
-    "message": "Daily Treasure Map",
+    "message": "Carte au Trésor Quotidienne",
     "description": "TimersStrings..ctor"
   },
   "WeeklyResetTimerLabel": {
-    "message": "Weekly Reset",
+    "message": "Réinitialisation hebdomadaire",
     "description": "TimersStrings..ctor"
   },
   "DailyResetShortLabel": {
-    "message": "Daily",
+    "message": "Quotidien",
     "description": "TimersStrings..ctor"
   },
   "FashionReportShortLabel": {
-    "message": "Fashion",
+    "message": "Mode",
     "description": "TimersStrings..ctor"
   },
   "JumboCactpotShortLabel": {
-    "message": "Jumbo",
+    "message": "Méga",
     "description": "TimersStrings..ctor"
   },
   "LeveAllowanceShortLabel": {
-    "message": "Leve",
+    "message": "Mandat",
     "description": "TimersStrings..ctor"
   },
   "TreasureMapShortLabel": {
-    "message": "Map",
+    "message": "Carte",
     "description": "TimersStrings..ctor"
   },
   "WeeklyResetShortLabel": {
-    "message": "Weekly",
+    "message": "Hebdomadaire",
     "description": "TimersStrings..ctor"
   },
   "TimersBarColorLabel": {
-    "message": "Progress bar color",
+    "message": "Couleur de la barre de progression",
     "description": "TimersStrings..ctor"
   },
   "TimersHideSecondsLabel": {
-    "message": "Hide seconds",
+    "message": "Cacher les secondes",
     "description": "TimersStrings..ctor"
   }
 }
