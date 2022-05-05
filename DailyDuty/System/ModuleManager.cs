@@ -83,7 +83,7 @@ namespace DailyDuty.System
                 }
             }
 
-            AlwaysOnTerritoryChanged();
+            AlwaysOnTerritoryChanged(e);
 
             if(timer.Elapsed.Minutes >= timerDelay || timer.IsRunning == false)
             {
@@ -100,11 +100,11 @@ namespace DailyDuty.System
             }
         }
 
-        private void AlwaysOnTerritoryChanged()
+        private void AlwaysOnTerritoryChanged(ushort newTerritory)
         {
             foreach (var module in zoneChangeAlwaysNotificationModules)
             {
-                module.TrySendNotification();
+                module.TrySendNotification(newTerritory);
             }
         }
 

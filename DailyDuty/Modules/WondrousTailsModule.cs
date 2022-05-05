@@ -76,13 +76,12 @@ namespace DailyDuty.Modules
 
         public bool IsCompleted() => wondrousTails->Stickers == 9;
 
-        void IZoneChangeAlwaysNotification.SendNotification()
+        void IZoneChangeAlwaysNotification.SendNotification(ushort newTerritory)
         {
             if (Condition.IsBoundByDuty() && Settings.InstanceNotifications && !IsCompleted())
             {
-                var e = Service.ClientState.TerritoryType;
                 lastInstanceWasDuty = true;
-                lastDutyInstanceID = e;
+                lastDutyInstanceID = newTerritory;
                 OnDutyStartNotification();
             }
             else if(lastInstanceWasDuty && Settings.InstanceNotifications && !IsCompleted())
@@ -99,7 +98,11 @@ namespace DailyDuty.Modules
         private void OnDutyStartNotification()
         {
             var node = FindNode(lastDutyInstanceID);
-            if (node == null) return;
+            if (node == null)
+            {
+                Chat.Log("WTNotificationsDebug",$"Unable to find duty {lastDutyInstanceID} in Wondrous Tails bool");
+                return;
+            }
 
             var buttonState = node.TaskState;
         
