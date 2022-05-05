@@ -47,9 +47,6 @@ namespace DailyDuty.Utilities
 
         public static void Startup()
         {
-            if (Service.ClientState.IsLoggedIn)
-                Service.LoggedIn = true;
-
             TryMakeBackup();
 
             LoadSystemConfiguration();
@@ -57,6 +54,9 @@ namespace DailyDuty.Utilities
             LoadCharacterConfiguration();
 
             LoadCharacterLog();
+
+            if (Service.ClientState.IsLoggedIn)
+                Service.LoggedIn = true;
         }
 
         private static void TryMakeBackup()
