@@ -22,7 +22,6 @@ namespace DailyDuty.Graphical
         {
             new FeaturesTab(),
             new TasksTab(),
-            new TimersTab(),
             new SettingsTab(),
             new DebugTab()
         };

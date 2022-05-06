@@ -2,6 +2,7 @@
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.ModuleConfiguration;
+using DailyDuty.Timers;
 
 namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
 {
@@ -22,6 +23,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new JumboCactpot(),
             new HuntMarksWeekly(),
             new HuntMarksDaily(),
+            new TimersTabItem(),
         };
 
         public string TabName => Strings.Tabs.TasksTabLabel;
