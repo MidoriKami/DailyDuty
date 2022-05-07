@@ -12,11 +12,10 @@ namespace DailyDuty.Data.ModuleSettings
             {
                 Type = RouletteType.Expert
             },
-            // Disabled until Patch 6.2
-            //new()
-            //{
-            //    Type = RouletteType.Level90
-            //},
+            new()
+            {
+                Type = RouletteType.Level90
+            },
             new()
             {
                 Type = RouletteType.Level50607080
