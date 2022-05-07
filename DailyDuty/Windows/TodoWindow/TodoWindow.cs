@@ -144,12 +144,14 @@ namespace DailyDuty.Windows.TodoWindow
                     Settings.Enabled  = false;
 
                 if (ICommand.ToggleCommand(secondaryCommand))
-                    Settings.Enabled  = !Settings.Enabled ;
+                    Settings.Enabled  = !Settings.Enabled;
 
                 if (ICommand.HelpCommand(secondaryCommand))
                 {
                     Chat.Print(Strings.Features.TodoWindowLabel, Strings.Command.TodoShowHelp);
                 }
+
+                Service.SystemConfiguration.Save();
             }
         }
     }

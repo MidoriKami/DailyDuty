@@ -145,6 +145,8 @@ namespace DailyDuty.Windows.TimersWindow
                 {
                     Chat.Print(Strings.Features.TimersWindowLabel, Strings.Command.TimersShowHelp);
                 }
+
+                Service.SystemConfiguration.Save();
             }
         }
     }
