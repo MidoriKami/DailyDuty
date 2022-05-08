@@ -127,6 +127,7 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (Draw.Checkbox(Strings.Module.WondrousTailsInstanceNotificationsLabel, ref Settings.InstanceNotifications, Strings.Module.WondrousTailsInstanceNotificationsDescription))
                 {
+                    Settings.ZoneChangeReminder = Settings.InstanceNotifications;
                     Service.LogManager.LogMessage(ModuleType.WondrousTails, "Instance Notifications " + (Settings.InstanceNotifications ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
