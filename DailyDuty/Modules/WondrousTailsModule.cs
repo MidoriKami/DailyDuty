@@ -78,18 +78,14 @@ namespace DailyDuty.Modules
 
         void IZoneChangeAlwaysNotification.SendNotification(ushort newTerritory)
         {
-            Service.LogManager.LogMessage(ModuleType.WondrousTails, $"Zone Change::New Zone:{newTerritory}");
-
             if (Condition.IsBoundByDuty() && Settings.InstanceNotifications && !IsCompleted())
             {
-                Service.LogManager.LogMessage(ModuleType.WondrousTails, $"Zone Change::OnDutyStartNotification");
                 lastInstanceWasDuty = true;
                 lastDutyInstanceID = newTerritory;
                 OnDutyStartNotification();
             }
             else if(lastInstanceWasDuty && Settings.InstanceNotifications && !IsCompleted())
             {
-                Service.LogManager.LogMessage(ModuleType.WondrousTails, $"Zone Change::OnDutyEndNotification");
                 OnDutyEndNotification();
                 lastInstanceWasDuty = false;
             }
@@ -102,11 +98,7 @@ namespace DailyDuty.Modules
         private void OnDutyStartNotification()
         {
             var node = FindNode(lastDutyInstanceID);
-            if (node == null)
-            {
-                Service.LogManager.LogMessage(ModuleType.WondrousTails, $"Zone Change::OnDutyStartNotification::DutyNotInBook");
-                return;
-            }
+            if (node == null) return;
 
             var buttonState = node.TaskState;
         
