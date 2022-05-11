@@ -91,6 +91,11 @@ namespace DailyDuty
             {
                 Chat.Print(Strings.Command.Core, Strings.Command.HelpCommands);
             }
+            else if (arguments.ToLower() == "generateloc" && Service.SystemConfiguration.DeveloperMode)
+            {
+                Chat.Debug("Generating Localization File");
+                Service.Localization.ExportLocalizable();
+            }
         }
 
         private void DrawUI() => Service.WindowSystem.Draw();
@@ -128,7 +133,6 @@ namespace DailyDuty
             Service.PluginInterface.LanguageChanged -= LoadLocalization;
             //if (Service.SystemConfiguration.DeveloperMode)
             //{
-            //    Service.Localization.ExportLocalizable();
             //}
         }
     }
