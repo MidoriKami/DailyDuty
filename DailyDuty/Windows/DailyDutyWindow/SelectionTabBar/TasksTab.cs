@@ -26,7 +26,7 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
             new TimersTabItem(),
         };
 
-        public string TabName => Strings.Tabs.TasksTabLabel;
+        public string TabName => $"{Strings.Tabs.FeaturesTabLabel}###TasksTab";
         public string Description => Strings.Tabs.TasksTabDescription;
     }
 }

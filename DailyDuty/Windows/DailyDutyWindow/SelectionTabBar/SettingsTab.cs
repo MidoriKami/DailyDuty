@@ -12,9 +12,10 @@ namespace DailyDuty.Windows.DailyDutyWindow.SelectionTabBar
         {
             new StyleTabItem(),
             new NotificationsTabItem(),
+            new LanguageSelectTabItem(),
         };
 
-        public string TabName => Strings.Tabs.SettingsTabLabel;
+        public string TabName => $"{Strings.Tabs.SettingsTabLabel}###SettingsTab";
         public string Description => Strings.Tabs.SettingsTabDescription;
     }
 }

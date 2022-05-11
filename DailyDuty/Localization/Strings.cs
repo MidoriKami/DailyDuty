@@ -137,6 +137,8 @@ namespace DailyDuty.Localization
             public readonly string NotificationsThrottleDescription = Loc.Localize("NotificationsThrottleDescription", "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes");
             public readonly string NotificationsDelayLabel = Loc.Localize("NotificationsDelayLabel", "Notifications Delay");
             public readonly string NotificationsDelayDescription = Loc.Localize("NotificationsDelayDescription", "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'");
+            public readonly string LanguageLabel = Loc.Localize("LanguageLabel", "Language");
+            public readonly string LanguageSelectLabel = Loc.Localize("LanguageSelectLabel", "Language Select");
         }
 
         public class ModuleStrings

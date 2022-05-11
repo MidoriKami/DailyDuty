@@ -10,7 +10,7 @@ namespace DailyDuty.Graphical.TabItems
 {
     internal class StyleTabItem : ITabItem
     {
-        public ModuleType ModuleType => ModuleType.MainWindowSettings;
+        public ModuleType ModuleType => ModuleType.StyleSettings;
         private static MainWindowSettings Settings => Service.SystemConfiguration.Windows.MainWindow;
 
         private static readonly Stopwatch StyleStopwatch = new();

@@ -6,7 +6,7 @@
         WondrousTailsDutyFinderOverlay,
         DutyRoulette,
         Timers,
-        MainWindowSettings,
+        StyleSettings,
         LogDebug,
         NotificationSettings,
         WondrousTails,
@@ -21,6 +21,7 @@
         HuntMarksWeekly,
         TodoWindow,
         TimersWindow,
-        HuntMarksDaily
+        HuntMarksDaily,
+        LanguageSelect
     }
 }
