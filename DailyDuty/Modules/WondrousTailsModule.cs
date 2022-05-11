@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DailyDuty.Data.Components;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
@@ -212,15 +213,7 @@ namespace DailyDuty.Modules
 
         private bool AnyTasksAvailableNow()
         {
-            foreach (var taskData in GetAllTaskData(wondrousTails))
-            {
-                if (taskData.TaskState == ButtonState.AvailableNow)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return GetAllTaskData(wondrousTails).Any(task => task.TaskState == ButtonState.AvailableNow);
         }
     }
 }
