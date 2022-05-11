@@ -1,38 +1,38 @@
 {
   "InformationLabel": {
-    "message": "Information",
+    "message": "Informazione",
     "description": "CommonStrings..ctor"
   },
   "AutomationInformationLabel": {
-    "message": "Data Collection",
+    "message": "Raccolta dati",
     "description": "CommonStrings..ctor"
   },
   "TechnicalInformationLabel": {
-    "message": "Technical Information",
+    "message": "Informazioni tecniche",
     "description": "CommonStrings..ctor"
   },
   "EnabledLabel": {
-    "message": "Enabled",
+    "message": "Abilitato",
     "description": "CommonStrings..ctor"
   },
   "EmptyContentsLabel": {
-    "message": "No information to display",
+    "message": "Nessuna informazione da mostrare",
     "description": "CommonStrings..ctor"
   },
   "CurrentStatusLabel": {
-    "message": "Current Status",
+    "message": "Stato attuale",
     "description": "CommonStrings..ctor"
   },
   "CompletionStatusLabel": {
-    "message": "Completion Status",
+    "message": "Stato di completamento",
     "description": "CommonStrings..ctor"
   },
   "NotificationOptionsLabel": {
-    "message": "Notification Options",
+    "message": "Opzioni notifiche",
     "description": "CommonStrings..ctor"
   },
   "ClickableLinkLabel": {
-    "message": "Clickable Link",
+    "message": "Collegamento cliccabile",
     "description": "CommonStrings..ctor"
   },
   "TaskDisplayOptionsLabel": {
