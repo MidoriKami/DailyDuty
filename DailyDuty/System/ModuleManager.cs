@@ -8,6 +8,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Game;
+using Dalamud.Game.Network;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 
@@ -40,6 +41,7 @@ namespace DailyDuty.System
         private readonly List<IResettable> resettableModules;
         private readonly List<ICommand> commandModules;
         private readonly List<IChatHandler> chatHandlers;
+        private readonly List<INetworkHandler> networkHandlers;
 
         private readonly Queue<IUpdateable> updateQueue;
         private readonly Stopwatch resetDelayStopwatch = new();
@@ -56,13 +58,15 @@ namespace DailyDuty.System
             resettableModules = modules.OfType<IResettable>().ToList();
             commandModules = modules.OfType<ICommand>().ToList();
             chatHandlers = modules.OfType<IChatHandler>().ToList();
+            networkHandlers = modules.OfType<INetworkHandler>().ToList();
 
             Service.Framework.Update += Update;
             Service.ClientState.Login += PreOnLogin;
             Service.ClientState.TerritoryChanged += PreOnTerritoryChanged;
             Service.Chat.ChatMessage += OnChatMessage;
+            Service.GameNetwork.NetworkMessage += OnNetworkMessage;
         }
-
+        
         private void PreOnTerritoryChanged(object? sender, ushort e)
         {
             var timer = reminderThrottleStopwatch;
@@ -187,6 +191,16 @@ namespace DailyDuty.System
             }
         }
 
+        private void OnNetworkMessage(IntPtr dataPtr, ushort opcode, uint sourceActorID, uint targetActorID, NetworkMessageDirection direction)
+        {
+            if (!Service.LoggedIn) return;
+
+            foreach (var module in networkHandlers)
+            {
+                module.OnNetworkMessage(dataPtr, opcode, sourceActorID, targetActorID, direction);
+            }
+        }
+
         public void Dispose()
         {
             foreach (var module in modules.OfType<IDisposable>())
@@ -198,6 +212,7 @@ namespace DailyDuty.System
             Service.ClientState.Login -= PreOnLogin;
             Service.ClientState.TerritoryChanged -= PreOnTerritoryChanged;
             Service.Chat.ChatMessage -= OnChatMessage;
+            Service.GameNetwork.NetworkMessage -= OnNetworkMessage;
         }
     }
 }

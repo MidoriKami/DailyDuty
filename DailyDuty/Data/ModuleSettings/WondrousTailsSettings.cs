@@ -6,5 +6,6 @@ namespace DailyDuty.Data.ModuleSettings
     {
         public bool InstanceNotifications = false;
         public bool EnableOpenBookLink = false;
+        public bool StickerAvailableNotification = false;
     }
 }

@@ -10,6 +10,7 @@ using Dalamud.Game.ClientState.Party;
 using Dalamud.Game.Command;
 using Dalamud.Game.Gui;
 using Dalamud.Game.Gui.Toast;
+using Dalamud.Game.Network;
 using Dalamud.Interface.Windowing;
 using Dalamud.IoC;
 using Dalamud.Plugin;
@@ -31,6 +32,7 @@ namespace DailyDuty
         [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
         [PluginService] public static ToastGui Toast { get; private set; } = null!;
         [PluginService] public static TargetManager TargetManager { get; private set; } = null!;
+        [PluginService] public static GameNetwork GameNetwork { get; private set; } = null!;
 
         public static WindowSystem WindowSystem { get; } = new("DailyDuty");
         public static WindowManager WindowManager { get; set; } = null!;

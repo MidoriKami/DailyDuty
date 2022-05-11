@@ -127,8 +127,17 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (Draw.Checkbox(Strings.Module.WondrousTailsInstanceNotificationsLabel, ref Settings.InstanceNotifications, Strings.Module.WondrousTailsInstanceNotificationsDescription))
                 {
-                    Settings.ZoneChangeReminder = Settings.InstanceNotifications;
+                    Settings.ZoneChangeReminder = Settings.InstanceNotifications || Settings.StickerAvailableNotification;
                     Service.LogManager.LogMessage(ModuleType.WondrousTails, "Instance Notifications " + (Settings.InstanceNotifications ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Module.WondrousTailsStickerAvailableNotificationLabel, ref Settings.StickerAvailableNotification, Strings.Module.WondrousTailsStickerAvailableNotificationDescription))
+                {
+                    Settings.ZoneChangeReminder = Settings.InstanceNotifications || Settings.StickerAvailableNotification;
+                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Stamp Available Notification " + (Settings.StickerAvailableNotification ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
             }

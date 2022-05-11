@@ -167,6 +167,9 @@ namespace DailyDuty.Localization
             public readonly string WondrousTailsClaimableMessage = Loc.Localize("WondrousTailsClaimableMessage", "You can claim a stamp for the last instance");
             public readonly string WondrousTailsInstanceNotificationsLabel = Loc.Localize("WondrousTailsInstanceNotificationsLabel", "Duty Start/End Notification");
             public readonly string WondrousTailsInstanceNotificationsDescription = Loc.Localize("WondrousTailsInstanceNotificationsDescription", "Send notifications at the start of a duty, if that duty is a part of your Wondrous Tails book\nAdditionally, it will send notifications after completing a duty, reminding you to collect your stamp");
+            public readonly string WondrousTailsStickerAvailableNotificationLabel = Loc.Localize("WondrousTailsStickerAvailableNotificationLabel", "Sticker Available Warning");
+            public readonly string WondrousTailsStickerAvailableNotificationDescription = Loc.Localize("WondrousTailsStickerAvailableNotificationDescription", "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.");
+            public readonly string WondrousTailsStickersAvailableNotification = Loc.Localize("WondrousTailsStickersAvailableNotification", "Stickers Available");
 
             public readonly string TreasureMapLabel = Loc.Localize("TreasureMapLabel", "Treasure Map");
             public readonly string TreasureMapInformation = Loc.Localize("TreasureMapInformation", "Treasure Maps are gatherable items with the Disciples of Land jobs once every 18 hours. These maps can be opened as part of a mini-event for various rewards. Alternatively, these maps can be sold on the market board.\n\nYou can only hold one of each type of map at a time.");
