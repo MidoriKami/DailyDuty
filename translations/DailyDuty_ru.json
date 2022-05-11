@@ -511,6 +511,18 @@
     "message": "Send notifications at the start of a duty, if that duty is a part of your Wondrous Tails book\nAdditionally, it will send notifications after completing a duty, reminding you to collect your stamp",
     "description": "ModuleStrings..ctor"
   },
+  "WondrousTailsStickerAvailableNotificationLabel": {
+    "message": "Sticker Available Warning",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickerAvailableNotificationDescription": {
+    "message": "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickersAvailableNotification": {
+    "message": "Stickers Available",
+    "description": "ModuleStrings..ctor"
+  },
   "TreasureMapLabel": {
     "message": "Карта сокровищ",
     "description": "ModuleStrings..ctor"
