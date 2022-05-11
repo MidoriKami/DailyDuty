@@ -1,126 +1,126 @@
 {
   "InformationLabel": {
-    "message": "Information",
+    "message": "Информация",
     "description": "CommonStrings..ctor"
   },
   "AutomationInformationLabel": {
-    "message": "Data Collection",
+    "message": "Сбор данных",
     "description": "CommonStrings..ctor"
   },
   "TechnicalInformationLabel": {
-    "message": "Technical Information",
+    "message": "Техническая информация",
     "description": "CommonStrings..ctor"
   },
   "EnabledLabel": {
-    "message": "Enabled",
+    "message": "Включено",
     "description": "CommonStrings..ctor"
   },
   "EmptyContentsLabel": {
-    "message": "No information to display",
+    "message": "Нет информации для отображения",
     "description": "CommonStrings..ctor"
   },
   "CurrentStatusLabel": {
-    "message": "Current Status",
+    "message": "Текущее состояние",
     "description": "CommonStrings..ctor"
   },
   "CompletionStatusLabel": {
-    "message": "Completion Status",
+    "message": "Статус завершения",
     "description": "CommonStrings..ctor"
   },
   "NotificationOptionsLabel": {
-    "message": "Notification Options",
+    "message": "Опции уведомлений",
     "description": "CommonStrings..ctor"
   },
   "ClickableLinkLabel": {
-    "message": "Clickable Link",
+    "message": "Кликабельная ссылка",
     "description": "CommonStrings..ctor"
   },
   "TaskDisplayOptionsLabel": {
-    "message": "Task Display Options",
+    "message": "Параметры отображения заданий",
     "description": "CommonStrings..ctor"
   },
   "TaskHeaderColorLabel": {
-    "message": "Task Category Color",
+    "message": "Цвет категорий",
     "description": "CommonStrings..ctor"
   },
   "TaskIncompleteTaskColorLabel": {
-    "message": "Incomplete Task Color",
+    "message": "Цвет незавершенных заданий",
     "description": "CommonStrings..ctor"
   },
   "TaskCompleteTaskColorLabel": {
-    "message": "Complete Task Color",
+    "message": "Цвет завершенных заданий",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginLabel": {
-    "message": "Send Notifications on Login",
+    "message": "Послать нотификации при входе в игру",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you login to a character.",
+    "message": "Если этот модуль незавершённый или имеет соответствующие сообщения, послать нотификацию при входе на персонаж.",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeLabel": {
-    "message": "Send Notifications on Zone Change",
+    "message": "Послать нотификации при изменении зоны",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you change zones.",
+    "message": "Если этот модуль незавершённый или имеет соответствующие сообщения, послать нотификацию при изменении зоны.",
     "description": "CommonStrings..ctor"
   },
   "CompleteLabel": {
-    "message": "Complete",
+    "message": "Завершено",
     "description": "CommonStrings..ctor"
   },
   "IncompleteLabel": {
-    "message": "Incomplete",
+    "message": "Не завершённое",
     "description": "CommonStrings..ctor"
   },
   "AllTasksLabel": {
-    "message": "All Tasks Status",
+    "message": "Статус всех заданий",
     "description": "CommonStrings..ctor"
   },
   "AvailableNowLabel": {
-    "message": "Available Now",
+    "message": "Доступно сейчас",
     "description": "CommonStrings..ctor"
   },
   "StyleOptionsLabel": {
-    "message": "Style Options",
+    "message": "Настройки вида",
     "description": "CommonStrings..ctor"
   },
   "OpacityLabel": {
-    "message": "Opacity",
+    "message": "Прозрачность",
     "description": "CommonStrings..ctor"
   },
   "ClickthroughLabel": {
-    "message": "Clickthrough",
+    "message": "Переход по ссылке",
     "description": "CommonStrings..ctor"
   },
   "MinutesLabel": {
-    "message": "Minutes",
+    "message": "Минуты",
     "description": "CommonStrings..ctor"
   },
   "StyleLabel": {
-    "message": "Style",
+    "message": "Вид",
     "description": "CommonStrings..ctor"
   },
   "AllowancesLabel": {
-    "message": "Allowances",
+    "message": "Количество доступных квестов",
     "description": "CommonStrings..ctor"
   },
   "LessThanLabel": {
-    "message": "Less Than",
+    "message": "Меньше чем",
     "description": "CommonStrings..ctor"
   },
   "LessThanOrEqualLabel": {
-    "message": "Less Than or Equal To",
+    "message": "Меньше чем или равно",
     "description": "CommonStrings..ctor"
   },
   "EqualToLabel": {
-    "message": "Equal To",
+    "message": "Равно",
     "description": "CommonStrings..ctor"
   },
   "NoneRecordedLabel": {
-    "message": "None Recorded",
+    "message": "Ничего не зарегистрировано",
     "description": "CommonStrings..ctor"
   },
   "RealmRebornLabel": {
@@ -144,107 +144,107 @@
     "description": "CommonStrings..ctor"
   },
   "WeeklyTasksLabel": {
-    "message": "Weekly Tasks",
+    "message": "Еженедельные Задания",
     "description": "CommonStrings..ctor"
   },
   "DailyTasksLabel": {
-    "message": "Daily Tasks",
+    "message": "Ежедневые задачи",
     "description": "CommonStrings..ctor"
   },
   "TopLeftLabel": {
-    "message": "Top Left",
+    "message": "Сверху слева",
     "description": "CommonStrings..ctor"
   },
   "TopRightLabel": {
-    "message": "Top Right",
+    "message": "Сверху справа",
     "description": "CommonStrings..ctor"
   },
   "BottomLeftLabel": {
-    "message": "Bottom Left",
+    "message": "Снизу слева",
     "description": "CommonStrings..ctor"
   },
   "BottomRightLabel": {
-    "message": "Bottom Right",
+    "message": "Снизу справа",
     "description": "CommonStrings..ctor"
   },
   "AutoResizeLabel": {
-    "message": "Auto Resize",
+    "message": "Автоматическое изменение размера",
     "description": "CommonStrings..ctor"
   },
   "ManualSizeLabel": {
-    "message": "Manual Size",
+    "message": "Изменение размера вручную",
     "description": "CommonStrings..ctor"
   },
   "LevelOneLabel": {
-    "message": "Level 1",
+    "message": "Уровень 1",
     "description": "CommonStrings..ctor"
   },
   "LevelTwoLabel": {
-    "message": "Level 2",
+    "message": "Уровень 2",
     "description": "CommonStrings..ctor"
   },
   "LevelThreeLabel": {
-    "message": "Level 3",
+    "message": "Уровень 3",
     "description": "CommonStrings..ctor"
   },
   "EliteLabel": {
-    "message": "Elite",
+    "message": "Элита",
     "description": "CommonStrings..ctor"
   },
   "ApplyAllLabel": {
-    "message": "Apply All",
+    "message": "Применить все",
     "description": "CommonStrings..ctor"
   },
   "TeleportLabel": {
-    "message": "Teleport",
+    "message": "Телепорт",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
-    "message": "Reset",
+    "message": "Сбросить",
     "description": "CommonStrings..ctor"
   },
   "ResetAllLabel": {
-    "message": "Reset All",
+    "message": "Сбросить все",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
-    "message": "Features",
+    "message": "Особенности",
     "description": "TabStrings..ctor"
   },
   "FeaturesTabDescription": {
-    "message": "Main features of DailyDuty to add QoL",
+    "message": "Основные особенности DailyDuty для повышения качества жизни",
     "description": "TabStrings..ctor"
   },
   "DebugTabLabel": {
-    "message": "Debug",
+    "message": "Отладка",
     "description": "TabStrings..ctor"
   },
   "DebugTabString": {
-    "message": "Settings for debugging or showing more information",
+    "message": "Настройки для отладки или показа дополнительной информации",
     "description": "TabStrings..ctor"
   },
   "SettingsTabLabel": {
-    "message": "Settings",
+    "message": "Настройки",
     "description": "TabStrings..ctor"
   },
   "SettingsTabDescription": {
-    "message": "Settings specific to this window",
+    "message": "Настройки специфичные для этого окна",
     "description": "TabStrings..ctor"
   },
   "TasksTabLabel": {
-    "message": "Tasks",
+    "message": "Задания",
     "description": "TabStrings..ctor"
   },
   "TasksTabDescription": {
-    "message": "View and configure daily and weekly tasks",
+    "message": "Просмотреть и настроить ежедневные и еженедельные задания",
     "description": "TabStrings..ctor"
   },
   "TimersTabLabel": {
-    "message": "Timers",
+    "message": "Таймеры",
     "description": "TabStrings..ctor"
   },
   "TimersTabDescription": {
-    "message": "View time until various daily and weekly tasks reset",
+    "message": "Посмотреть время до обновления ежедневных и еженедельных задач",
     "description": "TabStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayLabel": {
@@ -292,7 +292,7 @@
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowDailyLabel": {
-    "message": "Show Daily Tasks",
+    "message": "Показать ежедневные задания",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWeeklyLabel": {
@@ -384,7 +384,7 @@
     "description": "ConfigurationStrings..ctor"
   },
   "StatusTabLabel": {
-    "message": "Status",
+    "message": "Статус",
     "description": "ConfigurationStrings..ctor"
   },
   "LogTabLabel": {
@@ -400,15 +400,15 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleDescription": {
-    "message": "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes",
+    "message": "Этот параметр регулирует как часто DailyDuty посилает нотификации в чате.\n\nАвтоматически: 5 минут",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayLabel": {
-    "message": "Notifications Delay",
+    "message": "Задержка нотификаций",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayDescription": {
-    "message": "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'",
+    "message": "Задерживает показ нотификаций до окончания выбранного дня недели. Началом недели является 'Вторник'",
     "description": "ConfigurationStrings..ctor"
   },
   "DutyRouletteLabel": {
@@ -456,7 +456,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
-    "message": "Stamps",
+    "message": "Печати",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsBookStatusLabel": {
@@ -464,7 +464,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsLabel": {
-    "message": "Wondrous Tails",
+    "message": "Чудесные хвосты",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInformation": {
@@ -492,7 +492,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsAvailableMessage": {
-    "message": "A stamp is already available for this instance",
+    "message": "Для этого инстанса печать уже доступна",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsCompletableMessage": {
@@ -512,7 +512,7 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
-    "message": "Treasure Map",
+    "message": "Карта сокровищ",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapInformation": {
@@ -524,11 +524,11 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAvailableMessage": {
-    "message": "Treasure Map Available",
+    "message": "Доступна карта сокровищ",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapTimeUntilNextMap": {
-    "message": "Next Map",
+    "message": "Следующая карта",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapStatusLabel": {
@@ -564,7 +564,7 @@
     "description": "ModuleStrings..ctor"
   },
   "LevequestLabel": {
-    "message": "Levequest",
+    "message": "Ливквест",
     "description": "ModuleStrings..ctor"
   },
   "LevequestInformation": {
@@ -636,7 +636,7 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveLabel": {
-    "message": "Doman Enclave",
+    "message": "Доманский Анклав",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInformation": {
@@ -652,7 +652,7 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveGilRemainingLabel": {
-    "message": "gil Remaining",
+    "message": "остаток Гил",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveBudgetRemainingLabel": {
@@ -672,7 +672,7 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportLabel": {
-    "message": "Fashion Report",
+    "message": "Модный Отчет",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportInformation": {
@@ -688,7 +688,7 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportHighestScoreLabel": {
-    "message": "Highest Score",
+    "message": "Высший балл",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAvailableLabel": {
@@ -704,7 +704,7 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllLabel": {
-    "message": "All",
+    "message": "Все",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportSingleModeDescription": {
@@ -732,7 +732,7 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotLabel": {
-    "message": "Jumbo Cactpot",
+    "message": "Джамбо Кактпот",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotInformation": {
@@ -772,11 +772,11 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyLabel": {
-    "message": "Hunt Marks (Weekly)",
+    "message": "Охотничьи Марки (Еженедельные)",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyInformation": {
-    "message": "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. A reward that is of note is the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.",
+    "message": "Еженедельная Охота также известна, как 'Элитная Охота'. Это Еженедельные охота, которые вы можете выполнить для получения различных охотничьих валют, таких как Печати Союза, Печати Центуриона и Мешок орехов.\n\nЭти валюты можно обменять на различные награды. Одна из самых полезных наград это - Эфирный билет, который можно использовать вместо оплаты за эфирные телепорты.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksAutomationInformation": {
@@ -788,11 +788,11 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntsRemainingLabel": {
-    "message": "Hunts Remaining",
+    "message": "Оставшиеся Охоты",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackedHuntsLabel": {
-    "message": "Tracked Hunts",
+    "message": "Отслеживаемые охоты",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackLabel": {
@@ -800,7 +800,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkAvailableLabel": {
-    "message": "Mark Available",
+    "message": "Цель доступна",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkObtainedLabel": {
@@ -808,15 +808,15 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkKilledLabel": {
-    "message": "Mark Killed",
+    "message": "Цель убита",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTargetName": {
-    "message": "Target Name",
+    "message": "Имя цели",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTargetLocation": {
-    "message": "Target Location",
+    "message": "Местонахождение цели",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksNoHuntsTracked": {
@@ -836,11 +836,11 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyInformation": {
-    "message": "Daily Hunts are low rank hunts that are available each day. These hunts involve killing a specific number of fairly common enemies.",
+    "message": "Ежедневные Охоты - это низкоуровневые охоты, доступные каждый день. Эти охоты включают в себя истребление определённого количества достаточно распространенных врагов.",
     "description": "ModuleStrings..ctor"
   },
   "TimersCommand": {
-    "message": "timers",
+    "message": "таймеры",
     "description": "CommandStrings..ctor"
   },
   "TodoCommand": {
@@ -852,11 +852,11 @@
     "description": "CommandStrings..ctor"
   },
   "Enable": {
-    "message": "enable",
+    "message": "включить",
     "description": "CommandStrings..ctor"
   },
   "Show": {
-    "message": "show",
+    "message": "показать",
     "description": "CommandStrings..ctor"
   },
   "Off": {
@@ -864,7 +864,7 @@
     "description": "CommandStrings..ctor"
   },
   "Disable": {
-    "message": "disable",
+    "message": "отключить",
     "description": "CommandStrings..ctor"
   },
   "Hide": {
@@ -872,15 +872,15 @@
     "description": "CommandStrings..ctor"
   },
   "Close": {
-    "message": "close",
+    "message": "закрыть",
     "description": "CommandStrings..ctor"
   },
   "Open": {
-    "message": "open",
+    "message": "открыть",
     "description": "CommandStrings..ctor"
   },
   "Toggle": {
-    "message": "toggle",
+    "message": "переключить",
     "description": "CommandStrings..ctor"
   },
   "Help": {
@@ -904,11 +904,11 @@
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {
-    "message": "Timers",
+    "message": "Таймеры",
     "description": "TimersStrings..ctor"
   },
   "DailyResetTimerLabel": {
-    "message": "Daily Reset",
+    "message": "Ежедневный сброс",
     "description": "TimersStrings..ctor"
   },
   "FashionReportTimerLabel": {
@@ -924,11 +924,11 @@
     "description": "TimersStrings..ctor"
   },
   "TreasureMapTimerLabel": {
-    "message": "Daily Treasure Map",
+    "message": "Ежедневная карта сокровищ",
     "description": "TimersStrings..ctor"
   },
   "WeeklyResetTimerLabel": {
-    "message": "Weekly Reset",
+    "message": "Еженедельное обновление",
     "description": "TimersStrings..ctor"
   },
   "DailyResetShortLabel": {
@@ -936,31 +936,31 @@
     "description": "TimersStrings..ctor"
   },
   "FashionReportShortLabel": {
-    "message": "Fashion",
+    "message": "Мода",
     "description": "TimersStrings..ctor"
   },
   "JumboCactpotShortLabel": {
-    "message": "Jumbo",
+    "message": "Джамбо",
     "description": "TimersStrings..ctor"
   },
   "LeveAllowanceShortLabel": {
-    "message": "Leve",
+    "message": "Лив",
     "description": "TimersStrings..ctor"
   },
   "TreasureMapShortLabel": {
-    "message": "Map",
+    "message": "Карта",
     "description": "TimersStrings..ctor"
   },
   "WeeklyResetShortLabel": {
-    "message": "Weekly",
+    "message": "Еженедельно",
     "description": "TimersStrings..ctor"
   },
   "TimersBarColorLabel": {
-    "message": "Progress bar color",
+    "message": "Цвет индикатора прогресса",
     "description": "TimersStrings..ctor"
   },
   "TimersHideSecondsLabel": {
-    "message": "Hide seconds",
+    "message": "Скрыть секунды",
     "description": "TimersStrings..ctor"
   }
 }
