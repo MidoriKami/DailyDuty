@@ -511,6 +511,18 @@
     "message": "Enviar notificações no início de um duty, se esse duty for parte do seu livro Wondrous Tails.\nAlém disso, ele enviará notificações após completar um duty, lembrando você de coletar seu selo",
     "description": "ModuleStrings..ctor"
   },
+  "WondrousTailsStickerAvailableNotificationLabel": {
+    "message": "Sticker Available Warning",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickerAvailableNotificationDescription": {
+    "message": "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickersAvailableNotification": {
+    "message": "Stickers Available",
+    "description": "ModuleStrings..ctor"
+  },
   "TreasureMapLabel": {
     "message": "Mapa do Tesouro",
     "description": "ModuleStrings..ctor"
