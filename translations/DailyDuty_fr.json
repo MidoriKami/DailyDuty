@@ -511,6 +511,18 @@
     "message": "Envoie des notifications au début d'une mission, si cette mission fait partie de votre Carnet de Khloe\nDe plus, une notification sera envoyée après avoir complété la mission pour vous rappeler de collecter votre vignette",
     "description": "ModuleStrings..ctor"
   },
+  "WondrousTailsStickerAvailableNotificationLabel": {
+    "message": "Sticker Available Warning",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickerAvailableNotificationDescription": {
+    "message": "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickersAvailableNotification": {
+    "message": "Stickers Available",
+    "description": "ModuleStrings..ctor"
+  },
   "TreasureMapLabel": {
     "message": "Carte au Trésor",
     "description": "ModuleStrings..ctor"

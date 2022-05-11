@@ -264,7 +264,7 @@
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayTechnicalDescription": {
-    "message": "Um festzulegen, welche Inhalte eingefärbt werden sollen, stellen Sie diese in der Aufgabe 'Zufallsinhalte' ein.\n\nSie können die Farben für erledigte und unvollständige Inhalte hier in den Overlay-Optionen einstellen\n\nInhalte, die nicht überwacht werden, werden nicht eingefärbt, unabhängig von ihrem Abschlussstatus.",
+    "message": "Um festzulegen, welche Inhalte eingefärbt werden sollen, stellen Sie diese im Modul 'Zufallsinhalte' ein.\n\nSie können die Farben für erledigte und unvollständige Inhalte hier in den Overlay-Optionen einstellen\n\nInhalte, die nicht überwacht werden, werden nicht eingefärbt, unabhängig von ihrem Abschlussstatus.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayLabel": {
@@ -420,7 +420,7 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteInformation": {
-    "message": "Die Zufallsinhalte sind eine tägliche Aufgabe, für deren Erfüllung Sie einmal täglich Erfahrung und Gil erhalten können.\n\nZusätzliche Belohnungen wie verschiedene allagische Steine und Staatstaler werden je nach Inhaltstyp und Stufe des Jobs, mit dem Sie sich anmelden, vergeben.",
+    "message": "Die Zufallsinhalte sind eine tägliche Aufgabe, für deren Erfüllung Sie einmal täglich Erfahrung und gil erhalten können.\n\nZusätzliche Belohnungen wie verschiedene allagische Steine und Staatstaler werden je nach Inhaltstyp und Stufe des Jobs, mit dem Sie sich anmelden, vergeben.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteAutomationInformation": {
@@ -509,6 +509,18 @@
   },
   "WondrousTailsInstanceNotificationsDescription": {
     "message": "Benachrichtigungen zu Beginn eines Inhaltes senden, wenn diese Aufgabe Teil deines Khloes Abenteueralbums ist\nZusätzlich sendet es Benachrichtigungen nach Abschluss eines Inhaltes, um dich daran zu erinnern, deinen Aufkleber abzuholen",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickerAvailableNotificationLabel": {
+    "message": "Sticker Available Warning",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickerAvailableNotificationDescription": {
+    "message": "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsStickersAvailableNotification": {
+    "message": "Stickers Available",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
@@ -892,15 +904,15 @@
     "description": "CommandStrings..ctor"
   },
   "TimersShowHelp": {
-    "message": "\n\n/dd timer - Zeigt diese Hilfe an\n/dd timer hilfe - Zeigt diese Hilfe an\n/dd timer (an | aktivieren | anzeigen | öffnen) - Zeigt das Timer-Fenster an\n/dd timer (aus | deaktivieren | ausblenden | schließen) - Blendet das Timer-Fenster aus\n/dd timer (umschalten) - Das Timer-Fenster umschalten",
+    "message": "\n/dd timer - Zeigt diese Hilfe an\n/dd timer hilfe - Zeigt diese Hilfe an\n/dd timer (an | aktivieren | anzeigen | öffnen) - Zeigt das Timer-Fenster an\n/dd timer (aus | deaktivieren | ausblenden | schließen) - Blendet das Timer-Fenster aus\n/dd timer (umschalten) - Das Timer-Fenster umschalten",
     "description": "CommandStrings..ctor"
   },
   "TodoShowHelp": {
-    "message": "\n\n/dd aufgaben - Zeigt diese Hilfe an\n/dd aufgaben hilfe - Zeigt diese Hilfe an\n/dd aufgaben (an | aktivieren | anzeigen | öffnen) - Zeigt das Aufgaben-Fenster an\n/dd aufgaben (aus | deaktivieren | ausblenden | schließen) - Blendet das Aufgaben-Fenster aus\n/dd aufgaben (umschalten) - Das Aufgaben-Fenster umschalten",
+    "message": "\n/dd aufgaben - Zeigt diese Hilfe an\n/dd aufgaben hilfe - Zeigt diese Hilfe an\n/dd aufgaben (an | aktivieren | anzeigen | öffnen) - Zeigt das Aufgaben-Fenster an\n/dd aufgaben (aus | deaktivieren | ausblenden | schließen) - Blendet das Aufgaben-Fenster aus\n/dd aufgaben (umschalten) - Das Aufgaben-Fenster umschalten",
     "description": "CommandStrings..ctor"
   },
   "HelpCommands": {
-    "message": "\n/dd - Hauptfenster anzeigen oder ausblenden\n/dd timer hilfe - Timer-Unterbefehle anzeigen\n/dd aufgaben hilfe - Aufgaben-Unterbefehle anzeigen",
+    "message": "Befehlsübersicht\n/dd - Hauptfenster anzeigen oder ausblenden\n/dd timer hilfe - Timer-Unterbefehle anzeigen\n/dd aufgaben hilfe - Aufgaben-Unterbefehle anzeigen",
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {
