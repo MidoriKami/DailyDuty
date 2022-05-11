@@ -91,11 +91,18 @@ namespace DailyDuty
             {
                 Chat.Print(Strings.Command.Core, Strings.Command.HelpCommands);
             }
+#if DEBUG
             else if (arguments.ToLower() == "generateloc" && Service.SystemConfiguration.DeveloperMode)
             {
                 Chat.Debug("Generating Localization File");
                 Service.Localization.ExportLocalizable();
             }
+#else
+            else if (arguments.ToLower() == "generateloc" && Service.SystemConfiguration.DeveloperMode)
+            {
+                Chat.Debug("Command not available in release mode");
+            }
+#endif
         }
 
         private void DrawUI() => Service.WindowSystem.Draw();
@@ -131,9 +138,6 @@ namespace DailyDuty
             Configuration.Cleanup();
 
             Service.PluginInterface.LanguageChanged -= LoadLocalization;
-            //if (Service.SystemConfiguration.DeveloperMode)
-            //{
-            //}
         }
     }
 }
