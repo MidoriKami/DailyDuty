@@ -8,5 +8,6 @@ namespace DailyDuty.Data.Components
         public int MinutesBetweenThrottledMessages = 5;
         public bool MessageDelay = false;
         public DayOfWeek DelayDay = DayOfWeek.Tuesday;
+        public string SelectedLanguage = string.Empty;
     }
 }

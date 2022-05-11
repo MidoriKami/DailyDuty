@@ -21,12 +21,6 @@ namespace DailyDuty
             pluginInterface.Create<Service>();
             Service.Chat.Enable();
             
-            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
-            var filePath = Path.Combine(assemblyLocation, @"translations");
-
-            Service.Localization = new Dalamud.Localization(filePath, "DailyDuty_");
-            LoadLocalization(pluginInterface.UiLanguage);
-            
             // Register Slash Commands
             Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
             {
@@ -38,12 +32,25 @@ namespace DailyDuty
                 HelpMessage = "display a list of all available sub-commands"
             });
 
-
             // Initialize Log Manager for Configuration
             Service.LogManager = new LogManager();
 
             // Load Configurations
             Configuration.Startup();
+
+            // Initialize Languages
+            var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
+            var filePath = Path.Combine(assemblyLocation, @"translations");
+
+            Service.Localization = new Dalamud.Localization(filePath, "DailyDuty_");
+            if (Service.SystemConfiguration.System.SelectedLanguage != string.Empty)
+            {
+                LoadLocalization(Service.SystemConfiguration.System.SelectedLanguage);
+            }
+            else
+            {
+                LoadLocalization(pluginInterface.UiLanguage);
+            }
 
             // Create Custom Services
             Service.TeleportManager = new TeleportManager();
@@ -60,7 +67,7 @@ namespace DailyDuty
             Service.PluginInterface.LanguageChanged += LoadLocalization;
         }
 
-        private void LoadLocalization(string languageCode)
+        public static void LoadLocalization(string languageCode)
         {
             PluginLog.Information($"Loading Localization for {languageCode}");
 
