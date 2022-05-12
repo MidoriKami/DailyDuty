@@ -199,6 +199,10 @@
     "message": "Teleporte",
     "description": "CommonStrings..ctor"
   },
+  "ExpandedInfoLabel": {
+    "message": "Expanded Todo Display",
+    "description": "CommonStrings..ctor"
+  },
   "ResetLabel": {
     "message": "Restaurar",
     "description": "CommonStrings..ctor"
@@ -321,10 +325,6 @@
   },
   "TodoWindowInformation": {
     "message": "A janela Todo é uma pequena janela que mostra suas tarefas rastreadas. Essa janela é útil para descobrir o que você ainda precisa fazer em um piscar de olhos.",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowEnableExpandedInfo": {
-    "message": "Exibição de Tarefas Expandida",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
@@ -849,6 +849,10 @@
   },
   "HuntMarksUntrackAllLabel": {
     "message": "Não Rastrear Nada",
+    "description": "ModuleStrings..ctor"
+  },
+  "HuntMarksExpandedInfoDescription": {
+    "message": "Show the expansion labels for each incomplete hunt in the todo window",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {
