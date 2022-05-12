@@ -312,7 +312,7 @@
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideInDutyLabel": {
-    "message": "In a Duty",
+    "message": "В подземелье",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowResizeStyleLabel": {
@@ -409,6 +409,14 @@
   },
   "NotificationsDelayDescription": {
     "message": "Задерживает показ нотификаций до окончания выбранного дня недели. Началом недели является 'Вторник'",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageLabel": {
+    "message": "Language",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageSelectLabel": {
+    "message": "Language Select",
     "description": "ConfigurationStrings..ctor"
   },
   "DutyRouletteLabel": {
