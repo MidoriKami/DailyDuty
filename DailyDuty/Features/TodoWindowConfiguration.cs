@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -69,6 +70,47 @@ namespace DailyDuty.Features
                 {
                     Service.SystemConfiguration.Save();
                 }
+            }
+        };
+
+        private readonly InfoBox dailyTaskSelection = new()
+        {
+            Label = Strings.Common.DailyTasksLabel,
+            ContentsAction = () =>
+            {
+                var tasks = Service.ModuleManager.GetCompletables(CompletionType.Daily)
+                    .Where(taskSettings => taskSettings.GenericSettings.Enabled)
+                    .OrderBy(task => task.DisplayName)
+                    .ToList();
+
+                foreach (var task in tasks)
+                {
+                    if (Draw.Checkbox(task.DisplayName, ref task.GenericSettings.ShowTodoTask))
+                    {
+                        Service.CharacterConfiguration.Save();
+                    }
+                }
+            }
+        };
+
+        private readonly InfoBox weeklyTaskSelection = new()
+        {
+            Label = Strings.Common.WeeklyTasksLabel,
+            ContentsAction = () =>
+            {
+                var tasks = Service.ModuleManager.GetCompletables(CompletionType.Weekly)
+                    .Where(taskSettings => taskSettings.GenericSettings.Enabled)
+                    .OrderBy(task => task.DisplayName)
+                    .ToList();
+
+                foreach (var task in tasks)
+                {
+                    if (Draw.Checkbox(task.DisplayName, ref task.GenericSettings.ShowTodoTask))
+                    {
+                        Service.CharacterConfiguration.Save();
+                    }
+                }
+            
             }
         };
 
@@ -186,6 +228,18 @@ namespace DailyDuty.Features
 
             ImGuiHelpers.ScaledDummy(30.0f);
             taskSelection.DrawCentered();
+
+            if (Settings.ShowDaily)
+            {
+                ImGuiHelpers.ScaledDummy(30.0f);
+                dailyTaskSelection.DrawCentered();
+            }
+
+            if (Settings.ShowWeekly)
+            {
+                ImGuiHelpers.ScaledDummy(30.0f);
+                weeklyTaskSelection.DrawCentered();
+            }
 
             ImGuiHelpers.ScaledDummy(30.0f);
             displayOptions.DrawCentered();

@@ -40,7 +40,7 @@ namespace DailyDuty.Data.Components
         public bool AllTasksCompleted()
         {
             return Tasks
-                .Where(task => task.GenericSettings.Enabled)
+                .Where(task => task.GenericSettings.Enabled && task.GenericSettings.ShowTodoTask)
                 .All(task => task.IsCompleted());
         }
     }

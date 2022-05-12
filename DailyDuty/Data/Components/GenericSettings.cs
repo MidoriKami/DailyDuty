@@ -9,5 +9,6 @@ namespace DailyDuty.Data.Components
         public bool ZoneChangeReminder = false;
         public bool LoginReminder = false;
         public bool ExpandedDisplay = false;
+        public bool ShowTodoTask = true;
     }
 }

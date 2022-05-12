@@ -15,19 +15,22 @@ namespace DailyDuty.Interfaces
 
         public void DrawTask(TaskColors colors, bool showCompletedTasks)
         {
-            if (GenericSettings.ExpandedDisplay && GenericSettings.Enabled)
+            if (GenericSettings.ShowTodoTask)
             {
-                ExpandedDisplay?.Invoke();
-            }
-            else
-            {
-                if (!IsCompleted() && GenericSettings.Enabled)
+                if (GenericSettings.ExpandedDisplay && GenericSettings.Enabled)
                 {
-                    ImGui.TextColored(colors.IncompleteColor, DisplayName);
+                    ExpandedDisplay?.Invoke();
                 }
-                else if (IsCompleted() && GenericSettings.Enabled && showCompletedTasks)
+                else
                 {
-                    ImGui.TextColored(colors.CompleteColor, DisplayName);
+                    if (!IsCompleted() && GenericSettings.Enabled)
+                    {
+                        ImGui.TextColored(colors.IncompleteColor, DisplayName);
+                    }
+                    else if (IsCompleted() && GenericSettings.Enabled && showCompletedTasks)
+                    {
+                        ImGui.TextColored(colors.CompleteColor, DisplayName);
+                    }
                 }
             }
         }
