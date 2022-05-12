@@ -77,15 +77,21 @@ namespace DailyDuty.Modules
             {
                 switch (type)
                 {
-                    // Duty Started
-                    case 0x80000004 when Settings.InstanceNotifications && !IsCompleted():
-                        Chat.Log("Wondrous Tails", "Duty Started!");
+                    // Duty Commenced
+                    case 0x40000001 when Settings.InstanceNotifications && !IsCompleted():
                         OnDutyStartNotification(Service.ClientState.TerritoryType);
+                        break;
+
+                    // Party Wipe
+                    case 0x40000005:
+                        break;
+
+                    // Duty Recommence
+                    case 0x40000006:
                         break;
 
                     // Duty Completed
                     case 0x40000003 when Settings.InstanceNotifications && !IsCompleted():
-                        Chat.Log("Wondrous Tails", "Duty Completed!");
                         OnDutyEndNotification(Service.ClientState.TerritoryType);
                         break;
                 }
