@@ -199,6 +199,10 @@
     "message": "Teleport",
     "description": "CommonStrings..ctor"
   },
+  "ExpandedInfoLabel": {
+    "message": "Expanded Todo Display",
+    "description": "CommonStrings..ctor"
+  },
   "ResetLabel": {
     "message": "Reset",
     "description": "CommonStrings..ctor"
@@ -321,10 +325,6 @@
   },
   "TodoWindowInformation": {
     "message": "Das Aufgaben-Fenster ist ein kleines Fenster, das Ihre überwachten Aufgaben anzeigt. Dieses Fenster ist hilfreich, um auf einen Blick zu sehen, was Sie noch erledigen müssen.",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowEnableExpandedInfo": {
-    "message": "Erweitertes Aufgaben-Fenster",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
@@ -849,6 +849,10 @@
   },
   "HuntMarksUntrackAllLabel": {
     "message": "Alle abwählen",
+    "description": "ModuleStrings..ctor"
+  },
+  "HuntMarksExpandedInfoDescription": {
+    "message": "Show the expansion labels for each incomplete hunt in the todo window",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {

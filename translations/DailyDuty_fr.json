@@ -199,6 +199,10 @@
     "message": "Téléportation",
     "description": "CommonStrings..ctor"
   },
+  "ExpandedInfoLabel": {
+    "message": "Expanded Todo Display",
+    "description": "CommonStrings..ctor"
+  },
   "ResetLabel": {
     "message": "Réinitialiser",
     "description": "CommonStrings..ctor"
@@ -321,10 +325,6 @@
   },
   "TodoWindowInformation": {
     "message": "La fenêtre \"To Do\" est une petite fenêtre affichant les tâches que vous suivez. Cette fenêtre est utile pour déterminer ce qu'il vous reste à faire en un coup d'œil.",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowEnableExpandedInfo": {
-    "message": "Affichage étendu ddans la fenêtre \"To Do\"",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
@@ -849,6 +849,10 @@
   },
   "HuntMarksUntrackAllLabel": {
     "message": "Ne plus suivre tout",
+    "description": "ModuleStrings..ctor"
+  },
+  "HuntMarksExpandedInfoDescription": {
+    "message": "Show the expansion labels for each incomplete hunt in the todo window",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {

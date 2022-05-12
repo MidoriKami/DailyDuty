@@ -199,6 +199,10 @@
     "message": "Teleport",
     "description": "CommonStrings..ctor"
   },
+  "ExpandedInfoLabel": {
+    "message": "Expanded Todo Display",
+    "description": "CommonStrings..ctor"
+  },
   "ResetLabel": {
     "message": "Reset",
     "description": "CommonStrings..ctor"
@@ -321,10 +325,6 @@
   },
   "TodoWindowInformation": {
     "message": "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowEnableExpandedInfo": {
-    "message": "Expanded Todo Display",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
@@ -460,7 +460,7 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteExpandedInfo": {
-    "message": "Displays individual incomplete duties in the todo window.",
+    "message": "Displays individual incomplete duties in the todo window",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
@@ -849,6 +849,10 @@
   },
   "HuntMarksUntrackAllLabel": {
     "message": "Untrack All",
+    "description": "ModuleStrings..ctor"
+  },
+  "HuntMarksExpandedInfoDescription": {
+    "message": "Show the expansion labels for each incomplete hunt in the todo window",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {
