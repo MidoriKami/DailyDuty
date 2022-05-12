@@ -8,9 +8,9 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Structs;
 using DailyDuty.Utilities;
-using Dalamud.Game.Network;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Hooking;
 using Dalamud.Utility;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -22,8 +22,7 @@ namespace DailyDuty.Modules
     internal unsafe class WondrousTailsModule :
         IDisposable,
         IZoneChangeAlwaysNotification,
-        ICompletable,
-        INetworkHandler
+        ICompletable
     {
         private static WondrousTailsSettings Settings => Service.CharacterConfiguration.WondrousTails;
         public CompletionType Type => CompletionType.Weekly;
@@ -33,24 +32,29 @@ namespace DailyDuty.Modules
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3, uint a4, short a5);
 
+        private delegate byte DutyEventDelegate(void* a1, void* a2, ushort* a3);
+
         [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
         private readonly WondrousTailsStruct* wondrousTails = null;
 
         [Signature("E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 41 B0 01 BA 13 00 00 00")]
         private readonly UseItemDelegate useItemFunction = null!;
 
+        [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B D9 49 8B F8 41 0F B7 08", DetourName = nameof(DutyEventFunction))]
+        private readonly Hook<DutyEventDelegate>? dutyEventHook = null;
+
+        private bool dutyEndNotificationSent;
+
         private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.InventoryContext);
         private const uint WondrousTailsBookItemID = 2002023;
 
         private readonly DalamudLinkPayload openWondrousTails;
 
-        private uint lastDutyInstanceID;
-        private bool lastInstanceWasDuty;
-        private bool dutyCompleted;
-
         public WondrousTailsModule()
         {
             SignatureHelper.Initialise(this);
+
+            dutyEventHook?.Enable();
 
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
             openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
@@ -59,6 +63,35 @@ namespace DailyDuty.Modules
         public void Dispose()
         {
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
+
+            dutyEventHook?.Dispose();
+        }
+
+        private byte DutyEventFunction(void* a1, void* a2, ushort* a3)
+        {
+            var category = *(a3);
+            var type = *(uint*)(a3 + 4);
+
+            // DirectorUpdate Category
+            if (category == 0x6D)
+            {
+                switch (type)
+                {
+                    // Duty Started
+                    case 0x80000004 when Settings.InstanceNotifications && !IsCompleted():
+                        Chat.Log("Wondrous Tails", "Duty Started!");
+                        OnDutyStartNotification(Service.ClientState.TerritoryType);
+                        break;
+
+                    // Duty Completed
+                    case 0x40000003 when Settings.InstanceNotifications && !IsCompleted():
+                        Chat.Log("Wondrous Tails", "Duty Completed!");
+                        OnDutyEndNotification(Service.ClientState.TerritoryType);
+                        break;
+                }
+            }
+
+            return dutyEventHook!.Original(a1, a2, a3);
         }
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
@@ -82,56 +115,21 @@ namespace DailyDuty.Modules
 
         void IZoneChangeAlwaysNotification.SendNotification(ushort newTerritory)
         {
-            if (IsCompleted()) return;
-
-            var dutyEndNotificationSent = false;
-
-            // Duty Start/End Notification
-            if (Condition.IsBoundByDuty() && Settings.InstanceNotifications)
-            {
-                lastInstanceWasDuty = true;
-                lastDutyInstanceID = newTerritory;
-                OnDutyStartNotification();
-            }
-            else if(lastInstanceWasDuty && Settings.InstanceNotifications && dutyCompleted)
-            {
-                dutyEndNotificationSent = OnDutyEndNotification();
-                lastInstanceWasDuty = false;
-                dutyCompleted = false;
-            }
-            else
-            {
-                lastInstanceWasDuty = false;
-                dutyCompleted = false;
-            }
-
             // Sticker Available Notification
-            if (!Condition.IsBoundByDuty() && Settings.StickerAvailableNotification && !dutyEndNotificationSent)
+            if (!Condition.IsBoundByDuty() && Settings.StickerAvailableNotification && !IsCompleted())
             {
-                if (AnyTasksAvailableNow())
-                {
+                if (AnyTasksAvailableNow() && !dutyEndNotificationSent)
+                { 
                     Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsStickersAvailableNotification, Settings.EnableOpenBookLink ? openWondrousTails : null);
                 }
             }
+
+            dutyEndNotificationSent = false;
         }
 
-        public void OnNetworkMessage(IntPtr dataptr, ushort opcode, uint sourceactorid, uint targetactorid, NetworkMessageDirection direction)
+        private void OnDutyStartNotification(ushort currentInstance)
         {
-            // This opcode will probably break every patch
-            if (opcode != 0x3AE) return;
-
-            var cat = *(ushort*)(dataptr + 0x00);
-            var updateType = *(uint*)(dataptr + 0x08);
-
-            if (cat == 0x6D && updateType == 0x40000003)
-            {
-                dutyCompleted = true;
-            }
-        }
-
-        private void OnDutyStartNotification()
-        {
-            var node = FindNode(lastDutyInstanceID);
+            var node = FindNode(currentInstance);
             if (node == null) return;
 
             var buttonState = node.TaskState;
@@ -159,19 +157,17 @@ namespace DailyDuty.Modules
             }
         }
 
-        private bool OnDutyEndNotification()
+        private void OnDutyEndNotification(ushort currentInstance)
         {
-            var node = FindNode(lastDutyInstanceID);
+            var node = FindNode(currentInstance);
 
             var buttonState = node?.TaskState;
 
             if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
             {
+                dutyEndNotificationSent = true;
                 Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsClaimableMessage, Settings.EnableOpenBookLink ? openWondrousTails : null);
-                return true;
             }
-
-            return false;
         }
 
         public int GetNumStamps()
