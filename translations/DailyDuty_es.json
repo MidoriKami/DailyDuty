@@ -411,6 +411,14 @@
     "message": "Evita que aparezcan notificaciones hasta después del día seleccionado. La semana empieza los martes",
     "description": "ConfigurationStrings..ctor"
   },
+  "LanguageLabel": {
+    "message": "Language",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageSelectLabel": {
+    "message": "Language Select",
+    "description": "ConfigurationStrings..ctor"
+  },
   "DutyRouletteLabel": {
     "message": "Duty Roulette",
     "description": "ModuleStrings..ctor"

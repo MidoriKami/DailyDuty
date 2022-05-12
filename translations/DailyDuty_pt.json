@@ -336,7 +336,7 @@
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowInformation": {
-    "message": "The timers window allows you to view the time until various resets as a handy user interface element.",
+    "message": "A janela de \"timers\" permite que você veja o tempo restante até que vários \"resets\" como um elemento de interface de usuário bem útil.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimersEnableLabel": {
@@ -409,6 +409,14 @@
   },
   "NotificationsDelayDescription": {
     "message": "Impede que as notificações apareçam até depois do dia de semana selecionado. O início da semana é 'Terça-feira'",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageLabel": {
+    "message": "Idioma",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageSelectLabel": {
+    "message": "Seleção de Idioma",
     "description": "ConfigurationStrings..ctor"
   },
   "DutyRouletteLabel": {
@@ -512,15 +520,15 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationLabel": {
-    "message": "Sticker Available Warning",
+    "message": "Alerta de Selo Disponível",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationDescription": {
-    "message": "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.",
+    "message": "Enviar uma notificação ao mudar de zona se alguma tarefa no seu livro estiver disponível para obter um adesivo.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickersAvailableNotification": {
-    "message": "Stickers Available",
+    "message": "Selos Disponíveis",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
@@ -616,7 +624,7 @@
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotTechnicalInformation": {
-    "message": "The game removes your Mini Cactpot ticket allowance when the window is opened and you spend the MGP to purchase the ticket. If your game is closed or crashes after the ticket window opened, that ticket will be lost.",
+    "message": "O jogo remove seu bilhete disponível de \"Mini Cactpot\" quando a janela é aberta e você gasta a MGP para comprar o bilhete. Se o seu jogo fechar ou for fechado com a janela do bilhete aberta, esse bilhete será perdido.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotClickableLinkDescription": {
@@ -624,7 +632,7 @@
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotReSyncInformation": {
-    "message": "You can force a re-sync of Mini Cactpot allowances by speaking to the 'Mini Cactpot Broker' and selecting 'Purchase a Mini Cactpot ticket'",
+    "message": "Você pode forçar uma re-sincronização de créditos para Mini Cactpot falando com 'Mini Cactpot Broker' e selecionando 'Purchase a Mini Cactpot ticket'",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotAllowancesLabel": {
@@ -636,11 +644,11 @@
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryInformation": {
-    "message": "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gathering scripts, exp rewards, various materia, folklore tomes, and more.",
+    "message": "\"Custom Deliveries\" são uma tarefa semanal para DoH/DoL que você pode completar para obter \"crafting\" ou \"gathering\" scrips, recompensas de xp, materias, tomos de \"folklore\" e muito mais.",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAutomationInformation": {
-    "message": "Custom Delivery information is gathered directly from the game's data, and will always be in sync with the current status of the game.",
+    "message": "As informações de \"Custom Deliveries\" são extraídas diretamente dos dados do jogo, e estarão sempre em sincronia com o \"status\" atual do jogo.",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAllowancesLabel": {
@@ -652,11 +660,11 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInformation": {
-    "message": "The Doman Enclave is a weekly task you can complete for gil rewards. You donate junk items in exchange for a multiple of their value in gil back, resulting in profit. The reward multiplier increases higher the more you progress through the Doman Enclave.",
+    "message": "A \"Doman Enclave\" é uma tarefa semanal que você pode completar para obter recompensas de gil. Você doa itens desnecessários em troca de um múltiplo do valor deles em gil, resultando em lucro. O multiplicador da recompensa aumenta conforme seu progresso com a \"Doman Enclave\".",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveAutomationInformation": {
-    "message": "Doman Enclave data is tracked automatically, but only while you are actually in the Doman Enclave area.",
+    "message": "As informações da \"Doman Enclave\" são monitoradas automaticamente, mas apenas quando você estiver na área da \"Doman Enclave\".",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveTechnicalInformation": {
@@ -688,15 +696,15 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportInformation": {
-    "message": "Fashion Report is a weekly task you can complete for MGP. Simply 'Present yourself for judging' once a week without any effort and be rewarded with 10,000 MGP. You can attempt to create an outfit for a higher score, additional MGP, and titles.",
+    "message": "O \"Fashion Report\" é uma tarefa semanal que você pode completar para obter MGP. Simplesmente 'Present yourself for judging' uma vez por semana sem qualquer esforço e seja recompensado com 10.000 MGP. Você pode tentar criar uma combinação de roupas para receber uma pontuação maior, MGP extra, e títulos.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAutomationInformation": {
-    "message": "Fashion Report data is collected when you present yourself for judging. The current high score and allowances remaining is extracted from the UI when the judging is complete.",
+    "message": "Os dados do \"Fashion Report\" são coletados quando você se apresenta para avaliação. A pontuação mais alta e os créditos restantes são extraídas da interface de usuário quando o avaliação é concluida.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportTechnicalInformation": {
-    "message": "Data is collected both when you interact with 'Masked Rose' and when you are actually presenting yourself for judging. This should keep the data in sync with the game data at all times.\n\nFashion Report status will show as 'Complete' while Fashion Report is unavailable, and 'Incomplete' once it is available or the completion conditions are not met.",
+    "message": "Os dados são coletados tanto quando se interage com o \"Masked Rose\" como quando se apresenta para avaliação. Isso deve manter os dados sincronizados com os dados do jogo a todo momento.\n\nO status do \"Fashion Report\" será exibido como 'Complete' enquanto o \"Fashion Report\" estiver indisponível, e 'Incomplete' assim que estiver disponível ou as condições de conclusão não forem cumpridas.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportHighestScoreLabel": {
@@ -720,11 +728,11 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportSingleModeDescription": {
-    "message": "Only notify if no allowances have been spent this week and Fashion Report is available for turn-in",
+    "message": "Apenas notificar se nenhum crédito tiver sido gasto essa semana e o \"Fashion Report\" estiver disponível para apresentação",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportEightyPlusDescription": {
-    "message": "Notify if any allowances remain this week, the highest score is below 80 and Fashion Report is available for turn-in",
+    "message": "Notificar se qualquer créditos restam nesta semana, a pontuação mais alta for abeixo de 80 e o \"Fashion Report\" estiver disponível para avaliação",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllDescription": {
@@ -748,7 +756,7 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotInformation": {
-    "message": "Jumbo Cactpot is a weekly task where you can purchase 3 lottery tickets. These tickets allow you to pick any 4-digit number you wish, and depending on how many numbers are matched at the drawing the following week, you can earn MGP.",
+    "message": "O Jumbo Cactpot é uma tarefa semanal, onde você pode comprar 3 bilhetes de loteria. Esses bilheres permitem que você escolha qualquer número de 4 dígitos que desejar, e dependendo de quantos números são correspondem aos sorteados na semana seguinte, você pode ganhar MGP.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotAutomationInformation": {
@@ -756,7 +764,7 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTechnicalInformation": {
-    "message": "While DailyDuty displays the value of the tickets collected, the only information needed to track the status is how many tickets have been purchased.\n\nUpon weekly reset the stored tickets will be removed and you will be prompted to purchase new tickets. If you have any pending rewards, you will have to collect your tickets in order to purchase new tickets.\n\nDue to how the fallback re-sync system works, if you speak to the 'Jumbo Cactpot Broker' before collecting your rewards, last-weeks tickets will get re-logged and the task will be marked as complete. Speaking to the 'Jumbo Cactpot Broker' after collecting your rewards will re-sync the status back to incomplete.",
+    "message": "Enquanto o DailyDuty exibe o valor dos bilhetes coletados, a única informação necessária para acompanhar o status é quantos bilhetes foram comprados.\n\nApós o \"reset\" semanal, os tickets armazenados serão removidos e você será solicitado a comprar novos bilhetes. Se você tiver qualquer recompensa pendente, você terá que coletar os seus bilhetes para poder comprar novos bilhetes.\n\nDevido a como o sistema de re-sincronização funciona, se você falar com o 'Jumbo Cactpot Broker' antes de coletar suas recompensas, tickets de última semana serão registrados novamente e a tarefa será marcada como completa. Falando com o 'Jumbo Cactpot Broker' depois de coletar suas recompensas irá re-sincronizar o status de volta para incompleto.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsLabel": {
@@ -780,7 +788,7 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotReSyncInformation": {
-    "message": "You can force a re-sync of ticket data by speaking to the 'Jumbo Cactpot Broker'",
+    "message": "Você pode forçar a re-sincronização dos dados dos bilhetes falando com o 'Jumbo Cactpot Broker'",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyLabel": {
@@ -788,11 +796,11 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyInformation": {
-    "message": "Weekly Hunts are also know as 'Elite Hunts', these are Weekly Hunts you can do for various hunt currencies such as Allied Seals, Centurio Seals, and Sacks of Nuts.\n\nThese currencies can be exchanged for various rewards. A reward that is of note is the Aetheryte Tickets, which can be used instead of paying gil for aetheryte teleports.",
+    "message": "\"Hunts\" semanais também são conhecidas como 'Elite Hunts', Estas são \"Hunts\" semanais que você pode fazer em troca de várias moedas de \"Hunt\", como \"Allied Seals\", \"Centurio Seals\" e \"Sacks of Nuts\". \n\nEstas moedas podem ser trocadas por várias recompensas. Uma recompensa que é notada são os \"Aetheryte Tickets\", que podem ser usados em vez de pagar em gil por teleportes.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksAutomationInformation": {
-    "message": "Hunt data is tracked by observing changes in the games stored data. If DailyDuty was not installed when you obtained a hunt mark then it can not be tracked correctly.",
+    "message": "Os dados de \"Hunt\" são monitorados observando mudanças nos dados do jogo. Se DailyDuty não foi instalado quando você obteve um alvo de Hunt, então ela não pode ser rastreada corretamente.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTechnicalInformation": {

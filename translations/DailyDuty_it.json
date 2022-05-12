@@ -411,6 +411,14 @@
     "message": "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'",
     "description": "ConfigurationStrings..ctor"
   },
+  "LanguageLabel": {
+    "message": "Language",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageSelectLabel": {
+    "message": "Language Select",
+    "description": "ConfigurationStrings..ctor"
+  },
   "DutyRouletteLabel": {
     "message": "Duty Roulette",
     "description": "ModuleStrings..ctor"

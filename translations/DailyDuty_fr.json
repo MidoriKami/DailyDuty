@@ -411,6 +411,14 @@
     "message": "Empêche les notifications de s'afficher avant le jour de la semaine sélectionné. Le début de la semaine est 'Mardi'",
     "description": "ConfigurationStrings..ctor"
   },
+  "LanguageLabel": {
+    "message": "Langue",
+    "description": "ConfigurationStrings..ctor"
+  },
+  "LanguageSelectLabel": {
+    "message": "Sélectionner la langue",
+    "description": "ConfigurationStrings..ctor"
+  },
   "DutyRouletteLabel": {
     "message": "Missions Aléatoires",
     "description": "ModuleStrings..ctor"
@@ -512,15 +520,15 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationLabel": {
-    "message": "Sticker Available Warning",
+    "message": "Avertissement de Vignettes disponibles",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationDescription": {
-    "message": "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.",
+    "message": "Envoie une notification lors d'un changement de zone si vous avez des vignettes à récupérer sur des tâches de votre carnet.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickersAvailableNotification": {
-    "message": "Stickers Available",
+    "message": "Vignettes disponibles",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
