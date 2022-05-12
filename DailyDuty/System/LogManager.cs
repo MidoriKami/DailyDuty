@@ -26,7 +26,7 @@ namespace DailyDuty.System
                 moduleMessages.RemoveAt(0);
             }
 
-            moduleMessages.Add(new LogMessage()
+            moduleMessages.Add(new LogMessage
             {
                 Message = message,
                 ModuleType = module,

@@ -190,7 +190,7 @@ namespace DailyDuty.Modules
                 var taskButtonState = wondrousTailsStruct->TaskStatus(i);
                 var instances = TaskLookup.GetInstanceListFromID(wondrousTailsStruct->Tasks[i]);
 
-                result.Add(new WondrousTailsTask()
+                result.Add(new WondrousTailsTask
                 {
                     DutyList = instances,
                     TaskState = taskButtonState,

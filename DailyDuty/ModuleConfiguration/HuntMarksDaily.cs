@@ -270,7 +270,7 @@ namespace DailyDuty.ModuleConfiguration
 
             foreach (var hunt in Settings.TrackedHunts.Where(hunt => hunt.Tracked && hunt.State == TrackedHuntState.Obtained).GroupBy(hunt => hunt.Type.GetExpansion()))
             {
-                new InfoBox()
+                new InfoBox
                 {
                     Label = hunt.Key.GetLabel(),
                     ContentsAction = () =>

@@ -13,7 +13,7 @@ namespace DailyDuty.System
 
         public readonly List<CountdownTimer> Timers = new()
         {
-            new CountdownTimer()
+            new CountdownTimer
             {
                 Label = Strings.Timers.DailyResetLabel,
                 ShortLabel = Strings.Timers.DailyResetShortLabel,
@@ -21,7 +21,7 @@ namespace DailyDuty.System
                 UpdateNextReset = Time.NextDailyReset,
                 TimerSettings = Settings.Daily
             },
-            new CountdownTimer()
+            new CountdownTimer
             {
                 Label = Strings.Timers.FashionReportLabel,
                 ShortLabel = Strings.Timers.FashionReportShortLabel,
@@ -44,7 +44,7 @@ namespace DailyDuty.System
                 },
                 TimerSettings = Settings.FashionReport
             },
-            new CountdownTimer()
+            new CountdownTimer
             {
                 Label = Strings.Timers.JumboCactpotLabel,
                 ShortLabel = Strings.Timers.JumboCactpotShortLabel,
@@ -52,7 +52,7 @@ namespace DailyDuty.System
                 UpdateNextReset = Time.NextJumboCactpotReset,
                 TimerSettings = Settings.JumboCactpot,
             },
-            new CountdownTimer()
+            new CountdownTimer
             {
                 Label = Strings.Timers.LeveAllowanceLabel,
                 ShortLabel = Strings.Timers.LeveAllowanceShortLabel,
@@ -60,7 +60,7 @@ namespace DailyDuty.System
                 UpdateNextReset = Time.NextLeveAllowanceReset,
                 TimerSettings = Settings.LeveAllowance,
             },
-            new CountdownTimer()
+            new CountdownTimer
             {
                 Label = Strings.Timers.TreasureMapLabel,
                 ShortLabel = Strings.Timers.TreasureMapShortLabel,
@@ -83,7 +83,7 @@ namespace DailyDuty.System
                 },
                 TimerSettings = Settings.TreasureMap,
             },
-            new CountdownTimer()
+            new CountdownTimer
             {
                 Label = Strings.Timers.WeeklyResetLabel,
                 ShortLabel = Strings.Timers.WeeklyResetShortLabel,

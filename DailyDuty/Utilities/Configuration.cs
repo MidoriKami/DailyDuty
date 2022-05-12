@@ -214,7 +214,7 @@ namespace DailyDuty.Utilities
                     }
                     else
                     {
-                        Service.LogManager.Log = new CharacterLogFile()
+                        Service.LogManager.Log = new CharacterLogFile
                         {
                             CharacterName = playerName,
                             LocalContentID = contentId,

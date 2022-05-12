@@ -116,39 +116,39 @@ namespace DailyDuty.Utilities
 
                 // The Binding Coil of Bahamut
                 case 121:
-                    return new List<uint>() { 241, 242, 243, 244, 245 };
+                    return new List<uint> { 241, 242, 243, 244, 245 };
 
                 // The Second Coil of Bahamut
                 case 122:
-                    return new List<uint>() { 355, 356, 357, 358 };
+                    return new List<uint> { 355, 356, 357, 358 };
 
                 // The Final Coil of Bahamut
                 case 123:
-                    return new List<uint>() { 193, 194, 195, 196 };
+                    return new List<uint> { 193, 194, 195, 196 };
 
                 // Alexander: Gordias
                 case 124:
-                    return new List<uint>() { 442, 443, 444, 445 };
+                    return new List<uint> { 442, 443, 444, 445 };
 
                 // Alexander: Midas
                 case 125:
-                    return new List<uint>() {520, 521, 522, 523};
+                    return new List<uint> {520, 521, 522, 523};
 
                 // Alexander: The Creator
                 case 126:
-                    return new List<uint>() { 580, 581, 582, 583 };
+                    return new List<uint> { 580, 581, 582, 583 };
 
                 // Omega: Deltascape
                 case 127:
-                    return new List<uint>() { 691, 692, 693, 694 };
+                    return new List<uint> { 691, 692, 693, 694 };
 
                 // Omega: Sigmascape
                 case 128:
-                    return new List<uint>() { 748, 749, 750, 751 };
+                    return new List<uint> { 748, 749, 750, 751 };
 
                 // Omega: Alphascape
                 case 129:
-                    return new List<uint>() { 798, 799, 800, 801 };
+                    return new List<uint> { 798, 799, 800, 801 };
 
                 // PvP
                 case 67 or 54 or 52:

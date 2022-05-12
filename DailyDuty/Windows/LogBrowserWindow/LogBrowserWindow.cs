@@ -22,7 +22,7 @@ namespace DailyDuty.Windows.LogBrowserWindow
         {
             Service.WindowSystem.AddWindow(this);
 
-            SizeConstraints = new WindowSizeConstraints()
+            SizeConstraints = new WindowSizeConstraints
             {
                 MinimumSize = new Vector2(700, 500),
                 MaximumSize = new Vector2(9999,9999)

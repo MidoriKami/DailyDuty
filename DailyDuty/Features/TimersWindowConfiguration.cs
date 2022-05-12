@@ -177,7 +177,7 @@ namespace DailyDuty.Features
             {
                 ImGuiHelpers.ScaledDummy(10.0f);
 
-                new InfoBox()
+                new InfoBox
                 {
                     Label = timer.Label,
                     ContentsAction = () =>
