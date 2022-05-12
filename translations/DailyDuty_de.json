@@ -64,7 +64,7 @@
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeHelpText": {
-    "message": "Wenn diese Aufgabe unvollständig ist oder relevante Meldungen enthält, wird eine Benachrichtigung gesendet, wenn du die Zone wechselst.",
+    "message": "Wenn diese Aufgabe unvollständig ist oder relevante Meldungen enthält, wird eine Benachrichtigung gesendet, wenn du das Gebiet wechselst.",
     "description": "CommonStrings..ctor"
   },
   "CompleteLabel": {
@@ -200,7 +200,7 @@
     "description": "CommonStrings..ctor"
   },
   "ExpandedInfoLabel": {
-    "message": "Expanded Todo Display",
+    "message": "Erweitertes Aufgaben-Fenster",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
@@ -516,7 +516,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInstanceNotificationsDescription": {
-    "message": "Benachrichtigungen zu Beginn eines Inhaltes senden, wenn diese Aufgabe Teil deines Khloes Abenteueralbums ist\nZusätzlich sendet es Benachrichtigungen nach Abschluss eines Inhaltes, um dich daran zu erinnern, deinen Aufkleber abzuholen",
+    "message": "Benachrichtigungen zu Beginn eines Inhaltes senden, wenn dieser Inhalt eine Aufgabe im Khloes Abenteueralbum ist\nZusätzlich werden Benachrichtigungen nach Abschluss des Inhaltes gesendet, um dich daran zu erinnern, deinen Aufkleber abzuholen",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationLabel": {
@@ -852,7 +852,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksExpandedInfoDescription": {
-    "message": "Show the expansion labels for each incomplete hunt in the todo window",
+    "message": "Zeige die Erweiterungs-Bezeichnungen für unvollständige Jagdlizenzen im Aufgaben-Fenster an",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {
