@@ -6,56 +6,56 @@ namespace DailyDuty.Data.Components
     {
         public static readonly List<TimerOptions> OptionsSamples = new()
         {
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = false,
                 ShowSeconds = true,
                 UseShortName = false
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = false,
                 ShowSeconds = false,
                 UseShortName = false
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = true,
                 ShowSeconds = true,
                 UseShortName = false
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = true,
                 ShowSeconds = false,
                 UseShortName = false
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = false,
                 ShowSeconds = true,
                 UseShortName = true
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = false,
                 ShowSeconds = false,
                 UseShortName = true
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = true,
                 ShowSeconds = true,
                 UseShortName = true
             },
 
-            new()
+            new TimerOptions
             {
                 CondensedDisplay = true,
                 ShowSeconds = false,

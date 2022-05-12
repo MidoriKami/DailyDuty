@@ -56,7 +56,7 @@ namespace DailyDuty.Features
             {
                 var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "[^\\p{L}\\p{N}]", "");
 
-                contentFinderDuties.Add(new()
+                contentFinderDuties.Add(new DutyFinderSearchResult
                 {
                     Value = cfc.TerritoryType.Row,
                     SearchKey = simplifiedString

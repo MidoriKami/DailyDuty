@@ -24,8 +24,8 @@ namespace DailyDuty.Windows.LogBrowserWindow
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(700, 500),
-                MaximumSize = new(9999,9999)
+                MinimumSize = new Vector2(700, 500),
+                MaximumSize = new Vector2(9999,9999)
             };
 
             Flags |= ImGuiWindowFlags.NoScrollbar;

@@ -11,7 +11,7 @@ namespace DailyDuty.Graphical.TabItems
     {
         public ModuleType ModuleType => ModuleType.LogDebug;
 
-        private readonly InfoBox logOperations = new InfoBox()
+        private readonly InfoBox logOperations = new()
         {
             Label = "Log Operations",
             ContentsAction = () =>
@@ -24,7 +24,7 @@ namespace DailyDuty.Graphical.TabItems
             }
         };
 
-        private readonly InfoBox logStatus = new InfoBox()
+        private readonly InfoBox logStatus = new()
         {
             Label = "Log Status",
             ContentsAction = () =>

@@ -14,7 +14,7 @@ namespace DailyDuty.Utilities
 
             if (values != null)
             {
-                return new() {values.Value};
+                return new List<uint> {values.Value};
             }
 
             switch (id)

@@ -48,7 +48,7 @@ namespace DailyDuty.System
 
         public ModuleManager()
         {
-            updateQueue = new(modules.OfType<IUpdateable>());
+            updateQueue = new Queue<IUpdateable>(modules.OfType<IUpdateable>());
             zoneChangeLogicModules = modules.OfType<IZoneChangeLogic>().ToList();
             zoneChangeThrottledNotificationModules = modules.OfType<IZoneChangeThrottledNotification>().ToList();
             zoneChangeAlwaysNotificationModules = modules.OfType<IZoneChangeAlwaysNotification>().ToList();

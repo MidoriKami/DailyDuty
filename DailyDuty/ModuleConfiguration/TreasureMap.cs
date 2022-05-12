@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -120,7 +121,7 @@ namespace DailyDuty.ModuleConfiguration
                     var span = module.TimeUntilNextMap();
                     if (span == TimeSpan.Zero)
                     {
-                        ImGui.TextColored(new(0, 255, 0, 255), Strings.Common.AvailableNowLabel);
+                        ImGui.TextColored(new Vector4(0, 255, 0, 255), Strings.Common.AvailableNowLabel);
                     }
                     else
                     {

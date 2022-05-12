@@ -73,13 +73,13 @@ namespace DailyDuty
 
             Service.Localization.SetupWithLangCode(languageCode);
 
-            Strings.Tabs = new();
-            Strings.Configuration = new();
-            Strings.Features = new();
-            Strings.Common = new();
-            Strings.Module = new();
-            Strings.Timers = new();
-            Strings.Command = new();
+            Strings.Tabs = new Strings.TabStrings();
+            Strings.Configuration = new Strings.ConfigurationStrings();
+            Strings.Features = new Strings.FeaturesStrings();
+            Strings.Common = new Strings.CommonStrings();
+            Strings.Module = new Strings.ModuleStrings();
+            Strings.Timers = new Strings.TimersStrings();
+            Strings.Command = new Strings.CommandStrings();
         }
         
         private void OnCommand(string command, string arguments)

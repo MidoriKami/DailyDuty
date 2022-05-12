@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -17,9 +16,6 @@ namespace DailyDuty.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.BeastTribe;
         public string ConfigurationPaneLabel => Strings.Module.BeastTribeLabel;
-
-        private static readonly Stopwatch SettingsStopwatch = new();
-
         public InfoBox? AboutInformationBox { get; } = new()
         {
             Label = Strings.Common.InformationLabel,
@@ -155,15 +151,10 @@ namespace DailyDuty.ModuleConfiguration
                 ImGui.SameLine();
                 
                 ImGui.SetNextItemWidth(contentWidth.X * 0.20f);
-                if (ImGui.SliderInt(Strings.Common.AllowancesLabel, ref Settings.NotificationThreshold, 0, 12))
-                {
-                    SettingsStopwatch.Restart();
-                }
-
-                if (SettingsStopwatch.ElapsedMilliseconds > 500)
+                ImGui.SliderInt(Strings.Common.AllowancesLabel, ref Settings.NotificationThreshold, 0, 12);
+                if (ImGui.IsItemDeactivatedAfterEdit())
                 {
                     Service.LogManager.LogMessage(ModuleType.BeastTribe, "Threshold - " + Settings.NotificationThreshold);
-                    SettingsStopwatch.Reset();
                     Service.CharacterConfiguration.Save();
                 }
             }

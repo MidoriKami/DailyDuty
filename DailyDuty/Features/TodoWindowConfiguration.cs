@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -16,7 +15,6 @@ namespace DailyDuty.Features
     {
         public ModuleType ModuleType => ModuleType.TodoWindow;
         public string ConfigurationPaneLabel => Strings.Features.TodoWindowLabel;
-        private static readonly Stopwatch SettingsStopwatch = new();
         public InfoBox? AboutInformationBox { get; } = new()
         {
             Label = Strings.Common.InformationLabel,
@@ -42,14 +40,9 @@ namespace DailyDuty.Features
                 }
 
                 ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
-                if (ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f))
+                ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
+                if (ImGui.IsItemDeactivatedAfterEdit())
                 {
-                    SettingsStopwatch.Restart();
-                }
-
-                if (SettingsStopwatch.ElapsedMilliseconds > 500)
-                {
-                    SettingsStopwatch.Reset();
                     Service.SystemConfiguration.Save();
                 }
             }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -17,7 +16,6 @@ namespace DailyDuty.Features
     {
         public ModuleType ModuleType => ModuleType.TimersWindow;
 
-        private static readonly Stopwatch SettingsStopwatch = new();
         public string ConfigurationPaneLabel => Strings.Features.TimersWindowLabel;
 
         public InfoBox? AboutInformationBox { get; } = new()
@@ -42,14 +40,9 @@ namespace DailyDuty.Features
                 }
 
                 ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
-                if (ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f))
+                ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
+                if (ImGui.IsItemDeactivatedAfterEdit())
                 {
-                    SettingsStopwatch.Restart();
-                }
-
-                if (SettingsStopwatch.ElapsedMilliseconds > 500)
-                {
-                    SettingsStopwatch.Reset();
                     Service.SystemConfiguration.Save();
                 }
             }
@@ -97,7 +90,7 @@ namespace DailyDuty.Features
             }
         };
 
-        private static TimerStyle _newConfiguration = new TimerStyle();
+        private static TimerStyle _newConfiguration = new();
 
         private readonly InfoBox applyAll = new()
         {
@@ -212,12 +205,6 @@ namespace DailyDuty.Features
                 timer.TimerSettings.TimerStyle = new TimerStyle();
                 Service.SystemConfiguration.Save();
             }
-
-            if (SettingsStopwatch.ElapsedMilliseconds > 500)
-            {
-                SettingsStopwatch.Reset();
-                Service.SystemConfiguration.Save();
-            }
         }
 
         private static void DrawFormattingOptions(CountdownTimer timer)
@@ -248,9 +235,10 @@ namespace DailyDuty.Features
             ImGui.SameLine();
             ImGui.TableNextColumn();
             ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
-            if (ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600))
+            ImGui.SliderInt(Strings.Features.TimersWindowSizeLabel + $"##{timer.Label}", ref timer.TimerSettings.TimerStyle.Size, 86, 600);
+            if(ImGui.IsItemDeactivatedAfterEdit())
             {
-                SettingsStopwatch.Restart();
+                Service.SystemConfiguration.Save();
             }
         }
 

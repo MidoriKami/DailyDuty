@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using DailyDuty.Data.Components;
+﻿using DailyDuty.Data.Components;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -13,22 +12,16 @@ namespace DailyDuty.Graphical.TabItems
         public ModuleType ModuleType => ModuleType.StyleSettings;
         private static MainWindowSettings Settings => Service.SystemConfiguration.Windows.MainWindow;
 
-        private static readonly Stopwatch StyleStopwatch = new();
-
         private readonly InfoBox style = new()
         {
             Label = Strings.Common.StyleOptionsLabel,
             ContentsAction = () =>
             {
                 ImGui.SetNextItemWidth(175 * ImGuiHelpers.GlobalScale);
-                if (ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f))
-                {
-                    StyleStopwatch.Restart();
-                }
+                ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
 
-                if (StyleStopwatch.ElapsedMilliseconds > 500)
+                if (ImGui.IsItemDeactivatedAfterEdit())
                 {
-                    StyleStopwatch.Reset();
                     Service.SystemConfiguration.Save();
                 }
             }

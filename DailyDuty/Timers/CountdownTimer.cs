@@ -59,7 +59,7 @@ namespace DailyDuty.Timers
             var remainingTime = NextReset - DateTime.UtcNow;
             var deltaTime = 1.0f - (float)(remainingTime / Period);
             var cursorStart = ImGui.GetCursorPos();
-            ImGui.ProgressBar(deltaTime, new(TimerSettings.TimerStyle.Size, 20), "");
+            ImGui.ProgressBar(deltaTime, new Vector2(TimerSettings.TimerStyle.Size, 20), "");
 
             ImGui.SetCursorPos(new Vector2(cursorStart.X + TimerSettings.TimerStyle.Padding, cursorStart.Y));
             ImGui.TextColored(TimerSettings.TimerStyle.TextColor, TimerSettings.TimerStyle.Options.UseShortName ? ShortLabel : Label);

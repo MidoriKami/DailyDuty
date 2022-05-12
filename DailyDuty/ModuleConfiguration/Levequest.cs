@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -17,8 +16,6 @@ namespace DailyDuty.ModuleConfiguration
     {
         public ModuleType ModuleType => ModuleType.Levequest;
         public string ConfigurationPaneLabel => Strings.Module.LevequestLabel;
-
-        private static readonly Stopwatch SettingsStopwatch = new();
 
         public InfoBox? AboutInformationBox { get; } = new()
         {
@@ -185,15 +182,10 @@ namespace DailyDuty.ModuleConfiguration
                 ImGui.SameLine();
                 
                 ImGui.SetNextItemWidth(contentWidth.X * 0.20f);
-                if (ImGui.SliderInt(Strings.Common.AllowancesLabel, ref Settings.NotificationThreshold, 0, 100))
-                {
-                    SettingsStopwatch.Restart();
-                }
-
-                if (SettingsStopwatch.ElapsedMilliseconds > 500)
+                ImGui.SliderInt(Strings.Common.AllowancesLabel, ref Settings.NotificationThreshold, 0, 100);
+                if (ImGui.IsItemDeactivatedAfterEdit())
                 {
                     Service.LogManager.LogMessage(ModuleType.Levequest, "Threshold - " + Settings.NotificationThreshold);
-                    SettingsStopwatch.Reset();
                     Service.CharacterConfiguration.Save();
                 }
             }

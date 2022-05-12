@@ -9,7 +9,7 @@ namespace DailyDuty.Data.Components
             // timeworn leather map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 137 } },
                     { HarvestType.Harvesting, new() { 153, 137 } },
@@ -23,7 +23,7 @@ namespace DailyDuty.Data.Components
             // timeworn goatskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 155 } },
                     { HarvestType.Harvesting, new() { 139 } },
@@ -37,7 +37,7 @@ namespace DailyDuty.Data.Components
             //timeworn toadskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 137, 397, 134, 152, 141 } },
                     { HarvestType.Harvesting, new() { 146 } },
@@ -51,7 +51,7 @@ namespace DailyDuty.Data.Components
             // timeworn boarskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 137, 397, 134, 152, 141 } },
                     { HarvestType.Harvesting, new() { 146 } },
@@ -65,7 +65,7 @@ namespace DailyDuty.Data.Components
             // timeworn peisteskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 137, 397, 134, 152, 141 } },
                     { HarvestType.Harvesting, new() { 146 } },
@@ -79,7 +79,7 @@ namespace DailyDuty.Data.Components
             // timeworn archaeoskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 398 } },
                     { HarvestType.Harvesting, new() { 398, 400, 397 } },
@@ -93,7 +93,7 @@ namespace DailyDuty.Data.Components
             // timeworn wyvernskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 400, 401 } },
                     { HarvestType.Harvesting, new() { 398, 400, 399, 401, 397 } },
@@ -107,7 +107,7 @@ namespace DailyDuty.Data.Components
             // timeworn dragonskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 400, 401 } },
                     { HarvestType.Harvesting, new() { 398, 400, 399, 401, 397 } },
@@ -121,7 +121,7 @@ namespace DailyDuty.Data.Components
             // timeworn gaganaskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 621, 612 } },
                     { HarvestType.Harvesting, new() { 614, 610, 622, 613 } },
@@ -135,7 +135,7 @@ namespace DailyDuty.Data.Components
             // timeworn gazelleskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 621, 612 } },
                     { HarvestType.Harvesting, new() { 614, 610, 622, 613 } },
@@ -149,7 +149,7 @@ namespace DailyDuty.Data.Components
             // timeworn gliderskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 813, 815 } },
                     { HarvestType.Harvesting, new() { 814, 817, 813 } },
@@ -163,7 +163,7 @@ namespace DailyDuty.Data.Components
             // timeworn zonureskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 813, 815 } },
                     { HarvestType.Harvesting, new() { 814, 817, 813 } },
@@ -177,7 +177,7 @@ namespace DailyDuty.Data.Components
             // timeworn saigaskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 960, 961 } },
                     { HarvestType.Harvesting, new() { 960, 961 } },
@@ -191,7 +191,7 @@ namespace DailyDuty.Data.Components
             // timeworn kumbhiraskin map
             new TreasureMap()
             {
-                HarvestData = new()
+                HarvestData = new Dictionary<HarvestType, List<uint>>
                 {
                     { HarvestType.Logging, new() { 960 } },
                     { HarvestType.Harvesting, new() { 960 } },

@@ -6,6 +6,6 @@ namespace DailyDuty.Data.Components
     internal class WondrousTailsTask
     {
         public ButtonState TaskState { get; set; }
-        public List<uint> DutyList { get; init; } = new List<uint>();
+        public List<uint> DutyList { get; init; } = new();
     }
 }

@@ -52,7 +52,7 @@ namespace DailyDuty.Features
             {
                 var simplifiedString = Regex.Replace(cr.Category.ToString().ToLower(), "[^\\p{L}\\p{N}]", "");
 
-                dutyRouletteDuties.Add(new()
+                dutyRouletteDuties.Add(new DutyFinderSearchResult
                 {
                     SearchKey = simplifiedString,
                     Value = cr.RowId

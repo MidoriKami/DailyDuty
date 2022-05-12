@@ -16,7 +16,7 @@ namespace DailyDuty.Graphical.TabItems
 
         private static SystemSettings Settings => Service.SystemConfiguration.System;
 
-        private readonly InfoBox notificationThrottle = new InfoBox()
+        private readonly InfoBox notificationThrottle = new()
         {
             Label = Strings.Configuration.NotificationsThrottleLabel,
             ContentsAction = () =>
@@ -27,7 +27,11 @@ namespace DailyDuty.Graphical.TabItems
 
                 ImGui.SetNextItemWidth(50 * ImGuiHelpers.GlobalScale);
                 ImGui.InputInt("", ref Settings.MinutesBetweenThrottledMessages, 0, 0);
-                Settings.MinutesBetweenThrottledMessages = Math.Max(0, Settings.MinutesBetweenThrottledMessages);
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    Settings.MinutesBetweenThrottledMessages = Math.Max(0, Settings.MinutesBetweenThrottledMessages);
+                    Service.SystemConfiguration.Save();
+                }
 
                 ImGui.SameLine();
                 ImGui.Text(Strings.Common.MinutesLabel);

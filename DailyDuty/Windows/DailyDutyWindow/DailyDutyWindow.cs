@@ -26,8 +26,8 @@ namespace DailyDuty.Windows.DailyDutyWindow
 
             SizeConstraints = new WindowSizeConstraints()
             {
-                MinimumSize = new(775, 400),
-                MaximumSize = new(9999,9999)
+                MinimumSize = new Vector2(775, 400),
+                MaximumSize = new Vector2(9999,9999)
             };
 
             Flags |= ImGuiWindowFlags.NoScrollbar;
