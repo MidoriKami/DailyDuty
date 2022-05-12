@@ -10,7 +10,6 @@ namespace DailyDuty.Data
         public int Version { get; set; } = 2;
 
         public bool DeveloperMode = false;
-        public bool EchoLogToChat = false;
 
         public SystemSettings System = new();
         public TimersSettings Timers = new();

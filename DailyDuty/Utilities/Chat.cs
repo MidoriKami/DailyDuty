@@ -54,11 +54,7 @@ namespace DailyDuty.Utilities
             if (Service.SystemConfiguration.DeveloperMode)
             {
                 PluginLog.Information(message);
-
-                if (Service.SystemConfiguration.EchoLogToChat)
-                {
-                    Print(tag, message);
-                }
+                Print(tag, message);
             }
         }
 
@@ -67,11 +63,7 @@ namespace DailyDuty.Utilities
             if (Service.SystemConfiguration.DeveloperMode)
             {
                 PluginLog.Warning(message);
-
-                if (Service.SystemConfiguration.EchoLogToChat)
-                {
-                    Print(tag, message);
-                }
+                Print(tag, message);
             }
         }
     }
