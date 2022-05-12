@@ -9,6 +9,7 @@ using DailyDuty.Localization;
 using DailyDuty.Structs;
 using DailyDuty.Utilities;
 using Dalamud.Utility.Signatures;
+using ImGuiNET;
 using Action = System.Action;
 using Condition = DailyDuty.Utilities.Condition;
 
@@ -27,7 +28,16 @@ namespace DailyDuty.Modules
 
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         public readonly MobHuntStruct* HuntData = null;
-        public Action? ExpandedDisplay => null;
+
+        public Action ExpandedDisplay => () =>
+        {
+            var settings = Service.SystemConfiguration.Windows.Todo;
+
+            foreach (var hunt in Settings.TrackedHunts.Where(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed))
+            {
+                ImGui.TextColored(settings.Colors.IncompleteColor, $"{hunt.Type.GetLabel()}");
+            }
+        };
 
         private static DailyHuntMarksSettings Settings => Service.CharacterConfiguration.DailyHuntMarks;
         private readonly Stopwatch updateStopwatch = new();

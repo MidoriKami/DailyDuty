@@ -67,6 +67,7 @@ namespace DailyDuty.Localization
             public readonly string ApplyAllLabel = Loc.Localize("ApplyAllLabel", "Apply All");
 
             public readonly string TeleportLabel = Loc.Localize("TeleportLabel", "Teleport");
+            public readonly string ExpandedInfoLabel = Loc.Localize("ExpandedInfoLabel", "Expanded Todo Display");
 
             public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
             public readonly string ResetAllLabel = Loc.Localize("ResetAllLabel", "Reset All");
@@ -109,7 +110,6 @@ namespace DailyDuty.Localization
             public readonly string TodoWindowHideInDutyLabel = Loc.Localize("TodoWindowHideInDutyLabel", "In a Duty");
             public readonly string TodoWindowResizeStyleLabel = Loc.Localize("TodoWindowResizeStyleLabel", "Window Resize Options");
             public readonly string TodoWindowInformation = Loc.Localize("TodoWindowInformation", "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.");
-            public readonly string TodoWindowEnableExpandedInfo = Loc.Localize("TodoWindowEnableExpandedInfo", "Expanded Todo Display");
 
             public readonly string TimersWindowEnableTimersWarning = Loc.Localize("TimersWindowEnableTimersWarning", "Enable which timers you would like to see here in 'Timers Window Configuration'");
             public readonly string TimersWindowLabel = Loc.Localize("TimersWindowLabel", "Timers Window");
@@ -153,7 +153,7 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteRoulettesRemaining = Loc.Localize("DutyRouletteRoulettesRemaining", "Roulettes Remaining");
             public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "Roulette Remaining");
             public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder");
-            public readonly string DutyRouletteExpandedInfo = Loc.Localize("DutyRouletteExpandedInfo", "Displays individual incomplete duties in the todo window.");
+            public readonly string DutyRouletteExpandedInfo = Loc.Localize("DutyRouletteExpandedInfo", "Displays individual incomplete duties in the todo window");
 
             public readonly string WondrousTailsNumStamps = Loc.Localize("WondrousTailsNumStamps", "Stamps"); 
             public readonly string WondrousTailsBookStatusLabel = Loc.Localize("WondrousTailsBookStatusLabel", "Book Status");
@@ -261,6 +261,7 @@ namespace DailyDuty.Localization
             public readonly string HuntMarksNoHuntsTracked = Loc.Localize("HuntMarksNoHuntsTracked", "No Hunts Tracked");
             public readonly string HuntMarksTrackAllLabel = Loc.Localize("HuntMarksTrackAllLabel", "Track All");
             public readonly string HuntMarksUntrackAllLabel = Loc.Localize("HuntMarksUntrackAllLabel", "Untrack All");
+            public readonly string HuntMarksExpandedInfoDescription = Loc.Localize("HuntMarksExpandedInfoDescription", "Show the expansion labels for each incomplete hunt in the todo window");
 
             public readonly string HuntMarksDailyLabel = Loc.Localize("HuntMarksDailyLabel", "Hunt Marks (Daily)");
             public readonly string HuntMarksDailyInformation = Loc.Localize("HuntMarksDailyInformation", "Daily Hunts are low rank hunts that are available each day. These hunts involve killing a specific number of fairly common enemies.");

@@ -42,7 +42,7 @@ namespace DailyDuty.ModuleConfiguration
 
         private InfoBox? TodoWindowExpandedInfo { get; } = new()
         {
-            Label = Strings.Features.TodoWindowEnableExpandedInfo,
+            Label = Strings.Common.ExpandedInfoLabel,
             ContentsAction = () =>
             {
                 ImGui.Text(Strings.Module.DutyRouletteExpandedInfo);

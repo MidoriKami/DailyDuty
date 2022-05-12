@@ -159,6 +159,23 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private InfoBox TodoWindowExpandedInfo { get; } = new()
+        {
+            Label = Strings.Common.ExpandedInfoLabel,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Module.HuntMarksExpandedInfoDescription);
+
+                ImGuiHelpers.ScaledDummy(10.0f);
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.ExpandedDisplay))
+                {
+                    Service.LogManager.LogMessage(ModuleType.HuntMarksDaily, "Expanded Display - " + (Settings.ExpandedDisplay ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
+
         private readonly InfoBox notificationOptions = new()
         {
             Label = Strings.Common.NotificationOptionsLabel,
@@ -222,6 +239,9 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             trackingSettings.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            TodoWindowExpandedInfo.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered();
