@@ -251,6 +251,7 @@ namespace DailyDuty.Localization
             public readonly string HuntMarksAutomationInformation = Loc.Localize("HuntMarksAutomationInformation", "Hunt data is tracked by observing changes in the games stored data. If DailyDuty was not installed when you obtained a hunt mark then it can not be tracked correctly.");
             public readonly string HuntMarksTechnicalInformation = Loc.Localize("HuntMarksTechnicalInformation", "While the data is always in sync with the game, the game does not clear this data on reset. Instead, it only clears the data when you pick up the new hunt mark item.\n\nDailyDuty will reset its copy of the tracked data each week and attempt to start tracking when a new hunt mark is picked up.");
             public readonly string HuntMarksHuntsRemainingLabel = Loc.Localize("HuntMarksHuntsRemainingLabel", "Hunts Remaining");
+            public readonly string HuntMarksHuntRemainingSingularLabel = Loc.Localize("HuntMarksHuntRemainingSingularLabel", "Hunt Remaining");
             public readonly string HuntMarksTrackedHuntsLabel = Loc.Localize("HuntMarksTrackedHuntsLabel", "Tracked Hunts");
             public readonly string HuntMarksTrackLabel = Loc.Localize("HuntMarksTrackLabel", "Track Hunt");
             public readonly string HuntMarksMarkAvailableLabel = Loc.Localize("HuntMarksMarkAvailableLabel", "Mark Available");

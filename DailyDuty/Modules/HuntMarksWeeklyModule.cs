@@ -49,7 +49,11 @@ namespace DailyDuty.Modules
         {
             if (!IsCompleted() && !Condition.IsBoundByDuty())
             {
-                Chat.Print(Strings.Module.HuntMarksWeeklyLabel, $"{GetIncompleteCount()} " + Strings.Module.HuntMarksHuntsRemainingLabel);
+                var huntsRemainingLabel = GetIncompleteCount() == 1
+                    ? Strings.Module.HuntMarksHuntRemainingSingularLabel
+                    : Strings.Module.HuntMarksHuntsRemainingLabel;
+
+                Chat.Print(Strings.Module.HuntMarksWeeklyLabel, $"{GetIncompleteCount()} {huntsRemainingLabel}");
             }
         }
 
