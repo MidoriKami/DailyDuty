@@ -135,7 +135,7 @@ namespace DailyDuty.Windows.TodoWindow
 
         void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
         {
-            if (primaryCommand == Strings.Command.TodoCommand)
+            if (primaryCommand == Strings.Command.TodoCommand || primaryCommand == "todo")
             {
                 if (ICommand.OpenCommand(secondaryCommand))
                     Settings.Enabled = true;

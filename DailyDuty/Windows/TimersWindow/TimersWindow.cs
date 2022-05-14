@@ -130,7 +130,7 @@ namespace DailyDuty.Windows.TimersWindow
 
         void ICommand.Execute(string? primaryCommand, string? secondaryCommand)
         {
-            if (primaryCommand == Strings.Command.TimersCommand)
+            if (primaryCommand == Strings.Command.TimersCommand || primaryCommand == "timers")
             {
                 if (ICommand.OpenCommand(secondaryCommand))
                     Settings.Enabled = true;
