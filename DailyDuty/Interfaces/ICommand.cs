@@ -40,16 +40,16 @@ namespace DailyDuty.Interfaces
 
         public static bool OpenCommand(string? command)
         {
-            if (command == Strings.Command.On)
+            if (command == Strings.Command.On || command == "on")
                 return true;
 
-            if (command == Strings.Command.Enable)
+            if (command == Strings.Command.Enable || command == "enable")
                 return true;
 
-            if (command == Strings.Command.Show)
+            if (command == Strings.Command.Show || command == "show")
                 return true;
 
-            if (command == Strings.Command.Open)
+            if (command == Strings.Command.Open || command == "open")
                 return true;
 
             return false;
@@ -57,16 +57,16 @@ namespace DailyDuty.Interfaces
 
         public static bool CloseCommand(string? command)
         {
-            if (command == Strings.Command.Off)
+            if (command == Strings.Command.Off || command == "off")
                 return true;
 
-            if (command == Strings.Command.Disable)
+            if (command == Strings.Command.Disable || command == "disable")
                 return true;
 
-            if (command == Strings.Command.Hide)
+            if (command == Strings.Command.Hide || command == "hide")
                 return true;
 
-            if (command == Strings.Command.Close)
+            if (command == Strings.Command.Close || command == "close")
                 return true;
 
             return false;
@@ -74,7 +74,7 @@ namespace DailyDuty.Interfaces
 
         public static bool ToggleCommand(string? command)
         {
-            if (command == Strings.Command.Toggle)
+            if (command == Strings.Command.Toggle || command == "toggle")
                 return true;
 
             return false;
@@ -82,7 +82,7 @@ namespace DailyDuty.Interfaces
 
         public static bool HelpCommand(string? command)
         {
-            if (command == Strings.Command.Help || command == null)
+            if (command == Strings.Command.Help || command is null or "help")
                 return true;
 
             return false;

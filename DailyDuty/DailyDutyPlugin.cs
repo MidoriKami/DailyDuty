@@ -87,7 +87,7 @@ namespace DailyDuty
             Service.WindowManager.ExecuteCommand(command, arguments);
             Service.ModuleManager.ProcessCommand(command, arguments);
 
-            if (arguments == Strings.Command.Help)
+            if (arguments == Strings.Command.Help || arguments == "help")
             {
                 Chat.Print(Strings.Command.Core, Strings.Command.HelpCommands);
             }
