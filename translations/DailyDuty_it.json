@@ -811,6 +811,10 @@
     "message": "Hunts Remaining",
     "description": "ModuleStrings..ctor"
   },
+  "HuntMarksHuntRemainingSingularLabel": {
+    "message": "Hunt Remaining",
+    "description": "ModuleStrings..ctor"
+  },
   "HuntMarksTrackedHuntsLabel": {
     "message": "Tracked Hunts",
     "description": "ModuleStrings..ctor"

@@ -1,18 +1,18 @@
 {
   "InformationLabel": {
-    "message": "Information",
+    "message": "Informasjon",
     "description": "CommonStrings..ctor"
   },
   "AutomationInformationLabel": {
-    "message": "Data Collection",
+    "message": "Informasjonskilde",
     "description": "CommonStrings..ctor"
   },
   "TechnicalInformationLabel": {
-    "message": "Technical Information",
+    "message": "Teknisk informasjon",
     "description": "CommonStrings..ctor"
   },
   "EnabledLabel": {
-    "message": "Enabled",
+    "message": "Aktivert",
     "description": "CommonStrings..ctor"
   },
   "EmptyContentsLabel": {
@@ -28,11 +28,11 @@
     "description": "CommonStrings..ctor"
   },
   "NotificationOptionsLabel": {
-    "message": "Notification Options",
+    "message": "Påminnelser",
     "description": "CommonStrings..ctor"
   },
   "ClickableLinkLabel": {
-    "message": "Clickable Link",
+    "message": "Trykkbar lenke",
     "description": "CommonStrings..ctor"
   },
   "TaskDisplayOptionsLabel": {
@@ -44,35 +44,35 @@
     "description": "CommonStrings..ctor"
   },
   "TaskIncompleteTaskColorLabel": {
-    "message": "Incomplete Task Color",
+    "message": "Farge for ufullstendige oppgaver",
     "description": "CommonStrings..ctor"
   },
   "TaskCompleteTaskColorLabel": {
-    "message": "Complete Task Color",
+    "message": "Farge for fullførte oppgaver",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginLabel": {
-    "message": "Send Notifications on Login",
+    "message": "Send påminnelse ved innlogging",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you login to a character.",
+    "message": "Send en påminnelse når du logger inn hvis denne modulen er ufullstendig eller har relevante meldinger.",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeLabel": {
-    "message": "Send Notifications on Zone Change",
+    "message": "Send påminnelse ved soneendring",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you change zones.",
+    "message": "Send en påminnelse når du bytter sone hvis denne modulen er ufullstendig eller har relevante meldinger.",
     "description": "CommonStrings..ctor"
   },
   "CompleteLabel": {
-    "message": "Complete",
+    "message": "Fullført",
     "description": "CommonStrings..ctor"
   },
   "IncompleteLabel": {
-    "message": "Incomplete",
+    "message": "Ufullstendig",
     "description": "CommonStrings..ctor"
   },
   "AllTasksLabel": {
@@ -88,7 +88,7 @@
     "description": "CommonStrings..ctor"
   },
   "OpacityLabel": {
-    "message": "Opacity",
+    "message": "Ugjennomsiktighet",
     "description": "CommonStrings..ctor"
   },
   "ClickthroughLabel": {
@@ -96,11 +96,11 @@
     "description": "CommonStrings..ctor"
   },
   "MinutesLabel": {
-    "message": "Minutes",
+    "message": "Minutter",
     "description": "CommonStrings..ctor"
   },
   "StyleLabel": {
-    "message": "Style",
+    "message": "Stil",
     "description": "CommonStrings..ctor"
   },
   "AllowancesLabel": {
@@ -108,15 +108,15 @@
     "description": "CommonStrings..ctor"
   },
   "LessThanLabel": {
-    "message": "Less Than",
+    "message": "Mindre enn",
     "description": "CommonStrings..ctor"
   },
   "LessThanOrEqualLabel": {
-    "message": "Less Than or Equal To",
+    "message": "Mindre enn eller lik",
     "description": "CommonStrings..ctor"
   },
   "EqualToLabel": {
-    "message": "Equal To",
+    "message": "Er lik",
     "description": "CommonStrings..ctor"
   },
   "NoneRecordedLabel": {
@@ -144,51 +144,51 @@
     "description": "CommonStrings..ctor"
   },
   "WeeklyTasksLabel": {
-    "message": "Weekly Tasks",
+    "message": "Ukentlige oppgaver",
     "description": "CommonStrings..ctor"
   },
   "DailyTasksLabel": {
-    "message": "Daily Tasks",
+    "message": "Daglige oppgaver",
     "description": "CommonStrings..ctor"
   },
   "TopLeftLabel": {
-    "message": "Top Left",
+    "message": "Øverst til venstre",
     "description": "CommonStrings..ctor"
   },
   "TopRightLabel": {
-    "message": "Top Right",
+    "message": "Øverst til høyre",
     "description": "CommonStrings..ctor"
   },
   "BottomLeftLabel": {
-    "message": "Bottom Left",
+    "message": "Nederst til venstre",
     "description": "CommonStrings..ctor"
   },
   "BottomRightLabel": {
-    "message": "Bottom Right",
+    "message": "Nederst til høyre",
     "description": "CommonStrings..ctor"
   },
   "AutoResizeLabel": {
-    "message": "Auto Resize",
+    "message": "Skaler automatisk",
     "description": "CommonStrings..ctor"
   },
   "ManualSizeLabel": {
-    "message": "Manual Size",
+    "message": "Manuell størrelse",
     "description": "CommonStrings..ctor"
   },
   "LevelOneLabel": {
-    "message": "Level 1",
+    "message": "nivå 1",
     "description": "CommonStrings..ctor"
   },
   "LevelTwoLabel": {
-    "message": "Level 2",
+    "message": "nivå 2",
     "description": "CommonStrings..ctor"
   },
   "LevelThreeLabel": {
-    "message": "Level 3",
+    "message": "nivå 3",
     "description": "CommonStrings..ctor"
   },
   "EliteLabel": {
-    "message": "Elite",
+    "message": "elite",
     "description": "CommonStrings..ctor"
   },
   "ApplyAllLabel": {
@@ -196,51 +196,51 @@
     "description": "CommonStrings..ctor"
   },
   "TeleportLabel": {
-    "message": "Teleport",
+    "message": "Teleporter",
     "description": "CommonStrings..ctor"
   },
   "ExpandedInfoLabel": {
-    "message": "Expanded Todo Display",
+    "message": "Utvidet gjøremål",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
-    "message": "Reset",
+    "message": "Nullstill",
     "description": "CommonStrings..ctor"
   },
   "ResetAllLabel": {
-    "message": "Reset All",
+    "message": "Nullstill alle",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
-    "message": "Features",
+    "message": "Funksjoner",
     "description": "TabStrings..ctor"
   },
   "FeaturesTabDescription": {
-    "message": "Main features of DailyDuty to add QoL",
+    "message": "Hovedfunksjoner til DailyDuty",
     "description": "TabStrings..ctor"
   },
   "DebugTabLabel": {
-    "message": "Debug",
+    "message": "Feilsøking",
     "description": "TabStrings..ctor"
   },
   "DebugTabString": {
-    "message": "Settings for debugging or showing more information",
+    "message": "Innstillinger for å vise mer informasjon og feilsøking",
     "description": "TabStrings..ctor"
   },
   "SettingsTabLabel": {
-    "message": "Settings",
+    "message": "Innstillinger",
     "description": "TabStrings..ctor"
   },
   "SettingsTabDescription": {
-    "message": "Settings specific to this window",
+    "message": "Innstillinger for dette vinduet",
     "description": "TabStrings..ctor"
   },
   "TasksTabLabel": {
-    "message": "Tasks",
+    "message": "Oppgaver",
     "description": "TabStrings..ctor"
   },
   "TasksTabDescription": {
-    "message": "View and configure daily and weekly tasks",
+    "message": "Vis og konfigurer daglige og ukentlige oppgaver",
     "description": "TabStrings..ctor"
   },
   "TimersTabLabel": {
@@ -248,19 +248,19 @@
     "description": "TabStrings..ctor"
   },
   "TimersTabDescription": {
-    "message": "View time until various daily and weekly tasks reset",
+    "message": "Vis gjenstående tid til daglige og ukentlig oppgaver tilbakestilles",
     "description": "TabStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayLabel": {
-    "message": "Duty Roulette Duty Finder Overlay",
+    "message": "Duty Roulette/Duty Finder overtrekk",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayAutomationInformation": {
-    "message": "The 'Duty Roulette' status is gathered directly from internal game data and will always be precisely in sync with the game.",
+    "message": "\"Duty Roulette\" statusen er hentet direkte fra intern spilldata så det er altid i synkronisert med spillet.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayInformationDisclaimer": {
-    "message": "Requires task module 'Duty Roulette' to be enabled to function",
+    "message": "\"Duty Roulette\" modulen må være på for å bruke denne funksjonen",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayDescription": {
@@ -288,51 +288,51 @@
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowLabel": {
-    "message": "Todo Window",
+    "message": "Oppgavevindu",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowTaskSelectionLabel": {
-    "message": "Task Selection",
+    "message": "Oppgavekategorier",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowDailyLabel": {
-    "message": "Show Daily Tasks",
+    "message": "Vis daglige oppgaver",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWeeklyLabel": {
-    "message": "Show Weekly Tasks",
+    "message": "Vis ukentlige oppgaver",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideWindowWhenLabel": {
-    "message": "Hide Window When",
+    "message": "Skjul vinduet når",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideWhenCompleteLabel": {
-    "message": "All Tasks are Complete",
+    "message": "Alle oppgaver er ferdige",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWhenCompleteLabel": {
-    "message": "Show Completed Tasks",
+    "message": "Vis fullførte oppgaver",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideInDutyLabel": {
-    "message": "In a Duty",
+    "message": "I en duty",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowResizeStyleLabel": {
-    "message": "Window Resize Options",
+    "message": "Vindusstørrelse",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowInformation": {
-    "message": "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.",
+    "message": "Oppgavevinduet er et vindu som viser oppgavene du har valgt å spore og er nyttig for å raskt kunne se hvilke oppgaver du ikke har fullført enda.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
-    "message": "Enable which timers you would like to see here in 'Timers Window Configuration'",
+    "message": "Velg hvilke timere du vil se her i instillingene for «Timervindu»-funksjonen",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowLabel": {
-    "message": "Timers Window",
+    "message": "Timervindu",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowInformation": {
@@ -340,31 +340,31 @@
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimersEnableLabel": {
-    "message": "Enable Timers",
+    "message": "Aktive timere",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowForegroundColorLabel": {
-    "message": "Foreground Color",
+    "message": "Forgrunnsfarge",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowBackgroundColorLabel": {
-    "message": "Background Color",
+    "message": "Bakgrunnsfarge",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTextColorLabel": {
-    "message": "Text Color",
+    "message": "Tekstfarge",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimeColorLabel": {
-    "message": "Time Color",
+    "message": "Farge på tid",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowFitToWindowLabel": {
-    "message": "Fit to Window",
+    "message": "Tilpass til vindu",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowSizeLabel": {
-    "message": "Size",
+    "message": "Størrelse",
     "description": "FeaturesStrings..ctor"
   },
   "DailyDutySettingsLabel": {
@@ -376,11 +376,11 @@
     "description": "ConfigurationStrings..ctor"
   },
   "AboutTabLabel": {
-    "message": "About",
+    "message": "Om",
     "description": "ConfigurationStrings..ctor"
   },
   "OptionsTabLabel": {
-    "message": "Options",
+    "message": "Innstillinger",
     "description": "ConfigurationStrings..ctor"
   },
   "StatusTabLabel": {
@@ -388,23 +388,23 @@
     "description": "ConfigurationStrings..ctor"
   },
   "LogTabLabel": {
-    "message": "Log",
+    "message": "Logg",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsConfigurationLabel": {
-    "message": "Notifications",
+    "message": "Påminnelser",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleLabel": {
-    "message": "Notifications Throttle",
+    "message": "Påminnelsesfrekvens",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleDescription": {
-    "message": "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes",
+    "message": "Denne innstillinger kontrollerer hvor ofte du får påminnelser i chatten fra DailyDuty.\n\nStandardverdi: 5 minutter",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayLabel": {
-    "message": "Notifications Delay",
+    "message": "Påminnelsesforsinkelse",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayDescription": {
@@ -412,27 +412,27 @@
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageLabel": {
-    "message": "Language",
+    "message": "Språk",
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageSelectLabel": {
-    "message": "Language Select",
+    "message": "Språkvalg",
     "description": "ConfigurationStrings..ctor"
   },
   "DutyRouletteLabel": {
-    "message": "Duty Roulette",
+    "message": "Dutyrullett",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteTrackedRoulettesLabel": {
-    "message": "Select Roulettes to Track",
+    "message": "Ruletter som spores",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteInformation": {
-    "message": "The Duty Roulette is a daily task that awards experience and gil once a day per completion.\n\nAdditional rewards such as various tomestones and grand company seals are rewarded depending on roulette type and level of job you queue as.",
+    "message": "Dutyrulettene er daglige oppgaver som gir erfaringspoeng og gil en gang om dagen når du fullfører dem.\n\nAvhengig av hvilken rulett du fullfører og hvilken jobb du velger så kan du også få for eksempel tomestoner eller grand company seals.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteAutomationInformation": {
-    "message": "This module is entirely automatic, no user interaction is required.\n\nThe completion status of each roulette is gathered directly from the game's data.",
+    "message": "Denne modulen er helt automatisk, og du trenger ikke å gjøre noe selv.\n\nHvilke ruletter du har fullført samles inn automatisk fra spillet.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteTechnicalInformation": {
@@ -440,31 +440,31 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteNothingTrackedDescriptionWarning": {
-    "message": "There are no roulettes tracked",
+    "message": "Du har ikke valgt hvilke ruletter som skal spores enda",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteNothingTrackedDescription": {
-    "message": "Select roulettes to track in 'Options'",
+    "message": "Velg ruletter du vil spore i «Innstillinger»",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteRoulettesRemaining": {
-    "message": "Roulettes Remaining",
+    "message": "Gjenværende ruletter",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteRoulettesRemainingSingular": {
-    "message": "Roulette Remaining",
+    "message": "Gjenværende rulett",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteClickableLinkDescription": {
-    "message": "Notifications can be clicked on to open the Duty Finder",
+    "message": "Lar deg åpne Duty Finder ved å klikke på påminnelsen",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteExpandedInfo": {
-    "message": "Displays individual incomplete duties in the todo window",
+    "message": "Viser dutiene du ikke har fullført hver for seg i oppgavevinduet",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
-    "message": "Stamps",
+    "message": "Klistremerker",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsBookStatusLabel": {
@@ -512,7 +512,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInstanceNotificationsLabel": {
-    "message": "Duty Start/End Notification",
+    "message": "Påminnelse når duty starter/slutter",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInstanceNotificationsDescription": {
@@ -528,11 +528,11 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickersAvailableNotification": {
-    "message": "Stickers Available",
+    "message": "Klistremerker tilgjengelig",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
-    "message": "Treasure Map",
+    "message": "Skattekart",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapInformation": {
@@ -548,7 +548,7 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapTimeUntilNextMap": {
-    "message": "Next Map",
+    "message": "Neste kart",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapStatusLabel": {
@@ -688,7 +688,7 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInitializationWarning": {
-    "message": "You can re-sync Doman Enclave data by visiting the Doman Enclave",
+    "message": "Du kan synkronisere statusen for Doman Enclave ved å besøke Doman Enclave",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportLabel": {
@@ -768,7 +768,7 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsLabel": {
-    "message": "Tickets",
+    "message": "Lodd",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsAvailableLabel": {
@@ -811,6 +811,10 @@
     "message": "Hunts Remaining",
     "description": "ModuleStrings..ctor"
   },
+  "HuntMarksHuntRemainingSingularLabel": {
+    "message": "Hunt Remaining",
+    "description": "ModuleStrings..ctor"
+  },
   "HuntMarksTrackedHuntsLabel": {
     "message": "Tracked Hunts",
     "description": "ModuleStrings..ctor"
@@ -844,7 +848,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackAllLabel": {
-    "message": "Track All",
+    "message": "Spor alle",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksUntrackAllLabel": {
@@ -864,51 +868,51 @@
     "description": "ModuleStrings..ctor"
   },
   "TimersCommand": {
-    "message": "timers",
+    "message": "timer",
     "description": "CommandStrings..ctor"
   },
   "TodoCommand": {
-    "message": "todo",
+    "message": "oppgaver",
     "description": "CommandStrings..ctor"
   },
   "On": {
-    "message": "on",
+    "message": "på",
     "description": "CommandStrings..ctor"
   },
   "Enable": {
-    "message": "enable",
+    "message": "aktiver",
     "description": "CommandStrings..ctor"
   },
   "Show": {
-    "message": "show",
+    "message": "vis",
     "description": "CommandStrings..ctor"
   },
   "Off": {
-    "message": "off",
+    "message": "av",
     "description": "CommandStrings..ctor"
   },
   "Disable": {
-    "message": "disable",
+    "message": "deaktiver",
     "description": "CommandStrings..ctor"
   },
   "Hide": {
-    "message": "hide",
+    "message": "skjul",
     "description": "CommandStrings..ctor"
   },
   "Close": {
-    "message": "close",
+    "message": "lukk",
     "description": "CommandStrings..ctor"
   },
   "Open": {
-    "message": "open",
+    "message": "åpne",
     "description": "CommandStrings..ctor"
   },
   "Toggle": {
-    "message": "toggle",
+    "message": "bytt",
     "description": "CommandStrings..ctor"
   },
   "Help": {
-    "message": "help",
+    "message": "hjelp",
     "description": "CommandStrings..ctor"
   },
   "Core": {
@@ -916,19 +920,19 @@
     "description": "CommandStrings..ctor"
   },
   "TimersShowHelp": {
-    "message": "\n/dd timers - Shows this help message\n/dd timers help - Shows this help message\n/dd timers (on | enable | show | open) - Shows the timers window\n/dd timers (off | disable | hide | close) - Hides the timers window\n/dd timers (toggle) - Toggle the timers window",
+    "message": "\n/dd timer - Vis denne hjelpemeldingen\n/dd timer hjelp - Vis denne hjelpemeldingen\n/dd timer (på | aktiver | vis | åpne) - Vis timervinduet\n/dd timer (av | deaktiver | skjul | lukk) - Skjul timervinduet\n/dd timer bytt - Bytt om timervinduet vises eller ikke",
     "description": "CommandStrings..ctor"
   },
   "TodoShowHelp": {
-    "message": "\n/dd todo - Shows this help message\n/dd todo help - Shows this help message\n/dd todo (on | enable | show | open) - Shows the todo window\n/dd todo (off | disable | hide | close) - Hides the todo window\n/dd todo (toggle) - Toggle the todo window",
+    "message": "\n/dd oppgaver - Vis denne hjelpemeldingen\n/dd oppgaver hjelp - Vis denne hjelpemeldingen\n/dd oppgaver (på | aktiver | vis | åpne) - Vis oppgavevinduet\n/dd oppgaver (av | deaktiver | skjul | lukk) - Skjul oppgavevinduet\n/dd oppgaver bytt - Bytt om oppgavevinduet vises eller ikke",
     "description": "CommandStrings..ctor"
   },
   "HelpCommands": {
-    "message": "Command Overview\n/dd - Show or Hide Main Window\n/dd timers help - Show timer sub-commands\n/dd todo help - Show todo sub-commands",
+    "message": "Kommandooversikt\n/dd - Vis eller skjul hovedvinduet\n/dd timer hjelp - Vis timerkommandoer\n/dd oppgaver hjelp - Vis oppgavekommandoer",
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {
-    "message": "Timers",
+    "message": "Timere",
     "description": "TimersStrings..ctor"
   },
   "DailyResetTimerLabel": {
@@ -984,7 +988,7 @@
     "description": "TimersStrings..ctor"
   },
   "TimersHideSecondsLabel": {
-    "message": "Hide seconds",
+    "message": "Skjul sekunder",
     "description": "TimersStrings..ctor"
   }
 }
