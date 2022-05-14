@@ -4,6 +4,7 @@ using System.IO.Compression;
 using DailyDuty.Data;
 using Dalamud.Game;
 using Dalamud.Interface.Internal.Notifications;
+using Dalamud.Logging;
 using Newtonsoft.Json;
 
 namespace DailyDuty.Utilities
@@ -64,13 +65,17 @@ namespace DailyDuty.Utilities
             var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
 
             var backupFileInfo = new FileInfo(pluginConfigDirectory + @"\DailyDutyConfigBackup.zip");
+            var configFileInfo = new FileInfo(pluginConfigDirectory.Parent + @"\DailyDuty.json");
 
-            if (!backupFileInfo.Exists)
+            PluginLog.Information($"BackupFile: {backupFileInfo.Exists}");
+            PluginLog.Information($"ConfigFile: {configFileInfo.Exists}");
+
+            if (!backupFileInfo.Exists && configFileInfo.Exists)
             {
                 Service.PluginInterface.UiBuilder.AddNotification("Configuration Backup Not Found... creating", "Daily Duty", NotificationType.Warning);
 
                 var zipFile = ZipFile.Open(backupFileInfo.FullName, ZipArchiveMode.Create);
-                zipFile.CreateEntryFromFile(pluginConfigDirectory.Parent + @"\DailyDuty.json", "DailyDuty.json", CompressionLevel.Optimal);
+                zipFile.CreateEntryFromFile(configFileInfo.FullName, "DailyDuty.json", CompressionLevel.Optimal);
                 zipFile.Dispose();
 
                 Service.PluginInterface.UiBuilder.AddNotification("Configuration Backup Created", "Daily Duty", NotificationType.Success);
