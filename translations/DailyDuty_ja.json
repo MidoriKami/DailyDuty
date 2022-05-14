@@ -200,7 +200,7 @@
     "description": "CommonStrings..ctor"
   },
   "ExpandedInfoLabel": {
-    "message": "Expanded Todo Display",
+    "message": "展開されたタスク表示",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
@@ -811,6 +811,10 @@
     "message": "残りのモブハント",
     "description": "ModuleStrings..ctor"
   },
+  "HuntMarksHuntRemainingSingularLabel": {
+    "message": "Hunt Remaining",
+    "description": "ModuleStrings..ctor"
+  },
   "HuntMarksTrackedHuntsLabel": {
     "message": "追跡済みのモブハント",
     "description": "ModuleStrings..ctor"
@@ -852,7 +856,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksExpandedInfoDescription": {
-    "message": "Show the expansion labels for each incomplete hunt in the todo window",
+    "message": "タスクウィンドウに未完成のハントの展開ラベルを表示する。",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {
