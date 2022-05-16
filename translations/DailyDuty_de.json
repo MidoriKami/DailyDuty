@@ -812,7 +812,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntRemainingSingularLabel": {
-    "message": "Hunt Remaining",
+    "message": "Jagdlizenz Verbleibend",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackedHuntsLabel": {
