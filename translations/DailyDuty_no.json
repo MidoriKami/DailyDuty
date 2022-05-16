@@ -16,15 +16,15 @@
     "description": "CommonStrings..ctor"
   },
   "EmptyContentsLabel": {
-    "message": "No information to display",
+    "message": "Ingen informasjon å vise",
     "description": "CommonStrings..ctor"
   },
   "CurrentStatusLabel": {
-    "message": "Current Status",
+    "message": "Nåværende status",
     "description": "CommonStrings..ctor"
   },
   "CompletionStatusLabel": {
-    "message": "Completion Status",
+    "message": "Fullføringsstatus",
     "description": "CommonStrings..ctor"
   },
   "NotificationOptionsLabel": {
@@ -36,7 +36,7 @@
     "description": "CommonStrings..ctor"
   },
   "TaskDisplayOptionsLabel": {
-    "message": "Task Display Options",
+    "message": "Alternativer for oppgavevisning",
     "description": "CommonStrings..ctor"
   },
   "TaskHeaderColorLabel": {
@@ -76,15 +76,15 @@
     "description": "CommonStrings..ctor"
   },
   "AllTasksLabel": {
-    "message": "All Tasks Status",
+    "message": "Status for alle oppgaver",
     "description": "CommonStrings..ctor"
   },
   "AvailableNowLabel": {
-    "message": "Available Now",
+    "message": "Tilgjengelig nå",
     "description": "CommonStrings..ctor"
   },
   "StyleOptionsLabel": {
-    "message": "Style Options",
+    "message": "Stilalternativer",
     "description": "CommonStrings..ctor"
   },
   "OpacityLabel": {
@@ -104,7 +104,7 @@
     "description": "CommonStrings..ctor"
   },
   "AllowancesLabel": {
-    "message": "Allowances",
+    "message": "Tillatelser",
     "description": "CommonStrings..ctor"
   },
   "LessThanLabel": {
@@ -120,7 +120,7 @@
     "description": "CommonStrings..ctor"
   },
   "NoneRecordedLabel": {
-    "message": "None Recorded",
+    "message": "Ingen registrert",
     "description": "CommonStrings..ctor"
   },
   "RealmRebornLabel": {
@@ -192,7 +192,7 @@
     "description": "CommonStrings..ctor"
   },
   "ApplyAllLabel": {
-    "message": "Apply All",
+    "message": "Bruk alle",
     "description": "CommonStrings..ctor"
   },
   "TeleportLabel": {
@@ -244,7 +244,7 @@
     "description": "TabStrings..ctor"
   },
   "TimersTabLabel": {
-    "message": "Timers",
+    "message": "Timere",
     "description": "TabStrings..ctor"
   },
   "TimersTabDescription": {
@@ -256,7 +256,7 @@
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayAutomationInformation": {
-    "message": "\"Duty Roulette\" statusen er hentet direkte fra intern spilldata så det er altid i synkronisert med spillet.",
+    "message": "«Dutyrulett»-statusen er hentet direkte fra spillets interne data, så det er alltid synkronisert med spillet.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayInformationDisclaimer": {
@@ -468,7 +468,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsBookStatusLabel": {
-    "message": "Book Status",
+    "message": "Bokstatus",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsLabel": {
@@ -544,7 +544,7 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAvailableMessage": {
-    "message": "Treasure Map Available",
+    "message": "Skattekart tilgjengelig",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapTimeUntilNextMap": {
@@ -552,7 +552,7 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapStatusLabel": {
-    "message": "Treasure Map Status",
+    "message": "Status for skattekart",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapReSyncInformation": {
@@ -580,7 +580,7 @@
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeMarkCompleteWhenLabel": {
-    "message": "Mark Complete When",
+    "message": "Marker fullført når",
     "description": "ModuleStrings..ctor"
   },
   "LevequestLabel": {

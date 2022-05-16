@@ -188,7 +188,7 @@
     "description": "CommonStrings..ctor"
   },
   "EliteLabel": {
-    "message": "エリート",
+    "message": "上級",
     "description": "CommonStrings..ctor"
   },
   "ApplyAllLabel": {
@@ -812,7 +812,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntRemainingSingularLabel": {
-    "message": "Hunt Remaining",
+    "message": "残りのモブハント",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackedHuntsLabel": {
@@ -832,7 +832,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksMarkKilledLabel": {
-    "message": "倒したモブ",
+    "message": "倒した",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTargetName": {
@@ -928,7 +928,7 @@
     "description": "CommandStrings..ctor"
   },
   "HelpCommands": {
-    "message": "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd タイマーヘルプ - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
+    "message": "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd timers help - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {

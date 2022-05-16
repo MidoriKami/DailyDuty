@@ -36,71 +36,71 @@
     "description": "CommonStrings..ctor"
   },
   "TaskDisplayOptionsLabel": {
-    "message": "Task Display Options",
+    "message": "Opzioni di visualizzazione delle Attività",
     "description": "CommonStrings..ctor"
   },
   "TaskHeaderColorLabel": {
-    "message": "Task Category Color",
+    "message": "Colore della categoria delle Attività",
     "description": "CommonStrings..ctor"
   },
   "TaskIncompleteTaskColorLabel": {
-    "message": "Incomplete Task Color",
+    "message": "Colore delle Attività incomplete",
     "description": "CommonStrings..ctor"
   },
   "TaskCompleteTaskColorLabel": {
-    "message": "Complete Task Color",
+    "message": "Colore degli incarichi completi",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginLabel": {
-    "message": "Send Notifications on Login",
+    "message": "Invia notifiche al login",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you login to a character.",
+    "message": "Se questo modulo è incompleto o ha messaggi rilevanti invia una notifica quando accedi a un personaggio.",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeLabel": {
-    "message": "Send Notifications on Zone Change",
+    "message": "Invia notifiche al cambio di zona",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeHelpText": {
-    "message": "If this module is incomplete or has relevant messages send a notification when you change zones.",
+    "message": "Se questo modulo è incompleto o ha messaggi rilevanti invia una notifica quando si cambia zona.",
     "description": "CommonStrings..ctor"
   },
   "CompleteLabel": {
-    "message": "Complete",
+    "message": "Completato",
     "description": "CommonStrings..ctor"
   },
   "IncompleteLabel": {
-    "message": "Incomplete",
+    "message": "Non completato",
     "description": "CommonStrings..ctor"
   },
   "AllTasksLabel": {
-    "message": "All Tasks Status",
+    "message": "Stato di tutte le Attività",
     "description": "CommonStrings..ctor"
   },
   "AvailableNowLabel": {
-    "message": "Available Now",
+    "message": "Disponibile ora",
     "description": "CommonStrings..ctor"
   },
   "StyleOptionsLabel": {
-    "message": "Style Options",
+    "message": "Opzioni di stile",
     "description": "CommonStrings..ctor"
   },
   "OpacityLabel": {
-    "message": "Opacity",
+    "message": "Opacità",
     "description": "CommonStrings..ctor"
   },
   "ClickthroughLabel": {
-    "message": "Clickthrough",
+    "message": "Clicca attraverso",
     "description": "CommonStrings..ctor"
   },
   "MinutesLabel": {
-    "message": "Minutes",
+    "message": "Minuti",
     "description": "CommonStrings..ctor"
   },
   "StyleLabel": {
-    "message": "Style",
+    "message": "Stile",
     "description": "CommonStrings..ctor"
   },
   "AllowancesLabel": {
@@ -108,19 +108,19 @@
     "description": "CommonStrings..ctor"
   },
   "LessThanLabel": {
-    "message": "Less Than",
+    "message": "Minore di",
     "description": "CommonStrings..ctor"
   },
   "LessThanOrEqualLabel": {
-    "message": "Less Than or Equal To",
+    "message": "Minore o uguale a",
     "description": "CommonStrings..ctor"
   },
   "EqualToLabel": {
-    "message": "Equal To",
+    "message": "Uguale a",
     "description": "CommonStrings..ctor"
   },
   "NoneRecordedLabel": {
-    "message": "None Recorded",
+    "message": "Nessuno registrato",
     "description": "CommonStrings..ctor"
   },
   "RealmRebornLabel": {
@@ -144,47 +144,47 @@
     "description": "CommonStrings..ctor"
   },
   "WeeklyTasksLabel": {
-    "message": "Weekly Tasks",
+    "message": "Attività Settimanali",
     "description": "CommonStrings..ctor"
   },
   "DailyTasksLabel": {
-    "message": "Daily Tasks",
+    "message": "Attività giornaliere",
     "description": "CommonStrings..ctor"
   },
   "TopLeftLabel": {
-    "message": "Top Left",
+    "message": "In alto a sinistra",
     "description": "CommonStrings..ctor"
   },
   "TopRightLabel": {
-    "message": "Top Right",
+    "message": "In alto a destra",
     "description": "CommonStrings..ctor"
   },
   "BottomLeftLabel": {
-    "message": "Bottom Left",
+    "message": "In basso a sinistra",
     "description": "CommonStrings..ctor"
   },
   "BottomRightLabel": {
-    "message": "Bottom Right",
+    "message": "In basso a destra",
     "description": "CommonStrings..ctor"
   },
   "AutoResizeLabel": {
-    "message": "Auto Resize",
+    "message": "Ridimensionamento Automatico",
     "description": "CommonStrings..ctor"
   },
   "ManualSizeLabel": {
-    "message": "Manual Size",
+    "message": "Ridimensionamento Manuale",
     "description": "CommonStrings..ctor"
   },
   "LevelOneLabel": {
-    "message": "Level 1",
+    "message": "Livello 1",
     "description": "CommonStrings..ctor"
   },
   "LevelTwoLabel": {
-    "message": "Level 2",
+    "message": "Livello 2",
     "description": "CommonStrings..ctor"
   },
   "LevelThreeLabel": {
-    "message": "Level 3",
+    "message": "Livello 3",
     "description": "CommonStrings..ctor"
   },
   "EliteLabel": {
@@ -192,11 +192,11 @@
     "description": "CommonStrings..ctor"
   },
   "ApplyAllLabel": {
-    "message": "Apply All",
+    "message": "Applica tutti",
     "description": "CommonStrings..ctor"
   },
   "TeleportLabel": {
-    "message": "Teleport",
+    "message": "Teletrasporto",
     "description": "CommonStrings..ctor"
   },
   "ExpandedInfoLabel": {
@@ -204,15 +204,15 @@
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
-    "message": "Reset",
+    "message": "Resetta",
     "description": "CommonStrings..ctor"
   },
   "ResetAllLabel": {
-    "message": "Reset All",
+    "message": "Resetta tutto",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
-    "message": "Features",
+    "message": "Funzionalità",
     "description": "TabStrings..ctor"
   },
   "FeaturesTabDescription": {
@@ -228,7 +228,7 @@
     "description": "TabStrings..ctor"
   },
   "SettingsTabLabel": {
-    "message": "Settings",
+    "message": "Impostazioni",
     "description": "TabStrings..ctor"
   },
   "SettingsTabDescription": {
@@ -412,7 +412,7 @@
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageLabel": {
-    "message": "Language",
+    "message": "Lingua",
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageSelectLabel": {
@@ -464,11 +464,11 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
-    "message": "Stamps",
+    "message": "Timbri",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsBookStatusLabel": {
-    "message": "Book Status",
+    "message": "Stato del Libro",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsLabel": {
@@ -476,19 +476,19 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInformation": {
-    "message": "Wondrous Tails is a level 60 weekly activity that allows players to complete old content to earn rewards. With some randomized elements, Wondrous Tails is an interesting way to revisit these older duties every week.\n\nWeekly rewards include half of a level worth's of experience to whichever job turns in the book, and selectable rewards such as tomestones or MGP vouchers.",
+    "message": "Wondrous Tails è un'attività settimanale di livello 60 che permette ai giocatori di completare i vecchi contenuti per guadagnare ricompense. Con alcuni elementi randomizzati, Wondrous Tails è un modo interessante per rivisitare questi vecchi contenuti ogni settimana.\n\nLe ricompense settimanali includono metà livello di esperienza per qualsiasi classe con cui si consegna il libro, e premi selezionabili come tomestones o buoni MGP.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsAutomationInformation": {
-    "message": "Wondrous Tails data is extracted directly from the game's data, and will always be in sync with the current status of your book. No user interaction is required to keep this data synchronized.",
+    "message": "I dati di Wondrous Tails vengono estratti direttamente dai dati del gioco e saranno sempre sincronizzati con lo stato attuale del tuo libro. Non è richiesta alcuna interazione per mantenere questi dati sincronizzati.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsTechnicalDescription": {
-    "message": "The game code will not clear the Wondrous Tails data when you complete your book, even if you turn it in without 9 stamps.\n\nThis module will only consider a Wondrous Tails book complete once you have 9 stamps placed.",
+    "message": "Il codice di gioco non cancellerà i dati Wondrous Tails quando si completa il libro, anche lo si consegna senza 9 francobolli.\n\nQuesto modulo considererà un libro di Wondrous Tails completo solo quando hai 9 francobolli posizionati.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsOpenBookClickableLinkDescription": {
-    "message": "Notifications can be clicked on to open your Wondrous Tails book",
+    "message": "Puoi cliccare sulle notifiche per aprire il tuo Wondrous Tails",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsUnavailableMessage": {
@@ -552,7 +552,7 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapStatusLabel": {
-    "message": "Treasure Map Status",
+    "message": "Stato Mappa del Tesoro",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapReSyncInformation": {
