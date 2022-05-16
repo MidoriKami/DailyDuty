@@ -200,7 +200,7 @@
     "description": "CommonStrings..ctor"
   },
   "ExpandedInfoLabel": {
-    "message": "Expanded Todo Display",
+    "message": "Exibição de Tarefas Expandida",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
@@ -812,7 +812,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntRemainingSingularLabel": {
-    "message": "Hunt Remaining",
+    "message": "Hunts Restantes",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackedHuntsLabel": {
@@ -856,7 +856,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksExpandedInfoDescription": {
-    "message": "Show the expansion labels for each incomplete hunt in the todo window",
+    "message": "Mostrar os rótulos de expansão para cada hunt incompleta na janela de tarefas",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyLabel": {
