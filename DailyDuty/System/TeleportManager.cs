@@ -18,11 +18,14 @@ namespace DailyDuty.System
         // https://github.com/goaaats/Dalamud.FindAnything/blob/a74cd2bd23997b9ffa6c573abb3c30cdc4798b9b/Dalamud.FindAnything/FindAnythingPlugin.cs
         private readonly ICallGateSubscriber<uint, byte, bool> teleportIpc;
 
+        private readonly ICallGateSubscriber<bool> showChatMessageIpc;
+
         private readonly Dictionary<ChatPayloads, DalamudLinkPayload> payloads = new();
 
         public TeleportManager()
         {
             teleportIpc = Service.PluginInterface.GetIpcSubscriber<uint, byte, bool>("Teleport");
+            showChatMessageIpc = Service.PluginInterface.GetIpcSubscriber<bool>("Teleport.ChatMessage");
 
             payloads.Add(ChatPayloads.GoldSaucerTeleport, AddPayload(ChatPayloads.GoldSaucerTeleport));
             payloads.Add(ChatPayloads.IdyllshireTeleport, AddPayload(ChatPayloads.IdyllshireTeleport));
@@ -90,12 +93,13 @@ namespace DailyDuty.System
             try
             {
                 var didTeleport = teleportIpc.InvokeFunc(aetheryte.AetheryteId, aetheryte.SubIndex);
+                var showMessage = showChatMessageIpc.InvokeFunc();
 
                 if (!didTeleport)
                 {
                     UserError("Cannot teleport in this situation.");
                 }
-                else
+                else if(showMessage)
                 {
                     Chat.Print("Teleport", $"Teleporting to {GetAetheryteName(aetheryte)}...");
                 }
