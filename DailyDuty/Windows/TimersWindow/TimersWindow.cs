@@ -7,7 +7,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Timers;
 using DailyDuty.Utilities;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -32,7 +31,7 @@ namespace DailyDuty.Windows.TimersWindow
             {
                 IsOpen = false;
             }
-            else if (Service.Condition[ConditionFlag.OccupiedInQuestEvent] || (Utilities.Condition.IsBoundByDuty() && Settings.HideInDuty))
+            else if (Condition.InCutsceneOrQuestEvent() || (Condition.IsBoundByDuty() && Settings.HideInDuty))
             {
                 IsOpen = false;
             }

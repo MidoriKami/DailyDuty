@@ -15,5 +15,13 @@ namespace DailyDuty.Utilities
 
             return baseBoundByDuty || boundBy56 || boundBy95;
         }
+
+        public static bool InCutsceneOrQuestEvent()
+        {
+            return Service.Condition[ConditionFlag.OccupiedInCutSceneEvent] ||
+                   Service.Condition[ConditionFlag.WatchingCutscene] ||
+                   Service.Condition[ConditionFlag.WatchingCutscene78] ||
+                   Service.Condition[ConditionFlag.OccupiedInQuestEvent];
+        }
     }
 }
