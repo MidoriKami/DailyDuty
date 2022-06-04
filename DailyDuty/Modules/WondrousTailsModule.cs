@@ -69,31 +69,34 @@ namespace DailyDuty.Modules
 
         private byte DutyEventFunction(void* a1, void* a2, ushort* a3)
         {
-            var category = *(a3);
-            var type = *(uint*)(a3 + 4);
-
-            // DirectorUpdate Category
-            if (category == 0x6D)
+            if (Settings.Enabled)
             {
-                switch (type)
+                var category = *(a3);
+                var type = *(uint*)(a3 + 4);
+
+                // DirectorUpdate Category
+                if (category == 0x6D)
                 {
-                    // Duty Commenced
-                    case 0x40000001 when Settings.InstanceNotifications && !IsCompleted():
-                        OnDutyStartNotification(Service.ClientState.TerritoryType);
-                        break;
+                    switch (type)
+                    {
+                        // Duty Commenced
+                        case 0x40000001 when Settings.InstanceNotifications && !IsCompleted():
+                            OnDutyStartNotification(Service.ClientState.TerritoryType);
+                            break;
 
-                    // Party Wipe
-                    case 0x40000005:
-                        break;
+                        // Party Wipe
+                        case 0x40000005:
+                            break;
 
-                    // Duty Recommence
-                    case 0x40000006:
-                        break;
+                        // Duty Recommence
+                        case 0x40000006:
+                            break;
 
-                    // Duty Completed
-                    case 0x40000003 when Settings.InstanceNotifications && !IsCompleted():
-                        OnDutyEndNotification(Service.ClientState.TerritoryType);
-                        break;
+                        // Duty Completed
+                        case 0x40000003 when Settings.InstanceNotifications && !IsCompleted():
+                            OnDutyEndNotification(Service.ClientState.TerritoryType);
+                            break;
+                    }
                 }
             }
 
