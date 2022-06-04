@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Numerics;
+using System.Runtime.InteropServices;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Structs
@@ -12,7 +13,7 @@ namespace DailyDuty.Structs
 
         [FieldOffset(0x1A)] private readonly ushort _stickers;
 
-        public int Stickers => CountSetBits(_stickers);
+        public int Stickers => BitOperations.PopCount(_stickers);
 
         [FieldOffset(0x20)] private readonly ushort _secondChance;
 
@@ -25,17 +26,5 @@ namespace DailyDuty.Structs
 
         public ButtonState TaskStatus(int idx)
             => (ButtonState) ((_taskStatus[idx >> 2] >> ((idx & 0b11) * 2)) & 0b11);
-
-        private static int CountSetBits(int n)
-        {
-            int count = 0;
-            while (n > 0)
-            {
-                count += n & 1;
-                n >>= 1;
-            }
-
-            return count;
-        }
     }
 }
