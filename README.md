@@ -1,5 +1,5 @@
 # DailyDuty
-[![Download count](https://img.shields.io/endpoint?url=https://vz32sgcoal.execute-api.us-east-1.amazonaws.com/DailyDuty)](https://github.com/MidoriKami/DailyDuty)
+[![Download count](https://img.shields.io/endpoint?url=https://vz32sgcoal.execute-api.us-east-1.amazonaws.com/DailyDuty)](https://github.com/MidoriKami/DailyDuty) [![Crowdin](https://badges.crowdin.net/dailyduty/localized.svg)](https://crowdin.com/project/dailyduty)
 
 DailyDuty is a XivLauncher/Dalamud plugin.
 
@@ -8,26 +8,35 @@ DailyDuty is designed for people that need _**constant reminders**_ to do things
 
 The goal of this plugin is to allow you to more easily and more passively complete tasks that reward weekly or daily bonuses.
 
-This plugin is still in early development and many features are currently missing.
-Currently the Configuration Window shows **all** planned modules, if it is not included then it is not planned to be added.
-
-A wiki is planned for this plugin but will take time to implement, currently DailyDuty has many features, and several more are planned.
-
 DailyDuty will **not** track anything to do with Retainers or Free Companies, for that use `Accountant` by `Ottermandias`
 
 ## Configuration Window
 
-The configuration window can be used to enable, disable, and view the status of each module.
+You can open the configuration window with the chat command `/dd`
 
-Every module has a status readout that displays the currently tracked status of each module.
+![Hxyp5EaLdG](https://user-images.githubusercontent.com/9083275/172264296-414ef3c6-dab3-49ca-b2f0-696951a91f2d.jpg)
 
-Occasionally Daily Duty may be incorrect and requires adjusting.
+### Selection (Red Region)
 
-In the Configuration tab you can enable `Temporary Edit Mode` to correct this data.
+This area allows you to select settings, modules, or features for configuration in the Configuration area.
 
-![image](https://user-images.githubusercontent.com/9083275/154887762-1ee6eea4-c292-422c-af42-5dfa144e5744.png)
+### Configuration (Purple Region)
 
-![image](https://user-images.githubusercontent.com/9083275/154889315-1221a733-fa50-4ff8-85fa-eadfd0fac799.png) ![image](https://user-images.githubusercontent.com/9083275/154888173-508ace64-7246-4084-bac9-8b941527e502.png)
+This area allows you to configure the selected settings, module, or feature. Each Module or Feature will have an `About` tab that describes what the feature or module is about, and some technical information on how it works. 
+
+*It is highly recommended to read these descriptions as they will answer most of your questions*.
+
+## Tasks Tab
+
+This tab allows you to quickly see the status of all the task modules.
+
+The color of the task name indicates if that module is enabled or disabled for tracking and notifications.
+
+Tasks that are enabled will also include text to indicate their completion status.
+
+***Note: Some tasks will show as complete while they are unavailable for completion such as Fashion Report***
+
+![image](https://user-images.githubusercontent.com/9083275/172265255-15093bf8-e63c-4392-b356-b183cde2e250.png)
 
 
 ## Notifications
@@ -36,14 +45,13 @@ DailyDuty uses chat messages to notify you of tasks that are able to be complete
 
 You will not see notifications for tasks that aren't yet available to be completed, such as Fashion Report, until there is something that you the user are able to do.
 
-DailyDuty also includes clickable `action-links` that can help with managing tasks more easily. These `action-links` have their text colored blue for ease of identification, simply click on the text in your chat window to trigger the action.
-
-One such example is clicking on a "Wondrous Tails" action-link will open the Wondrous Tails book.
-
-Some action-links use the plugin `Teleporter` to teleport you to where that task can be complete.
+DailyDuty also includes clickable chat links that have an associated action they will do once clicked on.
+Modules that have clickable links will describe what that modules links will do, and allow you to enable or disable the link.
 
 **All chat messages can only been seen by you, Dalamud Plugins are client side only**
  
-![image](https://user-images.githubusercontent.com/9083275/154888100-60c33257-5f91-4f65-940d-d7be2323bc34.png)
+ (Example notifications, this is not a complete list)
+ 
+![image](https://user-images.githubusercontent.com/9083275/172264986-6a4a5528-9e65-4d30-bd84-288e36ce26da.png)
 
 
