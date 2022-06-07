@@ -51,14 +51,8 @@ namespace DailyDuty.Modules
             }
         }
 
-        public int GetRemainingAllowances()
-        {
-            return levequestStruct->AllowancesRemaining;
-        }
+        public int GetRemainingAllowances() => levequestStruct->AllowancesRemaining;
 
-        public int GetAcceptedLeves()
-        {
-            return levequestStruct->LevesAccepted;
-        }
+        public int GetAcceptedLeves() => levequestStruct->LevesAccepted;
     }
 }

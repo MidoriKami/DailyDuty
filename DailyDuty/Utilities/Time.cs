@@ -35,14 +35,14 @@ namespace DailyDuty.Utilities
         public static DateTime NextLeveAllowanceReset()
         {
             var now = DateTime.UtcNow;
-            
+
             if( now.Hour < 12 )
             {
                 return now.Date.AddHours(12);   
             }
             else
             {
-                return now.AddDays(1).Date.AddHours(12);
+                return now.Date.AddDays(1);
             }
         }
 
