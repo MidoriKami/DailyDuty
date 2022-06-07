@@ -10,6 +10,8 @@ The goal of this plugin is to allow you to more easily and more passively comple
 
 DailyDuty will **not** track anything to do with Retainers or Free Companies, for that use `Accountant` by `Ottermandias`
 
+For information specific to each module, [browse the wiki pages](https://github.com/MidoriKami/DailyDuty/wiki)
+
 ## Configuration Window
 
 You can open the configuration window with the chat command `/dd`
