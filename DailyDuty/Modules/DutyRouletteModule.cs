@@ -13,6 +13,9 @@ using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
+using Lumina.Excel.GeneratedSheets;
+using Action = System.Action;
+using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules
 {
@@ -48,12 +51,16 @@ namespace DailyDuty.Modules
 
         private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
         private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);
+        private delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1);
 
         [Signature("E9 ?? ?? ?? ?? 8B 93 ?? ?? ?? ?? 48 83 C4 20")]
         private readonly OpenRouletteToDutyDelegate openRouletteDuty = null!;
 
         [Signature("48 83 EC 28 84 D2 75 07 32 C0", ScanType = ScanType.Text)]
         private readonly IsRouletteIncompleteDelegate isRouletteIncomplete = null!;
+
+        [Signature("48 83 EC 28 80 F9 09")]
+        private readonly GetCurrentLimitedTomestoneCountDelegate getCurrentLimitedTomestoneCount = null!;
 
         [Signature("48 8D 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 74 0C 48 8D 4C 24", ScanType = ScanType.StaticAddress)]
         private readonly AgentInterface* rouletteBasePointer = null!;
@@ -100,6 +107,14 @@ namespace DailyDuty.Modules
             {
                 var rouletteStatus = isRouletteIncomplete(rouletteBasePointer, (byte) trackedRoulette.Type) == 0;
 
+                if (trackedRoulette.Type == RouletteType.Expert && Settings.HideWhenCapped)
+                {
+                    if (getCurrentLimitedTomestoneCount(9) == GetWeeklyTomestomeLimit())
+                    {
+                        rouletteStatus = true;
+                    }
+                }
+
                 if (trackedRoulette.Completed != rouletteStatus)
                 {
                     trackedRoulette.Completed = rouletteStatus;
@@ -129,6 +144,19 @@ namespace DailyDuty.Modules
         //
         //  Implementation
         //
+
+        public long GetLimitedTomestoneCount()
+        {
+            return getCurrentLimitedTomestoneCount(9);
+        }
+
+        public int GetWeeklyTomestomeLimit()
+        {
+            return Service.DataManager
+                .GetExcelSheet<Tomestones>()!
+                .GetRow(3)!
+                .WeeklyLimit;
+        }
 
         private int RemainingRoulettesCount()
         {

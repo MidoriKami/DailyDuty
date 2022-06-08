@@ -71,6 +71,7 @@ namespace DailyDuty.Localization
 
             public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
             public readonly string ResetAllLabel = Loc.Localize("ResetAllLabel", "Reset All");
+            public readonly string CountLabel = Loc.Localize("CountLabel", "Count");
         }
 
         public class TabStrings
@@ -154,6 +155,9 @@ namespace DailyDuty.Localization
             public readonly string DutyRouletteRoulettesRemainingSingular = Loc.Localize("DutyRouletteRoulettesRemainingSingular", "Roulette Remaining");
             public readonly string DutyRouletteClickableLinkDescription = Loc.Localize("DutyRouletteClickableLinkDescription", "Notifications can be clicked on to open the Duty Finder");
             public readonly string DutyRouletteExpandedInfo = Loc.Localize("DutyRouletteExpandedInfo", "Displays individual incomplete duties in the todo window");
+            public readonly string DutyRouletteHideWhenCapped = Loc.Localize("DutyRouletteHideWhenCapped", "Hide Expert when Tome-capped");
+            public readonly string DutyRouletteHideWhenCappedHelp = Loc.Localize("DutyRouletteHideWhenCappedHelp", "Marks Expert Roulette as completed when you are at the weekly limit for tomestones");
+            public readonly string DutyRouletteCurrentTomestomeCount = Loc.Localize("DutyRouletteCurrentTomestoneCount", "Weekly Limited Tomestones");
 
             public readonly string WondrousTailsNumStamps = Loc.Localize("WondrousTailsNumStamps", "Stamps"); 
             public readonly string WondrousTailsBookStatusLabel = Loc.Localize("WondrousTailsBookStatusLabel", "Book Status");

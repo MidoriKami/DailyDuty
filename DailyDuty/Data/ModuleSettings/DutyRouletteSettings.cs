@@ -6,6 +6,7 @@ namespace DailyDuty.Data.ModuleSettings
     public class DutyRouletteSettings : GenericSettings
     {
         public bool EnableClickableLink = false;
+        public bool HideWhenCapped = false;
         public TrackedRoulette[] TrackedRoulettes =
         {
             new()

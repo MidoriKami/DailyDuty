@@ -7,6 +7,7 @@ using DailyDuty.Localization;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 
@@ -57,6 +58,20 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox tomeCapped = new()
+        {
+            Label = Strings.Module.DutyRouletteHideWhenCapped,
+            ContentsAction = () =>
+            {
+                if (ImGui.Checkbox(Strings.Common.EnabledLabel, ref Settings.HideWhenCapped))
+                {
+                    Service.LogManager.LogMessage(ModuleType.DutyRoulette, "Hide When Tomestone Capped - " + (Settings.HideWhenCapped ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+                ImGuiComponents.HelpMarker(Strings.Module.DutyRouletteHideWhenCappedHelp);
+            }
+        };
+
         public TextureWrap? AboutImage { get; }
         public TabFlags TabFlags => TabFlags.All;
         public ModuleType ModuleType => ModuleType.DutyRoulette;
@@ -96,6 +111,31 @@ namespace DailyDuty.ModuleConfiguration
 
                         ImGui.EndTable();
                     }
+                }
+            }
+        };
+
+        private readonly InfoBox limitedTomestoneStatus = new()
+        {
+            Label = Strings.Module.DutyRouletteCurrentTomestomeCount,
+            ContentsAction = () =>
+            {
+                var module = Service.ModuleManager.GetModule<DutyRouletteModule>();
+                if (module == null) return;
+
+                if (ImGui.BeginTable($"##TomestoneCount", 2))
+                {
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+            
+                    ImGui.TableNextRow();
+                    ImGui.TableNextColumn();
+                    ImGui.Text(Strings.Common.CountLabel);
+
+                    ImGui.TableNextColumn();
+                    ImGui.Text($"{module.GetLimitedTomestoneCount()} / {module.GetWeeklyTomestomeLimit()}");
+
+                    ImGui.EndTable();
                 }
             }
         };
@@ -224,6 +264,8 @@ namespace DailyDuty.ModuleConfiguration
             ImGuiHelpers.ScaledDummy(30.0f);
             trackedRoulettes.DrawCentered();
 
+            DrawExpertRouletteOption();
+
             ImGuiHelpers.ScaledDummy(30.0f);
             clickableLink.DrawCentered();
             
@@ -236,6 +278,19 @@ namespace DailyDuty.ModuleConfiguration
             ImGuiHelpers.ScaledDummy(20.0f);
         }
 
+        private void DrawExpertRouletteOption()
+        {
+            var expertRoulette = Settings.TrackedRoulettes
+                .Where(t => t.Type == RouletteType.Expert)
+                .FirstOrDefault();
+
+            if (expertRoulette is {Tracked: true})
+            {
+                ImGuiHelpers.ScaledDummy(30.0f);
+                tomeCapped.DrawCentered();
+            }
+        }
+
         public void DrawStatusContents()
         {
             ImGuiHelpers.ScaledDummy(10.0f);
@@ -243,6 +298,12 @@ namespace DailyDuty.ModuleConfiguration
 
             ImGuiHelpers.ScaledDummy(30.0f);
             currentStatus.DrawCentered();
+
+            if (Settings.HideWhenCapped)
+            {
+                ImGuiHelpers.ScaledDummy(30.0f);
+                limitedTomestoneStatus.DrawCentered();
+            }
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }
