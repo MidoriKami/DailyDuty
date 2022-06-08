@@ -41,7 +41,19 @@ namespace DailyDuty.Modules
             }
         }
 
-        public bool IsCompleted() => GetRemainingAllowances() == 0;
+        public bool IsCompleted()
+        {
+            switch (Settings.ComparisonMode)
+            {
+                case ComparisonMode.LessThan when Settings.NotificationThreshold > GetRemainingAllowances():
+                case ComparisonMode.EqualTo when Settings.NotificationThreshold == GetRemainingAllowances():
+                case ComparisonMode.LessThanOrEqual when Settings.NotificationThreshold >= GetRemainingAllowances():
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
 
         public int GetRemainingAllowances()
         {

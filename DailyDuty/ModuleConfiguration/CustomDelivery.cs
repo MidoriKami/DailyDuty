@@ -1,4 +1,5 @@
-﻿using DailyDuty.Data.ModuleSettings;
+﻿using System;
+using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
 using DailyDuty.Interfaces;
@@ -54,6 +55,41 @@ namespace DailyDuty.ModuleConfiguration
                     Draw.CompleteIncomplete(module.IsCompleted());
 
                     ImGui.EndTable();
+                }
+            }
+        };
+
+        private readonly InfoBox modeSelect = new()
+        {
+            Label = Strings.Module.BeastTribeMarkCompleteWhenLabel,
+            ContentsAction = () =>
+            {
+                var contentWidth = ImGui.GetContentRegionAvail();
+
+                ImGui.SetNextItemWidth(contentWidth.X * 0.40f);
+                if (ImGui.BeginCombo("", Settings.ComparisonMode.GetLabel()))
+                {
+                    foreach (var value in Enum.GetValues<ComparisonMode>())
+                    {
+                        if (ImGui.Selectable(value.GetLabel(), Settings.ComparisonMode == value))
+                        {
+                            Service.LogManager.LogMessage(ModuleType.CustomDelivery, "Comparison Mode - " + value);
+                            Settings.ComparisonMode = value;
+                            Service.CharacterConfiguration.Save();
+                        }
+                    }
+
+                    ImGui.EndCombo();
+                }
+
+                ImGui.SameLine();
+                
+                ImGui.SetNextItemWidth(contentWidth.X * 0.20f);
+                ImGui.SliderInt(Strings.Common.AllowancesLabel, ref Settings.NotificationThreshold, 0, 12);
+                if (ImGui.IsItemDeactivatedAfterEdit())
+                {
+                    Service.LogManager.LogMessage(ModuleType.CustomDelivery, "Threshold - " + Settings.NotificationThreshold);
+                    Service.CharacterConfiguration.Save();
                 }
             }
         };
@@ -155,6 +191,9 @@ namespace DailyDuty.ModuleConfiguration
         {
             ImGuiHelpers.ScaledDummy(10.0f);
             options.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            modeSelect.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
             notificationOptions.DrawCentered();
