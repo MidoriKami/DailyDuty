@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using DailyDuty.System;
 using DailyDuty.Utilities;
 using DailyDuty.Windows.DailyDutyWindow;
@@ -69,17 +70,24 @@ namespace DailyDuty
 
         public static void LoadLocalization(string languageCode)
         {
-            PluginLog.Information($"Loading Localization for {languageCode}");
+            try
+            {
+                PluginLog.Information($"Loading Localization for {languageCode}");
 
-            Service.Localization.SetupWithLangCode(languageCode);
+                Service.Localization.SetupWithLangCode(languageCode);
 
-            Strings.Tabs = new Strings.TabStrings();
-            Strings.Configuration = new Strings.ConfigurationStrings();
-            Strings.Features = new Strings.FeaturesStrings();
-            Strings.Common = new Strings.CommonStrings();
-            Strings.Module = new Strings.ModuleStrings();
-            Strings.Timers = new Strings.TimersStrings();
-            Strings.Command = new Strings.CommandStrings();
+                Strings.Tabs = new Strings.TabStrings();
+                Strings.Configuration = new Strings.ConfigurationStrings();
+                Strings.Features = new Strings.FeaturesStrings();
+                Strings.Common = new Strings.CommonStrings();
+                Strings.Module = new Strings.ModuleStrings();
+                Strings.Timers = new Strings.TimersStrings();
+                Strings.Command = new Strings.CommandStrings();
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Unable to Load Localization");
+            }
         }
         
         private void OnCommand(string command, string arguments)
