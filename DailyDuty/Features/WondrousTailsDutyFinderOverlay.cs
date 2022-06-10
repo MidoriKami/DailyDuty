@@ -71,8 +71,6 @@ namespace DailyDuty.Features
             ImGuiHelpers.ScaledDummy(10.0f);
             Options.DrawCentered();
 
-            //ImGuiHelpers.ScaledDummy(30.0f);
-
             ImGuiHelpers.ScaledDummy(10.0f);
         }
 

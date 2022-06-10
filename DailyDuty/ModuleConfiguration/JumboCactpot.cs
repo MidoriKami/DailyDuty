@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -56,8 +55,8 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -81,8 +80,8 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 200f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -90,9 +89,24 @@ namespace DailyDuty.ModuleConfiguration
 
                     ImGui.TableNextColumn();
 
-                    ImGui.Text(Settings.Tickets.Count == 0
-                        ? Strings.Common.NoneRecordedLabel
-                        : string.Concat(Settings.Tickets.Select(i => $"[{i:D4}] ")));
+                    if (Settings.Tickets.Count == 0)
+                    {
+                        ImGui.TextColored(Colors.Red, Strings.Common.NoneRecordedLabel);
+                    }
+                    else
+                    {
+                        for (var i = 0; i < Settings.Tickets.Count; i++)
+                        {
+                            ImGui.Text($"[{Settings.Tickets[i]:D4}]");
+
+                            if (i != Settings.Tickets.Count - 1)
+                            {
+                                ImGui.TableNextRow();
+                                ImGui.TableNextColumn();
+                                ImGui.TableNextColumn();
+                            }
+                        }
+                    }
 
                     ImGui.EndTable();
                 }
@@ -109,8 +123,8 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -187,7 +201,9 @@ namespace DailyDuty.ModuleConfiguration
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.JumboCactpotLabel);
+            var moduleName = Strings.Module.JumboCactpotLabel;
+
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, moduleName[..Math.Min(moduleName.Length, 22)]);
 
             if (Settings.Enabled)
             {

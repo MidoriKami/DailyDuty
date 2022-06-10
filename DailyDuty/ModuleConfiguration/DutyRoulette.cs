@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Graphical;
@@ -93,16 +94,17 @@ namespace DailyDuty.ModuleConfiguration
                 {
                     if (ImGui.BeginTable($"##Status", 2))
                     {
-                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
-            
+                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                        ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
+
                         foreach (var tracked in Settings.TrackedRoulettes)
                         {
                             if (tracked.Tracked)
                             {
                                 ImGui.TableNextRow();
                                 ImGui.TableNextColumn();
-                                ImGui.Text(tracked.Type.LookupName());
+                                var name = tracked.Type.LookupName();
+                                ImGui.Text(name[..Math.Min(name.Length, 18)]);
 
                                 ImGui.TableNextColumn();
                                 Draw.CompleteIncomplete(tracked.Completed);
@@ -125,15 +127,18 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"##TomestoneCount", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
             
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
                     ImGui.Text(Strings.Common.CountLabel);
 
                     ImGui.TableNextColumn();
-                    ImGui.Text($"{module.GetLimitedTomestoneCount()} / {module.GetWeeklyTomestomeLimit()}");
+                    var tomeCount = module.GetLimitedTomestoneCount();
+                    var limit = module.GetWeeklyTomestomeLimit();
+
+                    ImGui.TextColored(limit != tomeCount ? Colors.Orange : Colors.Green, $"{tomeCount} / {limit}");
 
                     ImGui.EndTable();
                 }
@@ -223,8 +228,8 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -245,7 +250,9 @@ namespace DailyDuty.ModuleConfiguration
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.DutyRouletteLabel);
+            var moduleName = Strings.Module.DutyRouletteLabel;
+
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, moduleName[..Math.Min(moduleName.Length, 22)]);
 
             if (Settings.Enabled)
             {

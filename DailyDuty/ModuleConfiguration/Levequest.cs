@@ -54,8 +54,8 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -79,8 +79,8 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -108,8 +108,8 @@ namespace DailyDuty.ModuleConfiguration
             {
                 if (ImGui.BeginTable($"", 2))
                 {
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 125f * ImGuiHelpers.GlobalScale);
-                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.WidthFixed, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 100f * ImGuiHelpers.GlobalScale);
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 125f * ImGuiHelpers.GlobalScale);
 
                     ImGui.TableNextRow();
                     ImGui.TableNextColumn();
@@ -203,7 +203,9 @@ namespace DailyDuty.ModuleConfiguration
 
         public void DrawTabItem()
         {
-            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, Strings.Module.LevequestLabel);
+            var moduleName = Strings.Module.LevequestLabel;
+
+            ImGui.TextColored(Settings.Enabled ? Colors.SoftGreen : Colors.SoftRed, moduleName[..Math.Min(moduleName.Length, 22)]);
 
             if (Settings.Enabled)
             {
