@@ -7,6 +7,7 @@ using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Condition = DailyDuty.Utilities.Condition;
@@ -39,33 +40,36 @@ namespace DailyDuty.Modules
 
         private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6,  byte a7)
         {
-            var result = goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
-
-            //1010445 Mini Cactpot Broker
-            //1010446 Jumbo Cactpot Broker
-            
-            if (Service.TargetManager.Target?.DataId == 1010446)
+            try
             {
-                Service.LogManager.LogMessage(ModuleType.JumboCactpot, "ReSyncing Tickets");
-                Settings.Tickets.Clear();
-
-                for(var i = 0; i < 3; ++i)
+                //1010446 Jumbo Cactpot Broker
+                if (Service.TargetManager.Target?.DataId == 1010446)
                 {
-                    var ticketValue = a6[i + 2];
+                    Service.LogManager.LogMessage(ModuleType.JumboCactpot, "ReSyncing Tickets");
+                    Settings.Tickets.Clear();
 
-                    if (ticketValue != 10000)
+                    for(var i = 0; i < 3; ++i)
                     {
-                        if (!Settings.Tickets.Contains(ticketValue))
+                        var ticketValue = a6[i + 2];
+
+                        if (ticketValue != 10000)
                         {
-                            Settings.Tickets.Add(ticketValue);
+                            if (!Settings.Tickets.Contains(ticketValue))
+                            {
+                                Settings.Tickets.Add(ticketValue);
+                            }
                         }
                     }
-                }
 
-                Service.CharacterConfiguration.Save();
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "[Jumbo Cactpot]  Unable to get data from Gold Saucer Update");
             }
 
-            return result;
+            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);;
         }
 
         private static JumboCactpotSettings Settings => Service.CharacterConfiguration.JumboCactpot;

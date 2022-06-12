@@ -7,6 +7,7 @@ using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
@@ -40,32 +41,37 @@ namespace DailyDuty.Modules
 
         private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7)
         {
-            var result = goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
-
-            //1010445 Mini Cactpot Broker
-            if (Service.TargetManager.Target?.DataId == 1010445)
+            try
             {
-                if (a7 == 5)
+                //1010445 Mini Cactpot Broker
+                if (Service.TargetManager.Target?.DataId == 1010445)
                 {
-                    if (Settings.TicketsRemaining != a6[4])
+                    if (a7 == 5)
                     {
-                        Settings.TicketsRemaining = a6[4];
-                        Service.LogManager.LogMessage(ModuleType.MiniCactpot, "ReSync - Tickets Remaining " + Settings.TicketsRemaining);
-                        Service.CharacterConfiguration.Save();
+                        if (Settings.TicketsRemaining != a6[4])
+                        {
+                            Settings.TicketsRemaining = a6[4];
+                            Service.LogManager.LogMessage(ModuleType.MiniCactpot, "ReSync - Tickets Remaining " + Settings.TicketsRemaining);
+                            Service.CharacterConfiguration.Save();
+                        }
                     }
-                }
-                else
-                {
-                    if (Settings.TicketsRemaining != 0)
+                    else
                     {
-                        Settings.TicketsRemaining = 0;
-                        Service.LogManager.LogMessage(ModuleType.MiniCactpot, "ReSync - Tickets Remaining " + Settings.TicketsRemaining);
-                        Service.CharacterConfiguration.Save();
+                        if (Settings.TicketsRemaining != 0)
+                        {
+                            Settings.TicketsRemaining = 0;
+                            Service.LogManager.LogMessage(ModuleType.MiniCactpot, "ReSync - Tickets Remaining " + Settings.TicketsRemaining);
+                            Service.CharacterConfiguration.Save();
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "[Mini Cactpot]  Unable to get data from Gold Saucer Update");
+            }
 
-            return result;
+            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
         }
 
         public MiniCactpotModule()

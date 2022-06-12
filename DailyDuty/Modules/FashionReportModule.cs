@@ -7,6 +7,7 @@ using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using Condition = DailyDuty.Utilities.Condition;
 
@@ -32,50 +33,57 @@ namespace DailyDuty.Modules
         [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
         private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
 
-        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6,  byte a7)
+        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7)
         {
-            var result = goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
-
-            if (Service.TargetManager.Target?.DataId == 1025176)
+            try
             {
-                int allowances = Settings.AllowancesRemaining;
-                int score = Settings.HighestWeeklyScore;
-
-                switch (a7)
+                if (Service.TargetManager.Target?.DataId == 1025176)
                 {
-                    // When speaking to Masked Rose, gets update information
-                    case 5:
-                        allowances = a6[1];
-                        score = a6[0];
-                        break;
+                    int allowances = Settings.AllowancesRemaining;
+                    int score = Settings.HighestWeeklyScore;
 
-                    // During turn in, gets new score
-                    case 3:
-                        score = a6[0];
-                        break;
+                    switch (a7)
+                    {
+                        // When speaking to Masked Rose, gets update information
+                        case 5:
+                            allowances = a6[1];
+                            score = a6[0];
+                            break;
 
-                    // During turn in, gets new allowances
-                    case 1:
-                        allowances = a6[0];
-                        break;
-                }
+                        // During turn in, gets new score
+                        case 3:
+                            score = a6[0];
+                            break;
 
-                if (Settings.AllowancesRemaining != allowances)
-                {
-                    Settings.AllowancesRemaining = allowances;
-                    Service.LogManager.LogMessage(ModuleType.FashionReport, "Remaining Allowances Updated " + Settings.AllowancesRemaining);
-                    Service.CharacterConfiguration.Save();
-                }
+                        // During turn in, gets new allowances
+                        case 1:
+                            allowances = a6[0];
+                            break;
+                    }
 
-                if (Settings.HighestWeeklyScore != score)
-                {
-                    Settings.HighestWeeklyScore = score;
-                    Service.LogManager.LogMessage(ModuleType.FashionReport, "Highest Score Updated " + Settings.HighestWeeklyScore);
-                    Service.CharacterConfiguration.Save();
+                    if (Settings.AllowancesRemaining != allowances)
+                    {
+                        Settings.AllowancesRemaining = allowances;
+                        Service.LogManager.LogMessage(ModuleType.FashionReport,
+                            "Remaining Allowances Updated " + Settings.AllowancesRemaining);
+                        Service.CharacterConfiguration.Save();
+                    }
+
+                    if (Settings.HighestWeeklyScore != score)
+                    {
+                        Settings.HighestWeeklyScore = score;
+                        Service.LogManager.LogMessage(ModuleType.FashionReport,
+                            "Highest Score Updated " + Settings.HighestWeeklyScore);
+                        Service.CharacterConfiguration.Save();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "[Fashion Report] Unable to get data from Gold Saucer Update");
+            }
 
-            return result;
+            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
         }
 
         public FashionReportModule()
