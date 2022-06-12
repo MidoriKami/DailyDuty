@@ -69,7 +69,7 @@ namespace DailyDuty.Modules
                 PluginLog.Error(ex, "[Jumbo Cactpot]  Unable to get data from Gold Saucer Update");
             }
 
-            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);;
+            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
         }
 
         private static JumboCactpotSettings Settings => Service.CharacterConfiguration.JumboCactpot;
