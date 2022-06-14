@@ -210,7 +210,7 @@ namespace DailyDuty.ModuleConfiguration
                 var module = Service.ModuleManager.GetModule<JumboCactpotModule>();
                 if(module == null) return;
 
-                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+                Draw.CompletionStatus(module.IsCompleted());
             }
         }
 

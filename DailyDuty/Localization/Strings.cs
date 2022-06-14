@@ -72,6 +72,7 @@ namespace DailyDuty.Localization
             public readonly string ResetLabel = Loc.Localize("ResetLabel", "Reset");
             public readonly string ResetAllLabel = Loc.Localize("ResetAllLabel", "Reset All");
             public readonly string CountLabel = Loc.Localize("CountLabel", "Count");
+            public readonly string UnavailableLabel = Loc.Localize("UnavailableLabel", "Unavailable");
         }
 
         public class TabStrings

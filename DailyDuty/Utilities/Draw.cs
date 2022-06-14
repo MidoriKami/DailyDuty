@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Enums;
 using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
@@ -26,14 +27,40 @@ namespace DailyDuty.Utilities
             ConditionalText(complete, Strings.Common.CompleteLabel, Strings.Common.IncompleteLabel);
         }
 
-        public static void CompleteIncompleteRightAligned(bool complete)
+        public static void CompletionStatus(CompletionStatus status)
         {
             var region = ImGui.GetContentRegionAvail();
-            var text = complete ? Strings.Common.CompleteLabel : Strings.Common.IncompleteLabel;
+
+            var text = string.Empty;
+            var color = Colors.Red;
+
+            switch (status)
+            {
+                case Enums.CompletionStatus.Complete:
+                    text = Strings.Common.CompleteLabel;
+                    color = Colors.Green;
+                    break;
+
+                case Enums.CompletionStatus.Incomplete:
+                    text = Strings.Common.IncompleteLabel;
+                    color = Colors.Red;
+                    break;
+
+                case Enums.CompletionStatus.Unavailable:
+                    text = Strings.Common.UnavailableLabel;
+                    color = Colors.Orange;
+                    break;
+            }
+
             var textSize = ImGui.CalcTextSize(text);
 
             ImGui.SameLine(region.X - textSize.X - 10.0f * ImGuiHelpers.GlobalScale);
-            CompleteIncomplete(complete);
+            ImGui.TextColored(color, text);
+        }
+
+        public static void CompletionStatus(bool complete)
+        {
+            CompletionStatus(complete ? Enums.CompletionStatus.Complete : Enums.CompletionStatus.Incomplete);
         }
 
         public static void TextRightAligned(string text, Vector4? color = null)

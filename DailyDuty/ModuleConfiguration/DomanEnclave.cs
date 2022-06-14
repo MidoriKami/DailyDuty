@@ -172,7 +172,7 @@ namespace DailyDuty.ModuleConfiguration
                 var module = Service.ModuleManager.GetModule<DomanEnclaveModule>();
                 if(module == null) return;
 
-                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+                Draw.CompletionStatus(module.IsCompleted());
             }
         }
 

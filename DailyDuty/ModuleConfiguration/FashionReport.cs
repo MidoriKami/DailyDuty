@@ -237,7 +237,14 @@ namespace DailyDuty.ModuleConfiguration
                 var module = Service.ModuleManager.GetModule<FashionReportModule>();
                 if(module == null) return;
 
-                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+                if(module.FashionReportAvailable())
+                {
+                    Draw.CompletionStatus(module.IsCompleted());
+                }
+                else
+                {
+                    Draw.CompletionStatus(CompletionStatus.Unavailable);
+                }
             }
         }
 

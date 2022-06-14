@@ -165,7 +165,7 @@ namespace DailyDuty.ModuleConfiguration
                 var module = Service.ModuleManager.GetModule<MiniCactpotModule>();
                 if(module == null) return;
 
-                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+                Draw.CompletionStatus(module.IsCompleted());
             }
         }
 

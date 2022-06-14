@@ -174,7 +174,7 @@ namespace DailyDuty.ModuleConfiguration
                 var module = Service.ModuleManager.GetModule<CustomDeliveryModule>();
                 if(module == null) return;
 
-                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+                Draw.CompletionStatus(module.IsCompleted());
             }
         }
 

@@ -259,7 +259,7 @@ namespace DailyDuty.ModuleConfiguration
                 var module = Service.ModuleManager.GetModule<DutyRouletteModule>();
                 if(module == null) return;
 
-                Draw.CompleteIncompleteRightAligned(module.IsCompleted());
+                Draw.CompletionStatus(module.IsCompleted());
             }
         }
         
