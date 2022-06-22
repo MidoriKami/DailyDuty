@@ -115,32 +115,39 @@ namespace DailyDuty.Modules
 
         private void* LotteryWeekly_ReceiveEvent(AgentInterface* agent, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)
         {
-            var data = eventData->Int;
-
-            switch (senderID)
+            try
             {
-                // Message is from JumboCactpot
-                case 0 when data >= 0:
-                    ticketData = data;
-                    break;
+                var data = eventData->Int;
 
-                // Message is from SelectYesNo
-                case 5:
-                    switch (data)
-                    {
-                        case -1:
-                        case 1:
-                            ticketData = -1;
-                            break;
+                switch (senderID)
+                {
+                    // Message is from JumboCactpot
+                    case 0 when data >= 0:
+                        ticketData = data;
+                        break;
 
-                        case 0 when ticketData >= 0:
-                            Service.LogManager.LogMessage(ModuleType.JumboCactpot, "Ticket Purchased - " + ticketData);
-                            Settings.Tickets.Add(ticketData);
-                            ticketData = -1;
-                            Service.CharacterConfiguration.Save();
-                            break;
-                    }
-                    break;
+                    // Message is from SelectYesNo
+                    case 5:
+                        switch (data)
+                        {
+                            case -1:
+                            case 1:
+                                ticketData = -1;
+                                break;
+
+                            case 0 when ticketData >= 0:
+                                Service.LogManager.LogMessage(ModuleType.JumboCactpot, "Ticket Purchased - " + ticketData);
+                                Settings.Tickets.Add(ticketData);
+                                ticketData = -1;
+                                Service.CharacterConfiguration.Save();
+                                break;
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Unable to retrieve data from Jumbo Cactpot event");
             }
 
             return receiveEventHook!.Original(agent, a2, eventData, eventDataItemCount, senderID);

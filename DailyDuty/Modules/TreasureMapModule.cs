@@ -11,6 +11,7 @@ using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Action = System.Action;
@@ -44,23 +45,30 @@ namespace DailyDuty.Modules
         {
             var result = timersWindowHook!.Original(a1, a2, a3);
 
-            var nextAvailable = GetNextMapAvailableTime();
-
-            if (nextAvailable != DateTime.MinValue)
+            try
             {
-                var storedTime = Settings.LastMapGathered;
-                storedTime = storedTime.AddSeconds(-storedTime.Second);
+                var nextAvailable = GetNextMapAvailableTime();
 
-                var retrievedTime = nextAvailable;
-                retrievedTime = retrievedTime.AddSeconds(-retrievedTime.Second).AddHours(-18);
-
-                if (storedTime != retrievedTime)
+                if (nextAvailable != DateTime.MinValue)
                 {
-                    Settings.LastMapGathered = retrievedTime;
-                    Service.LogManager.LogMessage(ModuleType.TreasureMap, $"ReSyncing Time - LastGathered: {retrievedTime.ToLocalTime()}");
+                    var storedTime = Settings.LastMapGathered;
+                    storedTime = storedTime.AddSeconds(-storedTime.Second);
 
-                    Service.CharacterConfiguration.Save();
+                    var retrievedTime = nextAvailable;
+                    retrievedTime = retrievedTime.AddSeconds(-retrievedTime.Second).AddHours(-18);
+
+                    if (storedTime != retrievedTime)
+                    {
+                        Settings.LastMapGathered = retrievedTime;
+                        Service.LogManager.LogMessage(ModuleType.TreasureMap, $"ReSyncing Time - LastGathered: {retrievedTime.ToLocalTime()}");
+
+                        Service.CharacterConfiguration.Save();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Failed to re-sync Treasure Map timer data from Timers Window");
             }
 
             return result;

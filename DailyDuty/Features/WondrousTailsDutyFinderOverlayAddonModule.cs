@@ -10,6 +10,7 @@ using DailyDuty.Modules;
 using DailyDuty.Structs;
 using DailyDuty.Utilities;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -95,38 +96,45 @@ namespace DailyDuty.Features
         {
             var result = contentsFinderShowHook!.Original(a1);
 
-            if (Settings.Enabled)
+            try
             {
-                var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-                var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
-
-                if (contentsFinderAgent->IsAgentActive())
+                if (Settings.Enabled)
                 {
-                    var addonContentsFinder = GetContentsFinderPointer();
+                    var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+                    var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
 
-                    if (addonContentsFinder == null)
+                    if (contentsFinderAgent->IsAgentActive())
                     {
-                        Chat.Debug("Addon null");
-                        return result;
+                        var addonContentsFinder = GetContentsFinderPointer();
+
+                        if (addonContentsFinder == null)
+                        {
+                            Chat.Debug("Addon null");
+                            return result;
+                        }
+
+                        var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
+                        var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
+                        var updateAddress = addonContentsFinder->AtkEventListener.vfunc[40];
+                        var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
+
+                        onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
+                        onFinalizeHook ??= new Hook<AddonFinalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
+                        onUpdateHook ??= new Hook<AddonUpdate>(new IntPtr(updateAddress), ContentsFinder_Update);
+                        onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
+
+                        onDrawHook.Enable();
+                        onFinalizeHook.Enable();
+                        onUpdateHook.Enable();
+                        onRefreshHook.Enable();
+
+                        contentsFinderShowHook!.Disable();
                     }
-
-                    var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
-                    var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-                    var updateAddress = addonContentsFinder->AtkEventListener.vfunc[40];
-                    var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
-
-                    onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
-                    onFinalizeHook ??= new Hook<AddonFinalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
-                    onUpdateHook ??= new Hook<AddonUpdate>(new IntPtr(updateAddress), ContentsFinder_Update);
-                    onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
-
-                    onDrawHook.Enable();
-                    onFinalizeHook.Enable();
-                    onUpdateHook.Enable();
-                    onRefreshHook.Enable();
-
-                    contentsFinderShowHook!.Disable();
                 }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Something went wrong when the Duty Finder was opened");
             }
 
             return result;
@@ -136,9 +144,16 @@ namespace DailyDuty.Features
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-            if (Settings.Enabled)
+            try
             {
-                wondrousTailsStatus = WondrousTailsModule.GetAllTaskData(wondrousTails);
+                if (Settings.Enabled)
+                {
+                    wondrousTailsStatus = WondrousTailsModule.GetAllTaskData(wondrousTails);
+                }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Something when wrong on Duty Finder Tab Change or Duty Finder Refresh");
             }
 
             return result;
@@ -147,11 +162,18 @@ namespace DailyDuty.Features
         private byte ContentsFinder_Update(AtkUnitBase* atkUnitBase)
         {
             var result = onUpdateHook!.Original(atkUnitBase);
+            try
+            {
+                if (Settings.Enabled)
+                {
+                    UpdateWondrousTails(atkUnitBase);
+                }
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error(e, "Something when wrong on Duty Finder Update");
+            }
 
-            if (Settings.Enabled == false) return result;
-            
-            UpdateWondrousTails(atkUnitBase);
-            
             return result;
         }
 
@@ -160,14 +182,21 @@ namespace DailyDuty.Features
             onDrawHook!.Original(atkUnitBase);
             if (atkUnitBase == null) return;
 
-            if (Settings.Enabled)
+            try
             {
-                foreach (var i in Enumerable.Range(61001, 15).Append(6))
+                if (Settings.Enabled)
                 {
-                    var id = (uint)i;
+                    foreach (var i in Enumerable.Range(61001, 15).Append(6))
+                    {
+                        var id = (uint)i;
 
-                    AddImageNodeByID(atkUnitBase, id);
+                        AddImageNodeByID(atkUnitBase, id);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error(e, "Something when wrong on Duty Finder Draw");
             }
         }
 
@@ -175,12 +204,19 @@ namespace DailyDuty.Features
         {
             if (atkUnitBase == null) return null;
 
-            foreach (var i in Enumerable.Range(61001, 15).Append(6))
+            try
             {
-                var id = (uint)i;
+                foreach (var i in Enumerable.Range(61001, 15).Append(6))
+                {
+                    var id = (uint)i;
 
-                SetImageNodeVisibility(atkUnitBase, id, 29, false);
-                SetImageNodeVisibility(atkUnitBase, id, 30, false);
+                    SetImageNodeVisibility(atkUnitBase, id, 29, false);
+                    SetImageNodeVisibility(atkUnitBase, id, 30, false);
+                }
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error(e, "Something when wrong on Duty Finder Close");
             }
 
             return onFinalizeHook!.Original(atkUnitBase);

@@ -7,6 +7,7 @@ using DailyDuty.Data.ModuleSettings;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Hooking;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -80,35 +81,42 @@ namespace DailyDuty.Features
         {
             var result = contentsFinderShowHook!.Original(a1);
 
-            if (Settings.Enabled)
+            try
             {
-                var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
-                var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
-
-                if (contentsFinderAgent->IsAgentActive())
+                if (Settings.Enabled)
                 {
-                    var addonContentsFinder = GetContentsFinderPointer();
+                    var frameworkInstance = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance();
+                    var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
 
-                    if (addonContentsFinder == null)
+                    if (contentsFinderAgent->IsAgentActive())
                     {
-                        Chat.Debug("Addon null");
-                        return result;
+                        var addonContentsFinder = GetContentsFinderPointer();
+
+                        if (addonContentsFinder == null)
+                        {
+                            Chat.Debug("Addon null");
+                            return result;
+                        }
+
+                        var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
+                        var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
+                        var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
+
+                        onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
+                        onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
+                        onFinalizeHook ??= new Hook<AddonFinalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
+
+                        onDrawHook.Enable();
+                        onFinalizeHook.Enable();
+                        onRefreshHook.Enable();
+
+                        contentsFinderShowHook!.Disable();
                     }
-
-                    var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
-                    var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
-                    var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-
-                    onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
-                    onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
-                    onFinalizeHook ??= new Hook<AddonFinalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
-
-                    onDrawHook.Enable();
-                    onFinalizeHook.Enable();
-                    onRefreshHook.Enable();
-
-                    contentsFinderShowHook!.Disable();
                 }
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Something went wrong when the Duty Finder was opened");
             }
 
             return result;
@@ -118,20 +126,27 @@ namespace DailyDuty.Features
         {
             var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-            if (Settings.Enabled && DutyRouletteSettings.Enabled)
+            try
             {
-                if (IsTabSelected(DutyFinderTab.Roulette) == false)
+                if (Settings.Enabled && DutyRouletteSettings.Enabled)
                 {
-                    ResetDefaultTextColor(atkUnitBase);
+                    if (IsTabSelected(DutyFinderTab.Roulette) == false)
+                    {
+                        ResetDefaultTextColor(atkUnitBase);
+                    }
+                    else
+                    {
+                        SetRouletteColors(atkUnitBase);
+                    }
                 }
                 else
                 {
-                    SetRouletteColors(atkUnitBase);
+                    ResetDefaultTextColor(atkUnitBase);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ResetDefaultTextColor(atkUnitBase);
+                PluginLog.Error(ex, "Something when wrong on Duty Finder Tab Change or Duty Finder Refresh");
             }
             
             return result;
@@ -142,30 +157,38 @@ namespace DailyDuty.Features
             onDrawHook!.Original(atkUnitBase);
             if (atkUnitBase == null) return;
 
-            if (defaultColorSaved == false)
+            try
             {
-                var textNode = GetListItemTextNode(atkUnitBase, 6);
-
-                if (textNode == null) return;
-
-                userDefaultTextColor = textNode->TextColor;
-                defaultColorSaved = true;
-            }
-
-            if (Settings.Enabled && DutyRouletteSettings.Enabled)
-            {
-                if (IsTabSelected(DutyFinderTab.Roulette) == false)
+                if (defaultColorSaved == false)
                 {
-                    ResetDefaultTextColor(atkUnitBase);
+                    var textNode = GetListItemTextNode(atkUnitBase, 6);
+
+                    if (textNode == null) return;
+
+                    userDefaultTextColor = textNode->TextColor;
+                    defaultColorSaved = true;
+                }
+
+                if (Settings.Enabled && DutyRouletteSettings.Enabled)
+                {
+                    if (IsTabSelected(DutyFinderTab.Roulette) == false)
+                    {
+                        ResetDefaultTextColor(atkUnitBase);
+                    }
+                    else
+                    {
+                        SetRouletteColors(atkUnitBase);
+                    }
                 }
                 else
                 {
-                    SetRouletteColors(atkUnitBase);
+                    ResetDefaultTextColor(atkUnitBase);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                ResetDefaultTextColor(atkUnitBase);
+                PluginLog.Error(ex, "Something when wrong on Duty Finder Draw");
+
             }
         }
 
@@ -173,7 +196,14 @@ namespace DailyDuty.Features
         {
             if (atkUnitBase == null) return null;
 
-            ResetDefaultTextColor(atkUnitBase);
+            try
+            {
+                ResetDefaultTextColor(atkUnitBase);
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Something when wrong on Duty Finder Close");
+            }
 
             return onFinalizeHook!.Original(atkUnitBase);
         }
