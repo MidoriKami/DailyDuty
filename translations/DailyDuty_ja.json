@@ -211,6 +211,14 @@
     "message": "全てをリセット",
     "description": "CommonStrings..ctor"
   },
+  "CountLabel": {
+    "message": "Count",
+    "description": "CommonStrings..ctor"
+  },
+  "UnavailableLabel": {
+    "message": "Unavailable",
+    "description": "CommonStrings..ctor"
+  },
   "FeaturesTabLabel": {
     "message": "機能",
     "description": "TabStrings..ctor"
@@ -461,6 +469,18 @@
   },
   "DutyRouletteExpandedInfo": {
     "message": "Todo ウィンドウで未完成の任務を表示します。",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCapped": {
+    "message": "Hide Expert when Tome-capped",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCappedHelp": {
+    "message": "Marks Expert Roulette as completed when you are at the weekly limit for tomestones",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteCurrentTomestoneCount": {
+    "message": "Weekly Limited Tomestones",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {

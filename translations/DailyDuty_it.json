@@ -104,7 +104,7 @@
     "description": "CommonStrings..ctor"
   },
   "AllowancesLabel": {
-    "message": "Allowances",
+    "message": "Indennità",
     "description": "CommonStrings..ctor"
   },
   "LessThanLabel": {
@@ -200,7 +200,7 @@
     "description": "CommonStrings..ctor"
   },
   "ExpandedInfoLabel": {
-    "message": "Expanded Todo Display",
+    "message": "Visualizzazione cose da fare completa",
     "description": "CommonStrings..ctor"
   },
   "ResetLabel": {
@@ -209,6 +209,14 @@
   },
   "ResetAllLabel": {
     "message": "Resetta tutto",
+    "description": "CommonStrings..ctor"
+  },
+  "CountLabel": {
+    "message": "Count",
+    "description": "CommonStrings..ctor"
+  },
+  "UnavailableLabel": {
+    "message": "Unavailable",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
@@ -224,7 +232,7 @@
     "description": "TabStrings..ctor"
   },
   "DebugTabString": {
-    "message": "Settings for debugging or showing more information",
+    "message": "Impostazioni di debug o mostrare più informazioni",
     "description": "TabStrings..ctor"
   },
   "SettingsTabLabel": {
@@ -232,139 +240,139 @@
     "description": "TabStrings..ctor"
   },
   "SettingsTabDescription": {
-    "message": "Settings specific to this window",
+    "message": "Impostazioni specifiche per questa finestra",
     "description": "TabStrings..ctor"
   },
   "TasksTabLabel": {
-    "message": "Tasks",
+    "message": "Compiti",
     "description": "TabStrings..ctor"
   },
   "TasksTabDescription": {
-    "message": "View and configure daily and weekly tasks",
+    "message": "Visualizza e imposta attività quotidiane e settimanali",
     "description": "TabStrings..ctor"
   },
   "TimersTabLabel": {
-    "message": "Timers",
+    "message": "Timer",
     "description": "TabStrings..ctor"
   },
   "TimersTabDescription": {
-    "message": "View time until various daily and weekly tasks reset",
+    "message": "Visualizza il tempo fino al reset di varie attività giornaliere e settimanali",
     "description": "TabStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayLabel": {
-    "message": "Duty Roulette Duty Finder Overlay",
+    "message": "Interfaccia su Duty Roulette e Duty Finder",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayAutomationInformation": {
-    "message": "The 'Duty Roulette' status is gathered directly from internal game data and will always be precisely in sync with the game.",
+    "message": "Lo stato di 'Duty Roulette' viene raccolto direttamente dai dati di gioco interni e sarà sempre esattamente in sincronia con il gioco.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayInformationDisclaimer": {
-    "message": "Requires task module 'Duty Roulette' to be enabled to function",
+    "message": "Richiede che il modulo \"Duty Roulette\" sia attivato per funzionare",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayDescription": {
-    "message": "Changes the colors of the 'Duty Roulette' text in the Duty Finder to reflect the daily completion status.",
+    "message": "Cambia i colori del testo delle 'Duty Roulette' nel Duty Finder per rispecchiare lo stato di completamento giornaliero.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayTechnicalDescription": {
-    "message": "Use the 'Duty Roulette' module to configure which roulettes are colored.\n\nYou can also set the 'complete' and 'incomplete' colors in the 'Duty Roulette' module\n\nRoulettes that are not tracked will not be colored, regardless of their completion status.",
+    "message": "Usa il modulo 'Duty Roulette' per configurare quali roulette sono colorate.\n\nPuoi anche impostare i colori 'completo' e 'incompleto' nel modulo 'Duty Roulette'\n\nLe roulette che non vengono tracciate non saranno colorate, a prescindere dal loro stato di completamento.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayLabel": {
-    "message": "Wondrous Tails Duty Finder Overlay",
+    "message": "Interfaccia Wondrous Tails su Duty Finder",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayDescription": {
-    "message": "Adds a clover icon next to the duties in the Duty Finder, if that duty is in your Wondrous Tails book.\n\nThe clover will be golden if that duty is able to be completed to reward you a stamp.\n\nThe clover will be hollow if that duty has already been claimed for a stamp.",
+    "message": "Aggiunge una icona a quadrifoglio accanto alle Duty nel Duty Finder che sono incluse nel Wondrous Tails.\n\nL'icona sarà d'oro se è possibile completarla per ottenere un timbro.\n\nL'icona sarà cava se è già stato ottenuto un timbro da quella Duty.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayAutomationInformation": {
-    "message": "The Wondrous Tails duties are read directly from game data.\n\nThe Duty Finder may need to be opened and closed again to refresh the displayed data.",
+    "message": "Le funzioni di Wondrous Tails sono lette direttamente dai dati di gioco.\n\nPotrebbe essere necessario aprire e chiudere il Duty Finder per aggiornare i dati visualizzati.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayTechnicalDescription": {
-    "message": "The game code will not clear the task's data when you complete your book for the week. This will cause the Duty Finder to reflect the status of the last obtained book.",
+    "message": "Il codice del gioco non cancellerà i dati delle attività quando completerai il tuo libro settimanale. Questo farà sì che il Duty Finder rispecchi lo stato dell'ultimo libro ottenuto.",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowLabel": {
-    "message": "Todo Window",
+    "message": "Finestra cose da fare",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowTaskSelectionLabel": {
-    "message": "Task Selection",
+    "message": "Selezione attività",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowDailyLabel": {
-    "message": "Show Daily Tasks",
+    "message": "Mostra attività giornaliere",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWeeklyLabel": {
-    "message": "Show Weekly Tasks",
+    "message": "Mostra attività settimanali",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideWindowWhenLabel": {
-    "message": "Hide Window When",
+    "message": "Nascondi finestra quando",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideWhenCompleteLabel": {
-    "message": "All Tasks are Complete",
+    "message": "Tutte le attività sono completate",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowShowWhenCompleteLabel": {
-    "message": "Show Completed Tasks",
+    "message": "Mostra attività completate",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowHideInDutyLabel": {
-    "message": "In a Duty",
+    "message": "Sei in una duty",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowResizeStyleLabel": {
-    "message": "Window Resize Options",
+    "message": "Impostazioni ridimensionamento finestra",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowInformation": {
-    "message": "The Todo window is a small window that shows your tracked tasks. This window is helpful for figuring out what you still need to do at a quick glance.",
+    "message": "La finestra cose da fare è una piccola finestra che mostra le attività tracciate. Essa è utile per capire cosa devi ancora fare a colpo d'occhio.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
-    "message": "Enable which timers you would like to see here in 'Timers Window Configuration'",
+    "message": "Abilita i timer che vorresti vedere qui da 'Configurazione finestra timer'",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowLabel": {
-    "message": "Timers Window",
+    "message": "Finestra timer",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowInformation": {
-    "message": "The timers window allows you to view the time until various resets as a handy user interface element.",
+    "message": "La finestra timer consente di vedere il tempo mancante ai vari reset come un pratico elemento di interfaccia.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimersEnableLabel": {
-    "message": "Enable Timers",
+    "message": "Abilita Timer",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowForegroundColorLabel": {
-    "message": "Foreground Color",
+    "message": "Colore in primo piano",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowBackgroundColorLabel": {
-    "message": "Background Color",
+    "message": "Colore sfondo",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTextColorLabel": {
-    "message": "Text Color",
+    "message": "Colore del testo",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimeColorLabel": {
-    "message": "Time Color",
+    "message": "Colore del tempo",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowFitToWindowLabel": {
-    "message": "Fit to Window",
+    "message": "Adatta alla finestra",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowSizeLabel": {
-    "message": "Size",
+    "message": "Dimensione",
     "description": "FeaturesStrings..ctor"
   },
   "DailyDutySettingsLabel": {
@@ -372,15 +380,15 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NoSelectionInformation": {
-    "message": "Select an item to configure in the left pane",
+    "message": "Seleziona un elemento da configurare nel riquadro a sinistra",
     "description": "ConfigurationStrings..ctor"
   },
   "AboutTabLabel": {
-    "message": "About",
+    "message": "Info su",
     "description": "ConfigurationStrings..ctor"
   },
   "OptionsTabLabel": {
-    "message": "Options",
+    "message": "Impostazioni",
     "description": "ConfigurationStrings..ctor"
   },
   "StatusTabLabel": {
@@ -392,23 +400,23 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsConfigurationLabel": {
-    "message": "Notifications",
+    "message": "Notifiche",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleLabel": {
-    "message": "Notifications Throttle",
+    "message": "Limite Notifiche",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleDescription": {
-    "message": "This setting controls the frequency of chat notifications from DailyDuty.\n\nDefault: 5 Minutes",
+    "message": "Questa impostazione controlla la frequenza delle notifiche chat da DailyDuty.\n\nPredefinito: 5 minuti",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayLabel": {
-    "message": "Notifications Delay",
+    "message": "Ritardo Notifiche",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayDescription": {
-    "message": "Prevents notifications from showing until after the selected weekday. The start of the week is 'Tuesday'",
+    "message": "Impedisce la comparsa delle notifiche fino al giorno della settimana selezionato. L'inizio della settimana è 'Martedì'",
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageLabel": {
@@ -416,7 +424,7 @@
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageSelectLabel": {
-    "message": "Language Select",
+    "message": "Selezione Lingua",
     "description": "ConfigurationStrings..ctor"
   },
   "DutyRouletteLabel": {
@@ -461,6 +469,18 @@
   },
   "DutyRouletteExpandedInfo": {
     "message": "Displays individual incomplete duties in the todo window",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCapped": {
+    "message": "Hide Expert when Tome-capped",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCappedHelp": {
+    "message": "Marks Expert Roulette as completed when you are at the weekly limit for tomestones",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteCurrentTomestoneCount": {
+    "message": "Weekly Limited Tomestones",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {

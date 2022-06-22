@@ -211,6 +211,14 @@
     "message": "Alle Resetten",
     "description": "CommonStrings..ctor"
   },
+  "CountLabel": {
+    "message": "Anzahl",
+    "description": "CommonStrings..ctor"
+  },
+  "UnavailableLabel": {
+    "message": "Unavailable",
+    "description": "CommonStrings..ctor"
+  },
   "FeaturesTabLabel": {
     "message": "Funktionen",
     "description": "TabStrings..ctor"
@@ -461,6 +469,18 @@
   },
   "DutyRouletteExpandedInfo": {
     "message": "Zeigt unvollständige Inhalte im Aufgaben-Fenster einzeln an.",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCapped": {
+    "message": "Experte ausblenden, wenn Steine Limit erreicht ist",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCappedHelp": {
+    "message": "Markiert den Zufallsinhalt \"Experte\" als Erledigt, wenn das wöchentliche Limit an allagischen Steinen erreicht wurde",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteCurrentTomestoneCount": {
+    "message": "Wöchentliche Allagische Steine",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
