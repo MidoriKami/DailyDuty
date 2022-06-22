@@ -211,6 +211,14 @@
     "message": "Сбросить все",
     "description": "CommonStrings..ctor"
   },
+  "CountLabel": {
+    "message": "Count",
+    "description": "CommonStrings..ctor"
+  },
+  "UnavailableLabel": {
+    "message": "Unavailable",
+    "description": "CommonStrings..ctor"
+  },
   "FeaturesTabLabel": {
     "message": "Особенности",
     "description": "TabStrings..ctor"
@@ -396,7 +404,7 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleLabel": {
-    "message": "Notifications Throttle",
+    "message": "Дроссель уведомлений",
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsThrottleDescription": {
@@ -461,6 +469,18 @@
   },
   "DutyRouletteExpandedInfo": {
     "message": "Отображает личные неполные задачи в окне задач",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCapped": {
+    "message": "Hide Expert when Tome-capped",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCappedHelp": {
+    "message": "Marks Expert Roulette as completed when you are at the weekly limit for tomestones",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteCurrentTomestoneCount": {
+    "message": "Weekly Limited Tomestones",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
@@ -812,7 +832,7 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntRemainingSingularLabel": {
-    "message": "Hunt Remaining",
+    "message": "Оставшиеся Охотничьи Марки",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTrackedHuntsLabel": {

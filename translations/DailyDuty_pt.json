@@ -211,6 +211,14 @@
     "message": "Restaurar Tudo",
     "description": "CommonStrings..ctor"
   },
+  "CountLabel": {
+    "message": "Count",
+    "description": "CommonStrings..ctor"
+  },
+  "UnavailableLabel": {
+    "message": "Unavailable",
+    "description": "CommonStrings..ctor"
+  },
   "FeaturesTabLabel": {
     "message": "Recursos",
     "description": "TabStrings..ctor"
@@ -461,6 +469,18 @@
   },
   "DutyRouletteExpandedInfo": {
     "message": "Exibe duties incompletos na janela de tarefas.",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCapped": {
+    "message": "Hide Expert when Tome-capped",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteHideWhenCappedHelp": {
+    "message": "Marks Expert Roulette as completed when you are at the weekly limit for tomestones",
+    "description": "ModuleStrings..ctor"
+  },
+  "DutyRouletteCurrentTomestoneCount": {
+    "message": "Weekly Limited Tomestones",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
