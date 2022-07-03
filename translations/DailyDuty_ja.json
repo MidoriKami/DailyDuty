@@ -212,11 +212,11 @@
     "description": "CommonStrings..ctor"
   },
   "CountLabel": {
-    "message": "Count",
+    "message": "カウント",
     "description": "CommonStrings..ctor"
   },
   "UnavailableLabel": {
-    "message": "Unavailable",
+    "message": "利用不可",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
@@ -472,15 +472,15 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteHideWhenCapped": {
-    "message": "Hide Expert when Tome-capped",
+    "message": "トームストーンが上限になったらエキスパートを非表示",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteHideWhenCappedHelp": {
-    "message": "Marks Expert Roulette as completed when you are at the weekly limit for tomestones",
+    "message": "トームストーンが週上限になるとエキスパートを完成とマークします",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteCurrentTomestoneCount": {
-    "message": "Weekly Limited Tomestones",
+    "message": "週間制限のトームストーン",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsNumStamps": {
@@ -512,7 +512,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsUnavailableMessage": {
-    "message": "このインスタンスは、再ロールすればスタンプで利用できます",
+    "message": "このインスタンスは「リトライ」すれば未コンプリートに戻せます",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsUnavailableRerollMessage": {
@@ -548,7 +548,7 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickersAvailableNotification": {
-    "message": "使用可能なスタンプ",
+    "message": "スタンプを付けることができます。",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
