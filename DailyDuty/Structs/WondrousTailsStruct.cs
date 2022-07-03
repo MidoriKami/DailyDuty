@@ -17,8 +17,6 @@ namespace DailyDuty.Structs
 
         [FieldOffset(0x20)] private readonly ushort _secondChance;
 
-        [FieldOffset(0x1E)] public readonly ushort WeeklyKey;
-
         public int SecondChance => (_secondChance >> 7) & 0b1111;
 
         [FieldOffset(0x22)] 
