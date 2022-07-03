@@ -7,5 +7,8 @@ namespace DailyDuty.Data.ModuleSettings
         public bool InstanceNotifications = false;
         public bool EnableOpenBookLink = false;
         public bool StickerAvailableNotification = false;
+        public bool UnclaimedBookWarning = true;
+        public bool DeadlineEarlyWarning = false;
+        public int EarlyWarningDays = 3;
     }
 }

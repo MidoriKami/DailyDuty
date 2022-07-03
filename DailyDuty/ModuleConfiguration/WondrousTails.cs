@@ -7,6 +7,7 @@ using DailyDuty.Localization;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using ImGuiScene;
 
@@ -128,7 +129,7 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (Draw.Checkbox(Strings.Module.WondrousTailsInstanceNotificationsLabel, ref Settings.InstanceNotifications, Strings.Module.WondrousTailsInstanceNotificationsDescription))
                 {
-                    Settings.ZoneChangeReminder = Settings.InstanceNotifications || Settings.StickerAvailableNotification;
+                    Settings.ZoneChangeReminder = true;
                     Service.LogManager.LogMessage(ModuleType.WondrousTails, "Instance Notifications " + (Settings.InstanceNotifications ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
                 }
@@ -137,9 +138,47 @@ namespace DailyDuty.ModuleConfiguration
 
                 if (Draw.Checkbox(Strings.Module.WondrousTailsStickerAvailableNotificationLabel, ref Settings.StickerAvailableNotification, Strings.Module.WondrousTailsStickerAvailableNotificationDescription))
                 {
-                    Settings.ZoneChangeReminder = Settings.InstanceNotifications || Settings.StickerAvailableNotification;
+                    Settings.ZoneChangeReminder = true;
                     Service.LogManager.LogMessage(ModuleType.WondrousTails, "Stamp Available Notification " + (Settings.StickerAvailableNotification ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
+                }
+
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Module.WondrousTailsBookAvailableNotification, ref Settings.UnclaimedBookWarning, Strings.Module.WondrousTailsBookAvailableNotificationDescription))
+                {
+                    Settings.ZoneChangeReminder = true;
+                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Unclaimed Book Warning " + (Settings.UnclaimedBookWarning ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+                
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Module.WondrousTailsDeadlineEarlyWarningLabel, ref Settings.DeadlineEarlyWarning, Strings.Module.WondrousTailsDeadlineEarlyWarningDescription))
+                {
+                    Settings.ZoneChangeReminder = true;
+                    Service.LogManager.LogMessage(ModuleType.WondrousTails, "Deadline Early Warning " + (Settings.DeadlineEarlyWarning ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+
+                if (Settings.DeadlineEarlyWarning)
+                {
+                    ImGui.Indent(15 * ImGuiHelpers.GlobalScale);
+
+                    ImGui.SetNextItemWidth(50 * ImGuiHelpers.GlobalScale);
+                    ImGui.InputInt("", ref Settings.EarlyWarningDays, 0, 0);
+                    if (ImGui.IsItemDeactivatedAfterEdit())
+                    {
+                        Settings.EarlyWarningDays = Math.Clamp(Settings.EarlyWarningDays, 1, 13);
+                        Service.SystemConfiguration.Save();
+                    }
+
+                    ImGui.SameLine();
+                    ImGui.Text(Strings.Common.DaysLabel);
+
+                    ImGuiComponents.HelpMarker(Strings.Module.WondrousTailsDeadlineEarlyWarningInputDescription);
+
+                    ImGui.Indent(-15 * ImGuiHelpers.GlobalScale);
                 }
             }
         };

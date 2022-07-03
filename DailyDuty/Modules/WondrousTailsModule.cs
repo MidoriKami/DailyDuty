@@ -23,17 +23,19 @@ namespace DailyDuty.Modules
     internal unsafe class WondrousTailsModule :
         IDisposable,
         IZoneChangeAlwaysNotification,
+        IZoneChangeThrottledNotification,
         ICompletable
     {
         private static WondrousTailsSettings Settings => Service.CharacterConfiguration.WondrousTails;
         public CompletionType Type => CompletionType.Weekly;
         public GenericSettings GenericSettings => Settings;
+
         public string DisplayName => Strings.Module.WondrousTailsLabel;
         public Action? ExpandedDisplay => null;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3, uint a4, short a5);
-
         private delegate byte DutyEventDelegate(void* a1, void* a2, ushort* a3);
+        private delegate int WondrousTailsGetDeadlineDelegate(int* deadlineIndex);
 
         [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
         private readonly WondrousTailsStruct* wondrousTails = null;
@@ -43,6 +45,12 @@ namespace DailyDuty.Modules
 
         [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B D9 49 8B F8 41 0F B7 08", DetourName = nameof(DutyEventFunction))]
         private readonly Hook<DutyEventDelegate>? dutyEventHook = null;
+
+        [Signature("48 8D 0D ?? ?? ?? ?? 48 89 BD ?? ?? ?? ?? E8 ?? ?? ?? ?? 44 8B C0", ScanType = ScanType.StaticAddress)]
+        private readonly int* wondrousTailsDeadlineIndex = null;
+  
+        [Signature("8B 81 ?? ?? ?? ?? C1 E8 04 25")]
+        private readonly WondrousTailsGetDeadlineDelegate wondrousTailsGetDeadline = null!;
 
         private bool dutyEndNotificationSent;
 
@@ -59,6 +67,8 @@ namespace DailyDuty.Modules
 
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
             openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
+
+            SendNotification();
         }
 
         public void Dispose()
@@ -144,6 +154,46 @@ namespace DailyDuty.Modules
             dutyEndNotificationSent = false;
         }
 
+        public void SendNotification()
+        {
+            if (!Condition.IsBoundByDuty() && Settings.DeadlineEarlyWarning)
+            {
+                var deadLine = GetDeadline();
+                var now = DateTime.Now;
+                var daysRemaining = deadLine - now;
+
+                if (now + TimeSpan.FromDays(Settings.EarlyWarningDays) > deadLine)
+                {
+                    if (daysRemaining.Days > 1)
+                    {
+                        Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsDeadlineEarlyWarningPlural.Format(daysRemaining.Days), Settings.EnableOpenBookLink ? openWondrousTails : null);
+                    }
+                    else if (daysRemaining.Days == 1)
+                    {
+                        Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsDeadlineEarlyWarningSingular.Format(daysRemaining.Days), Settings.EnableOpenBookLink ? openWondrousTails : null);
+                    }
+
+                }
+            }
+
+            if (!Condition.IsBoundByDuty() && Settings.UnclaimedBookWarning)
+            {
+
+                // If the user doesn't have a book
+                if (!InventoryContainsWondrousTailsBook())
+                {
+                    var deadline = GetDeadline();
+                    var now = DateTime.Now;
+
+                    // If deadline isn't this week, but next week
+                    if (now > deadline - TimeSpan.FromDays(7))
+                    {
+                        Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsBookAvailableNotification);
+                    }
+                }
+            }
+        }
+
         private void OnDutyStartNotification(ushort currentInstance)
         {
             var node = FindNode(currentInstance);
@@ -227,6 +277,13 @@ namespace DailyDuty.Modules
         private bool AnyTasksAvailableNow()
         {
             return GetAllTaskData(wondrousTails).Any(task => task.TaskState == ButtonState.AvailableNow);
+        }
+
+        public DateTime GetDeadline()
+        {
+            var deadline = wondrousTailsGetDeadline(wondrousTailsDeadlineIndex);
+
+            return DateTimeOffset.FromUnixTimeSeconds(deadline).ToLocalTime().DateTime; 
         }
     }
 }

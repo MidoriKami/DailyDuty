@@ -36,6 +36,7 @@ namespace DailyDuty.Localization
             public readonly string ClickthroughLabel = Loc.Localize("ClickthroughLabel", "Clickthrough");
 
             public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
+            public readonly string DaysLabel = Loc.Localize("DaysLabel", "Days");
             public readonly string StyleLabel = Loc.Localize("StyleLabel", "Style");
             public readonly string AllowancesLabel = Loc.Localize("AllowancesLabel", "Allowances");
             public readonly string LessThanLabel = Loc.Localize("LessThanLabel", "Less Than");
@@ -177,6 +178,13 @@ namespace DailyDuty.Localization
             public readonly string WondrousTailsStickerAvailableNotificationLabel = Loc.Localize("WondrousTailsStickerAvailableNotificationLabel", "Sticker Available Warning");
             public readonly string WondrousTailsStickerAvailableNotificationDescription = Loc.Localize("WondrousTailsStickerAvailableNotificationDescription", "Send a notification on zone change if any tasks in your book are currently available to claim a sticker.");
             public readonly string WondrousTailsStickersAvailableNotification = Loc.Localize("WondrousTailsStickersAvailableNotification", "Stickers Available");
+            public readonly string WondrousTailsDeadlineEarlyWarningPlural = Loc.Localize("WondrousTailsDeadlineEarlyWarningPlural", "Deadline in {0} days");
+            public readonly string WondrousTailsDeadlineEarlyWarningSingular = Loc.Localize("WondrousTailsDeadlineEarlyWarningSingular", "Deadline in {0} day");
+            public readonly string WondrousTailsDeadlineEarlyWarningLabel = Loc.Localize("WondrousTailsDeadlineEarlyWarningLabel", "Deadline Early Warning");
+            public readonly string WondrousTailsDeadlineEarlyWarningDescription = Loc.Localize("WondrousTailsDeadlineEarlyWarningDescription", "Send a notification on zone change if your book is about to expire");
+            public readonly string WondrousTailsDeadlineEarlyWarningInputDescription = Loc.Localize("WondrousTailsDeadlineEarlyWarningInputDescription", "How many days before the deadline to start sending warning messages");
+            public readonly string WondrousTailsBookAvailableNotification = Loc.Localize("WondrousTailsBookAvailableNotification", "Book Available");
+            public readonly string WondrousTailsBookAvailableNotificationDescription = Loc.Localize("WondrousTailsBookAvailableNotificationDescription", "Send a notification on zone change if you are able to claim a new book");
 
             public readonly string TreasureMapLabel = Loc.Localize("TreasureMapLabel", "Treasure Map");
             public readonly string TreasureMapInformation = Loc.Localize("TreasureMapInformation", "Treasure Maps are gatherable items with the Disciples of Land jobs once every 18 hours. These maps can be opened as part of a mini-event for various rewards. Alternatively, these maps can be sold on the market board.\n\nYou can only hold one of each type of map at a time.");
@@ -212,7 +220,7 @@ namespace DailyDuty.Localization
             public readonly string CustomDeliveryLabel = Loc.Localize("CustomDeliveryLabel", "Custom Delivery");
             public readonly string CustomDeliveryInformation = Loc.Localize("CustomDeliveryInformation", "Custom Deliveries is a weekly DoH/DoL task you can complete for various crafting or gathering scripts, exp rewards, various materia, folklore tomes, and more.");
             public readonly string CustomDeliveryAutomationInformation = Loc.Localize("CustomDeliveryAutomationInformation", "Custom Delivery information is gathered directly from the game's data, and will always be in sync with the current status of the game.");
-            public readonly string CustomDeliveryAllowancesLabel = Loc.Localize("CustomDeliveryAllowancesLabel", "Allowances Available");
+            public readonly string CustomDeliveryAllowancesLabel = Loc.Localize("CustomDeliveryAllowancesLabel", "Above Allowance Threshold");
 
             public readonly string DomanEnclaveLabel = Loc.Localize("DomanEnclaveLabel", "Doman Enclave");
             public readonly string DomanEnclaveInformation = Loc.Localize("DomanEnclaveInformation", "The Doman Enclave is a weekly task you can complete for gil rewards. You donate junk items in exchange for a multiple of their value in gil back, resulting in profit. The reward multiplier increases higher the more you progress through the Doman Enclave.");
