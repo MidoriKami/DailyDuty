@@ -67,9 +67,6 @@ namespace DailyDuty.Utilities
             var backupFileInfo = new FileInfo(pluginConfigDirectory + @"\DailyDutyConfigBackup.zip");
             var configFileInfo = new FileInfo(pluginConfigDirectory.Parent + @"\DailyDuty.json");
 
-            PluginLog.Information($"BackupFile: {backupFileInfo.Exists}");
-            PluginLog.Information($"ConfigFile: {configFileInfo.Exists}");
-
             if (!backupFileInfo.Exists && configFileInfo.Exists)
             {
                 Service.PluginInterface.UiBuilder.AddNotification("Configuration Backup Not Found... creating", "Daily Duty", NotificationType.Warning);
