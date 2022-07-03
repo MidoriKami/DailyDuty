@@ -4,7 +4,6 @@ using System.IO.Compression;
 using DailyDuty.Data;
 using Dalamud.Game;
 using Dalamud.Interface.Internal.Notifications;
-using Dalamud.Logging;
 using Newtonsoft.Json;
 
 namespace DailyDuty.Utilities

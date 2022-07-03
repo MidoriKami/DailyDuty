@@ -67,8 +67,6 @@ namespace DailyDuty.Modules
 
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
             openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
-
-            SendNotification();
         }
 
         public void Dispose()
