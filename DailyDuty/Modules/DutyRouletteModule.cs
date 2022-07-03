@@ -32,6 +32,8 @@ namespace DailyDuty.Modules
         public GenericSettings GenericSettings => Settings;
         public string DisplayName => Strings.Module.DutyRouletteLabel;
 
+        public static long CurrentLimitedTomestoneWeeklyCap;
+
         public Action ExpandedDisplay => () =>
         {
             var settings = Service.SystemConfiguration.Windows.Todo;
@@ -75,6 +77,8 @@ namespace DailyDuty.Modules
 
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenRouletteDutyFinder);
             openDutyFinder = Service.PluginInterface.AddChatLinkHandler((uint) ChatPayloads.OpenRouletteDutyFinder, OpenRouletteDutyFinder);
+
+            CurrentLimitedTomestoneWeeklyCap = GetWeeklyTomestomeLimit();
         }
 
         public void Dispose()
@@ -109,7 +113,7 @@ namespace DailyDuty.Modules
 
                 if (trackedRoulette.Type == RouletteType.Expert && Settings.HideWhenCapped)
                 {
-                    if (getCurrentLimitedTomestoneCount(9) == GetWeeklyTomestomeLimit())
+                    if (getCurrentLimitedTomestoneCount(9) == CurrentLimitedTomestoneWeeklyCap)
                     {
                         rouletteStatus = true;
                     }
@@ -153,9 +157,11 @@ namespace DailyDuty.Modules
         public int GetWeeklyTomestomeLimit()
         {
             return Service.DataManager
-                .GetExcelSheet<Tomestones>()!
-                .GetRow(3)!
-                .WeeklyLimit;
+                .GetExcelSheet<TomestonesItem>()!
+                .Select(t => t.Tomestones.Value)
+                .OfType<Tomestones>()
+                .Where(t => t.WeeklyLimit > 0)
+                .Max(t => t.WeeklyLimit);
         }
 
         private int RemainingRoulettesCount()
