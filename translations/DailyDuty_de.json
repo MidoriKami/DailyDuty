@@ -216,7 +216,7 @@
     "description": "CommonStrings..ctor"
   },
   "UnavailableLabel": {
-    "message": "Unavailable",
+    "message": "Nicht verfügbar",
     "description": "CommonStrings..ctor"
   },
   "FeaturesTabLabel": {
