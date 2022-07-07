@@ -58,6 +58,7 @@ namespace DailyDuty.Modules
         private const uint WondrousTailsBookItemID = 2002023;
 
         private readonly DalamudLinkPayload openWondrousTails;
+        private readonly DalamudLinkPayload idyllshireTeleport;
 
         public WondrousTailsModule()
         {
@@ -67,6 +68,7 @@ namespace DailyDuty.Modules
 
             Service.PluginInterface.RemoveChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook);
             openWondrousTails = Service.PluginInterface.AddChatLinkHandler((uint)ChatPayloads.OpenWondrousTailsBook, OpenWondrousTailsBook);
+            idyllshireTeleport = Service.TeleportManager.GetPayload(ChatPayloads.IdyllshireTeleport);
         }
 
         public void Dispose()
@@ -186,7 +188,7 @@ namespace DailyDuty.Modules
                     // If deadline isn't this week, but next week
                     if (now > deadline - TimeSpan.FromDays(7))
                     {
-                        Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsBookAvailableNotification);
+                        Chat.Print(Strings.Module.WondrousTailsLabel, Strings.Module.WondrousTailsBookAvailableNotification, Settings.EnableOpenBookLink ? idyllshireTeleport : null);
                     }
                 }
             }
