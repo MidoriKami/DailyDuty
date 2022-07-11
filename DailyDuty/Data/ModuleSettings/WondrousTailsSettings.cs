@@ -9,6 +9,7 @@ namespace DailyDuty.Data.ModuleSettings
         public bool StickerAvailableNotification = false;
         public bool UnclaimedBookWarning = true;
         public bool DeadlineEarlyWarning = false;
+        public bool EnableTeleportLink = false;
         public int EarlyWarningDays = 3;
     }
 }

@@ -95,7 +95,7 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
-        private readonly InfoBox clickableLink = new()
+        private readonly InfoBox openBookLink = new()
         {
             Label = Strings.Common.ClickableLinkLabel,
             ContentsAction = () =>
@@ -112,7 +112,22 @@ namespace DailyDuty.ModuleConfiguration
             }
         };
 
+        private readonly InfoBox idyllshireTeleportLink = new()
+        {
+            Label = Strings.Common.ClickableLinkLabel,
+            ContentsAction = () =>
+            {
+                ImGui.Text(Strings.Module.WondrousTailsIdyllshireTeleportLinkDescription);
 
+                ImGui.Spacing();
+
+                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableTeleportLink))
+                {
+                    Service.LogManager.LogMessage(ModuleType.DomanEnclave, "Teleport Link " + (Settings.EnableTeleportLink ? "Enabled" : "Disabled"));
+                    Service.CharacterConfiguration.Save();
+                }
+            }
+        };
 
         private readonly InfoBox options = new()
         {
@@ -225,7 +240,10 @@ namespace DailyDuty.ModuleConfiguration
             options.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(30.0f);
-            clickableLink.DrawCentered();
+            openBookLink.DrawCentered();
+
+            ImGuiHelpers.ScaledDummy(30.0f);
+            idyllshireTeleportLink.DrawCentered();
 
             ImGuiHelpers.ScaledDummy(20.0f);
         }
