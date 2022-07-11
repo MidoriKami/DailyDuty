@@ -104,7 +104,7 @@ namespace DailyDuty.ModuleConfiguration
 
                 ImGui.Spacing();
 
-                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableOpenBookLink))
+                if (Draw.Checkbox(Strings.Common.EnabledLabel + "##OpenBookClickableLink", ref Settings.EnableOpenBookLink))
                 {
                     Service.LogManager.LogMessage(ModuleType.DomanEnclave, "Clickable Link " + (Settings.EnableOpenBookLink ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
@@ -121,7 +121,7 @@ namespace DailyDuty.ModuleConfiguration
 
                 ImGui.Spacing();
 
-                if (Draw.Checkbox(Strings.Common.EnabledLabel, ref Settings.EnableTeleportLink))
+                if (Draw.Checkbox(Strings.Common.EnabledLabel + "##IdyllShireClickableLink", ref Settings.EnableTeleportLink))
                 {
                     Service.LogManager.LogMessage(ModuleType.DomanEnclave, "Teleport Link " + (Settings.EnableTeleportLink ? "Enabled" : "Disabled"));
                     Service.CharacterConfiguration.Save();
