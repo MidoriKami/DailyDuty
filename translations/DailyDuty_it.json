@@ -99,6 +99,10 @@
     "message": "Minuti",
     "description": "CommonStrings..ctor"
   },
+  "DaysLabel": {
+    "message": "Days",
+    "description": "CommonStrings..ctor"
+  },
   "StyleLabel": {
     "message": "Stile",
     "description": "CommonStrings..ctor"
@@ -511,6 +515,10 @@
     "message": "Puoi cliccare sulle notifiche per aprire il tuo Wondrous Tails",
     "description": "ModuleStrings..ctor"
   },
+  "WondrousTailsIdyllshireTeleportLinkDescription": {
+    "message": "New book available notifications can be clicked on to teleport to Idyllshire",
+    "description": "ModuleStrings..ctor"
+  },
   "WondrousTailsUnavailableMessage": {
     "message": "This instance is available for a stamp if you re-roll it",
     "description": "ModuleStrings..ctor"
@@ -549,6 +557,34 @@
   },
   "WondrousTailsStickersAvailableNotification": {
     "message": "Stickers Available",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningPlural": {
+    "message": "Deadline in {0} days",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningSingular": {
+    "message": "Deadline in {0} day",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningLabel": {
+    "message": "Deadline Early Warning",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningDescription": {
+    "message": "Send a notification on zone change if your book is about to expire",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningInputDescription": {
+    "message": "How many days before the deadline to start sending warning messages",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsBookAvailableNotification": {
+    "message": "Book Available",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsBookAvailableNotificationDescription": {
+    "message": "Send a notification on zone change if you are able to claim a new book",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
@@ -672,7 +708,7 @@
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAllowancesLabel": {
-    "message": "Allowances Available",
+    "message": "Above Allowance Threshold",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveLabel": {
