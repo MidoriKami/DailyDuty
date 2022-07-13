@@ -99,6 +99,10 @@
     "message": "Minuten",
     "description": "CommonStrings..ctor"
   },
+  "DaysLabel": {
+    "message": "Tage",
+    "description": "CommonStrings..ctor"
+  },
   "StyleLabel": {
     "message": "Style",
     "description": "CommonStrings..ctor"
@@ -511,6 +515,10 @@
     "message": "Benachrichtigungen können angeklickt werden, um das 'Khloes Abenteueralbum' zu öffnen",
     "description": "ModuleStrings..ctor"
   },
+  "WondrousTailsIdyllshireTeleportLinkDescription": {
+    "message": "Benachrichtigungen über ein neues 'Khloes Abenteueralbum' können angeklickt werden, um nach Frohehalde zu teleportieren",
+    "description": "ModuleStrings..ctor"
+  },
   "WondrousTailsUnavailableMessage": {
     "message": "Für diesen Inhalt ist ein Aufkleber erhältlich, wenn du ihn zurücksetzt",
     "description": "ModuleStrings..ctor"
@@ -549,6 +557,34 @@
   },
   "WondrousTailsStickersAvailableNotification": {
     "message": "Aufkleber verfügbar",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningPlural": {
+    "message": "Deadline in {0} Tagen",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningSingular": {
+    "message": "Deadline in {0} Tag",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningLabel": {
+    "message": "Deadline Frühwarnung",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningDescription": {
+    "message": "Sende eine Benachrichtigung beim Gebietswechsel, wenn dein Album bald abläuft",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningInputDescription": {
+    "message": "Wie viele Tage vor Ablauf der Deadline, ab der Warnmeldungen verschickt werden sollen",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsBookAvailableNotification": {
+    "message": "Khloes Abenteueralbum verfügbar",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsBookAvailableNotificationDescription": {
+    "message": "Sende eine Benachrichtigung beim Gebietswechsel, wenn du ein neues Album erhalten kannst",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
@@ -672,7 +708,7 @@
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAllowancesLabel": {
-    "message": "Verbleibende Abgaben",
+    "message": "Verbleibende Lieferungen",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveLabel": {
@@ -768,7 +804,7 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllowancesLabel": {
-    "message": "Verbleinde Versuche",
+    "message": "Verbleibende Versuche",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotLabel": {
