@@ -99,6 +99,10 @@
     "message": "分",
     "description": "CommonStrings..ctor"
   },
+  "DaysLabel": {
+    "message": "日",
+    "description": "CommonStrings..ctor"
+  },
   "StyleLabel": {
     "message": "スタイル",
     "description": "CommonStrings..ctor"
@@ -511,6 +515,10 @@
     "message": "通知をクリックして、クロの空想帳を開きます",
     "description": "ModuleStrings..ctor"
   },
+  "WondrousTailsIdyllshireTeleportLinkDescription": {
+    "message": "新しい空想帳が取得可能の通知をクリックすることでイディルシャイアにテレポートする",
+    "description": "ModuleStrings..ctor"
+  },
   "WondrousTailsUnavailableMessage": {
     "message": "このインスタンスは「リトライ」すれば未コンプリートに戻せます",
     "description": "ModuleStrings..ctor"
@@ -549,6 +557,34 @@
   },
   "WondrousTailsStickersAvailableNotification": {
     "message": "スタンプを付けることができます。",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningPlural": {
+    "message": "期限切れまで 残り{0} 日",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningSingular": {
+    "message": "期限切れまで 残り{0} 日",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningLabel": {
+    "message": "期限切れアラート",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningDescription": {
+    "message": "空想帳が期限切れになった場合、ゾーン変更時に通知を送信する",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsDeadlineEarlyWarningInputDescription": {
+    "message": "警告メッセージの送信期限までの日数",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsBookAvailableNotification": {
+    "message": "新しい空想帳を取得可能",
+    "description": "ModuleStrings..ctor"
+  },
+  "WondrousTailsBookAvailableNotificationDescription": {
+    "message": "新しい空想帳を入手できる場合は、ゾーン変更時に通知を送信します",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapLabel": {
@@ -672,7 +708,7 @@
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAllowancesLabel": {
-    "message": "利用可能な受注権",
+    "message": "受注権限度値",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveLabel": {
