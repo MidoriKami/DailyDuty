@@ -142,9 +142,12 @@ namespace DailyDuty.Interfaces
                 var imageStart = startPosition + insetVector;
                 var imageStop = startPosition + imageSize - insetVector;
 
-                ImGui.GetWindowDrawList().AddRectFilled(startPosition, startPosition + imageSize, ImGui.GetColorU32(Colors.White), 40.0f);
+                //ImGui.GetWindowDrawList().AddRectFilled(startPosition, startPosition + imageSize, ImGui.GetColorU32(Colors.White), 40.0f);
+                ImGui.GetWindowDrawList().AddRectFilled(startPosition, startPosition + imageSize, ImGui.GetColorU32(Colors.White), 0.0f);
 
-                ImGui.GetWindowDrawList().AddImageRounded(AboutImage.ImGuiHandle, imageStart, imageStop, Vector2.Zero, Vector2.One, ImGui.GetColorU32(Colors.White), 40.0f);
+                //ImGui.GetWindowDrawList().AddImageRounded(AboutImage.ImGuiHandle, imageStart, imageStop, Vector2.Zero, Vector2.One, ImGui.GetColorU32(Colors.White), 40.0f);
+                //ImGui.GetWindowDrawList().AddImageRounded(AboutImage.ImGuiHandle, imageStart, imageStop, Vector2.Zero, Vector2.One, ImGui.GetColorU32(Colors.White), 40.0f);
+                ImGui.GetWindowDrawList().AddImage(AboutImage.ImGuiHandle, imageStart, imageStop);
 
                 ImGui.SetCursorScreenPos(startPosition + imageSize);
                 ImGuiHelpers.ScaledDummy(20.0f);
