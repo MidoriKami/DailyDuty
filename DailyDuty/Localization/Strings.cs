@@ -34,6 +34,7 @@ namespace DailyDuty.Localization
             public readonly string StyleOptionsLabel = Loc.Localize("StyleOptionsLabel", "Style Options");
             public readonly string OpacityLabel = Loc.Localize("OpacityLabel", "Opacity");
             public readonly string ClickthroughLabel = Loc.Localize("ClickthroughLabel", "Clickthrough");
+            public readonly string ClickthroughHelp = Loc.Localize("ClickthroughHelp", "Locks the window position and allows ui elements behind the window to recieve clicks");
 
             public readonly string MinutesLabel = Loc.Localize("MinutesLabel", "Minutes");
             public readonly string DaysLabel = Loc.Localize("DaysLabel", "Days");

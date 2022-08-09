@@ -9,6 +9,7 @@ using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 using ImGuiScene;
+using Dalamud.Interface.Components;
 
 namespace DailyDuty.Features
 {
@@ -38,6 +39,8 @@ namespace DailyDuty.Features
                 {
                     Service.SystemConfiguration.Save();
                 }
+                ImGuiComponents.HelpMarker(Strings.Common.ClickthroughHelp);
+
 
                 ImGui.SetNextItemWidth(150 * ImGuiHelpers.GlobalScale);
                 ImGui.DragFloat(Strings.Common.OpacityLabel, ref Settings.Opacity, 0.01f, 0.0f, 1.0f);
