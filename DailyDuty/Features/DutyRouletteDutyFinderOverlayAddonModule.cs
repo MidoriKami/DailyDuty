@@ -102,9 +102,9 @@ namespace DailyDuty.Features
                         var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
                         var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
 
-                        onDrawHook ??= new Hook<AddonDraw>(new IntPtr(drawAddress), ContentsFinder_Draw);
-                        onRefreshHook ??= new Hook<AddonOnRefresh>(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
-                        onFinalizeHook ??= new Hook<AddonFinalize>(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
+                        onDrawHook ??= Hook<AddonDraw>.FromAddress(new IntPtr(drawAddress), ContentsFinder_Draw);
+                        onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new IntPtr(onRefreshAddress), ContentsFinder_OnRefresh);
+                        onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new IntPtr(finalizeAddress), ContentsFinder_Finalize);
 
                         onDrawHook.Enable();
                         onFinalizeHook.Enable();
