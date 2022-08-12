@@ -280,7 +280,8 @@
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayTechnicalDescription": {
-    "message": "「コンテンツルーレット」モジュールを使用して、どのルーレットに色を付けるかを設定します。\n\n「コンテンツルーレット」モジュールで「完成」と「未完成」の色を設定することもできます\n\n追跡されないルーレットは完了状況にかかわらず色付けされません。",
+    "message":
+      "「コンテンツルーレット」モジュールを使用して、どのルーレットに色を付けるかを設定します。\n\n「コンテンツルーレット」モジュールで「完成」と「未完成」の色を設定することもできます\n\n追跡されないルーレットは完了状況にかかわらず色付けされません。",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayLabel": {
@@ -288,7 +289,8 @@
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayDescription": {
-    "message": "クロの空想帳に登録されているクエストの隣にクローバーのアイコンが追加されます。\n\nクローバーは、そのクエストが完了するとスタンプを獲得できる場合は金色で表示されます。\n\nそのクエストがすでにスタンプを貼っている場合、クローバーは空洞になります。",
+    "message":
+      "クロの空想帳に登録されているクエストの隣にクローバーのアイコンが追加されます。\n\nクローバーは、そのクエストが完了するとスタンプを獲得できる場合は金色で表示されます。\n\nそのクエストがすでにスタンプを貼っている場合、クローバーは空洞になります。",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayAutomationInformation": {
@@ -440,7 +442,8 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteInformation": {
-    "message": "デイリールーレットは、1日1回完了するごとに経験値とギルが付与される日替わり任務です。\n\nルーレットの種類や不足ロールボーナスのレベルに応じて、各種アラガントームストーンや軍票などの追加報酬が与えられます。",
+    "message":
+      "デイリールーレットは、1日1回完了するごとに経験値とギルが付与される日替わり任務です。\n\nルーレットの種類や不足ロールボーナスのレベルに応じて、各種アラガントームストーンや軍票などの追加報酬が与えられます。",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteAutomationInformation": {
@@ -448,7 +451,8 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteTechnicalInformation": {
-    "message": "このモジュールは、今日まだ完了していないコンテンツがある場合、通知を受けるように設定することができます。\n\nオプションで選択されたコンテンツのみ通知を受けることができます。\n\n掲載されているルーレットはアンロックされていない、または後のパッチまで利用できないなどの理由で利用できない場合があります。\n未解放のルーレットを追跡することは推奨されません。",
+    "message":
+      "このモジュールは、今日まだ完了していないコンテンツがある場合、通知を受けるように設定することができます。\n\nオプションで選択されたコンテンツのみ通知を受けることができます。\n\n掲載されているルーレットはアンロックされていない、または後のパッチまで利用できないなどの理由で利用できない場合があります。\n未解放のルーレットを追跡することは推奨されません。",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteNothingTrackedDescriptionWarning": {
@@ -500,7 +504,8 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInformation": {
-    "message": "クロの空想帳とは、プレイヤーがコンテンツを完了して報酬を得ることができるレベル60の週間任務です。報酬獲得にいくつかのランダム要素があります。\nこれによって古いコンテンツをまた遊べるゲームです。\n\n週間報酬にはどのジョブが回しても1レベル分の半分の経験値がもらえるほか、アラガントームストーンやMGPなどの報酬があります。",
+    "message":
+      "クロの空想帳とは、プレイヤーがコンテンツを完了して報酬を得ることができるレベル60の週間任務です。報酬獲得にいくつかのランダム要素があります。\nこれによって古いコンテンツをまた遊べるゲームです。\n\n週間報酬にはどのジョブが回しても1レベル分の半分の経験値がもらえるほか、アラガントームストーンやMGPなどの報酬があります。",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsAutomationInformation": {
@@ -592,11 +597,13 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapInformation": {
-    "message": "宝の地図とは、18時間に一度ギャザラーで入手できるアイテムです。これらの地図は、ミニイベントの一環として宝物庫を開くことができ、様々な報酬を得ることができます。またマーケットボードで販売することも可能です。\n\n各地図は同時に1つしか所持できません。",
+    "message":
+      "宝の地図とは、18時間に一度ギャザラーで入手できるアイテムです。これらの地図は、ミニイベントの一環として宝物庫を開くことができ、様々な報酬を得ることができます。またマーケットボードで販売することも可能です。\n\n各地図は同時に1つしか所持できません。",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAutomationInformation": {
-    "message": "宝の地図のデータは、宝の地図が収集されたときにチャット情報を読むことによって収集されます。 地図を収集した後にDailyDutyがインストールされている場合。 追跡を開始するために別の地図を収集できるまで待たなければならない",
+    "message":
+      "宝の地図のデータは、宝の地図が収集されたときにチャット情報を読むことによって収集されます。 地図を収集した後にDailyDutyがインストールされている場合。 追跡を開始するために別の地図を収集できるまで待たなければならない",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAvailableMessage": {
@@ -628,7 +635,8 @@
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeTechnicalInformation": {
-    "message": "DailyDutyには、受注権の限界に達したときに通知を発するオプションがあり、受注権を直接入力するか、追跡したい蛮族の数を指定することができます。\n\n各部族が新しいレベルに到達すると、その蛮族に対して追加の3つの受注権が与えられます。DailyDutyはこの情報を追跡することができないため、追加の受注権は追跡の目的には考慮されません。",
+    "message":
+      "DailyDutyには、受注権の限界に達したときに通知を発するオプションがあり、受注権を直接入力するか、追跡したい蛮族の数を指定することができます。\n\n各部族が新しいレベルに到達すると、その蛮族に対して追加の3つの受注権が与えられます。DailyDutyはこの情報を追跡することができないため、追加の受注権は追跡の目的には考慮されません。",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeAllowancesRemainingLabel": {
@@ -644,7 +652,8 @@
     "description": "ModuleStrings..ctor"
   },
   "LevequestInformation": {
-    "message": "リーヴクエストとは、プレイヤーが繰り返し行うことで、経験値やギル、アイテムなどを獲得できるクエストです。1キャラクターにつき1回しか受けられない通常のクエストと異なり、リーブクエストはリーブの受注権内であれば何度でも受けることができます。",
+    "message":
+      "リーヴクエストとは、プレイヤーが繰り返し行うことで、経験値やギル、アイテムなどを獲得できるクエストです。1キャラクターにつき1回しか受けられない通常のクエストと異なり、リーブクエストはリーブの受注権内であれば何度でも受けることができます。",
     "description": "ModuleStrings..ctor"
   },
   "LevequestAutomationInformation": {
@@ -680,7 +689,8 @@
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotTechnicalInformation": {
-    "message": "このゲームでは、ウィンドウが開かれMGPを消費してチケットを購入すると、ミニ・くじテンダーの支給額が削除されます。チケットウィンドウが開いた後にゲームが終了したり、クラッシュした場合、そのチケットは失われます。",
+    "message":
+      "このゲームでは、ウィンドウが開かれMGPを消費してチケットを購入すると、ミニ・くじテンダーの支給額が削除されます。チケットウィンドウが開いた後にゲームが終了したり、クラッシュした場合、そのチケットは失われます。",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotClickableLinkDescription": {
@@ -716,7 +726,8 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInformation": {
-    "message": "ドマ町人地復興は、ギル報酬を得るために毎週行うことができるタスクです。ジャンクアイテムを寄付すると、その価値の何倍ものギルが戻ってくるというもので、結果的に利益を得ることができます。 報酬の倍率はドマ町人地を通じて進めれば進めるほど高くなります。",
+    "message":
+      "ドマ町人地復興は、ギル報酬を得るために毎週行うことができるタスクです。ジャンクアイテムを寄付すると、その価値の何倍ものギルが戻ってくるというもので、結果的に利益を得ることができます。 報酬の倍率はドマ町人地を通じて進めれば進めるほど高くなります。",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveAutomationInformation": {
@@ -724,7 +735,8 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveTechnicalInformation": {
-    "message": "ドマ町人地をアクセスすると、DailyDutyはステータスのコピーを保持し、新しい週の始まりにそのステータスをリセットしようとします。もし、何らかの理由でデータが同期されなくなった場合は、ドマ町人地に再度アクセスすれば、自動的に再同期されます。",
+    "message":
+      "ドマ町人地をアクセスすると、DailyDutyはステータスのコピーを保持し、新しい週の始まりにそのステータスをリセットしようとします。もし、何らかの理由でデータが同期されなくなった場合は、ドマ町人地に再度アクセスすれば、自動的に再同期されます。",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveGilRemainingLabel": {
@@ -752,7 +764,8 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportInformation": {
-    "message": "ファッションチェックとは、毎週クリアすることでMGPを獲得できるタスクです。週に一度何もせずに「審査のための自己紹介」をするだけで、10,000MGPが報酬としてもらえます。より高いスコアや追加MGP、称号を得るために、服作りに挑戦することができます。",
+    "message":
+      "ファッションチェックとは、毎週クリアすることでMGPを獲得できるタスクです。週に一度何もせずに「審査のための自己紹介」をするだけで、10,000MGPが報酬としてもらえます。より高いスコアや追加MGP、称号を得るために、服作りに挑戦することができます。",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAutomationInformation": {
@@ -760,7 +773,8 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportTechnicalInformation": {
-    "message": "データは「マスク・ド・ローズ」と対話するときと、実際に審査に臨むときの両方で収集されます。これにより常にゲーム内のデータと同期しているはずです。\n\nファッションレポートのステータスは、ファッションレポートが利用できない間は「完成」、利用できるようになるか、完了条件が満たされないと「未完成」と表示されるようになる。",
+    "message":
+      "データは「マスク・ド・ローズ」と対話するときと、実際に審査に臨むときの両方で収集されます。これにより常にゲーム内のデータと同期しているはずです。\n\nファッションレポートのステータスは、ファッションレポートが利用できない間は「完成」、利用できるようになるか、完了条件が満たされないと「未完成」と表示されるようになる。",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportHighestScoreLabel": {
@@ -820,7 +834,8 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTechnicalInformation": {
-    "message": "DailyDutyは収集したチケットの価値を表示しますが、状況を把握するために必要な情報は、購入されたチケットの枚数のみです。\n\n毎週リセットされると、保存されていたチケットは削除され、新しいチケットを購入するよう促されます。保留中の報酬がある場合、新しいチケットを購入するためには、チケットを回収する必要があります。\n\nフォールバック再同期の仕組みにより、報酬を受け取る前に「ジャンボ・くじテンダー」に話しかけると、先週のチケットが再ログインされ、タスクは完了と表示されます。報酬を受け取った後に「ジャンボ・くじテンダー」に話しかけると、ステータスが「未完了」に再同期されます。",
+    "message":
+      "DailyDutyは収集したチケットの価値を表示しますが、状況を把握するために必要な情報は、購入されたチケットの枚数のみです。\n\n毎週リセットされると、保存されていたチケットは削除され、新しいチケットを購入するよう促されます。保留中の報酬がある場合、新しいチケットを購入するためには、チケットを回収する必要があります。\n\nフォールバック再同期の仕組みにより、報酬を受け取る前に「ジャンボ・くじテンダー」に話しかけると、先週のチケットが再ログインされ、タスクは完了と表示されます。報酬を受け取った後に「ジャンボ・くじテンダー」に話しかけると、ステータスが「未完了」に再同期されます。",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsLabel": {
@@ -852,7 +867,8 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyInformation": {
-    "message": "ウィークリーモブハントは「Bモブハント」とも呼ばれ、同盟記章、セントリオ記章、モブの戦利品など、様々なモブハント通貨で行えるウィークリーハントです。\n\nこれらの通貨は、様々な報酬と交換することができます。注目の報酬は「転送網利用券」で、テレポのギル払いの代わりに使用することができます。",
+    "message":
+      "ウィークリーモブハントは「Bモブハント」とも呼ばれ、同盟記章、セントリオ記章、モブの戦利品など、様々なモブハント通貨で行えるウィークリーハントです。\n\nこれらの通貨は、様々な報酬と交換することができます。注目の報酬は「転送網利用券」で、テレポのギル払いの代わりに使用することができます。",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksAutomationInformation": {
@@ -860,7 +876,8 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTechnicalInformation": {
-    "message": "このデータは常にゲームと同期していますが、ゲーム側ではリセット時にクリアされません。その代わり、新しいモブ手配書を拾った時だけデータがクリアされます。\n\nDailyDutyは毎週追跡データのコピーをリセットし、新しいモブ手配書が受注ときに追跡を開始しようとします。",
+    "message":
+      "このデータは常にゲームと同期していますが、ゲーム側ではリセット時にクリアされません。その代わり、新しいモブ手配書を拾った時だけデータがクリアされます。\n\nDailyDutyは毎週追跡データのコピーをリセットし、新しいモブ手配書が受注ときに追跡を開始しようとします。",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntsRemainingLabel": {
@@ -976,15 +993,18 @@
     "description": "CommandStrings..ctor"
   },
   "TimersShowHelp": {
-    "message": "\n/dd timers - ヘルプメッセージを表示する\n/dd timers help - このヘルプメッセージを表示する\n/dd timers (on | enable | show | open) - タイマーウィンドウを表示する\n/dd timers (off | disable | hide | close) - タイマーウィンドウを非表示にする\n/dd timers (toggle) - タイマーウィンドウを切り替えます",
+    "message":
+      "\n/dd timers - ヘルプメッセージを表示する\n/dd timers help - このヘルプメッセージを表示する\n/dd timers (on | enable | show | open) - タイマーウィンドウを表示する\n/dd timers (off | disable | hide | close) - タイマーウィンドウを非表示にする\n/dd timers (toggle) - タイマーウィンドウを切り替えます",
     "description": "CommandStrings..ctor"
   },
   "TodoShowHelp": {
-    "message": "\n/dd todo - ヘルプメッセージを表示する\n/dd todo help - このヘルプメッセージを表示する\n/dd todo (on | enable | show | open) - タスクウィンドウを表示する\n/dd todo (off | disable | hide | close) - タスクウィンドウを非表示にする\n/dd todo (toggle) - タスクウィンドウを切り替える",
+    "message":
+      "\n/dd todo - ヘルプメッセージを表示する\n/dd todo help - このヘルプメッセージを表示する\n/dd todo (on | enable | show | open) - タスクウィンドウを表示する\n/dd todo (off | disable | hide | close) - タスクウィンドウを非表示にする\n/dd todo (toggle) - タスクウィンドウを切り替える",
     "description": "CommandStrings..ctor"
   },
   "HelpCommands": {
-    "message": "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd timers help - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
+    "message":
+      "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd timers help - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {

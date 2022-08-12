@@ -56,7 +56,8 @@
     "description": "CommonStrings..ctor"
   },
   "NotifyOnLoginHelpText": {
-    "message": "Se este módulo estiver incompleto ou tiver mensagens relevantes envie uma notificação quando você logar em um personagem.",
+    "message":
+      "Se este módulo estiver incompleto ou tiver mensagens relevantes envie uma notificação quando você logar em um personagem.",
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeLabel": {
@@ -64,7 +65,8 @@
     "description": "CommonStrings..ctor"
   },
   "NotifyOnZoneChangeHelpText": {
-    "message": "Se este módulo estiver incompleto ou tiver mensagens relevantes envie uma notificação quando você mudar de zona.",
+    "message":
+      "Se este módulo estiver incompleto ou tiver mensagens relevantes envie uma notificação quando você mudar de zona.",
     "description": "CommonStrings..ctor"
   },
   "CompleteLabel": {
@@ -268,7 +270,8 @@
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayAutomationInformation": {
-    "message": "O status de \"Duty Roulette\" é coletado diretamente de dados internos do jogo e sempre estará precisamente em sincronia.",
+    "message":
+      "O status de \"Duty Roulette\" é coletado diretamente de dados internos do jogo e sempre estará precisamente em sincronia.",
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayInformationDisclaimer": {
@@ -280,7 +283,8 @@
     "description": "FeaturesStrings..ctor"
   },
   "DutyRouletteDutyFinderOverlayTechnicalDescription": {
-    "message": "Use o módulo 'Duty Roulette' para configurar quais roletas são coloridas.\n\nVocê também pode definir as cores 'completas' e 'incompletas' no módulo 'Duty Roulette'\n\nRoletas que não são rastreadas não serão coloridas, independentemente do seu status de conclusão.",
+    "message":
+      "Use o módulo 'Duty Roulette' para configurar quais roletas são coloridas.\n\nVocê também pode definir as cores 'completas' e 'incompletas' no módulo 'Duty Roulette'\n\nRoletas que não são rastreadas não serão coloridas, independentemente do seu status de conclusão.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayLabel": {
@@ -288,15 +292,18 @@
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayDescription": {
-    "message": "Adiciona um ícone de trevo ao lado das missões no Duty Finder, se esse duty estiver no seu livro Wondrous Tails.\n\nO trevo será dourado se esse duty puder ser completado para lhe recompensar um selo.\n\nO trevo será vazio se esse duty já foi reivindicado por um selo.",
+    "message":
+      "Adiciona um ícone de trevo ao lado das missões no Duty Finder, se esse duty estiver no seu livro Wondrous Tails.\n\nO trevo será dourado se esse duty puder ser completado para lhe recompensar um selo.\n\nO trevo será vazio se esse duty já foi reivindicado por um selo.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayAutomationInformation": {
-    "message": "Wondrous Tails Duties são lidos diretamente a partir dos dados de jogo.\n\nO Duty Finder pode precisar ser aberto e fechado novamente para atualizar os dados exibidos.",
+    "message":
+      "Wondrous Tails Duties são lidos diretamente a partir dos dados de jogo.\n\nO Duty Finder pode precisar ser aberto e fechado novamente para atualizar os dados exibidos.",
     "description": "FeaturesStrings..ctor"
   },
   "WondrousTailsDutyFinderOverlayTechnicalDescription": {
-    "message": "O código do jogo não limpará os dados da tarefa quando você completar seu livro durante a semana. Isso fará com que o Duty Finder reflita o status do último livro obtido.",
+    "message":
+      "O código do jogo não limpará os dados da tarefa quando você completar seu livro durante a semana. Isso fará com que o Duty Finder reflita o status do último livro obtido.",
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowLabel": {
@@ -336,7 +343,8 @@
     "description": "FeaturesStrings..ctor"
   },
   "TodoWindowInformation": {
-    "message": "A janela Todo é uma pequena janela que mostra suas tarefas rastreadas. Essa janela é útil para descobrir o que você ainda precisa fazer em um piscar de olhos.",
+    "message":
+      "A janela Todo é uma pequena janela que mostra suas tarefas rastreadas. Essa janela é útil para descobrir o que você ainda precisa fazer em um piscar de olhos.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowEnableTimersWarning": {
@@ -348,7 +356,8 @@
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowInformation": {
-    "message": "A janela de \"timers\" permite que você veja o tempo restante até que vários \"resets\" como um elemento de interface de usuário bem útil.",
+    "message":
+      "A janela de \"timers\" permite que você veja o tempo restante até que vários \"resets\" como um elemento de interface de usuário bem útil.",
     "description": "FeaturesStrings..ctor"
   },
   "TimersWindowTimersEnableLabel": {
@@ -420,7 +429,8 @@
     "description": "ConfigurationStrings..ctor"
   },
   "NotificationsDelayDescription": {
-    "message": "Impede que as notificações apareçam até depois do dia de semana selecionado. O início da semana é 'Terça-feira'",
+    "message":
+      "Impede que as notificações apareçam até depois do dia de semana selecionado. O início da semana é 'Terça-feira'",
     "description": "ConfigurationStrings..ctor"
   },
   "LanguageLabel": {
@@ -440,15 +450,18 @@
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteInformation": {
-    "message": "A Duty Roulette é uma tarefa diária que dá experiência e gil uma vez por dia.\n\nRecompensas adicionais, como vários tomestones e selos da grand company, são recompensadas dependendo do tipo de roleta e nível da job em que você entra na roleta.",
+    "message":
+      "A Duty Roulette é uma tarefa diária que dá experiência e gil uma vez por dia.\n\nRecompensas adicionais, como vários tomestones e selos da grand company, são recompensadas dependendo do tipo de roleta e nível da job em que você entra na roleta.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteAutomationInformation": {
-    "message": "Este módulo é inteiramente automático, nenhuma interação do usuário é necessária.\n\nO status de conclusão de cada roleta é coletado diretamente dos dados do jogo.",
+    "message":
+      "Este módulo é inteiramente automático, nenhuma interação do usuário é necessária.\n\nO status de conclusão de cada roleta é coletado diretamente dos dados do jogo.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteTechnicalInformation": {
-    "message": "Você pode configurar este módulo para te alertar quando tarefas especificadas ainda não tiverem sido concluídas hoje.\n\nApenas as funções selecionadas para o rastreamento na aba Opções darão notificações.\n\nAlgumas roletas listadas podem não estar disponíveis por não estarem desbloqueadas ou por não estarem disponíveis até um patch posterior. Não é recomendável rastrear roletas para que você não tem acesso.",
+    "message":
+      "Você pode configurar este módulo para te alertar quando tarefas especificadas ainda não tiverem sido concluídas hoje.\n\nApenas as funções selecionadas para o rastreamento na aba Opções darão notificações.\n\nAlgumas roletas listadas podem não estar disponíveis por não estarem desbloqueadas ou por não estarem disponíveis até um patch posterior. Não é recomendável rastrear roletas para que você não tem acesso.",
     "description": "ModuleStrings..ctor"
   },
   "DutyRouletteNothingTrackedDescriptionWarning": {
@@ -500,15 +513,18 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInformation": {
-    "message": "Wondrous Tails é um evento semanal de nível 60 que permite aos jogadores completar conteúdo antigo para ganhar recompensas. Com alguns elementos randomizados, a Wondrous Tails é uma maneira interessante de revisitar esses duties mais antigos todas as semanas.\n\nAs recompensas semanais incluem metade de um level em experiência para o qualquer job que entregue o livro, e recompensas selecionáveis como Tomestones ou vales de MGP.",
+    "message":
+      "Wondrous Tails é um evento semanal de nível 60 que permite aos jogadores completar conteúdo antigo para ganhar recompensas. Com alguns elementos randomizados, a Wondrous Tails é uma maneira interessante de revisitar esses duties mais antigos todas as semanas.\n\nAs recompensas semanais incluem metade de um level em experiência para o qualquer job que entregue o livro, e recompensas selecionáveis como Tomestones ou vales de MGP.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsAutomationInformation": {
-    "message": "Os dados do Wondrous Tails são extraídos diretamente dos dados do jogo e sempre estarão sincronizados com o status atual do seu livro. Nenhuma interação do usuário é necessária para manter esses dados sincronizados.",
+    "message":
+      "Os dados do Wondrous Tails são extraídos diretamente dos dados do jogo e sempre estarão sincronizados com o status atual do seu livro. Nenhuma interação do usuário é necessária para manter esses dados sincronizados.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsTechnicalDescription": {
-    "message": "O código do jogo não irá limpar os dados do Wondrous Tailles quando você completar seu livro, mesmo se você o entregar sem 9 carimbos.\n\nEste módulo irá considerar apenas o livro Wondrous Tailles completo depois que você tiver 9 carimbos colocados.",
+    "message":
+      "O código do jogo não irá limpar os dados do Wondrous Tailles quando você completar seu livro, mesmo se você o entregar sem 9 carimbos.\n\nEste módulo irá considerar apenas o livro Wondrous Tailles completo depois que você tiver 9 carimbos colocados.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsOpenBookClickableLinkDescription": {
@@ -544,7 +560,8 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsInstanceNotificationsDescription": {
-    "message": "Enviar notificações no início de um duty, se esse duty for parte do seu livro Wondrous Tails.\nAlém disso, ele enviará notificações após completar um duty, lembrando você de coletar seu selo",
+    "message":
+      "Enviar notificações no início de um duty, se esse duty for parte do seu livro Wondrous Tails.\nAlém disso, ele enviará notificações após completar um duty, lembrando você de coletar seu selo",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationLabel": {
@@ -552,7 +569,8 @@
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickerAvailableNotificationDescription": {
-    "message": "Enviar uma notificação ao mudar de zona se alguma tarefa no seu livro estiver disponível para obter um adesivo.",
+    "message":
+      "Enviar uma notificação ao mudar de zona se alguma tarefa no seu livro estiver disponível para obter um adesivo.",
     "description": "ModuleStrings..ctor"
   },
   "WondrousTailsStickersAvailableNotification": {
@@ -592,11 +610,13 @@
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapInformation": {
-    "message": "Mapa do Tesouro são itens coletáveis com os Disciples of Land uma vez a cada 18 horas. Esses mapas podem ser abertos como parte de um mini-evento para várias recompensas. Como alternativa, esses mapas podem ser vendidos no market board.\n\nVocê só pode ter um de cada tipo de mapa de cada vez.",
+    "message":
+      "Mapa do Tesouro são itens coletáveis com os Disciples of Land uma vez a cada 18 horas. Esses mapas podem ser abertos como parte de um mini-evento para várias recompensas. Como alternativa, esses mapas podem ser vendidos no market board.\n\nVocê só pode ter um de cada tipo de mapa de cada vez.",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAutomationInformation": {
-    "message": "Os dados do mapa do tesouro são coletados lendo informações do chat quando o mapa do tesouro é coletado. Se DailyDuty foi instalado depois que você coletou um mapa, você deve esperar até poder coletar outro mapa para que o rastreamento comece.",
+    "message":
+      "Os dados do mapa do tesouro são coletados lendo informações do chat quando o mapa do tesouro é coletado. Se DailyDuty foi instalado depois que você coletou um mapa, você deve esperar até poder coletar outro mapa para que o rastreamento comece.",
     "description": "ModuleStrings..ctor"
   },
   "TreasureMapAvailableMessage": {
@@ -620,15 +640,18 @@
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeInformation": {
-    "message": "Beast Tribes são uma tarefa diária que pode ser completada para recompensas de experiência e para ganhar progresso em relação a tribos de besta que irá desbloquear tinturas únicas, glamours, montarias e itens residenciais.",
+    "message":
+      "Beast Tribes são uma tarefa diária que pode ser completada para recompensas de experiência e para ganhar progresso em relação a tribos de besta que irá desbloquear tinturas únicas, glamours, montarias e itens residenciais.",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeAutomationInformation": {
-    "message": "As informações de Beast tribe são extraídas diretamente dos dados do jogo e sempre estarão em sincronia com o status atual do jogo.",
+    "message":
+      "As informações de Beast tribe são extraídas diretamente dos dados do jogo e sempre estarão em sincronia com o status atual do jogo.",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeTechnicalInformation": {
-    "message": "DailyDuty fornece opções para alertá-lo quando você está com um limite de permissões, seja por imputar diretamente o limite, ou especificando quantos subsídios de beast tribe você deseja rastrear.\n\nAo atingir um novo nível em cada beast tribe, você recebe 3 subsídios adicionais para essa tribo, DailyDuty não pode rastrear esta informação e não considerará os subsídios adicionais para fins de rastreamento.",
+    "message":
+      "DailyDuty fornece opções para alertá-lo quando você está com um limite de permissões, seja por imputar diretamente o limite, ou especificando quantos subsídios de beast tribe você deseja rastrear.\n\nAo atingir um novo nível em cada beast tribe, você recebe 3 subsídios adicionais para essa tribo, DailyDuty não pode rastrear esta informação e não considerará os subsídios adicionais para fins de rastreamento.",
     "description": "ModuleStrings..ctor"
   },
   "BeastTribeAllowancesRemainingLabel": {
@@ -644,15 +667,18 @@
     "description": "ModuleStrings..ctor"
   },
   "LevequestInformation": {
-    "message": "Missões de Levequests são missões repetitivas que jogadores podem fazer para adquirir experiência, gil e itens. Ao contrário das missões regulares, que só podem ser executadas uma vez por personagem, as levequests podem ser repetidas enquanto o jogador tiver allowances de Leve.",
+    "message":
+      "Missões de Levequests são missões repetitivas que jogadores podem fazer para adquirir experiência, gil e itens. Ao contrário das missões regulares, que só podem ser executadas uma vez por personagem, as levequests podem ser repetidas enquanto o jogador tiver allowances de Leve.",
     "description": "ModuleStrings..ctor"
   },
   "LevequestAutomationInformation": {
-    "message": "As informações da levequest são extraídas diretamente dos dados do jogo e sempre estarão em sincronia com o status atual do jogo.",
+    "message":
+      "As informações da levequest são extraídas diretamente dos dados do jogo e sempre estarão em sincronia com o status atual do jogo.",
     "description": "ModuleStrings..ctor"
   },
   "LevequestTechnicalInformation": {
-    "message": "Assim que uma levequest for aceita, o subsídio é gasta, se você cancelar a levequest o subsídio não será devolvido.",
+    "message":
+      "Assim que uma levequest for aceita, o subsídio é gasta, se você cancelar a levequest o subsídio não será devolvido.",
     "description": "ModuleStrings..ctor"
   },
   "LevequestAboveThresholdLabel": {
@@ -672,15 +698,18 @@
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotInformation": {
-    "message": "Mini Cactpot é como uma raspadinha, você pode fazer três vezes por dia. Cada ticket Mini Cactpot recompensa uma quantidade variada de MGP que vão até 10.000 MGP por ticket.",
+    "message":
+      "Mini Cactpot é como uma raspadinha, você pode fazer três vezes por dia. Cada ticket Mini Cactpot recompensa uma quantidade variada de MGP que vão até 10.000 MGP por ticket.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotAutomationInformation": {
-    "message": "O rastreamento é feito através do acompanhamento da abertura do ticket do Mini Cactpot. Se o DailyDuty foi instalado após você ter concluído seu Mini Cactpot diário, ele não será rastreado.",
+    "message":
+      "O rastreamento é feito através do acompanhamento da abertura do ticket do Mini Cactpot. Se o DailyDuty foi instalado após você ter concluído seu Mini Cactpot diário, ele não será rastreado.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotTechnicalInformation": {
-    "message": "O jogo remove seu bilhete disponível de \"Mini Cactpot\" quando a janela é aberta e você gasta a MGP para comprar o bilhete. Se o seu jogo fechar ou for fechado com a janela do bilhete aberta, esse bilhete será perdido.",
+    "message":
+      "O jogo remove seu bilhete disponível de \"Mini Cactpot\" quando a janela é aberta e você gasta a MGP para comprar o bilhete. Se o seu jogo fechar ou for fechado com a janela do bilhete aberta, esse bilhete será perdido.",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotClickableLinkDescription": {
@@ -688,7 +717,8 @@
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotReSyncInformation": {
-    "message": "Você pode forçar uma re-sincronização de créditos para Mini Cactpot falando com 'Mini Cactpot Broker' e selecionando 'Purchase a Mini Cactpot ticket'",
+    "message":
+      "Você pode forçar uma re-sincronização de créditos para Mini Cactpot falando com 'Mini Cactpot Broker' e selecionando 'Purchase a Mini Cactpot ticket'",
     "description": "ModuleStrings..ctor"
   },
   "MiniCactpotAllowancesLabel": {
@@ -700,11 +730,13 @@
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryInformation": {
-    "message": "\"Custom Deliveries\" são uma tarefa semanal para DoH/DoL que você pode completar para obter \"crafting\" ou \"gathering\" scrips, recompensas de xp, materias, tomos de \"folklore\" e muito mais.",
+    "message":
+      "\"Custom Deliveries\" são uma tarefa semanal para DoH/DoL que você pode completar para obter \"crafting\" ou \"gathering\" scrips, recompensas de xp, materias, tomos de \"folklore\" e muito mais.",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAutomationInformation": {
-    "message": "As informações de \"Custom Deliveries\" são extraídas diretamente dos dados do jogo, e estarão sempre em sincronia com o \"status\" atual do jogo.",
+    "message":
+      "As informações de \"Custom Deliveries\" são extraídas diretamente dos dados do jogo, e estarão sempre em sincronia com o \"status\" atual do jogo.",
     "description": "ModuleStrings..ctor"
   },
   "CustomDeliveryAllowancesLabel": {
@@ -716,15 +748,18 @@
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveInformation": {
-    "message": "A \"Doman Enclave\" é uma tarefa semanal que você pode completar para obter recompensas de gil. Você doa itens desnecessários em troca de um múltiplo do valor deles em gil, resultando em lucro. O multiplicador da recompensa aumenta conforme seu progresso com a \"Doman Enclave\".",
+    "message":
+      "A \"Doman Enclave\" é uma tarefa semanal que você pode completar para obter recompensas de gil. Você doa itens desnecessários em troca de um múltiplo do valor deles em gil, resultando em lucro. O multiplicador da recompensa aumenta conforme seu progresso com a \"Doman Enclave\".",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveAutomationInformation": {
-    "message": "As informações da \"Doman Enclave\" são monitoradas automaticamente, mas apenas quando você estiver na área da \"Doman Enclave\".",
+    "message":
+      "As informações da \"Doman Enclave\" são monitoradas automaticamente, mas apenas quando você estiver na área da \"Doman Enclave\".",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveTechnicalInformation": {
-    "message": "Uma vez visitado o Doman Enclave, DailyDuty tenta manter uma cópia do status, e irá resetar esse status no início de uma nova semana. Se os dados ficarem fora de sincronia, simplesmente volte a visitar o Doman Enclave e os dados serão automaticamente resincronizados.",
+    "message":
+      "Uma vez visitado o Doman Enclave, DailyDuty tenta manter uma cópia do status, e irá resetar esse status no início de uma nova semana. Se os dados ficarem fora de sincronia, simplesmente volte a visitar o Doman Enclave e os dados serão automaticamente resincronizados.",
     "description": "ModuleStrings..ctor"
   },
   "DomanEnclaveGilRemainingLabel": {
@@ -752,15 +787,18 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportInformation": {
-    "message": "O \"Fashion Report\" é uma tarefa semanal que você pode completar para obter MGP. Simplesmente 'Present yourself for judging' uma vez por semana sem qualquer esforço e seja recompensado com 10.000 MGP. Você pode tentar criar uma combinação de roupas para receber uma pontuação maior, MGP extra, e títulos.",
+    "message":
+      "O \"Fashion Report\" é uma tarefa semanal que você pode completar para obter MGP. Simplesmente 'Present yourself for judging' uma vez por semana sem qualquer esforço e seja recompensado com 10.000 MGP. Você pode tentar criar uma combinação de roupas para receber uma pontuação maior, MGP extra, e títulos.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAutomationInformation": {
-    "message": "Os dados do \"Fashion Report\" são coletados quando você se apresenta para avaliação. A pontuação mais alta e os créditos restantes são extraídas da interface de usuário quando o avaliação é concluida.",
+    "message":
+      "Os dados do \"Fashion Report\" são coletados quando você se apresenta para avaliação. A pontuação mais alta e os créditos restantes são extraídas da interface de usuário quando o avaliação é concluida.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportTechnicalInformation": {
-    "message": "Os dados são coletados tanto quando se interage com o \"Masked Rose\" como quando se apresenta para avaliação. Isso deve manter os dados sincronizados com os dados do jogo a todo momento.\n\nO status do \"Fashion Report\" será exibido como 'Complete' enquanto o \"Fashion Report\" estiver indisponível, e 'Incomplete' assim que estiver disponível ou as condições de conclusão não forem cumpridas.",
+    "message":
+      "Os dados são coletados tanto quando se interage com o \"Masked Rose\" como quando se apresenta para avaliação. Isso deve manter os dados sincronizados com os dados do jogo a todo momento.\n\nO status do \"Fashion Report\" será exibido como 'Complete' enquanto o \"Fashion Report\" estiver indisponível, e 'Incomplete' assim que estiver disponível ou as condições de conclusão não forem cumpridas.",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportHighestScoreLabel": {
@@ -784,15 +822,18 @@
     "description": "ModuleStrings..ctor"
   },
   "FashionReportSingleModeDescription": {
-    "message": "Apenas notificar se nenhum crédito tiver sido gasto essa semana e o \"Fashion Report\" estiver disponível para apresentação",
+    "message":
+      "Apenas notificar se nenhum crédito tiver sido gasto essa semana e o \"Fashion Report\" estiver disponível para apresentação",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportEightyPlusDescription": {
-    "message": "Notificar se qualquer créditos restam nesta semana, a pontuação mais alta for abeixo de 80 e o \"Fashion Report\" estiver disponível para avaliação",
+    "message":
+      "Notificar se qualquer créditos restam nesta semana, a pontuação mais alta for abeixo de 80 e o \"Fashion Report\" estiver disponível para avaliação",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportAllDescription": {
-    "message": "Notificar se tiver qualquais allowances permanecer esta semana e se o fashion report estará disponível para ativação",
+    "message":
+      "Notificar se tiver qualquais allowances permanecer esta semana e se o fashion report estará disponível para ativação",
     "description": "ModuleStrings..ctor"
   },
   "FashionReportClickableLinkDescription": {
@@ -812,15 +853,18 @@
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotInformation": {
-    "message": "O Jumbo Cactpot é uma tarefa semanal, onde você pode comprar 3 bilhetes de loteria. Esses bilheres permitem que você escolha qualquer número de 4 dígitos que desejar, e dependendo de quantos números são correspondem aos sorteados na semana seguinte, você pode ganhar MGP.",
+    "message":
+      "O Jumbo Cactpot é uma tarefa semanal, onde você pode comprar 3 bilhetes de loteria. Esses bilheres permitem que você escolha qualquer número de 4 dígitos que desejar, e dependendo de quantos números são correspondem aos sorteados na semana seguinte, você pode ganhar MGP.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotAutomationInformation": {
-    "message": "Dados de Jumbo Cactpot são coletados quando você compra seus bilhetes. Se DailyDuty não foi instalado quando você comprou seus bilhetes, ele não poderá rastrear seus bilhetes para essa semana.",
+    "message":
+      "Dados de Jumbo Cactpot são coletados quando você compra seus bilhetes. Se DailyDuty não foi instalado quando você comprou seus bilhetes, ele não poderá rastrear seus bilhetes para essa semana.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTechnicalInformation": {
-    "message": "Enquanto o DailyDuty exibe o valor dos bilhetes coletados, a única informação necessária para acompanhar o status é quantos bilhetes foram comprados.\n\nApós o \"reset\" semanal, os tickets armazenados serão removidos e você será solicitado a comprar novos bilhetes. Se você tiver qualquer recompensa pendente, você terá que coletar os seus bilhetes para poder comprar novos bilhetes.\n\nDevido a como o sistema de re-sincronização funciona, se você falar com o 'Jumbo Cactpot Broker' antes de coletar suas recompensas, tickets de última semana serão registrados novamente e a tarefa será marcada como completa. Falando com o 'Jumbo Cactpot Broker' depois de coletar suas recompensas irá re-sincronizar o status de volta para incompleto.",
+    "message":
+      "Enquanto o DailyDuty exibe o valor dos bilhetes coletados, a única informação necessária para acompanhar o status é quantos bilhetes foram comprados.\n\nApós o \"reset\" semanal, os tickets armazenados serão removidos e você será solicitado a comprar novos bilhetes. Se você tiver qualquer recompensa pendente, você terá que coletar os seus bilhetes para poder comprar novos bilhetes.\n\nDevido a como o sistema de re-sincronização funciona, se você falar com o 'Jumbo Cactpot Broker' antes de coletar suas recompensas, tickets de última semana serão registrados novamente e a tarefa será marcada como completa. Falando com o 'Jumbo Cactpot Broker' depois de coletar suas recompensas irá re-sincronizar o status de volta para incompleto.",
     "description": "ModuleStrings..ctor"
   },
   "JumboCactpotTicketsLabel": {
@@ -852,15 +896,18 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksWeeklyInformation": {
-    "message": "\"Hunts\" semanais também são conhecidas como 'Elite Hunts', Estas são \"Hunts\" semanais que você pode fazer em troca de várias moedas de \"Hunt\", como \"Allied Seals\", \"Centurio Seals\" e \"Sacks of Nuts\". \n\nEstas moedas podem ser trocadas por várias recompensas. Uma recompensa que é notada são os \"Aetheryte Tickets\", que podem ser usados em vez de pagar em gil por teleportes.",
+    "message":
+      "\"Hunts\" semanais também são conhecidas como 'Elite Hunts', Estas são \"Hunts\" semanais que você pode fazer em troca de várias moedas de \"Hunt\", como \"Allied Seals\", \"Centurio Seals\" e \"Sacks of Nuts\". \n\nEstas moedas podem ser trocadas por várias recompensas. Uma recompensa que é notada são os \"Aetheryte Tickets\", que podem ser usados em vez de pagar em gil por teleportes.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksAutomationInformation": {
-    "message": "Os dados de \"Hunt\" são monitorados observando mudanças nos dados do jogo. Se DailyDuty não foi instalado quando você obteve um alvo de Hunt, então ela não pode ser rastreada corretamente.",
+    "message":
+      "Os dados de \"Hunt\" são monitorados observando mudanças nos dados do jogo. Se DailyDuty não foi instalado quando você obteve um alvo de Hunt, então ela não pode ser rastreada corretamente.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksTechnicalInformation": {
-    "message": "Enquanto os dados sempre estão sincronizados com o jogo, o jogo não limpa esses dados no reset. Em vez disso, ele só limpa os dados quando você pegar a nova hunt mark.\n\nDailyDuty ira resetar sua cópia dos dados rastreados toda semana e tentará começar a rastrear quando uma nova hunt mark for coletada.",
+    "message":
+      "Enquanto os dados sempre estão sincronizados com o jogo, o jogo não limpa esses dados no reset. Em vez disso, ele só limpa os dados quando você pegar a nova hunt mark.\n\nDailyDuty ira resetar sua cópia dos dados rastreados toda semana e tentará começar a rastrear quando uma nova hunt mark for coletada.",
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksHuntsRemainingLabel": {
@@ -920,7 +967,8 @@
     "description": "ModuleStrings..ctor"
   },
   "HuntMarksDailyInformation": {
-    "message": "Daily Hunts são caçadas de nível baixo que estão disponíveis diariamente. Estas caçadas envolvem a eliminação de um número específico de inimigos comuns.",
+    "message":
+      "Daily Hunts são caçadas de nível baixo que estão disponíveis diariamente. Estas caçadas envolvem a eliminação de um número específico de inimigos comuns.",
     "description": "ModuleStrings..ctor"
   },
   "TimersCommand": {
@@ -976,15 +1024,18 @@
     "description": "CommandStrings..ctor"
   },
   "TimersShowHelp": {
-    "message": "\n/dd timers - Mostra esta mensagem de ajuda\n/dd timers help - Mostra esta mensagem de ajuda\n/dd timers (on | enable | show | open) - Mostrar a janela de timers\n/dd timers (off | disable | hide | close) - Oculta a janela de timers\n/dd timers (toggle) - Alterna a visualização da janela de timers",
+    "message":
+      "\n/dd timers - Mostra esta mensagem de ajuda\n/dd timers help - Mostra esta mensagem de ajuda\n/dd timers (on | enable | show | open) - Mostrar a janela de timers\n/dd timers (off | disable | hide | close) - Oculta a janela de timers\n/dd timers (toggle) - Alterna a visualização da janela de timers",
     "description": "CommandStrings..ctor"
   },
   "TodoShowHelp": {
-    "message": "\n/dd todo - Mostra esta mensagem de ajuda\n/dd todo help - Mostra esta mensagem de ajuda\n/dd todo (on | enable | show | open) - Mostrar a janela de tarefas\n/dd todo (off | disable | hide | close) - Oculta a janela de tarefas\n/dd todo (toggle) - Alterna a visualização da janela de tarefas",
+    "message":
+      "\n/dd todo - Mostra esta mensagem de ajuda\n/dd todo help - Mostra esta mensagem de ajuda\n/dd todo (on | enable | show | open) - Mostrar a janela de tarefas\n/dd todo (off | disable | hide | close) - Oculta a janela de tarefas\n/dd todo (toggle) - Alterna a visualização da janela de tarefas",
     "description": "CommandStrings..ctor"
   },
   "HelpCommands": {
-    "message": "Visão Geral do Comando\n/dd - Mostrar ou ocultar janela principal\n/dd timers help - Mostrar subcomandos de timers\n/dd todo - mostrar subcomandos de tarefas",
+    "message":
+      "Visão Geral do Comando\n/dd - Mostrar ou ocultar janela principal\n/dd timers help - Mostrar subcomandos de timers\n/dd todo - mostrar subcomandos de tarefas",
     "description": "CommandStrings..ctor"
   },
   "TimersLabel": {

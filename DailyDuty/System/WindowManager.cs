@@ -1,45 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Interfaces;
-using DailyDuty.Windows.DailyDutyWindow;
-using DailyDuty.Windows.HuntHelperWindow;
-using DailyDuty.Windows.LogBrowserWindow;
-using DailyDuty.Windows.TimersWindow;
-using DailyDuty.Windows.TodoWindow;
+using DailyDuty.UserInterface.Windows;
+using DailyDuty.Utilities;
+using Dalamud.Interface.Windowing;
 
-namespace DailyDuty.System
+namespace DailyDuty.System;
+
+internal class WindowManager : IDisposable
 {
-    public class WindowManager : IDisposable
+    private readonly WindowSystem windowSystem = new("DailyDuty");
+
+    private readonly List<Window> windows = new()
     {
-        private readonly List<IDisposable> windowList = new()
-        {
-            new DailyDutyWindow(),
-            new LogBrowserWindow(),
-            new TodoWindow(),
-            new TimersWindow(),
-            new HuntHelperWindow()
-        };
+        new MainWindow(),
+    };
 
-        public void Dispose()
+    public WindowManager()
+    {
+        Log.Verbose("Constructing WindowManager");
+
+        Log.Verbose("Adding Windows to WindowManager");
+        foreach (var window in windows)
         {
-            foreach (var window in windowList)
-            {
-                window.Dispose();
-            }
+            windowSystem.AddWindow(window);
         }
 
-        public T? GetWindowOfType<T>()
+        Log.Verbose("Adding Draw Delegates");
+        Service.PluginInterface.UiBuilder.Draw += DrawUI;
+        Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+    }
+
+    private void DrawUI() => windowSystem.Draw();
+
+    private void DrawConfigUI() => windows[0].IsOpen = true;
+
+    public T? GetWindowOfType<T>()
+    {
+        return windows.OfType<T>().FirstOrDefault();
+    }
+
+    public void Dispose()
+    {
+        Service.PluginInterface.UiBuilder.Draw -= DrawUI;
+        Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+
+        foreach (var window in windows.OfType<IDisposable>())
         {
-            return windowList.OfType<T>().FirstOrDefault();
+            window.Dispose();
         }
 
-        public void ExecuteCommand(string command, string arguments)
-        {
-            foreach (var eachCommand in windowList.OfType<ICommand>())
-            {
-                eachCommand.ProcessCommand(command, arguments);
-            }
-        }
+        windowSystem.RemoveAllWindows();
     }
 }
