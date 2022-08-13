@@ -15,6 +15,7 @@ internal class CommandManager : IDisposable
     private readonly List<IPluginCommand> commands = new()
     {
         new OpenMainWindowCommand(),
+        new PrintHelpTextCommand(),
     };
 
     public CommandManager()
@@ -45,16 +46,16 @@ internal class CommandManager : IDisposable
         Log.Verbose($"Received Command `{command}` `{arguments}`");
 
         var subCommand = GetPrimaryCommand(arguments);
-        var sucCommandArguments = GetSecondaryCommand(arguments);
+        var subCommandArguments = GetSecondaryCommand(arguments);
 
         switch (subCommand)
         {
             case null:
-                commands[0].Execute(sucCommandArguments);
+                commands[0].Execute(subCommandArguments);
                 break;
 
             case "help":
-                // Display Help Text
+                commands[1].Execute(subCommandArguments);
                 break;
 
             default:
@@ -62,7 +63,7 @@ internal class CommandManager : IDisposable
                 {
                     if (cmd.CommandArgument == subCommand)
                     {
-                        cmd.Execute(sucCommandArguments);
+                        cmd.Execute(subCommandArguments);
                     }
                 }
                 break;
