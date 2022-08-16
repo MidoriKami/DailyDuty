@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using CheapLoc;
+using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Logging;
 
@@ -8,21 +9,21 @@ namespace DailyDuty.System;
 
 internal class LocalizationManager : IDisposable
 {
-    public Dalamud.Localization Localization;
-
+    private readonly Dalamud.Localization localization;
+    private string lastLanguage;
     public LocalizationManager()
     {
         Log.Verbose("Constructing LocalizationManager");
 
         var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
         var filePath = Path.Combine(assemblyLocation, @"translations");
-
-        Localization = new Dalamud.Localization(filePath, "NoTankYou_");
+        localization = new Dalamud.Localization(filePath, "DailyDuty_");
 
         Loc.SetupWithFallbacks();
 
         var dalamudLanguage = Service.PluginInterface.UiLanguage;
-        LoadLocalization(dalamudLanguage);
+        lastLanguage = dalamudLanguage;
+        localization.SetupWithLangCode(dalamudLanguage);
 
         Service.PluginInterface.LanguageChanged += LoadLocalization;
     }
@@ -34,17 +35,21 @@ internal class LocalizationManager : IDisposable
 
     public void LoadLocalization(string languageCode)
     {
-        try
+        if (lastLanguage != languageCode)
         {
-            Log.Verbose($"Loading Localization for {languageCode}");
-            Localization.SetupWithLangCode(languageCode);
+            try
+            {
+                Log.Verbose($"Loading Localization for {languageCode}");
+                localization.SetupWithLangCode(languageCode);
 
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Unable to Load Localization");
+                lastLanguage = languageCode;
+
+                Chat.PrintError(Strings.Language.Changed);
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, "Unable to Load Localization");
+            }
         }
     }
-
-
 }

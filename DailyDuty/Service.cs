@@ -19,5 +19,5 @@ internal class Service
     [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
 
-    public static System.DailyDutyCore? System;
+    public static System.DailyDutyCore System = null!;
 }

@@ -1,4 +1,6 @@
 ﻿using DailyDuty.Interfaces;
+using DailyDuty.System.Localization;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.System.Commands;
 
@@ -6,13 +8,21 @@ internal class PrintHelpTextCommand : IPluginCommand
 {
     public string CommandArgument => "help";
 
-    public bool CanExecute()
+    public void Execute(string? additionalArguments)
     {
-        return true;
-    }
+        switch (additionalArguments)
+        {
+            case null:
+                Chat.Print(Strings.Common.Command ,Strings.Command.Help.Base);
+                break;
 
-    public void ExecuteInner(string? additionalArguments)
-    {
+            case "timers":
+                Chat.Print(Strings.Common.Command, Strings.Command.Help.Timers);
+                break;
 
+            case "todo":
+                Chat.Print(Strings.Common.Command, Strings.Command.Help.Todo);
+                break;
+        }
     }
 }

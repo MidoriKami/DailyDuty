@@ -116,9 +116,4 @@
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Configuration\Character\ModuleSettings\" />
-	  <Folder Include="System\Logging\" />
-	</ItemGroup>
 </Project>

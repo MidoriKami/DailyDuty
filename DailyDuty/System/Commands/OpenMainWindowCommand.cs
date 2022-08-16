@@ -1,5 +1,6 @@
 ﻿using DailyDuty.Interfaces;
 using DailyDuty.UserInterface.Windows;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.System.Commands;
 
@@ -7,17 +8,18 @@ internal class OpenMainWindowCommand : IPluginCommand
 {
     public string? CommandArgument => null;
 
-    private MainWindow? mainWindow;
-
-    public bool CanExecute()
+    public void Execute(string? additionalArguments)
     {
-        mainWindow = Service.System?.WindowManager.GetWindowOfType<MainWindow>();
-
-        return mainWindow != null;
-    }
-
-    public void ExecuteInner(string? additionalArguments)
-    {
-        mainWindow!.IsOpen = true;
+        if ( Service.System.WindowManager.GetWindowOfType<MainWindow>() is {} mainWindow )
+        {
+            if (Service.ClientState.IsPvP)
+            {
+                Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            }
+            else
+            {
+                mainWindow.IsOpen = !mainWindow.IsOpen;
+            }
+        }
     }
 }

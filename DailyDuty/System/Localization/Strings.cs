@@ -9,65 +9,136 @@ internal static class Strings
     public static Command Command { get; } = new();
     public static Module Module { get; } = new();
     public static UserInterface UserInterface { get; } = new();
+    public static Language Language { get; } = new();
 }
 
-#region Configuration
 public class Configuration
 {
-
 }
-#endregion
 
-
-#region Common
 public class Common
 {
+    public Expansion Expansion { get; } = new();
+
+    public string Command => Loc.Localize("Command", "Command");
     public string Information => Loc.Localize("Information", "Information");
     public string AutomationInformation => Loc.Localize("AutomationInformation", "Data Collection");
     public string TechnicalInformation => Loc.Localize("TechnicalInformation", "Technical Information");
 }
-#endregion
 
-#region Commands
+public class Expansion
+{
+    public string RealmReborn => Loc.Localize("Expansion_RealmReborn", "A Realm Reborn");
+    public string Heavensward => Loc.Localize("Expansion_Heavensward", "Heavensward");
+    public string Stormblood => Loc.Localize("Expansion_Stormblood", "Stormblood");
+    public string Shadowbringers => Loc.Localize("Expansion_Shadowbringers", "Shadowbringers");
+    public string Endwalker => Loc.Localize("Expansion_Endwalker", "Endwalker");
+}
+
 public class Command
 {
-    public static MainWindow MainWindow { get; } = new();
+    public MainWindow MainWindow { get; } = new();
+    public Help Help { get; } = new();
 }
 
 public class MainWindow
 {
-
 }
-#endregion
 
-#region Modules
+public class Help
+{
+    public string Timers => Loc.Localize("Help_Timers", "\n/dd timers - Shows this help message\n" +
+                                                               "/dd timers help - Shows this help message\n" +
+                                                               "/dd timers show - Shows the timers window\n" +
+                                                               "/dd timers hide - Hides the timers window\n" +
+                                                               "/dd timers toggle - Toggle the timers window");
+
+    public string Todo => Loc.Localize("Help_Todo", "\n/dd todo - Shows this help message\n" +
+                                                           "/dd todo help - Shows this help message\n" +
+                                                           "/dd todo show - Shows the todo window\n" +
+                                                           "/dd todo hide - Hides the todo window\n" +
+                                                           "/dd todo toggle - Toggle the todo window");
+
+    public string Base => Loc.Localize("Help_Base", "Command Overview\n" +
+                                                           "/dd - Show or Hide Main Window\n" +
+                                                           "/dd timers help - Show timer sub-commands\n" +
+                                                           "/dd todo help - Show todo sub-commands");
+}
+
 public class Module
 {
-    public static BeastTribe BeastTribe { get; } = new();
-    public static CustomDelivery CustomDelivery { get; } = new();
-    public static DomanEnclave DomanEnclave { get; } = new();
+    public BeastTribe BeastTribe { get; } = new();
+    public CustomDelivery CustomDelivery { get; } = new();
+    public DomanEnclave DomanEnclave { get; } = new();
+    public DutyRoulette DutyRoulette { get; } = new();
+    public FashionReport FashionReport { get; } = new();
+    public HuntMarks HuntMarks { get; } = new();
+    public JumboCactpot JumboCactpot { get; } = new();
+    public Levequest Levequest { get; } = new();
+    public MiniCactpot MiniCactpot { get; } = new();
+    public TreasureMap TreasureMap { get; } = new();
+    public WondrousTails WondrousTails { get; } = new();
 }
 
 public class BeastTribe
 {
-
 }
 
 public class CustomDelivery
 {
-
 }
 
 public class DomanEnclave
 {
-
 }
-#endregion
 
-#region UserInterface
+public class DutyRoulette
+{
+}
 
-public class UserInterface
+public class FashionReport
 {
 
 }
-#endregion
+
+public class HuntMarks
+{
+    public string LevelOne => Loc.Localize("HuntMarks_LevelOne", "Level One");
+    public string LevelTwo => Loc.Localize("HuntMarks_LevelTwo", "Level Two");
+    public string LevelThree => Loc.Localize("HuntMarks_LevelThree", "Level Three");
+    public string Elite => Loc.Localize("HuntMarks_Elite", "Elite");
+}
+
+public class JumboCactpot
+{
+
+}
+
+public class Levequest
+{
+
+}
+
+public class MiniCactpot
+{
+
+}
+
+public class TreasureMap
+{
+
+}
+
+public class WondrousTails
+{
+
+}
+
+public class UserInterface
+{
+}
+
+public class Language
+{
+    public string Changed => Loc.Localize("Language_Changed", "Language has been changed, a restart is required to update some strings");
+}

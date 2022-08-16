@@ -20,6 +20,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     public void Dispose()
     {
-        Service.System?.Dispose();
+        Service.System.Dispose();
     }
 }
