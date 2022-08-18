@@ -32,7 +32,7 @@ internal static class Actions
         {
             if (ImGui.Checkbox(label, ref setting.Value))
             {
-                // todo: Add Configuration Saving Code Here
+                Service.ConfigurationManager.SaveAll();
             }
         };
     }
@@ -49,6 +49,7 @@ internal static class Actions
                     if (ImGui.Selectable(value.ToString(), setting.Value.Equals(value)))
                     {
                         setting.Value = value;
+                        Service.ConfigurationManager.SaveAll();
                     }
                 }
 

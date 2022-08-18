@@ -5,6 +5,7 @@ namespace DailyDuty.System.Localization;
 internal static class Strings
 {
     public static Configuration Configuration { get; } = new();
+    public static Status Status { get; } = new();
     public static Common Common { get; } = new();
     public static Command Command { get; } = new();
     public static Module Module { get; } = new();
@@ -14,6 +15,13 @@ internal static class Strings
 
 public class Configuration
 {
+    public string Label => Loc.Localize("Configuration_Label", "Configuration");
+    public string ModuleNotSelected => Loc.Localize("Configuration_ModuleNotSelected", "Select an item to configure in the left pane");
+}
+
+public class Status
+{
+    public string Label => Loc.Localize("Status_Label", "Status");
 }
 
 public class Common
@@ -21,9 +29,12 @@ public class Common
     public Expansion Expansion { get; } = new();
 
     public string Command => Loc.Localize("Command", "Command");
-    public string Information => Loc.Localize("Information", "Information");
-    public string AutomationInformation => Loc.Localize("AutomationInformation", "Data Collection");
-    public string TechnicalInformation => Loc.Localize("TechnicalInformation", "Technical Information");
+    public string Enabled => Loc.Localize("Enabled", "Enabled");
+    public string Disabled => Loc.Localize("Disabled", "Disabled");
+    public string Unknown => Loc.Localize("Unknown", "Unknown");
+    public string Incomplete => Loc.Localize("Incomplete", "Incomplete");
+    public string Unavailable => Loc.Localize("Unavailable", "Unavailable");
+    public string Complete => Loc.Localize("Complete", "Complete");
 }
 
 public class Expansion
@@ -79,6 +90,8 @@ public class Module
     public TreasureMap TreasureMap { get; } = new();
     public WondrousTails WondrousTails { get; } = new();
 }
+
+
 
 public class BeastTribe
 {

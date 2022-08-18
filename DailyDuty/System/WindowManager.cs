@@ -13,7 +13,8 @@ internal class WindowManager : IDisposable
 
     private readonly List<Window> windows = new()
     {
-        new MainWindow(),
+        new ConfigurationWindow(),
+        new StatusWindow(),
     };
 
     public WindowManager()

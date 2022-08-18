@@ -2,10 +2,11 @@
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.Command;
 using Dalamud.Game.Gui;
+using Dalamud.Game.Gui.Toast;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using CommandManager = Dalamud.Game.Command.CommandManager;
 
 namespace DailyDuty;
 
@@ -18,6 +19,11 @@ internal class Service
     [PluginService] public static Condition Condition { get; private set; } = null!;
     [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
+    [PluginService] public static ToastGui Toast { get; private set; } = null!;
 
-    public static System.DailyDutyCore System = null!;
+    public static System.ModuleManager ModuleManager = null!;
+    public static System.CommandManager CommandSystem = null!;
+    public static System.WindowManager WindowManager = null!;
+    public static System.LocalizationManager LocalizationManager = null!;
+    public static System.ConfigurationManager ConfigurationManager = null!;
 }

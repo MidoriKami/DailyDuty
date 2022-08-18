@@ -118,7 +118,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Configuration\Character\ModuleSettings\" />
 	  <Folder Include="System\Logging\" />
+	  <Folder Include="System\Configuration\" />
 	</ItemGroup>
 </Project>

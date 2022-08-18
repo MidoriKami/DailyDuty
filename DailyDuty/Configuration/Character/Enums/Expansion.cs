@@ -14,7 +14,7 @@ public enum Expansion
 
 public static class ExpansionExtensions
 {
-    public static string GetLabel(this Expansion value)
+    public static string GetLocalizedString(this Expansion value)
     {
         switch (value)
         {

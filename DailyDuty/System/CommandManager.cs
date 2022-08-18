@@ -14,7 +14,8 @@ internal class CommandManager : IDisposable
 
     private readonly List<IPluginCommand> commands = new()
     {
-        new OpenMainWindowCommand(),
+        new OpenConfigurationWindowCommand(),
+        new OpenStatusWindowCommand(),
         new PrintHelpTextCommand(),
     };
 

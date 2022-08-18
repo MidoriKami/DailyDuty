@@ -2,5 +2,5 @@
 
 public class WindowsSettings
 {
-    public MainWindowSettings MainWindow = new();
+    public ConfigurationWindowSettings ConfigurationWindow = new();
 }

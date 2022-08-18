@@ -1,7 +1,6 @@
 ﻿using DailyDuty.System;
 using DailyDuty.Utilities;
 using Dalamud.Plugin;
-// Daily Duty 3.0
 
 namespace DailyDuty;
 
@@ -14,12 +13,19 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Log.Verbose("Inflating Service Class");
         pluginInterface.Create<Service>();
 
-        Log.Verbose("Creating DailyDutyCore");
-        Service.System = new DailyDutyCore();
+        Service.ConfigurationManager = new ConfigurationManager();
+        Service.LocalizationManager = new LocalizationManager();
+        Service.ModuleManager = new ModuleManager();
+        Service.WindowManager = new WindowManager();
+        Service.CommandSystem = new CommandManager();
     }
 
     public void Dispose()
     {
-        Service.System.Dispose();
+        Service.CommandSystem.Dispose();
+        Service.WindowManager.Dispose();
+        Service.ModuleManager.Dispose();
+        Service.LocalizationManager.Dispose();
+        Service.ConfigurationManager.Dispose();
     }
 }

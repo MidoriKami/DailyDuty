@@ -5,7 +5,7 @@ using DailyDuty.System.Localization;
 using Lumina.Excel.GeneratedSheets;
 using Expansion = DailyDuty.Configuration.Character.Enums.Expansion;
 
-namespace DailyDuty.Configuration.Character.Components;
+namespace DailyDuty.DataStructures;
 
 public enum HuntMarkType
 {
@@ -71,11 +71,11 @@ public class HuntData
     }
 
     public bool Obtained { get; init; }
-    public bool IsElite => HuntType is 
-        HuntMarkType.EndwalkerElite or 
-        HuntMarkType.ShadowbringersElite or 
-        HuntMarkType.StormbloodElite or 
-        HuntMarkType.HeavenswardElite or 
+    public bool IsElite => HuntType is
+        HuntMarkType.EndwalkerElite or
+        HuntMarkType.ShadowbringersElite or
+        HuntMarkType.StormbloodElite or
+        HuntMarkType.HeavenswardElite or
         HuntMarkType.RealmRebornElite;
 }
 
@@ -111,7 +111,7 @@ public class KillCounts
         get => Raw[i];
         set => Raw[i] = value;
     }
-        
+
 }
 
 //[Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
@@ -132,14 +132,14 @@ public unsafe struct MobHuntStruct
         {
             KillCounts = new KillCounts
             {
-                [0] = CurrentKills[(index * 5) + 0],
-                [1] = CurrentKills[(index * 5) + 1],
-                [2] = CurrentKills[(index * 5) + 2],
-                [3] = CurrentKills[(index * 5) + 3],
-                [4] = CurrentKills[(index * 5) + 4]
+                [0] = CurrentKills[index * 5 + 0],
+                [1] = CurrentKills[index * 5 + 1],
+                [2] = CurrentKills[index * 5 + 2],
+                [3] = CurrentKills[index * 5 + 3],
+                [4] = CurrentKills[index * 5 + 4]
             },
             HuntID = ID[index],
-            Obtained = (Flags & (1 << index)) != 0,
+            Obtained = (Flags & 1 << index) != 0,
             HuntType = type
         };
     }
@@ -149,7 +149,7 @@ public static class HuntMarkTypeExtensions
 {
     public static string GetLabel(this HuntMarkType value)
     {
-        var expansionLabel = value.GetExpansion().GetLabel();
+        var expansionLabel = value.GetExpansion().GetLocalizedString();
         var level = value.GetLevel();
 
         return expansionLabel + " " + level;

@@ -29,6 +29,8 @@ internal class InfoBox : IDrawable
 
     public void Draw()
     {
+        ImGuiHelpers.ScaledDummy(5.0f);
+
         var region = ImGui.GetContentRegionAvail();
         var currentPosition = ImGui.GetCursorPos();
         ActualWidth = region.X * RegionWidth;
@@ -49,7 +51,7 @@ internal class InfoBox : IDrawable
 
         DrawBorders();
 
-        ImGuiHelpers.ScaledDummy(15.0f);
+        ImGuiHelpers.ScaledDummy(10.0f);
     }
 
     private void DrawContents()
