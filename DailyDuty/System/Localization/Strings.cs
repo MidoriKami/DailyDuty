@@ -17,11 +17,17 @@ public class Configuration
 {
     public string Label => Loc.Localize("Configuration_Label", "Configuration");
     public string ModuleNotSelected => Loc.Localize("Configuration_ModuleNotSelected", "Select an item to configure in the left pane");
+    public string Options => Loc.Localize("Configuration_Options", "Options");
+    public string MarkCompleteWhen => Loc.Localize("Configuration_MarkCompleteWhen", "Mark Complete When");
+    public string NotificationOptions => Loc.Localize("Configuration_NotificationOptions", "Notification Options");
+    public string OnLogin => Loc.Localize("Configuration_OnLogin", "Send Notification on Login");
+    public string OnZoneChange => Loc.Localize("Configuration_OnZoneChange", "Send Notification on Zone Change");
 }
 
 public class Status
 {
     public string Label => Loc.Localize("Status_Label", "Status");
+    public string ModuleStatus => Loc.Localize("Status_ModuleStatus", "Module Status");
 }
 
 public class Common
@@ -35,6 +41,13 @@ public class Common
     public string Incomplete => Loc.Localize("Incomplete", "Incomplete");
     public string Unavailable => Loc.Localize("Unavailable", "Unavailable");
     public string Complete => Loc.Localize("Complete", "Complete");
+    public string LessThanLabel => Loc.Localize("LessThanLabel", "Less Than");
+    public string LessThanOrEqualLabel => Loc.Localize("LessThanOrEqualLabel", "Less Than or Equal To");
+    public string EqualToLabel => Loc.Localize("EqualToLabel", "Equal To");
+    public string Allowances => Loc.Localize("Allowances", "Allowances");
+    public string Allowance => Loc.Localize("Allowance", "Allowance");
+    public string Target => Loc.Localize("Target", "Target");
+    public string Mode => Loc.Localize("Mode", "Mode");
 }
 
 public class Expansion
@@ -58,17 +71,15 @@ public class MainWindow
 
 public class Help
 {
-    public string Timers => Loc.Localize("Help_Timers", "\n/dd timers - Shows this help message\n" +
+    public string Timers => Loc.Localize("Help_Timers", "\n/dd timers - Shows timer configuration window\n" +
                                                                "/dd timers help - Shows this help message\n" +
                                                                "/dd timers show - Shows the timers window\n" +
-                                                               "/dd timers hide - Hides the timers window\n" +
-                                                               "/dd timers toggle - Toggle the timers window");
+                                                               "/dd timers hide - Hides the timers window");
 
-    public string Todo => Loc.Localize("Help_Todo", "\n/dd todo - Shows this help message\n" +
+    public string Todo => Loc.Localize("Help_Todo", "\n/dd todo - Shows todo configuration window\n" +
                                                            "/dd todo help - Shows this help message\n" +
                                                            "/dd todo show - Shows the todo window\n" +
-                                                           "/dd todo hide - Hides the todo window\n" +
-                                                           "/dd todo toggle - Toggle the todo window");
+                                                           "/dd todo hide - Hides the todo window");
 
     public string Base => Loc.Localize("Help_Base", "Command Overview\n" +
                                                            "/dd - Show or Hide Main Window\n" +
@@ -95,6 +106,7 @@ public class Module
 
 public class BeastTribe
 {
+    public string Label => Loc.Localize("BeastTribe_Label", "Beast Tribe");
 }
 
 public class CustomDelivery

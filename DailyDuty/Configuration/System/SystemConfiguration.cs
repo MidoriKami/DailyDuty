@@ -10,7 +10,6 @@ public class SystemConfiguration : IPluginConfiguration
     public int Version { get; set; } = 3;
 
     public SystemSettings System = new();
-    public WindowsSettings Windows = new();
 
     public void Save() => Service.PluginInterface.SavePluginConfig(this);
 

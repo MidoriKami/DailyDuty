@@ -11,7 +11,7 @@ internal class ModuleManager : IDisposable
 {
     private List<IModule> Modules { get; } = new()
     {
-        new DebugModule(),
+        new BeastTribe(),
     };
 
     public ModuleManager()

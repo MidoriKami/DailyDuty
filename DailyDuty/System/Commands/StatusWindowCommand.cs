@@ -4,13 +4,13 @@ using DailyDuty.Utilities;
 
 namespace DailyDuty.System.Commands;
 
-internal class OpenConfigurationWindowCommand : IPluginCommand
+internal class StatusWindowCommand : IPluginCommand
 {
-    public string? CommandArgument => null;
+    public string CommandArgument => "status";
 
     public void Execute(string? additionalArguments)
     {
-        if ( Service.WindowManager.GetWindowOfType<ConfigurationWindow>() is {} mainWindow )
+        if ( Service.WindowManager.GetWindowOfType<StatusWindow>() is {} statusWindow )
         {
             if (Service.ClientState.IsPvP)
             {
@@ -18,7 +18,7 @@ internal class OpenConfigurationWindowCommand : IPluginCommand
             }
             else
             {
-                mainWindow.IsOpen = !mainWindow.IsOpen;
+                statusWindow.IsOpen = !statusWindow.IsOpen;
             }
         }
     }

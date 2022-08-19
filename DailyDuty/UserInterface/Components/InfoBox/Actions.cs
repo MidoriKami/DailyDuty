@@ -37,11 +37,19 @@ internal static class Actions
         };
     }
 
-    public static Action GetConfigComboAction<T>(IEnumerable<T> values, Setting<T> setting, string label = "", float width = 200.0f) where T : struct
+    public static Action GetConfigComboAction<T>(IEnumerable<T> values, Setting<T> setting, string label = "", float width = 0.0f) where T : struct
     {
         return () =>
         {
-            ImGui.SetNextItemWidth(width);
+            if (width != 0.0f)
+            {
+                ImGui.SetNextItemWidth(width);
+            }
+            else
+            {
+                ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X);
+            }
+
             if (ImGui.BeginCombo(label, setting.Value.ToString() ?? "Null Value"))
             {
                 foreach (var value in values)
@@ -57,4 +65,17 @@ internal static class Actions
             }
         };
     }
+
+    public static Action GetSliderInt(string label, Setting<int> setting, int minValue, int maxValue)
+    {
+        return () =>
+        {
+            ImGui.SliderInt(label, ref setting.Value, minValue, maxValue);
+            if (ImGui.IsItemDeactivatedAfterEdit())
+            {
+                Service.ConfigurationManager.SaveAll();
+            }
+        };
+    }
+    
 }

@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Reflection;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
+using Dalamud.Interface;
 using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Components;
@@ -35,7 +36,7 @@ internal class SelectionFrame : IDrawable
             ImGui.PushStyleColor(ImGuiCol.FrameBg, frameBgColor with { W = 0.05f });
 
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
-            if (ImGui.BeginListBox("", new Vector2(-1, -25)))
+            if (ImGui.BeginListBox("", new Vector2(-1, -25 * ImGuiHelpers.GlobalScale)))
             {
                 ImGui.PopStyleColor(1);
 

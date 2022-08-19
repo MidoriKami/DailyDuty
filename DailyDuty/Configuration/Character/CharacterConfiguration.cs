@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using DailyDuty.Configuration.Character.Components;
-using DailyDuty.Configuration.Character.ModuleSettings;
 using DailyDuty.Utilities;
 using Newtonsoft.Json;
 
@@ -14,7 +13,7 @@ internal class CharacterConfiguration
 
     public CharacterData CharacterData = new();
 
-    public DebugModuleConfiguration DebugModule = new();
+    public BeastTribeSettings BeastTribe = new();
 
     public void Save()
     {
@@ -41,7 +40,6 @@ internal class CharacterConfiguration
     {
         var configFileInfo = GetConfigFileInfo(contentID);
 
-        // If the configuration file for this character exists
         if (configFileInfo.Exists)
         {
             var fileText = File.ReadAllText(configFileInfo.FullName);

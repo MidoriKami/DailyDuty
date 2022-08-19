@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Numerics;
 using DailyDuty.System.Localization;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Modules.Enums;
 
@@ -21,6 +23,18 @@ public static class ModuleStatusExtensions
             ModuleStatus.Incomplete => Strings.Common.Incomplete,
             ModuleStatus.Unavailable => Strings.Common.Unavailable,
             ModuleStatus.Complete => Strings.Common.Complete,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
+    }
+
+    public static Vector4 GetStatusColor(this ModuleStatus value)
+    {
+        return value switch
+        {
+            ModuleStatus.Unknown => Colors.Grey,
+            ModuleStatus.Incomplete => Colors.Red,
+            ModuleStatus.Unavailable => Colors.Orange,
+            ModuleStatus.Complete => Colors.Green,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

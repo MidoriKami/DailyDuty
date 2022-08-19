@@ -39,6 +39,13 @@ internal class InfoBoxTable
         return this;
     }
 
+    public InfoBoxTable AddActions(Action? firstAction, Action? secondAction)
+    {
+        tableRows.Add(new Tuple<Action?, Action?>(firstAction, secondAction));
+
+        return this;
+    }
+
     public InfoBox EndTable()
     {
         owner.AddAction(() =>

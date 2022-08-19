@@ -1,7 +1,21 @@
-﻿namespace DailyDuty.Modules.Enums;
+﻿using System;
+using DailyDuty.System.Localization;
 
-internal enum ModuleName
+namespace DailyDuty.Modules.Enums;
+
+public enum ModuleName
 {
-    DebugModule,
-    DebugModuleTwo,
+    BeastTribe,
+}
+
+public static class ModuleNameExtensions
+{
+    public static string GetLocalizedString(this ModuleName value)
+    {
+        return value switch
+        {
+            ModuleName.BeastTribe => Strings.Module.BeastTribe.Label,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
+    }
 }
