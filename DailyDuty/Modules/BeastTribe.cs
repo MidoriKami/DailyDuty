@@ -1,12 +1,13 @@
-﻿using DailyDuty.Configuration.Character.Components;
-using DailyDuty.Configuration.Character.Enums;
-using DailyDuty.Interfaces;
+﻿using DailyDuty.Interfaces;
 using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using System;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
 using Dalamud.Utility.Signatures;
+using DailyDuty.Configuration.ModuleSettings;
 
 namespace DailyDuty.Modules;
 
@@ -16,14 +17,17 @@ internal class BeastTribe : IModule
     public IConfigurationComponent ConfigurationComponent { get; }
     public IStatusComponent StatusComponent { get; }
     public ILogicComponent LogicComponent { get; }
+    public ITodoComponent TodoComponent { get; }
 
     private static BeastTribeSettings Settings => Service.ConfigurationManager.CharacterConfiguration.BeastTribe;
+    public GenericSettings GenericSettings => Settings;
 
     public BeastTribe()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
         LogicComponent = new ModuleLogicComponent(this);
+        TodoComponent = new ModuleTodoComponent(this);
     }
 
     private class ModuleConfigurationComponent : IConfigurationComponent
@@ -51,7 +55,7 @@ internal class BeastTribe : IModule
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
                 .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode),
+                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
                     Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12))
                 .EndTable()
                 .Draw();
@@ -156,5 +160,18 @@ internal class BeastTribe : IModule
         {
             return getBeastTribeAllowance(getBeastTribeBasePointer());
         }
+    }
+
+    private class ModuleTodoComponent : ITodoComponent
+    {
+        public IModule ParentModule { get; }
+        public Setting<bool> Enabled => Settings.TodoTaskEnabled;
+        public CompletionType CompletionType => CompletionType.Daily;
+        
+        public ModuleTodoComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
     }
 }

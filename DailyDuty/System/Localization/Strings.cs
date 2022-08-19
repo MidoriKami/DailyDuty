@@ -48,6 +48,13 @@ public class Common
     public string Allowance => Loc.Localize("Allowance", "Allowance");
     public string Target => Loc.Localize("Target", "Target");
     public string Mode => Loc.Localize("Mode", "Mode");
+    public string TopLeft => Loc.Localize("TopLeft", "Top Left");
+    public string TopRight => Loc.Localize("TopRight", "Top Right");
+    public string BottomLeft => Loc.Localize("BottomLeft", "Bottom Left");
+    public string BottomRight => Loc.Localize("BottomRight", "Bottom Right");
+    public string Header => Loc.Localize("Header", "Header");
+    public string Daily => Loc.Localize("Daily", "Daily");
+    public string Weekly => Loc.Localize("Weekly", "Weekly");
 }
 
 public class Expansion
@@ -72,19 +79,19 @@ public class MainWindow
 public class Help
 {
     public string Timers => Loc.Localize("Help_Timers", "\n/dd timers - Shows timer configuration window\n" +
-                                                               "/dd timers help - Shows this help message\n" +
-                                                               "/dd timers show - Shows the timers window\n" +
-                                                               "/dd timers hide - Hides the timers window");
+                                                        "/dd timers help - Shows this help message\n" +
+                                                        "/dd timers show - Shows the timers window\n" +
+                                                        "/dd timers hide - Hides the timers window");
 
     public string Todo => Loc.Localize("Help_Todo", "\n/dd todo - Shows todo configuration window\n" +
-                                                           "/dd todo help - Shows this help message\n" +
-                                                           "/dd todo show - Shows the todo window\n" +
-                                                           "/dd todo hide - Hides the todo window");
+                                                    "/dd todo help - Shows this help message\n" +
+                                                    "/dd todo show - Shows the todo window\n" +
+                                                    "/dd todo hide - Hides the todo window");
 
     public string Base => Loc.Localize("Help_Base", "Command Overview\n" +
-                                                           "/dd - Show or Hide Main Window\n" +
-                                                           "/dd timers help - Show timer sub-commands\n" +
-                                                           "/dd todo help - Show todo sub-commands");
+                                                    "/dd - Show or Hide Main Window\n" +
+                                                    "/dd timers help - Show timer sub-commands\n" +
+                                                    "/dd todo help - Show todo sub-commands");
 }
 
 public class Module
@@ -161,6 +168,30 @@ public class WondrousTails
 
 public class UserInterface
 {
+    public Todo Todo = new();
+}
+
+public class Todo
+{
+    public string MainOptions => Loc.Localize("Todo_MainOptions", "Main Options");
+    public string TaskSelection => Loc.Localize("Todo_TaskSelection", "Task Selection");
+    public string ShowDailyTasks => Loc.Localize("Todo_ShowDailyTasks", "Show Daily Tasks");
+    public string ShowWeeklyTasks => Loc.Localize("Todo_ShowWeeklyTasks", "Show Weekly Tasks");
+    public string TaskDisplay => Loc.Localize("Todo_TaskDisplay", "Task Display Options");
+    public string HideCompletedTasks => Loc.Localize("Todo_HideCompletedTasks", "Hide Completed Tasks");
+    public string HideUnavailable => Loc.Localize("Todo_HideUnavailable", "Hide Unavailable Tasks");
+    public string WindowOptions => Loc.Localize("Todo_WindowOptions", "Window Options");
+    public string HideWindowCompleted => Loc.Localize("Todo_HideWindowCompleted", "Hide Window When Complete");
+    public string HideWindowInDuty => Loc.Localize("Todo_HideWindowInDuty", "Hide Window In Duty");
+    public string PositionOptions => Loc.Localize("Todo_PositionOptions", "Window Position Options");
+    public string LockWindow => Loc.Localize("Todo_LockWindow", "Lock Window Position");
+    public string AutoResize => Loc.Localize("Todo_AutoResize", "Auto Resize");
+    public string AnchorCorner => Loc.Localize("Todo_AnchorCorner", "Anchor Corner");
+    public string Opacity => Loc.Localize("Todo_Opacity", "Opacity");
+    public string ColorOptions => Loc.Localize("Todo_ColorOptions", "ColorOptions");
+    public string DailyTasks => Loc.Localize("Todo_DailyTasks", "Daily Tasks");
+    public string WeeklyTasks => Loc.Localize("Todo_WeeklyTasks", "Weekly Tasks");
+    public string NoTasksEnabled => Loc.Localize("Todo_NoDailyTasksEnabled", "Enable a module in Configuration to track Tasks");
 }
 
 public class Language

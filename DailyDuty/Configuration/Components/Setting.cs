@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Configuration.Common;
+﻿namespace DailyDuty.Configuration.Components;
 
 public record Setting<T>(T Value) where T : struct
 {

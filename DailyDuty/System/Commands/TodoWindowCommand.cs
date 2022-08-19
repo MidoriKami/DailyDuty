@@ -5,7 +5,7 @@ namespace DailyDuty.System.Commands;
 
 internal class TodoWindowCommand : IPluginCommand
 {
-    public string? CommandArgument => "todo";
+    public string CommandArgument => "todo";
 
     public void Execute(string? additionalArguments)
     {

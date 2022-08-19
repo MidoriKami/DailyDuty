@@ -1,17 +1,21 @@
 ﻿using System;
 using System.IO;
-using DailyDuty.Configuration.Character.Components;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Utilities;
 using Newtonsoft.Json;
 
-namespace DailyDuty.Configuration.Character;
+namespace DailyDuty.Configuration;
 
 [Serializable]
 internal class CharacterConfiguration
 {
-    public int Version { get; set; } = 1;
+    public int Version { get; set; } = 2;
 
     public CharacterData CharacterData = new();
+
+    public TodoOverlaySettings TodoOverlay = new();
 
     public BeastTribeSettings BeastTribe = new();
 
@@ -32,7 +36,7 @@ internal class CharacterConfiguration
     private static FileInfo GetConfigFileInfo(ulong contentID)
     {
         var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
-            
+
         return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.json");
     }
 

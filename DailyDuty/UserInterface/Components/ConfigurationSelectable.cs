@@ -4,7 +4,7 @@ using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using ImGuiNET;
 using System;
-using DailyDuty.Configuration.Common;
+using DailyDuty.Configuration.Components;
 
 namespace DailyDuty.UserInterface.Components;
 
@@ -30,7 +30,7 @@ internal class ConfigurationSelectable : ISelectable
 
     private void DrawModuleLabel()
     {
-        ImGui.Text(OwnerModuleName.ToString()[..Math.Min(OwnerModuleName.ToString().Length, 20)]);
+        ImGui.Text(OwnerModuleName.GetLocalizedString()[..Math.Min(OwnerModuleName.GetLocalizedString().Length, 20)]);
     }
 
     private void DrawModuleStatus()

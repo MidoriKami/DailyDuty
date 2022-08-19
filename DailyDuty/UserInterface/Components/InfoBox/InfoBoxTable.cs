@@ -22,9 +22,9 @@ internal class InfoBoxTable
     public InfoBoxTable AddRow(string label, string contents, Vector4? firstColor = null, Vector4? secondColor = null)
     {
         tableRows.Add(new Tuple<Action?, Action?>(
-                Actions.GetStringAction(label, firstColor), 
-                Actions.GetStringAction(contents, secondColor)
-                ));
+            Actions.GetStringAction(label, firstColor), 
+            Actions.GetStringAction(contents, secondColor)
+        ));
 
         return this;
     }

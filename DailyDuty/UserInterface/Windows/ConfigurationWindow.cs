@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.Configuration.Character;
+using DailyDuty.Configuration;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
@@ -62,7 +62,7 @@ internal class ConfigurationWindow : Window, IDisposable
     public override void OnClose()
     {
         Service.PluginInterface.UiBuilder.AddNotification("System Settings Saved", "DailyDuty", NotificationType.Success);
-        Service.ConfigurationManager.SaveAll();
+        Service.ConfigurationManager.Save();
     }
 
 }

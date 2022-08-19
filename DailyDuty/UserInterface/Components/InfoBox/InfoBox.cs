@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration.Common;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
+using DailyDuty.Modules.Enums;
+using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -130,9 +133,16 @@ internal class InfoBox : IDrawable
         return this;
     }
 
-    public InfoBox AddConfigCombo<T>(IEnumerable<T> values, Setting<T> setting, string label = "", float width = 200.0f) where T : struct
+    public InfoBox AddConfigCombo<T>(IEnumerable<T> values, Setting<T> setting, Func<T, string> localizeFunction, string label = "", float width = 200.0f) where T : struct
     {
-        drawActions.Add(Actions.GetConfigComboAction(values, setting, label, width));
+        drawActions.Add(Actions.GetConfigComboAction(values, setting, localizeFunction, label, width));
+
+        return this;
+    }
+
+    public InfoBox AddConfigColor(string label, Setting<Vector4> setting)
+    {
+        drawActions.Add(Actions.GetConfigColor(label, setting));
 
         return this;
     }
@@ -140,6 +150,30 @@ internal class InfoBox : IDrawable
     public InfoBox AddTitle(string title)
     {
         Label = title;
+
+        return this;
+    }
+
+    public InfoBox AddDragFloat(string label, Setting<float> setting, float minValue, float maxValue, float width = 0.0f)
+    {
+        drawActions.Add(Actions.GetDragFloat(label, setting, minValue, maxValue, width));
+
+        return this;
+    }
+
+    public InfoBox AddTodoComponents(IEnumerable<ITodoComponent> components, CompletionType type)
+    {
+        var todoComponents = components.ToList();
+
+        if (todoComponents.Count == 0)
+        {
+            AddString(Strings.UserInterface.Todo.NoTasksEnabled, Colors.Orange);
+        }
+
+        foreach (var component in todoComponents)
+        {
+            AddConfigCheckbox(component.ParentModule.Name.GetLocalizedString(), component.Enabled);
+        }
 
         return this;
     }

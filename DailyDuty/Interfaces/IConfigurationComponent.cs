@@ -1,4 +1,5 @@
-﻿namespace DailyDuty.Interfaces;
+﻿
+namespace DailyDuty.Interfaces;
 
 internal interface IConfigurationComponent : IDrawable
 {

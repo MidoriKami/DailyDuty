@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using DailyDuty.Configuration.Character;
-using DailyDuty.Configuration.System;
+using DailyDuty.Configuration;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 
@@ -9,8 +8,6 @@ namespace DailyDuty.System;
 
 internal class ConfigurationManager : IDisposable
 {
-    public SystemConfiguration SystemConfiguration { get; }
-
     private readonly CharacterConfiguration nullCharacterConfiguration = new();
 
     private CharacterConfiguration? backingCharacterConfiguration;
@@ -28,8 +25,6 @@ internal class ConfigurationManager : IDisposable
     {
         Log.Verbose("Constructing ConfigurationManager");
 
-        SystemConfiguration = SystemConfiguration.Load();
-
         if (LoggedIn)
         {
             LoadCharacterConfiguration();
@@ -43,8 +38,6 @@ internal class ConfigurationManager : IDisposable
     {
         Service.ClientState.Login -= Login;
         Service.ClientState.Logout -= Logout;
-
-        SaveAll();
     }
 
     private void Login(object? sender, EventArgs e)
@@ -81,9 +74,8 @@ internal class ConfigurationManager : IDisposable
         OnCharacterDataAvailable?.Invoke(this, CharacterConfiguration);
     }
 
-    public void SaveAll()
+    public void Save()
     {
-        SystemConfiguration.Save();
         CharacterConfiguration.Save();
     }
 }

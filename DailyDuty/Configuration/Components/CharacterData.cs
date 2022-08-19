@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DailyDuty.Configuration.Character.Components;
+namespace DailyDuty.Configuration.Components;
 
 [Serializable]
 public record CharacterData

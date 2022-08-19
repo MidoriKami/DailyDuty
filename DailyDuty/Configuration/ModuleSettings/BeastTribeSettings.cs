@@ -1,7 +1,7 @@
-﻿using DailyDuty.Configuration.Character.Enums;
-using DailyDuty.Configuration.Common;
+﻿using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
 
-namespace DailyDuty.Configuration.Character.Components;
+namespace DailyDuty.Configuration.ModuleSettings;
 
 public class BeastTribeSettings : GenericSettings
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using DailyDuty.Configuration.Character.Enums;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.System.Localization;
 using Lumina.Excel.GeneratedSheets;
-using Expansion = DailyDuty.Configuration.Character.Enums.Expansion;
+using Expansion = DailyDuty.Configuration.Enums.Expansion;
 
 namespace DailyDuty.DataStructures;
 
