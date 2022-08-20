@@ -302,10 +302,22 @@ namespace DailyDuty.Localization
             public readonly string Help = Loc.Localize("Help", "help");
             public readonly string Core = Loc.Localize("Core", "Core");
 
-            public readonly string TimersShowHelp = Loc.Localize("TimersShowHelp", "\n/dd timers - Shows this help message\n/dd timers help - Shows this help message\n/dd timers (on | enable | show | open) - Shows the timers window\n/dd timers (off | disable | hide | close) - Hides the timers window\n/dd timers (toggle) - Toggle the timers window");
-            public readonly string TodoShowHelp = Loc.Localize("TodoShowHelp", "\n/dd todo - Shows this help message\n/dd todo help - Shows this help message\n/dd todo (on | enable | show | open) - Shows the todo window\n/dd todo (off | disable | hide | close) - Hides the todo window\n/dd todo (toggle) - Toggle the todo window");
+            public readonly string TimersShowHelp = Loc.Localize("TimersShowHelp", "\n/dd timers - Shows this help message\n" +
+                                                                                "/dd timers help - Shows this help message\n" +
+                                                                                "/dd timers (on | enable | show | open) - Shows the timers window\n" +
+                                                                                "/dd timers (off | disable | hide | close) - Hides the timers window\n" +
+                                                                                "/dd timers (toggle) - Toggle the timers window");
 
-            public readonly string HelpCommands = Loc.Localize("HelpCommands", "Command Overview\n/dd - Show or Hide Main Window\n/dd timers help - Show timer sub-commands\n/dd todo help - Show todo sub-commands");
+            public readonly string TodoShowHelp = Loc.Localize("TodoShowHelp", "\n/dd todo - Shows this help message\n" +
+                                                                               "/dd todo help - Shows this help message\n" +
+                                                                               "/dd todo (on | enable | show | open) - Shows the todo window\n" +
+                                                                               "/dd todo (off | disable | hide | close) - Hides the todo window\n" +
+                                                                               "/dd todo (toggle) - Toggle the todo window");
+
+            public readonly string HelpCommands = Loc.Localize("HelpCommands", "Command Overview\n" +
+                                                                               "/dd - Show or Hide Main Window\n" +
+                                                                               "/dd timers help - Show timer sub-commands\n" +
+                                                                               "/dd todo help - Show todo sub-commands");
         }
 
         public class TimersStrings
