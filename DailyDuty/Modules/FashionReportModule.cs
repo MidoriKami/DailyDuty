@@ -113,7 +113,7 @@ namespace DailyDuty.Modules
                         }
                         break;
                     case FashionReportMode.Plus80:
-                        if (Settings.HighestWeeklyScore < 80)
+                        if (Settings.HighestWeeklyScore <= 80)
                         {
                             Chat.Print(Strings.Module.FashionReportLabel, $"{Settings.AllowancesRemaining} " + Strings.Module.CustomDeliveryAllowancesLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
                             Chat.Print(Strings.Module.FashionReportLabel,$"{Settings.HighestWeeklyScore} " + Strings.Module.FashionReportHighestScoreLabel, Settings.EnableClickableLink ? goldSaucerTeleport : null);
