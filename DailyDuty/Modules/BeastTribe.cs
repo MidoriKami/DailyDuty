@@ -167,11 +167,14 @@ internal class BeastTribe : IModule
         public IModule ParentModule { get; }
         public Setting<bool> Enabled => Settings.TodoTaskEnabled;
         public CompletionType CompletionType => CompletionType.Daily;
-        
+
         public ModuleTodoComponent(IModule parentModule)
         {
             ParentModule = parentModule;
         }
 
+        public string GetShortTaskLabel() => Strings.Module.BeastTribe.Label;
+
+        public string GetLongTaskLabel() => Strings.Module.BeastTribe.Label;
     }
 }

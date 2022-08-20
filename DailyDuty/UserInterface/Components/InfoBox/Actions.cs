@@ -100,7 +100,7 @@ internal static class Actions
                 ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X);
             }
 
-            ImGui.DragFloat(label, ref setting.Value, 0.01f, minValue, maxValue);
+            ImGui.DragFloat(label, ref setting.Value, 0.01f, minValue, maxValue, "%.2f");
             if (ImGui.IsItemDeactivatedAfterEdit())
             {
                 Service.ConfigurationManager.Save();

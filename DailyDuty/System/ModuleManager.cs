@@ -43,7 +43,6 @@ internal class ModuleManager : IDisposable
     {
         return Modules
             .Where(module => module.TodoComponent.CompletionType == type)
-            .Where(module => module.GenericSettings.Enabled.Value)
             .Select(module => module.TodoComponent)
             .ToList();
     }

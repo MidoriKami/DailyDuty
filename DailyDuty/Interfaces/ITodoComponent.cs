@@ -6,8 +6,8 @@ namespace DailyDuty.Interfaces;
 internal interface ITodoComponent
 {
     IModule ParentModule { get; }
-
     Setting<bool> Enabled { get; }
-
     CompletionType CompletionType { get; }
+    string GetShortTaskLabel();
+    string GetLongTaskLabel();
 }

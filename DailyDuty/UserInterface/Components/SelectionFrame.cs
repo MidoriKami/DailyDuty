@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using DailyDuty.Interfaces;
+using DailyDuty.Modules.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -40,7 +42,7 @@ internal class SelectionFrame : IDrawable
             {
                 ImGui.PopStyleColor(1);
 
-                foreach (var item in Selectables)
+                foreach (var item in Selectables.OrderBy(item => item.OwnerModuleName.GetLocalizedString()))
                 {
                     ImGui.PushID(item.OwnerModuleName.ToString());
 

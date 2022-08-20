@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.OverlaySettings;
@@ -63,17 +64,23 @@ internal class TodoConfigurationWindow : Window, IDisposable
 
         if (Settings.ShowDailyTasks.Value)
         {
+            var enabledDailyTasks = Service.ModuleManager.GetTodoComponents(CompletionType.Daily)
+                .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
+
             dailyTasksInfoBox
                 .AddTitle(Strings.UserInterface.Todo.DailyTasks)
-                .AddTodoComponents(Service.ModuleManager.GetTodoComponents(CompletionType.Daily), CompletionType.Daily)
+                .AddTodoComponents(enabledDailyTasks, CompletionType.Daily)
                 .Draw();
         }
 
         if (Settings.ShowWeeklyTasks.Value)
         {
+            var enabledWeeklyTasks = Service.ModuleManager.GetTodoComponents(CompletionType.Weekly)
+                .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
+
             weeklyTasksInfoBox
                 .AddTitle(Strings.UserInterface.Todo.WeeklyTasks)
-                .AddTodoComponents(Service.ModuleManager.GetTodoComponents(CompletionType.Weekly), CompletionType.Weekly)
+                .AddTodoComponents(enabledWeeklyTasks, CompletionType.Weekly)
                 .Draw();
         }
 
@@ -109,5 +116,10 @@ internal class TodoConfigurationWindow : Window, IDisposable
     public override void PostDraw()
     {
         ImGui.PopStyleVar();
+    }
+
+    public override void OnClose()
+    {
+        Service.ConfigurationManager.Save();
     }
 }
