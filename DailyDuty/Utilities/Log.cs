@@ -14,7 +14,7 @@ internal static class Log
         PluginLog.Verbose($"[{callingAssembly}] {message}");
     }
 
-    public static string? NameOfCallingClass()
+    private static string? NameOfCallingClass()
     {
         string? fullName;
         Type? declaringType;

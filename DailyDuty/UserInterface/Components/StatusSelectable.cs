@@ -3,7 +3,6 @@ using DailyDuty.Modules.Enums;
 using DailyDuty.Utilities;
 using ImGuiNET;
 using System;
-using DailyDuty.Configuration.Components;
 using DailyDuty.System.Localization;
 
 namespace DailyDuty.UserInterface.Components;
@@ -12,15 +11,15 @@ internal class StatusSelectable : ISelectable
 {
     public ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }
+    public IModule ParentModule { get; }
 
     private readonly Func<ModuleStatus> status;
-    private readonly Setting<bool> enabled;
 
-    public StatusSelectable(ModuleName ownerModuleName, IDrawable contents, Setting<bool> enabled, Func<ModuleStatus> status)
+    public StatusSelectable(IModule parentModule, IDrawable contents, Func<ModuleStatus> status)
     {
-        this.OwnerModuleName = ownerModuleName;
+        OwnerModuleName = parentModule.Name;
+        ParentModule = parentModule;
         Contents = contents;
-        this.enabled = enabled;
         this.status = status;
     }
 
@@ -51,7 +50,7 @@ internal class StatusSelectable : ISelectable
         var text = status.Invoke().GetLocalizedString();
 
         // Override Status if Module is Disabled
-        if (!enabled.Value)
+        if (!ParentModule.GenericSettings.Enabled.Value)
         {
             text = Strings.Common.Disabled;
             color = Colors.Grey;

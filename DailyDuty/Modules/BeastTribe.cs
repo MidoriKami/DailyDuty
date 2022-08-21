@@ -33,7 +33,7 @@ internal class BeastTribe : IModule
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule.Name, this, Settings.Enabled);
+        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
         private readonly InfoBox optionsInfoBox = new();
         private readonly InfoBox completionConditionsInfoBox = new();
@@ -72,7 +72,7 @@ internal class BeastTribe : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule.Name, this, Settings.Enabled, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         private readonly InfoBox statusInfoBox = new();
         private readonly InfoBox targetInfoBox = new();

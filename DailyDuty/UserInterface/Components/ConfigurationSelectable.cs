@@ -4,7 +4,6 @@ using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using ImGuiNET;
 using System;
-using DailyDuty.Configuration.Components;
 
 namespace DailyDuty.UserInterface.Components;
 
@@ -12,14 +11,13 @@ internal class ConfigurationSelectable : ISelectable
 {
     public ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }
+    public IModule ParentModule { get; }
 
-    private readonly Setting<bool> enabled;
-
-    public ConfigurationSelectable(ModuleName ownerModuleName, IDrawable contents, Setting<bool> enabled)
+    public ConfigurationSelectable(IModule parentModule, IDrawable contents)
     {
-        this.OwnerModuleName = ownerModuleName;
+        OwnerModuleName = parentModule.Name;
+        ParentModule = parentModule;
         Contents = contents;
-        this.enabled = enabled;
     }
 
     public void DrawLabel()
@@ -37,8 +35,8 @@ internal class ConfigurationSelectable : ISelectable
     {
         var region = ImGui.GetContentRegionAvail();
 
-        var text = enabled.Value ? Strings.Common.Enabled : Strings.Common.Disabled;
-        var color = enabled.Value ? Colors.Green : Colors.Red;
+        var text = ParentModule.GenericSettings.Enabled.Value ? Strings.Common.Enabled : Strings.Common.Disabled;
+        var color = ParentModule.GenericSettings.Enabled.Value ? Colors.Green : Colors.Red;
 
         var textSize = ImGui.CalcTextSize(text);
 
