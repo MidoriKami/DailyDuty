@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using DailyDuty.Configuration;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Interfaces;
@@ -21,12 +22,20 @@ internal class TodoOverlayWindow : Window, IDisposable
     private Vector2 lastWindowSize = Vector2.Zero;
     private List<ITodoComponent> trackedTasks = new();
 
-    public TodoOverlayWindow() : base("###DailyDutyTodoOverlayWindow")
+    public TodoOverlayWindow() : base($"###DailyDutyTodoOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
+        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+
     }
 
     public void Dispose()
     {
+        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+    }
+
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
+    {
+        WindowName = $"###DailyDutyTodoOverlayWindow+{e.CharacterData.Name}";
     }
 
     public override void PreOpenCheck()
