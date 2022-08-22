@@ -1,30 +1,30 @@
-﻿using DailyDuty.Interfaces;
+﻿using System;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
+using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.Interfaces;
 using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
-using System;
-using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Utilities;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
 
-internal class BeastTribe : IModule
+internal class CustomDelivery : IModule
 {
-    public ModuleName Name => ModuleName.BeastTribe;
+    public ModuleName Name => ModuleName.CustomDelivery;
     public IConfigurationComponent ConfigurationComponent { get; }
     public IStatusComponent StatusComponent { get; }
     public ILogicComponent LogicComponent { get; }
     public ITodoComponent TodoComponent { get; }
     public ITimerComponent TimerComponent { get; }
 
-    private static BeastTribeSettings Settings => Service.ConfigurationManager.CharacterConfiguration.BeastTribe;
+    private static CustomDeliverySettings Settings => Service.ConfigurationManager.CharacterConfiguration.CustomDelivery;
     public GenericSettings GenericSettings => Settings;
 
-    public BeastTribe()
+    public CustomDelivery()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
@@ -75,7 +75,8 @@ internal class BeastTribe : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable =>
+            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         private readonly InfoBox statusInfoBox = new();
         private readonly InfoBox targetInfoBox = new();
@@ -126,21 +127,31 @@ internal class BeastTribe : IModule
         }
     }
 
-    private class ModuleLogicComponent : ILogicComponent
+    private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
+
+        private delegate int GetCustomDeliveryAllowancesDelegate(byte* array);
+
+        [Signature("0F B6 41 20 4C 8B C1")]
+        private readonly GetCustomDeliveryAllowancesDelegate getCustomDeliveryAllowances = null!;
+
+        [Signature("48 8D 0D ?? ?? ?? ?? 41 0F BA EC", ScanType = ScanType.StaticAddress)]
+        private readonly byte* staticArrayPointer = null!;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
+            SignatureHelper.Initialise(this);
         }
 
-        public string GetStatusMessage() => Strings.Module.BeastTribe.AllowancesRemaining;
+        public string GetStatusMessage() => Strings.Module.CustomDelivery.AllowancesRemaining;
 
-        public DateTime GetNextReset() => Time.NextDailyReset();
+        public DateTime GetNextReset() => Time.NextWeeklyReset();
+
         public void DoReset()
         {
-            // Do Nothing
+            // Do nothing
         }
 
         public ModuleStatus GetModuleStatus()
@@ -157,13 +168,16 @@ internal class BeastTribe : IModule
             }
         }
 
-        public int GetRemainingAllowances() => (int)PlayerState.GetBeastTribeAllowance();
+        public int GetRemainingAllowances()
+        {
+            return 12 - getCustomDeliveryAllowances(staticArrayPointer);
+        }
     }
 
     private class ModuleTodoComponent : ITodoComponent
     {
         public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Daily;
+        public CompletionType CompletionType => CompletionType.Weekly;
         public bool HasLongLabel => false;
 
         public ModuleTodoComponent(IModule parentModule)
@@ -171,9 +185,9 @@ internal class BeastTribe : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.BeastTribe.Label;
+        public string GetShortTaskLabel() => Strings.Module.CustomDelivery.Label;
 
-        public string GetLongTaskLabel() => Strings.Module.BeastTribe.Label;
+        public string GetLongTaskLabel() => Strings.Module.CustomDelivery.Label;
     }
 
 
@@ -186,6 +200,6 @@ internal class BeastTribe : IModule
             ParentModule = parentModule;
         }
 
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
     }
 }

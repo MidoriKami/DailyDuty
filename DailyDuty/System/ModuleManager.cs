@@ -13,6 +13,7 @@ internal class ModuleManager : IDisposable
     private List<IModule> Modules { get; } = new()
     {
         new BeastTribe(),
+        new CustomDelivery(),
     };
 
     public ModuleManager()

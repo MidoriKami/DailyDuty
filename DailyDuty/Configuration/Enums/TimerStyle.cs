@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace DailyDuty.Configuration.Enums;
 
@@ -21,14 +22,16 @@ public static class TimerStyleExtensions
 {
     public static string GetLabel(this TimerStyle style)
     {
-        var parts = new List<string>();
+        if (style == 0)
+            return string.Empty;
 
-        if (style.HasFlag(TimerStyle.Days)) parts.Add("DD");
-        if (style.HasFlag(TimerStyle.Hours)) parts.Add("HH");
-        if (style.HasFlag(TimerStyle.Minutes)) parts.Add("MM");
-        if (style.HasFlag(TimerStyle.Seconds)) parts.Add("SS");
+        var sb = new StringBuilder(16);
+        if (style.HasFlag(TimerStyle.Days)) sb.Append($"DD").Append('.');
+        if (style.HasFlag(TimerStyle.Hours)) sb.Append($"HH").Append(':');
+        if (style.HasFlag(TimerStyle.Minutes)) sb.Append($"MM").Append(':');
+        if (style.HasFlag(TimerStyle.Seconds)) sb.Append($"SS").Append(':');
 
-        return string.Join(":", parts);
+        return sb.ToString(0, sb.Length - 1);
     }
 
     public static IEnumerable<TimerStyle> GetConfigurableStyles()

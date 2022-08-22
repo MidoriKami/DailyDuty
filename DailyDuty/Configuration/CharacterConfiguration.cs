@@ -19,6 +19,7 @@ internal class CharacterConfiguration
     public TimersOverlaySettings TimersOverlay = new();
 
     public BeastTribeSettings BeastTribe = new();
+    public CustomDeliverySettings CustomDelivery = new();
 
     public void Save()
     {

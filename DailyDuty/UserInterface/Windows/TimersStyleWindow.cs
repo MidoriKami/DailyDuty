@@ -3,6 +3,7 @@ using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
+using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
@@ -45,24 +46,24 @@ internal class TimersStyleWindow : Window, IDisposable
     public override void Draw()
     {
         timeDisplayInfoBox
-            .AddTitle("Time Display")
+            .AddTitle(Strings.UserInterface.Timers.TimeDisplay)
             .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle,
                 TimerStyleExtensions.GetLabel, width: 175.0f)
             .Draw();
 
         colorOptionsInfoBox
-            .AddTitle("Color Options")
-            .AddConfigColor("Background", Settings.BackgroundColor)
-            .AddConfigColor("Foreground", Settings.ForegroundColor)
-            .AddConfigColor("Text", Settings.TextColor)
-            .AddConfigColor("Time", Settings.TimeColor)
+            .AddTitle(Strings.UserInterface.Timers.ColorOptions)
+            .AddConfigColor(Strings.UserInterface.Timers.Background, Settings.BackgroundColor)
+            .AddConfigColor(Strings.UserInterface.Timers.Foreground, Settings.ForegroundColor)
+            .AddConfigColor(Strings.UserInterface.Timers.Text, Settings.TextColor)
+            .AddConfigColor(Strings.UserInterface.Timers.Time, Settings.TimeColor)
             .Draw();
 
-        sizeOptionsInfoBox
-            .AddTitle("Size Options")
-            .AddConfigCheckbox("Stretch to Fit", Settings.StretchToFit)
-            .AddSliderInt("Size", Settings.Size, 10, 500, 125.0f)
-            .Draw();
+            sizeOptionsInfoBox
+                .AddTitle(Strings.UserInterface.Timers.SizeOptions)
+                .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
+                .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, 125.0f)
+                .Draw();
     }
 
     public override void PostDraw()

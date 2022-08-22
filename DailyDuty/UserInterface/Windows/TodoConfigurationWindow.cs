@@ -19,8 +19,6 @@ internal class TodoConfigurationWindow : Window, IDisposable
     private readonly InfoBox taskSelectionsInfoBox = new();
     private readonly InfoBox taskHidingInfoBox = new();
     private readonly InfoBox windowHidingOptionsInfoBox = new();
-    private readonly InfoBox windowPositionOptionsInfoBox = new();
-    private readonly InfoBox categoryColorsInfoBox = new();
     private readonly InfoBox dailyTasksInfoBox = new();
     private readonly InfoBox weeklyTasksInfoBox = new();
 
@@ -98,18 +96,10 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddTitle(Strings.UserInterface.Todo.WindowOptions)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowCompleted, Settings.HideWhenAllTasksComplete)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowInDuty, Settings.HideWhileInDuty)
-            .Draw();
-
-        windowPositionOptionsInfoBox
-            .AddTitle(Strings.UserInterface.Todo.PositionOptions)
             .AddConfigCheckbox(Strings.UserInterface.Todo.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Todo.AutoResize, Settings.AutoResize)
             .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetLocalizedString, Strings.UserInterface.Todo.AnchorCorner)
             .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
-            .Draw();
-
-        categoryColorsInfoBox
-            .AddTitle(Strings.UserInterface.Todo.ColorOptions)
             .AddConfigColor(Strings.Common.Header, Settings.TaskColors.HeaderColor)
             .AddConfigColor(Strings.Common.Incomplete, Settings.TaskColors.IncompleteColor)
             .AddConfigColor(Strings.Common.Unavailable, Settings.TaskColors.UnavailableColor)

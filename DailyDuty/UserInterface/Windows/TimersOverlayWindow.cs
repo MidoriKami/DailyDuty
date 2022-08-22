@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
@@ -174,18 +175,22 @@ internal class TimersOverlayWindow : Window, IDisposable
 
         ImGui.EndGroup();
 
-        ImGui.PopStyleColor(2);
+        ImGui.PopStyleColor();
+        ImGui.PopStyleColor();
     }
 
     private string FormatTimespan(TimeSpan span, TimerStyle style)
     {
-        var parts = new List<string>();
+        if (style == 0)
+            return string.Empty;
 
-        if (style.HasFlag(TimerStyle.Days)) parts.Add($"{span.Days:D2}");
-        if (style.HasFlag(TimerStyle.Hours)) parts.Add($"{span.Hours:D2}");
-        if (style.HasFlag(TimerStyle.Minutes)) parts.Add($"{span.Minutes:D2}");
-        if (style.HasFlag(TimerStyle.Seconds)) parts.Add($"{span.Seconds:D2}");
+        var sb = new StringBuilder(16);
 
-        return string.Join(":", parts);
+        if (style.HasFlag(TimerStyle.Days)) sb.Append($"{span.Days:D2}").Append('.');
+        if (style.HasFlag(TimerStyle.Hours)) sb.Append($"{span.Hours:D2}").Append(':');
+        if (style.HasFlag(TimerStyle.Minutes)) sb.Append($"{span.Minutes:D2}").Append(':');
+        if (style.HasFlag(TimerStyle.Seconds)) sb.Append($"{span.Seconds:D2}").Append(':');
+
+        return sb.ToString(0, sb.Length - 1);
     }
 }

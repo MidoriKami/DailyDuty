@@ -15,7 +15,6 @@ internal class TimersConfigurationWindow : Window, IDisposable
 
     private readonly InfoBox mainOptionsInfoBox = new();
     private readonly InfoBox windowHidingOptionsInfoBox = new();
-    private readonly InfoBox windowPositionOptionsInfoBox = new();
     private readonly InfoBox timersSelectionInfoBox = new();
 
     public TimersConfigurationWindow() : base("DailyDuty Timers Configuration")
@@ -61,10 +60,6 @@ internal class TimersConfigurationWindow : Window, IDisposable
         windowHidingOptionsInfoBox
             .AddTitle(Strings.UserInterface.Timers.WindowOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideWindowInDuty, Settings.HideWhileInDuty)
-            .Draw();
-
-        windowPositionOptionsInfoBox
-            .AddTitle(Strings.UserInterface.Timers.PositionOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Timers.AutoResize, Settings.AutoResize)
             .AddDragFloat(Strings.UserInterface.Timers.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)

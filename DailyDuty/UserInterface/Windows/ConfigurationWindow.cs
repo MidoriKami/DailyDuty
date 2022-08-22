@@ -61,7 +61,7 @@ internal class ConfigurationWindow : Window, IDisposable
 
     public override void OnClose()
     {
-        Service.PluginInterface.UiBuilder.AddNotification("System Settings Saved", "DailyDuty", NotificationType.Success);
+        Service.PluginInterface.UiBuilder.AddNotification("Settings Saved", "DailyDuty", NotificationType.Success);
         Service.ConfigurationManager.Save();
     }
 

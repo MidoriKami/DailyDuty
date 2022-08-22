@@ -14,31 +14,25 @@ internal interface ILogicComponent
 
     void OnLoginMessage(object? sender, EventArgs e)
     {
-        var moduleEnabled = ParentModule.GenericSettings.Enabled.Value;
-        var loginMessageEnabled = ParentModule.GenericSettings.NotifyOnLogin.Value;
-        var moduleStatus = ParentModule.LogicComponent.GetModuleStatus();
+        if (!ParentModule.GenericSettings.Enabled.Value) return;
+        if (!ParentModule.GenericSettings.NotifyOnLogin.Value) return;
+        if (ParentModule.LogicComponent.GetModuleStatus() != ModuleStatus.Incomplete) return;
 
-        if (moduleEnabled && loginMessageEnabled && moduleStatus == ModuleStatus.Incomplete)
-        {
-            var moduleName = ParentModule.Name.GetLocalizedString();
+        var moduleName = ParentModule.Name.GetLocalizedString();
 
-            Chat.Print(moduleName, GetStatusMessage());
-        }
+        Chat.Print(moduleName, GetStatusMessage());
     }        
         
     void OnZoneChangeMessage(object? sender, EventArgs e)
     {
-        var moduleEnabled = ParentModule.GenericSettings.Enabled.Value;
-        var loginMessageEnabled = ParentModule.GenericSettings.NotifyOnLogin.Value;
-        var boundByDuty = Condition.IsBoundByDuty();
-        var moduleStatus = ParentModule.LogicComponent.GetModuleStatus();
+        if (!ParentModule.GenericSettings.Enabled.Value) return;
+        if (!ParentModule.GenericSettings.NotifyOnZoneChange.Value) return;
+        if (Condition.IsBoundByDuty()) return;
+        if (ParentModule.LogicComponent.GetModuleStatus() != ModuleStatus.Incomplete) return;
 
-        if (moduleEnabled && loginMessageEnabled && moduleStatus == ModuleStatus.Incomplete && !boundByDuty)
-        {
-            var moduleName = ParentModule.Name.GetLocalizedString();
+        var moduleName = ParentModule.Name.GetLocalizedString();
 
-            Chat.Print(moduleName, GetStatusMessage());
-        }
+        Chat.Print(moduleName, GetStatusMessage());
     }
 
     DateTime GetNextReset();
