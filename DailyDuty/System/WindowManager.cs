@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Interfaces;
+using DailyDuty.Modules.Enums;
+using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;
@@ -17,6 +21,8 @@ internal class WindowManager : IDisposable
         new StatusWindow(),
         new TodoConfigurationWindow(),
         new TodoOverlayWindow(),
+        new TimersConfigurationWindow(),
+        new TimersOverlayWindow(),
     };
 
     public WindowManager()
@@ -54,5 +60,24 @@ internal class WindowManager : IDisposable
         }
 
         windowSystem.RemoveAllWindows();
+    }
+
+    public void AddTimerStyleWindow(IModule parentModule, TimerSettings genericSettingsTimerSettings)
+    {
+        var windowTitle = $"{Strings.UserInterface.Timers.EditTimerTitle} - {parentModule.Name.GetLocalizedString()}";
+
+        if (!windowSystem.Windows.Any(window => window.WindowName == windowTitle))
+        {
+            var newWindow = new TimersStyleWindow(parentModule, genericSettingsTimerSettings, windowTitle);
+
+            windows.Add(newWindow);
+            windowSystem.AddWindow(newWindow);
+        }
+    }
+
+    public void RemoveTimerStyleWindow(TimersStyleWindow timersStyleWindow)
+    {
+        windows.Remove(timersStyleWindow);
+        windowSystem.RemoveWindow(timersStyleWindow);
     }
 }

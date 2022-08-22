@@ -8,6 +8,7 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using Dalamud.Utility.Signatures;
 using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Modules;
 
@@ -18,6 +19,7 @@ internal class BeastTribe : IModule
     public IStatusComponent StatusComponent { get; }
     public ILogicComponent LogicComponent { get; }
     public ITodoComponent TodoComponent { get; }
+    public ITimerComponent TimerComponent { get; }
 
     private static BeastTribeSettings Settings => Service.ConfigurationManager.CharacterConfiguration.BeastTribe;
     public GenericSettings GenericSettings => Settings;
@@ -28,6 +30,7 @@ internal class BeastTribe : IModule
         StatusComponent = new ModuleStatusComponent(this);
         LogicComponent = new ModuleLogicComponent(this);
         TodoComponent = new ModuleTodoComponent(this);
+        TimerComponent = new ModuleTimerComponent(this);
     }
 
     private class ModuleConfigurationComponent : IConfigurationComponent
@@ -56,7 +59,7 @@ internal class BeastTribe : IModule
                 .BeginTable(0.40f)
                 .AddActions(
                     Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
-                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12))
+                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f))
                 .EndTable()
                 .Draw();
 
@@ -142,6 +145,14 @@ internal class BeastTribe : IModule
             SignatureHelper.Initialise(this);
         }
 
+        public string GetStatusMessage() => Strings.Module.BeastTribe.AllowancesRemaining;
+
+        public DateTime GetNextReset() => Time.NextDailyReset();
+        public void DoReset()
+        {
+            // Do Nothing
+        }
+
         public ModuleStatus GetModuleStatus()
         {
             switch (Settings.ComparisonMode.Value)
@@ -156,17 +167,14 @@ internal class BeastTribe : IModule
             }
         }
 
-        public int GetRemainingAllowances()
-        {
-            return getBeastTribeAllowance(getBeastTribeBasePointer());
-        }
+        public int GetRemainingAllowances() => getBeastTribeAllowance(getBeastTribeBasePointer());
     }
 
     private class ModuleTodoComponent : ITodoComponent
     {
         public IModule ParentModule { get; }
-        public Setting<bool> Enabled => Settings.TodoTaskEnabled;
         public CompletionType CompletionType => CompletionType.Daily;
+        public bool HasLongLabel => false;
 
         public ModuleTodoComponent(IModule parentModule)
         {
@@ -176,5 +184,18 @@ internal class BeastTribe : IModule
         public string GetShortTaskLabel() => Strings.Module.BeastTribe.Label;
 
         public string GetLongTaskLabel() => Strings.Module.BeastTribe.Label;
+    }
+
+
+    private class ModuleTimerComponent : ITimerComponent
+    {
+        public IModule ParentModule { get; }
+
+        public ModuleTimerComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
     }
 }

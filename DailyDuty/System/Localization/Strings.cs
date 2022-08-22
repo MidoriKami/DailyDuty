@@ -114,6 +114,7 @@ public class Module
 public class BeastTribe
 {
     public readonly string Label = Loc.Localize("BeastTribe_Label", "Beast Tribe");
+    public readonly string AllowancesRemaining = Loc.Localize("BeastTribe_AllowancesRemaining", "Allowances Remaining");
 }
 
 public class CustomDelivery
@@ -169,6 +170,7 @@ public class WondrousTails
 public class UserInterface
 {
     public readonly Todo Todo = new();
+    public readonly Timers Timers = new();
 }
 
 public class Todo
@@ -192,7 +194,25 @@ public class Todo
     public readonly string DailyTasks = Loc.Localize("Todo_DailyTasks", "Daily Tasks");
     public readonly string WeeklyTasks = Loc.Localize("Todo_WeeklyTasks", "Weekly Tasks");
     public readonly string NoTasksEnabled = Loc.Localize("Todo_NoDailyTasksEnabled", "Enable a module in Configuration to track Tasks");
+    public readonly string UseLongLabel = Loc.Localize("Todo_UseLongLabel", "Use Long Label");
 }
+
+public class Timers
+{
+    public readonly string MainOptions = Loc.Localize("Timers_MainOptions", "Main Options");
+    public readonly string WindowOptions = Loc.Localize("Timers_WindowOptions", "Window Options");
+    public readonly string HideWindowInDuty = Loc.Localize("Timers_HideWindowInDuty", "Hide Window In Duty");
+    public readonly string PositionOptions = Loc.Localize("Timers_PositionOptions", "Window Position Options");
+    public readonly string LockWindow = Loc.Localize("Timers_LockWindow", "Lock Window Position");
+    public readonly string Opacity = Loc.Localize("Timers_Opacity", "Opacity");
+    public readonly string NoTimersEnabledWarning = Loc.Localize("Timers_NoneEnabledWarning", "Enable which timers you would like to see here with '/dd timers' command");
+    public readonly string Label = Loc.Localize("Timers_Label", "Timers");
+    public readonly string EditTimer = Loc.Localize("Timers_EditTimer", "Edit Style");
+    public readonly string EditTimerTitle = Loc.Localize("Timers_EditTimerTitle", "Edit Timer Style");
+    public readonly string AutoResize = Loc.Localize("Timers_AutoResize", "Auto Resize");
+
+}
+
 
 public class Language
 {

@@ -47,10 +47,14 @@ internal class TodoConfigurationWindow : Window, IDisposable
     public override void PreDraw()
     {
         ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
+
+        ImGui.PushID("TodoConfiguration");
+
     }
 
     public override void Draw()
     {
+
         mainOptionsInfoBox
             .AddTitle(Strings.UserInterface.Todo.MainOptions)
             .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
@@ -115,6 +119,8 @@ internal class TodoConfigurationWindow : Window, IDisposable
 
     public override void PostDraw()
     {
+        ImGui.PopID();
+
         ImGui.PopStyleVar();
     }
 

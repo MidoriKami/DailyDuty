@@ -25,7 +25,6 @@ internal class TodoOverlayWindow : Window, IDisposable
     public TodoOverlayWindow() : base($"###DailyDutyTodoOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
-
     }
 
     public void Dispose()
@@ -41,6 +40,7 @@ internal class TodoOverlayWindow : Window, IDisposable
     public override void PreOpenCheck()
     {
         if (Settings.Enabled.Value) IsOpen = true;
+        if (!Settings.Enabled.Value) IsOpen = false;
         if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
         if (Service.ClientState.IsPvP) IsOpen = false;
         if (Condition.InCutsceneOrQuestEvent()) IsOpen = false;
@@ -153,7 +153,7 @@ internal class TodoOverlayWindow : Window, IDisposable
 
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.Enabled.Value);
 
-        tasks.RemoveAll(module => !module.Enabled.Value);
+        tasks.RemoveAll(module => !module.ParentModule.GenericSettings.TodoTaskEnabled.Value);
 
         if (Settings.HideCompletedTasks.Value)
             tasks.RemoveAll(module =>
@@ -170,7 +170,8 @@ internal class TodoOverlayWindow : Window, IDisposable
     {
         foreach (var task in dailyTasks)
         {
-            var taskLabel = task.GetLongTaskLabel();
+            var useLongLabel = task.ParentModule.GenericSettings.TodoUseLongLabel.Value;
+            var taskLabel = useLongLabel ? task.GetLongTaskLabel() : task.GetShortTaskLabel();
 
             switch (task.ParentModule.LogicComponent.GetModuleStatus())
             {

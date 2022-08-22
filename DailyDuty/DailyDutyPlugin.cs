@@ -16,8 +16,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ConfigurationManager = new ConfigurationManager();
         Service.LocalizationManager = new LocalizationManager();
         Service.ModuleManager = new ModuleManager();
+        Service.ChatManager = new ChatManager();
         Service.WindowManager = new WindowManager();
         Service.CommandSystem = new CommandManager();
+        Service.ResetManager = new ResetManager();
     }
 
     public void Dispose()
@@ -27,5 +29,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ModuleManager.Dispose();
         Service.LocalizationManager.Dispose();
         Service.ConfigurationManager.Dispose();
+        Service.ChatManager.Dispose();
+        Service.ResetManager.Dispose();
     }
 }

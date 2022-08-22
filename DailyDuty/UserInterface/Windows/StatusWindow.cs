@@ -4,7 +4,6 @@ using DailyDuty.Configuration;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
-using Dalamud.Interface.Internal.Notifications;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -57,11 +56,5 @@ internal class StatusWindow : Window, IDisposable
         selectionFrame.Draw();
 
         configurationFrame.Draw(selectionFrame.Selected);
-    }
-
-    public override void OnClose()
-    {
-        Service.PluginInterface.UiBuilder.AddNotification("System Settings Saved", "DailyDuty", NotificationType.Success);
-        Service.ConfigurationManager.Save();
     }
 }

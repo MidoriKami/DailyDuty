@@ -18,6 +18,7 @@ internal class CommandManager : IDisposable
         new StatusWindowCommand(),
         new PrintHelpTextCommand(),
         new TodoWindowCommand(),
+        new TimersWindowCommand(),
     };
 
     public CommandManager()

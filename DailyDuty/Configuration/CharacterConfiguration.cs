@@ -16,6 +16,7 @@ internal class CharacterConfiguration
     public CharacterData CharacterData = new();
 
     public TodoOverlaySettings TodoOverlay = new();
+    public TimersOverlaySettings TimersOverlay = new();
 
     public BeastTribeSettings BeastTribe = new();
 

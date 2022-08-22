@@ -11,4 +11,5 @@ internal interface IModule
     IStatusComponent StatusComponent { get; }
     ILogicComponent LogicComponent { get; }
     ITodoComponent TodoComponent { get; }
+    ITimerComponent TimerComponent { get; }
 }

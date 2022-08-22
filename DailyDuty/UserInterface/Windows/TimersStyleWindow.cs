@@ -1,0 +1,77 @@
+﻿using System;
+using System.Numerics;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
+using DailyDuty.Interfaces;
+using DailyDuty.UserInterface.Components.InfoBox;
+using Dalamud.Interface.Windowing;
+using ImGuiNET;
+
+namespace DailyDuty.UserInterface.Windows;
+
+internal class TimersStyleWindow : Window, IDisposable
+{
+    public TimerSettings Settings { get; }
+    private IModule OwnerModule { get; }
+
+    private readonly InfoBox timeDisplayInfoBox = new();
+    private readonly InfoBox colorOptionsInfoBox = new();
+    private readonly InfoBox sizeOptionsInfoBox = new();
+
+    public TimersStyleWindow(IModule owner, TimerSettings settings, string windowName) : base(windowName)
+    {
+        Settings = settings;
+        OwnerModule = owner;
+
+        SizeConstraints = new WindowSizeConstraints
+        {
+            MinimumSize = new Vector2(200 * (4.0f / 3.0f), 300),
+            MaximumSize = new Vector2(9999, 9999)
+        };
+
+        IsOpen = true;
+    }
+
+    public void Dispose()
+    {
+
+    }
+
+    public override void PreDraw()
+    {
+        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
+    }
+
+    public override void Draw()
+    {
+        timeDisplayInfoBox
+            .AddTitle("Time Display")
+            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle,
+                TimerStyleExtensions.GetLabel, width: 175.0f)
+            .Draw();
+
+        colorOptionsInfoBox
+            .AddTitle("Color Options")
+            .AddConfigColor("Background", Settings.BackgroundColor)
+            .AddConfigColor("Foreground", Settings.ForegroundColor)
+            .AddConfigColor("Text", Settings.TextColor)
+            .AddConfigColor("Time", Settings.TimeColor)
+            .Draw();
+
+        sizeOptionsInfoBox
+            .AddTitle("Size Options")
+            .AddConfigCheckbox("Stretch to Fit", Settings.StretchToFit)
+            .AddSliderInt("Size", Settings.Size, 10, 500, 125.0f)
+            .Draw();
+    }
+
+    public override void PostDraw()
+    {
+        ImGui.PopStyleVar();
+    }
+
+    public override void OnClose()
+    {
+        Service.WindowManager.RemoveTimerStyleWindow(this);
+    }
+}

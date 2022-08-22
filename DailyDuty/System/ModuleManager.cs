@@ -28,22 +28,31 @@ internal class ModuleManager : IDisposable
     public IEnumerable<ISelectable> GetConfigurationSelectables()
     {
         return Modules
-            .Select(module => module.ConfigurationComponent.Selectable)
-            .ToList();
+            .Select(module => module.ConfigurationComponent.Selectable);
     }
 
     public IEnumerable<ISelectable> GetStatusSelectables()
     {
         return Modules
-            .Select(module => module.StatusComponent.Selectable)
-            .ToList();
+            .Select(module => module.StatusComponent.Selectable);
     }
 
     public IEnumerable<ITodoComponent> GetTodoComponents(CompletionType type)
     {
         return Modules
             .Where(module => module.TodoComponent.CompletionType == type)
-            .Select(module => module.TodoComponent)
-            .ToList();
+            .Select(module => module.TodoComponent);
+    }
+
+    public IEnumerable<ITimerComponent> GetTimerComponents()
+    {
+        return Modules
+            .Select(module => module.TimerComponent);
+    }
+
+    public IEnumerable<ILogicComponent> GetLogicComponents()
+    {
+        return Modules
+            .Select(module => module.LogicComponent);
     }
 }

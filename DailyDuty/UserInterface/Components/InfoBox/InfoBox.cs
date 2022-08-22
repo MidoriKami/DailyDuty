@@ -172,7 +172,44 @@ internal class InfoBox : IDrawable
 
         foreach (var component in todoComponents)
         {
-            AddConfigCheckbox(component.ParentModule.Name.GetLocalizedString(), component.Enabled);
+            if (component.HasLongLabel)
+            {
+                BeginTable()
+                    .AddActions(
+                        Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetLocalizedString(), component.ParentModule.GenericSettings.TodoTaskEnabled),
+                        Actions.GetConfigCheckboxAction(Strings.UserInterface.Todo.UseLongLabel, component.ParentModule.GenericSettings.TodoUseLongLabel))
+                    .EndTable();
+            }
+            else
+            {
+                AddConfigCheckbox(component.ParentModule.Name.GetLocalizedString(), component.ParentModule.GenericSettings.TodoTaskEnabled);
+            }
+        }
+
+        return this;
+    }
+
+    public InfoBox AddTimerComponents(IEnumerable<ITimerComponent> components)
+    {
+        var todoComponents = components.ToList();
+
+        if (todoComponents.Count == 0)
+        {
+            AddString(Strings.UserInterface.Todo.NoTasksEnabled, Colors.Orange);
+        }
+
+        foreach (var component in todoComponents)
+        {
+            BeginTable()
+                .AddActions(
+                    Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetLocalizedString(), component.ParentModule.GenericSettings.TimerTaskEnabled),
+                    () => {
+                        if (ImGui.Button(Strings.UserInterface.Timers.EditTimer))
+                        {
+                            Service.WindowManager.AddTimerStyleWindow(component.ParentModule, component.ParentModule.GenericSettings.TimerSettings);
+                        }
+                    })
+            .EndTable();
         }
 
         return this;
@@ -183,5 +220,12 @@ internal class InfoBox : IDrawable
     public InfoBoxTable BeginTable(float weight = 0.50f)
     {
         return new InfoBoxTable(this, weight);
+    }
+
+    public InfoBox AddSliderInt(string label, Setting<int> setting, int minValue, int maxValue, float width = 200.0f)
+    {
+        drawActions.Add(Actions.GetSliderInt(label, setting, minValue, maxValue, width));
+
+        return this;
     }
 }
