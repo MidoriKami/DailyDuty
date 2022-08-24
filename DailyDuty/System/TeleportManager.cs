@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Aetherytes;
@@ -29,7 +28,7 @@ internal class TeleportManager : IDisposable
         new TeleportInfo(3, TeleportLocation.DomanEnclave, GetAetheryte(127)),
     };
 
-    private List<ChatLinkPayloads> ChatLinkPayloads { get; } = new();
+    private List<TeleportLinkPayloads> ChatLinkPayloads { get; } = new();
 
     public TeleportManager()
     {
@@ -42,7 +41,7 @@ internal class TeleportManager : IDisposable
 
             var linkPayload = Service.PluginInterface.AddChatLinkHandler(teleport.CommandID, TeleportAction);
 
-            ChatLinkPayloads.Add(new ChatLinkPayloads(teleport.Target, linkPayload));
+            ChatLinkPayloads.Add(new TeleportLinkPayloads(teleport.Target, linkPayload));
         }
     }
 

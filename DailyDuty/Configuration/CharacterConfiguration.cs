@@ -22,6 +22,7 @@ internal class CharacterConfiguration
     public BeastTribeSettings BeastTribe = new();
     public CustomDeliverySettings CustomDelivery = new();
     public DomanEnclaveSettings DomanEnclave = new();
+    public DutyRouletteSettings DutyRoulette = new();
 
     public void Save()
     {

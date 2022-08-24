@@ -14,7 +14,8 @@ internal class ModuleManager : IDisposable
     {
         new BeastTribe(),
         new CustomDelivery(),
-        new DomanEnclave()
+        new DomanEnclave(),
+        new DutyRoulette(),
     };
 
     public ModuleManager()

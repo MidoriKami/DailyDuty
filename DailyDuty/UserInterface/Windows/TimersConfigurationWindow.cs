@@ -13,11 +13,11 @@ internal class TimersConfigurationWindow : Window, IDisposable
 {
     public static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
 
-    private readonly InfoBox mainOptionsInfoBox = new();
-    private readonly InfoBox windowHidingOptionsInfoBox = new();
-    private readonly InfoBox timersSelectionInfoBox = new();
+    private readonly InfoBox mainOptions = new();
+    private readonly InfoBox windowHidingOptions = new();
+    private readonly InfoBox timersSelection = new();
 
-    public TimersConfigurationWindow() : base("DailyDuty Timers Configuration")
+    public TimersConfigurationWindow() : base("DailyDuty Timers Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -37,14 +37,9 @@ internal class TimersConfigurationWindow : Window, IDisposable
         if (Service.ClientState.IsPvP) IsOpen = false;
     }
 
-    public override void PreDraw()
-    {
-        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
-    }
-
     public override void Draw()
     {
-        mainOptionsInfoBox
+        mainOptions
             .AddTitle(Strings.UserInterface.Timers.MainOptions)
             .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
             .Draw();
@@ -52,23 +47,18 @@ internal class TimersConfigurationWindow : Window, IDisposable
         var enabledModules = Service.ModuleManager.GetTimerComponents()
             .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
 
-        timersSelectionInfoBox
+        timersSelection
             .AddTitle(Strings.UserInterface.Timers.Label)
             .AddTimerComponents(enabledModules)
             .Draw();
         
-        windowHidingOptionsInfoBox
+        windowHidingOptions
             .AddTitle(Strings.UserInterface.Timers.WindowOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideWindowInDuty, Settings.HideWhileInDuty)
             .AddConfigCheckbox(Strings.UserInterface.Timers.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Timers.AutoResize, Settings.AutoResize)
             .AddDragFloat(Strings.UserInterface.Timers.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
             .Draw();
-    }
-
-    public override void PostDraw()
-    {
-        ImGui.PopStyleVar();
     }
 
     public override void OnClose()

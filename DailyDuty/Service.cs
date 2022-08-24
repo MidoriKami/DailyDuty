@@ -22,7 +22,7 @@ internal class Service
     [PluginService] public static Framework Framework { get; private set; } = null!;
     [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
     [PluginService] public static ToastGui Toast { get; private set;} = null!;
-
+    [PluginService] public static GameGui GameGui { get; private set; } = null!;
 
     public static System.ModuleManager ModuleManager = null!;
     public static System.CommandManager CommandSystem = null!;
@@ -32,4 +32,5 @@ internal class Service
     public static System.ChatManager ChatManager = null!;
     public static System.ResetManager ResetManager = null!;
     public static System.TeleportManager TeleportManager = null!;
+    public static System.ChatPayloadManager PayloadManager = null!;
 }

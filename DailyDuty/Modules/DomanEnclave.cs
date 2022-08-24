@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Enums;
@@ -45,9 +44,9 @@ internal class DomanEnclave : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox optionsInfoBox = new();
+        private readonly InfoBox options = new();
         private readonly InfoBox clickableLink = new();
-        private readonly InfoBox notificationOptionsInfoBox = new();
+        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -56,7 +55,7 @@ internal class DomanEnclave : IModule
 
         public void Draw()
         {
-            optionsInfoBox
+            options
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .Draw();
@@ -67,7 +66,7 @@ internal class DomanEnclave : IModule
                 .AddConfigCheckbox(Strings.Module.DomanEnclave.ClickableLinkLabel, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptionsInfoBox
+            notificationOptions
                 .AddTitle(Strings.Configuration.NotificationOptions)
                 .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
                 .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
@@ -82,8 +81,8 @@ internal class DomanEnclave : IModule
         public ISelectable Selectable =>
             new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox statusInfoBox = new();
-        private readonly InfoBox warningInfoBox = new();
+        private readonly InfoBox status = new();
+        private readonly InfoBox warning = new();
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -96,7 +95,7 @@ internal class DomanEnclave : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            statusInfoBox
+            status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
@@ -121,7 +120,7 @@ internal class DomanEnclave : IModule
 
             if (moduleStatus == ModuleStatus.Unknown)
             {
-                warningInfoBox
+                warning
                     .AddTitle(Strings.Module.DomanEnclave.UnknownStatusLabel)
                     .AddString(Strings.Module.DomanEnclave.UnknownStatus, Colors.Orange)
                     .Draw();
@@ -152,6 +151,8 @@ internal class DomanEnclave : IModule
         }
         private void FrameworkOnUpdate(Framework framework)
         {
+            if (!Service.ConfigurationManager.CharacterDataLoaded) return;
+
             if (!DataAvailable()) return;
 
             UpdateWeeklyAllowance();

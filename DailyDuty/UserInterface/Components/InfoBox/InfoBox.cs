@@ -215,7 +215,12 @@ internal class InfoBox : IDrawable
         return this;
     }
 
-    public void AddAction(Action action) => drawActions.Add(action);
+    public InfoBox AddAction(Action action)
+    {
+        drawActions.Add(action);
+
+        return this;
+    }
 
     public InfoBoxTable BeginTable(float weight = 0.50f)
     {

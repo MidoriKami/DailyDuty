@@ -44,9 +44,9 @@ internal class BeastTribe : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox optionsInfoBox = new();
-        private readonly InfoBox completionConditionsInfoBox = new();
-        private readonly InfoBox notificationOptionsInfoBox = new();
+        private readonly InfoBox options = new();
+        private readonly InfoBox completionConditions = new();
+        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -55,12 +55,12 @@ internal class BeastTribe : IModule
 
         public void Draw()
         {
-            optionsInfoBox
+            options
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .Draw();
 
-            completionConditionsInfoBox
+            completionConditions
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
                 .AddActions(
@@ -69,7 +69,7 @@ internal class BeastTribe : IModule
                 .EndTable()
                 .Draw();
 
-            notificationOptionsInfoBox
+            notificationOptions
                 .AddTitle(Strings.Configuration.NotificationOptions)
                 .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
                 .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
@@ -83,8 +83,8 @@ internal class BeastTribe : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox statusInfoBox = new();
-        private readonly InfoBox targetInfoBox = new();
+        private readonly InfoBox status = new();
+        private readonly InfoBox target = new();
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -98,7 +98,7 @@ internal class BeastTribe : IModule
             var moduleStatus = logicModule.GetModuleStatus();
             var allowances = logicModule.GetRemainingAllowances();
 
-            statusInfoBox
+            status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
@@ -115,7 +115,7 @@ internal class BeastTribe : IModule
                 .EndTable()
                 .Draw();
 
-            targetInfoBox
+            target
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
 

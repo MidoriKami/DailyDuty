@@ -137,6 +137,16 @@ public class DomanEnclave
 
 public class DutyRoulette
 {
+    public readonly string Label = Loc.Localize("DutyRoulette_Label", "Duty Roulette");
+    public readonly string RouletteSelection = Loc.Localize("DutyRoulette_RouletteSelection", "Select Roulettes to Track");
+    public readonly string ClickableLinkLabel = Loc.Localize("DutyRoulette_ClickableLinkLabel", "Clickable Link");
+    public readonly string ClickableLink = Loc.Localize("DutyRoulette_ClickableLink", "Notifications can be clicked on to open the Duty Finder");
+    public readonly string Remaining = Loc.Localize("DutyRoulette_Remaining", "Remaining");
+    public readonly string HideExpertWhenCapped = Loc.Localize("DutyRoulette_HideExpertWhenCapped", "Hide Expert when Tomecapped");
+    public readonly string ExpertTomestones = Loc.Localize("DutyRoulette_ExpertTomestones", "Expert Tomestones");
+    public readonly string Overlay = Loc.Localize("DutyRoulette_Overlay", "Duty Finder Overlay");
+    public readonly string DutyComplete = Loc.Localize("DutyRoulette_DutyComplete", "Duty Complete");
+    public readonly string DutyIncomplete = Loc.Localize("DutyRoulette_DutyIncomplete", "Duty Incomplete");
 }
 
 public class FashionReport

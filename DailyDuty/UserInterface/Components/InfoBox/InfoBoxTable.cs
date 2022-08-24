@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using DailyDuty.Interfaces;
 using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Components.InfoBox;
@@ -25,16 +24,6 @@ internal class InfoBoxTable
             Actions.GetStringAction(label, firstColor), 
             Actions.GetStringAction(contents, secondColor)
         ));
-
-        return this;
-    }
-
-    public InfoBoxTable AddEnumerable(IEnumerable<IInfoBoxTableRow> list)
-    {
-        foreach (var row in list)
-        {
-            tableRows.Add(row.GetInfoBoxTableRow());
-        }
 
         return this;
     }
@@ -86,5 +75,15 @@ internal class InfoBoxTable
         var wrapPosition = cursor.X + region.X;
 
         return wrapPosition;
+    }
+
+    public InfoBoxTable AddRows(IEnumerable<Tuple<Action?, Action?>> rows)
+    {
+        foreach (var row in rows)
+        {
+            tableRows.Add(row);
+        }
+
+        return this;
     }
 }

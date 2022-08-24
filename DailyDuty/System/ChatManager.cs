@@ -12,6 +12,7 @@ internal class ChatManager : IDisposable
 
     private readonly Stopwatch stopwatch = new();
 
+
     public ChatManager()
     {
         Service.ClientState.TerritoryChanged += ClientStateOnTerritoryChanged;
@@ -35,7 +36,7 @@ internal class ChatManager : IDisposable
         OnLoginMessage?.Invoke(this, EventArgs.Empty);
         stopwatch.Reset();
     }
-
+    
     private void ClientStateOnTerritoryChanged(object? sender, ushort e)
     {
         if (stopwatch.Elapsed.Minutes >= 5 || stopwatch.IsRunning == false)
@@ -49,4 +50,6 @@ internal class ChatManager : IDisposable
             Log.Verbose($"Zone Change Messages Suppressed, '{lockoutRemaining}' Remaining");
         }
     }
+
+
 }

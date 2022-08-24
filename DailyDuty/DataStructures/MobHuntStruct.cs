@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.System.Localization;
 using Lumina.Excel.GeneratedSheets;
-using Expansion = DailyDuty.Configuration.Enums.Expansion;
 
 namespace DailyDuty.DataStructures;
 
@@ -27,6 +25,15 @@ public enum HuntMarkType
     EndwalkerLevelTwo = 15,
     EndwalkerLevelThree = 16,
     EndwalkerElite = 17
+}
+
+public enum Expansion
+{    
+    RealmReborn,
+    Heavensward,
+    Stormblood,
+    Shadowbringers,
+    Endwalker
 }
 
 public class HuntData
@@ -226,6 +233,28 @@ public static class HuntMarkTypeExtensions
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);
+        }
+    }
+}
+
+public static class ExpansionExtensions
+{
+    public static string GetLocalizedString(this Expansion value)
+    {
+        switch (value)
+        {
+            case Expansion.RealmReborn:
+                return Strings.Common.Expansion.RealmReborn;
+            case Expansion.Heavensward:
+                return Strings.Common.Expansion.Heavensward;
+            case Expansion.Stormblood:
+                return Strings.Common.Expansion.Stormblood;
+            case Expansion.Shadowbringers:
+                return Strings.Common.Expansion.Shadowbringers;
+            case Expansion.Endwalker:
+                return Strings.Common.Expansion.Endwalker;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(value), value, null);
         }
     }
 }

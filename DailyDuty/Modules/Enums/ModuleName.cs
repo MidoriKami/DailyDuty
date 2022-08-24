@@ -7,7 +7,8 @@ public enum ModuleName
 {
     BeastTribe,
     CustomDelivery,
-    DomanEnclave
+    DomanEnclave,
+    DutyRoulette
 }
 
 public static class ModuleNameExtensions
@@ -19,6 +20,7 @@ public static class ModuleNameExtensions
             ModuleName.BeastTribe => Strings.Module.BeastTribe.Label,
             ModuleName.CustomDelivery => Strings.Module.CustomDelivery.Label,
             ModuleName.DomanEnclave => Strings.Module.DomanEnclave.Label,
+            ModuleName.DutyRoulette => Strings.Module.DutyRoulette.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

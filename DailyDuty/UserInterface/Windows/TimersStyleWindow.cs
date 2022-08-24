@@ -15,9 +15,9 @@ internal class TimersStyleWindow : Window, IDisposable
     public TimerSettings Settings { get; }
     private IModule OwnerModule { get; }
 
-    private readonly InfoBox timeDisplayInfoBox = new();
-    private readonly InfoBox colorOptionsInfoBox = new();
-    private readonly InfoBox sizeOptionsInfoBox = new();
+    private readonly InfoBox timeDisplay = new();
+    private readonly InfoBox colorOptions = new();
+    private readonly InfoBox sizeOptions = new();
 
     public TimersStyleWindow(IModule owner, TimerSettings settings, string windowName) : base(windowName)
     {
@@ -45,13 +45,13 @@ internal class TimersStyleWindow : Window, IDisposable
 
     public override void Draw()
     {
-        timeDisplayInfoBox
+        timeDisplay
             .AddTitle(Strings.UserInterface.Timers.TimeDisplay)
             .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle,
                 TimerStyleExtensions.GetLabel, width: 175.0f)
             .Draw();
 
-        colorOptionsInfoBox
+        colorOptions
             .AddTitle(Strings.UserInterface.Timers.ColorOptions)
             .AddConfigColor(Strings.UserInterface.Timers.Background, Settings.BackgroundColor)
             .AddConfigColor(Strings.UserInterface.Timers.Foreground, Settings.ForegroundColor)
@@ -59,11 +59,11 @@ internal class TimersStyleWindow : Window, IDisposable
             .AddConfigColor(Strings.UserInterface.Timers.Time, Settings.TimeColor)
             .Draw();
 
-            sizeOptionsInfoBox
-                .AddTitle(Strings.UserInterface.Timers.SizeOptions)
-                .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
-                .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, 125.0f)
-                .Draw();
+        sizeOptions
+            .AddTitle(Strings.UserInterface.Timers.SizeOptions)
+            .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
+            .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, 125.0f)
+            .Draw();
     }
 
     public override void PostDraw()

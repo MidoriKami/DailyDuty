@@ -21,6 +21,20 @@ internal static class ConfigMigration
             BeastTribe = GetBeastTribe(),
             CustomDelivery = GetCustomDelivery(),
             DomanEnclave = GetDomanEnclave(),
+            DutyRoulette = GetDutyRoulette(),
+        };
+    }
+
+    private static DutyRouletteSettings GetDutyRoulette()
+    {
+        return new DutyRouletteSettings
+        {
+            Enabled = GetSettingValue<bool>("DutyRoulette.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("DutyRoulette.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("DutyRoulette.LoginReminder"),
+            EnableClickableLink = GetSettingValue<bool>("DutyRoulette.EnableClickableLink"),
+            HideExpertWhenCapped = GetSettingValue<bool>("DutyRoulette.HideWhenCapped"),
+            TodoUseLongLabel = GetSettingValue<bool>("DutyRoulette.ExpandedDisplay"),
         };
     }
 
@@ -28,9 +42,9 @@ internal static class ConfigMigration
     {
         return new CharacterData
         {
-            LocalContentID = GetRawValue<ulong>("LocalContentID"),
-            Name = GetRawValue<string>("CharacterName"),
-            World = GetRawValue<string>("World"),
+            LocalContentID = GetValue<ulong>("LocalContentID"),
+            Name = GetValue<string>("CharacterName"),
+            World = GetValue<string>("World"),
         };
     }
 
@@ -38,10 +52,10 @@ internal static class ConfigMigration
     {
         return new DomanEnclaveSettings
         {
-            Enabled = GetValue<bool>("DomanEnclave.Enabled"),
-            NotifyOnZoneChange = GetValue<bool>("DomanEnclave.ZoneChangeReminder"),
-            NotifyOnLogin = GetValue<bool>("DomanEnclave.LoginReminder"),
-            EnableClickableLink = GetValue<bool>("DomanEnclave.EnableClickableLink"),
+            Enabled = GetSettingValue<bool>("DomanEnclave.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("DomanEnclave.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("DomanEnclave.LoginReminder"),
+            EnableClickableLink = GetSettingValue<bool>("DomanEnclave.EnableClickableLink"),
         };
     }
 
@@ -49,10 +63,10 @@ internal static class ConfigMigration
     {
         return new CustomDeliverySettings
         {
-            NotificationThreshold = GetValue<int>("CustomDelivery.NotificationThreshold"),
-            Enabled = GetValue<bool>("CustomDelivery.Enabled"),
-            NotifyOnZoneChange = GetValue<bool>("CustomDelivery.ZoneChangeReminder"),
-            NotifyOnLogin = GetValue<bool>("CustomDelivery.LoginReminder")
+            NotificationThreshold = GetSettingValue<int>("CustomDelivery.NotificationThreshold"),
+            Enabled = GetSettingValue<bool>("CustomDelivery.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("CustomDelivery.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("CustomDelivery.LoginReminder")
         };
     }
 
@@ -60,19 +74,19 @@ internal static class ConfigMigration
     {
         return new BeastTribeSettings
         {
-            NotificationThreshold = GetValue<int>("BeastTribe.NotificationThreshold"),
-            Enabled = GetValue<bool>("BeastTribe.Enabled"),
-            NotifyOnZoneChange = GetValue<bool>("BeastTribe.ZoneChangeReminder"),
-            NotifyOnLogin = GetValue<bool>("BeastTribe.LoginReminder")
+            NotificationThreshold = GetSettingValue<int>("BeastTribe.NotificationThreshold"),
+            Enabled = GetSettingValue<bool>("BeastTribe.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("BeastTribe.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("BeastTribe.LoginReminder")
         };
     }
 
-    private static Setting<T> GetValue<T>(string key) where T : struct
+    private static Setting<T> GetSettingValue<T>(string key) where T : struct
     {
         return new Setting<T>(_parsedJson!.SelectToken(key)!.Value<T>());
     }
 
-    private static T GetRawValue<T>(string key)
+    private static T GetValue<T>(string key)
     {
         return _parsedJson!.SelectToken(key)!.Value<T>()!;
     }
