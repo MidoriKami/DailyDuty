@@ -125,6 +125,14 @@ public class CustomDelivery
 
 public class DomanEnclave
 {
+    public readonly string Label = Loc.Localize("DomanEnclave_Label", "Doman Enclave");
+    public readonly string GilRemaining = Loc.Localize("DomanEnclave_GilRemaining", "gil Remaining");
+    public readonly string UnknownStatus = Loc.Localize("DomanEnclave_UnknownStatus", "Status unknown, visit the Doman Enclave to initialize module");
+    public readonly string UnknownStatusLabel = Loc.Localize("DomanEnclave_UnknownStatusLabel", "Status Unknown");
+    public readonly string BudgetRemaining = Loc.Localize("DomanEnclave_BudgetRemaining", "Budget Remaining");
+    public readonly string CurrentAllowance = Loc.Localize("DomanEnclave_CurrentAllowance", "Current Allowance");
+    public readonly string ClickableLinkLabel = Loc.Localize("DomanEnclave_ClickableLinkLabel", "Clickable Link");
+    public readonly string ClickableLink = Loc.Localize("DomanEnclave_ClickableLink", "Notifications can be clocked on to teleport to the Doman Enclave");
 }
 
 public class DutyRoulette
@@ -173,6 +181,7 @@ public class UserInterface
 {
     public readonly Todo Todo = new();
     public readonly Timers Timers = new();
+    public readonly Teleport Teleport = new();
 }
 
 public class Todo
@@ -218,6 +227,15 @@ public class Timers
     public readonly string SizeOptions = Loc.Localize("Timers_SizeOptions", "Size Options");
     public readonly string StretchToFit = Loc.Localize("Timers_StretchToFit", "Stretch to Fit");
     public readonly string Size = Loc.Localize("Timers_Size", "Size");
+}
+
+public class Teleport
+{
+    public readonly string Label = Loc.Localize("Teleport_Label", "Teleport");
+    public readonly string Error = Loc.Localize("Teleport_Error", "Cannot teleport in this situation");
+    public readonly string Teleporting = Loc.Localize("Teleport_Teleporting", "Teleporting to {0}...");
+    public readonly string CommunicationError = Loc.Localize("Teleport_CommunicationError", "To use the teleport function, you must install the \"Teleporter\" plugin");
+    public readonly string NotUnlocked = Loc.Localize("Teleport_NotUnlocked", "Destination Aetheryte is not unlocked, teleport cancelled");
 }
 
 public class Language

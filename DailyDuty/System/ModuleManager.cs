@@ -14,6 +14,7 @@ internal class ModuleManager : IDisposable
     {
         new BeastTribe(),
         new CustomDelivery(),
+        new DomanEnclave()
     };
 
     public ModuleManager()
@@ -23,7 +24,10 @@ internal class ModuleManager : IDisposable
 
     public void Dispose()
     {
-        
+        foreach (var module in Modules)
+        {
+            module.Dispose();
+        }
     }
 
     public IEnumerable<ISelectable> GetConfigurationSelectables()

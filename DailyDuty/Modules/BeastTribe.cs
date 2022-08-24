@@ -8,6 +8,7 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Utilities;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.Modules;
@@ -31,6 +32,11 @@ internal class BeastTribe : IModule
         LogicComponent = new ModuleLogicComponent(this);
         TodoComponent = new ModuleTodoComponent(this);
         TimerComponent = new ModuleTimerComponent(this);
+    }
+
+    public void Dispose()
+    {
+        LogicComponent.Dispose();
     }
 
     private class ModuleConfigurationComponent : IConfigurationComponent
@@ -135,9 +141,16 @@ internal class BeastTribe : IModule
             ParentModule = parentModule;
         }
 
+        public void Dispose()
+        {
+        }
+
         public string GetStatusMessage() => Strings.Module.BeastTribe.AllowancesRemaining;
 
+        public DalamudLinkPayload? DalamudLinkPayload => null;
+
         public DateTime GetNextReset() => Time.NextDailyReset();
+
         public void DoReset()
         {
             // Do Nothing

@@ -1,6 +1,7 @@
 ﻿using Dalamud.Data;
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
+using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Gui;
 using Dalamud.Game.Gui.Toast;
@@ -19,7 +20,9 @@ internal class Service
     [PluginService] public static Condition Condition { get; private set; } = null!;
     [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
-    [PluginService] public static ToastGui Toast { get; private set; } = null!;
+    [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
+    [PluginService] public static ToastGui Toast { get; private set;} = null!;
+
 
     public static System.ModuleManager ModuleManager = null!;
     public static System.CommandManager CommandSystem = null!;
@@ -28,4 +31,5 @@ internal class Service
     public static System.ConfigurationManager ConfigurationManager = null!;
     public static System.ChatManager ChatManager = null!;
     public static System.ResetManager ResetManager = null!;
+    public static System.TeleportManager TeleportManager = null!;
 }

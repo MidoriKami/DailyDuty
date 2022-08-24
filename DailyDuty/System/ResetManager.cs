@@ -9,7 +9,7 @@ internal class ResetManager : IDisposable
 
     public ResetManager()
     {
-        Service.Framework.RunOnTick(FrameworkOnUpdate,TimeSpan.FromSeconds(5), cancellationToken: cancellationToken.Token);
+        FrameworkOnUpdate();
     }
 
     private void FrameworkOnUpdate()

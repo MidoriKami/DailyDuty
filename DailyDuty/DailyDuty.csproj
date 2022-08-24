@@ -79,7 +79,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="2.1.7" />
+		<PackageReference Include="DalamudPackager" Version="2.1.8" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -115,10 +115,5 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="System\Logging\" />
-	  <Folder Include="System\Configuration\" />
 	</ItemGroup>
 </Project>

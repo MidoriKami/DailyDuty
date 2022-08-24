@@ -5,6 +5,7 @@ using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Utilities;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Configuration;
 
@@ -20,6 +21,7 @@ internal class CharacterConfiguration
 
     public BeastTribeSettings BeastTribe = new();
     public CustomDeliverySettings CustomDelivery = new();
+    public DomanEnclaveSettings DomanEnclave = new();
 
     public void Save()
     {
@@ -32,6 +34,10 @@ internal class CharacterConfiguration
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
             File.WriteAllText(configFileInfo.FullName, serializedContents);
+        }
+        else
+        {
+            Log.Verbose("Tried to save a config with invalid LocalContentID");
         }
     }
 
@@ -50,14 +56,27 @@ internal class CharacterConfiguration
         {
             var fileText = File.ReadAllText(configFileInfo.FullName);
 
-            var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
+            var versionNumber = GetConfigFileVersion(fileText);
 
-            if (loadedCharacterConfiguration == null)
+            if (versionNumber == 2)
             {
-                throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
-            }
+                var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
 
-            return loadedCharacterConfiguration;
+                if (loadedCharacterConfiguration == null)
+                {
+                    throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
+                }
+
+                return loadedCharacterConfiguration;
+            }
+            else
+            {
+                var convertedConfig = ConfigMigration.Convert(fileText);
+
+                convertedConfig.Save();
+
+                return convertedConfig;
+            }
         }
         else
         {
@@ -81,4 +100,10 @@ internal class CharacterConfiguration
         }
     }
 
+    private static int GetConfigFileVersion(string fileText)
+    {
+        var json = JObject.Parse(fileText);
+
+        return json.GetValue("Version")?.Value<int>() ?? 0;
+    }
 }

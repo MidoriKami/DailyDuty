@@ -8,24 +8,25 @@ using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
+using Dalamud.Game;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
 
-internal class CustomDelivery : IModule
+internal class DomanEnclave : IModule
 {
-    public ModuleName Name => ModuleName.CustomDelivery;
+    public ModuleName Name => ModuleName.DomanEnclave;
     public IConfigurationComponent ConfigurationComponent { get; }
     public IStatusComponent StatusComponent { get; }
     public ILogicComponent LogicComponent { get; }
     public ITodoComponent TodoComponent { get; }
     public ITimerComponent TimerComponent { get; }
 
-    private static CustomDeliverySettings Settings => Service.ConfigurationManager.CharacterConfiguration.CustomDelivery;
+    private static DomanEnclaveSettings Settings => Service.ConfigurationManager.CharacterConfiguration.DomanEnclave;
     public GenericSettings GenericSettings => Settings;
 
-    public CustomDelivery()
+    public DomanEnclave()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
@@ -45,7 +46,7 @@ internal class CustomDelivery : IModule
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
         private readonly InfoBox optionsInfoBox = new();
-        private readonly InfoBox completionConditionsInfoBox = new();
+        private readonly InfoBox clickableLink = new();
         private readonly InfoBox notificationOptionsInfoBox = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
@@ -60,13 +61,10 @@ internal class CustomDelivery : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .Draw();
 
-            completionConditionsInfoBox
-                .AddTitle(Strings.Configuration.MarkCompleteWhen)
-                .BeginTable(0.40f)
-                .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
-                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f))
-                .EndTable()
+            clickableLink
+                .AddTitle(Strings.Module.DomanEnclave.ClickableLinkLabel)
+                .AddString(Strings.Module.DomanEnclave.ClickableLink)
+                .AddConfigCheckbox(Strings.Module.DomanEnclave.ClickableLinkLabel, Settings.EnableClickableLink)
                 .Draw();
 
             notificationOptionsInfoBox
@@ -85,7 +83,7 @@ internal class CustomDelivery : IModule
             new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         private readonly InfoBox statusInfoBox = new();
-        private readonly InfoBox targetInfoBox = new();
+        private readonly InfoBox warningInfoBox = new();
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -97,93 +95,129 @@ internal class CustomDelivery : IModule
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
             var moduleStatus = logicModule.GetModuleStatus();
-            var allowances = logicModule.GetRemainingAllowances();
 
             statusInfoBox
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
                 .AddRow(
-                    Strings.Status.ModuleStatus, 
-                    moduleStatus.GetLocalizedString(), 
+                    Strings.Status.ModuleStatus,
+                    moduleStatus.GetLocalizedString(),
                     secondColor: moduleStatus.GetStatusColor())
 
                 .AddRow(
-                    Strings.Common.Allowances, 
-                    allowances.ToString(), 
-                    secondColor: moduleStatus.GetStatusColor())
+                    Strings.Module.DomanEnclave.BudgetRemaining,
+                    logicModule.GetRemainingBudget().ToString(),
+                    secondColor: logicModule.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange
+                    )
+
+                .AddRow(
+                    Strings.Module.DomanEnclave.CurrentAllowance,
+                    logicModule.GetWeeklyAllowance().ToString()
+                )
 
                 .EndTable()
                 .Draw();
 
-            targetInfoBox
-                .AddTitle(Strings.Common.Target)
-                .BeginTable()
-
-                .AddRow(
-                    Strings.Common.Mode,
-                    Settings.ComparisonMode.Value.GetLocalizedString())
-
-                .AddRow(
-                    Strings.Common.Target,
-                    Settings.NotificationThreshold.Value.ToString())
-
-                .EndTable()
-                .Draw();
+            if (moduleStatus == ModuleStatus.Unknown)
+            {
+                warningInfoBox
+                    .AddTitle(Strings.Module.DomanEnclave.UnknownStatusLabel)
+                    .AddString(Strings.Module.DomanEnclave.UnknownStatus, Colors.Orange)
+                    .Draw();
+            }
         }
     }
 
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload => null;
+        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.DomanEnclave);
 
-        private delegate int GetCustomDeliveryAllowancesDelegate(byte* array);
+        private delegate IntPtr GetPointerDelegate();
 
-        [Signature("0F B6 41 20 4C 8B C1")]
-        private readonly GetCustomDeliveryAllowancesDelegate getCustomDeliveryAllowances = null!;
-
-        [Signature("48 8D 0D ?? ?? ?? ?? 41 0F BA EC", ScanType = ScanType.StaticAddress)]
-        private readonly byte* staticArrayPointer = null!;
+        [Signature("E8 ?? ?? ?? ?? 48 85 C0 74 09 0F B6 B8")]
+        private readonly GetPointerDelegate getBasePointer = null!;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
             SignatureHelper.Initialise(this);
+            Service.Framework.Update += FrameworkOnUpdate;
         }
 
         public void Dispose()
         {
+            Service.Framework.Update -= FrameworkOnUpdate;
+        }
+        private void FrameworkOnUpdate(Framework framework)
+        {
+            if (!DataAvailable()) return;
+
+            UpdateWeeklyAllowance();
+            UpdateDonatedThisWeek();
         }
 
-        public string GetStatusMessage() => Strings.Module.CustomDelivery.AllowancesRemaining;
+        public string GetStatusMessage()
+        {
+            if (GetModuleStatus() == ModuleStatus.Unknown) return Strings.Module.DomanEnclave.UnknownStatus;
 
+            return $"{GetRemainingBudget()} {Strings.Module.DomanEnclave.GilRemaining}";
+        }
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
-        public void DoReset()
-        {
-            // Do nothing
-        }
+        public void DoReset() => Settings.DonatedThisWeek = 0;
 
         public ModuleStatus GetModuleStatus()
         {
-            switch (Settings.ComparisonMode.Value)
-            {
-                case ComparisonMode.LessThan when Settings.NotificationThreshold.Value > GetRemainingAllowances():
-                case ComparisonMode.EqualTo when Settings.NotificationThreshold.Value == GetRemainingAllowances():
-                case ComparisonMode.LessThanOrEqual when Settings.NotificationThreshold.Value >= GetRemainingAllowances():
-                    return ModuleStatus.Complete;
+            if (!ModuleInitialized()) return ModuleStatus.Unknown;
 
-                default:
-                    return ModuleStatus.Incomplete;
+            return GetRemainingBudget() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        }
+
+        private void UpdateWeeklyAllowance()
+        {
+            var allowance = GetWeeklyAllowance();
+
+            if (Settings.WeeklyAllowance != allowance)
+            {
+                Settings.WeeklyAllowance = allowance;
+                Service.ConfigurationManager.Save();
+            }
+        }
+        private void UpdateDonatedThisWeek()
+        {
+            var donatedThisWeek = GetDonatedThisWeek();
+
+            if (Settings.DonatedThisWeek != donatedThisWeek)
+            {
+                Settings.DonatedThisWeek = donatedThisWeek;
+                Service.ConfigurationManager.Save();
             }
         }
 
-        public int GetRemainingAllowances()
+        private ushort GetDonatedThisWeek()
         {
-            return 12 - getCustomDeliveryAllowances(staticArrayPointer);
+            var baseAddress = getBasePointer();
+            var donatedThisWeek = *((ushort*) baseAddress + 80);
+
+            return donatedThisWeek;
         }
+
+        public ushort GetWeeklyAllowance()
+        {
+            var baseAddress = getBasePointer();
+            var adjustedAddress = baseAddress + 166;
+
+            var allowance = *(ushort*) adjustedAddress;
+
+            return allowance;
+        }
+
+        public int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
+        private bool DataAvailable() => GetWeeklyAllowance() != 0;
+        public bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
     }
 
     private class ModuleTodoComponent : ITodoComponent
@@ -197,9 +231,9 @@ internal class CustomDelivery : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.CustomDelivery.Label;
+        public string GetShortTaskLabel() => Strings.Module.DomanEnclave.Label;
 
-        public string GetLongTaskLabel() => Strings.Module.CustomDelivery.Label;
+        public string GetLongTaskLabel()  => Strings.Module.DomanEnclave.Label;
     }
 
 

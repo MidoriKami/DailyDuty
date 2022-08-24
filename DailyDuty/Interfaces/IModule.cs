@@ -1,9 +1,10 @@
-﻿using DailyDuty.Configuration.Components;
+﻿using System;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Modules.Enums;
 
 namespace DailyDuty.Interfaces;
 
-internal interface IModule
+internal interface IModule : IDisposable
 {
     GenericSettings GenericSettings { get; }
     ModuleName Name { get; }

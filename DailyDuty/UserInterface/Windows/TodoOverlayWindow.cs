@@ -175,6 +175,10 @@ internal class TodoOverlayWindow : Window, IDisposable
 
             switch (task.ParentModule.LogicComponent.GetModuleStatus())
             {
+                case ModuleStatus.Unknown:
+                    ImGui.TextColored(Colors.Grey, taskLabel);
+                    break;
+
                 case ModuleStatus.Incomplete:
                     ImGui.TextColored(Settings.TaskColors.IncompleteColor.Value, taskLabel);
                     break;
