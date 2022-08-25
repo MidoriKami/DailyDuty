@@ -105,6 +105,7 @@ internal class DutyRoulette : IModule
     private class ModuleStatusComponent : IStatusComponent
     {
         private readonly InfoBox status = new();
+        private readonly InfoBox trackedDuties = new();
         private readonly InfoBox tomestoneStatus = new();
 
         public ModuleStatusComponent(IModule parentModule)
@@ -126,17 +127,33 @@ internal class DutyRoulette : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetLocalizedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-                .AddRows(Settings.TrackedRoulettes
-                    .Where(row => row.Tracked.Value)
-                    .Select(row => row.GetInfoBoxTableRow())
-                )
+                    .AddRow(
+                        Strings.Status.ModuleStatus,
+                        moduleStatus.GetLocalizedString(),
+                        secondColor: moduleStatus.GetStatusColor())
                 .EndTable()
                 .Draw();
 
+            if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked.Value))
+            {
+                trackedDuties
+                    .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
+                    .BeginTable()
+                    .AddRows(Settings.TrackedRoulettes
+                        .Where(row => row.Tracked.Value)
+                        .Select(row => row.GetInfoBoxTableRow()))
+
+                    .EndTable()
+                    .Draw();
+            }
+            else
+            {
+                trackedDuties
+                    .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
+                    .AddString(Strings.Module.DutyRoulette.NoRoulettesTracked, Colors.Orange)
+                    .Draw();
+            }
+            
             if (Settings.HideExpertWhenCapped.Value)
                 tomestoneStatus
                     .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
@@ -162,6 +179,10 @@ internal class DutyRoulette : IModule
         private readonly AgentInterface* agentContentsFinder = AgentModule->GetAgentByInternalId(AgentId.ContentsFinder);
 
         public readonly long CurrentLimitedTomestoneWeeklyCap;
+
+        private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
+        private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);
+        private delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1);
 
         [Signature("48 83 EC 28 80 F9 09")]
         private readonly GetCurrentLimitedTomestoneCountDelegate getCurrentLimitedTomestoneCount = null!;
@@ -201,10 +222,7 @@ internal class DutyRoulette : IModule
             return $"{RemainingRoulettesCount()} {Strings.Module.DutyRoulette.Remaining}";
         }
 
-        public DateTime GetNextReset()
-        {
-            return Time.NextDailyReset();
-        }
+        public DateTime GetNextReset() => Time.NextDailyReset();
 
         public void DoReset()
         {
@@ -271,12 +289,6 @@ internal class DutyRoulette : IModule
 
             return (byte) RouletteType.Leveling;
         }
-
-        private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
-
-        private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);
-
-        private delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1);
     }
 
     private class ModuleTodoComponent : ITodoComponent
@@ -290,10 +302,7 @@ internal class DutyRoulette : IModule
         public CompletionType CompletionType => CompletionType.Daily;
         public bool HasLongLabel => true;
 
-        public string GetShortTaskLabel()
-        {
-            return Strings.Module.DutyRoulette.Label;
-        }
+        public string GetShortTaskLabel() => Strings.Module.DutyRoulette.Label;
 
         public string GetLongTaskLabel()
         {

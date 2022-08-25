@@ -23,6 +23,18 @@ internal static class ConfigMigration
             DomanEnclave = GetDomanEnclave(),
             DutyRoulette = GetDutyRoulette(),
             FashionReport = GetFashionReport(),
+            HuntMarksDaily = GetHuntMarksDaily(),
+        };
+    }
+
+    private static HuntMarksDailySettings GetHuntMarksDaily()
+    {
+        return new HuntMarksDailySettings
+        {
+            Enabled = GetSettingValue<bool>("DailyHuntMarks.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("DailyHuntMarks.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("DailyHuntMarks.LoginReminder"),
+            TodoUseLongLabel = GetSettingValue<bool>("DailyHuntMarks.ExpandedDisplay"),
         };
     }
 

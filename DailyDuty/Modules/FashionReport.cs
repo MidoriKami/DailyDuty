@@ -46,10 +46,10 @@ internal class FashionReport : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox optionsInfoBox = new();
+        private readonly InfoBox options = new();
         private readonly InfoBox modeSelect = new();
         private readonly InfoBox clickableLink = new();
-        private readonly InfoBox notificationOptionsInfoBox = new();
+        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -58,7 +58,7 @@ internal class FashionReport : IModule
 
         public void Draw()
         {
-            optionsInfoBox
+            options
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .Draw();
@@ -76,7 +76,7 @@ internal class FashionReport : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptionsInfoBox
+            notificationOptions
                 .AddTitle(Strings.Configuration.NotificationOptions)
                 .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
                 .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
@@ -90,7 +90,7 @@ internal class FashionReport : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox statusInfoBox = new();
+        private readonly InfoBox status = new();
         private readonly InfoBox reportAvailable = new();
 
         public ModuleStatusComponent(IModule parentModule)
@@ -104,7 +104,7 @@ internal class FashionReport : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            statusInfoBox
+            status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 

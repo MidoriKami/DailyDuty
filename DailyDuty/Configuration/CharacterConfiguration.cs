@@ -24,6 +24,7 @@ internal class CharacterConfiguration
     public DomanEnclaveSettings DomanEnclave = new();
     public DutyRouletteSettings DutyRoulette = new();
     public FashionReportSettings FashionReport = new();
+    public HuntMarksDailySettings HuntMarksDaily = new();
 
     public void Save()
     {

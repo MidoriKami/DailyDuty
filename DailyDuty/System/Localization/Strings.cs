@@ -147,6 +147,8 @@ public class DutyRoulette
     public readonly string Overlay = Loc.Localize("DutyRoulette_Overlay", "Duty Finder Overlay");
     public readonly string DutyComplete = Loc.Localize("DutyRoulette_DutyComplete", "Duty Complete");
     public readonly string DutyIncomplete = Loc.Localize("DutyRoulette_DutyIncomplete", "Duty Incomplete");
+    public readonly string RouletteStatus = Loc.Localize("DutyRoulette_RouletteStatus", "Roulette Status");
+    public readonly string NoRoulettesTracked = Loc.Localize("DutyRoulette_NoRoulettesTracked", "No roulettes have been selected for tracking");
 }
 
 public class FashionReport
@@ -174,6 +176,15 @@ public class HuntMarks
     public readonly string LevelTwo = Loc.Localize("HuntMarks_LevelTwo", "Level Two");
     public readonly string LevelThree = Loc.Localize("HuntMarks_LevelThree", "Level Three");
     public readonly string Elite = Loc.Localize("HuntMarks_Elite", "Elite");
+    public readonly string DailyLabel = Loc.Localize("HuntMarks_DailyLabel", "Hunt Marks (Daily)");
+    public readonly string WeeklyLabel = Loc.Localize("HuntMarks_WeeklyLabel", "Hunt Marks (Weekly)");
+    public readonly string TrackedHunts = Loc.Localize("HuntMarks_TrackedHunts", "Tracked Hunts");
+    public readonly string Obtained = Loc.Localize("HuntMarks_Obtained", "Obtained");
+    public readonly string Unobtained = Loc.Localize("HuntMarks_Unobtained", "Unobtained");
+    public readonly string Killed = Loc.Localize("HuntMarks_Killed", "Killed");
+    public readonly string HuntsRemaining = Loc.Localize("HuntMarks_HuntsRemaining", "Hunts Remaining");
+    public readonly string TrackedHuntsStatus = Loc.Localize("HuntMarks_TrackedHuntsStatus", "Tracked Hunts Status");
+    public readonly string NoHuntsTracked = Loc.Localize("HuntMarks_NoHuntsTracked", "No hunts have been selected for tracking");
 }
 
 public class JumboCactpot
