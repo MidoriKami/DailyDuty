@@ -3,7 +3,7 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.OverlaySettings;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;

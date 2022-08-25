@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.DataStructures;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using CheapLoc;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Logging;
 

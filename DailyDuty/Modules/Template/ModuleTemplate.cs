@@ -1,30 +1,28 @@
-﻿using DailyDuty.Interfaces;
-using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
-using System;
+﻿using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using DailyDuty.UserInterface.Components;
+using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
-namespace DailyDuty.Modules;
+namespace DailyDuty.Modules.Template;
 
-internal class BeastTribe : IModule
+internal class TemplateModule : IModule
 {
-    public ModuleName Name => ModuleName.BeastTribe;
+    public ModuleName Name => ModuleName.TemplateModule;
     public IConfigurationComponent ConfigurationComponent { get; }
     public IStatusComponent StatusComponent { get; }
     public ILogicComponent LogicComponent { get; }
     public ITodoComponent TodoComponent { get; }
     public ITimerComponent TimerComponent { get; }
 
-    private static BeastTribeSettings Settings => Service.ConfigurationManager.CharacterConfiguration.BeastTribe;
+    private static TemplateModuleSettings Settings => Service.ConfigurationManager.CharacterConfiguration.TemplateModule;
     public GenericSettings GenericSettings => Settings;
 
-    public BeastTribe()
+    public TemplateModule()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
@@ -43,9 +41,8 @@ internal class BeastTribe : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
-        private readonly InfoBox completionConditions = new();
-        private readonly InfoBox notificationOptions = new();
+        private readonly InfoBox optionsInfoBox = new();
+        private readonly InfoBox notificationOptionsInfoBox = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -54,21 +51,14 @@ internal class BeastTribe : IModule
 
         public void Draw()
         {
-            options
+            optionsInfoBox
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .Draw();
 
-            completionConditions
-                .AddTitle(Strings.Configuration.MarkCompleteWhen)
-                .BeginTable(0.40f)
-                .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
-                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f))
-                .EndTable()
-                .Draw();
+            // Todo: add options
 
-            notificationOptions
+            notificationOptionsInfoBox
                 .AddTitle(Strings.Configuration.NotificationOptions)
                 .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
                 .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
@@ -80,7 +70,8 @@ internal class BeastTribe : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable =>
+            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         private readonly InfoBox status = new();
         private readonly InfoBox target = new();
@@ -95,21 +86,17 @@ internal class BeastTribe : IModule
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
             var moduleStatus = logicModule.GetModuleStatus();
-            var allowances = logicModule.GetRemainingAllowances();
+
 
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
                 .AddRow(
-                    Strings.Status.ModuleStatus, 
-                    moduleStatus.GetLocalizedString(), 
+                    Strings.Status.ModuleStatus,
+                    moduleStatus.GetLocalizedString(),
                     secondColor: moduleStatus.GetStatusColor())
 
-                .AddRow(
-                    Strings.Common.Allowances, 
-                    allowances.ToString(), 
-                    secondColor: moduleStatus.GetStatusColor())
 
                 .EndTable()
                 .Draw();
@@ -117,14 +104,6 @@ internal class BeastTribe : IModule
             target
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Common.Mode,
-                    Settings.ComparisonMode.Value.GetLocalizedString())
-
-                .AddRow(
-                    Strings.Common.Target,
-                    Settings.NotificationThreshold.Value.ToString())
 
                 .EndTable()
                 .Draw();
@@ -134,6 +113,7 @@ internal class BeastTribe : IModule
     private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
+        public DalamudLinkPayload? DalamudLinkPayload { get; }
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -142,50 +122,51 @@ internal class BeastTribe : IModule
 
         public void Dispose()
         {
+
         }
 
-        public string GetStatusMessage() => Strings.Module.BeastTribe.AllowancesRemaining;
+        public string GetStatusMessage()
+        {
+            // Todo: Set this
+            return "StringNotSet";
+        }
 
-        public DalamudLinkPayload? DalamudLinkPayload => null;
-
+        // Todo: Set this
         public DateTime GetNextReset() => Time.NextDailyReset();
 
         public void DoReset()
         {
-            // Do Nothing
+            // Todo: Set this
         }
 
         public ModuleStatus GetModuleStatus()
         {
-            switch (Settings.ComparisonMode.Value)
-            {
-                case ComparisonMode.LessThan when Settings.NotificationThreshold.Value > GetRemainingAllowances():
-                case ComparisonMode.EqualTo when Settings.NotificationThreshold.Value == GetRemainingAllowances():
-                case ComparisonMode.LessThanOrEqual when Settings.NotificationThreshold.Value >= GetRemainingAllowances():
-                    return ModuleStatus.Complete;
-
-                default:
-                    return ModuleStatus.Incomplete;
-            }
+            // Todo: Set this
+            return ModuleStatus.Unknown;
         }
-
-        public int GetRemainingAllowances() => (int)PlayerState.GetBeastTribeAllowance();
     }
 
     private class ModuleTodoComponent : ITodoComponent
     {
         public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Daily;
-        public bool HasLongLabel => false;
+
+        // Todo: Set completion type
+        public CompletionType CompletionType => CompletionType.CompletionType;
+        public bool HasLongLabel => HasLongLabel;
 
         public ModuleTodoComponent(IModule parentModule)
         {
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.BeastTribe.Label;
+        // Todo: Set this
+        public string GetShortTaskLabel() => Strings.Module.TemplateModule.Label;
 
-        public string GetLongTaskLabel() => Strings.Module.BeastTribe.Label;
+        public string GetLongTaskLabel()
+        {
+            // Todo: Set this
+            return "StringNotSet";
+        }
     }
 
 
@@ -198,7 +179,10 @@ internal class BeastTribe : IModule
             ParentModule = parentModule;
         }
 
+        // Todo: Confirm this
         public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
+
+        // Todo: Confirm this
         public DateTime GetNextReset() => Time.NextDailyReset();
     }
 }

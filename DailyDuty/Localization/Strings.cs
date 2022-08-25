@@ -1,6 +1,6 @@
 ﻿using CheapLoc;
 
-namespace DailyDuty.System.Localization;
+namespace DailyDuty.Localization;
 
 internal static class Strings
 {
@@ -45,7 +45,6 @@ public class Common
     public readonly string LessThanOrEqualLabel = Loc.Localize("LessThanOrEqualLabel", "Less Than or Equal To");
     public readonly string EqualToLabel = Loc.Localize("EqualToLabel", "Equal To");
     public readonly string Allowances = Loc.Localize("Allowances", "Allowances");
-    public readonly string Allowance = Loc.Localize("Allowance", "Allowance");
     public readonly string Target = Loc.Localize("Target", "Target");
     public readonly string Mode = Loc.Localize("Mode", "Mode");
     public readonly string TopLeft = Loc.Localize("TopLeft", "Top Left");

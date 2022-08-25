@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.Text.SeStringHandling;

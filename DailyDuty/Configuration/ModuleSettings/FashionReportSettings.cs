@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 
 namespace DailyDuty.Configuration.ModuleSettings;
 

@@ -51,6 +51,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Modules\Template\ModuleTemplate.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Content Remove="..\images\BeastTribe.png" />
 	  <Content Remove="..\images\CustomDelivery.png" />
 	  <Content Remove="..\images\DailyHuntMarks.png" />
@@ -115,5 +119,9 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Modules\Template\" />
 	</ItemGroup>
 </Project>

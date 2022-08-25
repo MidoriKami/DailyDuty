@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 
 namespace DailyDuty.Configuration.Enums;
 

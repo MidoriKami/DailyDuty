@@ -1,9 +1,9 @@
 ﻿using DailyDuty.Interfaces;
-using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using ImGuiNET;
 using System;
 using DailyDuty.Configuration.Enums;
+using DailyDuty.Localization;
 
 namespace DailyDuty.UserInterface.Components;
 

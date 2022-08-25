@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.Utilities;
 
 namespace DailyDuty.Configuration.Enums;

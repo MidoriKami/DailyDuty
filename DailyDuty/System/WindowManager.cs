@@ -4,7 +4,7 @@ using System.Linq;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;

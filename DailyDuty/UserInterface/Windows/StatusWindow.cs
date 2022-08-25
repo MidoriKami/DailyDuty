@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Configuration;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;

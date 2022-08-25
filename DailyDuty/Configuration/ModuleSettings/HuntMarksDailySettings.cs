@@ -3,7 +3,7 @@ using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 

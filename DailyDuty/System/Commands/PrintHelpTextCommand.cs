@@ -1,5 +1,5 @@
 ﻿using DailyDuty.Interfaces;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.Utilities;
 
 namespace DailyDuty.System.Commands;

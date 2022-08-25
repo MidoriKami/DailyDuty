@@ -5,7 +5,7 @@ using ImGuiNET;
 using System;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 
 namespace DailyDuty.UserInterface.Windows;
 

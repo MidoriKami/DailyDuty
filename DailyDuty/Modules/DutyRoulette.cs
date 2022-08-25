@@ -6,7 +6,7 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
-using DailyDuty.System.Localization;
+using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
