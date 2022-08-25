@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Interfaces;
-using DailyDuty.Modules.Enums;
 using DailyDuty.Utilities;
 using ImGuiNET;
 using System;

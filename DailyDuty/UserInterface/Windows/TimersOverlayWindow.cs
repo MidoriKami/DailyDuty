@@ -10,7 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Modules.Enums;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.System.Localization;
 
 namespace DailyDuty.UserInterface.Windows;

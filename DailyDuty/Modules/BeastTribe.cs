@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Interfaces;
-using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;

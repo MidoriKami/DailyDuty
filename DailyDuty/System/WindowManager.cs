@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;

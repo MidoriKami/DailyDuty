@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Modules.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;

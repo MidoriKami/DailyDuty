@@ -5,7 +5,6 @@ using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
