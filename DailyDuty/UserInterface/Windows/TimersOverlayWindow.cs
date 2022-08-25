@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
-using DailyDuty.Configuration.Enums;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;
 
@@ -153,14 +153,13 @@ internal class TimersOverlayWindow : Window, IDisposable
     private void DrawTimer(ITimerComponent timer)
     {
         var timerSettings = timer.ParentModule.GenericSettings.TimerSettings;
-        var logicComponent = timer.ParentModule.LogicComponent;
 
         ImGui.PushStyleColor(ImGuiCol.FrameBg, timerSettings.BackgroundColor.Value);
         ImGui.PushStyleColor(ImGuiCol.PlotHistogram, timerSettings.ForegroundColor.Value);
 
         ImGui.BeginGroup();
             
-        var remainingTime = logicComponent.GetNextReset() - DateTime.UtcNow;
+        var remainingTime = timer.GetNextReset() - DateTime.UtcNow;
         var deltaTime = 1.0f - (float)(remainingTime / timer.GetTimerPeriod());
         var cursorStart = ImGui.GetCursorPos();
         ImGui.ProgressBar(deltaTime, new Vector2(timerSettings.Size.Value, 20), "");
@@ -179,7 +178,7 @@ internal class TimersOverlayWindow : Window, IDisposable
         ImGui.PopStyleColor();
     }
 
-    private string FormatTimespan(TimeSpan span, TimerStyle style)
+    public static string FormatTimespan(TimeSpan span, TimerStyle style)
     {
         if (style == 0)
             return string.Empty;

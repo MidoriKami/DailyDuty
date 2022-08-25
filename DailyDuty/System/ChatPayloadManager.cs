@@ -1,6 +1,7 @@
 ﻿using DailyDuty.Configuration.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 
@@ -20,8 +21,13 @@ internal class ChatPayloadManager : IDisposable
 
     public DalamudLinkPayload AddChatLink(ChatPayloads type, Action<uint, SeString> payloadAction)
     {
+        // If the payload is already registered
+        var payload = ChatLinkPayloads.FirstOrDefault(linkPayload => linkPayload.CommandID == (uint) type + 1000)?.Payload;
+        if (payload != null) return payload;
+
+        // else
         Service.PluginInterface.RemoveChatLinkHandler((uint)type + 1000);
-        var payload = Service.PluginInterface.AddChatLinkHandler((uint)type + 1000, payloadAction);
+        payload = Service.PluginInterface.AddChatLinkHandler((uint)type + 1000, payloadAction);
 
         ChatLinkPayloads.Add(new ChatLinkPayload((uint)type + 1000, type, payload));
 

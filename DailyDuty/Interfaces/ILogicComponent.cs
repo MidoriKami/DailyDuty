@@ -20,6 +20,7 @@ internal interface ILogicComponent : IDisposable
         if (!ParentModule.GenericSettings.Enabled.Value) return;
         if (!ParentModule.GenericSettings.NotifyOnLogin.Value) return;
         if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete) return;
+        if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable) return;
 
         var moduleName = ParentModule.Name.GetLocalizedString();
 
@@ -32,6 +33,7 @@ internal interface ILogicComponent : IDisposable
         if (!ParentModule.GenericSettings.NotifyOnZoneChange.Value) return;
         if (Condition.IsBoundByDuty()) return;
         if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete) return;
+        if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable) return;
 
         var moduleName = ParentModule.Name.GetLocalizedString();
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;

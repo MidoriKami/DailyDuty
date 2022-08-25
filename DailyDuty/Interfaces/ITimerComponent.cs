@@ -7,4 +7,6 @@ internal interface ITimerComponent
     IModule ParentModule { get; }
 
     TimeSpan GetTimerPeriod();
+
+    DateTime GetNextReset();
 }

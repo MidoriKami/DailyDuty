@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Components.InfoBox;
@@ -115,6 +116,25 @@ internal static class Actions
             if (ImGui.ColorEdit4(label, ref color.Value, ImGuiColorEditFlags.NoInputs))
             {
                 Service.ConfigurationManager.Save();
+            }
+        };
+    }
+
+    public static Action GetConfigRadio<T>(string label, Setting<T> setting, T buttonValue, string? helpText = null) where T : struct
+    {
+        return () =>
+        {
+            var value = Convert.ToInt32(setting.Value);
+
+            if (ImGui.RadioButton(label, ref value, Convert.ToInt32(buttonValue)))
+            {
+                setting.Value =  (T) Enum.ToObject(typeof(T), value);
+                Service.ConfigurationManager.Save();
+            }
+
+            if (helpText != null)
+            {
+                ImGuiComponents.HelpMarker(helpText);
             }
         };
     }

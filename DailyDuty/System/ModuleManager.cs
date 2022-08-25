@@ -16,6 +16,7 @@ internal class ModuleManager : IDisposable
         new CustomDelivery(),
         new DomanEnclave(),
         new DutyRoulette(),
+        new FashionReport(),
     };
 
     public ModuleManager()

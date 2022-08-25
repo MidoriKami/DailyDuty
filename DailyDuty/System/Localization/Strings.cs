@@ -151,6 +151,20 @@ public class DutyRoulette
 
 public class FashionReport
 {
+    public readonly string Label = Loc.Localize("FashionReport_Label", "Fashion Report");
+    public readonly string CompletionCondition = Loc.Localize("FashionReport_CompletionCondition", "Completion Condition");
+    public readonly string ModeSingle = Loc.Localize("FashionReport_ModeSingle", "Single");
+    public readonly string Mode80Plus = Loc.Localize("FashionReport_Mode80Plus", "80 Plus");
+    public readonly string ModeAll = Loc.Localize("FashionReport_ModeAll", "All");
+    public readonly string ModeSingleHelp = Loc.Localize("FashionReport_ModeSingleHelp", "Only notify if no allowances have been spent this week and Fashion Report is available for turn-in");
+    public readonly string Mode80PlusHelp = Loc.Localize("FashionReport_Mode80PlusHelp", "Notify if any allowances remain this week, the highest score is below 80 and Fashion Report is available for turn-in");
+    public readonly string ModeAllHelp = Loc.Localize("FashionReport_ModeAllHelp", "Notify if any allowances remain this week and fashion report is available for turn-in");
+    public readonly string ClickableLinkLabel = Loc.Localize("FashionReport_ClickableLinkLabel", "Clickable Link");
+    public readonly string ClickableLink = Loc.Localize("FashionReport_ClickableLink", "Notifications can be clocked on to teleport to the Gold Saucer");
+    public readonly string AllowancesAvailable = Loc.Localize("FashionReport_AllowancesAvailable", "Allowances Available");
+    public readonly string HighestScore = Loc.Localize("FashionReport_HighestScore", "Highest Score");
+    public readonly string ReportOpen = Loc.Localize("FashionReport_ReportOpen", "Report Open");
+    public readonly string AvailableNow = Loc.Localize("FashionReport_AvailableNow", "Available Now");
 
 }
 
@@ -243,7 +257,7 @@ public class Teleport
 {
     public readonly string Label = Loc.Localize("Teleport_Label", "Teleport");
     public readonly string Error = Loc.Localize("Teleport_Error", "Cannot teleport in this situation");
-    public readonly string Teleporting = Loc.Localize("Teleport_Teleporting", "Teleporting to {0}...");
+    public readonly string Teleporting = Loc.Localize("Teleport_Teleporting", "Teleporting to '{0}'");
     public readonly string CommunicationError = Loc.Localize("Teleport_CommunicationError", "To use the teleport function, you must install the \"Teleporter\" plugin");
     public readonly string NotUnlocked = Loc.Localize("Teleport_NotUnlocked", "Destination Aetheryte is not unlocked, teleport cancelled");
 }

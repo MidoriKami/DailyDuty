@@ -3,6 +3,7 @@ using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.ClientState.Conditions;
+using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.Gui;
 using Dalamud.Game.Gui.Toast;
 using Dalamud.IoC;
@@ -23,6 +24,7 @@ internal class Service
     [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
     [PluginService] public static ToastGui Toast { get; private set;} = null!;
     [PluginService] public static GameGui GameGui { get; private set; } = null!;
+    [PluginService] public static TargetManager TargetManager { get; private set; } = null!;
 
     public static System.ModuleManager ModuleManager = null!;
     public static System.CommandManager CommandSystem = null!;

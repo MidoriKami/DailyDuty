@@ -200,5 +200,6 @@ internal class BeastTribe : IModule
         }
 
         public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
+        public DateTime GetNextReset() => Time.NextDailyReset();
     }
 }

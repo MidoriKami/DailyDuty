@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.System.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;

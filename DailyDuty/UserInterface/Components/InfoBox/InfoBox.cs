@@ -32,7 +32,7 @@ internal class InfoBox : IDrawable
 
     public void Draw()
     {
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiHelpers.ScaledDummy(10.0f);
 
         var region = ImGui.GetContentRegionAvail();
         var currentPosition = ImGui.GetCursorPos();
@@ -230,6 +230,13 @@ internal class InfoBox : IDrawable
     public InfoBox AddSliderInt(string label, Setting<int> setting, int minValue, int maxValue, float width = 200.0f)
     {
         drawActions.Add(Actions.GetSliderInt(label, setting, minValue, maxValue, width));
+
+        return this;
+    }
+
+    public InfoBox AddConfigRadio<T>(string label, Setting<T> setting, T buttonValue, string? helpText = null ) where T : struct
+    {
+        drawActions.Add(Actions.GetConfigRadio(label, setting, buttonValue, helpText));
 
         return this;
     }

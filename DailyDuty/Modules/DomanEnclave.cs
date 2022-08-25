@@ -248,5 +248,6 @@ internal class DomanEnclave : IModule
         }
 
         public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
+        public DateTime GetNextReset() => Time.NextWeeklyReset();
     }
 }

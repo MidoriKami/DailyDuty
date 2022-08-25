@@ -23,6 +23,7 @@ internal class CharacterConfiguration
     public CustomDeliverySettings CustomDelivery = new();
     public DomanEnclaveSettings DomanEnclave = new();
     public DutyRouletteSettings DutyRoulette = new();
+    public FashionReportSettings FashionReport = new();
 
     public void Save()
     {

@@ -143,8 +143,8 @@ internal class DutyRoulette : IModule
                     .BeginTable()
                     .AddRow(
                         Strings.Module.DutyRoulette.ExpertTomestones,
-                        $"{logicModule.GetLimitedTomestoneCount()}/{logicModule.GetWeeklyTomestomeLimit()}",
-                        secondColor: logicModule.GetLimitedTomestoneCount() == logicModule.GetWeeklyTomestomeLimit()
+                        $"{logicModule.GetLimitedTomestoneCount()}/{logicModule.CurrentLimitedTomestoneWeeklyCap}",
+                        secondColor: logicModule.GetLimitedTomestoneCount() == logicModule.CurrentLimitedTomestoneWeeklyCap
                             ? Colors.Green
                             : Colors.Orange)
                     .EndTable()
@@ -154,8 +154,12 @@ internal class DutyRoulette : IModule
 
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
-        private readonly AgentInterface* agentContentsFinder =
-            Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+        public IModule ParentModule { get; }
+        public DalamudLinkPayload? DalamudLinkPayload { get; }
+
+        private static AgentModule* AgentModule => Framework.Instance()->GetUiModule()->GetAgentModule();
+
+        private readonly AgentInterface* agentContentsFinder = AgentModule->GetAgentByInternalId(AgentId.ContentsFinder);
 
         public readonly long CurrentLimitedTomestoneWeeklyCap;
 
@@ -184,8 +188,7 @@ internal class DutyRoulette : IModule
             Service.Framework.Update += FrameworkOnUpdate;
         }
 
-        public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; }
+
 
         public void Dispose()
         {
@@ -312,11 +315,9 @@ internal class DutyRoulette : IModule
 
         public IModule ParentModule { get; }
 
-        public TimeSpan GetTimerPeriod()
-        {
-            // Todo: Set this
-            return TimeSpan.FromDays(1);
-        }
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
+
+        public DateTime GetNextReset() => Time.NextDailyReset();
     }
 
 

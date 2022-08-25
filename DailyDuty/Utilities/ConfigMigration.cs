@@ -22,6 +22,18 @@ internal static class ConfigMigration
             CustomDelivery = GetCustomDelivery(),
             DomanEnclave = GetDomanEnclave(),
             DutyRoulette = GetDutyRoulette(),
+            FashionReport = GetFashionReport(),
+        };
+    }
+
+    private static FashionReportSettings GetFashionReport()
+    {
+        return new FashionReportSettings
+        {
+            Enabled = GetSettingValue<bool>("DutyRoulette.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("DutyRoulette.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("DutyRoulette.LoginReminder"),
+            EnableClickableLink = GetSettingValue<bool>("DutyRoulette.EnableClickableLink"),
         };
     }
 
