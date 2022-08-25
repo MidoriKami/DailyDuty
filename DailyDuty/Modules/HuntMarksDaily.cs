@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;

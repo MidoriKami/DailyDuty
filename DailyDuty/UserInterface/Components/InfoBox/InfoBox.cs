@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Enums;
 using DailyDuty.System.Localization;

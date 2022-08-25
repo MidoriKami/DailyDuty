@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules;
-using DailyDuty.Modules.Enums;
-using DailyDuty.Utilities;
 
 namespace DailyDuty.System;
 
@@ -19,11 +18,6 @@ internal class ModuleManager : IDisposable
         new FashionReport(),
         new HuntMarksDaily(),
     };
-
-    public ModuleManager()
-    {
-        Log.Verbose("Constructing ModuleManager");
-    }
 
     public void Dispose()
     {

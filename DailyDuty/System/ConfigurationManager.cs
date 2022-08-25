@@ -23,8 +23,6 @@ internal class ConfigurationManager : IDisposable
 
     public ConfigurationManager()
     {
-        Log.Verbose("Constructing ConfigurationManager");
-
         if (LoggedIn)
         {
             LoadCharacterConfiguration();

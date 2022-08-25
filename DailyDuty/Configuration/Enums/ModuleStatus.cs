@@ -3,7 +3,7 @@ using System.Numerics;
 using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 
-namespace DailyDuty.Modules.Enums;
+namespace DailyDuty.Configuration.Enums;
 
 public enum ModuleStatus
 {

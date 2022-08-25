@@ -1,5 +1,6 @@
 ﻿using DailyDuty.Modules.Enums;
 using System;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 

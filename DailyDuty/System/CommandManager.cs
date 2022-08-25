@@ -23,15 +23,11 @@ internal class CommandManager : IDisposable
 
     public CommandManager()
     {
-        Log.Verbose("Constructing");
-
-        Log.Verbose($"Adding Command Handler: {SettingsCommand}");
         Service.Commands.AddHandler(SettingsCommand, new CommandInfo(OnCommand)
         {
             HelpMessage = "open configuration window"
         });
 
-        Log.Verbose($"Adding Command Handler: {HelpCommand}");
         Service.Commands.AddHandler(HelpCommand, new CommandInfo(OnCommand)
         {
             HelpMessage = "display a list of all available sub-commands"

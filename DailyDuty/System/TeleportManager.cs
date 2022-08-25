@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Configuration.Components;
 using DailyDuty.System.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Aetherytes;
@@ -15,6 +14,17 @@ using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
+
+internal enum TeleportLocation
+{
+    GoldSaucer,
+    Idyllshire,
+    DomanEnclave
+}
+
+internal record TeleportInfo(uint CommandID, TeleportLocation Target, Aetheryte Aetherite);
+
+internal record TeleportLinkPayloads(TeleportLocation Location, DalamudLinkPayload Payload);
 
 internal class TeleportManager : IDisposable
 {

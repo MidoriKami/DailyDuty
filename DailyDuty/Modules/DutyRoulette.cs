@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules.Enums;
@@ -336,6 +337,7 @@ internal class DutyRoulette : IModule
             DetourName = nameof(ContentsFinder_Show))]
         private readonly Hook<AgentShow>? contentsFinderShowHook = null;
 
+        private record DutyFinderSearchResult(string SearchKey, uint Value);
         private readonly List<DutyFinderSearchResult> dutyRouletteDuties = new();
 
         private bool defaultColorSaved;

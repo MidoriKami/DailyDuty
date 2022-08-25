@@ -3,6 +3,7 @@ using DailyDuty.Modules.Enums;
 using DailyDuty.Utilities;
 using ImGuiNET;
 using System;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.System.Localization;
 
 namespace DailyDuty.UserInterface.Components;

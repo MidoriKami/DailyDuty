@@ -13,8 +13,6 @@ internal class LocalizationManager : IDisposable
     private string lastLanguage;
     public LocalizationManager()
     {
-        Log.Verbose("Constructing LocalizationManager");
-
         var assemblyLocation = Service.PluginInterface.AssemblyLocation.DirectoryName!;
         var filePath = Path.Combine(assemblyLocation, @"translations");
         localization = new Dalamud.Localization(filePath, "DailyDuty_");

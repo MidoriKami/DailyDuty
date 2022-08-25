@@ -1,6 +1,8 @@
 ﻿using DailyDuty.Configuration.Components;
 using System;
+using System.Numerics;
 using DailyDuty.System.Localization;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Configuration.OverlaySettings;
 
@@ -11,6 +13,14 @@ public enum WindowAnchor
     TopRight = 1,
     BottomLeft = 2,
     BottomRight = 1 | 2
+}
+
+public class TaskColors
+{
+    public Setting<Vector4> HeaderColor = new(Colors.White);
+    public Setting<Vector4> IncompleteColor = new(Colors.Red);
+    public Setting<Vector4> UnavailableColor = new(Colors.Orange);
+    public Setting<Vector4> CompleteColor = new(Colors.Green);
 }
 
 internal class TodoOverlaySettings
