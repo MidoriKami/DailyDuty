@@ -18,7 +18,7 @@ namespace DailyDuty.UserInterface.Windows;
 internal class TimersOverlayWindow : Window, IDisposable
 {
     private static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
-
+    
     private List<ITimerComponent> trackedTasks = new();
 
     public TimersOverlayWindow() : base($"###DailyDutyTimersOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
@@ -194,7 +194,7 @@ internal class TimersOverlayWindow : Window, IDisposable
 
         var sb = new StringBuilder(16);
 
-        if (style.HasFlag(TimerStyle.Days)) sb.Append($"{span.Days:D2}").Append('.');
+        if (style.HasFlag(TimerStyle.Days)) sb.Append($"{span.Days:D1}").Append('.');
         if (style.HasFlag(TimerStyle.Hours)) sb.Append($"{span.Hours:D2}").Append(':');
         if (style.HasFlag(TimerStyle.Minutes)) sb.Append($"{span.Minutes:D2}").Append(':');
         if (style.HasFlag(TimerStyle.Seconds)) sb.Append($"{span.Seconds:D2}").Append(':');

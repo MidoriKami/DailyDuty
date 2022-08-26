@@ -39,7 +39,7 @@ public static class TimerStyleExtensions
             return string.Empty;
 
         var sb = new StringBuilder(16);
-        if (style.HasFlag(TimerStyle.Days)) sb.Append($"DD").Append('.');
+        if (style.HasFlag(TimerStyle.Days)) sb.Append($"D").Append('.');
         if (style.HasFlag(TimerStyle.Hours)) sb.Append($"HH").Append(':');
         if (style.HasFlag(TimerStyle.Minutes)) sb.Append($"MM").Append(':');
         if (style.HasFlag(TimerStyle.Seconds)) sb.Append($"SS").Append(':');
