@@ -71,7 +71,7 @@ internal class DutyRoulette : IModule
             options
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .AddConfigCheckbox(Strings.Module.DutyRoulette.HideExpertWhenCapped, Settings.HideExpertWhenCapped)
+                .AddConfigCheckbox(Strings.Module.DutyRoulette.HideExpertWhenCapped, Settings.HideExpertWhenCapped, Strings.Module.DutyRoulette.HideExpertHelp)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.Overlay, Settings.OverlayEnabled)
                 .AddConfigColor(Strings.Module.DutyRoulette.DutyComplete, Settings.CompleteColor)
                 .AddConfigColor(Strings.Module.DutyRoulette.DutyIncomplete, Settings.IncompleteColor)
@@ -84,7 +84,7 @@ internal class DutyRoulette : IModule
                     var checkboxAction = Actions.GetConfigCheckboxAction;
 
                     foreach (var roulette in Settings.TrackedRoulettes)
-                        checkboxAction(roulette.Roulette.GetLocalizedString(), roulette.Tracked).Invoke();
+                        checkboxAction(roulette.Roulette.GetLocalizedString(), roulette.Tracked, null).Invoke();
                 })
                 .Draw();
 
