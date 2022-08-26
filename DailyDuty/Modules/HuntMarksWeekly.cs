@@ -69,7 +69,7 @@ internal class HuntMarksWeekly : IModule
                     var checkboxAction = Actions.GetConfigCheckboxAction;
 
                     foreach (var roulette in Settings.TrackedHunts)
-                        checkboxAction(roulette.HuntType.GetLabel(), roulette.Tracked).Invoke();
+                        checkboxAction(roulette.HuntType.GetLabel(), roulette.Tracked, null).Invoke();
                 })
                 .Draw();
 
