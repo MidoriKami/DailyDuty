@@ -1,11 +1,11 @@
 ﻿namespace DailyDuty.Configuration.Components;
 
-public record Setting<T>(T Value) where T : struct
+public record Setting<T>(T Value)
 {
     public T Value = Value;
 
     public override string ToString()
     {
-        return Value.ToString() ?? "Null";
+        return Value?.ToString() ?? "Null";
     }
 }
