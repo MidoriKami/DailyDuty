@@ -27,6 +27,10 @@ internal class TodoWindowCommand : IPluginCommand
             case "hide":
                 overlayWindow.IsOpen = false;
                 break;
+
+            case "toggle":
+                overlayWindow.IsOpen = !overlayWindow.IsOpen;
+                break;
         }
     }
 }

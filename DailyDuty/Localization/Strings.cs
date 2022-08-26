@@ -80,12 +80,14 @@ public class Help
     public readonly string Timers = Loc.Localize("Help_Timers", "\n/dd timers - Shows timer configuration window\n" +
                                                                 "/dd help timers - Shows this help message\n" +
                                                                 "/dd timers show - Shows the timers window\n" +
-                                                                "/dd timers hide - Hides the timers window");
+                                                                "/dd timers hide - Hides the timers window\n" +
+                                                                "/dd timers toggle - Toggle the todo window");
 
     public readonly string Todo = Loc.Localize("Help_Todo", "\n/dd todo - Shows todo configuration window\n" +
                                                             "/dd help todo - Shows this help message\n" +
                                                             "/dd todo show - Shows the todo window\n" +
-                                                            "/dd todo hide - Hides the todo window");
+                                                            "/dd todo hide - Hides the todo window\n" +
+                                                            "/dd todo toggle - Toggle the todo window");
 
     public readonly string Base = Loc.Localize("Help_Base", "Command Overview\n" +
                                                             "/dd - Show or Hide Main Window\n" +
