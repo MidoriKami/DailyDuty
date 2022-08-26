@@ -27,13 +27,18 @@ internal static class Actions
         }
     }
 
-    public static Action GetConfigCheckboxAction(string label, Setting<bool> setting)
+    public static Action GetConfigCheckboxAction(string label, Setting<bool> setting, string? helpText = null)
     {
         return () =>
         {
             if (ImGui.Checkbox(label, ref setting.Value))
             {
                 Service.ConfigurationManager.Save();
+            }
+
+            if (helpText != null)
+            {
+                ImGuiComponents.HelpMarker(helpText);
             }
         };
     }

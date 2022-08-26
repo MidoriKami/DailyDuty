@@ -126,9 +126,9 @@ internal class InfoBox : IDrawable
         return this;
     }
 
-    public InfoBox AddConfigCheckbox(string label, Setting<bool> setting)
+    public InfoBox AddConfigCheckbox(string label, Setting<bool> setting, string? helpText = null)
     {
-        drawActions.Add(Actions.GetConfigCheckboxAction(label, setting));
+        drawActions.Add(Actions.GetConfigCheckboxAction(label, setting, helpText));
 
         return this;
     }
