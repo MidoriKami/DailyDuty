@@ -25,6 +25,7 @@ internal class CharacterConfiguration
     public DutyRouletteSettings DutyRoulette = new();
     public FashionReportSettings FashionReport = new();
     public HuntMarksDailySettings HuntMarksDaily = new();
+    public HuntMarksWeeklySettings HuntMarksWeekly = new();
 
     public void Save()
     {

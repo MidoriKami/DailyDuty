@@ -10,7 +10,8 @@ public enum ModuleName
     DomanEnclave,
     DutyRoulette,
     FashionReport,
-    HuntMarksDaily
+    HuntMarksDaily,
+    HuntMarksWeekly
 }
 
 public static class ModuleNameExtensions
@@ -25,6 +26,7 @@ public static class ModuleNameExtensions
             ModuleName.DutyRoulette => Strings.Module.DutyRoulette.Label,
             ModuleName.FashionReport => Strings.Module.FashionReport.Label,
             ModuleName.HuntMarksDaily => Strings.Module.HuntMarks.DailyLabel,
+            ModuleName.HuntMarksWeekly => Strings.Module.HuntMarks.WeeklyLabel,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

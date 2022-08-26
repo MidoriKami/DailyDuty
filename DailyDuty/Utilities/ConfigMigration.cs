@@ -27,6 +27,19 @@ internal static class ConfigMigration
             DutyRoulette = GetDutyRoulette(),
             FashionReport = GetFashionReport(),
             HuntMarksDaily = GetHuntMarksDaily(),
+            HuntMarksWeekly = GetHuntMarksWeekly(),
+        };
+    }
+
+    private static HuntMarksWeeklySettings GetHuntMarksWeekly()
+    {
+        return new HuntMarksWeeklySettings
+        {
+            Enabled = GetSettingValue<bool>("WeeklyHuntMarks.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("WeeklyHuntMarks.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("WeeklyHuntMarks.LoginReminder"),
+            TodoUseLongLabel = GetSettingValue<bool>("WeeklyHuntMarks.ExpandedDisplay"),
+            TrackedHunts = GetTrackedHunts("WeeklyHuntMarks.TrackedHunts"),
         };
     }
 
