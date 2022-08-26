@@ -20,6 +20,7 @@ internal class ModuleManager : IDisposable
         new HuntMarksWeekly(),
         new JumboCactpot(),
         new Levequest(),
+        new MiniCactpot(),
     };
 
     public void Dispose()

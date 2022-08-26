@@ -131,7 +131,7 @@ public class DomanEnclave
     public readonly string BudgetRemaining = Loc.Localize("DomanEnclave_BudgetRemaining", "Budget Remaining");
     public readonly string CurrentAllowance = Loc.Localize("DomanEnclave_CurrentAllowance", "Current Allowance");
     public readonly string ClickableLinkLabel = Loc.Localize("DomanEnclave_ClickableLinkLabel", "Clickable Link");
-    public readonly string ClickableLink = Loc.Localize("DomanEnclave_ClickableLink", "Notifications can be clocked on to teleport to the Doman Enclave");
+    public readonly string ClickableLink = Loc.Localize("DomanEnclave_ClickableLink", "Notifications can be clicked on to teleport to the Doman Enclave");
 }
 
 public class DutyRoulette
@@ -161,7 +161,7 @@ public class FashionReport
     public readonly string Mode80PlusHelp = Loc.Localize("FashionReport_Mode80PlusHelp", "Notify if any allowances remain this week, the highest score is below 80 and Fashion Report is available for turn-in");
     public readonly string ModeAllHelp = Loc.Localize("FashionReport_ModeAllHelp", "Notify if any allowances remain this week and fashion report is available for turn-in");
     public readonly string ClickableLinkLabel = Loc.Localize("FashionReport_ClickableLinkLabel", "Clickable Link");
-    public readonly string ClickableLink = Loc.Localize("FashionReport_ClickableLink", "Notifications can be clocked on to teleport to the Gold Saucer");
+    public readonly string ClickableLink = Loc.Localize("FashionReport_ClickableLink", "Notifications can be clicked on to teleport to the Gold Saucer");
     public readonly string AllowancesAvailable = Loc.Localize("FashionReport_AllowancesAvailable", "Allowances Available");
     public readonly string HighestScore = Loc.Localize("FashionReport_HighestScore", "Highest Score");
     public readonly string ReportOpen = Loc.Localize("FashionReport_ReportOpen", "Report Open");
@@ -191,7 +191,7 @@ public class JumboCactpot
     public readonly string Label = Loc.Localize("JumboCactpot_Label", "Jumbo Cactpot");
     public readonly string Tickets = Loc.Localize("JumboCactpot_Tickets", "Tickets");
     public readonly string NextDrawing = Loc.Localize("JumboCactpot_NextDrawing", "Next Drawing");
-    public readonly string ClickableLink = Loc.Localize("JumboCactpot_ClickableLink", "Notifications can be clocked on to teleport to the Gold Saucer");
+    public readonly string ClickableLink = Loc.Localize("JumboCactpot_ClickableLink", "Notifications can be clicked on to teleport to the Gold Saucer");
     public readonly string ClickableLinkLabel = Loc.Localize("JumboCactpot_ClickableLinkLabel", "Clickable Link");
     public readonly string TicketsAvailable = Loc.Localize("JumboCactpot_TicketsAvailable", "Tickets Available");
     public readonly string NoTickets = Loc.Localize("JumboCactpot_NoTickets", "No Tickets");
@@ -207,6 +207,10 @@ public class Levequest
 
 public class MiniCactpot
 {
+    public readonly string Label = Loc.Localize("MiniCactpot_Label", "Mini Cactpot");
+    public readonly string ClickableLink = Loc.Localize("MiniCactpot_ClickableLink", "Notifications can be clicked on to teleport to the Gold Saucer");
+    public readonly string ClickableLinkLabel = Loc.Localize("MiniCactpot_ClickableLinkLabel", "Clickable Link");
+    public readonly string TicketsRemaining = Loc.Localize("MiniCactpot_TicketsRemaining", "Tickets Remaining");
 
 }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
@@ -8,7 +7,6 @@ using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
-using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
@@ -18,19 +16,19 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules;
 
-internal class JumboCactpot : IModule
+internal class MiniCactpot : IModule
 {
-    public ModuleName Name => ModuleName.JumboCactpot;
+    public ModuleName Name => ModuleName.MiniCactpot;
     public IConfigurationComponent ConfigurationComponent { get; }
     public IStatusComponent StatusComponent { get; }
     public ILogicComponent LogicComponent { get; }
     public ITodoComponent TodoComponent { get; }
     public ITimerComponent TimerComponent { get; }
 
-    private static JumboCactpotSettings Settings => Service.ConfigurationManager.CharacterConfiguration.JumboCactpot;
+    private static MiniCactpotSettings Settings => Service.ConfigurationManager.CharacterConfiguration.MiniCactpot;
     public GenericSettings GenericSettings => Settings;
 
-    public JumboCactpot()
+    public MiniCactpot()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
@@ -66,8 +64,8 @@ internal class JumboCactpot : IModule
                 .Draw();
 
             clickableLink
-                .AddTitle(Strings.Module.JumboCactpot.ClickableLinkLabel)
-                .AddString(Strings.Module.JumboCactpot.ClickableLink)
+                .AddTitle(Strings.Module.MiniCactpot.ClickableLinkLabel)
+                .AddString(Strings.Module.MiniCactpot.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
@@ -83,10 +81,10 @@ internal class JumboCactpot : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable =>
+            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         private readonly InfoBox status = new();
-        private readonly InfoBox nextDrawing = new();
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -109,20 +107,10 @@ internal class JumboCactpot : IModule
                     moduleStatus.GetLocalizedString(),
                     secondColor: moduleStatus.GetStatusColor())
 
-                .AddRow(Strings.Module.JumboCactpot.Tickets,
-                    Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : logicModule.GetTicketsString()
-                )
-
-                .EndTable()
-                .Draw();
-
-            nextDrawing
-                .AddTitle(Strings.Module.JumboCactpot.NextDrawing)
-                .BeginTable()
                 .AddRow(
-                    Strings.Module.JumboCactpot.NextDrawing,
-                    logicModule.GetNextJumboCactpot()
-                    )
+                    Strings.Module.MiniCactpot.TicketsRemaining,
+                    Settings.TicketsRemaining.ToString())
+
                 .EndTable()
                 .Draw();
         }
@@ -131,19 +119,17 @@ internal class JumboCactpot : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        private delegate void* AddonReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
+        public DalamudLinkPayload? DalamudLinkPayload { get; }= Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        [Signature("48 89 5C 24 ?? 44 89 4C 24 ?? 4C 89 44 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24", DetourName = nameof(LotteryWeekly_ReceiveEvent))]
-        private readonly Hook<AddonReceiveEvent>? receiveEventHook = null;
-
+        private delegate void* AgentShow(AgentInterface* addon, void* a2, void* a3);
         private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
+
+        [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
+        private readonly Hook<AgentShow>? receiveEventHook = null;
 
         [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
         private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
-
-        private int ticketData = -1;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -161,103 +147,67 @@ internal class JumboCactpot : IModule
             goldSaucerUpdateHook?.Dispose();
         }
 
-        public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";
+        public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";
 
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+        public DateTime GetNextReset() => Time.NextDailyReset();
 
-        public void DoReset() => Settings.Tickets.Clear();
+        public void DoReset() => Settings.TicketsRemaining = 3;
 
-        public ModuleStatus GetModuleStatus() => Settings.Tickets.Count == 3 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        public ModuleStatus GetModuleStatus() => Settings.TicketsRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        public string GetTicketsString()
-        {
-            return string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
-        }
-
-        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6,  byte a7)
+        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7)
         {
             try
             {
-                //1010446 Jumbo Cactpot Broker
-                if (Service.TargetManager.Target?.DataId == 1010446)
+                //1010445 Mini Cactpot Broker
+                if (Service.TargetManager.Target?.DataId == 1010445)
                 {
-                    Settings.Tickets.Clear();
-
-                    for(var i = 0; i < 3; ++i)
+                    if (a7 == 5)
                     {
-                        var ticketValue = a6[i + 2];
-
-                        if (ticketValue != 10000)
+                        if (Settings.TicketsRemaining != a6[4])
                         {
-                            if (!Settings.Tickets.Contains(ticketValue))
-                            {
-                                Settings.Tickets.Add(ticketValue);
-                            }
+                            Settings.TicketsRemaining = a6[4];
+                            Service.ConfigurationManager.Save();
                         }
                     }
-
-                    Service.ConfigurationManager.Save();
+                    else
+                    {
+                        if (Settings.TicketsRemaining != 0)
+                        {
+                            Settings.TicketsRemaining = 0;
+                            Service.ConfigurationManager.Save();
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                PluginLog.Error(ex, "[Jumbo Cactpot]  Unable to get data from Gold Saucer Update");
+                PluginLog.Error(ex, "[Mini Cactpot]  Unable to get data from Gold Saucer Update");
             }
 
             return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
         }
 
-        private void* LotteryWeekly_ReceiveEvent(AgentInterface* agent, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)
+        public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
         {
             try
             {
-                var data = eventData->Int;
-
-                switch (senderID)
-                {
-                    // Message is from JumboCactpot
-                    case 0 when data >= 0:
-                        ticketData = data;
-                        break;
-
-                    // Message is from SelectYesNo
-                    case 5:
-                        switch (data)
-                        {
-                            case -1:
-                            case 1:
-                                ticketData = -1;
-                                break;
-
-                            case 0 when ticketData >= 0:
-                                Settings.Tickets.Add(ticketData);
-                                ticketData = -1;
-                                Service.ConfigurationManager.Save();
-                                break;
-                        }
-                        break;
-                }
+                Settings.TicketsRemaining -= 1;
+                Service.ConfigurationManager.Save();
             }
             catch (Exception ex)
             {
-                PluginLog.Error(ex, "Unable to retrieve data from Jumbo Cactpot event");
+                PluginLog.Error(ex, "Unable to update Mini cactpot counts");
             }
 
-            return receiveEventHook!.Original(agent, a2, eventData, eventDataItemCount, senderID);
-        }
-
-        public string GetNextJumboCactpot()
-        {
-            var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
-
-            return TimersOverlayWindow.FormatTimespan(span, TimerStyle.Full);
+            return receiveEventHook!.Original(addon, a2, a3);
         }
     }
 
     private class ModuleTodoComponent : ITodoComponent
     {
         public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Weekly;
+        public CompletionType CompletionType => CompletionType.Daily;
         public bool HasLongLabel => false;
 
         public ModuleTodoComponent(IModule parentModule)
@@ -265,9 +215,9 @@ internal class JumboCactpot : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.JumboCactpot.Label;
+        public string GetShortTaskLabel() => Strings.Module.MiniCactpot.Label;
 
-        public string GetLongTaskLabel() => Strings.Module.JumboCactpot.Label;
+        public string GetLongTaskLabel() => Strings.Module.MiniCactpot.Label;
     }
 
 
@@ -280,8 +230,8 @@ internal class JumboCactpot : IModule
             ParentModule = parentModule;
         }
 
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
 
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+        public DateTime GetNextReset() => Time.NextDailyReset();
     }
 }

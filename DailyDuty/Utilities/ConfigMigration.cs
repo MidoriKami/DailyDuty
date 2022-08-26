@@ -31,6 +31,20 @@ internal static class ConfigMigration
             HuntMarksWeekly = GetHuntMarksWeekly(),
             JumboCactpot = GetJumboCactpot(),
             Levequest = GetLevequest(),
+            MiniCactpot = GetMiniCactpot(),
+        };
+    }
+
+    private static MiniCactpotSettings GetMiniCactpot()
+    {
+        return new MiniCactpotSettings
+        {
+            NextReset = GetValue<DateTime>("MiniCactpot.NextReset"),
+            Enabled = GetSettingValue<bool>("MiniCactpot.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("MiniCactpot.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("MiniCactpot.LoginReminder"),
+            EnableClickableLink = GetSettingValue<bool>("MiniCactpot.EnableClickableLink"),
+            TicketsRemaining = GetValue<int>("MiniCactpot.TicketsRemaining"),
         };
     }
 
@@ -56,7 +70,6 @@ internal static class ConfigMigration
             NotifyOnZoneChange = GetSettingValue<bool>("JumboCactpot.ZoneChangeReminder"),
             NotifyOnLogin = GetSettingValue<bool>("JumboCactpot.LoginReminder"),
             EnableClickableLink = GetSettingValue<bool>("JumboCactpot.EnableClickableLink"),
-            TodoUseLongLabel = GetSettingValue<bool>("JumboCactpot.ExpandedDisplay"),
             Tickets = GetTickets("JumboCactpot.Tickets"),
         };
     }
