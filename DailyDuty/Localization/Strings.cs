@@ -141,7 +141,7 @@ public class DutyRoulette
     public readonly string ClickableLinkLabel = Loc.Localize("DutyRoulette_ClickableLinkLabel", "Clickable Link");
     public readonly string ClickableLink = Loc.Localize("DutyRoulette_ClickableLink", "Notifications can be clicked on to open the Duty Finder");
     public readonly string Remaining = Loc.Localize("DutyRoulette_Remaining", "Roulettes Remaining");
-    public readonly string HideExpertWhenCapped = Loc.Localize("DutyRoulette_HideExpertWhenCapped", "");
+    public readonly string HideExpertWhenCapped = Loc.Localize("DutyRoulette_HideExpertWhenCapped", "Expert Roulette Feature");
     public readonly string HideExpertHelp = Loc.Localize("DutyRoulette_HideExpertHelp", "Marks the Expert Roulette as complete when you are at your weekly tomestone cap");
     public readonly string ExpertTomestones = Loc.Localize("DutyRoulette_ExpertTomestones", "Expert Tomestones");
     public readonly string Overlay = Loc.Localize("DutyRoulette_Overlay", "Duty Finder Overlay");
