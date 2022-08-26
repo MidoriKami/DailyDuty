@@ -199,7 +199,10 @@ public class JumboCactpot
 
 public class Levequest
 {
-
+    public readonly string Label = Loc.Localize("Levequest_Label", "Levequest");
+    public readonly string Accepted = Loc.Localize("Levequest_Accepted", "Accepted");
+    public readonly string NextAllowance = Loc.Localize("Levequest_NextAllowance", "Next Allowance");
+    public readonly string AllowancesRemaining = Loc.Localize("Levequest_AllowancesRemaining", "Allowances Remaining");
 }
 
 public class MiniCactpot

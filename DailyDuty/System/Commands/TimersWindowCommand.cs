@@ -5,12 +5,12 @@ namespace DailyDuty.System.Commands;
 
 internal class TimersWindowCommand : IPluginCommand
 {
-    public string CommandArgument => "todo";
+    public string CommandArgument => "timers";
 
     public void Execute(string? additionalArguments)
     {
         var configurationWindow = Service.WindowManager.GetWindowOfType<TimersConfigurationWindow>();
-        var overlayWindow = Service.WindowManager.GetWindowOfType<TodoOverlayWindow>();
+        var overlayWindow = Service.WindowManager.GetWindowOfType<TimersOverlayWindow>();
 
         if (configurationWindow == null || overlayWindow == null) return;
 

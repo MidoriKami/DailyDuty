@@ -8,6 +8,7 @@ using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
+using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
@@ -86,6 +87,7 @@ internal class JumboCactpot : IModule
             new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         private readonly InfoBox status = new();
+        private readonly InfoBox nextDrawing = new();
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -112,6 +114,16 @@ internal class JumboCactpot : IModule
                     Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : logicModule.GetTicketsString()
                 )
 
+                .EndTable()
+                .Draw();
+
+            nextDrawing
+                .AddTitle(Strings.Module.JumboCactpot.NextDrawing)
+                .BeginTable()
+                .AddRow(
+                    Strings.Module.JumboCactpot.NextDrawing,
+                    logicModule.GetNextJumboCactpot()
+                    )
                 .EndTable()
                 .Draw();
         }
@@ -160,7 +172,7 @@ internal class JumboCactpot : IModule
 
         public string GetTicketsString()
         {
-            return string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")).ToList());
+            return string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
         }
 
         private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6,  byte a7)
@@ -233,6 +245,13 @@ internal class JumboCactpot : IModule
             }
 
             return receiveEventHook!.Original(agent, a2, eventData, eventDataItemCount, senderID);
+        }
+
+        public string GetNextJumboCactpot()
+        {
+            var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
+
+            return TimersOverlayWindow.FormatTimespan(span, TimerStyle.Full);
         }
     }
 

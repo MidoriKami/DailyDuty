@@ -30,6 +30,20 @@ internal static class ConfigMigration
             HuntMarksDaily = GetHuntMarksDaily(),
             HuntMarksWeekly = GetHuntMarksWeekly(),
             JumboCactpot = GetJumboCactpot(),
+            Levequest = GetLevequest(),
+        };
+    }
+
+    private static LevequestSettings GetLevequest()
+    {
+        return new LevequestSettings
+        {
+            NextReset = GetValue<DateTime>("Levequest.NextReset"),
+            NotificationThreshold = GetSettingValue<int>("Levequest.NotificationThreshold"),
+            Enabled = GetSettingValue<bool>("Levequest.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("Levequest.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("Levequest.LoginReminder"),
+            ComparisonMode = GetSettingEnum<ComparisonMode>("Levequest.ComparisonMode"),
         };
     }
 

@@ -12,7 +12,8 @@ public enum ModuleName
     FashionReport,
     HuntMarksDaily,
     HuntMarksWeekly,
-    JumboCactpot
+    JumboCactpot,
+    Levequest
 }
 
 public static class ModuleNameExtensions
@@ -29,6 +30,7 @@ public static class ModuleNameExtensions
             ModuleName.HuntMarksDaily => Strings.Module.HuntMarks.DailyLabel,
             ModuleName.HuntMarksWeekly => Strings.Module.HuntMarks.WeeklyLabel,
             ModuleName.JumboCactpot => Strings.Module.JumboCactpot.Label,
+            ModuleName.Levequest => Strings.Module.Levequest.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

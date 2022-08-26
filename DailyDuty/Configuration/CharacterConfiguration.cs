@@ -27,6 +27,7 @@ internal class CharacterConfiguration
     public HuntMarksDailySettings HuntMarksDaily = new();
     public HuntMarksWeeklySettings HuntMarksWeekly = new();
     public JumboCactpotSettings JumboCactpot = new();
+    public LevequestSettings Levequest = new();
 
     public void Save()
     {
