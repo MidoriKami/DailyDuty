@@ -66,7 +66,7 @@ internal class Levequest : IModule
                 .BeginTable(0.40f)
                 .AddActions(
                     Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
-                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f))
+                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, 100.0f))
                 .EndTable()
                 .Draw();
 
