@@ -30,7 +30,7 @@ public record TrackedHunt(HuntMarkType HuntType, TrackedHuntState State, Setting
 
 public class HuntMarksDailySettings : GenericSettings
 {
-    public readonly TrackedHunt[] TrackedHunts = 
+    public TrackedHunt[] TrackedHunts = 
     {
         new(HuntMarkType.RealmRebornLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),
         new(HuntMarkType.HeavenswardLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),

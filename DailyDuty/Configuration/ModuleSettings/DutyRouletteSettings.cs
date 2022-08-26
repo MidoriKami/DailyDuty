@@ -13,7 +13,6 @@ public class DutyRouletteSettings : GenericSettings
     public Setting<Vector4> CompleteColor = new(Colors.Green);
     public Setting<Vector4> IncompleteColor = new(Colors.Red);
 
-
     public TrackedRoulette[] TrackedRoulettes =
     {
         new(RouletteType.Expert, new Setting<bool>(false), false),
