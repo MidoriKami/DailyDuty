@@ -13,6 +13,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Log.Verbose("Inflating Service Class");
         pluginInterface.Create<Service>();
 
+        Service.EventManager = new DutyEventManager();
         Service.TeleportManager = new TeleportManager();
         Service.ConfigurationManager = new ConfigurationManager();
         Service.LocalizationManager = new LocalizationManager();
@@ -35,5 +36,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ResetManager.Dispose();
         Service.TeleportManager.Dispose();
         Service.PayloadManager.Dispose();
+        Service.EventManager.Dispose();
     }
 }

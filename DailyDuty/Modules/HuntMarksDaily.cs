@@ -157,6 +157,8 @@ internal class HuntMarksDaily : IModule
 
         private void FrameworkOnUpdate(Framework framework)
         {
+            if (!Service.ConfigurationManager.CharacterDataLoaded) return;
+            
             foreach (var hunt in Settings.TrackedHunts)
             {
                 UpdateState(hunt);

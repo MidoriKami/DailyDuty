@@ -209,13 +209,10 @@ internal class DutyRoulette : IModule
             Service.Framework.Update += FrameworkOnUpdate;
         }
 
-
-
         public void Dispose()
         {
             Service.Framework.Update -= FrameworkOnUpdate;
         }
-
 
         public string GetStatusMessage()
         {
