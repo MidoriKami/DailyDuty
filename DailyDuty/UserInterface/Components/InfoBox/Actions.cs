@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 
@@ -49,7 +50,7 @@ internal static class Actions
         {
             if (width != 0.0f)
             {
-                ImGui.SetNextItemWidth(width);
+                ImGui.SetNextItemWidth(width * ImGuiHelpers.GlobalScale);
             }
             else
             {
@@ -78,7 +79,7 @@ internal static class Actions
         {
             if (width != 0.0f)
             {
-                ImGui.SetNextItemWidth(width);
+                ImGui.SetNextItemWidth(width * ImGuiHelpers.GlobalScale);
             }
             else
             {
@@ -99,7 +100,7 @@ internal static class Actions
         {
             if (width != 0.0f)
             {
-                ImGui.SetNextItemWidth(width);
+                ImGui.SetNextItemWidth(width * ImGuiHelpers.GlobalScale);
             }
             else
             {
@@ -150,7 +151,7 @@ internal static class Actions
         {
             if (width != 0.0f)
             {
-                ImGui.SetNextItemWidth(width);
+                ImGui.SetNextItemWidth(width * ImGuiHelpers.GlobalScale);
             }
 
             ImGui.InputText("", ref settingsCustomName.Value, 24);

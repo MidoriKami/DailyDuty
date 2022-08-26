@@ -14,7 +14,7 @@ namespace DailyDuty.UserInterface.Components.InfoBox;
 
 internal class InfoBox : IDrawable
 {
-    private static float CurveRadius => 13.0f;
+    private static float CurveRadius => 13.0f * ImGuiHelpers.GlobalScale;
     private static float BorderThickness => 2.0f;
     private static int SegmentResolution => 10;
     private static float RegionWidth => 0.80f;
