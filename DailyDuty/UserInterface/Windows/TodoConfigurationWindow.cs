@@ -99,7 +99,6 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
             .AddConfigColor(Strings.Common.Header, Settings.TaskColors.HeaderColor)
             .AddConfigColor(Strings.Common.Incomplete, Settings.TaskColors.IncompleteColor)
-            .AddConfigColor(Strings.Common.Unavailable, Settings.TaskColors.UnavailableColor)
             .AddConfigColor(Strings.Common.Complete, Settings.TaskColors.CompleteColor)
             .Draw();
     }

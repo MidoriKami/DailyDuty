@@ -10,14 +10,15 @@ namespace DailyDuty.System;
 internal class CommandManager : IDisposable
 {
     private const string SettingsCommand = "/dd";
+
     private const string HelpCommand = "/dd help";
 
     private readonly List<IPluginCommand> commands = new()
     {
         new ConfigurationWindowCommand(),
-        new StatusWindowCommand(),
         new PrintHelpTextCommand(),
         new TodoWindowCommand(),
+        new StatusWindowCommand(),
         new TimersWindowCommand(),
     };
 

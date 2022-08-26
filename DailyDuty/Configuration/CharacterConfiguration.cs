@@ -30,6 +30,7 @@ internal class CharacterConfiguration
     public LevequestSettings Levequest = new();
     public MiniCactpotSettings MiniCactpot = new();
     public TreasureMapSettings TreasureMap = new();
+    public WondrousTailsSettings WondrousTails = new();
 
     public void Save()
     {

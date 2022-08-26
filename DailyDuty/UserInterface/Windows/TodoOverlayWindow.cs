@@ -140,7 +140,7 @@ internal class TodoOverlayWindow : Window, IDisposable
         ImGui.PopStyleColor();
     }
 
-    private IEnumerable<ITodoComponent> GetTrackedTasks()
+    private static IEnumerable<ITodoComponent> GetTrackedTasks()
     {
         var tasks = new List<ITodoComponent>();
 
@@ -180,10 +180,6 @@ internal class TodoOverlayWindow : Window, IDisposable
 
                 case ModuleStatus.Incomplete:
                     ImGui.TextColored(Settings.TaskColors.IncompleteColor.Value, taskLabel);
-                    break;
-
-                case ModuleStatus.Unavailable:
-                    ImGui.TextColored(Settings.TaskColors.UnavailableColor.Value, taskLabel);
                     break;
 
                 case ModuleStatus.Complete:

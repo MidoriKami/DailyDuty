@@ -162,7 +162,7 @@ internal class TreasureMap : IModule
             // Do Nothing
         }
 
-        public ModuleStatus GetModuleStatus() => TimeUntilNextMap() != TimeSpan.Zero ? ModuleStatus.Incomplete : ModuleStatus.Complete;
+        public ModuleStatus GetModuleStatus() => TimeUntilNextMap() == TimeSpan.Zero ? ModuleStatus.Incomplete : ModuleStatus.Complete;
 
         private void HandleChat(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
@@ -193,7 +193,7 @@ internal class TreasureMap : IModule
             return MapList.Maps.FirstOrDefault(map => map.ItemID == itemID);
         }
 
-        public TimeSpan TimeUntilNextMap()
+        private TimeSpan TimeUntilNextMap()
         {
             var lastMapTime = Settings.LastMapGathered;
             var nextAvailableTime = lastMapTime.AddHours(18);
@@ -211,6 +211,11 @@ internal class TreasureMap : IModule
         public string GetNextTreasureMap()
         {
             var span = TimeUntilNextMap();
+
+            if (span == TimeSpan.Zero)
+            {
+                return Strings.Module.TreasureMap.MapAvailable;
+            }
 
             return TimersOverlayWindow.FormatTimespan(span, TimerStyle.Full);
         }

@@ -13,9 +13,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Log.Verbose("Inflating Service Class");
         pluginInterface.Create<Service>();
 
-        Service.EventManager = new DutyEventManager();
         Service.TeleportManager = new TeleportManager();
         Service.ConfigurationManager = new ConfigurationManager();
+        Service.EventManager = new DutyEventManager();
         Service.LocalizationManager = new LocalizationManager();
         Service.PayloadManager = new ChatPayloadManager();
         Service.ModuleManager = new ModuleManager();

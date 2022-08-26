@@ -5,7 +5,7 @@
 		<Authors></Authors>
 		<Company></Company>
 		<Version>1.0</Version>
-		<AssemblyVersion>3.0.0.0</AssemblyVersion>
+		<AssemblyVersion>3.0.0.1</AssemblyVersion>
 		<Description></Description>
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
@@ -47,41 +47,26 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\translations\**" Link="translations\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
+		<Content Include="..\translations\**" Link="translations\%(RecursiveDir)\%(Filename)%(Extension)"
+		         CopyToOutputDirectory="Always" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Modules\Template\**" />
-	  <EmbeddedResource Remove="Modules\Template\**" />
-	  <None Remove="Modules\Template\**" />
+		<Compile Remove="Modules\Template\**" />
+		<EmbeddedResource Remove="Modules\Template\**" />
+		<None Remove="Modules\Template\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Remove="..\images\BeastTribe.png" />
-	  <Content Remove="..\images\CustomDelivery.png" />
-	  <Content Remove="..\images\DailyHuntMarks.png" />
-	  <Content Remove="..\images\DomanEnclave.png" />
-	  <Content Remove="..\images\DutyRoulette.png" />
-	  <Content Remove="..\images\DutyRouletteDutyFinderOverlay.png" />
-	  <Content Remove="..\images\FashionReport.png" />
-	  <Content Remove="..\images\JumboCactpot.png" />
-	  <Content Remove="..\images\Levequest.png" />
-	  <Content Remove="..\images\MiniCactpot.png" />
-	  <Content Remove="..\images\TimersWindow.png" />
-	  <Content Remove="..\images\TodoWindow.png" />
-	  <Content Remove="..\images\TreasureMap.png" />
-	  <Content Remove="..\images\WeeklyHuntMarks.png" />
-	  <Content Remove="..\images\WondrousTails.png" />
-	  <Content Remove="..\images\WondrousTailsDutyFinderOverlay.png" />
-	  <Content Remove="..\translations\DailyDuty_de.json" />
-	  <Content Remove="..\translations\DailyDuty_es.json" />
-	  <Content Remove="..\translations\DailyDuty_fr.json" />
-	  <Content Remove="..\translations\DailyDuty_it.json" />
-	  <Content Remove="..\translations\DailyDuty_ja.json" />
-	  <Content Remove="..\translations\DailyDuty_Localizable.json" />
-	  <Content Remove="..\translations\DailyDuty_no.json" />
-	  <Content Remove="..\translations\DailyDuty_pt.json" />
-	  <Content Remove="..\translations\DailyDuty_ru.json" />
+		<Content Remove="..\translations\DailyDuty_de.json" />
+		<Content Remove="..\translations\DailyDuty_es.json" />
+		<Content Remove="..\translations\DailyDuty_fr.json" />
+		<Content Remove="..\translations\DailyDuty_it.json" />
+		<Content Remove="..\translations\DailyDuty_ja.json" />
+		<Content Remove="..\translations\DailyDuty_Localizable.json" />
+		<Content Remove="..\translations\DailyDuty_no.json" />
+		<Content Remove="..\translations\DailyDuty_pt.json" />
+		<Content Remove="..\translations\DailyDuty_ru.json" />
 	</ItemGroup>
 
 	<ItemGroup>

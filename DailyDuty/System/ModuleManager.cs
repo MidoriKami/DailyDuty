@@ -22,6 +22,7 @@ internal class ModuleManager : IDisposable
         new Levequest(),
         new MiniCactpot(),
         new TreasureMap(),
+        new WondrousTails(),
     };
 
     public void Dispose()

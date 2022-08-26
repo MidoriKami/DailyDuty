@@ -78,19 +78,19 @@ public class MainWindow
 public class Help
 {
     public readonly string Timers = Loc.Localize("Help_Timers", "\n/dd timers - Shows timer configuration window\n" +
-                                                                "/dd timers help - Shows this help message\n" +
+                                                                "/dd help timers - Shows this help message\n" +
                                                                 "/dd timers show - Shows the timers window\n" +
                                                                 "/dd timers hide - Hides the timers window");
 
     public readonly string Todo = Loc.Localize("Help_Todo", "\n/dd todo - Shows todo configuration window\n" +
-                                                            "/dd todo help - Shows this help message\n" +
+                                                            "/dd help todo - Shows this help message\n" +
                                                             "/dd todo show - Shows the todo window\n" +
                                                             "/dd todo hide - Hides the todo window");
 
     public readonly string Base = Loc.Localize("Help_Base", "Command Overview\n" +
                                                             "/dd - Show or Hide Main Window\n" +
-                                                            "/dd timers help - Show timer sub-commands\n" +
-                                                            "/dd todo help - Show todo sub-commands");
+                                                            "/dd help timers - Show timer sub-commands\n" +
+                                                            "/dd help todo - Show todo sub-commands");
 }
 
 public class Module
@@ -141,7 +141,8 @@ public class DutyRoulette
     public readonly string ClickableLinkLabel = Loc.Localize("DutyRoulette_ClickableLinkLabel", "Clickable Link");
     public readonly string ClickableLink = Loc.Localize("DutyRoulette_ClickableLink", "Notifications can be clicked on to open the Duty Finder");
     public readonly string Remaining = Loc.Localize("DutyRoulette_Remaining", "Roulettes Remaining");
-    public readonly string HideExpertWhenCapped = Loc.Localize("DutyRoulette_HideExpertWhenCapped", "Hide Expert when Tomecapped");
+    public readonly string HideExpertWhenCapped = Loc.Localize("DutyRoulette_HideExpertWhenCapped", "");
+    public readonly string HideExpertHelp = Loc.Localize("DutyRoulette_HideExpertHelp", "Marks the Expert Roulette as complete when you are at your weekly tomestone cap");
     public readonly string ExpertTomestones = Loc.Localize("DutyRoulette_ExpertTomestones", "Expert Tomestones");
     public readonly string Overlay = Loc.Localize("DutyRoulette_Overlay", "Duty Finder Overlay");
     public readonly string DutyComplete = Loc.Localize("DutyRoulette_DutyComplete", "Duty Complete");
@@ -223,7 +224,16 @@ public class TreasureMap
 
 public class WondrousTails
 {
-
+    public readonly string Label = Loc.Localize("WondrousTails_Label", "Wondrous Tails");
+    public readonly string UnavailableMessage = Loc.Localize("WondrousTails_UnavailableMessage", "This instance is available for a stamp if you re-roll it");
+    public readonly string UnavailableRerollMessage = Loc.Localize("WondrousTails_UnavailableRerollMessage", "You have {0} Re-Rolls Available");
+    public readonly string AvailableMessage = Loc.Localize("WondrousTails_AvailableMessage", "A stamp is already available for this instance");
+    public readonly string CompletableMessage = Loc.Localize("WondrousTails_CompletableMessage", "Completing this instance will reward you with a stamp");
+    public readonly string ClaimableMessage = Loc.Localize("WondrousTails_ClaimableMessage", "You can claim a stamp for the last instance");
+    public readonly string BookAvailable = Loc.Localize("WondrousTails_BookAvailable", "Book Available");
+    public readonly string DutyNotifications = Loc.Localize("WondrousTails_DutyNotifications", "Duty Start/End Notifications");
+    public readonly string UnclaimedBookNotifications = Loc.Localize("WondrousTails_UnclaimedBookNotifications", "Unclaimed Book Warning");
+    public readonly string Stamps = Loc.Localize("WondrousTails_Stamps", "Stamps");
 }
 
 public class UserInterface
@@ -276,6 +286,7 @@ public class Timers
     public readonly string SizeOptions = Loc.Localize("Timers_SizeOptions", "Size Options");
     public readonly string StretchToFit = Loc.Localize("Timers_StretchToFit", "Stretch to Fit");
     public readonly string Size = Loc.Localize("Timers_Size", "Size");
+    public readonly string AvailableNow = Loc.Localize("Timers_AvailableNow", "Available Now");
 }
 
 public class Teleport

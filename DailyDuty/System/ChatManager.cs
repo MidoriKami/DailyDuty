@@ -34,7 +34,7 @@ internal class ChatManager : IDisposable
     private void OnCharacterDataAvailable(object? sender, CharacterConfiguration e)
     {
         OnLoginMessage?.Invoke(this, EventArgs.Empty);
-        stopwatch.Reset();
+        stopwatch.Restart();
     }
     
     private void ClientStateOnTerritoryChanged(object? sender, ushort e)
@@ -50,6 +50,4 @@ internal class ChatManager : IDisposable
             Log.Verbose($"Zone Change Messages Suppressed, '{lockoutRemaining}' Remaining");
         }
     }
-
-
 }

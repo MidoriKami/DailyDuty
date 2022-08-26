@@ -24,6 +24,9 @@ internal interface ILogicComponent : IDisposable
 
         var moduleName = ParentModule.Name.GetLocalizedString();
 
+        var statusMessage = GetStatusMessage();
+
+        if(statusMessage == string.Empty) return;
         Chat.Print(moduleName, GetStatusMessage(), DalamudLinkPayload);
     }        
         
@@ -37,6 +40,9 @@ internal interface ILogicComponent : IDisposable
 
         var moduleName = ParentModule.Name.GetLocalizedString();
 
+        var statusMessage = GetStatusMessage();
+
+        if(statusMessage == string.Empty) return;
         Chat.Print(moduleName, GetStatusMessage(), DalamudLinkPayload);
     }
 

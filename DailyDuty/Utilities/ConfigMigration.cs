@@ -33,6 +33,19 @@ internal static class ConfigMigration
             Levequest = GetLevequest(),
             MiniCactpot = GetMiniCactpot(),
             TreasureMap = GetTreasureMap(),
+            WondrousTails = GetWondrousTails(),
+        };
+    }
+
+    private static WondrousTailsSettings GetWondrousTails()
+    {
+        return new WondrousTailsSettings
+        {
+            InstanceNotifications = GetSettingValue<bool>("WondrousTails.InstanceNotifications"),
+            Enabled = GetSettingValue<bool>("WondrousTails.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("WondrousTails.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("WondrousTails.LoginReminder"),
+            EnableClickableLink = GetSettingValue<bool>("WondrousTails.EnableOpenBookLink"),
         };
     }
 
@@ -117,6 +130,8 @@ internal static class ConfigMigration
     {
         return new FashionReportSettings
         {
+            AllowancesRemaining = GetValue<int>("FashionReport.AllowancesRemaining"),
+            HighestWeeklyScore = GetValue<int>("FashionReport.HighestWeeklyScore"),
             NextReset = GetValue<DateTime>("FashionReport.NextReset"),
             Enabled = GetSettingValue<bool>("FashionReport.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("FashionReport.ZoneChangeReminder"),

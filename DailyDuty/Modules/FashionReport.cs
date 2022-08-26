@@ -304,23 +304,8 @@ internal class FashionReport : IModule
             ParentModule = parentModule;
         }
 
-        public DateTime GetNextReset()
-        {
-            var now = DateTime.UtcNow;
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(4);
 
-            var fashionReportOpen = Time.NextFashionReportReset();
-            var fashionReportClose = Time.NextWeeklyReset();
-
-            if (now > fashionReportOpen && now < fashionReportClose)
-            {
-                return Time.NextWeeklyReset().AddDays(3);
-            }
-            else
-            {
-                return Time.NextFashionReportReset();
-            }
-        }
-
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
+        public DateTime GetNextReset() => Time.NextFashionReportReset();
     }
 }

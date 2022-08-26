@@ -167,10 +167,19 @@ internal class TimersOverlayWindow : Window, IDisposable
         ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + 5.0f});
         ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetLocalizedString());
 
-        var timeText = FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
-        var timeTextSize = ImGui.CalcTextSize(timeText);
-        ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
-        ImGui.TextColored(timerSettings.TimeColor.Value, timeText);
+        if (remainingTime >= TimeSpan.Zero)
+        {
+            var timeText = FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
+            var timeTextSize = ImGui.CalcTextSize(timeText);
+            ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
+            ImGui.TextColored(timerSettings.TimeColor.Value, timeText);
+        }
+        else
+        {
+            var timeTextSize = ImGui.CalcTextSize(Strings.UserInterface.Timers.AvailableNow);
+            ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
+            ImGui.TextColored(timerSettings.TimeColor.Value, Strings.UserInterface.Timers.AvailableNow);
+        }
 
         ImGui.EndGroup();
 
