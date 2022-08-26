@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Configuration;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules;
+using DailyDuty.Modules.Special;
 
 namespace DailyDuty.System;
 
@@ -25,12 +27,30 @@ internal class ModuleManager : IDisposable
         new WondrousTails(),
     };
 
+    private readonly IModule dailyTimer = new DailyTimerModule();
+    private readonly IModule weeklyTimer = new WeeklyTimerModule();
+
+    public ModuleManager()
+    {
+        Service.ConfigurationManager.OnCharacterDataAvailable += OverrideTimersEnabled;
+    }
+
+    private void OverrideTimersEnabled(object? sender, CharacterConfiguration e)
+    {
+        dailyTimer.GenericSettings.Enabled.Value = true;
+        weeklyTimer.GenericSettings.Enabled.Value = true;
+
+        Service.ConfigurationManager.Save();
+    }
+
     public void Dispose()
     {
         foreach (var module in Modules)
         {
             module.Dispose();
         }
+
+        Service.ConfigurationManager.OnCharacterDataAvailable -= OverrideTimersEnabled;
     }
 
     public IEnumerable<ISelectable> GetConfigurationSelectables()
@@ -54,8 +74,12 @@ internal class ModuleManager : IDisposable
 
     public IEnumerable<ITimerComponent> GetTimerComponents()
     {
-        return Modules
-            .Select(module => module.TimerComponent);
+        var moduleComponents = Modules.Select(module => module.TimerComponent).ToList();
+
+        moduleComponents.Add(dailyTimer.TimerComponent);
+        moduleComponents.Add(weeklyTimer.TimerComponent);
+
+        return moduleComponents;
     }
 
     public IEnumerable<ILogicComponent> GetLogicComponents()

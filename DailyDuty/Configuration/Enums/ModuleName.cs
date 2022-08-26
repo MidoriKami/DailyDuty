@@ -17,6 +17,8 @@ public enum ModuleName
     MiniCactpot,
     TreasureMap,
     WondrousTails,
+    Daily,
+    Weekly,
 }
 
 public static class ModuleNameExtensions
@@ -37,6 +39,8 @@ public static class ModuleNameExtensions
             ModuleName.MiniCactpot => Strings.Module.MiniCactpot.Label,
             ModuleName.TreasureMap => Strings.Module.TreasureMap.Label,
             ModuleName.WondrousTails => Strings.Module.WondrousTails.Label,
+            ModuleName.Daily => Strings.Common.Daily,
+            ModuleName.Weekly => Strings.Common.Weekly,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

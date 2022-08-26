@@ -2,6 +2,7 @@
 using System.IO;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.Configuration.ModuleSettings.Special;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Utilities;
 using Newtonsoft.Json;
@@ -31,6 +32,10 @@ internal class CharacterConfiguration
     public MiniCactpotSettings MiniCactpot = new();
     public TreasureMapSettings TreasureMap = new();
     public WondrousTailsSettings WondrousTails = new();
+
+    // Timer Modules
+    public DailySettings Daily = new();
+    public WeeklySettings Weekly = new();
 
     public void Save()
     {
