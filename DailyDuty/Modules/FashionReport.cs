@@ -144,7 +144,7 @@ internal class FashionReport : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.DomanEnclave);
+        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
         private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
 
