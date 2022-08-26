@@ -165,7 +165,15 @@ internal class TimersOverlayWindow : Window, IDisposable
         ImGui.ProgressBar(deltaTime, new Vector2(timerSettings.Size.Value, 20), "");
 
         ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + 5.0f});
-        ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetLocalizedString());
+
+        if (timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value)
+        {
+            ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value);
+        }
+        else
+        {
+            ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetLocalizedString());
+        }
 
         if (remainingTime >= TimeSpan.Zero)
         {

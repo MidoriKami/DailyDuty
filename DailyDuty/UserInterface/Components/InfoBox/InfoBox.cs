@@ -240,4 +240,11 @@ internal class InfoBox : IDrawable
 
         return this;
     }
+
+    public InfoBox AddConfigString(Setting<string> settingsCustomName)
+    {
+        drawActions.Add(Actions.GetConfigString(settingsCustomName));
+
+        return this;
+    }
 }

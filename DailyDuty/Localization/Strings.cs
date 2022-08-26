@@ -287,6 +287,8 @@ public class Timers
     public readonly string StretchToFit = Loc.Localize("Timers_StretchToFit", "Stretch to Fit");
     public readonly string Size = Loc.Localize("Timers_Size", "Size");
     public readonly string AvailableNow = Loc.Localize("Timers_AvailableNow", "Available Now");
+    public readonly string Name = Loc.Localize("Timers_Name", "Display Name");
+    public readonly string EnableCustomName = Loc.Localize("Timers_EnableCustomName", "Enable Custom Name");
 }
 
 public class Teleport

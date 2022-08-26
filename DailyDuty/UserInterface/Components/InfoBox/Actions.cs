@@ -143,4 +143,22 @@ internal static class Actions
             }
         };
     }
+
+    public static Action GetConfigString(Setting<string> settingsCustomName, float width = 0.0f)
+    {
+        return () =>
+        {
+            if (width != 0.0f)
+            {
+                ImGui.SetNextItemWidth(width);
+            }
+
+            ImGui.InputText("", ref settingsCustomName.Value, 24);
+
+            if (ImGui.IsItemDeactivatedAfterEdit())
+            {
+                Service.ConfigurationManager.Save();
+            }
+        };
+    }
 }

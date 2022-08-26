@@ -15,6 +15,7 @@ internal class TimersStyleWindow : Window, IDisposable
     private IModule OwnerModule { get; }
 
     private readonly InfoBox timeDisplay = new();
+    private readonly InfoBox labelDisplay = new();
     private readonly InfoBox colorOptions = new();
     private readonly InfoBox sizeOptions = new();
 
@@ -48,6 +49,12 @@ internal class TimersStyleWindow : Window, IDisposable
             .AddTitle(Strings.UserInterface.Timers.TimeDisplay)
             .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle,
                 TimerStyleExtensions.GetLabel, width: 175.0f)
+            .Draw();
+
+        labelDisplay
+            .AddTitle(Strings.UserInterface.Timers.Name)
+            .AddConfigCheckbox(Strings.UserInterface.Timers.EnableCustomName, Settings.UseCustomName)
+            .AddConfigString(Settings.CustomName)
             .Draw();
 
         colorOptions

@@ -29,6 +29,8 @@ public class TimerSettings
     public Setting<Vector4> TimeColor = new(Colors.White);
     public Setting<int> Size = new(200);
     public Setting<bool> StretchToFit = new(false);
+    public Setting<bool> UseCustomName = new(false);
+    public Setting<string> CustomName = new(string.Empty);
 }
 
 public static class TimerStyleExtensions
