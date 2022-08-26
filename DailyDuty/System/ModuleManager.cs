@@ -21,6 +21,7 @@ internal class ModuleManager : IDisposable
         new JumboCactpot(),
         new Levequest(),
         new MiniCactpot(),
+        new TreasureMap(),
     };
 
     public void Dispose()

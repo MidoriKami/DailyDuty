@@ -32,6 +32,19 @@ internal static class ConfigMigration
             JumboCactpot = GetJumboCactpot(),
             Levequest = GetLevequest(),
             MiniCactpot = GetMiniCactpot(),
+            TreasureMap = GetTreasureMap(),
+        };
+    }
+
+    private static TreasureMapSettings GetTreasureMap()
+    {
+        return new TreasureMapSettings
+        {
+            LastMapGathered = GetValue<DateTime>("TreasureMap.LastMapGathered"),
+            NextReset = GetValue<DateTime>("TreasureMap.NextReset"),
+            Enabled = GetSettingValue<bool>("TreasureMap.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("TreasureMap.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("TreasureMap.LoginReminder"),
         };
     }
 

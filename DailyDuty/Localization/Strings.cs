@@ -216,7 +216,9 @@ public class MiniCactpot
 
 public class TreasureMap
 {
-
+    public readonly string Label = Loc.Localize("TreasureMap_Label", "Treasure Map");
+    public readonly string MapAvailable = Loc.Localize("TreasureMap_MapAvailable", "Map Available");
+    public readonly string NextMap = Loc.Localize("TreasureMap_NextMap", "Next Map");
 }
 
 public class WondrousTails

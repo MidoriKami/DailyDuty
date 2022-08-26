@@ -29,6 +29,7 @@ internal class CharacterConfiguration
     public JumboCactpotSettings JumboCactpot = new();
     public LevequestSettings Levequest = new();
     public MiniCactpotSettings MiniCactpot = new();
+    public TreasureMapSettings TreasureMap = new();
 
     public void Save()
     {
