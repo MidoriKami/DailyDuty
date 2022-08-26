@@ -113,7 +113,7 @@ internal class DomanEnclave : IModule
 
                 .AddRow(
                     Strings.Module.DomanEnclave.CurrentAllowance,
-                    logicModule.GetWeeklyAllowance().ToString()
+                    Settings.WeeklyAllowance.ToString()
                 )
 
                 .EndTable()
@@ -153,7 +153,6 @@ internal class DomanEnclave : IModule
         private void FrameworkOnUpdate(Framework framework)
         {
             if (!Service.ConfigurationManager.CharacterDataLoaded) return;
-
             if (!DataAvailable()) return;
 
             UpdateWeeklyAllowance();
@@ -219,7 +218,7 @@ internal class DomanEnclave : IModule
 
         public int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
         private bool DataAvailable() => GetWeeklyAllowance() != 0;
-        public bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
+        private bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
     }
 
     private class ModuleTodoComponent : ITodoComponent
