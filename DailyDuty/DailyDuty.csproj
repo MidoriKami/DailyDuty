@@ -51,7 +51,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Modules\Template\ModuleTemplate.cs" />
+	  <Compile Remove="Modules\Template\**" />
+	  <EmbeddedResource Remove="Modules\Template\**" />
+	  <None Remove="Modules\Template\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -119,9 +121,5 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Modules\Template\" />
 	</ItemGroup>
 </Project>

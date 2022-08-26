@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DailyDuty.Configuration;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
@@ -28,6 +29,21 @@ internal static class ConfigMigration
             FashionReport = GetFashionReport(),
             HuntMarksDaily = GetHuntMarksDaily(),
             HuntMarksWeekly = GetHuntMarksWeekly(),
+            JumboCactpot = GetJumboCactpot(),
+        };
+    }
+
+    private static JumboCactpotSettings GetJumboCactpot()
+    {
+        return new JumboCactpotSettings
+        {
+            NextReset = GetValue<DateTime>("JumboCactpot.NextReset"),
+            Enabled = GetSettingValue<bool>("JumboCactpot.Enabled"),
+            NotifyOnZoneChange = GetSettingValue<bool>("JumboCactpot.ZoneChangeReminder"),
+            NotifyOnLogin = GetSettingValue<bool>("JumboCactpot.LoginReminder"),
+            EnableClickableLink = GetSettingValue<bool>("JumboCactpot.EnableClickableLink"),
+            TodoUseLongLabel = GetSettingValue<bool>("JumboCactpot.ExpandedDisplay"),
+            Tickets = GetTickets("JumboCactpot.Tickets"),
         };
     }
 
@@ -35,6 +51,7 @@ internal static class ConfigMigration
     {
         return new HuntMarksWeeklySettings
         {
+            NextReset = GetValue<DateTime>("WeeklyHuntMarks.NextReset"),
             Enabled = GetSettingValue<bool>("WeeklyHuntMarks.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("WeeklyHuntMarks.ZoneChangeReminder"),
             NotifyOnLogin = GetSettingValue<bool>("WeeklyHuntMarks.LoginReminder"),
@@ -47,6 +64,7 @@ internal static class ConfigMigration
     {
         return new HuntMarksDailySettings
         {
+            NextReset = GetValue<DateTime>("DailyHuntMarks.NextReset"),
             Enabled = GetSettingValue<bool>("DailyHuntMarks.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("DailyHuntMarks.ZoneChangeReminder"),
             NotifyOnLogin = GetSettingValue<bool>("DailyHuntMarks.LoginReminder"),
@@ -59,6 +77,7 @@ internal static class ConfigMigration
     {
         return new FashionReportSettings
         {
+            NextReset = GetValue<DateTime>("FashionReport.NextReset"),
             Enabled = GetSettingValue<bool>("FashionReport.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("FashionReport.ZoneChangeReminder"),
             NotifyOnLogin = GetSettingValue<bool>("FashionReport.LoginReminder"),
@@ -71,6 +90,7 @@ internal static class ConfigMigration
     {
         return new DutyRouletteSettings
         {
+            NextReset = GetValue<DateTime>("DutyRoulette.NextReset"),
             Enabled = GetSettingValue<bool>("DutyRoulette.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("DutyRoulette.ZoneChangeReminder"),
             NotifyOnLogin = GetSettingValue<bool>("DutyRoulette.LoginReminder"),
@@ -95,6 +115,7 @@ internal static class ConfigMigration
     {
         return new DomanEnclaveSettings
         {
+            NextReset = GetValue<DateTime>("DomanEnclave.NextReset"),
             EnableClickableLink = GetSettingValue<bool>("DomanEnclave.EnableClickableLink"),
             Enabled = GetSettingValue<bool>("DomanEnclave.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("DomanEnclave.ZoneChangeReminder"),
@@ -106,6 +127,7 @@ internal static class ConfigMigration
     {
         return new CustomDeliverySettings
         {
+            NextReset = GetValue<DateTime>("CustomDelivery.NextReset"),
             NotificationThreshold = GetSettingValue<int>("CustomDelivery.NotificationThreshold"),
             Enabled = GetSettingValue<bool>("CustomDelivery.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("CustomDelivery.ZoneChangeReminder"),
@@ -118,6 +140,7 @@ internal static class ConfigMigration
     {
         return new BeastTribeSettings
         {
+            NextReset = GetValue<DateTime>("BeastTribe.NextReset"),
             NotificationThreshold = GetSettingValue<int>("BeastTribe.NotificationThreshold"),
             Enabled = GetSettingValue<bool>("BeastTribe.Enabled"),
             NotifyOnZoneChange = GetSettingValue<bool>("BeastTribe.ZoneChangeReminder"),
@@ -186,5 +209,12 @@ internal static class ConfigMigration
         }
 
         return resultArray;
+    }
+
+    private static List<int> GetTickets(string key)
+    {
+        var array = GetArray(key);
+
+        return array.ToObject<List<int>>()!;
     }
 }

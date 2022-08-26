@@ -18,6 +18,7 @@ internal class ModuleManager : IDisposable
         new FashionReport(),
         new HuntMarksDaily(),
         new HuntMarksWeekly(),
+        new JumboCactpot(),
     };
 
     public void Dispose()

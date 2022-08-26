@@ -188,7 +188,13 @@ public class HuntMarks
 
 public class JumboCactpot
 {
-
+    public readonly string Label = Loc.Localize("JumboCactpot_Label", "Jumbo Cactpot");
+    public readonly string Tickets = Loc.Localize("JumboCactpot_Tickets", "Tickets");
+    public readonly string NextDrawing = Loc.Localize("JumboCactpot_NextDrawing", "Next Drawing");
+    public readonly string ClickableLink = Loc.Localize("JumboCactpot_ClickableLink", "Notifications can be clocked on to teleport to the Gold Saucer");
+    public readonly string ClickableLinkLabel = Loc.Localize("JumboCactpot_ClickableLinkLabel", "Clickable Link");
+    public readonly string TicketsAvailable = Loc.Localize("JumboCactpot_TicketsAvailable", "Tickets Available");
+    public readonly string NoTickets = Loc.Localize("JumboCactpot_NoTickets", "No Tickets");
 }
 
 public class Levequest
