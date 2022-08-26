@@ -20,6 +20,7 @@
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<OutputPath>$(AppData)\XIVLauncher\devPlugins\DailyDuty\</OutputPath>
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 	</PropertyGroup>
 
 	<Target Name="GetGitHash" BeforeTargets="GetAssemblyVersion" Returns="InformationalVersion">
