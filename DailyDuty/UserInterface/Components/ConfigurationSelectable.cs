@@ -28,7 +28,7 @@ internal class ConfigurationSelectable : ISelectable
 
     private void DrawModuleLabel()
     {
-        ImGui.Text(OwnerModuleName.GetLocalizedString()[..Math.Min(OwnerModuleName.GetLocalizedString().Length, 20)]);
+        ImGui.Text(OwnerModuleName.GetTranslatedString()[..Math.Min(OwnerModuleName.GetTranslatedString().Length, 20)]);
     }
 
     private void DrawModuleStatus()

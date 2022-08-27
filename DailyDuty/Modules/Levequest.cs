@@ -65,7 +65,7 @@ internal class Levequest : IModule
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
                 .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
+                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString),
                     Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, 100.0f))
                 .EndTable()
                 .Draw();
@@ -105,7 +105,7 @@ internal class Levequest : IModule
 
                 .AddRow(
                     Strings.Status.ModuleStatus,
-                    moduleStatus.GetLocalizedString(),
+                    moduleStatus.GetTranslatedString(),
                     secondColor: moduleStatus.GetStatusColor())
 
                 .AddRow(

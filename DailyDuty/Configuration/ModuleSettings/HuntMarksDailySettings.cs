@@ -22,7 +22,7 @@ public record TrackedHunt(HuntMarkType HuntType, TrackedHuntState State, Setting
     {
         return new Tuple<Action?, Action?>(
             Actions.GetStringAction(HuntType.GetLabel()),
-            Actions.GetStringAction(State.GetLocalizedString(), color: State.GetColor()));
+            Actions.GetStringAction(State.GetTranslatedString(), color: State.GetColor()));
     }
 
     public TrackedHuntState State { get; set; } = State;
@@ -50,7 +50,7 @@ public class HuntMarksDailySettings : GenericSettings
 
 public static class TrackedHuntStateExtensions
 {
-    public static string GetLocalizedString(this TrackedHuntState state)
+    public static string GetTranslatedString(this TrackedHuntState state)
     {
         return state switch
         {

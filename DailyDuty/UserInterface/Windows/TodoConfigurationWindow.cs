@@ -95,7 +95,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowInDuty, Settings.HideWhileInDuty)
             .AddConfigCheckbox(Strings.UserInterface.Todo.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Todo.AutoResize, Settings.AutoResize)
-            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetLocalizedString, Strings.UserInterface.Todo.AnchorCorner)
+            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner)
             .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
             .AddConfigColor(Strings.Common.Header, Settings.TaskColors.HeaderColor)
             .AddConfigColor(Strings.Common.Incomplete, Settings.TaskColors.IncompleteColor)

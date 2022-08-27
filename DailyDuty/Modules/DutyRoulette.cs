@@ -84,7 +84,7 @@ internal class DutyRoulette : IModule
                     var checkboxAction = Actions.GetConfigCheckboxAction;
 
                     foreach (var roulette in Settings.TrackedRoulettes)
-                        checkboxAction(roulette.Roulette.GetLocalizedString(), roulette.Tracked, null).Invoke();
+                        checkboxAction(roulette.Roulette.GetTranslatedString(), roulette.Tracked, null).Invoke();
                 })
                 .Draw();
 
@@ -129,7 +129,7 @@ internal class DutyRoulette : IModule
                 .BeginTable()
                     .AddRow(
                         Strings.Status.ModuleStatus,
-                        moduleStatus.GetLocalizedString(),
+                        moduleStatus.GetTranslatedString(),
                         secondColor: moduleStatus.GetStatusColor())
                 .EndTable()
                 .Draw();
@@ -305,7 +305,7 @@ internal class DutyRoulette : IModule
         {
             var incompleteTasks = Settings.TrackedRoulettes
                 .Where(roulette => roulette.Tracked.Value && roulette.Completed == false)
-                .Select(roulette => roulette.Roulette.GetLocalizedString());
+                .Select(roulette => roulette.Roulette.GetTranslatedString());
 
             return string.Join("\n", incompleteTasks);
         }

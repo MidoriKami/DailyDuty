@@ -112,7 +112,7 @@ internal class WondrousTails : IModule
 
                 .AddRow(
                     Strings.Status.ModuleStatus,
-                    moduleStatus.GetLocalizedString(),
+                    moduleStatus.GetTranslatedString(),
                     secondColor: moduleStatus.GetStatusColor())
 
                 .AddRow(

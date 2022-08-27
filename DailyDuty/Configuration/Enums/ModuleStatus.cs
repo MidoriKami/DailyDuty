@@ -15,7 +15,7 @@ public enum ModuleStatus
 
 public static class ModuleStatusExtensions
 {
-    public static string GetLocalizedString(this ModuleStatus value)
+    public static string GetTranslatedString(this ModuleStatus value)
     {
         return value switch
         {

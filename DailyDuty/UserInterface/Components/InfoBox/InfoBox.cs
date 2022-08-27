@@ -176,13 +176,13 @@ internal class InfoBox : IDrawable
             {
                 BeginTable()
                     .AddActions(
-                        Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetLocalizedString(), component.ParentModule.GenericSettings.TodoTaskEnabled),
+                        Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TodoTaskEnabled),
                         Actions.GetConfigCheckboxAction(Strings.UserInterface.Todo.UseLongLabel, component.ParentModule.GenericSettings.TodoUseLongLabel))
                     .EndTable();
             }
             else
             {
-                AddConfigCheckbox(component.ParentModule.Name.GetLocalizedString(), component.ParentModule.GenericSettings.TodoTaskEnabled);
+                AddConfigCheckbox(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TodoTaskEnabled);
             }
         }
 
@@ -202,7 +202,7 @@ internal class InfoBox : IDrawable
         {
             BeginTable()
                 .AddActions(
-                    Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetLocalizedString(), component.ParentModule.GenericSettings.TimerTaskEnabled),
+                    Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TimerTaskEnabled),
                     () => {
                         if (ImGui.Button(Strings.UserInterface.Timers.EditTimer))
                         {

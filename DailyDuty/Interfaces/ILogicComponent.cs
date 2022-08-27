@@ -22,7 +22,7 @@ internal interface ILogicComponent : IDisposable
         if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete) return;
         if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable) return;
 
-        var moduleName = ParentModule.Name.GetLocalizedString();
+        var moduleName = ParentModule.Name.GetTranslatedString();
 
         var statusMessage = GetStatusMessage();
 
@@ -38,7 +38,7 @@ internal interface ILogicComponent : IDisposable
         if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete) return;
         if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable) return;
 
-        var moduleName = ParentModule.Name.GetLocalizedString();
+        var moduleName = ParentModule.Name.GetTranslatedString();
 
         var statusMessage = GetStatusMessage();
 

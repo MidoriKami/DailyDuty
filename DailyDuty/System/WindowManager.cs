@@ -64,7 +64,7 @@ internal class WindowManager : IDisposable
 
     public void AddTimerStyleWindow(IModule parentModule, TimerSettings genericSettingsTimerSettings)
     {
-        var windowTitle = $"{Strings.UserInterface.Timers.EditTimerTitle} - {parentModule.Name.GetLocalizedString()}";
+        var windowTitle = $"{Strings.UserInterface.Timers.EditTimerTitle} - {parentModule.Name.GetTranslatedString()}";
 
         if (!windowSystem.Windows.Any(window => window.WindowName == windowTitle))
         {

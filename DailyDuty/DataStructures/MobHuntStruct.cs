@@ -156,7 +156,7 @@ public static class HuntMarkTypeExtensions
 {
     public static string GetLabel(this HuntMarkType value)
     {
-        var expansionLabel = value.GetExpansion().GetLocalizedString();
+        var expansionLabel = value.GetExpansion().GetTranslatedString();
         var level = value.GetLevel();
 
         return expansionLabel + " " + level;
@@ -239,7 +239,7 @@ public static class HuntMarkTypeExtensions
 
 public static class ExpansionExtensions
 {
-    public static string GetLocalizedString(this Expansion value)
+    public static string GetTranslatedString(this Expansion value)
     {
         switch (value)
         {

@@ -158,13 +158,13 @@ internal class TimersOverlayWindow : Window, IDisposable
         ImGui.PushStyleColor(ImGuiCol.PlotHistogram, timerSettings.ForegroundColor.Value);
 
         ImGui.BeginGroup();
-            
+
         var remainingTime = timer.GetNextReset() - DateTime.UtcNow;
         var deltaTime = 1.0f - (float)(remainingTime / timer.GetTimerPeriod());
         var cursorStart = ImGui.GetCursorPos();
         ImGui.ProgressBar(deltaTime, new Vector2(timerSettings.Size.Value, 20), "");
 
-        ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + 5.0f});
+        ImGui.SetCursorPos(cursorStart with { X = cursorStart.X + 5.0f });
 
         if (timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value)
         {
@@ -172,20 +172,20 @@ internal class TimersOverlayWindow : Window, IDisposable
         }
         else
         {
-            ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetLocalizedString());
+            ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetTranslatedString());
         }
 
         if (remainingTime >= TimeSpan.Zero)
         {
             var timeText = FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
             var timeTextSize = ImGui.CalcTextSize(timeText);
-            ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
+            ImGui.SetCursorPos(cursorStart with { X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X });
             ImGui.TextColored(timerSettings.TimeColor.Value, timeText);
         }
         else
         {
             var timeTextSize = ImGui.CalcTextSize(Strings.UserInterface.Timers.AvailableNow);
-            ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
+            ImGui.SetCursorPos(cursorStart with { X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X });
             ImGui.TextColored(timerSettings.TimeColor.Value, Strings.UserInterface.Timers.AvailableNow);
         }
 

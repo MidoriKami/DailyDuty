@@ -41,7 +41,7 @@ internal class TodoOverlaySettings
 
 public static class WindowAnchorExtensions
 {
-    public static string GetLocalizedString(this WindowAnchor anchor)
+    public static string GetTranslatedString(this WindowAnchor anchor)
     {
         return anchor switch
         {

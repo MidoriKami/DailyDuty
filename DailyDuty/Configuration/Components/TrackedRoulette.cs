@@ -25,7 +25,7 @@ public enum RouletteType
 
 public static class RouletteTypeExtensions
 {
-    public static string GetLocalizedString(this RouletteType type)
+    public static string GetTranslatedString(this RouletteType type)
     {
         return Service.DataManager.GetExcelSheet<ContentRoulette>()!.GetRow((uint) type)!.Category.RawString;
     }
@@ -36,7 +36,7 @@ public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, bool
     public Tuple<Action?, Action?> GetInfoBoxTableRow()
     {
         return new Tuple<Action?, Action?>(
-            Actions.GetStringAction(Roulette.GetLocalizedString()),
+            Actions.GetStringAction(Roulette.GetTranslatedString()),
             Actions.GetStringAction(Completed ? Strings.Common.Complete : Strings.Common.Incomplete, Completed ? Colors.Green : Colors.Red)
             );
     }

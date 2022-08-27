@@ -12,7 +12,7 @@ public enum ComparisonMode
 
 public static class ComparisonModeExtensions
 {
-    public static string GetLocalizedString(this ComparisonMode mode)
+    public static string GetTranslatedString(this ComparisonMode mode)
     {
         return mode switch
         {

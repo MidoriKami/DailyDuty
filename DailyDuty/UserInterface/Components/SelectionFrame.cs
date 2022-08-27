@@ -47,7 +47,7 @@ internal class SelectionFrame : IDrawable
             {
                 ImGui.PopStyleColor(1);
 
-                foreach (var item in Selectables.OrderBy(item => item.OwnerModuleName.GetLocalizedString()))
+                foreach (var item in Selectables.OrderBy(item => item.OwnerModuleName.GetTranslatedString()))
                 {
                     ImGui.PushID(item.OwnerModuleName.ToString());
 

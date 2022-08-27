@@ -23,7 +23,7 @@ public enum ModuleName
 
 public static class ModuleNameExtensions
 {
-    public static string GetLocalizedString(this ModuleName value)
+    public static string GetTranslatedString(this ModuleName value)
     {
         return value switch
         {

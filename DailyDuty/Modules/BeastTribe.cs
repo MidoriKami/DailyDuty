@@ -63,7 +63,7 @@ internal class BeastTribe : IModule
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
                 .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetLocalizedString),
+                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString),
                     Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f))
                 .EndTable()
                 .Draw();
@@ -103,7 +103,7 @@ internal class BeastTribe : IModule
 
                 .AddRow(
                     Strings.Status.ModuleStatus, 
-                    moduleStatus.GetLocalizedString(), 
+                    moduleStatus.GetTranslatedString(), 
                     secondColor: moduleStatus.GetStatusColor())
 
                 .AddRow(
@@ -120,7 +120,7 @@ internal class BeastTribe : IModule
 
                 .AddRow(
                     Strings.Common.Mode,
-                    Settings.ComparisonMode.Value.GetLocalizedString())
+                    Settings.ComparisonMode.Value.GetTranslatedString())
 
                 .AddRow(
                     Strings.Common.Target,

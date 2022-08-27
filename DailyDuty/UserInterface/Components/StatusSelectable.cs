@@ -31,7 +31,7 @@ internal class StatusSelectable : ISelectable
 
     private void DrawModuleLabel()
     {
-        ImGui.Text(OwnerModuleName.GetLocalizedString()[..Math.Min(OwnerModuleName.GetLocalizedString().Length, 20)]);
+        ImGui.Text(OwnerModuleName.GetTranslatedString()[..Math.Min(OwnerModuleName.GetTranslatedString().Length, 20)]);
     }
 
     private void DrawModuleStatus()
@@ -47,7 +47,7 @@ internal class StatusSelectable : ISelectable
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        var text = status.Invoke().GetLocalizedString();
+        var text = status.Invoke().GetTranslatedString();
 
         // Override Status if Module is Disabled
         if (!ParentModule.GenericSettings.Enabled.Value)

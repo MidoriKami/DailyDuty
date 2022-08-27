@@ -11,7 +11,7 @@ public enum CompletionType
 
 public static class CompletionTypeExtensions
 {
-    public static string GetLocalizedString(this CompletionType value)
+    public static string GetTranslatedString(this CompletionType value)
     {
         return value switch
         {

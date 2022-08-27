@@ -13,7 +13,7 @@ public enum FashionReportMode
 
 public static class FashionReportModeExtensions
 {
-    public static string GetLocalizedString(this FashionReportMode mode)
+    public static string GetTranslatedString(this FashionReportMode mode)
     {
         return mode switch
         {

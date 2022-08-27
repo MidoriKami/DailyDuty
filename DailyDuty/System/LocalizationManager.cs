@@ -24,8 +24,12 @@ internal class LocalizationManager : IDisposable
         localization.SetupWithLangCode(dalamudLanguage);
 
         Service.PluginInterface.LanguageChanged += LoadLocalization;
-    }
 
+#if DEBUG
+        localization.ExportLocalizable();
+#endif
+    }
+    
     public void Dispose()
     {
         Service.PluginInterface.LanguageChanged -= LoadLocalization;
