@@ -61,12 +61,8 @@
 		<Content Remove="..\translations\DailyDuty_de.json" />
 		<Content Remove="..\translations\DailyDuty_es.json" />
 		<Content Remove="..\translations\DailyDuty_fr.json" />
-		<Content Remove="..\translations\DailyDuty_it.json" />
 		<Content Remove="..\translations\DailyDuty_ja.json" />
 		<Content Remove="..\translations\DailyDuty_Localizable.json" />
-		<Content Remove="..\translations\DailyDuty_no.json" />
-		<Content Remove="..\translations\DailyDuty_pt.json" />
-		<Content Remove="..\translations\DailyDuty_ru.json" />
 	</ItemGroup>
 
 	<ItemGroup>
