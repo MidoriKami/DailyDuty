@@ -10,9 +10,9 @@ internal class TodoWindowCommand : IPluginCommand
     public void Execute(string? additionalArguments)
     {
         var configurationWindow = Service.WindowManager.GetWindowOfType<TodoConfigurationWindow>();
-        var overlayWindow = Service.WindowManager.GetWindowOfType<TodoOverlayWindow>();
+        var overlayWindow = Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled;
 
-        if (configurationWindow == null || overlayWindow == null) return;
+        if (configurationWindow == null) return;
 
         switch (additionalArguments)
         {
@@ -21,15 +21,15 @@ internal class TodoWindowCommand : IPluginCommand
                 break;
 
             case "show":
-                overlayWindow.IsOpen = true;
+                overlayWindow.Value = true;
                 break;
 
             case "hide":
-                overlayWindow.IsOpen = false;
+                overlayWindow.Value = false;
                 break;
 
             case "toggle":
-                overlayWindow.IsOpen = !overlayWindow.IsOpen;
+                overlayWindow.Value = !overlayWindow.Value;
                 break;
         }
     }

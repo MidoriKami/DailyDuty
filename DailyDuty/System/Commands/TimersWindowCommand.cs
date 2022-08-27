@@ -10,9 +10,9 @@ internal class TimersWindowCommand : IPluginCommand
     public void Execute(string? additionalArguments)
     {
         var configurationWindow = Service.WindowManager.GetWindowOfType<TimersConfigurationWindow>();
-        var overlayWindow = Service.WindowManager.GetWindowOfType<TimersOverlayWindow>();
+        var overlayWindow = Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled;
 
-        if (configurationWindow == null || overlayWindow == null) return;
+        if (configurationWindow == null) return;
 
         switch (additionalArguments)
         {
@@ -21,15 +21,15 @@ internal class TimersWindowCommand : IPluginCommand
                 break;
 
             case "show":
-                overlayWindow.IsOpen = true;
+                overlayWindow.Value = true;
                 break;
 
             case "hide":
-                overlayWindow.IsOpen = false;
+                overlayWindow.Value = false;
                 break;
 
             case "toggle":
-                overlayWindow.IsOpen = !overlayWindow.IsOpen;
+                overlayWindow.Value = !overlayWindow.Value;
                 break;
         }
     }
