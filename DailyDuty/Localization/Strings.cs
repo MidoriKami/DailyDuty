@@ -87,7 +87,7 @@ public class Help
                                                             "/dd help todo - Shows this help message\n" +
                                                             "/dd todo show - Shows the todo window\n" +
                                                             "/dd todo hide - Hides the todo window\n" +
-                                                            "/dd todo toggle - Toggle the todo window");
+                                                            "/dd todo toggle - Toggle the timers window");
 
     public readonly string Base = Loc.Localize("Help_Base", "Command Overview\n" +
                                                             "/dd - Show or Hide Main Window\n" +
