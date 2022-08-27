@@ -144,7 +144,7 @@ internal class BeastTribe : IModule
         {
         }
 
-        public string GetStatusMessage() => Strings.Module.BeastTribe.AllowancesRemaining;
+        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.BeastTribe.AllowancesRemaining}";
 
         public DalamudLinkPayload? DalamudLinkPayload => null;
 

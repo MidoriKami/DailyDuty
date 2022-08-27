@@ -152,7 +152,7 @@ internal class Levequest : IModule
 
         }
 
-        public string GetStatusMessage() => Strings.Module.Levequest.AllowancesRemaining;
+        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.Levequest.AllowancesRemaining}";
 
         public DateTime GetNextReset() => Time.NextLeveAllowanceReset();
 

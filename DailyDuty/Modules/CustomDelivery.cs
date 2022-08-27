@@ -155,7 +155,7 @@ internal class CustomDelivery : IModule
         {
         }
 
-        public string GetStatusMessage() => Strings.Module.CustomDelivery.AllowancesRemaining;
+        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.CustomDelivery.AllowancesRemaining}";
 
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
