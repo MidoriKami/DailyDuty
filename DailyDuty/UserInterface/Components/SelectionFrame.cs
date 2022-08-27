@@ -4,6 +4,8 @@ using System.Numerics;
 using System.Reflection;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
+using DailyDuty.Localization;
+using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -19,18 +21,21 @@ internal class SelectionFrame : IDrawable
     private float Weight { get; }
 
     private readonly string pluginVersion;
+    private readonly bool drawNavButtons;
 
-    public SelectionFrame(IEnumerable<ISelectable> selectables, float weight = 0.30f)
+    public SelectionFrame(IEnumerable<ISelectable> selectables, float weight = 0.30f, bool drawNavButtons = false)
     {
         Selectables = new List<ISelectable>(selectables);
         Weight = weight;
-        
+        this.drawNavButtons = drawNavButtons;
+
         pluginVersion = GetVersionText();
     }
 
     public void Draw()
     {
         var regionAvailable = ImGui.GetContentRegionAvail();
+        var bottomPadding = (drawNavButtons ? 45.0f : 23.0f) * ImGuiHelpers.GlobalScale;
 
         if (ImGui.BeginChild("###SelectionFrame", new Vector2(regionAvailable.X * Weight, 0), false))
         {
@@ -38,7 +43,7 @@ internal class SelectionFrame : IDrawable
             ImGui.PushStyleColor(ImGuiCol.FrameBg, frameBgColor with { W = 0.05f });
 
             ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
-            if (ImGui.BeginListBox("", new Vector2(-1, -25 * ImGuiHelpers.GlobalScale)))
+            if (ImGui.BeginListBox("", new Vector2(-1, -bottomPadding)))
             {
                 ImGui.PopStyleColor(1);
 
@@ -72,12 +77,49 @@ internal class SelectionFrame : IDrawable
             }
             ImGui.PopStyleVar();
 
+            if (drawNavButtons)
+            {
+                DrawButtons();
+            }
+
             DrawVersionText();
         }
 
         ImGui.EndChild();
 
         ImGui.SameLine();
+    }
+
+    private void DrawButtons()
+    {
+        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2.0f, 0.0f));
+
+        var contentRegion = ImGui.GetContentRegionAvail();
+        var buttonWidth = contentRegion.X / 3.0f - 2.0f * ImGuiHelpers.GlobalScale;
+
+        if (ImGui.Button(Strings.UserInterface.Todo.Label, new Vector2(buttonWidth, 23.0f)))
+        {
+            var window = Service.WindowManager.GetWindowOfType<TodoConfigurationWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+
+        ImGui.SameLine();
+
+        if (ImGui.Button(Strings.UserInterface.Timers.Label, new Vector2(buttonWidth, 23.0f)))
+        {
+            var window = Service.WindowManager.GetWindowOfType<TimersConfigurationWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+
+        ImGui.SameLine();
+
+        if (ImGui.Button(Strings.Status.Label, new Vector2(buttonWidth, 23.0f)))
+        {
+            var window = Service.WindowManager.GetWindowOfType<StatusWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+
+        ImGui.PopStyleVar();
     }
 
     private string GetVersionText()

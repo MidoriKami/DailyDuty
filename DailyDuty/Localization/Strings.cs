@@ -247,6 +247,7 @@ public class UserInterface
 
 public class Todo
 {
+    public readonly string Label = Loc.Localize("Todo_Label", "Todo");
     public readonly string MainOptions = Loc.Localize("Todo_MainOptions", "Main Options");
     public readonly string TaskSelection = Loc.Localize("Todo_TaskSelection", "Task Selection");
     public readonly string ShowDailyTasks = Loc.Localize("Todo_ShowDailyTasks", "Show Daily Tasks");
