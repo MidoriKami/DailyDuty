@@ -35,8 +35,6 @@ internal class ConfigurationFrame
         }
 
         ImGui.EndChild();
-
-        selected?.Contents.Draw();
     }
 
     private void DrawVerticalLine()
