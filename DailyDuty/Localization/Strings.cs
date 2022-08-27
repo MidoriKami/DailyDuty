@@ -214,7 +214,8 @@ public class MiniCactpot
     public readonly string ClickableLinkLabel = Loc.Localize("MiniCactpot_ClickableLinkLabel", "Clickable Link");
     public readonly string TicketsRemaining = Loc.Localize("MiniCactpot_TicketsRemaining", "Tickets Remaining");
 
-}
+            public readonly string TimersShowHelp = Loc.Localize("TimersShowHelp", "\n/dd timers - Shows this help message\n/dd timers help - Shows this help message\n/dd timers (on | enable | show | open) - Shows the timers window\n/dd timers (off | disable | hide | close) - Hides the timers window\n/dd timers (toggle) - Toggle the timers window");
+            public readonly string TodoShowHelp = Loc.Localize("TodoShowHelp", "\n/dd todo - Shows this help message\n/dd todo help - Shows this help message\n/dd todo (on | enable | show | open) - Shows the todo window\n/dd todo (off | disable | hide | close) - Hides the todo window\n/dd todo (toggle) - Toggle the todo window");
 
 public class TreasureMap
 {
