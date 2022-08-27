@@ -40,6 +40,8 @@ internal class WondrousTails : IModule
     private static WondrousTailsSettings Settings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
     public GenericSettings GenericSettings => Settings;
 
+    private readonly DutyFinderOverlay overlay = new();
+
     public WondrousTails()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
@@ -51,6 +53,7 @@ internal class WondrousTails : IModule
 
     public void Dispose()
     {
+        overlay.Dispose();
         LogicComponent.Dispose();
     }
 
@@ -127,13 +130,6 @@ internal class WondrousTails : IModule
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
 
-        private record DutyFinderSearchResult(string SearchKey, uint Value);
-
-        private delegate void* AgentShow(void* a1);
-        private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
-        private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
-        private delegate void* AddonFinalize(AtkUnitBase* atkUnitBase);
-        private delegate byte AddonUpdate(AtkUnitBase* atkUnitBase);
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3, uint a4, short a5);
         private delegate int WondrousTailsGetDeadlineDelegate(int* deadlineIndex);
 
@@ -149,11 +145,203 @@ internal class WondrousTails : IModule
         [Signature("8B 81 ?? ?? ?? ?? C1 E8 04 25")]
         private readonly WondrousTailsGetDeadlineDelegate wondrousTailsGetDeadline = null!;
 
-        [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
-        private readonly Hook<AgentShow>? contentsFinderShowHook = null;
-
         private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.InventoryContext);
         private const uint WondrousTailsBookItemID = 2002023;
+
+
+        public ModuleLogicComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+
+            SignatureHelper.Initialise(this);
+
+            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
+
+            Service.EventManager.OnDutyStarted += OnDutyStartNotification;
+            Service.EventManager.OnDutyCompleted += OnDutyEndNotification;
+        }
+
+        public void Dispose()
+        {
+            Service.EventManager.OnDutyStarted -= OnDutyStartNotification;
+            Service.EventManager.OnDutyCompleted -= OnDutyEndNotification;
+        }
+        
+        public string GetStatusMessage()
+        {
+            if (Condition.IsBoundByDuty()) return string.Empty;
+            
+            if (Settings.UnclaimedBookWarning.Value && !InventoryContainsWondrousTailsBook())
+            {
+                var deadline = GetDeadline();
+                var now = DateTime.Now;
+
+                // If deadline isn't this week, but next week
+                if (now > deadline - TimeSpan.FromDays(7))
+                {
+                    return Strings.Module.WondrousTails.BookAvailable;
+                }
+            }
+
+            return string.Empty;
+        }
+
+        public DateTime GetNextReset() => Time.NextWeeklyReset();
+
+        public void DoReset()
+        {
+            // Do nothing
+        }
+
+        public ModuleStatus GetModuleStatus() => wondrousTails->Stickers == 9 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+
+        private void OpenWondrousTailsBook(uint arg1, SeString arg2)
+        {
+            if (ItemContextMenuAgent != IntPtr.Zero && InventoryContainsWondrousTailsBook())
+            {
+                useItemFunction(ItemContextMenuAgent, WondrousTailsBookItemID, 9999, 0, 0);
+            }
+        }
+
+        public int GetNumStamps()
+        {
+            return wondrousTails->Stickers;
+        }
+
+        public static bool InventoryContainsWondrousTailsBook()
+        {
+            var inventoryManager = InventoryManager.Instance();
+
+            var result = inventoryManager->GetInventoryItemCount(WondrousTailsBookItemID);
+
+            return result > 0;
+        }
+
+        private void OnDutyStartNotification(object? sender, EventArgs args)
+        {
+            if (!Settings.InstanceNotifications.Value) return;
+
+            var node = FindNode(Service.ClientState.TerritoryType);
+            if (node == null) return;
+
+            var buttonState = node.TaskState;
+        
+            switch (buttonState)
+            {
+                case ButtonState.Unavailable when wondrousTails->SecondChance > 0:
+                        Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableMessage);
+                        Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(wondrousTails->SecondChance), Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
+                    break;
+
+                case ButtonState.AvailableNow:
+                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.AvailableMessage, Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
+                    break;
+
+                case ButtonState.Completable:
+                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.CompletableMessage);
+                    break;
+
+                case ButtonState.Unknown:
+                    break;
+            }
+        }
+
+        private void OnDutyEndNotification(object? sender, EventArgs args)
+        {
+            if (!Settings.InstanceNotifications.Value) return;
+            
+            var node = FindNode(Service.ClientState.TerritoryType);
+
+            var buttonState = node?.TaskState;
+
+            if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
+            {
+                Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.ClaimableMessage, Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
+            }
+        }
+
+        private WondrousTailsTask? FindNode(uint instanceID)
+        {
+            foreach (var taskData in GetAllTaskData(wondrousTails))
+            {
+                if (taskData.DutyList.Contains(instanceID))
+                {
+                    return taskData;
+                }
+            }
+
+            return null;
+        }
+
+        public static List<WondrousTailsTask> GetAllTaskData(WondrousTailsStruct* wondrousTailsStruct)
+        {
+            var result = new List<WondrousTailsTask>();
+
+            for (var i = 0; i < 16; ++i)
+            {
+                var taskButtonState = wondrousTailsStruct->TaskStatus(i);
+                var instances = TaskLookup.GetInstanceListFromID(wondrousTailsStruct->Tasks[i]);
+
+                result.Add(new WondrousTailsTask(taskButtonState, instances));
+            }
+
+            return result;
+        }
+
+        private DateTime GetDeadline()
+        {
+            var deadline = wondrousTailsGetDeadline(wondrousTailsDeadlineIndex);
+
+            return DateTimeOffset.FromUnixTimeSeconds(deadline).ToLocalTime().DateTime; 
+        }
+    }
+
+    private class ModuleTodoComponent : ITodoComponent
+    {
+        public IModule ParentModule { get; }
+        public CompletionType CompletionType => CompletionType.Weekly;
+        public bool HasLongLabel => false;
+
+        public ModuleTodoComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public string GetShortTaskLabel() => Strings.Module.WondrousTails.Label;
+
+        public string GetLongTaskLabel() => Strings.Module.WondrousTails.Label;
+    }
+
+
+    private class ModuleTimerComponent : ITimerComponent
+    {
+        public IModule ParentModule { get; }
+
+        public ModuleTimerComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
+
+        public DateTime GetNextReset() => Time.NextWeeklyReset();
+    }
+
+    internal unsafe class DutyFinderOverlay : IDisposable
+    {
+        private record DutyFinderSearchResult(string SearchKey, uint Value);
+
+        private delegate void* AgentShow(void* a1);
+        private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
+        private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
+        private delegate void* AddonFinalize(AtkUnitBase* atkUnitBase);
+        private delegate byte AddonUpdate(AtkUnitBase* atkUnitBase);
+
+        [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
+        private readonly WondrousTailsStruct* wondrousTails = null;
+
+        [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(ContentsFinder_Show))]
+        private readonly Hook<AgentShow>? contentsFinderShowHook = null;
 
         private Hook<AddonDraw>? onDrawHook;
         private Hook<AddonFinalize>? onFinalizeHook;
@@ -164,13 +352,9 @@ internal class WondrousTails : IModule
 
         private List<WondrousTailsTask> wondrousTailsStatus;
 
-        public ModuleLogicComponent(IModule parentModule)
+        public DutyFinderOverlay()
         {
-            ParentModule = parentModule;
-
             SignatureHelper.Initialise(this);
-
-            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
 
             contentsFinderShowHook?.Enable();
 
@@ -184,17 +368,11 @@ internal class WondrousTails : IModule
                 contentFinderDuties.Add(new DutyFinderSearchResult(simplifiedString, cfc.TerritoryType.Row));
             }
 
-            wondrousTailsStatus = GetAllTaskData(wondrousTails);
-
-            Service.EventManager.OnDutyStarted += OnDutyStartNotification;
-            Service.EventManager.OnDutyCompleted += OnDutyEndNotification;
+            wondrousTailsStatus = ModuleLogicComponent.GetAllTaskData(wondrousTails);
         }
 
         public void Dispose()
         {
-            Service.EventManager.OnDutyStarted -= OnDutyStartNotification;
-            Service.EventManager.OnDutyCompleted -= OnDutyEndNotification;
-
             contentsFinderShowHook?.Dispose();
 
             onDrawHook?.Dispose();
@@ -202,8 +380,7 @@ internal class WondrousTails : IModule
             onUpdateHook?.Dispose();
             onRefreshHook?.Dispose();
 
-            var frameworkInstance = Framework.Instance();
-            var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+            var contentsFinderAgent = Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
             if (contentsFinderAgent->IsAgentActive())
             {
                 var addonPointer = GetContentsFinderPointer();
@@ -226,8 +403,7 @@ internal class WondrousTails : IModule
             {
                 if (Settings.Enabled.Value && Settings.OverlayEnabled.Value)
                 {
-                    var frameworkInstance = Framework.Instance();
-                    var contentsFinderAgent = frameworkInstance->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+                    var contentsFinderAgent = Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
 
                     if (contentsFinderAgent->IsAgentActive())
                     {
@@ -273,7 +449,7 @@ internal class WondrousTails : IModule
             {
                 if (Settings.Enabled.Value && Settings.OverlayEnabled.Value)
                 {
-                    wondrousTailsStatus = GetAllTaskData(wondrousTails);
+                    wondrousTailsStatus = ModuleLogicComponent.GetAllTaskData(wondrousTails);
                 }
             }
             catch (Exception ex)
@@ -347,6 +523,9 @@ internal class WondrousTails : IModule
             return onFinalizeHook!.Original(atkUnitBase);
         }
 
+        //
+        //  Implementation
+        //
         private ButtonState? IsWondrousTailsDuty(AtkUnitBase* baseNode, uint id)
         {
             var textNode = GetListItemTextNode(baseNode, id);
@@ -401,7 +580,7 @@ internal class WondrousTails : IModule
 
                 var taskState = IsWondrousTailsDuty(baseNode, id);
 
-                if (taskState == null || !InventoryContainsWondrousTailsBook())
+                if (taskState == null || !ModuleLogicComponent.InventoryContainsWondrousTailsBook())
                 {
                     SetImageNodeVisibility(baseNode, id, 29, false);
                     SetImageNodeVisibility(baseNode, id, 30, false);
@@ -563,165 +742,5 @@ internal class WondrousTails : IModule
                 customNode->AtkResNode.ToggleVisibility(visible);
             }
         }
-    
-
-        public string GetStatusMessage()
-        {
-            if (Condition.IsBoundByDuty()) return string.Empty;
-            
-            if (Settings.UnclaimedBookWarning.Value && !InventoryContainsWondrousTailsBook())
-            {
-                var deadline = GetDeadline();
-                var now = DateTime.Now;
-
-                // If deadline isn't this week, but next week
-                if (now > deadline - TimeSpan.FromDays(7))
-                {
-                    return Strings.Module.WondrousTails.BookAvailable;
-                }
-            }
-
-            return string.Empty;
-        }
-
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
-
-        public void DoReset()
-        {
-            // Do nothing
-        }
-
-        public ModuleStatus GetModuleStatus() => wondrousTails->Stickers == 9 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-
-        private void OpenWondrousTailsBook(uint arg1, SeString arg2)
-        {
-            if (ItemContextMenuAgent != IntPtr.Zero && InventoryContainsWondrousTailsBook())
-            {
-                useItemFunction(ItemContextMenuAgent, WondrousTailsBookItemID, 9999, 0, 0);
-            }
-        }
-
-        public int GetNumStamps()
-        {
-            return wondrousTails->Stickers;
-        }
-
-        private static bool InventoryContainsWondrousTailsBook()
-        {
-            var inventoryManager = InventoryManager.Instance();
-
-            var result = inventoryManager->GetInventoryItemCount(WondrousTailsBookItemID);
-
-            return result > 0;
-        }
-
-        private void OnDutyStartNotification(object? sender, EventArgs args)
-        {
-            if (!Settings.InstanceNotifications.Value) return;
-
-            var node = FindNode(Service.ClientState.TerritoryType);
-            if (node == null) return;
-
-            var buttonState = node.TaskState;
-        
-            switch (buttonState)
-            {
-                case ButtonState.Unavailable when wondrousTails->SecondChance > 0:
-                        Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableMessage);
-                        Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(wondrousTails->SecondChance), Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
-                    break;
-
-                case ButtonState.AvailableNow:
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.AvailableMessage, Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
-                    break;
-
-                case ButtonState.Completable:
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.CompletableMessage);
-                    break;
-
-                case ButtonState.Unknown:
-                    break;
-            }
-        }
-
-        private void OnDutyEndNotification(object? sender, EventArgs args)
-        {
-            if (!Settings.InstanceNotifications.Value) return;
-            
-            var node = FindNode(Service.ClientState.TerritoryType);
-
-            var buttonState = node?.TaskState;
-
-            if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
-            {
-                Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.ClaimableMessage, Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
-            }
-        }
-
-        private WondrousTailsTask? FindNode(uint instanceID)
-        {
-            foreach (var taskData in GetAllTaskData(wondrousTails))
-            {
-                if (taskData.DutyList.Contains(instanceID))
-                {
-                    return taskData;
-                }
-            }
-
-            return null;
-        }
-
-        private static List<WondrousTailsTask> GetAllTaskData(WondrousTailsStruct* wondrousTailsStruct)
-        {
-            var result = new List<WondrousTailsTask>();
-
-            for (var i = 0; i < 16; ++i)
-            {
-                var taskButtonState = wondrousTailsStruct->TaskStatus(i);
-                var instances = TaskLookup.GetInstanceListFromID(wondrousTailsStruct->Tasks[i]);
-
-                result.Add(new WondrousTailsTask(taskButtonState, instances));
-            }
-
-            return result;
-        }
-
-        private DateTime GetDeadline()
-        {
-            var deadline = wondrousTailsGetDeadline(wondrousTailsDeadlineIndex);
-
-            return DateTimeOffset.FromUnixTimeSeconds(deadline).ToLocalTime().DateTime; 
-        }
-    }
-
-    private class ModuleTodoComponent : ITodoComponent
-    {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Weekly;
-        public bool HasLongLabel => false;
-
-        public ModuleTodoComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public string GetShortTaskLabel() => Strings.Module.WondrousTails.Label;
-
-        public string GetLongTaskLabel() => Strings.Module.WondrousTails.Label;
-    }
-
-
-    private class ModuleTimerComponent : ITimerComponent
-    {
-        public IModule ParentModule { get; }
-
-        public ModuleTimerComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
-
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
     }
 }
