@@ -1,137 +1,119 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Lumina.Excel.GeneratedSheets;
-using Action = System.Action;
 
-namespace DailyDuty.Utilities
+namespace DailyDuty.Utilities;
+
+internal static class Time
 {
-    internal static class Time
+    public static DateTime NextDailyReset()
     {
-        public static DateTime NextDailyReset()
-        {
-            var now = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
             
-            if( now.Hour < 15 )
-            {
-                return now.Date.AddHours(15);   
-            }
-            else
-            {
-                return now.AddDays(1).Date.AddHours(15);
-            }
-        }
-
-        public static DateTime NextWeeklyReset()
+        if( now.Hour < 15 )
         {
-            return NextDayOfWeek(DayOfWeek.Tuesday, 8);
+            return now.Date.AddHours(15);
         }
-
-        public static DateTime NextFashionReportReset()
+        else
         {
-            return NextWeeklyReset().AddDays(-4);
+            return now.AddDays(1).Date.AddHours(15);
         }
+    }
 
-        public static DateTime NextLeveAllowanceReset()
+    public static DateTime NextWeeklyReset()
+    {
+        return NextDayOfWeek(DayOfWeek.Tuesday, 8);
+    }
+
+    public static DateTime NextFashionReportReset()
+    {
+        return NextWeeklyReset().AddDays(-4);
+    }
+
+    public static DateTime NextLeveAllowanceReset()
+    {
+        var now = DateTime.UtcNow;
+
+        if( now.Hour < 12 )
         {
-            var now = DateTime.UtcNow;
-
-            if( now.Hour < 12 )
-            {
-                return now.Date.AddHours(12);   
-            }
-            else
-            {
-                return now.Date.AddDays(1);
-            }
+            return now.Date.AddHours(12);   
         }
-
-        public static DateTime NextDayOfWeek(DayOfWeek weekday, int hour)
+        else
         {
-            var today = DateTime.UtcNow;
+            return now.Date.AddDays(1);
+        }
+    }
+
+    public static DateTime NextDayOfWeek(DayOfWeek weekday, int hour)
+    {
+        var today = DateTime.UtcNow;
             
-            if(today.Hour < hour && today.DayOfWeek == weekday)
-            {
-                return today.Date.AddHours(hour);
-            }
-            else
-            {
-                var nextReset = today.AddDays(1);
+        if(today.Hour < hour && today.DayOfWeek == weekday)
+        {
+            return today.Date.AddHours(hour);
+        }
+        else
+        {
+            var nextReset = today.AddDays(1);
 
-                while (nextReset.DayOfWeek != weekday)
-                {
-                    nextReset = nextReset.AddDays(1);
-                }
+            while (nextReset.DayOfWeek != weekday)
+            {
+                nextReset = nextReset.AddDays(1);
+            }
                 
-                return nextReset.Date.AddHours(hour);
-            }
+            return nextReset.Date.AddHours(hour);
         }
+    }
 
-        public static void UpdateDelayed(Stopwatch stopwatch, TimeSpan delayTime, Action function)
+    public static DateTime NextJumboCactpotReset()
+    {
+        var region = LookupDatacenterRegion(Service.ClientState.LocalPlayer?.HomeWorld.GameData?.DataCenter.Row);
+
+        return region switch
         {
-            if (stopwatch.IsRunning && stopwatch.Elapsed >= delayTime)
-            {
-                stopwatch.Stop();
-                stopwatch.Reset();
-            }
+            // Japan
+            1 => NextDayOfWeek(DayOfWeek.Saturday, 12),
 
-            if (stopwatch.IsRunning == false)
-            {
-                stopwatch.Start();
-                function();
-            }
-        }
+            // North America
+            2 => NextDayOfWeek(DayOfWeek.Sunday, 2),
 
-        public static DateTime NextJumboCactpotReset()
-        {
-            var region = LookupDatacenterRegion(Service.ClientState.LocalPlayer?.HomeWorld.GameData?.DataCenter.Row);
+            // Europe
+            3 => NextDayOfWeek(DayOfWeek.Saturday, 19),
 
-            return region switch
-            {
-                // Japan
-                1 => NextDayOfWeek(DayOfWeek.Saturday, 12),
+            // Australia
+            4 => NextDayOfWeek(DayOfWeek.Saturday, 9),
 
-                // North America
-                2 => NextDayOfWeek(DayOfWeek.Sunday, 2),
+            // Unknown Region
+            _ => DateTime.MinValue
+        };
+    }
 
-                // Europe
-                3 => NextDayOfWeek(DayOfWeek.Saturday, 19),
+    private static byte LookupDatacenterRegion(uint? playerDatacenterID)
+    {
+        if (playerDatacenterID == null) return 0;
 
-                // Australia
-                4 => NextDayOfWeek(DayOfWeek.Saturday, 9),
+        return Service.DataManager.GetExcelSheet<WorldDCGroupType>()!
+            .Where(world => world.RowId == playerDatacenterID.Value)
+            .Select(dc => dc.Region)
+            .FirstOrDefault();
+    }
 
-                // Unknown Region
-                _ => DateTime.MinValue
-            };
-        }
+    public static int GetAdjustedWeekday(DayOfWeek targetDay, DayOfWeek weekBase = DayOfWeek.Tuesday)
+    {
+        var offset = 7 - (int) weekBase;
+        var targetDayIndex = (int) targetDay;
 
-        private static byte LookupDatacenterRegion(uint? playerDatacenterID)
-        {
-            if (playerDatacenterID == null) return 0;
+        targetDayIndex += offset;
+        targetDayIndex %= 7;
 
-            return Service.DataManager.GetExcelSheet<WorldDCGroupType>()!
-                .Where(world => world.RowId == playerDatacenterID.Value)
-                .Select(dc => dc.Region)
-                .FirstOrDefault();
-        }
+        return targetDayIndex;
+    }
 
-        public static int GetAdjustedWeekday(DayOfWeek targetDay, DayOfWeek weekBase = DayOfWeek.Tuesday)
-        {
-            var offset = 7 - (int) weekBase;
-            var targetDayIndex = (int) targetDay;
+    public static bool CompareAdjustedDays(DayOfWeek current, DayOfWeek target, DayOfWeek weekBase = DayOfWeek.Tuesday)
+    {
+        var currentIndex = GetAdjustedWeekday(current, weekBase);
+        var targetIndex = GetAdjustedWeekday(target, weekBase);
 
-            targetDayIndex += offset;
-            targetDayIndex %= 7;
-
-            return targetDayIndex;
-        }
-
-        public static bool CompareAdjustedDays(DayOfWeek current, DayOfWeek target, DayOfWeek weekBase = DayOfWeek.Tuesday)
-        {
-            var currentIndex = GetAdjustedWeekday(current, weekBase);
-            var targetIndex = GetAdjustedWeekday(target, weekBase);
-
-            return currentIndex >= targetIndex;
-        }
+        return currentIndex >= targetIndex;
     }
 }

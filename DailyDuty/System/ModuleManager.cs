@@ -1,203 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using DailyDuty.Enums;
+using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules;
-using DailyDuty.Utilities;
-using Dalamud.Game;
-using Dalamud.Game.Text;
-using Dalamud.Game.Text.SeStringHandling;
 
-namespace DailyDuty.System
+namespace DailyDuty.System;
+
+internal class ModuleManager : IDisposable
 {
-    public class ModuleManager : IDisposable
+    private List<IModule> Modules { get; } = new()
     {
-        private readonly List<object> modules = new()
+        new BeastTribe(),
+        new CustomDelivery(),
+        new DomanEnclave(),
+        new DutyRoulette(),
+        new FashionReport(),
+        new HuntMarksDaily(),
+        new HuntMarksWeekly(),
+        new JumboCactpot(),
+        new Levequest(),
+        new MiniCactpot(),
+        new TreasureMap(),
+        new WondrousTails(),
+    };
+
+    public void Dispose()
+    {
+        foreach (var module in Modules)
         {
-            // Daily
-            new DutyRouletteModule(),
-            new WondrousTailsModule(),
-            new TreasureMapModule(),
-            new BeastTribeModule(),
-            new LevequestModule(),
-            new MiniCactpotModule(),
-            new CustomDeliveryModule(),
-            new DomanEnclaveModule(),
-            new FashionReportModule(),
-            new JumboCactpotModule(),
-            new HuntMarksWeeklyModule(),
-            new HuntMarksDailyModule(),
-
-        };
-
-        private readonly List<IZoneChangeLogic> zoneChangeLogicModules;
-        private readonly List<IZoneChangeThrottledNotification> zoneChangeThrottledNotificationModules;
-        private readonly List<IZoneChangeAlwaysNotification> zoneChangeAlwaysNotificationModules;
-        private readonly List<ILoginNotification> loginNotificationModules;
-        private readonly List<IResettable> resettableModules;
-        private readonly List<ICommand> commandModules;
-        private readonly List<IChatHandler> chatHandlers;
-
-        private readonly Queue<IUpdateable> updateQueue;
-        private readonly Stopwatch resetDelayStopwatch = new();
-
-        private readonly Stopwatch reminderThrottleStopwatch = new();
-
-        public ModuleManager()
-        {
-            updateQueue = new Queue<IUpdateable>(modules.OfType<IUpdateable>());
-            zoneChangeLogicModules = modules.OfType<IZoneChangeLogic>().ToList();
-            zoneChangeThrottledNotificationModules = modules.OfType<IZoneChangeThrottledNotification>().ToList();
-            zoneChangeAlwaysNotificationModules = modules.OfType<IZoneChangeAlwaysNotification>().ToList();
-            loginNotificationModules = modules.OfType<ILoginNotification>().ToList();
-            resettableModules = modules.OfType<IResettable>().ToList();
-            commandModules = modules.OfType<ICommand>().ToList();
-            chatHandlers = modules.OfType<IChatHandler>().ToList();
-
-            Service.Framework.Update += Update;
-            Service.ClientState.Login += PreOnLogin;
-            Service.ClientState.TerritoryChanged += PreOnTerritoryChanged;
-            Service.Chat.ChatMessage += OnChatMessage;
+            module.Dispose();
         }
-        
-        private void PreOnTerritoryChanged(object? sender, ushort e)
-        {
-            var timer = reminderThrottleStopwatch;
-            var timerDelay = Service.SystemConfiguration.System.MinutesBetweenThrottledMessages;
+    }
 
-            foreach (var module in zoneChangeLogicModules)
-            {
-                module.HandleZoneChange(sender, e);
-            }
+    public IEnumerable<ISelectable> GetConfigurationSelectables()
+    {
+        return Modules
+            .Select(module => module.ConfigurationComponent.Selectable);
+    }
 
-            if (Service.LoggedIn == false) return;
+    public IEnumerable<ISelectable> GetStatusSelectables()
+    {
+        return Modules
+            .Select(module => module.StatusComponent.Selectable);
+    }
 
-            if (Service.SystemConfiguration.System.MessageDelay)
-            {
-                if (!Time.CompareAdjustedDays(DateTime.Now.DayOfWeek, Service.SystemConfiguration.System.DelayDay))
-                {
-                    return;
-                }
-            }
+    public IEnumerable<ITodoComponent> GetTodoComponents(CompletionType type)
+    {
+        return Modules
+            .Where(module => module.TodoComponent.CompletionType == type)
+            .Select(module => module.TodoComponent);
+    }
 
-            AlwaysOnTerritoryChanged(e);
+    public IEnumerable<ITimerComponent> GetTimerComponents()
+    {
+        return Modules.Select(module => module.TimerComponent);
+    }
 
-            if(timer.Elapsed.Minutes >= timerDelay || timer.IsRunning == false)
-            {
-                reminderThrottleStopwatch.Restart();
-                ThrottledOnTerritoryChanged();
-            }
-        }
-
-        private void ThrottledOnTerritoryChanged()
-        {
-            foreach (var module in zoneChangeThrottledNotificationModules)
-            {
-                module.TrySendNotification();
-            }
-        }
-
-        private void AlwaysOnTerritoryChanged(ushort newTerritory)
-        {
-            foreach (var module in zoneChangeAlwaysNotificationModules)
-            {
-                module.TrySendNotification(newTerritory);
-            }
-        }
-
-        private void PreOnLogin(object? sender, EventArgs e)
-        {
-            Task.Delay(TimeSpan.FromSeconds(3)).ContinueWith(_ => OnLoginDelayed());
-
-            reminderThrottleStopwatch.Restart();
-        }
-
-        private void OnLoginDelayed()
-        {
-            if (Service.SystemConfiguration.System.MessageDelay)
-            {
-                if (!Time.CompareAdjustedDays(DateTime.Now.DayOfWeek, Service.SystemConfiguration.System.DelayDay))
-                {
-                    return;
-                }
-            }
-
-            foreach (var module in loginNotificationModules)
-            {
-                module.TrySendNotification();
-            }
-        }
-
-        private void Update(Framework framework)
-        {
-            if (Service.LoggedIn == false) return;
-
-            Time.UpdateDelayed(resetDelayStopwatch, TimeSpan.FromSeconds(1), UpdateResets);
-
-            var module = updateQueue.Dequeue();
-
-            module.Update();
-
-            updateQueue.Enqueue(module);
-        }
-
-        private void UpdateResets()
-        {
-            foreach (var resettable in resettableModules)
-            {
-                if (!resettable.NeedsResetting()) continue;
-                    
-                resettable.DoReset();
-            }
-        }
-
-        public void ProcessCommand(string command, string arguments)
-        {
-            foreach (var module in commandModules)
-            {
-                module.ProcessCommand(command, arguments);
-            }
-        }
-
-        internal List<ICompletable> GetCompletables(CompletionType type)
-        {
-            var completableModules = modules
-                .OfType<ICompletable>()
-                .Where(module => module.Type == type)
-                .ToList();
-
-            return completableModules;
-        }
-
-        public T? GetModule<T>()
-        {
-            return modules.OfType<T>().FirstOrDefault();
-        }
-
-        private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
-        {
-            if (!Service.LoggedIn) return;
-
-            foreach (var module in chatHandlers)
-            {
-                module.HandleChat(type, senderID, ref sender, ref message, ref isHandled);
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (var module in modules.OfType<IDisposable>())
-            {
-                module.Dispose();
-            }
-
-            Service.Framework.Update -= Update;
-            Service.ClientState.Login -= PreOnLogin;
-            Service.ClientState.TerritoryChanged -= PreOnTerritoryChanged;
-            Service.Chat.ChatMessage -= OnChatMessage;
-        }
+    public IEnumerable<ILogicComponent> GetLogicComponents()
+    {
+        return Modules
+            .Select(module => module.LogicComponent);
     }
 }

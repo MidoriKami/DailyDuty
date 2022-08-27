@@ -1,26 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <Authors></Authors>
-    <Company></Company>
-    <Version>1.0</Version>
-	<AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <Description></Description>
-    <Copyright></Copyright>
-    <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
-  </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Platforms>x64</Platforms>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>$(AppData)\XIVLauncher\devPlugins\DailyDuty\</OutputPath>
-	<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Authors></Authors>
+		<Company></Company>
+		<Version>1.0</Version>
+		<AssemblyVersion>3.0.1.0</AssemblyVersion>
+		<Description></Description>
+		<Copyright></Copyright>
+		<PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Platforms>x64</Platforms>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<OutputPath>$(AppData)\XIVLauncher\devPlugins\DailyDuty\</OutputPath>
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+	</PropertyGroup>
 
 	<Target Name="GetGitHash" BeforeTargets="GetAssemblyVersion" Returns="InformationalVersion">
 		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low">
@@ -32,15 +33,15 @@
 		</PropertyGroup>
 	</Target>
 
-  <ItemGroup>
-    <None Remove="DailyDuty.json" />
-    <None Remove="README.md" />
-	<None Remove="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="DailyDuty.json" />
+		<None Remove="README.md" />
+		<None Remove="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 
 	<PropertyGroup>
-    <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
-  </PropertyGroup>
+		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
@@ -51,8 +52,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.7" />
-  </ItemGroup>
+		<Compile Remove="Modules\Template\**" />
+		<EmbeddedResource Remove="Modules\Template\**" />
+		<None Remove="Modules\Template\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="..\translations\DailyDuty_de.json" />
+		<Content Remove="..\translations\DailyDuty_es.json" />
+		<Content Remove="..\translations\DailyDuty_fr.json" />
+		<Content Remove="..\translations\DailyDuty_ja.json" />
+		<Content Remove="..\translations\DailyDuty_Localizable.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DalamudPackager" Version="2.1.8" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="FFXIVClientStructs">

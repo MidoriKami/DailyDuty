@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using DailyDuty.Enums;
+using System.Linq;
+using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.Text.SeStringHandling;
@@ -8,124 +9,133 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
-using Aetheryte = DailyDuty.Utilities.Aetheryte;
+using Dalamud.Utility;
+using Lumina.Excel;
+using Lumina.Excel.GeneratedSheets;
 
-namespace DailyDuty.System
+namespace DailyDuty.System;
+
+internal enum TeleportLocation
 {
-    public class TeleportManager : IDisposable
+    GoldSaucer,
+    Idyllshire,
+    DomanEnclave
+}
+
+internal record TeleportInfo(uint CommandID, TeleportLocation Target, Aetheryte Aetherite);
+
+internal record TeleportLinkPayloads(TeleportLocation Location, DalamudLinkPayload Payload);
+
+internal class TeleportManager : IDisposable
+{
+    private readonly ICallGateSubscriber<uint, byte, bool> teleportIpc;
+    private readonly ICallGateSubscriber<bool> showChatMessageIpc;
+
+    private readonly List<TeleportInfo> teleportInfoList = new()
     {
-        // Shamelessly Stolen from Goat
-        // https://github.com/goaaats/Dalamud.FindAnything/blob/a74cd2bd23997b9ffa6c573abb3c30cdc4798b9b/Dalamud.FindAnything/FindAnythingPlugin.cs
-        private readonly ICallGateSubscriber<uint, byte, bool> teleportIpc;
+        new TeleportInfo(1, TeleportLocation.GoldSaucer, GetAetheryte(62)),
+        new TeleportInfo(2, TeleportLocation.Idyllshire, GetAetheryte(75)),
+        new TeleportInfo(3, TeleportLocation.DomanEnclave, GetAetheryte(127)),
+    };
 
-        private readonly ICallGateSubscriber<bool> showChatMessageIpc;
+    private List<TeleportLinkPayloads> ChatLinkPayloads { get; } = new();
 
-        private readonly Dictionary<ChatPayloads, DalamudLinkPayload> payloads = new();
+    public TeleportManager()
+    {
+        teleportIpc = Service.PluginInterface.GetIpcSubscriber<uint, byte, bool>("Teleport");
+        showChatMessageIpc = Service.PluginInterface.GetIpcSubscriber<bool>("Teleport.ChatMessage");
 
-        public TeleportManager()
+        foreach (var teleport in teleportInfoList)
         {
-            teleportIpc = Service.PluginInterface.GetIpcSubscriber<uint, byte, bool>("Teleport");
-            showChatMessageIpc = Service.PluginInterface.GetIpcSubscriber<bool>("Teleport.ChatMessage");
+            Service.PluginInterface.RemoveChatLinkHandler(teleport.CommandID);
 
-            payloads.Add(ChatPayloads.GoldSaucerTeleport, AddPayload(ChatPayloads.GoldSaucerTeleport));
-            payloads.Add(ChatPayloads.IdyllshireTeleport, AddPayload(ChatPayloads.IdyllshireTeleport));
-            payloads.Add(ChatPayloads.DomanEnclave, AddPayload(ChatPayloads.DomanEnclave));
+            var linkPayload = Service.PluginInterface.AddChatLinkHandler(teleport.CommandID, TeleportAction);
+
+            ChatLinkPayloads.Add(new TeleportLinkPayloads(teleport.Target, linkPayload));
         }
+    }
 
-        private DalamudLinkPayload AddPayload(ChatPayloads payload)
+    public void Dispose()
+    {
+        foreach (var payload in teleportInfoList)
         {
-            // Ensure that this specific link handler hasn't been registered already
-            // Chat link handlers are plugin specific using internal name as a key
-            Service.PluginInterface.RemoveChatLinkHandler((uint)payload);
-
-            return Service.PluginInterface.AddChatLinkHandler((uint)payload, HandleTeleport);
+            Service.PluginInterface.RemoveChatLinkHandler(payload.CommandID);
         }
+    }
 
-        public void Dispose()
+    private void TeleportAction(uint command, SeString message)
+    {
+        var teleportInfo = teleportInfoList.First(teleport => teleport.CommandID == command);
+
+        if (AetheryteUnlocked(teleportInfo.Aetherite, out var targetAetheriteEntry))
         {
-            foreach(var key in payloads.Keys)
+            Teleport(targetAetheriteEntry!);
+        }
+        else
+        {
+            PluginLog.Error("User attempted to teleport to an aetheryte that is not unlocked");
+            UserError(Strings.UserInterface.Teleport.NotUnlocked);
+        }
+    }
+
+    public DalamudLinkPayload GetPayload(TeleportLocation targetLocation)
+    {
+        return ChatLinkPayloads.First(payload => payload.Location == targetLocation).Payload;
+    }
+
+    private void Teleport(AetheryteEntry aetheryte)
+    {
+        try
+        {
+            var didTeleport = teleportIpc.InvokeFunc(aetheryte.AetheryteId, aetheryte.SubIndex);
+            var showMessage = showChatMessageIpc.InvokeFunc();
+
+            if (!didTeleport)
             {
-                Service.PluginInterface.RemoveChatLinkHandler((uint)key);
+                UserError(Strings.UserInterface.Teleport.Error);
+            }
+            else if (showMessage)
+            {
+                Chat.Print(Strings.UserInterface.Teleport.Label, Strings.UserInterface.Teleport.Teleporting.Format(GetAetheryteName(aetheryte)));
             }
         }
-        
-        public DalamudLinkPayload GetPayload(ChatPayloads payload)
+        catch (IpcNotReadyError)
         {
-            return payloads[payload];
+            PluginLog.Error("Teleport IPC not found");
+            UserError(Strings.UserInterface.Teleport.CommunicationError);
         }
+    }
 
-        private void HandleTeleport(uint command, SeString message)
+    private void UserError(string error)
+    {
+        Service.Chat.PrintError(error);
+        Service.Toast.ShowError(error);
+    }
+
+    private string GetAetheryteName(AetheryteEntry aetheryte)
+    {
+        var gameData = aetheryte.AetheryteData.GameData;
+        var placeName = gameData?.PlaceName.Value;
+
+        return placeName == null ? "[Name Lookup Failed]" : placeName.Name;
+    }
+
+    private static Aetheryte GetAetheryte(uint id)
+    {
+        return Service.DataManager.GetExcelSheet<Aetheryte>()!.GetRow(id)!;
+    }
+
+    private bool AetheryteUnlocked(ExcelRow aetheryte, out AetheryteEntry? entry)
+    {
+        if (Service.AetheryteList.Any(entry => entry.AetheryteId == aetheryte.RowId))
         {
-            switch ((ChatPayloads) command)
-            {
-                case ChatPayloads.IdyllshireTeleport:
-                    Teleport(Aetheryte.Get(TeleportLocation.Idyllshire));
-                    break;
-
-                case ChatPayloads.GoldSaucerTeleport:
-                    Teleport(Aetheryte.Get(TeleportLocation.GoldSaucer));
-                    break;
-
-                case ChatPayloads.DomanEnclave:
-                    Teleport(Aetheryte.Get(TeleportLocation.DomanEnclave));
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(command), command, "Un-configured Teleport Location");
-            }
+            entry = Service.AetheryteList.Where(entry => entry.AetheryteId == aetheryte.RowId).First();
+            return true;
         }
-
-        public void Teleport(uint? territoryType)
+        else
         {
-            if (territoryType != null)
-            {
-                var aetheryte = Aetheryte.Get(territoryType.Value);
-
-                if (aetheryte != null)
-                {
-                    Teleport(aetheryte);
-                }
-            }
-        }
-
-        private void Teleport(AetheryteEntry aetheryte)
-        {
-            try
-            {
-                var didTeleport = teleportIpc.InvokeFunc(aetheryte.AetheryteId, aetheryte.SubIndex);
-                var showMessage = showChatMessageIpc.InvokeFunc();
-
-                if (!didTeleport)
-                {
-                    UserError("Cannot teleport in this situation.");
-                }
-                else if(showMessage)
-                {
-                    Chat.Print("Teleport", $"Teleporting to {GetAetheryteName(aetheryte)}...");
-                }
-            }
-            catch (IpcNotReadyError)
-            {
-                PluginLog.Error("Teleport IPC not found.");
-                UserError("To use the teleport function, you must install the \"Teleporter\" plugin.");
-            }
-        }
-
-        private void UserError(string error)
-        {
-            Service.Chat.PrintError(error);
-            Service.Toast.ShowError(error);
-        }
-
-        private string GetAetheryteName(AetheryteEntry aetheryte)
-        {
-            var gameData = aetheryte.AetheryteData.GameData;
-            if (gameData == null) return "[Name Lookup Failed]";
-
-            var placeName = gameData.PlaceName.Value;
-            if (placeName == null) return "[Name Lookup Failed]";
-
-            return placeName.Name;
+            entry = null;
+            return false;
         }
     }
 }

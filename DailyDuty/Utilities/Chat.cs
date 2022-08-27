@@ -1,70 +1,56 @@
 ﻿using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Logging;
 
-namespace DailyDuty.Utilities
+namespace DailyDuty.Utilities;
+
+internal static class Chat
 {
-    internal static class Chat
+    public static void Print(string tag, string message)
     {
-        public static void Print(string tag, string message)
-        {
-            var stringBuilder = new SeStringBuilder();
-            stringBuilder.AddUiForeground(45);
-            stringBuilder.AddText($"[DailyDuty] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddUiForeground(62);
-            stringBuilder.AddText($"[{tag}] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddText(message);
+        var stringBuilder = new SeStringBuilder();
+        stringBuilder.AddUiForeground(45);
+        stringBuilder.AddText($"[DailyDuty] ");
+        stringBuilder.AddUiForegroundOff();
+        stringBuilder.AddUiForeground(62);
+        stringBuilder.AddText($"[{tag}] ");
+        stringBuilder.AddUiForegroundOff();
+        stringBuilder.AddText(message);
 
-            Service.Chat.Print(stringBuilder.BuiltString);
+        Service.Chat.Print(stringBuilder.BuiltString);
+    }
+
+    public static void PrintError(string message)
+    {
+        var stringBuilder = new SeStringBuilder();
+        stringBuilder.AddUiForeground(45);
+        stringBuilder.AddText($"[DailyDuty] ");
+        stringBuilder.AddUiForegroundOff();
+        stringBuilder.AddText(message);
+
+        Service.Chat.PrintError(stringBuilder.BuiltString);
+    }
+
+    public static void Print(string tag, string message, DalamudLinkPayload? payload)
+    {
+        if (payload == null)
+        {
+            Print(tag, message);
+            return;
         }
 
-        public static void Print(string tag, string message, DalamudLinkPayload? payload)
-        {
-            if (payload == null)
-            {
-                Print(tag, message);
-                return;
-            }
+        var stringBuilder = new SeStringBuilder();
+        stringBuilder.AddUiForeground(45);
+        stringBuilder.AddText($"[DailyDuty] ");
+        stringBuilder.AddUiForegroundOff();
+        stringBuilder.AddUiForeground(62);
+        stringBuilder.AddText($"[{tag}] ");
+        stringBuilder.AddUiForegroundOff();
+        stringBuilder.Add(payload);
+        stringBuilder.AddUiForeground(35);
+        stringBuilder.AddText(message);
+        stringBuilder.AddUiForegroundOff();
+        stringBuilder.Add(RawPayload.LinkTerminator);
 
-            var stringBuilder = new SeStringBuilder();
-            stringBuilder.AddUiForeground(45);
-            stringBuilder.AddText($"[DailyDuty] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.AddUiForeground(62);
-            stringBuilder.AddText($"[{tag}] ");
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.Add(payload);
-            stringBuilder.AddUiForeground(35);
-            stringBuilder.AddText(message);
-            stringBuilder.AddUiForegroundOff();
-            stringBuilder.Add(RawPayload.LinkTerminator);
-
-            Service.Chat.Print(stringBuilder.BuiltString);
-        }
-
-        public static void Debug(string message)
-        {
-            Print("Debug", message);
-        }
-
-        public static void Log(string tag, string message)
-        {
-            if (Service.SystemConfiguration.DeveloperMode)
-            {
-                PluginLog.Information(message);
-                Print(tag, message);
-            }
-        }
-
-        public static void Warning(string tag, string message)
-        {
-            if (Service.SystemConfiguration.DeveloperMode)
-            {
-                PluginLog.Warning(message);
-                Print(tag, message);
-            }
-        }
+        Service.Chat.Print(stringBuilder.BuiltString);
     }
 }
