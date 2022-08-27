@@ -10,8 +10,8 @@ internal static class Condition
         var boundBy56 = Service.Condition[ConditionFlag.BoundByDuty56];
         var boundBy95 = Service.Condition[ConditionFlag.BoundByDuty95];
 
-        // Triggers when Queue is started
-        //var boundBy97 = Service.Condition[ConditionFlag.BoundToDuty97];
+        if (Service.ClientState.TerritoryType == 1055)
+            return false;
 
         return baseBoundByDuty || boundBy56 || boundBy95;
     }
