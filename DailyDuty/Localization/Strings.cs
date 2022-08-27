@@ -22,6 +22,8 @@ public class Configuration
     public readonly string NotificationOptions = Loc.Localize("Configuration_NotificationOptions", "Notification Options");
     public readonly string OnLogin = Loc.Localize("Configuration_OnLogin", "Send Notification on Login");
     public readonly string OnZoneChange = Loc.Localize("Configuration_OnZoneChange", "Send Notification on Zone Change");
+    public readonly string HideDisabled = Loc.Localize("Configuration_HideDisabled", "Hide Disabled");
+    public readonly string ShowDisabled = Loc.Localize("Configuration_ShowDisabled", "Show Disabled");
 }
 
 public class Status
@@ -67,7 +69,6 @@ public class Expansion
 
 public class Command
 {
-    public MainWindow MainWindow { get; } = new();
     public Help Help { get; } = new();
 }
 
@@ -109,8 +110,6 @@ public class Module
     public TreasureMap TreasureMap { get; } = new();
     public WondrousTails WondrousTails { get; } = new();
 }
-
-
 
 public class BeastTribe
 {

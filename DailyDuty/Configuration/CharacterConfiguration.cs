@@ -15,6 +15,7 @@ internal class CharacterConfiguration
     public int Version { get; set; } = 2;
 
     public CharacterData CharacterData = new();
+    public bool HideDisabledModulesInSelectWindow = false;
 
     public TodoOverlaySettings TodoOverlay = new();
     public TimersOverlaySettings TimersOverlay = new();

@@ -30,7 +30,7 @@ internal class ConfigurationWindow : Window, IDisposable
 
         var selectables = Service.ModuleManager.GetConfigurationSelectables();
 
-        selectionFrame = new SelectionFrame(selectables, 0.35f, true);
+        selectionFrame = new SelectionFrame(selectables, 0.35f, new NavigationButtons());
         configurationFrame = new ConfigurationFrame();
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;

@@ -29,7 +29,7 @@ internal class StatusWindow : Window, IDisposable
 
         var selectables = Service.ModuleManager.GetStatusSelectables();
 
-        selectionFrame = new SelectionFrame(selectables, 0.35f);
+        selectionFrame = new SelectionFrame(selectables, 0.35f, new HideDisabledCheckbox());
         configurationFrame = new ConfigurationFrame();
 
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
@@ -53,6 +53,8 @@ internal class StatusWindow : Window, IDisposable
 
     public override void Draw()
     {
+        selectionFrame.HideDisabled = Service.ConfigurationManager.CharacterConfiguration.HideDisabledModulesInSelectWindow;
+
         selectionFrame.Draw();
 
         configurationFrame.Draw(selectionFrame.Selected);
