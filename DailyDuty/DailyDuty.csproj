@@ -56,15 +56,7 @@
 		<EmbeddedResource Remove="Modules\Template\**" />
 		<None Remove="Modules\Template\**" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<Content Remove="..\translations\DailyDuty_de.json" />
-		<Content Remove="..\translations\DailyDuty_es.json" />
-		<Content Remove="..\translations\DailyDuty_fr.json" />
-		<Content Remove="..\translations\DailyDuty_ja.json" />
-		<Content Remove="..\translations\DailyDuty_Localizable.json" />
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="DalamudPackager" Version="2.1.8" />
 	</ItemGroup>
