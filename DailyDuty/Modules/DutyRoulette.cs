@@ -160,10 +160,8 @@ internal class DutyRoulette : IModule
                     .BeginTable()
                     .AddRow(
                         Strings.Module.DutyRoulette.ExpertTomestones,
-                        $"{logicModule.GetLimitedTomestoneCount()}/{logicModule.CurrentLimitedTomestoneWeeklyCap}",
-                        secondColor: logicModule.GetLimitedTomestoneCount() == logicModule.CurrentLimitedTomestoneWeeklyCap
-                            ? Colors.Green
-                            : Colors.Orange)
+                        $"{logicModule.GetCurrentLimitedTomestoneCount()} / {logicModule.CurrentLimitedTomestoneWeeklyCap}",
+                        secondColor: logicModule.HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
                     .EndTable()
                     .Draw();
         }
@@ -182,10 +180,10 @@ internal class DutyRoulette : IModule
 
         private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
         private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);
-        private delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1);
+        public delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1 = 9);
 
         [Signature("48 83 EC 28 80 F9 09")]
-        private readonly GetCurrentLimitedTomestoneCountDelegate getCurrentLimitedTomestoneCount = null!;
+        public readonly GetCurrentLimitedTomestoneCountDelegate GetCurrentLimitedTomestoneCount = null!;
 
         [Signature("48 83 EC 28 84 D2 75 07 32 C0", ScanType = ScanType.Text)]
         private readonly IsRouletteIncompleteDelegate isRouletteIncomplete = null!;
@@ -240,7 +238,7 @@ internal class DutyRoulette : IModule
                 var rouletteStatus = isRouletteIncomplete(rouletteBasePointer, (byte) trackedRoulette.Roulette) == 0;
 
                 if (trackedRoulette.Roulette == RouletteType.Expert && Settings.HideExpertWhenCapped.Value)
-                    if (GetLimitedTomestoneCount() == CurrentLimitedTomestoneWeeklyCap)
+                    if (GetCurrentLimitedTomestoneCount() == CurrentLimitedTomestoneWeeklyCap)
                         rouletteStatus = true;
 
                 if (trackedRoulette.Completed != rouletteStatus)
@@ -251,17 +249,17 @@ internal class DutyRoulette : IModule
             }
         }
 
+        public bool HasMaxWeeklyTomestones()
+        {
+            return GetCurrentLimitedTomestoneCount() == CurrentLimitedTomestoneWeeklyCap;
+        }
+
         private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
         {
             openRouletteDuty(agentContentsFinder, GetFirstMissingRoulette(), 0);
         }
 
-        public long GetLimitedTomestoneCount()
-        {
-            return getCurrentLimitedTomestoneCount(9);
-        }
-
-        public int GetWeeklyTomestomeLimit()
+        private int GetWeeklyTomestomeLimit()
         {
             return Service.DataManager
                 .GetExcelSheet<TomestonesItem>()!
