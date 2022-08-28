@@ -282,6 +282,6 @@ internal class JumboCactpot : IModule
 
         public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
 
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+        public DateTime GetNextReset() => Time.NextJumboCactpotReset();
     }
 }
