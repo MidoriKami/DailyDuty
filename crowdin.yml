@@ -1,3 +1,1 @@
-files:
-  - source: /translations/DailyDuty_Localizable.json
-    translation: /translations/DailyDuty_%two_letters_code%.json
+files: []
