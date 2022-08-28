@@ -220,6 +220,7 @@ internal class WondrousTails : IModule
         private void OnDutyStartNotification(object? sender, EventArgs args)
         {
             if (!Settings.InstanceNotifications.Value) return;
+            if (GetModuleStatus() == ModuleStatus.Complete) return;
 
             var node = FindNode(Service.ClientState.TerritoryType);
             if (node == null) return;
