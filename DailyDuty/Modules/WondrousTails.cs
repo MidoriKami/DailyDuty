@@ -250,7 +250,8 @@ internal class WondrousTails : IModule
         private void OnDutyEndNotification(object? sender, EventArgs args)
         {
             if (!Settings.InstanceNotifications.Value) return;
-            
+            if (GetModuleStatus() == ModuleStatus.Complete) return;
+
             var node = FindNode(Service.ClientState.TerritoryType);
 
             var buttonState = node?.TaskState;
