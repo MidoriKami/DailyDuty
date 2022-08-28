@@ -16,30 +16,13 @@ For information specific to each module, [browse the wiki pages](https://github.
 
 You can open the configuration window with the chat command `/dd`
 
-![Hxyp5EaLdG](https://user-images.githubusercontent.com/9083275/172264296-414ef3c6-dab3-49ca-b2f0-696951a91f2d.jpg)
+![image](https://user-images.githubusercontent.com/9083275/187050359-62476589-17d1-4c6a-a926-e18c3d842b43.png)
 
-### Selection (Red Region)
+## Status Window
 
-This area allows you to select settings, modules, or features for configuration in the Configuration area.
+You can open the status window with the chat command `/dd status`
 
-### Configuration (Purple Region)
-
-This area allows you to configure the selected settings, module, or feature. Each Module or Feature will have an `About` tab that describes what the feature or module is about, and some technical information on how it works. 
-
-*It is highly recommended to read these descriptions as they will answer most of your questions*.
-
-## Tasks Tab
-
-This tab allows you to quickly see the status of all the task modules.
-
-The color of the task name indicates if that module is enabled or disabled for tracking and notifications.
-
-Tasks that are enabled will also include text to indicate their completion status.
-
-***Note: Some tasks will show as complete while they are unavailable for completion such as Fashion Report***
-
-![image](https://user-images.githubusercontent.com/9083275/172265255-15093bf8-e63c-4392-b356-b183cde2e250.png)
-
+![image](https://user-images.githubusercontent.com/9083275/187050373-70bf8f3b-0a51-423e-9f95-2f01e7bf95e7.png)
 
 ## Notifications
 
