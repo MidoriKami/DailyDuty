@@ -20,6 +20,7 @@ internal class CommandManager : IDisposable
         new TodoWindowCommand(),
         new StatusWindowCommand(),
         new TimersWindowCommand(),
+        new LocalizationCommand(),
     };
 
     public CommandManager()

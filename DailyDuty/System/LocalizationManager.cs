@@ -19,16 +19,24 @@ internal class LocalizationManager : IDisposable
         Service.PluginInterface.LanguageChanged += LoadLocalization;
 
         #if DEBUG
-        localization.ExportLocalizable();
         #endif
     }
-    
+
+    public void ExportLocalization()
+    {
+        #if DEBUG
+        localization.ExportLocalizable();
+        #else
+        Log.Verbose("Attempted to export localization in Release Mode. Export Aborted.");
+        #endif
+    }
+
     public void Dispose()
     {
         Service.PluginInterface.LanguageChanged -= LoadLocalization;
     }
 
-    public void LoadLocalization(string languageCode)
+    private void LoadLocalization(string languageCode)
     {
         try
         {
