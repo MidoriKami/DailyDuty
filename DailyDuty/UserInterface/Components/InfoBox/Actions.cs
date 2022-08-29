@@ -32,7 +32,7 @@ internal static class Actions
     {
         return () =>
         {
-            if (ImGui.Checkbox("", ref setting.Value))
+            if (ImGui.Checkbox($"##{label}", ref setting.Value))
             {
                 Service.ConfigurationManager.Save();
             }
