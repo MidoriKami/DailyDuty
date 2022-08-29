@@ -43,6 +43,7 @@ public class Common
     public string Incomplete => Loc.Localize("Incomplete", "Incomplete");
     public string Unavailable => Loc.Localize("Unavailable", "Unavailable");
     public string Complete => Loc.Localize("Complete", "Complete");
+    public string Overriden => Loc.Localize("Overriden", "Overriden");
     public string LessThanLabel => Loc.Localize("LessThanLabel", "Less Than");
     public string LessThanOrEqualLabel => Loc.Localize("LessThanOrEqualLabel", "Less Than or Equal To");
     public string EqualToLabel => Loc.Localize("EqualToLabel", "Equal To");
@@ -143,13 +144,14 @@ public class DutyRoulette
     public string ClickableLink => Loc.Localize("DutyRoulette_ClickableLink", "Notifications can be clicked on to open the Duty Finder");
     public string Remaining => Loc.Localize("DutyRoulette_Remaining", "Roulettes Remaining");
     public string HideExpertWhenCapped => Loc.Localize("DutyRoulette_HideExpertWhenCapped", "Expert Roulette Feature");
-    public string HideExpertHelp => Loc.Localize("DutyRoulette_HideExpertHelp", "Marks the Expert Roulette as complete when you are at your weekly tomestone cap");
+    public string HideExpertHelp => Loc.Localize("DutyRoulette_HideExpertHelp", "Marks the Expert Roulette as overriden when you are at your weekly tomestone cap");
     public string ExpertTomestones => Loc.Localize("DutyRoulette_ExpertTomestones", "Expert Tomestones");
     public string Overlay => Loc.Localize("DutyRoulette_Overlay", "Duty Finder Overlay");
     public string DutyComplete => Loc.Localize("DutyRoulette_DutyComplete", "Duty Complete");
     public string DutyIncomplete => Loc.Localize("DutyRoulette_DutyIncomplete", "Duty Incomplete");
     public string RouletteStatus => Loc.Localize("DutyRoulette_RouletteStatus", "Roulette Status");
     public string NoRoulettesTracked => Loc.Localize("DutyRoulette_NoRoulettesTracked", "No roulettes have been selected for tracking");
+    public string Override => Loc.Localize("DutyRoulette_Override", "Duty Override");
 }
 
 public class FashionReport

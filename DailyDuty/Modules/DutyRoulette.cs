@@ -54,7 +54,7 @@ internal class DutyRoulette : IModule
     {
         private readonly InfoBox clickableLink = new();
         private readonly InfoBox notificationOptions = new();
-
+        private readonly InfoBox dutyFinder = new();
         private readonly InfoBox options = new();
         private readonly InfoBox rouletteSelection = new();
 
@@ -72,10 +72,16 @@ internal class DutyRoulette : IModule
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.HideExpertWhenCapped, Settings.HideExpertWhenCapped, Strings.Module.DutyRoulette.HideExpertHelp)
+                .Draw();
+
+            dutyFinder
+                .AddTitle(Strings.Module.DutyRoulette.Overlay)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.Overlay, Settings.OverlayEnabled)
                 .AddConfigColor(Strings.Module.DutyRoulette.DutyComplete, Settings.CompleteColor)
                 .AddConfigColor(Strings.Module.DutyRoulette.DutyIncomplete, Settings.IncompleteColor)
+                .AddConfigColor(Strings.Module.DutyRoulette.Override, Settings.OverrideColor)
                 .Draw();
+
 
             rouletteSelection
                 .AddTitle(Strings.Module.DutyRoulette.RouletteSelection)
@@ -221,7 +227,7 @@ internal class DutyRoulette : IModule
 
         public void DoReset()
         {
-            foreach (var task in Settings.TrackedRoulettes) task.Completed = false;
+            foreach (var task in Settings.TrackedRoulettes) task.State = RouletteState.Incomplete;
         }
 
         public ModuleStatus GetModuleStatus()
@@ -235,18 +241,29 @@ internal class DutyRoulette : IModule
 
             foreach (var trackedRoulette in Settings.TrackedRoulettes)
             {
-                var rouletteStatus = isRouletteIncomplete(rouletteBasePointer, (byte) trackedRoulette.Roulette) == 0;
+                var rouletteStatus = GetRouletteState(trackedRoulette.Roulette);
 
-                if (trackedRoulette.Roulette == RouletteType.Expert && Settings.HideExpertWhenCapped.Value)
-                    if (GetCurrentLimitedTomestoneCount() == CurrentLimitedTomestoneWeeklyCap)
-                        rouletteStatus = true;
-
-                if (trackedRoulette.Completed != rouletteStatus)
+                if (trackedRoulette.State != rouletteStatus)
                 {
-                    trackedRoulette.Completed = rouletteStatus;
+                    trackedRoulette.State = rouletteStatus;
                     Service.ConfigurationManager.Save();
                 }
             }
+        }
+
+        public RouletteState GetRouletteState(RouletteType roulette)
+        {
+            if (roulette == RouletteType.Expert && Settings.HideExpertWhenCapped.Value)
+            {
+                if (HasMaxWeeklyTomestones())
+                {
+                    return RouletteState.Overriden;
+                }
+            }
+
+            var isComplete = isRouletteIncomplete(rouletteBasePointer, (byte) roulette) == 0;
+
+            return isComplete ? RouletteState.Complete : RouletteState.Incomplete;
         }
 
         public bool HasMaxWeeklyTomestones()
@@ -273,13 +290,13 @@ internal class DutyRoulette : IModule
         {
             return Settings.TrackedRoulettes
                 .Where(r => r.Tracked.Value)
-                .Count(r => !r.Completed);
+                .Count(r => r.State == RouletteState.Incomplete);
         }
 
         private byte GetFirstMissingRoulette()
         {
             foreach (var trackedRoulette in Settings.TrackedRoulettes)
-                if (trackedRoulette is {Completed: false, Tracked.Value: true})
+                if (trackedRoulette is {State: RouletteState.Incomplete, Tracked.Value: true})
                     return (byte) trackedRoulette.Roulette;
 
             return (byte) RouletteType.Leveling;
@@ -302,7 +319,7 @@ internal class DutyRoulette : IModule
         public string GetLongTaskLabel()
         {
             var incompleteTasks = Settings.TrackedRoulettes
-                .Where(roulette => roulette.Tracked.Value && roulette.Completed == false)
+                .Where(roulette => roulette.Tracked.Value && roulette.State == RouletteState.Incomplete)
                 .Select(roulette => roulette.Roulette.GetTranslatedString());
 
             return string.Join("\n", incompleteTasks);
@@ -527,19 +544,26 @@ internal class DutyRoulette : IModule
                 {
                     var textNode = GetListItemTextNode(rootNode, id);
 
-                    if (rouletteState is {Tracked.Value: true, Completed: true})
+                    if (rouletteState is {Tracked.Value: true, State: RouletteState.Complete})
                     {
                         textNode->TextColor.R = (byte) (Settings.CompleteColor.Value.X * 255);
                         textNode->TextColor.G = (byte) (Settings.CompleteColor.Value.Y * 255);
                         textNode->TextColor.B = (byte) (Settings.CompleteColor.Value.Z * 255);
                         textNode->TextColor.A = (byte) (Settings.CompleteColor.Value.W * 255);
                     }
-                    else if (rouletteState is {Tracked.Value: true, Completed: false})
+                    else if (rouletteState is {Tracked.Value: true, State: RouletteState.Incomplete})
                     {
                         textNode->TextColor.R = (byte) (Settings.IncompleteColor.Value.X * 255);
                         textNode->TextColor.G = (byte) (Settings.IncompleteColor.Value.Y * 255);
                         textNode->TextColor.B = (byte) (Settings.IncompleteColor.Value.Z * 255);
                         textNode->TextColor.A = (byte) (Settings.IncompleteColor.Value.W * 255);
+                    }
+                    else if (rouletteState is {Tracked.Value: true, State: RouletteState.Overriden})
+                    {
+                        textNode->TextColor.R = (byte) (Settings.OverrideColor.Value.X * 255);
+                        textNode->TextColor.G = (byte) (Settings.OverrideColor.Value.Y * 255);
+                        textNode->TextColor.B = (byte) (Settings.OverrideColor.Value.Z * 255);
+                        textNode->TextColor.A = (byte) (Settings.OverrideColor.Value.W * 255);
                     }
                     else
                     {

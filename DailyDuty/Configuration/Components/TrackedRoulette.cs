@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
-using DailyDuty.Utilities;
 using Lumina.Excel.GeneratedSheets;
 using Action = System.Action;
 
@@ -23,6 +23,13 @@ public enum RouletteType
     Frontline = 7
 }
 
+public enum RouletteState
+{
+    Complete,
+    Incomplete,
+    Overriden
+}
+
 public static class RouletteTypeExtensions
 {
     public static string GetTranslatedString(this RouletteType type)
@@ -31,15 +38,41 @@ public static class RouletteTypeExtensions
     }
 }
 
-public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, bool Completed) : IInfoBoxTableRow
+public static class RouletteStateExtensions
+{
+    public static Vector4 GetColor(this RouletteState type)
+    {
+        return type switch
+        {
+            RouletteState.Complete => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette.CompleteColor.Value,
+            RouletteState.Incomplete => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette.IncompleteColor.Value,
+            RouletteState.Overriden => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette.OverrideColor.Value,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+    }
+
+    public static string GetTranslatedString(this RouletteState type)
+    {
+        return type switch
+        {
+            RouletteState.Complete => Strings.Common.Complete,
+            RouletteState.Incomplete => Strings.Common.Incomplete,
+            RouletteState.Overriden => Strings.Common.Overriden,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+    }
+}
+
+
+public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, RouletteState State) : IInfoBoxTableRow
 {
     public Tuple<Action?, Action?> GetInfoBoxTableRow()
     {
         return new Tuple<Action?, Action?>(
             Actions.GetStringAction(Roulette.GetTranslatedString()),
-            Actions.GetStringAction(Completed ? Strings.Common.Complete : Strings.Common.Incomplete, Completed ? Colors.Green : Colors.Red)
+            Actions.GetStringAction(State.GetTranslatedString(), State.GetColor())
             );
     }
 
-    public bool Completed { get; set; } = Completed;
+    public RouletteState State { get; set; } = State;
 }

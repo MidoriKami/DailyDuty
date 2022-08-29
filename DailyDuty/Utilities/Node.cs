@@ -4,6 +4,11 @@ namespace DailyDuty.Utilities
 {
     internal static unsafe class Node
     {
+        public static T* GetNodeByID<T>(AtkComponentBase componentBase, uint nodeID, NodeType? type = null) where T : unmanaged
+        {
+            return GetNodeByID<T>(componentBase.UldManager, nodeID, type);
+        }
+
         public static T* GetNodeByID<T>(AtkUldManager uldManager, uint nodeId, NodeType? type = null) where T : unmanaged 
         {
             for (var i = 0; i < uldManager.NodeListCount; i++) 

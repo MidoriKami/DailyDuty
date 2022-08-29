@@ -240,7 +240,7 @@ internal static class ConfigMigration
             var completed = element["Completed"]!.Value<bool>();
             var type = element["Type"]!.Value<int>();
 
-            resultArray[i] = new TrackedRoulette((RouletteType)type, new Setting<bool>(tracked), completed);
+            resultArray[i] = new TrackedRoulette((RouletteType)type, new Setting<bool>(tracked), completed ? RouletteState.Complete : RouletteState.Incomplete);
         }
 
         return resultArray;
