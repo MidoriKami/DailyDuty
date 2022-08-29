@@ -292,6 +292,9 @@ public class Timers
     public string AvailableNow => Loc.Localize("Timers_AvailableNow", "Available Now");
     public string Name => Loc.Localize("Timers_Name", "Display Name");
     public string EnableCustomName => Loc.Localize("Timers_EnableCustomName", "Enable Custom Name");
+    public string TextOptions => Loc.Localize("Timers_TextOptions", "Text Options");
+    public string HideLabel => Loc.Localize("Timers_HideLabel", "Hide Label");
+    public string HideTime => Loc.Localize("Timers_HideTime", "Hide Time");
 }
 
 public class Teleport

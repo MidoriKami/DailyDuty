@@ -31,6 +31,8 @@ public class TimerSettings
     public Setting<bool> StretchToFit = new(false);
     public Setting<bool> UseCustomName = new(false);
     public Setting<string> CustomName = new(string.Empty);
+    public Setting<bool> HideLabel = new(false);
+    public Setting<bool> HideTime = new(false);
 }
 
 public static class TimerStyleExtensions

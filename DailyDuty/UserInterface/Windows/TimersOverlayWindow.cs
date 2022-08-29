@@ -164,35 +164,51 @@ internal class TimersOverlayWindow : Window, IDisposable
         var cursorStart = ImGui.GetCursorPos();
         ImGui.ProgressBar(deltaTime, new Vector2(timerSettings.Size.Value, 20), "");
 
-        ImGui.SetCursorPos(cursorStart with { X = cursorStart.X + 5.0f });
+        DrawLabel(timer, timerSettings, cursorStart);
 
-        if (timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value)
-        {
-            ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value);
-        }
-        else
-        {
-            ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetTranslatedString());
-        }
-
-        if (remainingTime >= TimeSpan.Zero)
-        {
-            var timeText = FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
-            var timeTextSize = ImGui.CalcTextSize(timeText);
-            ImGui.SetCursorPos(cursorStart with { X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X });
-            ImGui.TextColored(timerSettings.TimeColor.Value, timeText);
-        }
-        else
-        {
-            var timeTextSize = ImGui.CalcTextSize(Strings.UserInterface.Timers.AvailableNow);
-            ImGui.SetCursorPos(cursorStart with { X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X });
-            ImGui.TextColored(timerSettings.TimeColor.Value, Strings.UserInterface.Timers.AvailableNow);
-        }
+        DrawTime(timerSettings, remainingTime, cursorStart);
 
         ImGui.EndGroup();
 
         ImGui.PopStyleColor();
         ImGui.PopStyleColor();
+    }
+
+    private static void DrawTime(TimerSettings timerSettings, TimeSpan remainingTime, Vector2 cursorStart)
+    {
+        if (!timerSettings.HideTime.Value)
+        {
+            if (remainingTime >= TimeSpan.Zero)
+            {
+                var timeText = FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
+                var timeTextSize = ImGui.CalcTextSize(timeText);
+                ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
+                ImGui.TextColored(timerSettings.TimeColor.Value, timeText);
+            }
+            else
+            {
+                var timeTextSize = ImGui.CalcTextSize(Strings.UserInterface.Timers.AvailableNow);
+                ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
+                ImGui.TextColored(timerSettings.TimeColor.Value, Strings.UserInterface.Timers.AvailableNow);
+            }
+        }
+    }
+
+    private static void DrawLabel(ITimerComponent timer, TimerSettings timerSettings, Vector2 cursorStart)
+    {
+        if (!timerSettings.HideLabel.Value)
+        {
+            ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + 5.0f});
+
+            if (timerSettings.UseCustomName.Value)
+            {
+                ImGui.TextColored(timerSettings.TextColor.Value, timerSettings.CustomName.Value);
+            }
+            else
+            {
+                ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetTranslatedString());
+            }
+        }
     }
 
     public static string FormatTimespan(TimeSpan span, TimerStyle style)

@@ -16,6 +16,7 @@ internal class TimersStyleWindow : Window, IDisposable
 
     private readonly InfoBox timeDisplay = new();
     private readonly InfoBox labelDisplay = new();
+    private readonly InfoBox textOptions = new();
     private readonly InfoBox colorOptions = new();
     private readonly InfoBox sizeOptions = new();
 
@@ -55,6 +56,12 @@ internal class TimersStyleWindow : Window, IDisposable
             .AddTitle(Strings.UserInterface.Timers.Name)
             .AddConfigCheckbox(Strings.UserInterface.Timers.EnableCustomName, Settings.UseCustomName)
             .AddConfigString(Settings.CustomName)
+            .Draw();
+
+        textOptions
+            .AddTitle(Strings.UserInterface.Timers.TextOptions)
+            .AddConfigCheckbox(Strings.UserInterface.Timers.HideLabel, Settings.HideLabel)
+            .AddConfigCheckbox(Strings.UserInterface.Timers.HideTime, Settings.HideTime)
             .Draw();
 
         colorOptions
