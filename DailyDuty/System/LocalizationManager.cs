@@ -17,18 +17,18 @@ internal class LocalizationManager : IDisposable
         localization.SetupWithLangCode(Service.PluginInterface.UiLanguage);
 
         Service.PluginInterface.LanguageChanged += LoadLocalization;
-
-        #if DEBUG
-        #endif
     }
 
     public void ExportLocalization()
     {
-        #if DEBUG
-        localization.ExportLocalizable();
-        #else
-        Log.Verbose("Attempted to export localization in Release Mode. Export Aborted.");
-        #endif
+        try
+        {
+            localization.ExportLocalizable();
+        }
+        catch (Exception ex)
+        {
+            PluginLog.Error(ex, "Error exporting localization files");
+        }
     }
 
     public void Dispose()
