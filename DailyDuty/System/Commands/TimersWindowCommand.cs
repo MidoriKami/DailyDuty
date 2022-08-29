@@ -32,5 +32,7 @@ internal class TimersWindowCommand : IPluginCommand
                 overlayWindow.Value = !overlayWindow.Value;
                 break;
         }
+
+        Service.ConfigurationManager.Save();
     }
 }

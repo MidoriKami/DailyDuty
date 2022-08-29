@@ -32,5 +32,7 @@ internal class TodoWindowCommand : IPluginCommand
                 overlayWindow.Value = !overlayWindow.Value;
                 break;
         }
+
+        Service.ConfigurationManager.Save();
     }
 }
