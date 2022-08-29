@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using DailyDuty.Configuration.Enums;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.System;
 
@@ -18,16 +20,23 @@ internal class ResetManager : IDisposable
 
         if (Service.ConfigurationManager.CharacterDataLoaded)
         {
-            foreach (var module in Service.ModuleManager.GetLogicComponents())
-            {
-                var now = DateTime.UtcNow;
+            ResetModules();
+        }
+    }
 
-                if (now >= module.ParentModule.GenericSettings.NextReset)
-                {
-                    module.DoReset();
-                    module.ParentModule.GenericSettings.NextReset = module.GetNextReset();
-                    Service.ConfigurationManager.Save();
-                }
+    public static void ResetModules()
+    {
+        foreach (var module in Service.ModuleManager.GetLogicComponents())
+        {
+            var now = DateTime.UtcNow;
+
+            if (now >= module.ParentModule.GenericSettings.NextReset)
+            {
+                Log.Verbose($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. [{module.ParentModule.GenericSettings.NextReset}");
+
+                module.DoReset();
+                module.ParentModule.GenericSettings.NextReset = module.GetNextReset();
+                Service.ConfigurationManager.Save();
             }
         }
     }

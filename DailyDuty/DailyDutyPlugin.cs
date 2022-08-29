@@ -19,10 +19,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.EventManager = new DutyEventManager();
         Service.PayloadManager = new ChatPayloadManager();
         Service.ModuleManager = new ModuleManager();
+        Service.ResetManager = new ResetManager();
         Service.ChatManager = new ChatManager();
         Service.WindowManager = new WindowManager();
         Service.CommandSystem = new CommandManager();
-        Service.ResetManager = new ResetManager();
     }
 
     public void Dispose()

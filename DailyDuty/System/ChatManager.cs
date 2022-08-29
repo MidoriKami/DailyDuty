@@ -33,6 +33,8 @@ internal class ChatManager : IDisposable
 
     private void OnCharacterDataAvailable(object? sender, CharacterConfiguration e)
     {
+        ResetManager.ResetModules();
+
         OnLoginMessage?.Invoke(this, EventArgs.Empty);
         stopwatch.Restart();
     }
