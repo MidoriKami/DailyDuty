@@ -200,7 +200,7 @@ internal class InfoBox : IDrawable
 
         foreach (var component in todoComponents)
         {
-            BeginTable()
+            BeginTable(0.60f)
                 .AddActions(
                     Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TimerTaskEnabled),
                     () => {

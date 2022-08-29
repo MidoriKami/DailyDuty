@@ -32,10 +32,14 @@ internal static class Actions
     {
         return () =>
         {
-            if (ImGui.Checkbox(label, ref setting.Value))
+            if (ImGui.Checkbox("", ref setting.Value))
             {
                 Service.ConfigurationManager.Save();
             }
+
+            ImGui.SameLine(27.0f * ImGuiHelpers.GlobalScale);
+
+            ImGui.TextUnformatted(label);
 
             if (helpText != null)
             {
@@ -57,7 +61,7 @@ internal static class Actions
                 ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X);
             }
 
-            if (ImGui.BeginCombo(label,  localizeEnum(setting.Value)))
+            if (ImGui.BeginCombo(label, localizeEnum(setting.Value)))
             {
                 foreach (var value in values)
                 {

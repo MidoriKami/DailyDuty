@@ -46,7 +46,6 @@ internal class InfoBoxTable
 
                 foreach (var row in tableRows)
                 {
-                    ImGui.TableNextRow();
                     ImGui.TableNextColumn();
 
                     ImGui.PushTextWrapPos(GetWrapPosition());
