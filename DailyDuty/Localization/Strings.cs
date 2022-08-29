@@ -236,6 +236,7 @@ public class WondrousTails
     public string DutyNotifications => Loc.Localize("WondrousTails_DutyNotifications", "Duty Start/End Notifications");
     public string UnclaimedBookNotifications => Loc.Localize("WondrousTails_UnclaimedBookNotifications", "Unclaimed Book Warning");
     public string Stamps => Loc.Localize("WondrousTails_Stamps", "Stamps");
+    public string Overlay => Loc.Localize("WondrousTails_Overlay", "Duty Finder Overlay");
 }
 
 public class UserInterface
