@@ -83,13 +83,13 @@ public class Help
                                                                 "/dd help timers - Shows this help message\n" +
                                                                 "/dd timers show - Shows the timers window\n" +
                                                                 "/dd timers hide - Hides the timers window\n" +
-                                                                "/dd timers toggle - Toggle the todo window");
+                                                                "/dd timers toggle - Toggle the timers window");
 
     public string Todo => Loc.Localize("Help_Todo", "\n/dd todo - Shows todo configuration window\n" +
                                                             "/dd help todo - Shows this help message\n" +
                                                             "/dd todo show - Shows the todo window\n" +
                                                             "/dd todo hide - Hides the todo window\n" +
-                                                            "/dd todo toggle - Toggle the timers window");
+                                                            "/dd todo toggle - Toggle the todo window");
 
     public string Base => Loc.Localize("Help_Base", "Command Overview\n" +
                                                             "/dd - Show or Hide Main Window\n" +
