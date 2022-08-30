@@ -20,6 +20,7 @@ public class TaskColors
     public Setting<Vector4> HeaderColor = new(Colors.White);
     public Setting<Vector4> IncompleteColor = new(Colors.Red);
     public Setting<Vector4> CompleteColor = new(Colors.Green);
+    public Setting<Vector4> UnavailableColor = new(Colors.Orange);
 }
 
 internal class TodoOverlaySettings
@@ -29,6 +30,7 @@ internal class TodoOverlaySettings
     public Setting<bool> HideWhenAllTasksComplete = new(true);
     public Setting<bool> HideCompletedTasks = new(true);
     public Setting<bool> HideUnavailableTasks = new(true);
+    public Setting<bool> ShowCategoryAsComplete = new(false);
     public Setting<bool> HideWhileInDuty = new(true);
     public Setting<bool> LockWindowPosition = new(false);
     public Setting<float> Opacity = new(1.0f);

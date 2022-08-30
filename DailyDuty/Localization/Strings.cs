@@ -267,6 +267,8 @@ public class Todo
     public string WeeklyTasks => Loc.Localize("Todo_WeeklyTasks", "Weekly Tasks");
     public string NoTasksEnabled => Loc.Localize("Todo_NoDailyTasksEnabled", "Enable a module in Configuration to track Tasks");
     public string UseLongLabel => Loc.Localize("Todo_UseLongLabel", "Use Long Label");
+    public string CompleteCategory => Loc.Localize("Todo_CompleteCategory", "Show Completed Categories");
+    public string AllTasksComplete => Loc.Localize("Todo_AllTasksComplete", "All Tasks Completed");
 }
 
 public class Timers

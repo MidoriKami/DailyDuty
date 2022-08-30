@@ -87,6 +87,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddTitle(Strings.UserInterface.Todo.TaskDisplay)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideCompletedTasks, Settings.HideCompletedTasks)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideUnavailable, Settings.HideUnavailableTasks)
+            .AddConfigCheckbox(Strings.UserInterface.Todo.CompleteCategory, Settings.ShowCategoryAsComplete)
             .Draw();
 
         windowHidingOptions
@@ -100,6 +101,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddConfigColor(Strings.Common.Header, Settings.TaskColors.HeaderColor)
             .AddConfigColor(Strings.Common.Incomplete, Settings.TaskColors.IncompleteColor)
             .AddConfigColor(Strings.Common.Complete, Settings.TaskColors.CompleteColor)
+            .AddConfigColor(Strings.Common.Unavailable, Settings.TaskColors.UnavailableColor)
             .Draw();
     }
 

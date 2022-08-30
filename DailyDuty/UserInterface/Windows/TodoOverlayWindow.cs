@@ -108,13 +108,20 @@ internal class TodoOverlayWindow : Window, IDisposable
     {
         var dailyTasks = trackedTasks.Where(module => module.CompletionType == CompletionType.Daily).ToList();
 
-        if (!dailyTasks.Any()) return;
+        if (!dailyTasks.Any() && !Settings.ShowCategoryAsComplete.Value) return;
 
         ImGui.TextColored(Settings.TaskColors.HeaderColor.Value, Strings.UserInterface.Todo.DailyTasks);
 
         ImGui.Indent(30.0f * ImGuiHelpers.GlobalScale);
 
-        DrawTasks(dailyTasks);
+        if (!dailyTasks.Any() && Settings.ShowCategoryAsComplete.Value)
+        {
+            ImGui.TextColored(Settings.TaskColors.CompleteColor.Value, Strings.UserInterface.Todo.AllTasksComplete);
+        }
+        else
+        {
+            DrawTasks(dailyTasks);
+        }
 
         ImGui.Indent(-30.0f * ImGuiHelpers.GlobalScale);
     }
@@ -123,13 +130,20 @@ internal class TodoOverlayWindow : Window, IDisposable
     {
         var weeklyTasks = trackedTasks.Where(module => module.CompletionType == CompletionType.Weekly).ToList();
 
-        if (!weeklyTasks.Any()) return;
+        if (!weeklyTasks.Any() && !Settings.ShowCategoryAsComplete.Value) return;
 
         ImGui.TextColored(Settings.TaskColors.HeaderColor.Value, Strings.UserInterface.Todo.WeeklyTasks);
 
         ImGui.Indent(30.0f * ImGuiHelpers.GlobalScale);
 
-        DrawTasks(weeklyTasks);
+        if (!weeklyTasks.Any() && Settings.ShowCategoryAsComplete.Value)
+        {
+            ImGui.TextColored(Settings.TaskColors.CompleteColor.Value, Strings.UserInterface.Todo.AllTasksComplete);
+        }
+        else
+        {
+            DrawTasks(weeklyTasks);
+        }
 
         ImGui.Indent(-30.0f * ImGuiHelpers.GlobalScale);
     }
@@ -180,6 +194,10 @@ internal class TodoOverlayWindow : Window, IDisposable
 
                 case ModuleStatus.Incomplete:
                     ImGui.TextColored(Settings.TaskColors.IncompleteColor.Value, taskLabel);
+                    break;
+                
+                case ModuleStatus.Unavailable:
+                    ImGui.TextColored(Settings.TaskColors.UnavailableColor.Value, taskLabel);
                     break;
 
                 case ModuleStatus.Complete:
