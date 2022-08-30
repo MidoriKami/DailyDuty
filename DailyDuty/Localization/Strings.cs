@@ -298,6 +298,7 @@ public class Timers
     public string TextOptions => Loc.Localize("Timers_TextOptions", "Text Options");
     public string HideLabel => Loc.Localize("Timers_HideLabel", "Hide Label");
     public string HideTime => Loc.Localize("Timers_HideTime", "Hide Time");
+    public string HideCompleted => Loc.Localize("Timers_HideCompleted", "Hide Completed Tasks");
 }
 
 public class Teleport

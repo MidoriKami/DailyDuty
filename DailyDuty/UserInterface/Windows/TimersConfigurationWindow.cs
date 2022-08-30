@@ -42,6 +42,7 @@ internal class TimersConfigurationWindow : Window, IDisposable
         mainOptions
             .AddTitle(Strings.UserInterface.Timers.MainOptions)
             .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
+            .AddConfigCheckbox(Strings.UserInterface.Timers.HideCompleted, Settings.HideCompleted)
             .Draw();
 
         var enabledModules = Service.ModuleManager.GetTimerComponents()

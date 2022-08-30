@@ -91,8 +91,10 @@ internal class TimersOverlayWindow : Window, IDisposable
         var tasks = Service.ModuleManager.GetTimerComponents().ToList();
 
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.Enabled.Value);
-
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.TimerTaskEnabled.Value);
+
+        if (Settings.HideCompleted.Value)
+            tasks.RemoveAll(module => module.ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete);
 
         return tasks;
     }
