@@ -163,7 +163,7 @@ internal class JumboCactpot : IModule
 
         public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";
 
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+        public DateTime GetNextReset() => Time.NextJumboCactpotReset();
 
         public void DoReset() => Settings.Tickets.Clear();
 
