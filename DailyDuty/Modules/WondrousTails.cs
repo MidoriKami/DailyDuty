@@ -172,16 +172,9 @@ internal class WondrousTails : IModule
         {
             if (Condition.IsBoundByDuty()) return string.Empty;
             
-            if (Settings.UnclaimedBookWarning.Value && !InventoryContainsWondrousTailsBook())
+            if (Settings.UnclaimedBookWarning.Value && IsMissingBook())
             {
-                var deadline = GetDeadline();
-                var now = DateTime.Now;
-
-                // If deadline isn't this week, but next week
-                if (now > deadline - TimeSpan.FromDays(7))
-                {
-                    return Strings.Module.WondrousTails.BookAvailable;
-                }
+                return Strings.Module.WondrousTails.BookAvailable;
             }
 
             return string.Empty;
@@ -194,7 +187,29 @@ internal class WondrousTails : IModule
             // Do nothing
         }
 
-        public ModuleStatus GetModuleStatus() => wondrousTails->Stickers == 9 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        public ModuleStatus GetModuleStatus()
+        {
+            if (Settings.UnclaimedBookWarning.Value && IsMissingBook()) return ModuleStatus.Incomplete;
+
+            return wondrousTails->Stickers == 9 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        }
+
+        private bool IsMissingBook()
+        {
+            if (!InventoryContainsWondrousTailsBook())
+            {
+                var deadline = GetDeadline();
+                var now = DateTime.Now;
+
+                // If deadline isn't this week, but next week
+                if (now > deadline - TimeSpan.FromDays(7))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
         {
