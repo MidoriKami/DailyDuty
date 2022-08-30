@@ -4,6 +4,7 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Utilities;
+using Dalamud.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -81,11 +82,21 @@ internal class CharacterConfiguration
             }
             else
             {
-                var convertedConfig = ConfigMigration.Convert(fileText);
+                CharacterConfiguration migratedConfiguration;
 
-                convertedConfig.Save();
+                try
+                {
+                    migratedConfiguration = ConfigMigration.Convert(fileText);
+                }
+                catch (Exception e)
+                {
+                    PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
+                    migratedConfiguration = new CharacterConfiguration();
+                }
 
-                return convertedConfig;
+                migratedConfiguration.Save();
+
+                return migratedConfiguration;
             }
         }
         else
