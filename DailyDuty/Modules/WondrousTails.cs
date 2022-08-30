@@ -237,6 +237,7 @@ internal class WondrousTails : IModule
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
+            if (!InventoryContainsWondrousTailsBook()) return;
 
             var node = FindNode(Service.ClientState.TerritoryType);
             if (node == null) return;
@@ -267,6 +268,7 @@ internal class WondrousTails : IModule
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
+            if (!InventoryContainsWondrousTailsBook()) return;
 
             var node = FindNode(Service.ClientState.TerritoryType);
 
