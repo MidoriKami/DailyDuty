@@ -72,6 +72,7 @@ internal class DutyRoulette : IModule
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.HideExpertWhenCapped, Settings.HideExpertWhenCapped, Strings.Module.DutyRoulette.HideExpertHelp)
+                .AddConfigCheckbox(Strings.Module.DutyRoulette.CompleteWhenCapped, Settings.CompleteWhenCapped, Strings.Module.DutyRoulette.CompleteWhenCappedHelp)
                 .Draw();
 
             dutyFinder
@@ -160,7 +161,7 @@ internal class DutyRoulette : IModule
                     .Draw();
             }
             
-            if (Settings.HideExpertWhenCapped.Value)
+            if (Settings.HideExpertWhenCapped.Value || Settings.CompleteWhenCapped.Value)
                 tomestoneStatus
                     .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
                     .BeginTable()
@@ -288,6 +289,11 @@ internal class DutyRoulette : IModule
 
         private int RemainingRoulettesCount()
         {
+            if (Settings.CompleteWhenCapped.Value && HasMaxWeeklyTomestones())
+            {
+                return 0;
+            }
+
             return Settings.TrackedRoulettes
                 .Where(r => r.Tracked.Value)
                 .Count(r => r.State == RouletteState.Incomplete);

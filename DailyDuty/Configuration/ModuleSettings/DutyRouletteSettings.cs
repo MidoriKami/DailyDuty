@@ -8,6 +8,7 @@ public class DutyRouletteSettings : GenericSettings
 {
     public Setting<bool> EnableClickableLink = new(false);
     public Setting<bool> HideExpertWhenCapped = new(false);
+    public Setting<bool> CompleteWhenCapped = new(false);
 
     public Setting<bool> OverlayEnabled = new(true);
     public Setting<Vector4> CompleteColor = new(Colors.Green);
