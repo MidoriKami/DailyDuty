@@ -152,6 +152,8 @@ public class DutyRoulette
     public string RouletteStatus => Loc.Localize("DutyRoulette_RouletteStatus", "Roulette Status");
     public string NoRoulettesTracked => Loc.Localize("DutyRoulette_NoRoulettesTracked", "No roulettes have been selected for tracking");
     public string Override => Loc.Localize("DutyRoulette_Override", "Duty Override");
+    public string CompleteWhenCapped => Loc.Localize("DutyRoulette_CompleteWhenCapped", "Complete When Tomecapped");
+    public string CompleteWhenCappedHelp => Loc.Localize("DutyRoulette_CompleteWhenCappedHelp", "Marks Duty Roulette Module as complete when you are at your weekly tomestone cap");
 }
 
 public class FashionReport
