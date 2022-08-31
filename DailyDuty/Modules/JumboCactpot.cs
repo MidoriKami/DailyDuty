@@ -133,10 +133,10 @@ internal class JumboCactpot : IModule
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        private delegate void* AddonReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
+        private delegate void* AgentReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
 
         [Signature("48 89 5C 24 ?? 44 89 4C 24 ?? 4C 89 44 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24", DetourName = nameof(LotteryWeekly_ReceiveEvent))]
-        private readonly Hook<AddonReceiveEvent>? receiveEventHook = null;
+        private readonly Hook<AgentReceiveEvent>? receiveEventHook = null;
 
         private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
 
