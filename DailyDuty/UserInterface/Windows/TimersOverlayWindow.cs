@@ -44,6 +44,15 @@ internal class TimersOverlayWindow : Window, IDisposable
         if (Service.ClientState.IsPvP) IsOpen = false;
         if (Condition.InCutsceneOrQuestEvent()) IsOpen = false;
         if (Condition.IsBoundByDuty() && Settings.HideWhileInDuty.Value) IsOpen = false;
+
+        trackedTasks = GetTrackedTasks();
+
+        if (Settings.HideCompleted.Value && trackedTasks.Any())
+        {
+            trackedTasks.RemoveAll(module => module.ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete);
+
+            if (!trackedTasks.Any()) IsOpen = false;
+        }
     }
 
     public override void PreDraw()
@@ -68,8 +77,6 @@ internal class TimersOverlayWindow : Window, IDisposable
 
     public override void Draw()
     {
-        trackedTasks = GetTrackedTasks();
-
         if (trackedTasks.Count == 0)
         {
             ImGui.TextColored(Colors.Orange, Strings.UserInterface.Timers.NoTimersEnabledWarning);
@@ -92,9 +99,6 @@ internal class TimersOverlayWindow : Window, IDisposable
 
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.Enabled.Value);
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.TimerTaskEnabled.Value);
-
-        if (Settings.HideCompleted.Value)
-            tasks.RemoveAll(module => module.ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete);
 
         return tasks;
     }
