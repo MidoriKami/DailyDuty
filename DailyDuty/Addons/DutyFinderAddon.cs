@@ -6,6 +6,7 @@ using DailyDuty.Utilities;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -134,14 +135,6 @@ internal unsafe class DutyFinderAddon : IAddon
         try
         {
             OnDraw?.Invoke(this, new IntPtr(atkUnitBase));
-
-            var treeNode = GetBaseTreeNode(atkUnitBase);
-
-            foreach (var node in treeNode.Items)
-            {
-                PluginLog.Verbose(node.Label + " " + node.FilteredLabel);
-            }
-
         }
         catch (Exception e)
         {
@@ -173,6 +166,11 @@ internal unsafe class DutyFinderAddon : IAddon
         return new DutyFinderTreeList(Node.GetComponentNode(addonPointer, 52));
     }
 
+    public DutyFinderTabBar GetTabBar(AtkUnitBase* addonPointer)
+    {
+        return new DutyFinderTabBar(addonPointer);
+    }
+
     public void HideCloverNodes()
     {
         var addonPointer = GetContentsFinderPointer();
@@ -180,6 +178,16 @@ internal unsafe class DutyFinderAddon : IAddon
         if (addonPointer != null)
         {
             GetBaseTreeNode(addonPointer).HideCloverNodes();
+        }
+    }
+
+    public void ResetLabelColors(ByteColor color)
+    {
+        var addonPointer = GetContentsFinderPointer();
+
+        if (addonPointer != null)
+        {
+            GetBaseTreeNode(addonPointer).SetColorAll(color);
         }
     }
 }

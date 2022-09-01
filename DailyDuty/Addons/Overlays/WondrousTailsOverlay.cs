@@ -1,17 +1,17 @@
-﻿using DailyDuty.DataStructures;
-using FFXIVClientStructs.FFXIV.Component.GUI;
-using Lumina.Excel.GeneratedSheets;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Addons.DataModels;
 using DailyDuty.Addons.Enums;
 using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.DataStructures;
+using FFXIVClientStructs.FFXIV.Component.GUI;
+using Lumina.Excel.GeneratedSheets;
 
-namespace DailyDuty.Addons;
+namespace DailyDuty.Addons.Overlays;
 
-internal unsafe class WondrousTailsAddon : IDisposable
+internal unsafe class WondrousTailsOverlay : IDisposable
 {
     private record DutyFinderSearchResult(string SearchKey, uint Value);
 
@@ -25,7 +25,7 @@ internal unsafe class WondrousTailsAddon : IDisposable
 
     private bool Enabled => DutyRouletteSettings.Enabled.Value && DutyRouletteSettings.OverlayEnabled.Value;
 
-    public WondrousTailsAddon()
+    public WondrousTailsOverlay()
     {
         Service.AddonManager[AddonName.DutyFinder].OnRefresh += DutyFinderRefresh;
         Service.AddonManager[AddonName.DutyFinder].OnUpdate += DutyFinderUpdate;
@@ -132,15 +132,15 @@ internal unsafe class WondrousTailsAddon : IDisposable
 
             if (taskState == null || !wondrousTailsBook.PlayerHasBook())
             {
-                item.CloverNodes.SetVisibility(CloverState.Hidden);
+                item.CloverNode.SetVisibility(CloverState.Hidden);
             }
             else if (taskState == ButtonState.Unavailable)
             {
-                item.CloverNodes.SetVisibility(CloverState.Dark);
+                item.CloverNode.SetVisibility(CloverState.Dark);
             }
             else if (taskState is ButtonState.AvailableNow or ButtonState.Completable)
             {
-                item.CloverNodes.SetVisibility(CloverState.Golden);
+                item.CloverNode.SetVisibility(CloverState.Golden);
             }
         }
     }

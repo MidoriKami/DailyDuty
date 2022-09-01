@@ -16,7 +16,10 @@ internal class AddonManager : IDisposable
     
     public void Dispose()
     {
-
+        foreach (var addon in addons)
+        {
+            addon.Dispose();
+        }
     }
 
     public IAddon this[AddonName name] => addons.First(module => module.Name == name);

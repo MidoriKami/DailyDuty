@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.Addons;
+using DailyDuty.Addons.Overlays;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
@@ -31,7 +31,7 @@ internal class WondrousTails : IModule
     private static WondrousTailsSettings Settings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
     public GenericSettings GenericSettings => Settings;
 
-    private readonly DutyRoulette.DutyFinderOverlay overlay = new();
+    private readonly DutyFinderOverlay overlay = new();
 
     public WondrousTails()
     {
@@ -131,7 +131,7 @@ internal class WondrousTails : IModule
         private const uint WondrousTailsBookItemID = 2002023;
 
         public WondrousTailsBook WondrousTailsBook { get; } = new();
-        private readonly WondrousTailsAddon wondrousTailsAddon = new();
+        private readonly WondrousTailsOverlay wondrousTailsOverlay = new();
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -150,7 +150,7 @@ internal class WondrousTails : IModule
             Service.EventManager.OnDutyStarted -= OnDutyStartNotification;
             Service.EventManager.OnDutyCompleted -= OnDutyEndNotification;
 
-            wondrousTailsAddon.Dispose();
+            wondrousTailsOverlay.Dispose();
         }
         
         public string GetStatusMessage()
