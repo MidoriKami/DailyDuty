@@ -87,20 +87,25 @@ internal class CharacterConfiguration
                 try
                 {
                     migratedConfiguration = ConfigMigration.Convert(fileText);
+                    migratedConfiguration.Save();
                 }
                 catch (Exception e)
                 {
                     PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
-                    migratedConfiguration = new CharacterConfiguration();
+                    migratedConfiguration = CreateNewCharacterConfiguration();
                 }
-
-                migratedConfiguration.Save();
 
                 return migratedConfiguration;
             }
         }
         else
         {
+            return CreateNewCharacterConfiguration();
+        }
+    }
+
+    private static CharacterConfiguration CreateNewCharacterConfiguration()
+    {
             var newCharacterConfiguration = new CharacterConfiguration();
 
             var playerData = Service.ClientState.LocalPlayer;
@@ -119,7 +124,6 @@ internal class CharacterConfiguration
             newCharacterConfiguration.Save();
             return newCharacterConfiguration;
         }
-    }
 
     private static int GetConfigFileVersion(string fileText)
     {
