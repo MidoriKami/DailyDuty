@@ -181,7 +181,7 @@ internal class WondrousTails : IModule
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
         {
-            if (ItemContextMenuAgent != IntPtr.Zero && !WondrousTailsBook.PlayerHasBook())
+            if (ItemContextMenuAgent != IntPtr.Zero && WondrousTailsBook.PlayerHasBook())
             {
                 useItemFunction(ItemContextMenuAgent, WondrousTailsBookItemID);
             }
