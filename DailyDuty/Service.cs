@@ -36,4 +36,5 @@ internal class Service
     public static System.ResetManager ResetManager = null!;
     public static System.TeleportManager TeleportManager = null!;
     public static System.ChatPayloadManager PayloadManager = null!;
+    public static System.AddonManager AddonManager = null!;
 }

@@ -18,6 +18,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ConfigurationManager = new ConfigurationManager();
         Service.EventManager = new DutyEventManager();
         Service.PayloadManager = new ChatPayloadManager();
+        Service.AddonManager = new AddonManager();
         Service.ModuleManager = new ModuleManager();
         Service.ResetManager = new ResetManager();
         Service.ChatManager = new ChatManager();
@@ -37,5 +38,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.TeleportManager.Dispose();
         Service.PayloadManager.Dispose();
         Service.EventManager.Dispose();
+        Service.AddonManager.Dispose();
     }
 }
