@@ -73,10 +73,6 @@ public class Command
     public Help Help { get; } = new();
 }
 
-public class MainWindow
-{
-}
-
 public class Help
 {
     public string Timers => Loc.Localize("Help_Timers", "\n/dd timers - Shows timer configuration window\n" +
@@ -110,6 +106,7 @@ public class Module
     public MiniCactpot MiniCactpot { get; } = new();
     public TreasureMap TreasureMap { get; } = new();
     public WondrousTails WondrousTails { get; } = new();
+    public ChallengeLog ChallengeLog { get; } = new();
 }
 
 public class BeastTribe
@@ -239,6 +236,11 @@ public class WondrousTails
     public string UnclaimedBookNotifications => Loc.Localize("WondrousTails_UnclaimedBookNotifications", "Unclaimed Book Warning");
     public string Stamps => Loc.Localize("WondrousTails_Stamps", "Stamps");
     public string Overlay => Loc.Localize("WondrousTails_Overlay", "Duty Finder Overlay");
+}
+
+public class ChallengeLog
+{
+    public string Label => Loc.Localize("ChallengeLog_Label", "Challenge Log");
 }
 
 public class UserInterface
