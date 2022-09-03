@@ -16,7 +16,7 @@ internal class LocalizationManager : IDisposable
         localization = new Dalamud.Localization(filePath, "DailyDuty_");
         localization.SetupWithLangCode(Service.PluginInterface.UiLanguage);
 
-        Service.PluginInterface.LanguageChanged += LoadLocalization;
+        Service.PluginInterface.LanguageChanged += OnLanguageChange;
     }
 
     public void ExportLocalization()
@@ -33,10 +33,10 @@ internal class LocalizationManager : IDisposable
 
     public void Dispose()
     {
-        Service.PluginInterface.LanguageChanged -= LoadLocalization;
+        Service.PluginInterface.LanguageChanged -= OnLanguageChange;
     }
 
-    private void LoadLocalization(string languageCode)
+    private void OnLanguageChange(string languageCode)
     {
         try
         {

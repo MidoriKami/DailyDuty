@@ -28,10 +28,10 @@ internal unsafe class WondrousTailsOverlay : IDisposable
     {
         var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
 
-        dutyFinder.OnRefresh += DutyFinderRefresh;
-        dutyFinder.OnUpdate += DutyFinderUpdate;
-        dutyFinder.OnDraw += DutyFinderDraw;
-        dutyFinder.OnFinalize += DutyFinderFinalize;
+        dutyFinder.Refresh += OnRefresh;
+        dutyFinder.Update += OnUpdate;
+        dutyFinder.Draw += OnDraw;
+        dutyFinder.Finalize += OnFinalize;
 
         var contentFinderData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
             !.Where(cfc => cfc.Name != string.Empty);
@@ -52,13 +52,13 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
         dutyFinder.HideCloverNodes();
 
-        dutyFinder.OnRefresh -= DutyFinderRefresh;
-        dutyFinder.OnUpdate -= DutyFinderUpdate;
-        dutyFinder.OnDraw -= DutyFinderDraw;
-        dutyFinder.OnFinalize -= DutyFinderFinalize;
+        dutyFinder.Refresh -= OnRefresh;
+        dutyFinder.Update -= OnUpdate;
+        dutyFinder.Draw -= OnDraw;
+        dutyFinder.Finalize -= OnFinalize;
     }
 
-    private void DutyFinderRefresh(object? sender, IntPtr e)
+    private void OnRefresh(object? sender, IntPtr e)
     {
         if (Enabled)
         {
@@ -66,7 +66,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
         }
     }
     
-    private void DutyFinderUpdate(object? sender, IntPtr e)
+    private void OnUpdate(object? sender, IntPtr e)
     {
         if (Enabled)
         {
@@ -74,7 +74,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
         }
     }
 
-    private void DutyFinderDraw(object? sender, IntPtr e)
+    private void OnDraw(object? sender, IntPtr e)
     {
         if (Enabled)
         {
@@ -85,7 +85,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
         }
     }
 
-    private void DutyFinderFinalize(object? sender, IntPtr e)
+    private void OnFinalize(object? sender, IntPtr e)
     {
         Service.AddonManager.Get<DutyFinderAddon>().HideCloverNodes();
     }

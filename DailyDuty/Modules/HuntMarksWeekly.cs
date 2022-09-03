@@ -148,15 +148,15 @@ internal class HuntMarksWeekly : IModule
 
             SignatureHelper.Initialise(this);
 
-            Service.Framework.Update += FrameworkOnUpdate;
+            Service.Framework.Update += OnFrameworkUpdate;
         }
 
         public void Dispose()
         {
-            Service.Framework.Update -= FrameworkOnUpdate;
+            Service.Framework.Update -= OnFrameworkUpdate;
         }
 
-        private void FrameworkOnUpdate(Framework framework)
+        private void OnFrameworkUpdate(Framework framework)
         {
             if (!Service.ConfigurationManager.CharacterDataLoaded) return;
 

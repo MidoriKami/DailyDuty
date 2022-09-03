@@ -11,7 +11,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Addons.Overlays;
 
-internal unsafe class DutyFinderOverlay : IDisposable
+internal unsafe class DutyRouletteOverlay : IDisposable
 {
     private record DutyFinderSearchResult(string SearchKey, uint TerritoryType);
 
@@ -26,13 +26,13 @@ internal unsafe class DutyFinderOverlay : IDisposable
 
     private bool Enabled => RouletteSettings.Enabled.Value && RouletteSettings.OverlayEnabled.Value;
 
-    public DutyFinderOverlay()
+    public DutyRouletteOverlay()
     {
         var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
 
-        dutyFinder.OnRefresh += DutyFinderRefresh;
-        dutyFinder.OnDraw += DutyFinderDraw;
-        dutyFinder.OnFinalize += DutyFinderFinalize;
+        dutyFinder.Refresh += OnRefresh;
+        dutyFinder.Draw += OnDraw;
+        dutyFinder.Finalize += OnFinalize;
 
         var rouletteData = Service.DataManager.GetExcelSheet<ContentRoulette>()
             !.Where(cr => cr.Name != string.Empty);
@@ -51,12 +51,12 @@ internal unsafe class DutyFinderOverlay : IDisposable
 
         dutyFinder.ResetLabelColors(userDefaultTextColor);
 
-        dutyFinder.OnRefresh -= DutyFinderRefresh;
-        dutyFinder.OnDraw -= DutyFinderDraw;
-        dutyFinder.OnFinalize -= DutyFinderFinalize;
+        dutyFinder.Refresh -= OnRefresh;
+        dutyFinder.Draw -= OnDraw;
+        dutyFinder.Finalize -= OnFinalize;
     }
  
-    private void DutyFinderDraw(object? sender, IntPtr e)
+    private void OnDraw(object? sender, IntPtr e)
     {
         if (defaultColorSaved == false)
         {
@@ -80,7 +80,7 @@ internal unsafe class DutyFinderOverlay : IDisposable
         }
     }
 
-    private void DutyFinderRefresh(object? sender, IntPtr e)
+    private void OnRefresh(object? sender, IntPtr e)
     {
         if (Enabled)
         {
@@ -95,7 +95,7 @@ internal unsafe class DutyFinderOverlay : IDisposable
         }
     }
 
-    private void DutyFinderFinalize(object? sender, IntPtr e)
+    private void OnFinalize(object? sender, IntPtr e)
     {
         ResetDefaultTextColor(e.ToAtkUnitBase());
     }

@@ -10,8 +10,8 @@ namespace DailyDuty.Addons;
 
 internal unsafe class CommendationAddon : IDisposable
 {
-    public event EventHandler<IntPtr>? OnShow;
-    public event EventHandler<ReceiveEventArgs>? OnReceiveEvent;
+    public event EventHandler<IntPtr>? Show;
+    public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
     private delegate void AgentShow(AgentInterface* agent);
     private delegate void* AgentReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender);
@@ -23,8 +23,8 @@ internal unsafe class CommendationAddon : IDisposable
     {
         var commendationAgentInterface = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsMvp);
 
-        receiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(commendationAgentInterface->VTable->ReceiveEvent), CommendationReceiveEvent);
-        showEventHook ??= Hook<AgentShow>.FromAddress(new IntPtr(commendationAgentInterface->VTable->Show), CommendationShow);
+        receiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(commendationAgentInterface->VTable->ReceiveEvent), OnReceiveEvent);
+        showEventHook ??= Hook<AgentShow>.FromAddress(new IntPtr(commendationAgentInterface->VTable->Show), OnShow);
 
         receiveEventHook?.Enable();
         showEventHook?.Enable();
@@ -36,11 +36,11 @@ internal unsafe class CommendationAddon : IDisposable
         showEventHook?.Dispose();
     }
 
-    private void* CommendationReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
+    private void* OnReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
     {
         try
         {
-            OnReceiveEvent?.Invoke(this, new ReceiveEventArgs(agent, rawData, eventArgs, eventArgsCount, sender));
+            ReceiveEvent?.Invoke(this, new ReceiveEventArgs(agent, rawData, eventArgs, eventArgsCount, sender));
         }
         catch (Exception ex)
         {
@@ -50,11 +50,11 @@ internal unsafe class CommendationAddon : IDisposable
         return receiveEventHook!.Original(agent, rawData, eventArgs, eventArgsCount, sender);
     }
 
-    private void CommendationShow(AgentInterface* agent)
+    private void OnShow(AgentInterface* agent)
     {
         try
         {
-            OnShow?.Invoke(this, new IntPtr(agent));
+            Show?.Invoke(this, new IntPtr(agent));
         }
         catch (Exception ex)
         {

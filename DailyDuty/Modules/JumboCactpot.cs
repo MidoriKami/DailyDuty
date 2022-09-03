@@ -137,14 +137,14 @@ internal class JumboCactpot : IModule
         {
             ParentModule = parentModule;
 
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += GoldSaucerUpdate;
-            Service.AddonManager.Get<LotteryWeeklyAddon>().OnReceiveEvent += OnOnReceiveEvent;
+            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += OnGoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryWeeklyAddon>().OnReceiveEvent += OnReceiveEvent;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= GoldSaucerUpdate;
-            Service.AddonManager.Get<LotteryWeeklyAddon>().OnReceiveEvent -= OnOnReceiveEvent;
+            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= OnGoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryWeeklyAddon>().OnReceiveEvent -= OnReceiveEvent;
         }
 
         public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";
@@ -160,7 +160,7 @@ internal class JumboCactpot : IModule
             return string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
         }
 
-        private void OnOnReceiveEvent(object? sender, ReceiveEventArgs e)
+        private void OnReceiveEvent(object? sender, ReceiveEventArgs e)
         {
             var data = e.EventArgs->Int;
 
@@ -190,7 +190,7 @@ internal class JumboCactpot : IModule
             }
         }
 
-        private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
+        private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
         {
             //1010446 Jumbo Cactpot Broker
             if (Service.TargetManager.Target?.DataId != 1010446) return;

@@ -29,7 +29,7 @@ internal class DutyRoulette : IModule
     public ITimerComponent TimerComponent { get; }
     public GenericSettings GenericSettings => Settings;
 
-    private readonly DutyFinderOverlay overlay = new();
+    private readonly DutyRouletteOverlay overlay = new();
     public DutyRoulette()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
@@ -194,15 +194,15 @@ internal class DutyRoulette : IModule
 
             SignatureHelper.Initialise(this);
 
-            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenDutyFinder, OpenRouletteDutyFinder);
+            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenDutyFinder, OpenDutyFinder);
             CurrentLimitedTomestoneWeeklyCap = GetWeeklyTomestomeLimit();
 
-            Service.Framework.Update += FrameworkOnUpdate;
+            Service.Framework.Update += OnFrameworkUpdate;
         }
 
         public void Dispose()
         {
-            Service.Framework.Update -= FrameworkOnUpdate;
+            Service.Framework.Update -= OnFrameworkUpdate;
         }
 
         public string GetStatusMessage()
@@ -222,7 +222,7 @@ internal class DutyRoulette : IModule
             return RemainingRoulettesCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
         }
 
-        private void FrameworkOnUpdate(Dalamud.Game.Framework framework)
+        private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
         {
             if (!Service.ConfigurationManager.CharacterDataLoaded) return;
 
@@ -238,7 +238,7 @@ internal class DutyRoulette : IModule
             }
         }
 
-        public RouletteState GetRouletteState(RouletteType roulette)
+        private RouletteState GetRouletteState(RouletteType roulette)
         {
             if (roulette == RouletteType.Expert && Settings.HideExpertWhenCapped.Value)
             {
@@ -258,7 +258,7 @@ internal class DutyRoulette : IModule
             return GetCurrentLimitedTomestoneCount() == CurrentLimitedTomestoneWeeklyCap;
         }
 
-        private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
+        private void OpenDutyFinder(uint arg1, SeString arg2)
         {
             AgentContentsFinder.Instance()->OpenRouletteDuty(GetFirstMissingRoulette());
         }

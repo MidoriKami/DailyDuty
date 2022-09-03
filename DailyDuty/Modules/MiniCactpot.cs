@@ -126,14 +126,14 @@ internal class MiniCactpot : IModule
 
             SignatureHelper.Initialise(this);
 
-            Service.AddonManager.Get<LotteryDailyAddon>().OnShow += MiniCactpotShow;
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += GoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryDailyAddon>().OnShow += OnShow;
+            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += OnGoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<LotteryDailyAddon>().OnShow -= MiniCactpotShow;
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= GoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryDailyAddon>().OnShow -= OnShow;
+            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= OnGoldSaucerUpdate;
         }
 
         public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";
@@ -144,7 +144,7 @@ internal class MiniCactpot : IModule
 
         public ModuleStatus GetModuleStatus() => Settings.TicketsRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
+        private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
         {
             //1010445 Mini Cactpot Broker
             if (Service.TargetManager.Target?.DataId != 1010445) return;
@@ -161,7 +161,7 @@ internal class MiniCactpot : IModule
             }
         }
 
-        private void MiniCactpotShow(object? sender, IntPtr e)
+        private void OnShow(object? sender, IntPtr e)
         {
             Settings.TicketsRemaining -= 1;
             Service.ConfigurationManager.Save();

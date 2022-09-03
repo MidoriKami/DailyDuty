@@ -21,7 +21,7 @@ internal unsafe class GoldSaucerAddon : IDisposable
 {
     private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID);
 
-    [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
+    [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(ProcessNetworkPacket))]
     private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
 
     public event EventHandler<GoldSaucerEventArgs>? OnGoldSaucerUpdate;
@@ -38,7 +38,7 @@ internal unsafe class GoldSaucerAddon : IDisposable
         goldSaucerUpdateHook?.Dispose();
     }
 
-    private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID)
+    private void* ProcessNetworkPacket(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID)
     {
         try
         {

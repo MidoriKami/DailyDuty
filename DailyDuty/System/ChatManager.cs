@@ -15,8 +15,8 @@ internal class ChatManager : IDisposable
 
     public ChatManager()
     {
-        Service.ClientState.TerritoryChanged += ClientStateOnTerritoryChanged;
-        Service.ConfigurationManager.OnCharacterDataAvailable += OnCharacterDataAvailable;
+        Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+        Service.ConfigurationManager.OnCharacterDataAvailable += OnCharacterDataLoaded;
         
         foreach (var module in Service.ModuleManager.GetLogicComponents())
         {
@@ -27,11 +27,11 @@ internal class ChatManager : IDisposable
 
     public void Dispose()
     {
-        Service.ClientState.TerritoryChanged -= ClientStateOnTerritoryChanged;
-        Service.ConfigurationManager.OnCharacterDataAvailable -= OnCharacterDataAvailable;
+        Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
+        Service.ConfigurationManager.OnCharacterDataAvailable -= OnCharacterDataLoaded;
     }
 
-    private void OnCharacterDataAvailable(object? sender, CharacterConfiguration e)
+    private void OnCharacterDataLoaded(object? sender, CharacterConfiguration e)
     {
         ResetManager.ResetModules();
 
@@ -39,7 +39,7 @@ internal class ChatManager : IDisposable
         stopwatch.Restart();
     }
     
-    private void ClientStateOnTerritoryChanged(object? sender, ushort e)
+    private void OnTerritoryChanged(object? sender, ushort e)
     {
         if (stopwatch.Elapsed.Minutes >= 5 || stopwatch.IsRunning == false)
         {

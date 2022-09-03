@@ -22,7 +22,7 @@ internal unsafe class LotteryWeeklyAddon : IDisposable
 
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryWeekly);
 
-        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), LotteryWeekly_ReceiveEvent);
+        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), ReceiveEvent);
         agentShowHook?.Enable();
     }
 
@@ -31,7 +31,7 @@ internal unsafe class LotteryWeeklyAddon : IDisposable
         agentShowHook?.Dispose();
     }
 
-    public void* LotteryWeekly_ReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
+    public void* ReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
     {
         try
         {

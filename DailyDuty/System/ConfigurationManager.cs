@@ -28,24 +28,24 @@ internal class ConfigurationManager : IDisposable
             LoadCharacterConfiguration();
         }
 
-        Service.ClientState.Login += Login;
-        Service.ClientState.Logout += Logout;
+        Service.ClientState.Login += OnLogin;
+        Service.ClientState.Logout += OnLogout;
     }
 
     public void Dispose()
     {
-        Service.ClientState.Login -= Login;
-        Service.ClientState.Logout -= Logout;
+        Service.ClientState.Login -= OnLogin;
+        Service.ClientState.Logout -= OnLogout;
     }
 
-    private void Login(object? sender, EventArgs e)
+    private void OnLogin(object? sender, EventArgs e)
     {
         Log.Verbose("Adding Login Listener");
 
         Service.Framework.Update += LoginLogic;
     }
 
-    private void Logout(object? sender, EventArgs e)
+    private void OnLogout(object? sender, EventArgs e)
     {
         Log.Verbose($"Logging out of '{CharacterConfiguration.CharacterData.Name}'");
 

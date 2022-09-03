@@ -9,14 +9,14 @@ using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
+using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules;
 
@@ -126,14 +126,13 @@ internal class TreasureMap : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
-
-        private delegate void* TimersWindowDelegate(void* a1, void* a2, byte a3);
-        [Signature("E8 ?? ?? ?? ?? 48 8B 4E 10 48 8B 01 44 39 76 20", DetourName = nameof(TimersWindowOpened))]
-        private readonly Hook<TimersWindowDelegate>? timersWindowHook = null;
-
+        
         private delegate long GetNextMapAvailableTimeDelegate(UIState* uiState);
+
         [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]
         private readonly GetNextMapAvailableTimeDelegate getNextMapUnixTimestamp = null!;
+
+        private AtkUnitBase* ContentsTimerAgent => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsInfo", 1);
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -141,16 +140,14 @@ internal class TreasureMap : IModule
 
             SignatureHelper.Initialise(this);
 
-            timersWindowHook?.Enable();
-
-            Service.Chat.ChatMessage += HandleChat;
+            Service.Chat.ChatMessage += OnChatMessage;
+            Service.Framework.Update += OnFrameworkUpdate;
         }
-
+        
         public void Dispose()
         {
-            timersWindowHook?.Dispose();
-
-            Service.Chat.ChatMessage -= HandleChat;
+            Service.Chat.ChatMessage -= OnChatMessage;
+            Service.Framework.Update -= OnFrameworkUpdate;
         }
 
         public string GetStatusMessage() => Strings.Module.TreasureMap.MapAvailable;
@@ -164,7 +161,7 @@ internal class TreasureMap : IModule
 
         public ModuleStatus GetModuleStatus() => TimeUntilNextMap() == TimeSpan.Zero ? ModuleStatus.Incomplete : ModuleStatus.Complete;
 
-        private void HandleChat(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
+        private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
             if (Settings.Enabled.Value == false) return;
 
@@ -227,35 +224,26 @@ internal class TreasureMap : IModule
             return unixTimestamp == -1 ? DateTime.MinValue : DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).UtcDateTime;
         }
         
-        private void* TimersWindowOpened(void* a1, void* a2, byte a3)
+        private void OnFrameworkUpdate(Framework framework)
         {
-            var result = timersWindowHook!.Original(a1, a2, a3);
+            if (ContentsTimerAgent == null) return;
 
-            try
+            var nextAvailable = GetNextMapAvailableTime();
+
+            if (nextAvailable != DateTime.MinValue)
             {
-                var nextAvailable = GetNextMapAvailableTime();
+                var storedTime = Settings.LastMapGathered;
+                storedTime = storedTime.AddSeconds(-storedTime.Second);
 
-                if (nextAvailable != DateTime.MinValue)
+                var retrievedTime = nextAvailable;
+                retrievedTime = retrievedTime.AddSeconds(-retrievedTime.Second).AddHours(-18);
+
+                if (storedTime != retrievedTime)
                 {
-                    var storedTime = Settings.LastMapGathered;
-                    storedTime = storedTime.AddSeconds(-storedTime.Second);
-
-                    var retrievedTime = nextAvailable;
-                    retrievedTime = retrievedTime.AddSeconds(-retrievedTime.Second).AddHours(-18);
-
-                    if (storedTime != retrievedTime)
-                    {
-                        Settings.LastMapGathered = retrievedTime;
-                        Service.ConfigurationManager.Save();
-                    }
+                    Settings.LastMapGathered = retrievedTime;
+                    Service.ConfigurationManager.Save();
                 }
             }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "Failed to re-sync Treasure Map timer data from Timers Window");
-            }
-
-            return result;
         }
     }
 

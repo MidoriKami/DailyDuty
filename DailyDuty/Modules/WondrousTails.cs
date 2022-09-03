@@ -32,7 +32,7 @@ internal class WondrousTails : IModule
     private static WondrousTailsSettings Settings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
     public GenericSettings GenericSettings => Settings;
 
-    private readonly DutyFinderOverlay overlay = new();
+    private readonly DutyRouletteOverlay overlay = new();
 
     public WondrousTails()
     {
@@ -142,14 +142,14 @@ internal class WondrousTails : IModule
 
             DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
 
-            Service.AddonManager.Get<DutyEventAddon>().OnDutyStarted += OnDutyStartNotification;
-            Service.AddonManager.Get<DutyEventAddon>().OnDutyCompleted += OnDutyEndNotification;
+            Service.AddonManager.Get<DutyEventAddon>().DutyStarted += OnDutyStarted;
+            Service.AddonManager.Get<DutyEventAddon>().DutyCompleted += OnDutyCompleted;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<DutyEventAddon>().OnDutyStarted -= OnDutyStartNotification;
-            Service.AddonManager.Get<DutyEventAddon>().OnDutyCompleted -= OnDutyEndNotification;
+            Service.AddonManager.Get<DutyEventAddon>().DutyStarted -= OnDutyStarted;
+            Service.AddonManager.Get<DutyEventAddon>().DutyCompleted -= OnDutyCompleted;
 
             wondrousTailsOverlay.Dispose();
         }
@@ -188,7 +188,7 @@ internal class WondrousTails : IModule
             }
         }
         
-        private void OnDutyStartNotification(object? sender, EventArgs args)
+        private void OnDutyStarted(object? sender, EventArgs args)
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
@@ -219,7 +219,7 @@ internal class WondrousTails : IModule
             }
         }
 
-        private void OnDutyEndNotification(object? sender, EventArgs args)
+        private void OnDutyCompleted(object? sender, EventArgs args)
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;

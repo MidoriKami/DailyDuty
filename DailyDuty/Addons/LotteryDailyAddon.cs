@@ -21,7 +21,7 @@ internal unsafe class LotteryDailyAddon : IDisposable
 
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryDaily);
 
-        agentShowHook ??= Hook<AgentShow>.FromAddress(new IntPtr(agent->VTable->Show), LotteryDaily_Show);
+        agentShowHook ??= Hook<AgentShow>.FromAddress(new IntPtr(agent->VTable->Show), Show);
         agentShowHook?.Enable();
     }
 
@@ -30,7 +30,7 @@ internal unsafe class LotteryDailyAddon : IDisposable
         agentShowHook?.Dispose();
     }
 
-    public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
+    public void* Show(AgentInterface* addon, void* a2, void* a3)
     {
         try
         {
