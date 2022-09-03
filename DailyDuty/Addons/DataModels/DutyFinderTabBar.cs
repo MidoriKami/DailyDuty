@@ -4,7 +4,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons.DataModels;
 
-internal unsafe class DutyFinderTabBar
+internal unsafe struct DutyFinderTabBar
 {
     private readonly AtkUnitBase* addonBase;
     public List<RadioButtonNode> RadioButtons = new();

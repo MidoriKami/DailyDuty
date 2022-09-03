@@ -9,7 +9,7 @@ internal enum CloverState
     Dark
 }
 
-internal unsafe class CloverNode
+internal unsafe struct CloverNode
 {
     public AtkImageNode* GoldenCloverNode;
     public AtkImageNode* EmptyCloverNode;
@@ -20,7 +20,7 @@ internal unsafe class CloverNode
         EmptyCloverNode = dark;
     }
 
-    public void SetVisibility(CloverState state)
+    public readonly void SetVisibility(CloverState state)
     {
         if (GoldenCloverNode == null || EmptyCloverNode == null) return;
 

@@ -3,7 +3,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons.DataModels;
 
-internal unsafe class RadioButtonNode
+internal unsafe struct RadioButtonNode
 {
     private readonly AtkComponentRadioButton* radioButtonNode;
 

@@ -7,14 +7,35 @@ namespace DailyDuty.Addons;
 
 internal unsafe class GoldSaucerEventArgs : EventArgs
 {
-    public GoldSaucerEventArgs(int* data, byte eventID)
+    public GoldSaucerEventArgs(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID)
     {
         Data = data;
         EventID = eventID;
+        A1 = a1;
+        A2 = a2;
+        A3 = a3;
+        A4 = a4;
+        A5 = a5;
     }
 
+    public void* A1;
+    public byte* A2;
+    public uint A3;
+    public ushort A4;
+    public void* A5;
     public int* Data;
     public byte EventID;
+
+    public void Print()
+    {
+        PluginLog.Verbose($"A1: {(IntPtr)A1:X8}");
+        PluginLog.Verbose($"A2: {(IntPtr)A2:X8}");
+        PluginLog.Verbose($"A3: {A3}");
+        PluginLog.Verbose($"A4: {A4}");
+        PluginLog.Verbose($"A5: {(IntPtr)A5:X8}");
+        PluginLog.Verbose($"Data: {(IntPtr)Data:X8}");
+        PluginLog.Verbose($"EventID: {EventID}");
+    }
 }
 
 internal unsafe class GoldSaucerAddon : IDisposable
@@ -42,7 +63,13 @@ internal unsafe class GoldSaucerAddon : IDisposable
     {
         try
         {
-            OnGoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(data, eventID));
+            var eventArgs = new GoldSaucerEventArgs(a1, a2, a3, a4, a5, data, eventID);
+
+            PluginLog.Verbose($"Gold Saucer Message =====");
+            eventArgs.Print();
+            PluginLog.Verbose("--------------------------");
+
+            OnGoldSaucerUpdate?.Invoke(this, eventArgs);
         }
         catch (Exception ex)
         {

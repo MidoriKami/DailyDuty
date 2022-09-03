@@ -6,10 +6,10 @@ using DailyDuty.Utilities;
 
 namespace DailyDuty.Addons.DataModels;
 
-internal unsafe class DutyFinderTreeListItem
+internal unsafe struct DutyFinderTreeListItem
 {
     private readonly AtkComponentNode* treeListItem;
-    public readonly CloverNode CloverNode;
+    public CloverNode CloverNode;
 
     public string Label => GetLabel();
     public string FilteredLabel => GetFilteredLabel();
@@ -17,7 +17,11 @@ internal unsafe class DutyFinderTreeListItem
     public DutyFinderTreeListItem(AtkComponentNode* treeListItem)
     {
         this.treeListItem = treeListItem;
-        CloverNode = GetCloverNodes();
+
+        var cloverNode = Node.GetNodeByID<AtkImageNode>(treeListItem, 29, NodeType.Image);
+        var emptyCloverNode = Node.GetNodeByID<AtkImageNode>(treeListItem, 30, NodeType.Image);
+
+        CloverNode =  new CloverNode(cloverNode, emptyCloverNode);
     }
 
     private string GetLabel()
@@ -28,14 +32,6 @@ internal unsafe class DutyFinderTreeListItem
     private string GetFilteredLabel()
     {
         return Regex.Replace(Label, "[^\\p{L}\\p{N}]", "");
-    }
-
-    private CloverNode GetCloverNodes()
-    {
-        var cloverNode = Node.GetNodeByID<AtkImageNode>(treeListItem, 29, NodeType.Image);
-        var emptyCloverNode = Node.GetNodeByID<AtkImageNode>(treeListItem, 30, NodeType.Image);
-
-        return new CloverNode(cloverNode, emptyCloverNode);
     }
 
     private AtkTextNode* GetLabelNode()

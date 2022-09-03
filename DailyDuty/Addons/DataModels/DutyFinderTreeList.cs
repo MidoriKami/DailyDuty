@@ -6,9 +6,9 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons.DataModels;
 
-internal unsafe class DutyFinderTreeList
+internal unsafe struct DutyFinderTreeList
 {
-    private readonly AtkComponentNode* treeNodeBase;
+    private AtkComponentNode* treeNodeBase;
     public List<DutyFinderTreeListItem> Items = new();
 
     public DutyFinderTreeList(AtkComponentNode* treeListNode)
