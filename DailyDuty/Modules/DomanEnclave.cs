@@ -2,6 +2,7 @@
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
@@ -134,10 +135,10 @@ internal class DomanEnclave : IModule
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.DomanEnclave);
 
-        private delegate IntPtr GetPointerDelegate();
+        private delegate DomanEnclaveStruct* GetDataDelegate();
 
         [Signature("E8 ?? ?? ?? ?? 48 85 C0 74 09 0F B6 B8")]
-        private readonly GetPointerDelegate getBasePointer = null!;
+        private readonly GetDataDelegate getDomanEnclaveStruct = null!;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -198,25 +199,9 @@ internal class DomanEnclave : IModule
             }
         }
 
-        private ushort GetDonatedThisWeek()
-        {
-            var baseAddress = getBasePointer();
-            var donatedThisWeek = *((ushort*) baseAddress + 80);
-
-            return donatedThisWeek;
-        }
-
-        public ushort GetWeeklyAllowance()
-        {
-            var baseAddress = getBasePointer();
-            var adjustedAddress = baseAddress + 166;
-
-            var allowance = *(ushort*) adjustedAddress;
-
-            return allowance;
-        }
-
         public int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
+        private ushort GetDonatedThisWeek() => getDomanEnclaveStruct()->Donated;
+        private ushort GetWeeklyAllowance() => getDomanEnclaveStruct()->Allowance;
         private bool DataAvailable() => GetWeeklyAllowance() != 0;
         private bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
     }
