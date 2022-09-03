@@ -16,14 +16,18 @@ internal unsafe class RadioButtonNode
 
     private AtkResNode* GetPrimaryColorResNode()
     {
-        var baseComponent = radioButtonNode->AtkComponentBase.UldManager;
+        if (radioButtonNode == null) return null;
 
-        return Node.GetNodeByID<AtkResNode>(baseComponent, 5);
+        var componentBase = radioButtonNode->AtkComponentBase;
+        var uldManager = componentBase.UldManager;
+
+        return Node.GetNodeByID<AtkResNode>(uldManager, 5);
     }
 
     private bool IsNodeSelected()
     {
         var resNode = GetPrimaryColorResNode();
+        if (resNode == null) return false;
 
         var resNodeAddColor = resNode->AddRed;
 
