@@ -43,6 +43,14 @@
 		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+	  <NoWarn>1701;1702;0067</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+	  <NoWarn>1701;1702;0067</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
