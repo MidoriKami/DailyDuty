@@ -194,8 +194,7 @@ internal class DutyRoulette : IModule
 
             SignatureHelper.Initialise(this);
 
-            DalamudLinkPayload =
-                Service.PayloadManager.AddChatLink(ChatPayloads.OpenDutyFinder, OpenRouletteDutyFinder);
+            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenDutyFinder, OpenRouletteDutyFinder);
             CurrentLimitedTomestoneWeeklyCap = GetWeeklyTomestomeLimit();
 
             Service.Framework.Update += FrameworkOnUpdate;
