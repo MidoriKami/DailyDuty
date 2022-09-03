@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Addons.Enums;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.ModuleSettings;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
@@ -29,9 +28,11 @@ internal unsafe class DutyFinderOverlay : IDisposable
 
     public DutyFinderOverlay()
     {
-        Service.AddonManager[AddonName.DutyFinder].OnRefresh += DutyFinderRefresh;
-        Service.AddonManager[AddonName.DutyFinder].OnDraw += DutyFinderDraw;
-        Service.AddonManager[AddonName.DutyFinder].OnFinalize += DutyFinderFinalize;
+        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
+
+        dutyFinder.OnRefresh += DutyFinderRefresh;
+        dutyFinder.OnDraw += DutyFinderDraw;
+        dutyFinder.OnFinalize += DutyFinderFinalize;
 
         var rouletteData = Service.DataManager.GetExcelSheet<ContentRoulette>()
             !.Where(cr => cr.Name != string.Empty);
@@ -46,18 +47,20 @@ internal unsafe class DutyFinderOverlay : IDisposable
 
     public void Dispose()
     {
-        Service.AddonManager.GetAddonByType<DutyFinderAddon>().ResetLabelColors(userDefaultTextColor);
+        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
 
-        Service.AddonManager[AddonName.DutyFinder].OnRefresh -= DutyFinderRefresh;
-        Service.AddonManager[AddonName.DutyFinder].OnDraw -= DutyFinderDraw;
-        Service.AddonManager[AddonName.DutyFinder].OnFinalize -= DutyFinderFinalize;
+        dutyFinder.ResetLabelColors(userDefaultTextColor);
+
+        dutyFinder.OnRefresh -= DutyFinderRefresh;
+        dutyFinder.OnDraw -= DutyFinderDraw;
+        dutyFinder.OnFinalize -= DutyFinderFinalize;
     }
  
     private void DutyFinderDraw(object? sender, IntPtr e)
     {
         if (defaultColorSaved == false)
         {
-            var addon = Service.AddonManager.GetAddonByType<DutyFinderAddon>();
+            var addon = Service.AddonManager.Get<DutyFinderAddon>();
             var tree = addon.GetBaseTreeNode(e.ToAtkUnitBase());
             var line = tree.Items.First();
             userDefaultTextColor = line.GetTextColor();
@@ -99,14 +102,14 @@ internal unsafe class DutyFinderOverlay : IDisposable
 
     private void ResetDefaultTextColor(AtkUnitBase* rootNode)
     {
-        var addon = Service.AddonManager.GetAddonByType<DutyFinderAddon>();
+        var addon = Service.AddonManager.Get<DutyFinderAddon>();
 
         addon.GetBaseTreeNode(rootNode).SetColorAll(userDefaultTextColor);
     }
 
     private void SetRouletteColors(AtkUnitBase* rootNode)
     {
-        var addon = Service.AddonManager.GetAddonByType<DutyFinderAddon>();
+        var addon = Service.AddonManager.Get<DutyFinderAddon>();
         var treeNode = addon.GetBaseTreeNode(rootNode);
 
         foreach (var item in treeNode.Items)
@@ -145,7 +148,7 @@ internal unsafe class DutyFinderOverlay : IDisposable
 
     private bool IsTabSelected(uint tab, AtkUnitBase* addonBase)
     {
-        var addon = Service.AddonManager.GetAddonByType<DutyFinderAddon>();
+        var addon = Service.AddonManager.Get<DutyFinderAddon>();
         var tabBar = addon.GetTabBar(addonBase);
 
         return tab == tabBar.GetSelectedTabIndex();

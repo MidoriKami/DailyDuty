@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Addons;
-using DailyDuty.Addons.Enums;
-using DailyDuty.Interfaces;
 
 namespace DailyDuty.System;
 
 internal class AddonManager : IDisposable
 {
-    private readonly List<IAddon> addons = new()
+    private readonly List<IDisposable> addons = new()
     {
         new DutyFinderAddon(),
         new LotteryDailyAddon(),
         new CommendationAddon(),
         new LotteryWeeklyAddon(),
+        new GoldSaucerAddon(),
+        new DutyEventAddon(),
     };
     
     public void Dispose()
@@ -25,9 +25,7 @@ internal class AddonManager : IDisposable
         }
     }
 
-    public IAddon this[AddonName name] => addons.First(module => module.Name == name);
-
-    public T GetAddonByType<T>()
+    public T Get<T>()
     {
         return addons.OfType<T>().First();
     }

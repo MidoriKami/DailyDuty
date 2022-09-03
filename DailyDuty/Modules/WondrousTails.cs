@@ -1,4 +1,5 @@
 ﻿using System;
+using DailyDuty.Addons;
 using DailyDuty.Addons.Overlays;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
@@ -141,14 +142,14 @@ internal class WondrousTails : IModule
 
             DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
 
-            Service.DutyEventManager.OnDutyStarted += OnDutyStartNotification;
-            Service.DutyEventManager.OnDutyCompleted += OnDutyEndNotification;
+            Service.AddonManager.Get<DutyEventAddon>().OnDutyStarted += OnDutyStartNotification;
+            Service.AddonManager.Get<DutyEventAddon>().OnDutyCompleted += OnDutyEndNotification;
         }
 
         public void Dispose()
         {
-            Service.DutyEventManager.OnDutyStarted -= OnDutyStartNotification;
-            Service.DutyEventManager.OnDutyCompleted -= OnDutyEndNotification;
+            Service.AddonManager.Get<DutyEventAddon>().OnDutyStarted -= OnDutyStartNotification;
+            Service.AddonManager.Get<DutyEventAddon>().OnDutyCompleted -= OnDutyEndNotification;
 
             wondrousTailsOverlay.Dispose();
         }

@@ -3,7 +3,7 @@ using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 
-namespace DailyDuty.System;
+namespace DailyDuty.Addons;
 
 internal unsafe class GoldSaucerEventArgs : EventArgs
 {
@@ -17,7 +17,7 @@ internal unsafe class GoldSaucerEventArgs : EventArgs
     public byte EventID;
 }
 
-internal unsafe class GoldSaucerEventManager : IDisposable
+internal unsafe class GoldSaucerAddon : IDisposable
 {
     private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID);
 
@@ -26,7 +26,7 @@ internal unsafe class GoldSaucerEventManager : IDisposable
 
     public event EventHandler<GoldSaucerEventArgs>? OnGoldSaucerUpdate;
 
-    public GoldSaucerEventManager()
+    public GoldSaucerAddon()
     {
         SignatureHelper.Initialise(this);
 

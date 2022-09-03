@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using DailyDuty.Addons;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Addons.Enums;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
@@ -137,14 +137,14 @@ internal class JumboCactpot : IModule
         {
             ParentModule = parentModule;
 
-            Service.GoldSaucerEventManager.OnGoldSaucerUpdate += GoldSaucerUpdate;
-            Service.AddonManager[AddonName.JumboCactpot].OnReceiveEvent += OnOnReceiveEvent;
+            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += GoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryWeeklyAddon>().OnReceiveEvent += OnOnReceiveEvent;
         }
 
         public void Dispose()
         {
-            Service.GoldSaucerEventManager.OnGoldSaucerUpdate -= GoldSaucerUpdate;
-            Service.AddonManager[AddonName.JumboCactpot].OnReceiveEvent -= OnOnReceiveEvent;
+            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= GoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryWeeklyAddon>().OnReceiveEvent -= OnOnReceiveEvent;
         }
 
         public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";

@@ -1,7 +1,4 @@
 ﻿using System;
-using DailyDuty.Addons.DataModels;
-using DailyDuty.Addons.Enums;
-using DailyDuty.Interfaces;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
@@ -11,16 +8,9 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class LotteryDailyAddon : IAddon
+internal unsafe class LotteryDailyAddon : IDisposable
 {
-    public AddonName Name => AddonName.MiniCactpot;
-
     public event EventHandler<IntPtr>? OnShow;
-    public event EventHandler<IntPtr>? OnDraw;
-    public event EventHandler<IntPtr>? OnFinalize;
-    public event EventHandler<IntPtr>? OnUpdate;
-    public event EventHandler<IntPtr>? OnRefresh;
-    public event EventHandler<ReceiveEventArgs>? OnReceiveEvent;
 
     private delegate void* AgentShow(AgentInterface* agent, void* a2, void* a3);
     private readonly Hook<AgentShow>? agentShowHook;

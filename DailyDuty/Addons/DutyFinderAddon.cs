@@ -1,7 +1,5 @@
 ﻿using System;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Addons.Enums;
-using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Hooking;
 using Dalamud.Logging;
@@ -12,11 +10,8 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class DutyFinderAddon : IAddon
+internal unsafe class DutyFinderAddon : IDisposable
 {
-    public AddonName Name => AddonName.DutyFinder;
-
-    public event EventHandler<IntPtr>? OnShow;
     public event EventHandler<IntPtr>? OnDraw;
     public event EventHandler<IntPtr>? OnFinalize;
     public event EventHandler<IntPtr>? OnUpdate;

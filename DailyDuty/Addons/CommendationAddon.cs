@@ -1,7 +1,5 @@
 ﻿using System;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Addons.Enums;
-using DailyDuty.Interfaces;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -10,15 +8,9 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class CommendationAddon : IAddon
+internal unsafe class CommendationAddon : IDisposable
 {
-    public AddonName Name => AddonName.Commendations;
-
     public event EventHandler<IntPtr>? OnShow;
-    public event EventHandler<IntPtr>? OnDraw;
-    public event EventHandler<IntPtr>? OnFinalize;
-    public event EventHandler<IntPtr>? OnUpdate;
-    public event EventHandler<IntPtr>? OnRefresh;
     public event EventHandler<ReceiveEventArgs>? OnReceiveEvent;
 
     private delegate void AgentShow(AgentInterface* agent);

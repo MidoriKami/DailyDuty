@@ -3,9 +3,9 @@ using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 
-namespace DailyDuty.System;
+namespace DailyDuty.Addons;
 
-internal unsafe class DutyEventManager : IDisposable
+internal unsafe class DutyEventAddon : IDisposable
 {
     private delegate byte DutyEventDelegate(void* a1, void* a2, ushort* a3);
 
@@ -17,7 +17,7 @@ internal unsafe class DutyEventManager : IDisposable
     public event EventHandler? OnDutyWipe;
     public event EventHandler? OnDutyRecommence;
 
-    public DutyEventManager()
+    public DutyEventAddon()
     {
         SignatureHelper.Initialise(this);
 
@@ -33,10 +33,10 @@ internal unsafe class DutyEventManager : IDisposable
     {
         try
         {
-            if(!Service.ConfigurationManager.CharacterDataLoaded) return dutyEventHook!.Original(a1, a2, a3);
+            if (!Service.ConfigurationManager.CharacterDataLoaded) return dutyEventHook!.Original(a1, a2, a3);
 
-            var category = *(a3);
-            var type = *(uint*) (a3 + 4);
+            var category = *a3;
+            var type = *(uint*)(a3 + 4);
 
             // DirectorUpdate Category
             if (category == 0x6D)
@@ -69,7 +69,7 @@ internal unsafe class DutyEventManager : IDisposable
         {
             PluginLog.Error(ex, "Failed to get duty status");
         }
-                
+
         return dutyEventHook!.Original(a1, a2, a3);
     }
 }

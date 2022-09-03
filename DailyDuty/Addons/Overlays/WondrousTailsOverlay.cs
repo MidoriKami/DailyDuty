@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Addons.Enums;
 using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -27,10 +26,12 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
     public WondrousTailsOverlay()
     {
-        Service.AddonManager[AddonName.DutyFinder].OnRefresh += DutyFinderRefresh;
-        Service.AddonManager[AddonName.DutyFinder].OnUpdate += DutyFinderUpdate;
-        Service.AddonManager[AddonName.DutyFinder].OnDraw += DutyFinderDraw;
-        Service.AddonManager[AddonName.DutyFinder].OnFinalize += DutyFinderFinalize;
+        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
+
+        dutyFinder.OnRefresh += DutyFinderRefresh;
+        dutyFinder.OnUpdate += DutyFinderUpdate;
+        dutyFinder.OnDraw += DutyFinderDraw;
+        dutyFinder.OnFinalize += DutyFinderFinalize;
 
         var contentFinderData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
             !.Where(cfc => cfc.Name != string.Empty);
@@ -47,12 +48,14 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
     public void Dispose()
     {
-        Service.AddonManager.GetAddonByType<DutyFinderAddon>().HideCloverNodes();
+        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
 
-        Service.AddonManager[AddonName.DutyFinder].OnRefresh -= DutyFinderRefresh;
-        Service.AddonManager[AddonName.DutyFinder].OnUpdate -= DutyFinderUpdate;
-        Service.AddonManager[AddonName.DutyFinder].OnDraw -= DutyFinderDraw;
-        Service.AddonManager[AddonName.DutyFinder].OnFinalize -= DutyFinderFinalize;
+        dutyFinder.HideCloverNodes();
+
+        dutyFinder.OnRefresh -= DutyFinderRefresh;
+        dutyFinder.OnUpdate -= DutyFinderUpdate;
+        dutyFinder.OnDraw -= DutyFinderDraw;
+        dutyFinder.OnFinalize -= DutyFinderFinalize;
     }
 
     private void DutyFinderRefresh(object? sender, IntPtr e)
@@ -75,7 +78,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
     {
         if (Enabled)
         {
-            var addon = Service.AddonManager.GetAddonByType<DutyFinderAddon>();
+            var addon = Service.AddonManager.Get<DutyFinderAddon>();
             var treeNode = addon.GetBaseTreeNode(e.ToAtkUnitBase());
 
             treeNode.MakeCloverNodes();
@@ -84,7 +87,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
     private void DutyFinderFinalize(object? sender, IntPtr e)
     {
-        Service.AddonManager.GetAddonByType<DutyFinderAddon>().HideCloverNodes();
+        Service.AddonManager.Get<DutyFinderAddon>().HideCloverNodes();
     }
 
     private ButtonState? IsWondrousTailsDuty(DutyFinderTreeListItem item)
@@ -123,7 +126,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
     private void UpdateWondrousTails(AtkUnitBase* baseNode)
     {
-        var addon = Service.AddonManager.GetAddonByType<DutyFinderAddon>();
+        var addon = Service.AddonManager.Get<DutyFinderAddon>();
         var treeNode = addon.GetBaseTreeNode(baseNode);
 
         foreach (var item in treeNode.Items)
