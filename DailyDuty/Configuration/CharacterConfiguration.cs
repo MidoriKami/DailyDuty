@@ -33,7 +33,6 @@ internal class CharacterConfiguration
     public MiniCactpotSettings MiniCactpot = new();
     public TreasureMapSettings TreasureMap = new();
     public WondrousTailsSettings WondrousTails = new();
-    public ChallengeLogSettings ChallengeLog = new();
 
     public void Save()
     {
@@ -45,9 +44,7 @@ internal class CharacterConfiguration
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            var writer = new StreamWriter(configFileInfo.FullName);
-            writer.Write(serializedContents);
-            writer.Dispose();
+            File.WriteAllText(configFileInfo.FullName, serializedContents);
         }
         else
         {
@@ -68,9 +65,7 @@ internal class CharacterConfiguration
 
         if (configFileInfo.Exists)
         {
-            var reader = new StreamReader(configFileInfo.FullName);
-            var fileText = reader.ReadToEnd();
-            reader.Dispose();
+            var fileText = File.ReadAllText(configFileInfo.FullName);
 
             var versionNumber = GetConfigFileVersion(fileText);
 
@@ -111,24 +106,24 @@ internal class CharacterConfiguration
 
     private static CharacterConfiguration CreateNewCharacterConfiguration()
     {
-        var newCharacterConfiguration = new CharacterConfiguration();
+            var newCharacterConfiguration = new CharacterConfiguration();
 
-        var playerData = Service.ClientState.LocalPlayer;
-        var contentId = Service.ClientState.LocalContentId;
+            var playerData = Service.ClientState.LocalPlayer;
+            var contentId = Service.ClientState.LocalContentId;
 
-        var playerName = playerData?.Name.TextValue ?? "Unknown";
-        var playerWorld = playerData?.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
+            var playerName = playerData?.Name.TextValue ?? "Unknown";
+            var playerWorld = playerData?.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
 
-        newCharacterConfiguration.CharacterData = new CharacterData()
-        {
-            Name = playerName,
-            LocalContentID = contentId,
-            World = playerWorld,
-        };
+            newCharacterConfiguration.CharacterData = new CharacterData()
+            {
+                Name = playerName,
+                LocalContentID = contentId,
+                World = playerWorld,
+            };
 
-        newCharacterConfiguration.Save();
-        return newCharacterConfiguration;
-    }
+            newCharacterConfiguration.Save();
+            return newCharacterConfiguration;
+        }
 
     private static int GetConfigFileVersion(string fileText)
     {
