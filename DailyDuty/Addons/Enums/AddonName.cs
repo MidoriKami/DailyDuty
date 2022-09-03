@@ -2,5 +2,7 @@
 
 internal enum AddonName
 {
-    DutyFinder
+    DutyFinder,
+    MiniCactpot,
+    Commendations,
 }

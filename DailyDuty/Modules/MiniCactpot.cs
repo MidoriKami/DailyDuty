@@ -1,4 +1,5 @@
 ﻿using System;
+using DailyDuty.Addons.Enums;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
@@ -12,7 +13,6 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules;
 
@@ -122,12 +122,8 @@ internal class MiniCactpot : IModule
 
         public DalamudLinkPayload? DalamudLinkPayload { get; }= Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        private delegate void* AgentShow(AgentInterface* addon, void* a2, void* a3);
         private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
-
-        [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
-        private readonly Hook<AgentShow>? receiveEventHook = null;
-
+        
         [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
         private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
 
@@ -137,14 +133,16 @@ internal class MiniCactpot : IModule
 
             SignatureHelper.Initialise(this);
 
-            receiveEventHook?.Enable();
+            Service.AddonManager[AddonName.MiniCactpot].OnShow += MiniCactpotShow;
+
             goldSaucerUpdateHook?.Enable();
         }
 
         public void Dispose()
         {
-            receiveEventHook?.Dispose();
             goldSaucerUpdateHook?.Dispose();
+
+            Service.AddonManager[AddonName.MiniCactpot].OnShow -= MiniCactpotShow;
         }
 
         public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";
@@ -188,19 +186,10 @@ internal class MiniCactpot : IModule
             return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
         }
 
-        public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
+        private void MiniCactpotShow(object? sender, IntPtr e)
         {
-            try
-            {
-                Settings.TicketsRemaining -= 1;
-                Service.ConfigurationManager.Save();
-            }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "Unable to update Mini cactpot counts");
-            }
-
-            return receiveEventHook!.Original(addon, a2, a3);
+            Settings.TicketsRemaining -= 1;
+            Service.ConfigurationManager.Save();
         }
     }
 

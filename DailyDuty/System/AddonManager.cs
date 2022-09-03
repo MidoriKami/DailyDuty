@@ -12,6 +12,8 @@ internal class AddonManager : IDisposable
     private readonly List<IAddon> addons = new()
     {
         new DutyFinderAddon(),
+        new LotteryDailyAddon(),
+        new CommendationAddon(),
     };
     
     public void Dispose()

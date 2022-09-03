@@ -7,7 +7,6 @@ using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
@@ -17,30 +16,39 @@ internal unsafe class DutyFinderAddon : IAddon
 {
     public AddonName Name => AddonName.DutyFinder;
 
+    public event EventHandler<IntPtr>? OnShow;
     public event EventHandler<IntPtr>? OnDraw;
     public event EventHandler<IntPtr>? OnFinalize;
     public event EventHandler<IntPtr>? OnUpdate;
     public event EventHandler<IntPtr>? OnRefresh;
+    public event EventHandler<ReceiveEventArgs>? OnReceiveEvent;
 
-    private delegate void* AgentShow(void* a1);
+    private delegate void* AddonShow(AgentInterface* a1);
     private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
     private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
     private delegate void* AddonFinalize(AtkUnitBase* atkUnitBase);
     private delegate byte AddonUpdate(AtkUnitBase* atkUnitBase);
-
+    private delegate void* AgentReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender);
+    
     [Signature("40 53 48 83 EC 20 48 8B D9 E8 ?? ?? ?? ?? 84 C0 74 30 48 8B 4B 10", DetourName = nameof(DutyFinder_Show))]
-    private readonly Hook<AgentShow>? contentsFinderShowHook = null;
+    private readonly Hook<AddonShow>? contentsFinderShowHook = null;
 
     private Hook<AddonDraw>? onDrawHook;
     private Hook<AddonFinalize>? onFinalizeHook;
     private Hook<AddonUpdate>? onUpdateHook;
     private Hook<AddonOnRefresh>? onRefreshHook;
+    private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
 
     public DutyFinderAddon()
     {
         SignatureHelper.Initialise(this);
 
         contentsFinderShowHook?.Enable();
+
+        var agent = AgentContentsFinder.Instance()->AgentInterface;
+
+        onReceiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent.VTable->ReceiveEvent), DutyFinder_ReceiveEvent);
+        onReceiveEventHook?.Enable();
     }
 
     public void Dispose()
@@ -51,42 +59,28 @@ internal unsafe class DutyFinderAddon : IAddon
         onFinalizeHook?.Dispose();
         onUpdateHook?.Dispose();
         onRefreshHook?.Dispose();
+        onReceiveEventHook?.Dispose();
     }
 
-    private void* DutyFinder_Show(void* a1)
+    private void* DutyFinder_Show(AgentInterface* agent)
     {
-        var result = contentsFinderShowHook!.Original(a1);
+        var result = contentsFinderShowHook!.Original(agent);
 
         try
         {
-            var contentsFinderAgent = Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsFinder);
+            var addon = GetContentsFinderPointer();
 
-            if (contentsFinderAgent->IsAgentActive())
-            {
-                var addonContentsFinder = GetContentsFinderPointer();
+            onDrawHook ??= Hook<AddonDraw>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[41]), DutyFinder_Draw);
+            onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[39]), DutyFinder_Finalize);
+            onUpdateHook ??= Hook<AddonUpdate>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[40]), DutyFinder_Update);
+            onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[48]), DutyFinder_OnRefresh);
 
-                if (addonContentsFinder == null)
-                {
-                    return result;
-                }
+            onDrawHook?.Enable();
+            onFinalizeHook?.Enable();
+            onUpdateHook?.Enable();
+            onRefreshHook?.Enable();
 
-                var drawAddress = addonContentsFinder->AtkEventListener.vfunc[41];
-                var finalizeAddress = addonContentsFinder->AtkEventListener.vfunc[39];
-                var updateAddress = addonContentsFinder->AtkEventListener.vfunc[40];
-                var onRefreshAddress = addonContentsFinder->AtkEventListener.vfunc[48];
-
-                onDrawHook ??= Hook<AddonDraw>.FromAddress(new IntPtr(drawAddress), DutyFinder_Draw);
-                onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new IntPtr(finalizeAddress), DutyFinder_Finalize);
-                onUpdateHook ??= Hook<AddonUpdate>.FromAddress(new IntPtr(updateAddress), DutyFinder_Update);
-                onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new IntPtr(onRefreshAddress), DutyFinder_OnRefresh);
-
-                onDrawHook.Enable();
-                onFinalizeHook.Enable();
-                onUpdateHook.Enable();
-                onRefreshHook.Enable();
-
-                contentsFinderShowHook!.Disable();
-            }
+            contentsFinderShowHook!.Disable();
         }
         catch (Exception ex)
         {
@@ -95,6 +89,23 @@ internal unsafe class DutyFinderAddon : IAddon
 
         return result;
     }
+
+    private void* DutyFinder_ReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
+    {
+        var result = onReceiveEventHook!.Original(agent, rawData, eventArgs, eventArgsCount, sender);
+
+        try
+        {
+            OnReceiveEvent?.Invoke(this, new ReceiveEventArgs(agent, rawData, eventArgs, eventArgsCount, sender));
+        }
+        catch (Exception ex)
+        {
+            PluginLog.Error(ex, "Something when wrong on Duty Finder Receive Event");
+        }
+
+        return result;
+    }
+
 
     private byte DutyFinder_OnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3)
     {

@@ -12,7 +12,6 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
@@ -175,13 +174,8 @@ internal class DutyRoulette : IModule
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
 
-        private static AgentModule* AgentModule => Framework.Instance()->GetUiModule()->GetAgentModule();
-
-        private readonly AgentInterface* agentContentsFinder = AgentModule->GetAgentByInternalId(AgentId.ContentsFinder);
-
         public readonly long CurrentLimitedTomestoneWeeklyCap;
 
-        private delegate IntPtr OpenRouletteToDutyDelegate(AgentInterface* agent, byte a2, byte a3);
         private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);
         public delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1 = 9);
 
@@ -190,9 +184,6 @@ internal class DutyRoulette : IModule
 
         [Signature("48 83 EC 28 84 D2 75 07 32 C0", ScanType = ScanType.Text)]
         private readonly IsRouletteIncompleteDelegate isRouletteIncomplete = null!;
-
-        [Signature("E9 ?? ?? ?? ?? 8B 93 ?? ?? ?? ?? 48 83 C4 20")]
-        private readonly OpenRouletteToDutyDelegate openRouletteDuty = null!;
 
         [Signature("48 8D 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 74 0C 48 8D 4C 24", ScanType = ScanType.StaticAddress)]
         private readonly AgentInterface* rouletteBasePointer = null!;
@@ -270,7 +261,7 @@ internal class DutyRoulette : IModule
 
         private void OpenRouletteDutyFinder(uint arg1, SeString arg2)
         {
-            openRouletteDuty(agentContentsFinder, GetFirstMissingRoulette(), 0);
+            AgentContentsFinder.Instance()->OpenRouletteDuty(GetFirstMissingRoulette());
         }
 
         private int GetWeeklyTomestomeLimit()
