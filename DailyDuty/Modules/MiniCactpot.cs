@@ -10,8 +10,6 @@ using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
@@ -122,11 +120,6 @@ internal class MiniCactpot : IModule
 
         public DalamudLinkPayload? DalamudLinkPayload { get; }= Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
-        
-        [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
-        private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
-
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -134,15 +127,13 @@ internal class MiniCactpot : IModule
             SignatureHelper.Initialise(this);
 
             Service.AddonManager[AddonName.MiniCactpot].OnShow += MiniCactpotShow;
-
-            goldSaucerUpdateHook?.Enable();
+            Service.GoldSaucerEventManager.OnGoldSaucerUpdate += GoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            goldSaucerUpdateHook?.Dispose();
-
             Service.AddonManager[AddonName.MiniCactpot].OnShow -= MiniCactpotShow;
+            Service.GoldSaucerEventManager.OnGoldSaucerUpdate -= GoldSaucerUpdate;
         }
 
         public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";
@@ -153,37 +144,21 @@ internal class MiniCactpot : IModule
 
         public ModuleStatus GetModuleStatus() => Settings.TicketsRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7)
+        private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
         {
-            try
-            {
-                //1010445 Mini Cactpot Broker
-                if (Service.TargetManager.Target?.DataId == 1010445)
-                {
-                    if (a7 == 5)
-                    {
-                        if (Settings.TicketsRemaining != a6[4])
-                        {
-                            Settings.TicketsRemaining = a6[4];
-                            Service.ConfigurationManager.Save();
-                        }
-                    }
-                    else
-                    {
-                        if (Settings.TicketsRemaining != 0)
-                        {
-                            Settings.TicketsRemaining = 0;
-                            Service.ConfigurationManager.Save();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "[Mini Cactpot]  Unable to get data from Gold Saucer Update");
-            }
+            //1010445 Mini Cactpot Broker
+            if (Service.TargetManager.Target?.DataId != 1010445) return;
 
-            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
+            if (e.EventID == 5)
+            {
+                Settings.TicketsRemaining = e.Data[4];
+                Service.ConfigurationManager.Save();
+            }
+            else
+            {
+                Settings.TicketsRemaining = 0;
+                Service.ConfigurationManager.Save();
+            }
         }
 
         private void MiniCactpotShow(object? sender, IntPtr e)

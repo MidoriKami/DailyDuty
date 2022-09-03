@@ -10,8 +10,6 @@ using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
@@ -146,74 +144,56 @@ internal class FashionReport : IModule
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
-
-        [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
-        private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
-
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
 
             SignatureHelper.Initialise(this);
 
-            goldSaucerUpdateHook?.Enable();
+            Service.GoldSaucerEventManager.OnGoldSaucerUpdate += GoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            goldSaucerUpdateHook?.Dispose();
+            Service.GoldSaucerEventManager.OnGoldSaucerUpdate -= GoldSaucerUpdate;
         }
 
-        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7)
+        private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
         {
-            try
+            if (Service.TargetManager.Target?.DataId != 1025176) return;
+
+            var allowances = Settings.AllowancesRemaining;
+            var score = Settings.HighestWeeklyScore;
+
+            switch (e.EventID)
             {
-                if (Service.TargetManager.Target?.DataId == 1025176)
-                {
-                    int allowances = Settings.AllowancesRemaining;
-                    int score = Settings.HighestWeeklyScore;
+                case 5:     // When speaking to Masked Rose, gets update information
+                    allowances = e.Data[1];
+                    score = e.Data[0];
+                    break;
 
-                    switch (a7)
-                    {
-                        // When speaking to Masked Rose, gets update information
-                        case 5:
-                            allowances = a6[1];
-                            score = a6[0];
-                            break;
-
-                        // During turn in, gets new score
-                        case 3:
-                            score = a6[0];
-                            break;
-
-                        // During turn in, gets new allowances
-                        case 1:
-                            allowances = a6[0];
-                            break;
-                    }
-
-                    if (Settings.AllowancesRemaining != allowances)
-                    {
-                        Settings.AllowancesRemaining = allowances;
-                        Service.ConfigurationManager.Save();
-                    }
-
-                    if (Settings.HighestWeeklyScore != score)
-                    {
-                        Settings.HighestWeeklyScore = score;
-                        Service.ConfigurationManager.Save();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "[Fashion Report] Unable to get data from Gold Saucer Update");
+                case 3:     // During turn in, gets new score
+                    score = e.Data[0];
+                    break;
+                    
+                case 1:     // During turn in, gets new allowances
+                    allowances = e.Data[0];
+                    break;
             }
 
-            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
+            if (Settings.AllowancesRemaining != allowances)
+            {
+                Settings.AllowancesRemaining = allowances;
+                Service.ConfigurationManager.Save();
+            }
+
+            if (Settings.HighestWeeklyScore != score)
+            {
+                Settings.HighestWeeklyScore = score;
+                Service.ConfigurationManager.Save();
+            }
         }
-
+        
         public string GetStatusMessage()
         {
             switch(Settings.Mode.Value)

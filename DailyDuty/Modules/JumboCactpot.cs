@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using DailyDuty.Addons.DataModels;
+using DailyDuty.Addons.Enums;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Configuration.ModuleSettings;
@@ -11,10 +13,6 @@ using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Hooking;
-using Dalamud.Logging;
-using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules;
 
@@ -133,32 +131,20 @@ internal class JumboCactpot : IModule
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
 
-        private delegate void* AgentReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID);
-
-        [Signature("48 89 5C 24 ?? 44 89 4C 24 ?? 4C 89 44 24 ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24", DetourName = nameof(LotteryWeekly_ReceiveEvent))]
-        private readonly Hook<AgentReceiveEvent>? receiveEventHook = null;
-
-        private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6, byte a7);
-
-        [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(GoldSaucerUpdate))]
-        private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
-
         private int ticketData = -1;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
 
-            SignatureHelper.Initialise(this);
-
-            receiveEventHook?.Enable();
-            goldSaucerUpdateHook?.Enable();
+            Service.GoldSaucerEventManager.OnGoldSaucerUpdate += GoldSaucerUpdate;
+            Service.AddonManager[AddonName.JumboCactpot].OnReceiveEvent += OnOnReceiveEvent;
         }
 
         public void Dispose()
         {
-            receiveEventHook?.Dispose();
-            goldSaucerUpdateHook?.Dispose();
+            Service.GoldSaucerEventManager.OnGoldSaucerUpdate -= GoldSaucerUpdate;
+            Service.AddonManager[AddonName.JumboCactpot].OnReceiveEvent -= OnOnReceiveEvent;
         }
 
         public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";
@@ -174,76 +160,53 @@ internal class JumboCactpot : IModule
             return string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
         }
 
-        private void* GoldSaucerUpdate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* a6,  byte a7)
+        private void OnOnReceiveEvent(object? sender, ReceiveEventArgs e)
         {
-            try
-            {
-                //1010446 Jumbo Cactpot Broker
-                if (Service.TargetManager.Target?.DataId == 1010446)
-                {
-                    Settings.Tickets.Clear();
+            var data = e.EventArgs->Int;
 
-                    for(var i = 0; i < 3; ++i)
+            switch (e.SenderID)
+            {
+                // Message is from JumboCactpot
+                case 0 when data >= 0:
+                    ticketData = data;
+                    break;
+
+                // Message is from SelectYesNo
+                case 5:
+                    switch (data)
                     {
-                        var ticketValue = a6[i + 2];
+                        case -1:
+                        case 1:
+                            ticketData = -1;
+                            break;
 
-                        if (ticketValue != 10000)
-                        {
-                            if (!Settings.Tickets.Contains(ticketValue))
-                            {
-                                Settings.Tickets.Add(ticketValue);
-                            }
-                        }
+                        case 0 when ticketData >= 0:
+                            Settings.Tickets.Add(ticketData);
+                            ticketData = -1;
+                            Service.ConfigurationManager.Save();
+                            break;
                     }
-
-                    Service.ConfigurationManager.Save();
-                }
+                    break;
             }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "[Jumbo Cactpot]  Unable to get data from Gold Saucer Update");
-            }
-
-            return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, a6, a7);
         }
 
-        private void* LotteryWeekly_ReceiveEvent(AgentInterface* agent, void* a2, AtkValue* eventData, int eventDataItemCount, int senderID)
+        private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
         {
-            try
+            //1010446 Jumbo Cactpot Broker
+            if (Service.TargetManager.Target?.DataId != 1010446) return;
+            Settings.Tickets.Clear();
+
+            for(var i = 0; i < 3; ++i)
             {
-                var data = eventData->Int;
+                var ticketValue = e.Data[i + 2];
 
-                switch (senderID)
+                if (ticketValue != 10000)
                 {
-                    // Message is from JumboCactpot
-                    case 0 when data >= 0:
-                        ticketData = data;
-                        break;
-
-                    // Message is from SelectYesNo
-                    case 5:
-                        switch (data)
-                        {
-                            case -1:
-                            case 1:
-                                ticketData = -1;
-                                break;
-
-                            case 0 when ticketData >= 0:
-                                Settings.Tickets.Add(ticketData);
-                                ticketData = -1;
-                                Service.ConfigurationManager.Save();
-                                break;
-                        }
-                        break;
+                    Settings.Tickets.Add(ticketValue);
                 }
             }
-            catch (Exception ex)
-            {
-                PluginLog.Error(ex, "Unable to retrieve data from Jumbo Cactpot event");
-            }
 
-            return receiveEventHook!.Original(agent, a2, eventData, eventDataItemCount, senderID);
+            Service.ConfigurationManager.Save();
         }
 
         public string GetNextJumboCactpot()

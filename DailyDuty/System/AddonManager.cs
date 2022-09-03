@@ -14,6 +14,7 @@ internal class AddonManager : IDisposable
         new DutyFinderAddon(),
         new LotteryDailyAddon(),
         new CommendationAddon(),
+        new LotteryWeeklyAddon(),
     };
     
     public void Dispose()

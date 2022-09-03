@@ -26,7 +26,7 @@ internal class Service
     [PluginService] public static GameGui GameGui { get; private set; } = null!;
     [PluginService] public static TargetManager TargetManager { get; private set; } = null!;
 
-    public static System.DutyEventManager EventManager = null!;
+    public static System.DutyEventManager DutyEventManager = null!;
     public static System.ModuleManager ModuleManager = null!;
     public static System.CommandManager CommandSystem = null!;
     public static System.WindowManager WindowManager = null!;
@@ -37,4 +37,5 @@ internal class Service
     public static System.TeleportManager TeleportManager = null!;
     public static System.ChatPayloadManager PayloadManager = null!;
     public static System.AddonManager AddonManager = null!;
+    public static System.GoldSaucerEventManager GoldSaucerEventManager = null!;
 }

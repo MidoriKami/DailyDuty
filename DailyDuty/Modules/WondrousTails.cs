@@ -141,14 +141,14 @@ internal class WondrousTails : IModule
 
             DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
 
-            Service.EventManager.OnDutyStarted += OnDutyStartNotification;
-            Service.EventManager.OnDutyCompleted += OnDutyEndNotification;
+            Service.DutyEventManager.OnDutyStarted += OnDutyStartNotification;
+            Service.DutyEventManager.OnDutyCompleted += OnDutyEndNotification;
         }
 
         public void Dispose()
         {
-            Service.EventManager.OnDutyStarted -= OnDutyStartNotification;
-            Service.EventManager.OnDutyCompleted -= OnDutyEndNotification;
+            Service.DutyEventManager.OnDutyStarted -= OnDutyStartNotification;
+            Service.DutyEventManager.OnDutyCompleted -= OnDutyEndNotification;
 
             wondrousTailsOverlay.Dispose();
         }
