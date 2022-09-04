@@ -23,6 +23,7 @@ internal unsafe class ReceiveEventArgs : EventArgs
 
     public void PrintData()
     {
+        PluginLog.Verbose("ReceiveEvent Argument Printout --------------");
         PluginLog.Verbose($"AgentInterface: {(IntPtr)AgentInterface:X8}");
         PluginLog.Verbose($"RawData: {(IntPtr)RawData:X8}");
         PluginLog.Verbose($"EventArgs: {(IntPtr)EventArgs:X8}");
@@ -33,5 +34,7 @@ internal unsafe class ReceiveEventArgs : EventArgs
         {
             PluginLog.Verbose($"[{i}] {EventArgs[i].Int}, {EventArgs[i].Type}");
         }
+
+        PluginLog.Verbose("End -----------------------------------------");
     }
 }
