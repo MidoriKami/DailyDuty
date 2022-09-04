@@ -13,6 +13,7 @@ namespace DailyDuty.Addons;
 
 internal unsafe class DutyFinderAddon : IDisposable
 {
+    public event EventHandler<IntPtr>? Show;
     public event EventHandler<IntPtr>? Draw;
     public event EventHandler<IntPtr>? Finalize;
     public event EventHandler<IntPtr>? Update;
@@ -23,12 +24,14 @@ internal unsafe class DutyFinderAddon : IDisposable
     private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
     private delegate void* AddonFinalize(AtkUnitBase* atkUnitBase);
     private delegate byte AddonUpdate(AtkUnitBase* atkUnitBase);
+    private delegate void* AddonOnSetup(AtkUnitBase* addon, uint a2, void* a3);
     private delegate void* AgentReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender);
 
     private Hook<AddonDraw>? onDrawHook;
     private Hook<AddonFinalize>? onFinalizeHook;
     private Hook<AddonUpdate>? onUpdateHook;
     private Hook<AddonOnRefresh>? onRefreshHook;
+    private Hook<AddonOnSetup>? onSetupHook;
     private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
 
     private AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
@@ -53,6 +56,8 @@ internal unsafe class DutyFinderAddon : IDisposable
         onFinalizeHook?.Dispose();
         onUpdateHook?.Dispose();
         onRefreshHook?.Dispose();
+        onSetupHook?.Dispose();
+
         onReceiveEventHook?.Dispose();
     }
 
@@ -66,11 +71,13 @@ internal unsafe class DutyFinderAddon : IDisposable
         onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[39]), OnFinalize);
         onUpdateHook ??= Hook<AddonUpdate>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[40]), OnUpdate);
         onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[48]), OnRefresh);
+        onSetupHook ??= Hook<AddonOnSetup>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[46]), OnSetup);
 
         onDrawHook?.Enable();
         onFinalizeHook?.Enable();
         onUpdateHook?.Enable();
         onRefreshHook?.Enable();
+        onSetupHook?.Enable();
 
         Service.Framework.Update -= OnFrameworkUpdate;
     }
@@ -91,6 +98,21 @@ internal unsafe class DutyFinderAddon : IDisposable
         return result;
     }
 
+    private void* OnSetup(AtkUnitBase* addon, uint a2, void* a3)
+    {
+        var result = onSetupHook!.Original(addon, a2, a3);
+
+        try
+        {
+            Show?.Invoke(this, new IntPtr(addon));
+        }
+        catch (Exception ex)
+        {
+            PluginLog.Error(ex, "Something when wrong on Duty Finder Setup");
+        }
+
+        return result;
+    }
 
     private byte OnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3)
     {
