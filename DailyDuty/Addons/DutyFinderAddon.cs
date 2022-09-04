@@ -22,7 +22,7 @@ internal unsafe class DutyFinderAddon : IDisposable
 
     private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
     private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
-    private delegate void* AddonFinalize(AtkUnitBase* atkUnitBase);
+    private delegate void AddonFinalize(AtkUnitBase* atkUnitBase);
     private delegate byte AddonUpdate(AtkUnitBase* atkUnitBase);
     private delegate void* AddonOnSetup(AtkUnitBase* addon, uint a2, void* a3);
     private delegate void* AgentReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender);
@@ -160,7 +160,7 @@ internal unsafe class DutyFinderAddon : IDisposable
         }
     }
 
-    private void* OnFinalize(AtkUnitBase* atkUnitBase)
+    private void OnFinalize(AtkUnitBase* atkUnitBase)
     {
         try
         {
@@ -171,7 +171,7 @@ internal unsafe class DutyFinderAddon : IDisposable
             PluginLog.Error(e, "Something when wrong on Duty Finder Close");
         }
 
-        return onFinalizeHook!.Original(atkUnitBase);
+        onFinalizeHook!.Original(atkUnitBase);
     }
 
     public DutyFinderTreeList GetBaseTreeNode(AtkUnitBase* addonPointer)
