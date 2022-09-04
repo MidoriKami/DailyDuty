@@ -63,13 +63,7 @@ internal unsafe class GoldSaucerAddon : IDisposable
     {
         try
         {
-            var eventArgs = new GoldSaucerEventArgs(a1, a2, a3, a4, a5, data, eventID);
-
-            PluginLog.Verbose($"Gold Saucer Message =====");
-            eventArgs.Print();
-            PluginLog.Verbose("--------------------------");
-
-            OnGoldSaucerUpdate?.Invoke(this, eventArgs);
+            OnGoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(a1, a2, a3, a4, a5, data, eventID));
         }
         catch (Exception ex)
         {
