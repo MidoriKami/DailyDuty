@@ -241,6 +241,16 @@ public class WondrousTails
 public class ChallengeLog
 {
     public string Label => Loc.Localize("ChallengeLog_Label", "Challenge Log");
+    public string Battle => Loc.Localize("ChallengeLog_Battle", "Battle");
+    public string CommendationLabel => Loc.Localize("ChallengeLog_CommendationLabel", "'Exercising the Right' Warning");
+    public string Commendations => Loc.Localize("ChallengeLog_Commendations", "Exercising the Right");
+    public string CommendationsRemaining => Loc.Localize("ChallengeLog_CommendationWarning", "Commendations Remaining");
+    public string DungeonRouletteLabel => Loc.Localize("ChallengeLog_DungeonRouletteLabel", "'Feeling Lucky' Warning");
+    public string DungeonRoulette => Loc.Localize("ChallengeLog_DungeonRoulette", "Feeling Lucky");
+    public string DungeonRoulettesRemaining => Loc.Localize("ChallengeLog_DungeonRoulettesRemaining", "Dungeon Roulettes Remaining");
+    public string DungeonMasterLabel => Loc.Localize("ChallengeLog_DungeonMasterLabel", "'Dungeon Master' Warning");
+    public string DungeonMaster => Loc.Localize("ChallengeLog_DungeonMaster", "Dungeon Master");
+    public string DungeonMasterRemaining => Loc.Localize("ChallengeLog_DungeonMasterRemaining", "Dungeons Remaining");
 }
 
 public class UserInterface

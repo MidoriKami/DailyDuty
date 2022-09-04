@@ -1,0 +1,391 @@
+﻿using System;
+using DailyDuty.Addons;
+using DailyDuty.Addons.DataModels;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Configuration.Enums;
+using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.DataStructures;
+using DailyDuty.Interfaces;
+using DailyDuty.Localization;
+using DailyDuty.UserInterface.Components;
+using DailyDuty.UserInterface.Components.InfoBox;
+using DailyDuty.Utilities;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Hooking;
+using Dalamud.Logging;
+using Dalamud.Utility.Signatures;
+using Lumina.Excel.GeneratedSheets;
+
+namespace DailyDuty.Modules;
+
+internal class ChallengeLog : IModule
+{
+    public ModuleName Name => ModuleName.ChallengeLog;
+    public IConfigurationComponent ConfigurationComponent { get; }
+    public IStatusComponent StatusComponent { get; }
+    public ILogicComponent LogicComponent { get; }
+    public ITodoComponent TodoComponent { get; }
+    public ITimerComponent TimerComponent { get; }
+
+    private static ChallengeLogSettings Settings => Service.ConfigurationManager.CharacterConfiguration.ChallengeLog;
+    public GenericSettings GenericSettings => Settings;
+
+    public ChallengeLog()
+    {
+        ConfigurationComponent = new ModuleConfigurationComponent(this);
+        StatusComponent = new ModuleStatusComponent(this);
+        LogicComponent = new ModuleLogicComponent(this);
+        TodoComponent = new ModuleTodoComponent(this);
+        TimerComponent = new ModuleTimerComponent(this);
+    }
+
+    public void Dispose()
+    {
+        LogicComponent.Dispose();
+    }
+
+    private class ModuleConfigurationComponent : IConfigurationComponent
+    {
+        public IModule ParentModule { get; }
+        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+
+        private readonly InfoBox options = new();
+
+        public ModuleConfigurationComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public void Draw()
+        {
+            options
+                .AddTitle(Strings.Configuration.Options)
+                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
+                .AddConfigCheckbox(Strings.Module.ChallengeLog.CommendationLabel, Settings.CommendationWarning)
+                .AddConfigCheckbox(Strings.Module.ChallengeLog.DungeonRouletteLabel, Settings.RouletteDungeonWarning)
+                .AddConfigCheckbox(Strings.Module.ChallengeLog.DungeonMasterLabel, Settings.DungeonWarning)
+                .Draw();
+        }
+    }
+
+    private class ModuleStatusComponent : IStatusComponent
+    {
+        public IModule ParentModule { get; }
+
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+
+        private readonly InfoBox status = new();
+        private readonly InfoBox target = new();
+
+        public ModuleStatusComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public void Draw()
+        {
+            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
+
+            var moduleStatus = logicModule.GetModuleStatus();
+            status
+                .AddTitle(Strings.Status.Label)
+                .BeginTable()
+
+                .AddRow(
+                    Strings.Status.ModuleStatus,
+                    moduleStatus.GetTranslatedString(),
+                    secondColor: moduleStatus.GetStatusColor())
+
+                .EndTable()
+                .Draw();
+
+            target
+                .AddTitle(Strings.Module.ChallengeLog.Battle)
+                .BeginTable()
+                
+                    .AddRow(
+                        Strings.Module.ChallengeLog.Commendations,
+                        $"{Settings.Commendations} / 5",
+                        secondColor: logicModule.CommendationStatus().GetStatusColor())
+
+                .AddRow(
+                    Strings.Module.ChallengeLog.DungeonRoulette,
+                    $"{Settings.RouletteDungeons} / 3",
+                    secondColor: logicModule.DungeonRouletteStatus().GetStatusColor())
+
+                .AddRow(
+                    Strings.Module.ChallengeLog.DungeonMaster,
+                    $"{Settings.DungeonMaster} / 5",
+                    secondColor: logicModule.DungeonMasterStatus().GetStatusColor())
+
+                .EndTable()
+                .Draw();
+        }
+    }
+
+    private unsafe class ModuleLogicComponent : ILogicComponent
+    {
+        public IModule ParentModule { get; }
+        public DalamudLinkPayload? DalamudLinkPayload => null;
+
+        private delegate void* ChallengeLogNetworkData(void* a1, int a2, int* a3);
+
+        [Signature("40 55 57 41 56 48 83 EC 20 0F B6 41 1C", DetourName = nameof(ProcessNetworkPacket))]
+        private readonly Hook<ChallengeLogNetworkData>? refreshChallengeLogHook = null;
+
+        private enum DungeonDutyRouletteState
+        {
+            NotDungeonDuty,
+            DutyPopped,
+            DutyCommencing,
+            EnteredDuty,
+            DutyCompleted
+        }
+
+        private DungeonDutyRouletteState dutyState = DungeonDutyRouletteState.NotDungeonDuty;
+
+        public ModuleLogicComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+            SignatureHelper.Initialise(this);
+
+            refreshChallengeLogHook?.Enable();
+
+            Service.ClientState.CfPop += OnContentFinderPop;
+            Service.ClientState.TerritoryChanged += OnTerritoryChanged;
+
+            var commendationAddon = Service.AddonManager.Get<CommendationAddon>();
+            commendationAddon.ReceiveEvent += CommendationOnReceiveEvent;
+            commendationAddon.Show += CommendationOnShow;
+
+            var dutyFinderAddon = Service.AddonManager.Get<DutyFinderAddon>();
+            dutyFinderAddon.ReceiveEvent += DutyFinderOnReceiveEvent;
+            dutyFinderAddon.Show += DutyFinderOnShow;
+
+            var dutyEventAddon = Service.AddonManager.Get<DutyEventAddon>();
+            dutyEventAddon.DutyCompleted += OnDutyCompleted;
+        }
+
+        public void Dispose()
+        {
+            refreshChallengeLogHook?.Dispose();
+
+            Service.ClientState.CfPop -= OnContentFinderPop;
+            Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
+
+            var commendationAddon = Service.AddonManager.Get<CommendationAddon>();
+            commendationAddon.ReceiveEvent -= CommendationOnReceiveEvent;
+            commendationAddon.Show -= CommendationOnShow;
+
+            var dutyFinderAddon = Service.AddonManager.Get<DutyFinderAddon>();
+            dutyFinderAddon.ReceiveEvent -= DutyFinderOnReceiveEvent;
+            dutyFinderAddon.Show -= DutyFinderOnShow;
+
+            var dutyEventAddon = Service.AddonManager.Get<DutyEventAddon>();
+            dutyEventAddon.DutyCompleted -= OnDutyCompleted;
+        }
+
+        private void DutyFinderOnShow(object? sender, IntPtr e)
+        {
+            if (!Settings.Enabled.Value) return;
+
+            if (Settings.RouletteDungeonWarning.Value && Settings.RouletteDungeons < 3)
+            {
+                Chat.Print(Strings.Module.ChallengeLog.Label, $"{3 - Settings.RouletteDungeons} {Strings.Module.ChallengeLog.DungeonRoulettesRemaining}");
+            }
+
+            if (Settings.DungeonWarning.Value && Settings.DungeonMaster < 5)
+            {
+                Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.DungeonMaster} {Strings.Module.ChallengeLog.DungeonMasterRemaining}");
+            }
+        }
+
+        private void OnContentFinderPop(object? sender, ContentFinderCondition queuedDuty)
+        {
+            // Queued duty was a roulette
+            if (queuedDuty.RowId == 0)
+            {
+                dutyState = DungeonDutyRouletteState.DutyPopped;
+            }
+            else
+            {
+                dutyState = DungeonDutyRouletteState.NotDungeonDuty;
+            }
+        }
+
+        private void DutyFinderOnReceiveEvent(object? sender, ReceiveEventArgs e)
+        {
+            // Commence / Wait / Withdraw dialogue
+            if (e.SenderID != 2) return;
+
+            // 8 = Commence button was pushed
+            if (e.EventArgs[0].Int == 8 && dutyState == DungeonDutyRouletteState.DutyPopped)
+            {
+                dutyState = DungeonDutyRouletteState.DutyCommencing;
+            }
+        }
+
+        private void OnDutyCompleted(object? sender, EventArgs e)
+        {
+            if (dutyState == DungeonDutyRouletteState.EnteredDuty)
+            {
+                dutyState = DungeonDutyRouletteState.DutyCompleted;
+            }
+
+            if (GetDutyType(Service.ClientState.TerritoryType) == 2 && Settings.DungeonMaster < 5)
+            {
+                Settings.DungeonMaster += 1;
+                Service.ConfigurationManager.Save();
+            }
+        }
+        
+        private void OnTerritoryChanged(object? sender, ushort e)
+        {
+            switch (dutyState)
+            {
+                case DungeonDutyRouletteState.DutyCommencing:
+                    // 2 = Dungeons
+                    if (GetDutyType(e) == 2)
+                    {
+                        dutyState = DungeonDutyRouletteState.EnteredDuty;
+                    }
+                    break;
+
+                case DungeonDutyRouletteState.DutyCompleted:
+                    if (Settings.RouletteDungeons < 3)
+                    {
+                        Settings.RouletteDungeons += 1;
+                        Service.ConfigurationManager.Save();
+                    }
+                    
+                    dutyState = DungeonDutyRouletteState.NotDungeonDuty;
+                    break;
+
+                default:
+                    dutyState = DungeonDutyRouletteState.NotDungeonDuty;
+                    break;
+            }
+        }
+
+        private void CommendationOnReceiveEvent(object? sender, ReceiveEventArgs e)
+        {
+            if (e.EventArgsCount == 2 && Settings.Commendations < 5)
+            {
+                Settings.Commendations += 1;
+                Service.ConfigurationManager.Save();
+            }
+        }
+
+        private void CommendationOnShow(object? sender, IntPtr e)
+        {
+            if (Settings.CommendationWarning.Value && Settings.Commendations < 5)
+            {
+                Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.Commendations} {Strings.Module.ChallengeLog.CommendationsRemaining}");
+            }
+        }
+
+        private void* ProcessNetworkPacket(void* a1, int tab, int* a3)
+        {
+            try
+            {
+                switch (tab)
+                {
+                    // Battle Tab
+                    case 1:
+                        var data = (ChallengeLogStruct.Battles*) a3;
+                        Settings.Commendations = data->Commendations;
+                        Settings.RouletteDungeons = data->DungeonRoulette;
+                        Settings.DungeonMaster = data->DungeonMaster;
+                        Service.ConfigurationManager.Save();
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                PluginLog.Error(e, "Unable to Refresh Challenge Log Data");
+            }
+
+            return refreshChallengeLogHook!.Original(a1, tab, a3);
+        }
+
+        private uint? GetDutyType(uint territoryType)
+        {
+            var territoryInfo = Service.DataManager.GetExcelSheet<TerritoryType>()!.GetRow(territoryType);
+            var contentFinderInfo = territoryInfo?.ContentFinderCondition.Value;
+            var contentType = contentFinderInfo?.ContentType.Value;
+
+            return contentType?.RowId;
+        }
+
+        public string GetStatusMessage() => string.Empty;
+
+        public DateTime GetNextReset() => Time.NextWeeklyReset();
+
+        public void DoReset()
+        {
+            Settings.Commendations = 0;
+            Settings.RouletteDungeons = 0;
+        }
+
+        public ModuleStatus GetModuleStatus()
+        {
+            if (CommendationStatus() != ModuleStatus.Complete) return ModuleStatus.Incomplete;
+            if (DungeonRouletteStatus() != ModuleStatus.Complete) return ModuleStatus.Incomplete;
+            if (DungeonMasterStatus() != ModuleStatus.Complete) return ModuleStatus.Incomplete;
+
+            return ModuleStatus.Complete;
+        }
+
+        public ModuleStatus CommendationStatus()
+        {
+            if (Settings.CommendationWarning.Value && Settings.Commendations < 5) return ModuleStatus.Incomplete;
+
+            return ModuleStatus.Complete;
+        }
+
+        public ModuleStatus DungeonRouletteStatus()
+        {
+            if (Settings.RouletteDungeonWarning.Value && Settings.RouletteDungeons < 3) return ModuleStatus.Incomplete;
+
+            return ModuleStatus.Complete;
+        }
+
+        public ModuleStatus DungeonMasterStatus()
+        {
+            if (Settings.DungeonWarning.Value && Settings.DungeonMaster < 5) return ModuleStatus.Incomplete;
+
+            return ModuleStatus.Complete;
+        }
+    }
+
+    private class ModuleTodoComponent : ITodoComponent
+    {
+        public IModule ParentModule { get; }
+        public CompletionType CompletionType => CompletionType.Weekly;
+        public bool HasLongLabel => false;
+
+        public ModuleTodoComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public string GetShortTaskLabel() => Strings.Module.ChallengeLog.Label;
+
+        public string GetLongTaskLabel() => Strings.Module.ChallengeLog.Label;
+
+    }
+
+    private class ModuleTimerComponent : ITimerComponent
+    {
+        public IModule ParentModule { get; }
+
+        public ModuleTimerComponent(IModule parentModule)
+        {
+            ParentModule = parentModule;
+        }
+
+        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
+
+        public DateTime GetNextReset() => Time.NextWeeklyReset();
+    }
+}

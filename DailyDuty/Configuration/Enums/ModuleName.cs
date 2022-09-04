@@ -19,6 +19,7 @@ public enum ModuleName
     WondrousTails,
     Daily,
     Weekly,
+    ChallengeLog
 }
 
 public static class ModuleNameExtensions
@@ -41,6 +42,7 @@ public static class ModuleNameExtensions
             ModuleName.WondrousTails => Strings.Module.WondrousTails.Label,
             ModuleName.Daily => Strings.Common.Daily,
             ModuleName.Weekly => Strings.Common.Weekly,
+            ModuleName.ChallengeLog => Strings.Module.ChallengeLog.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

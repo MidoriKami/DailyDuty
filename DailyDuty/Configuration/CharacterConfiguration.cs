@@ -33,6 +33,7 @@ internal class CharacterConfiguration
     public MiniCactpotSettings MiniCactpot = new();
     public TreasureMapSettings TreasureMap = new();
     public WondrousTailsSettings WondrousTails = new();
+    public ChallengeLogSettings ChallengeLog = new();
 
     public void Save()
     {

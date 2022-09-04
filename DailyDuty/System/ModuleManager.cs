@@ -23,6 +23,7 @@ internal class ModuleManager : IDisposable
         new MiniCactpot(),
         new TreasureMap(),
         new WondrousTails(),
+        new ChallengeLog(),
     };
 
     public void Dispose()
