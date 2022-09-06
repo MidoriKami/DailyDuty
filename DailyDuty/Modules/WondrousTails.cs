@@ -7,6 +7,7 @@ using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
+using DailyDuty.System;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
@@ -56,6 +57,7 @@ internal class WondrousTails : IModule
 
         private readonly InfoBox optionsInfoBox = new();
         private readonly InfoBox notificationOptionsInfoBox = new();
+        private readonly InfoBox clickableLink = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -70,6 +72,12 @@ internal class WondrousTails : IModule
                 .AddConfigCheckbox(Strings.Module.WondrousTails.Overlay, Settings.OverlayEnabled)
                 .AddConfigCheckbox(Strings.Module.WondrousTails.DutyNotifications, Settings.InstanceNotifications)
                 .AddConfigCheckbox(Strings.Module.WondrousTails.UnclaimedBookNotifications, Settings.UnclaimedBookWarning)
+                .Draw();
+
+            clickableLink
+                .AddTitle(Strings.Module.WondrousTails.ClickableLinkLabel)
+                .AddString(Strings.Module.WondrousTails.ClickableLink)
+                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             notificationOptionsInfoBox
@@ -121,7 +129,8 @@ internal class WondrousTails : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; }
+
+        public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.NewBookAvailable() ? idyllshireTeleportPayload : openBookPayload;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
 
@@ -130,6 +139,9 @@ internal class WondrousTails : IModule
 
         private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.InventoryContext);
         private const uint WondrousTailsBookItemID = 2002023;
+
+        private readonly DalamudLinkPayload openBookPayload;
+        private readonly DalamudLinkPayload idyllshireTeleportPayload;
 
         public WondrousTailsBook WondrousTailsBook { get; } = new();
         private readonly WondrousTailsOverlay wondrousTailsOverlay = new();
@@ -140,7 +152,8 @@ internal class WondrousTails : IModule
 
             SignatureHelper.Initialise(this);
 
-            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
+            openBookPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
+            idyllshireTeleportPayload = Service.TeleportManager.GetPayload(TeleportLocation.Idyllshire);
 
             Service.AddonManager.Get<DutyEventAddon>().DutyStarted += OnDutyStarted;
             Service.AddonManager.Get<DutyEventAddon>().DutyCompleted += OnDutyCompleted;
