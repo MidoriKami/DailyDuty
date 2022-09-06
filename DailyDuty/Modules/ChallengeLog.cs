@@ -278,6 +278,8 @@ internal class ChallengeLog : IModule
 
         private void CommendationOnShow(object? sender, IntPtr e)
         {
+            if (!Settings.Enabled.Value) return;
+
             if (Settings.CommendationWarning.Value && Settings.Commendations < 5)
             {
                 Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.Commendations} {Strings.Module.ChallengeLog.CommendationsRemaining}");
