@@ -20,7 +20,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
     private IEnumerable<WondrousTailsTask> wondrousTailsStatus;
 
-    private DutyRouletteSettings DutyRouletteSettings => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette;
+    private WondrousTailsSettings DutyRouletteSettings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
 
     private bool Enabled => DutyRouletteSettings.Enabled.Value && DutyRouletteSettings.OverlayEnabled.Value;
 
@@ -60,29 +60,24 @@ internal unsafe class WondrousTailsOverlay : IDisposable
 
     private void OnRefresh(object? sender, IntPtr e)
     {
-        if (Enabled)
-        {
-            wondrousTailsStatus = wondrousTailsBook.GetAllTaskData();
-        }
+        if (!Enabled) return;
+
+        wondrousTailsStatus = wondrousTailsBook.GetAllTaskData();
     }
     
     private void OnUpdate(object? sender, IntPtr e)
     {
-        if (Enabled)
-        {
-            UpdateWondrousTails(e.ToAtkUnitBase());
-        }
+        UpdateWondrousTails(e.ToAtkUnitBase());
     }
 
     private void OnDraw(object? sender, IntPtr e)
     {
-        if (Enabled)
-        {
-            var addon = Service.AddonManager.Get<DutyFinderAddon>();
-            var treeNode = addon.GetBaseTreeNode(e.ToAtkUnitBase());
+        if (!Enabled) return;
 
-            treeNode.MakeCloverNodes();
-        }
+        var addon = Service.AddonManager.Get<DutyFinderAddon>();
+        var treeNode = addon.GetBaseTreeNode(e.ToAtkUnitBase());
+
+        treeNode.MakeCloverNodes();
     }
 
     private void OnFinalize(object? sender, IntPtr e)
@@ -133,7 +128,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
         {
             var taskState = IsWondrousTailsDuty(item);
 
-            if (taskState == null || !wondrousTailsBook.PlayerHasBook())
+            if (taskState == null || !wondrousTailsBook.PlayerHasBook() || !Enabled)
             {
                 item.CloverNode.SetVisibility(CloverState.Hidden);
             }
