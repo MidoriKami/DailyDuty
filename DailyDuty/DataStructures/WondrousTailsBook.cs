@@ -31,7 +31,9 @@ internal unsafe class WondrousTailsBook
     public int GetNumSecondChance() => wondrousTails->SecondChance;
     public bool PlayerHasBook() => InventoryManager.Instance()->GetInventoryItemCount(WondrousTailsBookItemID) > 0;
     public bool NewBookAvailable() => DateTime.Now > GetDeadline() - TimeSpan.FromDays(7);
-    
+    public bool IsComplete() => wondrousTails->Stickers == 9;
+    public bool NeedsNewBook() => NewBookAvailable() && IsComplete();
+
     private DateTime GetDeadline() => DateTimeOffset.FromUnixTimeSeconds(wondrousTailsGetDeadline(wondrousTailsDeadlineIndex)).ToLocalTime().DateTime;
 
     public WondrousTailsTask? GetTaskForDuty(uint instanceID)

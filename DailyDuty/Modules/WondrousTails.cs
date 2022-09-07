@@ -130,7 +130,7 @@ internal class WondrousTails : IModule
     {
         public IModule ParentModule { get; }
 
-        public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.NewBookAvailable() ? idyllshireTeleportPayload : openBookPayload;
+        public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.NeedsNewBook() ? idyllshireTeleportPayload : openBookPayload;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
 
@@ -190,7 +190,7 @@ internal class WondrousTails : IModule
         {
             if (Settings.UnclaimedBookWarning.Value && WondrousTailsBook.NewBookAvailable()) return ModuleStatus.Incomplete;
 
-            return WondrousTailsBook.GetNumStickers() == 9 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+            return WondrousTailsBook.IsComplete() ? ModuleStatus.Complete : ModuleStatus.Incomplete;
         }
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
