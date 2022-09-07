@@ -42,7 +42,13 @@ internal class WindowManager : IDisposable
 
     private void DrawUI() => windowSystem.Draw();
 
-    private void DrawConfigUI() => windows[0].IsOpen = true;
+    private void DrawConfigUI()
+    {
+        if(Service.ClientState.IsPvP)
+            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+
+        windows[0].IsOpen = true;
+    }
 
     public T? GetWindowOfType<T>()
     {
