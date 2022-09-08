@@ -72,7 +72,7 @@
     "description": "Common.get_Complete"
   },
   "Overriden": {
-    "message": "Overriden",
+    "message": "Reemplazadas",
     "description": "Common.get_Overriden"
   },
   "LessThanLabel": {
@@ -260,7 +260,7 @@
     "description": "DutyRoulette.get_NoRoulettesTracked"
   },
   "DutyRoulette_Override": {
-    "message": "Duty Override",
+    "message": "Reemplazo de Duties",
     "description": "DutyRoulette.get_Override"
   },
   "FashionReport_Label": {

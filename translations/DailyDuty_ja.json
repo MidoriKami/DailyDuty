@@ -1,1070 +1,670 @@
 {
-  "InformationLabel": {
-    "message": "情報",
-    "description": "CommonStrings..ctor"
+  "Configuration_Label": {
+    "message": "設定",
+    "description": "Configuration.get_Label"
   },
-  "AutomationInformationLabel": {
-    "message": "データ収集",
-    "description": "CommonStrings..ctor"
+  "Configuration_ModuleNotSelected": {
+    "message": "左から設定する項目を選択してください",
+    "description": "Configuration.get_ModuleNotSelected"
   },
-  "TechnicalInformationLabel": {
-    "message": "テクニカル情報",
-    "description": "CommonStrings..ctor"
+  "Configuration_Options": {
+    "message": "オプション",
+    "description": "Configuration.get_Options"
   },
-  "EnabledLabel": {
-    "message": "有効化",
-    "description": "CommonStrings..ctor"
+  "Configuration_MarkCompleteWhen": {
+    "message": "完了した日時をマーク",
+    "description": "Configuration.get_MarkCompleteWhen"
   },
-  "EmptyContentsLabel": {
-    "message": "表示できる情報がありません",
-    "description": "CommonStrings..ctor"
-  },
-  "CurrentStatusLabel": {
-    "message": "現在のステータス",
-    "description": "CommonStrings..ctor"
-  },
-  "CompletionStatusLabel": {
-    "message": "完成状況",
-    "description": "CommonStrings..ctor"
-  },
-  "NotificationOptionsLabel": {
+  "Configuration_NotificationOptions": {
     "message": "通知の設定",
-    "description": "CommonStrings..ctor"
+    "description": "Configuration.get_NotificationOptions"
   },
-  "ClickableLinkLabel": {
-    "message": "クリック可能なリンク",
-    "description": "CommonStrings..ctor"
-  },
-  "TaskDisplayOptionsLabel": {
-    "message": "タスクの表示オプション",
-    "description": "CommonStrings..ctor"
-  },
-  "TaskHeaderColorLabel": {
-    "message": "タスクのカテゴリ色",
-    "description": "CommonStrings..ctor"
-  },
-  "TaskIncompleteTaskColorLabel": {
-    "message": "未完成のタスクの色",
-    "description": "CommonStrings..ctor"
-  },
-  "TaskCompleteTaskColorLabel": {
-    "message": "完成のタスク色",
-    "description": "CommonStrings..ctor"
-  },
-  "NotifyOnLoginLabel": {
+  "Configuration_OnLogin": {
     "message": "ログイン時に通知を送信する",
-    "description": "CommonStrings..ctor"
+    "description": "Configuration.get_OnLogin"
   },
-  "NotifyOnLoginHelpText": {
-    "message": "このモジュールが不完全な場合、または関連するメッセージがある場合は、キャラクターにログインするときに通知を送信します。",
-    "description": "CommonStrings..ctor"
-  },
-  "NotifyOnZoneChangeLabel": {
+  "Configuration_OnZoneChange": {
     "message": "ゾーン変更時に通知を送信する",
-    "description": "CommonStrings..ctor"
+    "description": "Configuration.get_OnZoneChange"
   },
-  "NotifyOnZoneChangeHelpText": {
-    "message": "このモジュールが不完全な場合、または関連するメッセージがある場合は、ゾーンを変更したときに通知を送信します。",
-    "description": "CommonStrings..ctor"
+  "Configuration_HideDisabled": {
+    "message": "無効化されたものを非表示にする",
+    "description": "Configuration.get_HideDisabled"
   },
-  "CompleteLabel": {
-    "message": "完成",
-    "description": "CommonStrings..ctor"
+  "Configuration_ShowDisabled": {
+    "message": "無効のものを表示",
+    "description": "Configuration.get_ShowDisabled"
   },
-  "IncompleteLabel": {
+  "Status_Label": {
+    "message": "状態",
+    "description": "Status.get_Label"
+  },
+  "Status_ModuleStatus": {
+    "message": "モジュールの状態",
+    "description": "Status.get_ModuleStatus"
+  },
+  "Command": {
+    "message": "コマンド",
+    "description": "Common.get_Command"
+  },
+  "Enabled": {
+    "message": "有効",
+    "description": "Common.get_Enabled"
+  },
+  "Disabled": {
+    "message": "無効",
+    "description": "Common.get_Disabled"
+  },
+  "Unknown": {
+    "message": "不明",
+    "description": "Common.get_Unknown"
+  },
+  "Incomplete": {
     "message": "未完成",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_Incomplete"
   },
-  "AllTasksLabel": {
-    "message": "全タスクの状態",
-    "description": "CommonStrings..ctor"
+  "Unavailable": {
+    "message": "利用不可",
+    "description": "Common.get_Unavailable"
   },
-  "AvailableNowLabel": {
-    "message": "利用可能",
-    "description": "CommonStrings..ctor"
+  "Complete": {
+    "message": "完了",
+    "description": "Common.get_Complete"
   },
-  "StyleOptionsLabel": {
-    "message": "スタイル設定",
-    "description": "CommonStrings..ctor"
-  },
-  "OpacityLabel": {
-    "message": "不透明度",
-    "description": "CommonStrings..ctor"
-  },
-  "ClickthroughLabel": {
-    "message": "クリックスルー",
-    "description": "CommonStrings..ctor"
-  },
-  "MinutesLabel": {
-    "message": "分",
-    "description": "CommonStrings..ctor"
-  },
-  "DaysLabel": {
-    "message": "日",
-    "description": "CommonStrings..ctor"
-  },
-  "StyleLabel": {
-    "message": "スタイル",
-    "description": "CommonStrings..ctor"
-  },
-  "AllowancesLabel": {
-    "message": "手当数",
-    "description": "CommonStrings..ctor"
+  "Overriden": {
+    "message": "上書きする",
+    "description": "Common.get_Overriden"
   },
   "LessThanLabel": {
     "message": "未満",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_LessThanLabel"
   },
   "LessThanOrEqualLabel": {
     "message": "以下または等しい",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_LessThanOrEqualLabel"
   },
   "EqualToLabel": {
     "message": "等しい",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_EqualToLabel"
   },
-  "NoneRecordedLabel": {
-    "message": "記録なし",
-    "description": "CommonStrings..ctor"
+  "Allowances": {
+    "message": "受注権",
+    "description": "Common.get_Allowances"
   },
-  "RealmRebornLabel": {
-    "message": "新生エオルゼア",
-    "description": "CommonStrings..ctor"
+  "Target": {
+    "message": "ターゲット",
+    "description": "Common.get_Target"
   },
-  "HeavenwardLabel": {
-    "message": "蒼天のイシュガルド",
-    "description": "CommonStrings..ctor"
+  "Mode": {
+    "message": "モード",
+    "description": "Common.get_Mode"
   },
-  "StormbloodLabel": {
-    "message": "紅蓮のリベレーター",
-    "description": "CommonStrings..ctor"
-  },
-  "ShadowbringersLabel": {
-    "message": "漆黒のヴィランズ",
-    "description": "CommonStrings..ctor"
-  },
-  "EndwalkerLabel": {
-    "message": "暁月のフィナーレ",
-    "description": "CommonStrings..ctor"
-  },
-  "WeeklyTasksLabel": {
-    "message": "週間タスク",
-    "description": "CommonStrings..ctor"
-  },
-  "DailyTasksLabel": {
-    "message": "デイリータスク",
-    "description": "CommonStrings..ctor"
-  },
-  "TopLeftLabel": {
+  "TopLeft": {
     "message": "左上",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_TopLeft"
   },
-  "TopRightLabel": {
+  "TopRight": {
     "message": "右上",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_TopRight"
   },
-  "BottomLeftLabel": {
+  "BottomLeft": {
     "message": "左下",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_BottomLeft"
   },
-  "BottomRightLabel": {
+  "BottomRight": {
     "message": "右下",
-    "description": "CommonStrings..ctor"
+    "description": "Common.get_BottomRight"
   },
-  "AutoResizeLabel": {
-    "message": "自動サイズ調整...",
-    "description": "CommonStrings..ctor"
+  "Header": {
+    "message": "ヘッダー",
+    "description": "Common.get_Header"
   },
-  "ManualSizeLabel": {
-    "message": "手動でサイズ変更",
-    "description": "CommonStrings..ctor"
-  },
-  "LevelOneLabel": {
-    "message": "レベル 1",
-    "description": "CommonStrings..ctor"
-  },
-  "LevelTwoLabel": {
-    "message": "レベル 2",
-    "description": "CommonStrings..ctor"
-  },
-  "LevelThreeLabel": {
-    "message": "レベル 3",
-    "description": "CommonStrings..ctor"
-  },
-  "EliteLabel": {
-    "message": "上級",
-    "description": "CommonStrings..ctor"
-  },
-  "ApplyAllLabel": {
-    "message": "すべて適用",
-    "description": "CommonStrings..ctor"
-  },
-  "TeleportLabel": {
-    "message": "テレポート",
-    "description": "CommonStrings..ctor"
-  },
-  "ExpandedInfoLabel": {
-    "message": "展開されたタスク表示",
-    "description": "CommonStrings..ctor"
-  },
-  "ResetLabel": {
-    "message": "リセット",
-    "description": "CommonStrings..ctor"
-  },
-  "ResetAllLabel": {
-    "message": "全てをリセット",
-    "description": "CommonStrings..ctor"
-  },
-  "CountLabel": {
-    "message": "カウント",
-    "description": "CommonStrings..ctor"
-  },
-  "UnavailableLabel": {
-    "message": "利用不可",
-    "description": "CommonStrings..ctor"
-  },
-  "FeaturesTabLabel": {
-    "message": "機能",
-    "description": "TabStrings..ctor"
-  },
-  "FeaturesTabDescription": {
-    "message": "QoLを付加するDailyDutyの主な機能",
-    "description": "TabStrings..ctor"
-  },
-  "DebugTabLabel": {
-    "message": "デバッグ",
-    "description": "TabStrings..ctor"
-  },
-  "DebugTabString": {
-    "message": "デバッグや詳細情報を表示するための設定",
-    "description": "TabStrings..ctor"
-  },
-  "SettingsTabLabel": {
-    "message": "設定",
-    "description": "TabStrings..ctor"
-  },
-  "SettingsTabDescription": {
-    "message": "このウィンドウに固有の設定",
-    "description": "TabStrings..ctor"
-  },
-  "TasksTabLabel": {
-    "message": "タスク",
-    "description": "TabStrings..ctor"
-  },
-  "TasksTabDescription": {
-    "message": "毎日と毎週のタスクを表示および設定します",
-    "description": "TabStrings..ctor"
-  },
-  "TimersTabLabel": {
-    "message": "タイマー",
-    "description": "TabStrings..ctor"
-  },
-  "TimersTabDescription": {
-    "message": "毎日と毎週のタスクがリセットされるまでの時間を表示",
-    "description": "TabStrings..ctor"
-  },
-  "DutyRouletteDutyFinderOverlayLabel": {
-    "message": "コンテンツルーレット・ファインダーのオーバーレイ",
-    "description": "FeaturesStrings..ctor"
-  },
-  "DutyRouletteDutyFinderOverlayAutomationInformation": {
-    "message": "「コンテンツルーレット」ステータスは、ゲームデータから直接収集され、常にゲームと正確に同期します。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "DutyRouletteDutyFinderOverlayInformationDisclaimer": {
-    "message": "タスクモジュール「コンテンツルーレット」を有効にする必要があります。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "DutyRouletteDutyFinderOverlayDescription": {
-    "message": "コンテンツファインダーの「コンテンツルーレット」テキストの色を、毎日の完了状況を反映するように変更",
-    "description": "FeaturesStrings..ctor"
-  },
-  "DutyRouletteDutyFinderOverlayTechnicalDescription": {
-    "message":
-      "「コンテンツルーレット」モジュールを使用して、どのルーレットに色を付けるかを設定します。\n\n「コンテンツルーレット」モジュールで「完成」と「未完成」の色を設定することもできます\n\n追跡されないルーレットは完了状況にかかわらず色付けされません。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "WondrousTailsDutyFinderOverlayLabel": {
-    "message": "クロの空想帳のコンテンツファインダーのオーバーレイ",
-    "description": "FeaturesStrings..ctor"
-  },
-  "WondrousTailsDutyFinderOverlayDescription": {
-    "message":
-      "クロの空想帳に登録されているクエストの隣にクローバーのアイコンが追加されます。\n\nクローバーは、そのクエストが完了するとスタンプを獲得できる場合は金色で表示されます。\n\nそのクエストがすでにスタンプを貼っている場合、クローバーは空洞になります。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "WondrousTailsDutyFinderOverlayAutomationInformation": {
-    "message": "クロの空想帳の進捗は、ゲームデータから直接読み込まれます。\n\n表示されたデータを更新するために、コンテンツファインダーを再度開いたり閉じたりする必要がある場合があります。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "WondrousTailsDutyFinderOverlayTechnicalDescription": {
-    "message": "システム上では、その週の空想帳を完成させても、タスクのデータはクリアされません。そのため、コンテンツファインダーには前回取得した空想帳のステータスが反映されます。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowLabel": {
-    "message": "タスクウィンドウ",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowTaskSelectionLabel": {
-    "message": "タスクを選択する",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowShowDailyLabel": {
-    "message": "デイリータスクを表示",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowShowWeeklyLabel": {
-    "message": "週間タスクの表示",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowHideWindowWhenLabel": {
-    "message": "ウィンドウを隠すとき",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowHideWhenCompleteLabel": {
-    "message": "すべてのタスクが完成しました",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowShowWhenCompleteLabel": {
-    "message": "完成したタスクを表示する",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowHideInDutyLabel": {
-    "message": "コンテンツ中",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowResizeStyleLabel": {
-    "message": "ウィンドウサイズの設定",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TodoWindowInformation": {
-    "message": "タスクウィンドウは、追跡したタスクを表示する小さなウィンドウです。このウィンドウは、まだ何をしなければならないかを一目で把握するのに便利です。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowEnableTimersWarning": {
-    "message": "「タイマーウィンドウの設定」で表示したいタイマーを有効にする",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowLabel": {
-    "message": "タイマーウィンドウ",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowInformation": {
-    "message": "タイマーウィンドウは、便利なユーザーインターフェース要素として、各種リセットまでの時間を表示することができます。",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowTimersEnableLabel": {
-    "message": "タイマーを有効化",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowForegroundColorLabel": {
-    "message": "前景色",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowBackgroundColorLabel": {
-    "message": "背景色",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowTextColorLabel": {
-    "message": "テキストの色",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowTimeColorLabel": {
-    "message": "時刻の色",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowFitToWindowLabel": {
-    "message": "ウィンドウに合わせる",
-    "description": "FeaturesStrings..ctor"
-  },
-  "TimersWindowSizeLabel": {
-    "message": "サイズ",
-    "description": "FeaturesStrings..ctor"
-  },
-  "DailyDutySettingsLabel": {
-    "message": "デイリーコンテンツ",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "NoSelectionInformation": {
-    "message": "左側のボックスで設定する項目を選択する",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "AboutTabLabel": {
-    "message": "概要",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "OptionsTabLabel": {
-    "message": "設定",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "StatusTabLabel": {
-    "message": "状態",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "LogTabLabel": {
-    "message": "ログ",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "NotificationsConfigurationLabel": {
-    "message": "通知",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "NotificationsThrottleLabel": {
-    "message": "通知機能スロットル",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "NotificationsThrottleDescription": {
-    "message": "この設定はDailyDutyからのチャット通知の頻度を制御します。\n\nデフォルト: 5 分",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "NotificationsDelayLabel": {
-    "message": "通知遅延",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "NotificationsDelayDescription": {
-    "message": "選択した曜日まで通知が表示されないようにします。週の開始は「火曜日」です。",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "LanguageLabel": {
-    "message": "言語",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "LanguageSelectLabel": {
-    "message": "言語選択",
-    "description": "ConfigurationStrings..ctor"
-  },
-  "DutyRouletteLabel": {
-    "message": "デイリールーレット",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteTrackedRoulettesLabel": {
-    "message": "追跡したいルーレットを選択",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteInformation": {
-    "message":
-      "デイリールーレットは、1日1回完了するごとに経験値とギルが付与される日替わり任務です。\n\nルーレットの種類や不足ロールボーナスのレベルに応じて、各種アラガントームストーンや軍票などの追加報酬が与えられます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteAutomationInformation": {
-    "message": "このモジュールは完全に自動化されており、ユーザーの操作は不要です。\n\n各ルーレットの完了状況はゲームのデータから直接収集されます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteTechnicalInformation": {
-    "message":
-      "このモジュールは、今日まだ完了していないコンテンツがある場合、通知を受けるように設定することができます。\n\nオプションで選択されたコンテンツのみ通知を受けることができます。\n\n掲載されているルーレットはアンロックされていない、または後のパッチまで利用できないなどの理由で利用できない場合があります。\n未解放のルーレットを追跡することは推奨されません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteNothingTrackedDescriptionWarning": {
-    "message": "追跡されたルーレットはありません",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteNothingTrackedDescription": {
-    "message": "「オプション」で追跡するルーレットを選択",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteRoulettesRemaining": {
-    "message": "残りのルーティング",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteRoulettesRemainingSingular": {
-    "message": "残りのルーティング",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteClickableLinkDescription": {
-    "message": "通知をクリックして、コンテンツファインダーを開きます",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteExpandedInfo": {
-    "message": "Todo ウィンドウで未完成の任務を表示します。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteHideWhenCapped": {
-    "message": "トームストーンが上限になったらエキスパートを非表示",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteHideWhenCappedHelp": {
-    "message": "トームストーンが週上限になるとエキスパートを完成とマークします",
-    "description": "ModuleStrings..ctor"
-  },
-  "DutyRouletteCurrentTomestoneCount": {
-    "message": "週間制限のトームストーン",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsNumStamps": {
-    "message": "スタンプ",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsBookStatusLabel": {
-    "message": "空想帳の状態",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsLabel": {
-    "message": "クロの空想帳",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsInformation": {
-    "message":
-      "クロの空想帳とは、プレイヤーがコンテンツを完了して報酬を得ることができるレベル60の週間任務です。報酬獲得にいくつかのランダム要素があります。\nこれによって古いコンテンツをまた遊べるゲームです。\n\n週間報酬にはどのジョブが回しても1レベル分の半分の経験値がもらえるほか、アラガントームストーンやMGPなどの報酬があります。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsAutomationInformation": {
-    "message": "クロの空想帳データはゲームのデータから直接抽出され、あなたの空想帳の現在の状態と常に同期します。 このデータを同期させるためにユーザーの操作は必要ありません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsTechnicalDescription": {
-    "message": "システム上ではスタンプを9個押さずに空想帳を完成してもクリアに認めません。\n\nこのモジュールでは、9個のスタンプが押されたときのみ、クロの空想帳が完成したとみなされます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsOpenBookClickableLinkDescription": {
-    "message": "通知をクリックして、クロの空想帳を開きます",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsIdyllshireTeleportLinkDescription": {
-    "message": "新しい空想帳が取得可能の通知をクリックすることでイディルシャイアにテレポートする",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsUnavailableMessage": {
-    "message": "このインスタンスは「リトライ」すれば未コンプリートに戻せます",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsUnavailableRerollMessage": {
-    "message": "{0} のリロールが利用可能です",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsAvailableMessage": {
-    "message": "このインスタンスではすでにスタンプが利用可能です",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsCompletableMessage": {
-    "message": "このインスタンスを完成させると、スタンプがもらえます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsClaimableMessage": {
-    "message": "最後のインスタンスのスタンプを取得することができます",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsInstanceNotificationsLabel": {
-    "message": "コンテンツ開始/終了時の通知",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsInstanceNotificationsDescription": {
-    "message": "クロの空想帳に含まれる任務であれば、任務開始時に通知を送信します。\nまた、任務を終えたらスタンプを集めるように通知します。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsStickerAvailableNotificationLabel": {
-    "message": "スタンプが利用可能になると通知",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsStickerAvailableNotificationDescription": {
-    "message": "空想帳内に任意のタスクがスタンプを使用できる場合は、ゾーン変更時に通知を送信します。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsStickersAvailableNotification": {
-    "message": "スタンプを付けることができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsDeadlineEarlyWarningPlural": {
-    "message": "期限切れまで 残り{0} 日",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsDeadlineEarlyWarningSingular": {
-    "message": "期限切れまで 残り{0} 日",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsDeadlineEarlyWarningLabel": {
-    "message": "期限切れアラート",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsDeadlineEarlyWarningDescription": {
-    "message": "空想帳が期限切れになった場合、ゾーン変更時に通知を送信する",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsDeadlineEarlyWarningInputDescription": {
-    "message": "警告メッセージの送信期限までの日数",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsBookAvailableNotification": {
-    "message": "新しい空想帳を取得可能",
-    "description": "ModuleStrings..ctor"
-  },
-  "WondrousTailsBookAvailableNotificationDescription": {
-    "message": "新しい空想帳を入手できる場合は、ゾーン変更時に通知を送信します",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapLabel": {
-    "message": "宝の地図",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapInformation": {
-    "message":
-      "宝の地図とは、18時間に一度ギャザラーで入手できるアイテムです。これらの地図は、ミニイベントの一環として宝物庫を開くことができ、様々な報酬を得ることができます。またマーケットボードで販売することも可能です。\n\n各地図は同時に1つしか所持できません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapAutomationInformation": {
-    "message":
-      "宝の地図のデータは、宝の地図が収集されたときにチャット情報を読むことによって収集されます。 地図を収集した後にDailyDutyがインストールされている場合。 追跡を開始するために別の地図を収集できるまで待たなければならない",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapAvailableMessage": {
-    "message": "宝の地図が利用可能",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapTimeUntilNextMap": {
-    "message": "次の地図",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapStatusLabel": {
-    "message": "宝の地図の状態",
-    "description": "ModuleStrings..ctor"
-  },
-  "TreasureMapReSyncInformation": {
-    "message": "「タイマー」メニューを開くと、宝の地図を強制的に再同期することができます",
-    "description": "ModuleStrings..ctor"
-  },
-  "BeastTribeLabel": {
-    "message": "蛮族クエスト",
-    "description": "ModuleStrings..ctor"
-  },
-  "BeastTribeInformation": {
-    "message": "蛮族クエストとは、毎日行うことで経験値報酬を得ることができ、蛮族への友好度を進めることで、ユニークな染料、装備、マウント、調度品がアンロックされるものです。",
-    "description": "ModuleStrings..ctor"
-  },
-  "BeastTribeAutomationInformation": {
-    "message": "蛮族クエスト受注権は、ゲームのデータから直接抽出されるため、常にゲームの現状と同期した情報を得ることができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "BeastTribeTechnicalInformation": {
-    "message":
-      "DailyDutyには、受注権の限界に達したときに通知を発するオプションがあり、受注権を直接入力するか、追跡したい蛮族の数を指定することができます。\n\n各部族が新しいレベルに到達すると、その蛮族に対して追加の3つの受注権が与えられます。DailyDutyはこの情報を追跡することができないため、追加の受注権は追跡の目的には考慮されません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "BeastTribeAllowancesRemainingLabel": {
-    "message": "受注権限度値",
-    "description": "ModuleStrings..ctor"
-  },
-  "BeastTribeMarkCompleteWhenLabel": {
-    "message": "完了した日時をマーク",
-    "description": "ModuleStrings..ctor"
-  },
-  "LevequestLabel": {
-    "message": "リーヴクエスト",
-    "description": "ModuleStrings..ctor"
-  },
-  "LevequestInformation": {
-    "message":
-      "リーヴクエストとは、プレイヤーが繰り返し行うことで、経験値やギル、アイテムなどを獲得できるクエストです。1キャラクターにつき1回しか受けられない通常のクエストと異なり、リーブクエストはリーブの受注権内であれば何度でも受けることができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "LevequestAutomationInformation": {
-    "message": "リーヴクエストの情報はゲームのデータから直接抽出され、常にゲームの現在の状態と同期します。",
-    "description": "ModuleStrings..ctor"
-  },
-  "LevequestTechnicalInformation": {
-    "message": "一度クエストが受け入れられると、クエストをキャンセルしてもリーヴは返されません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "LevequestAboveThresholdLabel": {
-    "message": "受注権限度値",
-    "description": "ModuleStrings..ctor"
-  },
-  "LevequestAcceptedLabel": {
-    "message": "承認済み",
-    "description": "ModuleStrings..ctor"
-  },
-  "NextAllowanceLabel": {
-    "message": "次の受注権",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotLabel": {
-    "message": "ミニ・くじテンダー",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotInformation": {
-    "message": "ミニ・くじテンダーは、1日3回挑戦できるデイリーくじです。ミニサボテンの各チケットは、チケット1枚につき最大10,000 MGPまでの賞品を獲得できます",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotAutomationInformation": {
-    "message": "トラッキングは、ミニ・くじテンダーの開封を監視することによって行われます。 毎日ミニ・くじテンダーを完成させた後、DailyDutyがインストールされていた場合追跡されません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotTechnicalInformation": {
-    "message":
-      "このゲームでは、ウィンドウが開かれMGPを消費してチケットを購入すると、ミニ・くじテンダーの支給額が削除されます。チケットウィンドウが開いた後にゲームが終了したり、クラッシュした場合、そのチケットは失われます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotClickableLinkDescription": {
-    "message": "通知をクリックするとゴールドソーサーにテレポートできます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotReSyncInformation": {
-    "message": "「ミニ・くじテンダー」に話しかけて「ミニ・くじチケットを購入」を選択することで、ミニ・くじの支給額を強制的に再同期させることができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "MiniCactpotAllowancesLabel": {
-    "message": "利用可能なスクラッチ",
-    "description": "ModuleStrings..ctor"
-  },
-  "CustomDeliveryLabel": {
-    "message": "お得意様取引",
-    "description": "ModuleStrings..ctor"
-  },
-  "CustomDeliveryInformation": {
-    "message": "お得意様取引とは、毎週行われるギャザクラのタスクで、様々なクラフトやギャザリングのスクリップ、経験値、各種マテリア、マテリアなどを入手することができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "CustomDeliveryAutomationInformation": {
-    "message": "お得意様取引の情報はゲームのデータから直接抽出され、常にゲームの現在の状態と同期します。",
-    "description": "ModuleStrings..ctor"
-  },
-  "CustomDeliveryAllowancesLabel": {
-    "message": "受注権限度値",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveLabel": {
-    "message": "ドマ町人地復興",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveInformation": {
-    "message":
-      "ドマ町人地復興は、ギル報酬を得るために毎週行うことができるタスクです。ジャンクアイテムを寄付すると、その価値の何倍ものギルが戻ってくるというもので、結果的に利益を得ることができます。 報酬の倍率はドマ町人地を通じて進めれば進めるほど高くなります。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveAutomationInformation": {
-    "message": "ドマ町人地復興のデータは自動的に追跡されますが、実際にはDoman Enclaveエリアにいる間のみ追跡されます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveTechnicalInformation": {
-    "message":
-      "ドマ町人地をアクセスすると、DailyDutyはステータスのコピーを保持し、新しい週の始まりにそのステータスをリセットしようとします。もし、何らかの理由でデータが同期されなくなった場合は、ドマ町人地に再度アクセスすれば、自動的に再同期されます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveGilRemainingLabel": {
-    "message": "予算額",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveBudgetRemainingLabel": {
-    "message": "残りの予算額",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveCurrentAllowanceLabel": {
-    "message": "今の予算額",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveClickableLinkDescription": {
-    "message": "通知をクリックするとドマ町人地にテレポートできます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "DomanEnclaveInitializationWarning": {
-    "message": "ドマ町人地復興のデータを再同期するには、ドマ町人地にアクセスしてください。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportLabel": {
-    "message": "ファッションチェック",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportInformation": {
-    "message":
-      "ファッションチェックとは、毎週クリアすることでMGPを獲得できるタスクです。週に一度何もせずに「審査のための自己紹介」をするだけで、10,000MGPが報酬としてもらえます。より高いスコアや追加MGP、称号を得るために、服作りに挑戦することができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportAutomationInformation": {
-    "message": "ファッションチェックのデータは、審査に出向いた際に収集されます。審査終了後、UIから現在のハイスコアとアローアビリティの残量を抽出します。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportTechnicalInformation": {
-    "message":
-      "データは「マスク・ド・ローズ」と対話するときと、実際に審査に臨むときの両方で収集されます。これにより常にゲーム内のデータと同期しているはずです。\n\nファッションレポートのステータスは、ファッションレポートが利用できない間は「完成」、利用できるようになるか、完了条件が満たされないと「未完成」と表示されるようになる。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportHighestScoreLabel": {
-    "message": "最高スコア",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportAvailableLabel": {
-    "message": "ファッションチェック再開",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportSingleModeLabel": {
-    "message": "シングル",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportEightyPlusLabel": {
-    "message": "80点以上",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportAllLabel": {
-    "message": "すべて",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportSingleModeDescription": {
-    "message": "今週は回数をまだ使ってない、ファッションチェックが提出できる場合のみ通知する",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportEightyPlusDescription": {
-    "message": "今週は回数が残っているか、最高得点が80点以下か、ファッションチェックが提出可能かを通知する",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportAllDescription": {
-    "message": "今週の回数の残りとファッションチェックの提出が可能かどうかを通知する。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportClickableLinkDescription": {
-    "message": "通知をクリックするとゴールドソーサーにテレポートできます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportReSyncInformation": {
-    "message": "「マスク・ド・ローズ」と話すことで、ファッションチェックのデータを再同期できます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "FashionReportAllowancesLabel": {
-    "message": "利用可能な回数",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotLabel": {
-    "message": "ジャンボ・くじテンダー",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotInformation": {
-    "message": "ジャンボ・くじテンダーとは、毎週3枚の宝くじを購入するタスクです。このチケットは好きな4桁の数字を選ぶことができ、翌週の抽選会でいくつ数字が一致したかによって、MGPを獲得することができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotAutomationInformation": {
-    "message": "ジャンボ・くじテンダーのデータは、チケットを購入すると収集されます。 チケットを購入したときに DailyDuty がインストールされていない場合、その週のチケットを追跡することはできません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotTechnicalInformation": {
-    "message":
-      "DailyDutyは収集したチケットの価値を表示しますが、状況を把握するために必要な情報は、購入されたチケットの枚数のみです。\n\n毎週リセットされると、保存されていたチケットは削除され、新しいチケットを購入するよう促されます。保留中の報酬がある場合、新しいチケットを購入するためには、チケットを回収する必要があります。\n\nフォールバック再同期の仕組みにより、報酬を受け取る前に「ジャンボ・くじテンダー」に話しかけると、先週のチケットが再ログインされ、タスクは完了と表示されます。報酬を受け取った後に「ジャンボ・くじテンダー」に話しかけると、ステータスが「未完了」に再同期されます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotTicketsLabel": {
-    "message": "チケット",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotTicketsAvailableLabel": {
-    "message": "利用可能なチケット",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotTicketAvailableLabel": {
-    "message": "利用可能なチケット",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotNextDrawingLabel": {
-    "message": "抽選結果発表まで",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotClickableLinkDescription": {
-    "message": "通知をクリックするとゴールドソーサーにテレポートできます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "JumboCactpotReSyncInformation": {
-    "message": "「ジャンボ・くじテンダー」と話すことで、チケットデータの再同期を強制することができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksWeeklyLabel": {
-    "message": "モブハント (毎週)",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksWeeklyInformation": {
-    "message":
-      "ウィークリーモブハントは「Bモブハント」とも呼ばれ、同盟記章、セントリオ記章、モブの戦利品など、様々なモブハント通貨で行えるウィークリーハントです。\n\nこれらの通貨は、様々な報酬と交換することができます。注目の報酬は「転送網利用券」で、テレポのギル払いの代わりに使用することができます。",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksAutomationInformation": {
-    "message": "モブハントデータは、ゲームに保存されたデータの変化を観察することで追跡されます。モブ手配書を取得時にDailyDutyがインストールされていない場合、正しく追跡することができません。",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksTechnicalInformation": {
-    "message":
-      "このデータは常にゲームと同期していますが、ゲーム側ではリセット時にクリアされません。その代わり、新しいモブ手配書を拾った時だけデータがクリアされます。\n\nDailyDutyは毎週追跡データのコピーをリセットし、新しいモブ手配書が受注ときに追跡を開始しようとします。",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksHuntsRemainingLabel": {
-    "message": "残りのモブハント",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksHuntRemainingSingularLabel": {
-    "message": "残りのモブハント",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksTrackedHuntsLabel": {
-    "message": "追跡済みのモブハント",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksTrackLabel": {
-    "message": "追跡中のモブハント",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksMarkAvailableLabel": {
-    "message": "モブ手配書未取得",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksMarkObtainedLabel": {
-    "message": "モブ手配書取得済み",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksMarkKilledLabel": {
-    "message": "倒した",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksTargetName": {
-    "message": "ターゲット名",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksTargetLocation": {
-    "message": "ターゲット場所",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksNoHuntsTracked": {
-    "message": "モブは追跡されていません",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksTrackAllLabel": {
-    "message": "すべてを追跡",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksUntrackAllLabel": {
-    "message": "すべて追跡解除",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksExpandedInfoDescription": {
-    "message": "タスクウィンドウに未完成のハントの展開ラベルを表示する。",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksDailyLabel": {
-    "message": "モブハント (毎日)",
-    "description": "ModuleStrings..ctor"
-  },
-  "HuntMarksDailyInformation": {
-    "message": "デイリーモブハントは毎日利用可能な低ランクハントです。この狩りは、かなり一般的なモブを特定の数だけ倒すというものです。",
-    "description": "ModuleStrings..ctor"
-  },
-  "TimersCommand": {
-    "message": "タイマー",
-    "description": "CommandStrings..ctor"
-  },
-  "TodoCommand": {
-    "message": "タスク",
-    "description": "CommandStrings..ctor"
-  },
-  "On": {
-    "message": "オン",
-    "description": "CommandStrings..ctor"
-  },
-  "Enable": {
-    "message": "有効化",
-    "description": "CommandStrings..ctor"
-  },
-  "Show": {
-    "message": "表示",
-    "description": "CommandStrings..ctor"
-  },
-  "Off": {
-    "message": "オフ",
-    "description": "CommandStrings..ctor"
-  },
-  "Disable": {
-    "message": "無効化",
-    "description": "CommandStrings..ctor"
-  },
-  "Hide": {
-    "message": "非表示",
-    "description": "CommandStrings..ctor"
-  },
-  "Close": {
-    "message": "閉じる",
-    "description": "CommandStrings..ctor"
-  },
-  "Open": {
-    "message": "開く",
-    "description": "CommandStrings..ctor"
-  },
-  "Toggle": {
-    "message": "切り替え",
-    "description": "CommandStrings..ctor"
-  },
-  "Help": {
-    "message": "ヘルプ",
-    "description": "CommandStrings..ctor"
-  },
-  "Core": {
-    "message": "コア",
-    "description": "CommandStrings..ctor"
-  },
-  "TimersShowHelp": {
-    "message":
-      "\n/dd timers - ヘルプメッセージを表示する\n/dd timers help - このヘルプメッセージを表示する\n/dd timers (on | enable | show | open) - タイマーウィンドウを表示する\n/dd timers (off | disable | hide | close) - タイマーウィンドウを非表示にする\n/dd timers (toggle) - タイマーウィンドウを切り替えます",
-    "description": "CommandStrings..ctor"
-  },
-  "TodoShowHelp": {
-    "message":
-      "\n/dd todo - ヘルプメッセージを表示する\n/dd todo help - このヘルプメッセージを表示する\n/dd todo (on | enable | show | open) - タスクウィンドウを表示する\n/dd todo (off | disable | hide | close) - タスクウィンドウを非表示にする\n/dd todo (toggle) - タスクウィンドウを切り替える",
-    "description": "CommandStrings..ctor"
-  },
-  "HelpCommands": {
-    "message":
-      "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd timers help - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
-    "description": "CommandStrings..ctor"
-  },
-  "TimersLabel": {
-    "message": "タイマー",
-    "description": "TimersStrings..ctor"
-  },
-  "DailyResetTimerLabel": {
-    "message": "デイリーリセット",
-    "description": "TimersStrings..ctor"
-  },
-  "FashionReportTimerLabel": {
-    "message": "週間ファッションチェック",
-    "description": "TimersStrings..ctor"
-  },
-  "JumboCactpotTimerLabel": {
-    "message": "ジャンボ・くじテンダー",
-    "description": "TimersStrings..ctor"
-  },
-  "LeveAllowanceTimerLabel": {
-    "message": "毎日のリーヴ受注権",
-    "description": "TimersStrings..ctor"
-  },
-  "TreasureMapTimerLabel": {
-    "message": "古ぼけた地図",
-    "description": "TimersStrings..ctor"
-  },
-  "WeeklyResetTimerLabel": {
-    "message": "毎週リセット",
-    "description": "TimersStrings..ctor"
-  },
-  "DailyResetShortLabel": {
+  "Daily": {
     "message": "デイリー",
-    "description": "TimersStrings..ctor"
+    "description": "Common.get_Daily"
   },
-  "FashionReportShortLabel": {
-    "message": "ファッション",
-    "description": "TimersStrings..ctor"
+  "Weekly": {
+    "message": "ウィークリー",
+    "description": "Common.get_Weekly"
   },
-  "JumboCactpotShortLabel": {
-    "message": "ジャンボ",
-    "description": "TimersStrings..ctor"
+  "Expansion_RealmReborn": {
+    "message": "新生エオルゼア",
+    "description": "Expansion.get_RealmReborn"
   },
-  "LeveAllowanceShortLabel": {
-    "message": "リーヴ",
-    "description": "TimersStrings..ctor"
+  "Expansion_Heavensward": {
+    "message": "蒼天のイシュガルド",
+    "description": "Expansion.get_Heavensward"
   },
-  "TreasureMapShortLabel": {
-    "message": "地図",
-    "description": "TimersStrings..ctor"
+  "Expansion_Stormblood": {
+    "message": "紅蓮のリベレーター",
+    "description": "Expansion.get_Stormblood"
   },
-  "WeeklyResetShortLabel": {
-    "message": "週間",
-    "description": "TimersStrings..ctor"
+  "Expansion_Shadowbringers": {
+    "message": "漆黒のヴィランズ",
+    "description": "Expansion.get_Shadowbringers"
   },
-  "TimersBarColorLabel": {
-    "message": "進行状況バーの色",
-    "description": "TimersStrings..ctor"
+  "Expansion_Endwalker": {
+    "message": "暁月のフィナーレ",
+    "description": "Expansion.get_Endwalker"
   },
-  "TimersHideSecondsLabel": {
-    "message": "秒を非表示",
-    "description": "TimersStrings..ctor"
+  "Help_Timers": {
+    "message": "\n/dd timers - タイマー設定ウィンドウを表示する\n/dd help timers - このヘルプメッセージを表示する\n/dd timers show - タイマーウィンドウを表示する\n/dd timers hide - タイマーウィンドウを非表示にする\n/dd timers toggle - Toggle",
+    "description": "Help.get_Timers"
+  },
+  "Help_Todo": {
+    "message": "\n/dd todo - todo 設定ウィンドウを表示\n/dd help todo - このヘルプメッセージを表示\n/dd todo show - todo ウィンドウを表示\n/dd todo hide - todo ウィンドウを隠す\n/dd toggle - タイマーウィンドウを切り替え",
+    "description": "Help.get_Todo"
+  },
+  "Help_Base": {
+    "message": "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd timers help - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
+    "description": "Help.get_Base"
+  },
+  "BeastTribe_Label": {
+    "message": "友好部族クエスト",
+    "description": "BeastTribe.get_Label"
+  },
+  "BeastTribe_AllowancesRemaining": {
+    "message": "残り受注権",
+    "description": "BeastTribe.get_AllowancesRemaining"
+  },
+  "CustomDelivery_Label": {
+    "message": "お得意様取引",
+    "description": "CustomDelivery.get_Label"
+  },
+  "CustomDelivery_AllowancesRemaining": {
+    "message": "残り納品権",
+    "description": "CustomDelivery.get_AllowancesRemaining"
+  },
+  "DomanEnclave_Label": {
+    "message": "ドマ町人地復興",
+    "description": "DomanEnclave.get_Label"
+  },
+  "DomanEnclave_GilRemaining": {
+    "message": "予算額",
+    "description": "DomanEnclave.get_GilRemaining"
+  },
+  "DomanEnclave_UnknownStatus": {
+    "message": "状態が不明です。モジュールを初期化するには、ドマ町人地にアクセスしてください。",
+    "description": "DomanEnclave.get_UnknownStatus"
+  },
+  "DomanEnclave_UnknownStatusLabel": {
+    "message": "不明なステータス",
+    "description": "DomanEnclave.get_UnknownStatusLabel"
+  },
+  "DomanEnclave_BudgetRemaining": {
+    "message": "残りの予算額",
+    "description": "DomanEnclave.get_BudgetRemaining"
+  },
+  "DomanEnclave_CurrentAllowance": {
+    "message": "今の予算額",
+    "description": "DomanEnclave.get_CurrentAllowance"
+  },
+  "DomanEnclave_ClickableLinkLabel": {
+    "message": "クリック可能なリンク",
+    "description": "DomanEnclave.get_ClickableLinkLabel"
+  },
+  "DomanEnclave_ClickableLink": {
+    "message": "通知をクリックするとドマ町人地にテレポートできます。",
+    "description": "DomanEnclave.get_ClickableLink"
+  },
+  "DutyRoulette_Label": {
+    "message": "デイリールーレット",
+    "description": "DutyRoulette.get_Label"
+  },
+  "DutyRoulette_RouletteSelection": {
+    "message": "追跡するルーレットを選択",
+    "description": "DutyRoulette.get_RouletteSelection"
+  },
+  "DutyRoulette_ClickableLinkLabel": {
+    "message": "クリック可能なリンク",
+    "description": "DutyRoulette.get_ClickableLinkLabel"
+  },
+  "DutyRoulette_ClickableLink": {
+    "message": "通知をクリックして、コンテンツファインダーを開きます",
+    "description": "DutyRoulette.get_ClickableLink"
+  },
+  "DutyRoulette_Remaining": {
+    "message": "残りのルーレット",
+    "description": "DutyRoulette.get_Remaining"
+  },
+  "DutyRoulette_HideExpertWhenCapped": {
+    "message": "エキスパートルーレット機能",
+    "description": "DutyRoulette.get_HideExpertWhenCapped"
+  },
+  "DutyRoulette_HideExpertHelp": {
+    "message": "トームストーンが週上限に達したとき、エキスパートルーレットを完了とマークします",
+    "description": "DutyRoulette.get_HideExpertHelp"
+  },
+  "DutyRoulette_ExpertTomestones": {
+    "message": "エキスパートトームストーン",
+    "description": "DutyRoulette.get_ExpertTomestones"
+  },
+  "DutyRoulette_Overlay": {
+    "message": "Duty Finderオーバーレイ",
+    "description": "DutyRoulette.get_Overlay"
+  },
+  "DutyRoulette_DutyComplete": {
+    "message": "達成済",
+    "description": "DutyRoulette.get_DutyComplete"
+  },
+  "DutyRoulette_DutyIncomplete": {
+    "message": "未達成",
+    "description": "DutyRoulette.get_DutyIncomplete"
+  },
+  "DutyRoulette_RouletteStatus": {
+    "message": "ルーレットのステータス",
+    "description": "DutyRoulette.get_RouletteStatus"
+  },
+  "DutyRoulette_NoRoulettesTracked": {
+    "message": "トラッキング用のルーレットが選択されていません",
+    "description": "DutyRoulette.get_NoRoulettesTracked"
+  },
+  "DutyRoulette_Override": {
+    "message": "週上限到達済",
+    "description": "DutyRoulette.get_Override"
+  },
+  "FashionReport_Label": {
+    "message": "ファッションチェック",
+    "description": "FashionReport.get_Label"
+  },
+  "FashionReport_CompletionCondition": {
+    "message": "完了条件",
+    "description": "FashionReport.get_CompletionCondition"
+  },
+  "FashionReport_ModeSingle": {
+    "message": "参加賞",
+    "description": "FashionReport.get_ModeSingle"
+  },
+  "FashionReport_Mode80Plus": {
+    "message": "80点以上",
+    "description": "FashionReport.get_Mode80Plus"
+  },
+  "FashionReport_ModeAll": {
+    "message": "すべて",
+    "description": "FashionReport.get_ModeAll"
+  },
+  "FashionReport_ModeSingleHelp": {
+    "message": "今週の挑戦回数を消費していない、かつファッションチェックが提出可能の場合のみ通知する",
+    "description": "FashionReport.get_ModeSingleHelp"
+  },
+  "FashionReport_Mode80PlusHelp": {
+    "message": "今週の挑戦可能回数が残っていて、最高得点が80点以下かつファッションチェックが提出可能な場合につうちする",
+    "description": "FashionReport.get_Mode80PlusHelp"
+  },
+  "FashionReport_ModeAllHelp": {
+    "message": "今週の挑戦可能回数が残っていて、ファッションチェックが提出可能の場合は通知する",
+    "description": "FashionReport.get_ModeAllHelp"
+  },
+  "FashionReport_ClickableLinkLabel": {
+    "message": "クリック可能なリンク",
+    "description": "FashionReport.get_ClickableLinkLabel"
+  },
+  "FashionReport_ClickableLink": {
+    "message": "通知をクリックするとゴールドソーサーにテレポートできます。",
+    "description": "FashionReport.get_ClickableLink"
+  },
+  "FashionReport_AllowancesAvailable": {
+    "message": "残り挑戦回数",
+    "description": "FashionReport.get_AllowancesAvailable"
+  },
+  "FashionReport_HighestScore": {
+    "message": "最高スコア",
+    "description": "FashionReport.get_HighestScore"
+  },
+  "FashionReport_ReportOpen": {
+    "message": "ファッションチェック再開",
+    "description": "FashionReport.get_ReportOpen"
+  },
+  "FashionReport_AvailableNow": {
+    "message": "利用可能",
+    "description": "FashionReport.get_AvailableNow"
+  },
+  "HuntMarks_LevelOne": {
+    "message": "初級",
+    "description": "HuntMarks.get_LevelOne"
+  },
+  "HuntMarks_LevelTwo": {
+    "message": "中級",
+    "description": "HuntMarks.get_LevelTwo"
+  },
+  "HuntMarks_LevelThree": {
+    "message": "上級",
+    "description": "HuntMarks.get_LevelThree"
+  },
+  "HuntMarks_Elite": {
+    "message": "リスキーモブ",
+    "description": "HuntMarks.get_Elite"
+  },
+  "HuntMarks_DailyLabel": {
+    "message": "モブハント (毎日)",
+    "description": "HuntMarks.get_DailyLabel"
+  },
+  "HuntMarks_WeeklyLabel": {
+    "message": "モブハント (毎週)",
+    "description": "HuntMarks.get_WeeklyLabel"
+  },
+  "HuntMarks_TrackedHunts": {
+    "message": "追跡中のモブハント",
+    "description": "HuntMarks.get_TrackedHunts"
+  },
+  "HuntMarks_Obtained": {
+    "message": "獲得済み",
+    "description": "HuntMarks.get_Obtained"
+  },
+  "HuntMarks_Unobtained": {
+    "message": "未獲得",
+    "description": "HuntMarks.get_Unobtained"
+  },
+  "HuntMarks_Killed": {
+    "message": "討伐済",
+    "description": "HuntMarks.get_Killed"
+  },
+  "HuntMarks_HuntsRemaining": {
+    "message": "残りのモブハント",
+    "description": "HuntMarks.get_HuntsRemaining"
+  },
+  "HuntMarks_TrackedHuntsStatus": {
+    "message": "追跡中のモブハントステータス",
+    "description": "HuntMarks.get_TrackedHuntsStatus"
+  },
+  "HuntMarks_NoHuntsTracked": {
+    "message": "追跡するモブハントが選択されていません",
+    "description": "HuntMarks.get_NoHuntsTracked"
+  },
+  "JumboCactpot_Label": {
+    "message": "ジャンボ・くじテンダー",
+    "description": "JumboCactpot.get_Label"
+  },
+  "JumboCactpot_Tickets": {
+    "message": "くじ",
+    "description": "JumboCactpot.get_Tickets"
+  },
+  "JumboCactpot_NextDrawing": {
+    "message": "抽選結果発表まで",
+    "description": "JumboCactpot.get_NextDrawing"
+  },
+  "JumboCactpot_ClickableLink": {
+    "message": "通知をクリックするとゴールドソーサーにテレポートできます。",
+    "description": "JumboCactpot.get_ClickableLink"
+  },
+  "JumboCactpot_ClickableLinkLabel": {
+    "message": "クリック可能なリンク",
+    "description": "JumboCactpot.get_ClickableLinkLabel"
+  },
+  "JumboCactpot_TicketsAvailable": {
+    "message": "利用可能なチケット",
+    "description": "JumboCactpot.get_TicketsAvailable"
+  },
+  "JumboCactpot_NoTickets": {
+    "message": "くじがありません",
+    "description": "JumboCactpot.get_NoTickets"
+  },
+  "Levequest_Label": {
+    "message": "リーヴクエスト",
+    "description": "Levequest.get_Label"
+  },
+  "Levequest_Accepted": {
+    "message": "受注済",
+    "description": "Levequest.get_Accepted"
+  },
+  "Levequest_NextAllowance": {
+    "message": "次の受注権",
+    "description": "Levequest.get_NextAllowance"
+  },
+  "Levequest_AllowancesRemaining": {
+    "message": "残り受注権",
+    "description": "Levequest.get_AllowancesRemaining"
+  },
+  "MiniCactpot_Label": {
+    "message": "ミニ・くじテンダー",
+    "description": "MiniCactpot.get_Label"
+  },
+  "MiniCactpot_ClickableLink": {
+    "message": "通知をクリックするとゴールドソーサーにテレポートできます。",
+    "description": "MiniCactpot.get_ClickableLink"
+  },
+  "MiniCactpot_ClickableLinkLabel": {
+    "message": "クリック可能なリンク",
+    "description": "MiniCactpot.get_ClickableLinkLabel"
+  },
+  "MiniCactpot_TicketsRemaining": {
+    "message": "残り購入可能枚数",
+    "description": "MiniCactpot.get_TicketsRemaining"
+  },
+  "TreasureMap_Label": {
+    "message": "宝の地図",
+    "description": "TreasureMap.get_Label"
+  },
+  "TreasureMap_MapAvailable": {
+    "message": "地図が取得可能です",
+    "description": "TreasureMap.get_MapAvailable"
+  },
+  "TreasureMap_NextMap": {
+    "message": "次の地図",
+    "description": "TreasureMap.get_NextMap"
+  },
+  "WondrousTails_Label": {
+    "message": "クロの空想帳",
+    "description": "WondrousTails.get_Label"
+  },
+  "WondrousTails_UnavailableMessage": {
+    "message": "このインスタンスは「リトライ」すれば未コンプリートに戻せます",
+    "description": "WondrousTails.get_UnavailableMessage"
+  },
+  "WondrousTails_UnavailableRerollMessage": {
+    "message": "{0} のリロールが利用可能です",
+    "description": "WondrousTails.get_UnavailableRerollMessage"
+  },
+  "WondrousTails_AvailableMessage": {
+    "message": "このインスタンスではすでにスタンプが利用可能です",
+    "description": "WondrousTails.get_AvailableMessage"
+  },
+  "WondrousTails_CompletableMessage": {
+    "message": "このインスタンスを完成させると、スタンプがもらえます。",
+    "description": "WondrousTails.get_CompletableMessage"
+  },
+  "WondrousTails_ClaimableMessage": {
+    "message": "最後のインスタンスのスタンプを取得することができます",
+    "description": "WondrousTails.get_ClaimableMessage"
+  },
+  "WondrousTails_BookAvailable": {
+    "message": "新しい空想帳を取得可能",
+    "description": "WondrousTails.get_BookAvailable"
+  },
+  "WondrousTails_DutyNotifications": {
+    "message": "コンテンツ開始/終了時の通知",
+    "description": "WondrousTails.get_DutyNotifications"
+  },
+  "WondrousTails_UnclaimedBookNotifications": {
+    "message": "空想帳を受け取っていない場合警告する",
+    "description": "WondrousTails.get_UnclaimedBookNotifications"
+  },
+  "WondrousTails_Stamps": {
+    "message": "スタンプ",
+    "description": "WondrousTails.get_Stamps"
+  },
+  "Todo_Label": {
+    "message": "タスク",
+    "description": "Todo.get_Label"
+  },
+  "Todo_MainOptions": {
+    "message": "メインオプション",
+    "description": "Todo.get_MainOptions"
+  },
+  "Todo_TaskSelection": {
+    "message": "タスクを選択する",
+    "description": "Todo.get_TaskSelection"
+  },
+  "Todo_ShowDailyTasks": {
+    "message": "デイリータスクを表示",
+    "description": "Todo.get_ShowDailyTasks"
+  },
+  "Todo_ShowWeeklyTasks": {
+    "message": "週間タスクの表示",
+    "description": "Todo.get_ShowWeeklyTasks"
+  },
+  "Todo_TaskDisplay": {
+    "message": "タスクの表示オプション",
+    "description": "Todo.get_TaskDisplay"
+  },
+  "Todo_HideCompletedTasks": {
+    "message": "完了したタスクを非表示",
+    "description": "Todo.get_HideCompletedTasks"
+  },
+  "Todo_HideUnavailable": {
+    "message": "利用できない項目を非表示にする",
+    "description": "Todo.get_HideUnavailable"
+  },
+  "Todo_WindowOptions": {
+    "message": "ウィンドウオプション",
+    "description": "Todo.get_WindowOptions"
+  },
+  "Todo_HideWindowCompleted": {
+    "message": "完了時にウィンドウを隠す",
+    "description": "Todo.get_HideWindowCompleted"
+  },
+  "Todo_HideWindowInDuty": {
+    "message": "コンテンツ中はウィンドウを非表示にする",
+    "description": "Todo.get_HideWindowInDuty"
+  },
+  "Todo_LockWindow": {
+    "message": "ウィンドウの位置を固定",
+    "description": "Todo.get_LockWindow"
+  },
+  "Todo_AutoResize": {
+    "message": "自動サイズ調整...",
+    "description": "Todo.get_AutoResize"
+  },
+  "Todo_AnchorCorner": {
+    "message": "アンカーコーナー",
+    "description": "Todo.get_AnchorCorner"
+  },
+  "Todo_Opacity": {
+    "message": "不透明度",
+    "description": "Todo.get_Opacity"
+  },
+  "Todo_DailyTasks": {
+    "message": "デイリータスク",
+    "description": "Todo.get_DailyTasks"
+  },
+  "Todo_WeeklyTasks": {
+    "message": "週間タスク",
+    "description": "Todo.get_WeeklyTasks"
+  },
+  "Todo_NoDailyTasksEnabled": {
+    "message": "設定でタスクを追跡するモジュールを有効にします",
+    "description": "Todo.get_NoTasksEnabled"
+  },
+  "Todo_UseLongLabel": {
+    "message": "長いラベルを使用する",
+    "description": "Todo.get_UseLongLabel"
+  },
+  "Timers_MainOptions": {
+    "message": "メインオプション",
+    "description": "Timers.get_MainOptions"
+  },
+  "Timers_WindowOptions": {
+    "message": "ウィンドウオプション",
+    "description": "Timers.get_WindowOptions"
+  },
+  "Timers_HideWindowInDuty": {
+    "message": "コンテンツ中はウィンドウを非表示にする",
+    "description": "Timers.get_HideWindowInDuty"
+  },
+  "Timers_LockWindow": {
+    "message": "ウィンドウの位置を固定",
+    "description": "Timers.get_LockWindow"
+  },
+  "Timers_Opacity": {
+    "message": "不透明度",
+    "description": "Timers.get_Opacity"
+  },
+  "Timers_NoneEnabledWarning": {
+    "message": "'/dd timers' コマンドでここで表示したいタイマーを有効にする",
+    "description": "Timers.get_NoTimersEnabledWarning"
+  },
+  "Timers_Label": {
+    "message": "タイマー",
+    "description": "Timers.get_Label"
+  },
+  "Timers_EditTimer": {
+    "message": "スタイルを編集",
+    "description": "Timers.get_EditTimer"
+  },
+  "Timers_EditTimerTitle": {
+    "message": "タイマーのスタイルを編集",
+    "description": "Timers.get_EditTimerTitle"
+  },
+  "Timers_AutoResize": {
+    "message": "自動サイズ調整...",
+    "description": "Timers.get_AutoResize"
+  },
+  "Timers_TimeDisplay": {
+    "message": "タイマーの表示オプション",
+    "description": "Timers.get_TimeDisplay"
+  },
+  "Timers_ColorOptions": {
+    "message": "カラーオプション",
+    "description": "Timers.get_ColorOptions"
+  },
+  "Timers_BackgroundColor": {
+    "message": "背景",
+    "description": "Timers.get_Background"
+  },
+  "Timers_ForegroundColor": {
+    "message": "前景",
+    "description": "Timers.get_Foreground"
+  },
+  "Timers_TextColor": {
+    "message": "テキスト",
+    "description": "Timers.get_Text"
+  },
+  "Timers_TimeColor": {
+    "message": "時間",
+    "description": "Timers.get_Time"
+  },
+  "Timers_SizeOptions": {
+    "message": "サイズオプション",
+    "description": "Timers.get_SizeOptions"
+  },
+  "Timers_StretchToFit": {
+    "message": "サイズに合うよう引き伸ばし",
+    "description": "Timers.get_StretchToFit"
+  },
+  "Timers_Size": {
+    "message": "サイズ",
+    "description": "Timers.get_Size"
+  },
+  "Timers_AvailableNow": {
+    "message": "利用可能",
+    "description": "Timers.get_AvailableNow"
+  },
+  "Timers_Name": {
+    "message": "表示名",
+    "description": "Timers.get_Name"
+  },
+  "Timers_EnableCustomName": {
+    "message": "カスタム名を有効にする",
+    "description": "Timers.get_EnableCustomName"
+  },
+  "Teleport_Label": {
+    "message": "テレポート",
+    "description": "Teleport.get_Label"
+  },
+  "Teleport_Error": {
+    "message": "この状況ではテレポートできません",
+    "description": "Teleport.get_Error"
+  },
+  "Teleport_Teleporting": {
+    "message": "{0} へテレポート",
+    "description": "Teleport.get_Teleporting"
+  },
+  "Teleport_CommunicationError": {
+    "message": "テレポート機能を使用するには、\"Teleporter\" プラグインをインストールする必要があります",
+    "description": "Teleport.get_CommunicationError"
+  },
+  "Teleport_NotUnlocked": {
+    "message": "宛先のエーテライトは開放されていません、テレポートはキャンセルされました",
+    "description": "Teleport.get_NotUnlocked"
   }
 }
