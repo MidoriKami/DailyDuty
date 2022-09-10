@@ -66,12 +66,17 @@ public static class RouletteStateExtensions
 
 public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, RouletteState State) : IInfoBoxTableRow
 {
-    public Tuple<Action?, Action?> GetInfoBoxTableRow()
+    public Tuple<Action?, Action?> GetConfigurationRow()
+    {
+        return new Tuple<Action?, Action?>(null, null);
+    }
+
+    public Tuple<Action?, Action?> GetDataRow()
     {
         return new Tuple<Action?, Action?>(
             Actions.GetStringAction(Roulette.GetTranslatedString()),
             Actions.GetStringAction(State.GetTranslatedString(), State.GetColor())
-            );
+        );
     }
 
     public RouletteState State { get; set; } = State;

@@ -170,7 +170,7 @@ internal class DutyRoulette : IModule
                     .BeginTable()
                     .AddRows(Settings.TrackedRoulettes
                         .Where(row => row.Tracked.Value)
-                        .Select(row => row.GetInfoBoxTableRow()))
+                        .Select(row => row.GetDataRow()))
 
                     .EndTable()
                     .Draw();

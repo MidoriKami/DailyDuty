@@ -131,7 +131,7 @@ internal class HuntMarksWeekly : IModule
                     .BeginTable()
                     .AddRows(Settings.TrackedHunts
                         .Where(row => row.Tracked.Value)
-                        .Select(row => row.GetInfoBoxTableRow()))
+                        .Select(row => row.GetDataRow()))
                     .EndTable()
                     .Draw();
             }

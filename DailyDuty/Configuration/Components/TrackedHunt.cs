@@ -17,7 +17,12 @@ public enum TrackedHuntState
 
 public record TrackedHunt(HuntMarkType HuntType, TrackedHuntState State, Setting<bool> Tracked) : IInfoBoxTableRow
 {
-    public Tuple<Action?, Action?> GetInfoBoxTableRow()
+    public Tuple<Action?, Action?> GetConfigurationRow()
+    {
+        return new Tuple<Action?, Action?>(null, null);
+    }
+
+    public Tuple<Action?, Action?> GetDataRow()
     {
         return new Tuple<Action?, Action?>(
             Actions.GetStringAction(HuntType.GetLabel()),

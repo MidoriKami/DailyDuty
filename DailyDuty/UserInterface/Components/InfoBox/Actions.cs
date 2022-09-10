@@ -166,4 +166,21 @@ internal static class Actions
             }
         };
     }
+
+    public static Action GetInputIntAction(string label, Setting<int> setting, float width = 30.0f)
+    {
+        return () =>
+        {
+            if (width != 0.0f)
+            {
+                ImGui.SetNextItemWidth(width * ImGuiHelpers.GlobalScale);
+            }
+
+            ImGui.InputInt(label, ref setting.Value, 0, 0);
+            if (ImGui.IsItemDeactivatedAfterEdit())
+            {
+                Service.ConfigurationManager.Save();
+            }
+        };
+    }
 }
