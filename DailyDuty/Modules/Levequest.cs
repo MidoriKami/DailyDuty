@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -13,6 +12,12 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
+
+public class LevequestSettings : GenericSettings
+{
+    public Setting<int> NotificationThreshold = new(95);
+    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Enums.ComparisonMode.EqualTo);
+}
 
 internal class Levequest : IModule
 {

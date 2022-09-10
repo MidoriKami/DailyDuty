@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
@@ -11,6 +10,12 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
+
+internal class CustomDeliverySettings : GenericSettings
+{
+    public Setting<int> NotificationThreshold = new(12);
+    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Enums.ComparisonMode.EqualTo);
+}
 
 internal class CustomDelivery : IModule
 {

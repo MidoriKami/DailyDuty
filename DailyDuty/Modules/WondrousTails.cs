@@ -3,7 +3,6 @@ using DailyDuty.Addons;
 using DailyDuty.Addons.Overlays;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -20,6 +19,14 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules;
+
+public class WondrousTailsSettings : GenericSettings
+{
+    public Setting<bool> InstanceNotifications = new(false);
+    public Setting<bool> EnableClickableLink = new(false);
+    public Setting<bool> UnclaimedBookWarning = new(true);
+    public Setting<bool> OverlayEnabled = new(true);
+}
 
 internal class WondrousTails : IModule
 {

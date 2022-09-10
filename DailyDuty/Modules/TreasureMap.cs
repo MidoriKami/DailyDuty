@@ -2,7 +2,6 @@
 using System.Linq;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
@@ -19,6 +18,11 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Modules;
+
+public class TreasureMapSettings : GenericSettings
+{            
+    public DateTime LastMapGathered;
+}
 
 internal class TreasureMap : IModule
 {

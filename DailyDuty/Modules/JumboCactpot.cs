@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Addons;
 using DailyDuty.Addons.DataModels;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
@@ -15,6 +15,12 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 
 namespace DailyDuty.Modules;
+
+public class JumboCactpotSettings : GenericSettings
+{
+    public List<int> Tickets = new();
+    public Setting<bool> EnableClickableLink = new(false);
+}
 
 internal class JumboCactpot : IModule
 {

@@ -4,13 +4,18 @@ using DailyDuty.UserInterface.Components.InfoBox;
 using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.Modules;
+
+public class BeastTribeSettings : GenericSettings
+{
+    public Setting<int> NotificationThreshold = new(12);
+    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Enums.ComparisonMode.EqualTo);
+}
 
 internal class BeastTribe : IModule
 {

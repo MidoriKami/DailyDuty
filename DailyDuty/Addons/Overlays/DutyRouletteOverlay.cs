@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Addons.DataModels;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.ModuleSettings;
+using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;

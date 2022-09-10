@@ -3,7 +3,6 @@ using DailyDuty.Addons;
 using DailyDuty.Addons.DataModels;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -17,6 +16,17 @@ using Dalamud.Utility.Signatures;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules;
+
+internal class ChallengeLogSettings : GenericSettings
+{
+    public int Commendations;
+    public int RouletteDungeons;
+    public int DungeonMaster;
+
+    public Setting<bool> CommendationWarning = new(true);
+    public Setting<bool> RouletteDungeonWarning = new(true);
+    public Setting<bool> DungeonWarning = new(true);
+}
 
 internal class ChallengeLog : IModule
 {

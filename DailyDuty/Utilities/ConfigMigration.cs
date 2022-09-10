@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using DailyDuty.Configuration;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
+using DailyDuty.Modules;
 using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Utilities;

@@ -2,7 +2,6 @@
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
@@ -13,6 +12,12 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
+
+public class MiniCactpotSettings : GenericSettings
+{
+    public int TicketsRemaining = 3;
+    public Setting<bool> EnableClickableLink = new(false);
+}
 
 internal class MiniCactpot : IModule
 {

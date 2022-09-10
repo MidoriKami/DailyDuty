@@ -2,7 +2,6 @@
 using System.Linq;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -14,6 +13,26 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
+
+public class HuntMarksDailySettings : GenericSettings
+{
+    public TrackedHunt[] TrackedHunts = 
+    {
+        new(HuntMarkType.RealmRebornLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.HeavenswardLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.HeavenswardLevelTwo, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.HeavenswardLevelThree, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.StormbloodLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.StormbloodLevelTwo, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.StormbloodLevelThree, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.ShadowbringersLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.ShadowbringersLevelTwo, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.ShadowbringersLevelThree, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.EndwalkerLevelOne, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.EndwalkerLevelTwo, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+        new(HuntMarkType.EndwalkerLevelThree, TrackedHuntState.Unobtained, new Setting<bool>(false)),
+    };
+}
 
 internal class HuntMarksDaily : IModule
 {

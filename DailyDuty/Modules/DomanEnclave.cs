@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -14,6 +13,14 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
+
+internal class DomanEnclaveSettings : GenericSettings
+{
+    public int DonatedThisWeek;
+    public int WeeklyAllowance;
+
+    public Setting<bool> EnableClickableLink = new(true);
+}
 
 internal class DomanEnclave : IModule
 {

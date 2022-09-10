@@ -1,8 +1,7 @@
 ﻿using System;
-using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
 
-namespace DailyDuty.Configuration.ModuleSettings;
+namespace DailyDuty.Configuration.Enums;
 
 public enum FashionReportMode
 {
@@ -23,12 +22,4 @@ public static class FashionReportModeExtensions
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
         };
     }
-}
-
-public class FashionReportSettings : GenericSettings
-{
-    public int AllowancesRemaining = 4;
-    public int HighestWeeklyScore = 0;
-    public Setting<FashionReportMode> Mode = new(FashionReportMode.Single);
-    public Setting<bool> EnableClickableLink = new(false);
 }

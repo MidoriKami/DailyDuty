@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.DataStructures;
+using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 

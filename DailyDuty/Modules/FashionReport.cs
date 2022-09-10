@@ -2,7 +2,6 @@
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
@@ -14,6 +13,14 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
+
+public class FashionReportSettings : GenericSettings
+{
+    public int AllowancesRemaining = 4;
+    public int HighestWeeklyScore;
+    public Setting<FashionReportMode> Mode = new(FashionReportMode.Single);
+    public Setting<bool> EnableClickableLink = new(false);
+}
 
 internal class FashionReport : IModule
 {
