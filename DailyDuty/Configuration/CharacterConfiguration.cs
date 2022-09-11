@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.ModuleSettings;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Modules;
 using DailyDuty.Utilities;
@@ -35,6 +34,8 @@ internal class CharacterConfiguration
     public TreasureMapSettings TreasureMap = new();
     public WondrousTailsSettings WondrousTails = new();
     public ChallengeLogSettings ChallengeLog = new();
+    public RaidsNormalSettings RaidsNormal = new();
+    public RaidsAllianceSettings RaidsAlliance = new();
 
     public void Save()
     {

@@ -1,5 +1,7 @@
-﻿using Dalamud.Game.Text.SeStringHandling;
+﻿using System;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Logging;
 
 namespace DailyDuty.Utilities;
 
@@ -17,6 +19,22 @@ internal static class Chat
         stringBuilder.AddText(message);
 
         Service.Chat.Print(stringBuilder.BuiltString);
+    }
+
+    public static unsafe void Print(IntPtr pointer, int offset = 0, bool hex = false)
+    {
+        try
+        {
+            var address = (IntPtr)((byte*) pointer + offset);
+
+            Print("Memory", $"{address:X8}");
+
+            Print("Value", hex ? $"{*(int*) address:X8}" : $"{*(int*) address}");
+        }
+        catch (Exception e)
+        {
+            PluginLog.Error(e, "Pointer Operation Error");
+        }
     }
 
     public static void PrintError(string message)

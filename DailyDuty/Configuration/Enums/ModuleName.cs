@@ -19,7 +19,9 @@ public enum ModuleName
     WondrousTails,
     Daily,
     Weekly,
-    ChallengeLog
+    ChallengeLog,
+    NormalRaids,
+    AllianceRaids,
 }
 
 public static class ModuleNameExtensions
@@ -43,6 +45,8 @@ public static class ModuleNameExtensions
             ModuleName.Daily => Strings.Common.Daily,
             ModuleName.Weekly => Strings.Common.Weekly,
             ModuleName.ChallengeLog => Strings.Module.ChallengeLog.Label,
+            ModuleName.NormalRaids => Strings.Module.Raids.NormalLabel,
+            ModuleName.AllianceRaids => Strings.Module.Raids.AllianceLabel,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

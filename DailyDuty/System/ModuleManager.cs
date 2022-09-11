@@ -24,6 +24,8 @@ internal class ModuleManager : IDisposable
         new TreasureMap(),
         new WondrousTails(),
         new ChallengeLog(),
+        new RaidsNormal(),
+        new RaidsAlliance(),
     };
 
     public void Dispose()

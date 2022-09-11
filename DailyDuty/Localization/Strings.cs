@@ -107,6 +107,7 @@ public class Module
     public TreasureMap TreasureMap { get; } = new();
     public WondrousTails WondrousTails { get; } = new();
     public ChallengeLog ChallengeLog { get; } = new();
+    public Raids Raids { get; } = new();
 }
 
 public class BeastTribe
@@ -253,6 +254,21 @@ public class ChallengeLog
     public string DungeonMasterLabel => Loc.Localize("ChallengeLog_DungeonMasterLabel", "'Dungeon Master' Warning");
     public string DungeonMaster => Loc.Localize("ChallengeLog_DungeonMaster", "Dungeon Master");
     public string DungeonMasterRemaining => Loc.Localize("ChallengeLog_DungeonMasterRemaining", "Dungeons Remaining");
+}
+
+public class Raids
+{
+    public string AllianceLabel => Loc.Localize("AllianceRaids_Label", "Raids (Alliance)");
+    public string NormalLabel => Loc.Localize("NormalRaids_Label", "Raids (Normal)");
+    public string TrackedNormalRaids => Loc.Localize("Raids_TrackedNormalRaids", "Tracked Raids");
+    public string Drops => Loc.Localize("Raids_Drops", "Drops");
+    public string Regenerate => Loc.Localize("Raids_Regenerate", "Reset Tracked Raids");
+    public string RegenerateHelp => Loc.Localize("Raids_RegenerateHelp", "Reload duty information, and reset settings");
+    public string NoRaidsTracked => Loc.Localize("Raids_NoRaidsTracked", "No raids have been selected for tracking");
+    public string RaidsRemaining => Loc.Localize("Raids_RaidsRemaining", "Raids Remaining");
+    public string RaidRemaining => Loc.Localize("Raid_RaidsRemaining", "Raid Remaining");
+    public string ClickableLinkLabel => Loc.Localize("Raids_ClickableLinkLabel", "Clickable Link");
+    public string ClickableLink => Loc.Localize("Raids_ClickableLink", "Notifications can be clicked on to open the Duty Finder");
 }
 
 public class UserInterface

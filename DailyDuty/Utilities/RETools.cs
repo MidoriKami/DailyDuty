@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DailyDuty.Utilities;
@@ -28,5 +29,10 @@ internal static unsafe class RETools
 
             Log.Verbose(str);
         }
+    }
+
+    public static byte* GetOffsetAddress(IntPtr pointer, int offset)
+    {
+        return ((byte*) pointer) + offset;
     }
 }

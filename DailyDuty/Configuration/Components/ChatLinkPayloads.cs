@@ -4,8 +4,10 @@ namespace DailyDuty.Configuration.Components;
 
 public enum ChatPayloads
 {
-    OpenDutyFinder,
-    OpenWondrousTails
+    DutyRouletteDutyFinder,
+    OpenWondrousTails,
+    NormalRaidsDutyFinder,
+    AllianceRaidsDutyFinder,
 }
 
 internal record ChatLinkPayload(uint CommandID, ChatPayloads Type, DalamudLinkPayload Payload);
