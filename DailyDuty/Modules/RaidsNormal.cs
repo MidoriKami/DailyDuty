@@ -291,7 +291,7 @@ internal class RaidsNormal : IModule
         private uint GetFirstMissingRaid()
         {
             var duty = Settings.TrackedRaids
-                .Where(raid => raid.Tracked.Value)
+                .Where(raid => raid.Tracked.Value && raid.GetStatus() == ModuleStatus.Incomplete)
                 .FirstOrDefault();
 
             return duty is not null ? duty.Duty.ContentFinderCondition : 1;
