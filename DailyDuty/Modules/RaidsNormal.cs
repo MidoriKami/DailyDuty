@@ -62,6 +62,7 @@ internal class RaidsNormal : IModule
         var raidDuties = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
             .Where(cfc => instanceContents.Contains(cfc.Content))
             .Where(cfc => cfc.TerritoryType.Value?.TerritoryIntendedUse == 17)
+            .OrderByDescending(cfc => cfc.SortKey)
             .ToList();
 
         foreach (var raid in raidDuties)
