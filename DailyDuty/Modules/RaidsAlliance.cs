@@ -9,7 +9,6 @@ using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
-using Dalamud.Game;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -203,23 +202,18 @@ internal class RaidsAlliance : IModule
 
             DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.AllianceRaidsDutyFinder, OpenDutyFinder);
 
-            Service.Framework.Update += FrameworkUpdate;
+            Service.AddonManager.Get<DutyFinderAddon>().Refresh += OnSelectionChanged;
             Service.Chat.ChatMessage += OnChatMessage;
         }
 
         public void Dispose()
         {
-            Service.Framework.Update -= FrameworkUpdate;
+            Service.AddonManager.Get<DutyFinderAddon>().Refresh -= OnSelectionChanged;
             Service.Chat.ChatMessage -= OnChatMessage;
         }
 
-        private void FrameworkUpdate(Framework framework)
+        private void OnSelectionChanged(object? sender, IntPtr e)
         {
-            if(!Settings.Enabled.Value) return;
-
-            var dutyFinderAddon = Service.AddonManager.Get<DutyFinderAddon>();
-            if (!dutyFinderAddon.IsOpen) return;
-
             var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked.Value).ToList();
             if(!enabledRaids.Any()) return;
 
