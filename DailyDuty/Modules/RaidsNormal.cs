@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
@@ -216,6 +217,9 @@ internal class RaidsNormal : IModule
         private void FrameworkUpdate(Framework framework)
         {
             if(!Settings.Enabled.Value) return;
+
+            var dutyFinderAddon = Service.AddonManager.Get<DutyFinderAddon>();
+            if (!dutyFinderAddon.IsOpen) return;
 
             var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked.Value).ToList();
             if(!enabledRaids.Any()) return;

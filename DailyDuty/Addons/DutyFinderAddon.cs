@@ -35,6 +35,7 @@ internal unsafe class DutyFinderAddon : IDisposable
     private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
 
     private AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
+    public bool IsOpen => ContentsFinderAddon != null;
 
     public DutyFinderAddon()
     {
