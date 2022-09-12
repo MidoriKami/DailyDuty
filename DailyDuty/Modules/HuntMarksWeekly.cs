@@ -75,9 +75,7 @@ internal class HuntMarksWeekly : IModule
 
             huntTracking
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
-                .BeginList()
-                .AddRows(Settings.TrackedHunts)
-                .EndList()
+                .AddList(Settings.TrackedHunts)
                 .Draw();
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
@@ -129,5 +130,12 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
     public InfoBoxList BeginList()
     {
         return new InfoBoxList(this);
+    }
+
+    public InfoBox AddList(IEnumerable<IInfoBoxListConfigurationRow> rows)
+    {
+        return BeginList()
+            .AddRows(rows)
+            .EndList();
     }
 }

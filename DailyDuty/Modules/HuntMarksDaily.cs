@@ -83,9 +83,7 @@ internal class HuntMarksDaily : IModule
 
             huntTracking
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
-                .BeginList()
-                .AddRows(Settings.TrackedHunts)
-                .EndList()
+                .AddList(Settings.TrackedHunts)
                 .Draw();
 
             notificationOptionsInfoBox
