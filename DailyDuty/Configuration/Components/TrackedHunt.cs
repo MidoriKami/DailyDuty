@@ -15,21 +15,23 @@ public enum TrackedHuntState
     Killed
 }
 
-public record TrackedHunt(HuntMarkType HuntType, TrackedHuntState State, Setting<bool> Tracked) : IInfoBoxTableRow
+public record TrackedHunt(HuntMarkType HuntType, TrackedHuntState State, Setting<bool> Tracked) : IInfoBoxListConfigurationRow, IInfoBoxTableDataRow
 {
-    public Tuple<Action?, Action?> GetConfigurationRow()
-    {
-        return new Tuple<Action?, Action?>(null, null);
-    }
-
-    public Tuple<Action?, Action?> GetDataRow()
-    {
-        return new Tuple<Action?, Action?>(
-            Actions.GetStringAction(HuntType.GetLabel()),
-            Actions.GetStringAction(State.GetTranslatedString(), color: State.GetColor()));
-    }
-
     public TrackedHuntState State { get; set; } = State;
+
+    public void GetDataRow(InfoBoxTable owner)
+    {
+        owner
+            .BeginRow()
+            .AddString(HuntType.GetLabel())
+            .AddString(State.GetTranslatedString(), State.GetColor())
+            .EndRow();
+    }
+
+    public void GetConfigurationRow(InfoBoxList owner)
+    {
+        owner.AddConfigCheckbox(HuntType.GetLabel(), Tracked);
+    }
 }
 
 public static class TrackedHuntStateExtensions

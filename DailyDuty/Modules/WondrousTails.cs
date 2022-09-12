@@ -117,17 +117,14 @@ internal class WondrousTails : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
-                .AddRow(
-                    Strings.Module.WondrousTails.Stamps,
-                    $"{logicModule.WondrousTailsBook.GetNumStickers()} / 9",
-                    secondColor: logicModule.GetModuleStatus().GetStatusColor()
-                    )
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Module.WondrousTails.Stamps)
+                .AddString($"{logicModule.WondrousTailsBook.GetNumStickers()} / 9", logicModule.GetModuleStatus().GetStatusColor())
+                .EndRow()
                 .EndTable()
                 .Draw();
         }

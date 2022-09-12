@@ -101,10 +101,10 @@ internal class ChallengeLog : IModule
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
 
                 .EndTable()
                 .Draw();
@@ -113,20 +113,20 @@ internal class ChallengeLog : IModule
                 .AddTitle(Strings.Module.ChallengeLog.Battle)
                 .BeginTable()
                 
-                    .AddRow(
-                        Strings.Module.ChallengeLog.Commendations,
-                        $"{Settings.Commendations} / 5",
-                        secondColor: logicModule.CommendationStatus().GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Module.ChallengeLog.Commendations)
+                .AddString($"{Settings.Commendations} / 5", logicModule.CommendationStatus().GetStatusColor())
+                .EndRow()
 
-                .AddRow(
-                    Strings.Module.ChallengeLog.DungeonRoulette,
-                    $"{Settings.RouletteDungeons} / 3",
-                    secondColor: logicModule.DungeonRouletteStatus().GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Module.ChallengeLog.DungeonRoulette)
+                .AddString($"{Settings.RouletteDungeons} / 3", logicModule.DungeonRouletteStatus().GetStatusColor())
+                .EndRow()
 
-                .AddRow(
-                    Strings.Module.ChallengeLog.DungeonMaster,
-                    $"{Settings.DungeonMaster} / 5",
-                    secondColor: logicModule.DungeonMasterStatus().GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Module.ChallengeLog.DungeonMaster)
+                .AddString($"{Settings.DungeonMaster} / 5", logicModule.DungeonMasterStatus().GetStatusColor())
+                .EndRow()
 
                 .EndTable()
                 .Draw();

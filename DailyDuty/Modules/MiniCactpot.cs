@@ -104,16 +104,14 @@ internal class MiniCactpot : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
-                .AddRow(
-                    Strings.Module.MiniCactpot.TicketsRemaining,
-                    Settings.TicketsRemaining.ToString())
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Module.MiniCactpot.TicketsRemaining)
+                .AddString(Settings.TicketsRemaining.ToString())
+                .EndRow()
                 .EndTable()
                 .Draw();
         }

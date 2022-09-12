@@ -73,7 +73,9 @@ internal class FashionReport : IModule
             modeSelect
                 .AddTitle(Strings.Module.FashionReport.CompletionCondition)
                 .AddConfigRadio(Strings.Module.FashionReport.ModeSingle, Settings.Mode, FashionReportMode.Single, Strings.Module.FashionReport.ModeSingleHelp)
+                .SameLine(110.0f)
                 .AddConfigRadio(Strings.Module.FashionReport.Mode80Plus, Settings.Mode, FashionReportMode.Plus80, Strings.Module.FashionReport.Mode80PlusHelp)
+                .SameLine(220.0f)
                 .AddConfigRadio(Strings.Module.FashionReport.ModeAll, Settings.Mode, FashionReportMode.All, Strings.Module.FashionReport.ModeAllHelp)
                 .Draw();
 
@@ -114,34 +116,29 @@ internal class FashionReport : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
-                .AddRow(
-                    Strings.Module.FashionReport.AllowancesAvailable,
-                    Settings.AllowancesRemaining.ToString()
-                    )
-
-                .AddRow(
-                    Strings.Module.FashionReport.HighestScore,
-                    Settings.HighestWeeklyScore.ToString()
-                    )
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Module.FashionReport.AllowancesAvailable)
+                .AddString(Settings.AllowancesRemaining.ToString())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Module.FashionReport.HighestScore)
+                .AddString(Settings.HighestWeeklyScore.ToString())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
             reportAvailable
                 .AddTitle(Strings.Module.FashionReport.ReportOpen)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Module.FashionReport.ReportOpen,
-                    logicModule.FashionReportAvailable() ? Strings.Module.FashionReport.AvailableNow : logicModule.GetNextFashionReport(),
-                    secondColor: logicModule.FashionReportAvailable() ? Colors.Green : Colors.Orange)
-
+                .BeginRow()
+                .AddString(Strings.Module.FashionReport.ReportOpen)
+                .AddString(logicModule.FashionReportAvailable() ? Strings.Module.FashionReport.AvailableNow : logicModule.GetNextFashionReport(),
+                    logicModule.FashionReportAvailable() ? Colors.Green : Colors.Orange)
+                .EndRow()
                 .EndTable()
                 .Draw();
         }

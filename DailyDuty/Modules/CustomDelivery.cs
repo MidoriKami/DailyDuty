@@ -67,9 +67,12 @@ internal class CustomDelivery : IModule
             completionConditions
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
-                .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString),
-                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f))
+
+                .BeginRow()
+                .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
+                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f)
+                .EndRow()
+
                 .EndTable()
                 .Draw();
 
@@ -107,15 +110,15 @@ internal class CustomDelivery : IModule
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
-                .AddRow(
-                    Strings.Status.ModuleStatus, 
-                    moduleStatus.GetTranslatedString(), 
-                    secondColor: moduleStatus.GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
 
-                .AddRow(
-                    Strings.Common.Allowances, 
-                    allowances.ToString(), 
-                    secondColor: moduleStatus.GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Common.Allowances)
+                .AddString(allowances.ToString(), moduleStatus.GetStatusColor())
+                .EndRow()
 
                 .EndTable()
                 .Draw();
@@ -124,13 +127,15 @@ internal class CustomDelivery : IModule
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
 
-                .AddRow(
-                    Strings.Common.Mode,
-                    Settings.ComparisonMode.Value.GetTranslatedString())
+                .BeginRow()
+                .AddString(Strings.Common.Mode)
+                .AddString(Settings.ComparisonMode.Value.GetTranslatedString())
+                .EndRow()
 
-                .AddRow(
-                    Strings.Common.Target,
-                    Settings.NotificationThreshold.Value.ToString())
+                .BeginRow()
+                .AddString(Strings.Common.Target)
+                .AddString(Settings.NotificationThreshold.Value.ToString())
+                .EndRow()
 
                 .EndTable()
                 .Draw();

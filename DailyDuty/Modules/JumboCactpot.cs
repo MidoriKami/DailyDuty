@@ -103,30 +103,27 @@ internal class JumboCactpot : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
-                .AddRow(Strings.Module.JumboCactpot.Tickets,
-                    Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : logicModule.GetTicketsString()
-                )
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Module.JumboCactpot.Tickets)
+                .AddString(Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : logicModule.GetTicketsString())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
             nextDrawing
                 .AddTitle(Strings.Module.JumboCactpot.NextDrawing)
                 .BeginTable()
-                .AddRow(
-                    Strings.Module.JumboCactpot.NextDrawing,
-                    logicModule.GetNextJumboCactpot()
-                    )
+                .BeginRow()
+                .AddString(Strings.Module.JumboCactpot.NextDrawing)
+                .AddString(logicModule.GetNextJumboCactpot())
+                .EndRow()
                 .EndTable()
                 .Draw();
         }

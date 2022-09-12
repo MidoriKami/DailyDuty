@@ -105,7 +105,7 @@ internal class RaidsAlliance : IModule
                 configuration
                     .AddTitle(Strings.Module.Raids.TrackedNormalRaids)
                     .BeginTable(0.70f)
-                    .AddRows(trackedRaids.Select(raid => raid.GetConfigurationRow()))
+                    .AddRows(trackedRaids.OfType<IInfoBoxTableConfigurationRow>())
                     .EndTable()
                     .Draw();
             }
@@ -161,12 +161,10 @@ internal class RaidsAlliance : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
@@ -177,7 +175,7 @@ internal class RaidsAlliance : IModule
                     .BeginTable(0.70f)
                     .AddRows(Settings.TrackedRaids
                         .Where(raid => raid.Tracked.Value)
-                        .Select(raid => raid.GetDataRow()))
+                        .OfType<IInfoBoxTableDataRow>())
                     .EndTable()
                     .Draw();
             }

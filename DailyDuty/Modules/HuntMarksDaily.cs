@@ -83,13 +83,9 @@ internal class HuntMarksDaily : IModule
 
             huntTracking
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
-                .AddAction(() =>
-                {
-                    var checkboxAction = Actions.GetConfigCheckboxAction;
-
-                    foreach (var roulette in Settings.TrackedHunts)
-                        checkboxAction(roulette.HuntType.GetLabel(), roulette.Tracked, null).Invoke();
-                })
+                .BeginList()
+                .AddRows(Settings.TrackedHunts)
+                .EndList()
                 .Draw();
 
             notificationOptionsInfoBox
@@ -123,11 +119,10 @@ internal class HuntMarksDaily : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
@@ -135,10 +130,8 @@ internal class HuntMarksDaily : IModule
             {
                 trackedHunts
                     .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
-                    .BeginTable()
-                    .AddRows(Settings.TrackedHunts
-                        .Where(row => row.Tracked.Value)
-                        .Select(row => row.GetDataRow()))
+                    .BeginTable(0.60f)
+                    .AddRows(Settings.TrackedHunts.Where(row => row.Tracked.Value))
                     .EndTable()
                     .Draw();
             }

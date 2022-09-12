@@ -103,24 +103,20 @@ internal class TreasureMap : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
             nextMap
                 .AddTitle(Strings.Module.TreasureMap.NextMap)
                 .BeginTable()
-                .AddRow(
-                    Strings.Module.TreasureMap.NextMap,
-                    logicModule.GetNextTreasureMap()
-                    )
-
+                .BeginRow()
+                .AddString(Strings.Module.TreasureMap.NextMap)
+                .AddString(logicModule.GetNextTreasureMap())
+                .EndRow()
                 .EndTable()
                 .Draw();
         }

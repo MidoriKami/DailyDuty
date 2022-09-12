@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Components.InfoBox;
 
-internal class InfoBox : IDrawable
+public class InfoBox : DrawList<InfoBox>, IDrawable
 {
     private static float CurveRadius => 13.0f * ImGuiHelpers.GlobalScale;
     private static float BorderThickness => 2.0f;
@@ -28,7 +23,10 @@ internal class InfoBox : IDrawable
     public float ActualWidth { get; private set; }
     public float InnerWidth { get; private set; }
 
-    private readonly List<Action> drawActions = new();
+    public InfoBox()
+    {
+        DrawListOwner = this;
+    }
 
     public void Draw()
     {
@@ -67,17 +65,14 @@ internal class InfoBox : IDrawable
         ImGui.BeginGroup();
         ImGui.PushID(Label);
 
-        foreach (var action in drawActions)
-        {
-            action();
-        }
+        DrawListContents();
 
         ImGui.PopID();
         ImGui.EndGroup();
 
         ImGui.PopTextWrapPos();
 
-        drawActions.Clear();
+        DrawActions.Clear();
     }
 
     private void DrawCorners()
@@ -119,107 +114,11 @@ internal class InfoBox : IDrawable
 
     private static float DegreesToRadians(float degrees) => MathF.PI / 180 * degrees;
 
-    public InfoBox AddString(string message, Vector4? color = null)
-    {
-        drawActions.Add(Actions.GetStringAction(message, color));
-
-        return this;
-    }
-
-    public InfoBox AddConfigCheckbox(string label, Setting<bool> setting, string? helpText = null)
-    {
-        drawActions.Add(Actions.GetConfigCheckboxAction(label, setting, helpText));
-
-        return this;
-    }
-
-    public InfoBox AddConfigCombo<T>(IEnumerable<T> values, Setting<T> setting, Func<T, string> localizeFunction, string label = "", float width = 200.0f) where T : struct
-    {
-        drawActions.Add(Actions.GetConfigComboAction(values, setting, localizeFunction, label, width));
-
-        return this;
-    }
-
-    public InfoBox AddConfigColor(string label, Setting<Vector4> setting)
-    {
-        drawActions.Add(Actions.GetConfigColor(label, setting));
-
-        return this;
-    }
-
     public InfoBox AddTitle(string title)
     {
         Label = title;
 
-        return this;
-    }
-
-    public InfoBox AddDragFloat(string label, Setting<float> setting, float minValue, float maxValue, float width = 0.0f)
-    {
-        drawActions.Add(Actions.GetDragFloat(label, setting, minValue, maxValue, width));
-
-        return this;
-    }
-
-    public InfoBox AddTodoComponents(IEnumerable<ITodoComponent> components, CompletionType type)
-    {
-        var todoComponents = components.ToList();
-
-        if (todoComponents.Count == 0)
-        {
-            AddString(Strings.UserInterface.Todo.NoTasksEnabled, Colors.Orange);
-        }
-
-        foreach (var component in todoComponents)
-        {
-            if (component.HasLongLabel)
-            {
-                BeginTable()
-                    .AddActions(
-                        Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TodoTaskEnabled),
-                        Actions.GetConfigCheckboxAction(Strings.UserInterface.Todo.UseLongLabel, component.ParentModule.GenericSettings.TodoUseLongLabel))
-                    .EndTable();
-            }
-            else
-            {
-                AddConfigCheckbox(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TodoTaskEnabled);
-            }
-        }
-
-        return this;
-    }
-
-    public InfoBox AddTimerComponents(IEnumerable<ITimerComponent> components)
-    {
-        var todoComponents = components.ToList();
-
-        if (todoComponents.Count == 0)
-        {
-            AddString(Strings.UserInterface.Todo.NoTasksEnabled, Colors.Orange);
-        }
-
-        foreach (var component in todoComponents)
-        {
-            BeginTable(0.60f)
-                .AddActions(
-                    Actions.GetConfigCheckboxAction(component.ParentModule.Name.GetTranslatedString(), component.ParentModule.GenericSettings.TimerTaskEnabled),
-                    () => {
-                        if (ImGui.Button(Strings.UserInterface.Timers.EditTimer))
-                        {
-                            Service.WindowManager.AddTimerStyleWindow(component.ParentModule, component.ParentModule.GenericSettings.TimerSettings);
-                        }
-                    })
-            .EndTable();
-        }
-
-        return this;
-    }
-
-    public InfoBox AddAction(Action action)
-    {
-        drawActions.Add(action);
-
-        return this;
+        return DrawListOwner;
     }
 
     public InfoBoxTable BeginTable(float weight = 0.50f)
@@ -227,24 +126,8 @@ internal class InfoBox : IDrawable
         return new InfoBoxTable(this, weight);
     }
 
-    public InfoBox AddSliderInt(string label, Setting<int> setting, int minValue, int maxValue, float width = 200.0f)
+    public InfoBoxList BeginList()
     {
-        drawActions.Add(Actions.GetSliderInt(label, setting, minValue, maxValue, width));
-
-        return this;
-    }
-
-    public InfoBox AddConfigRadio<T>(string label, Setting<T> setting, T buttonValue, string? helpText = null ) where T : struct
-    {
-        drawActions.Add(Actions.GetConfigRadio(label, setting, buttonValue, helpText));
-
-        return this;
-    }
-
-    public InfoBox AddConfigString(Setting<string> settingsCustomName)
-    {
-        drawActions.Add(Actions.GetConfigString(settingsCustomName));
-
-        return this;
+        return new InfoBoxList(this);
     }
 }

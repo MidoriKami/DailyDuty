@@ -108,13 +108,11 @@ internal class DutyRoulette : IModule
 
             rouletteSelection
                 .AddTitle(Strings.Module.DutyRoulette.RouletteSelection)
-                .AddAction(() =>
-                {
-                    var checkboxAction = Actions.GetConfigCheckboxAction;
 
-                    foreach (var roulette in Settings.TrackedRoulettes)
-                        checkboxAction(roulette.Roulette.GetTranslatedString(), roulette.Tracked, null).Invoke();
-                })
+                .BeginTable()
+                .AddRows(Settings.TrackedRoulettes.OfType<IInfoBoxTableConfigurationRow>())
+                .EndTable()
+
                 .Draw();
 
             clickableLink
@@ -156,10 +154,10 @@ internal class DutyRoulette : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-                    .AddRow(
-                        Strings.Status.ModuleStatus,
-                        moduleStatus.GetTranslatedString(),
-                        secondColor: moduleStatus.GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
@@ -170,7 +168,7 @@ internal class DutyRoulette : IModule
                     .BeginTable()
                     .AddRows(Settings.TrackedRoulettes
                         .Where(row => row.Tracked.Value)
-                        .Select(row => row.GetDataRow()))
+                        .OfType<IInfoBoxTableDataRow>())
 
                     .EndTable()
                     .Draw();
@@ -187,10 +185,13 @@ internal class DutyRoulette : IModule
                 tomestoneStatus
                     .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
                     .BeginTable()
-                    .AddRow(
-                        Strings.Module.DutyRoulette.ExpertTomestones,
-                        $"{logicModule.GetCurrentLimitedTomestoneCount()} / {logicModule.CurrentLimitedTomestoneWeeklyCap}",
-                        secondColor: logicModule.HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
+                    
+                    .BeginRow()
+                    .AddString(Strings.Module.DutyRoulette.ExpertTomestones)
+                    .AddString($"{logicModule.GetCurrentLimitedTomestoneCount()} / {logicModule.CurrentLimitedTomestoneWeeklyCap}",
+                        logicModule.HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
+                    .EndRow()
+
                     .EndTable()
                     .Draw();
         }

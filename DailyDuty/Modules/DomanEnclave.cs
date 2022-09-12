@@ -108,22 +108,21 @@ internal class DomanEnclave : IModule
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
 
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
 
-                .AddRow(
-                    Strings.Module.DomanEnclave.BudgetRemaining,
-                    logicModule.GetRemainingBudget().ToString(),
-                    secondColor: logicModule.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange
-                    )
+                .BeginRow()
+                .AddString(Strings.Module.DomanEnclave.BudgetRemaining)
+                .AddString(logicModule.GetRemainingBudget().ToString(), logicModule.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange)
+                .EndRow()
 
-                .AddRow(
-                    Strings.Module.DomanEnclave.CurrentAllowance,
-                    Settings.WeeklyAllowance.ToString()
-                )
-
+                .BeginRow()
+                .AddString(Strings.Module.DomanEnclave.CurrentAllowance)
+                .AddString(Settings.WeeklyAllowance.ToString())
+                .EndRow()
+                
                 .EndTable()
                 .Draw();
 

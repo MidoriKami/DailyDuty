@@ -69,9 +69,10 @@ internal class Levequest : IModule
             completionConditions
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
-                .AddActions(
-                    Actions.GetConfigComboAction(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString),
-                    Actions.GetSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, 100.0f))
+                .BeginRow()
+                .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
+                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, 100.0f)
+                .EndRow()
                 .EndTable()
                 .Draw();
 
@@ -107,31 +108,28 @@ internal class Levequest : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                .AddRow(
-                    Strings.Status.ModuleStatus,
-                    moduleStatus.GetTranslatedString(),
-                    secondColor: moduleStatus.GetStatusColor())
-
-                .AddRow(
-                    Strings.Common.Allowances,
-                    logicModule.GetRemainingAllowances().ToString())
-
-                .AddRow(
-                    Strings.Module.Levequest.Accepted,
-                    logicModule.GetAcceptedLeves().ToString())
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Common.Allowances)
+                .AddString(logicModule.GetRemainingAllowances().ToString())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Module.Levequest.Accepted)
+                .AddString(logicModule.GetAcceptedLeves().ToString())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
             nextAllowances
                 .AddTitle(Strings.Module.Levequest.NextAllowance)
                 .BeginTable()
-                .AddRow(
-                    Strings.Module.Levequest.NextAllowance,
-                    logicModule.GetNextLeviquest()
-                )
-
+                .BeginRow()
+                .AddString(Strings.Module.Levequest.NextAllowance)
+                .AddString(logicModule.GetNextLeviquest())
+                .EndRow()
                 .EndTable()
                 .Draw();
         }

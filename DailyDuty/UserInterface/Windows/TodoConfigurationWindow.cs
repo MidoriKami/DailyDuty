@@ -68,7 +68,9 @@ internal class TodoConfigurationWindow : Window, IDisposable
 
             dailyTasks
                 .AddTitle(Strings.UserInterface.Todo.DailyTasks)
-                .AddTodoComponents(enabledDailyTasks, CompletionType.Daily)
+                .BeginTable()
+                .AddRows(enabledDailyTasks, Strings.UserInterface.Todo.NoTasksEnabled)
+                .EndTable()
                 .Draw();
         }
 
@@ -79,7 +81,9 @@ internal class TodoConfigurationWindow : Window, IDisposable
 
             weeklyTasks
                 .AddTitle(Strings.UserInterface.Todo.WeeklyTasks)
-                .AddTodoComponents(enabledWeeklyTasks, CompletionType.Weekly)
+                .BeginTable()
+                .AddRows(enabledWeeklyTasks, Strings.UserInterface.Todo.NoTasksEnabled)
+                .EndTable()
                 .Draw();
         }
 
@@ -96,7 +100,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowInDuty, Settings.HideWhileInDuty)
             .AddConfigCheckbox(Strings.UserInterface.Todo.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Todo.AutoResize, Settings.AutoResize)
-            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner)
+            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner, 200.0f)
             .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
             .AddConfigColor(Strings.Common.Header, Settings.TaskColors.HeaderColor)
             .AddConfigColor(Strings.Common.Incomplete, Settings.TaskColors.IncompleteColor)

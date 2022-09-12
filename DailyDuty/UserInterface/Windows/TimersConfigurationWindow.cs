@@ -1,11 +1,11 @@
 ﻿using DailyDuty.Configuration.OverlaySettings;
-using DailyDuty.UserInterface.Components.InfoBox;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Localization;
+using DailyDuty.UserInterface.Components.InfoBox;
 
 namespace DailyDuty.UserInterface.Windows;
 
@@ -50,7 +50,9 @@ internal class TimersConfigurationWindow : Window, IDisposable
 
         timersSelection
             .AddTitle(Strings.UserInterface.Timers.Label)
-            .AddTimerComponents(enabledModules)
+            .BeginTable(0.65f)
+            .AddRows(enabledModules, Strings.UserInterface.Todo.NoTasksEnabled)
+            .EndTable()
             .Draw();
         
         windowHidingOptions

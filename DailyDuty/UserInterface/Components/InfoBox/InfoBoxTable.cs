@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
+using DailyDuty.Interfaces;
+using DailyDuty.Utilities;
 using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Components.InfoBox;
 
-internal class InfoBoxTable
+public class InfoBoxTable
 {
     private readonly InfoBox owner;
     private readonly float weight;
 
-    private readonly List<Tuple<Action?, Action?>> tableRows = new();
+    private readonly List<InfoBoxTableRow> rows = new();
+    private string emptyListString = string.Empty;
 
     public InfoBoxTable(InfoBox owner, float weight = 0.5f)
     {
@@ -18,19 +20,14 @@ internal class InfoBoxTable
         this.weight = weight;
     }
 
-    public InfoBoxTable AddRow(string label, string contents, Vector4? firstColor = null, Vector4? secondColor = null)
+    public InfoBoxTableRow BeginRow()
     {
-        tableRows.Add(new Tuple<Action?, Action?>(
-            Actions.GetStringAction(label, firstColor), 
-            Actions.GetStringAction(contents, secondColor)
-        ));
-
-        return this;
+        return new InfoBoxTableRow(this);
     }
 
-    public InfoBoxTable AddActions(Action? firstAction, Action? secondAction)
+    public InfoBoxTable AddRow(InfoBoxTableRow row)
     {
-        tableRows.Add(new Tuple<Action?, Action?>(firstAction, secondAction));
+        rows.Add(row);
 
         return this;
     }
@@ -39,26 +36,37 @@ internal class InfoBoxTable
     {
         owner.AddAction(() =>
         {
-            if (ImGui.BeginTable($"", 2, ImGuiTableFlags.None, new Vector2(owner.InnerWidth, 0)))
+            if (rows.Count == 0)
             {
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (weight) );
-                ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (1 - weight) );
-
-                foreach (var row in tableRows)
+                if (emptyListString != string.Empty)
                 {
-                    ImGui.TableNextColumn();
+                    ImGui.TextColored(Colors.Orange, emptyListString);
+                }
+            }
+            else
+            {
+                if (ImGui.BeginTable($"", 2, ImGuiTableFlags.None, new Vector2(owner.InnerWidth, 0)))
+                {
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (weight));
+                    ImGui.TableSetupColumn("", ImGuiTableColumnFlags.None, 1f * (1 - weight));
 
-                    ImGui.PushTextWrapPos(GetWrapPosition());
-                    row.Item1?.Invoke();
-                    ImGui.PopTextWrapPos();
+                    foreach (var row in rows)
+                    {
+                        ImGui.TableNextColumn();
 
-                    ImGui.TableNextColumn();
-                    ImGui.PushTextWrapPos(GetWrapPosition());
-                    row.Item2?.Invoke();
-                    ImGui.PopTextWrapPos();
+                        ImGui.PushTextWrapPos(GetWrapPosition());
+                        row.FirstColumn?.Invoke();
+                        ImGui.PopTextWrapPos();
+
+                        ImGui.TableNextColumn();
+                        ImGui.PushTextWrapPos(GetWrapPosition());
+                        row.SecondColumn?.Invoke();
+                        ImGui.PopTextWrapPos();
+                    }
+
+                    ImGui.EndTable();
                 }
 
-                ImGui.EndTable();
             }
         });
 
@@ -76,11 +84,31 @@ internal class InfoBoxTable
         return wrapPosition;
     }
 
-    public InfoBoxTable AddRows(IEnumerable<Tuple<Action?, Action?>> rows)
+    public InfoBoxTable AddRows(IEnumerable<IInfoBoxTableConfigurationRow> configurableRows, string? emptyEnumerableString = null)
     {
-        foreach (var row in rows)
+        if(emptyEnumerableString is not null)
         {
-            tableRows.Add(row);
+            emptyListString = emptyEnumerableString;
+        }
+
+        foreach (var row in configurableRows)
+        {
+            row.GetConfigurationRow(this);
+        }
+
+        return this;
+    }
+
+    public InfoBoxTable AddRows(IEnumerable<IInfoBoxTableDataRow> dataRows, string? emptyEnumerableString = null)
+    {
+        if(emptyEnumerableString is not null)
+        {
+            emptyListString = emptyEnumerableString;
+        }
+
+        foreach (var row in dataRows)
+        {
+            row.GetDataRow(this);
         }
 
         return this;

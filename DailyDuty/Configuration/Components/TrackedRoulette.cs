@@ -4,7 +4,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 using Lumina.Excel.GeneratedSheets;
-using Action = System.Action;
 
 namespace DailyDuty.Configuration.Components;
 
@@ -64,20 +63,24 @@ public static class RouletteStateExtensions
 }
 
 
-public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, RouletteState State) : IInfoBoxTableRow
+public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, RouletteState State) : IInfoBoxTableDataRow, IInfoBoxTableConfigurationRow
 {
-    public Tuple<Action?, Action?> GetConfigurationRow()
-    {
-        return new Tuple<Action?, Action?>(null, null);
-    }
-
-    public Tuple<Action?, Action?> GetDataRow()
-    {
-        return new Tuple<Action?, Action?>(
-            Actions.GetStringAction(Roulette.GetTranslatedString()),
-            Actions.GetStringAction(State.GetTranslatedString(), State.GetColor())
-        );
-    }
-
     public RouletteState State { get; set; } = State;
+
+    public void GetDataRow(InfoBoxTable owner)
+    {
+        owner
+            .BeginRow()
+            .AddString(Roulette.GetTranslatedString())
+            .AddString(State.GetTranslatedString(), State.GetColor())
+            .EndRow();
+    }
+
+    public void GetConfigurationRow(InfoBoxTable owner)
+    {
+        owner
+            .BeginRow()
+            .AddConfigCheckbox(Roulette.GetTranslatedString(), Tracked)
+            .EndRow();
+    }
 }
