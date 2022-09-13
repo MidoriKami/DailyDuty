@@ -27,6 +27,7 @@ You can open the status window with the chat command `/dd status`
 DailyDuty uses chat messages to notify you of tasks that are able to be completed.
 
 You will not see notifications for tasks that aren't yet available to be completed, such as Fashion Report, until there is something that you the user are able to do.
+
 You will not see notifications for tasks that are "Complete", you can use `/dd status` to view the status of the various modules.
 
 DailyDuty also includes clickable chat links that have an associated action they will do once clicked on.
