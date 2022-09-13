@@ -14,7 +14,7 @@ namespace DailyDuty.Modules;
 internal class CustomDeliverySettings : GenericSettings
 {
     public Setting<int> NotificationThreshold = new(12);
-    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Enums.ComparisonMode.EqualTo);
+    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Enums.ComparisonMode.LessThan);
 }
 
 internal class CustomDelivery : IModule
