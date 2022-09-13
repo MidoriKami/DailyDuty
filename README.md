@@ -10,8 +10,6 @@ The goal of this plugin is to allow you to more easily and more passively comple
 
 DailyDuty will **not** track anything to do with Retainers or Free Companies, for that use `Accountant` by `Ottermandias`
 
-For information specific to each module, [browse the wiki pages](https://github.com/MidoriKami/DailyDuty/wiki)
-
 ## Configuration Window
 
 You can open the configuration window with the chat command `/dd`
@@ -29,6 +27,7 @@ You can open the status window with the chat command `/dd status`
 DailyDuty uses chat messages to notify you of tasks that are able to be completed.
 
 You will not see notifications for tasks that aren't yet available to be completed, such as Fashion Report, until there is something that you the user are able to do.
+You will not see notifications for tasks that are "Complete", you can use `/dd status` to view the status of the various modules.
 
 DailyDuty also includes clickable chat links that have an associated action they will do once clicked on.
 Modules that have clickable links will describe what that modules links will do, and allow you to enable or disable the link.
