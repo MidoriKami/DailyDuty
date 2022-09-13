@@ -1,4 +1,6 @@
 ﻿// ReSharper disable MemberCanBeMadeStatic.Global
+
+using System.Collections.Generic;
 using CheapLoc;
 
 namespace DailyDuty.Localization;
@@ -75,22 +77,34 @@ public class Command
 
 public class Help
 {
-    public string Timers => Loc.Localize("Help_Timers", "\n/dd timers - Shows timer configuration window\n" +
-                                                                "/dd help timers - Shows this help message\n" +
-                                                                "/dd timers show - Shows the timers window\n" +
-                                                                "/dd timers hide - Hides the timers window\n" +
-                                                                "/dd timers toggle - Toggle the timers window");
+    public IEnumerable<string> TimersMessages => new[]
+    {
+        Loc.Localize("TimersMessages_Tag", "== Timers Commands =="),
+        Loc.Localize("TimersMessages_Base", "/dd timers config - Shows timer configuration window"),
+        Loc.Localize("TimersMessages_Help", "/dd help timers - Shows this help message"),
+        Loc.Localize("TimersMessages_Show", "/dd timers show - Shows the timers window"),
+        Loc.Localize("TimersMessages_Hide", "/dd timers hide - Hides the timers window"),
+        Loc.Localize("TimersMessages_Toggle", "/dd timers toggle - Toggle the timers window"),
+    };
 
-    public string Todo => Loc.Localize("Help_Todo", "\n/dd todo - Shows todo configuration window\n" +
-                                                            "/dd help todo - Shows this help message\n" +
-                                                            "/dd todo show - Shows the todo window\n" +
-                                                            "/dd todo hide - Hides the todo window\n" +
-                                                            "/dd todo toggle - Toggle the todo window");
+    public IEnumerable<string> TodoMessages => new[]
+    {
+        Loc.Localize("TodoMessages_Tag", "== Todo Commands =="),
+        Loc.Localize("TodoMessages_Base", "/dd todo config - Shows todo configuration window"),
+        Loc.Localize("TodoMessages_Todo", "/dd todo - Displays all outstanding tasks"),
+        Loc.Localize("TodoMessages_Help", "/dd help todo - Shows this help message"),
+        Loc.Localize("TodoMessages_Show", "/dd todo show - Shows the todo window"),
+        Loc.Localize("TodoMessages_Hide", "/dd todo hide - Hides the todo window"),
+        Loc.Localize("TodoMessages_Toggle", "/dd todo toggle - Toggle the todo window"),
+    };
 
-    public string Base => Loc.Localize("Help_Base", "Command Overview\n" +
-                                                            "/dd - Show or Hide Main Window\n" +
-                                                            "/dd help timers - Show timer sub-commands\n" +
-                                                            "/dd help todo - Show todo sub-commands");
+    public IEnumerable<string> CoreMessages => new[]
+    {
+        Loc.Localize("CoreMessages_Tag", "== Main Commands =="),
+        Loc.Localize("CoreMessages_Base", "/dd - Show or Hide Main Window"),
+        Loc.Localize("CoreMessages_Timers", "/dd help timers - Show timer sub-commands"),
+        Loc.Localize("CoreMessages_Todo", "/dd help todo - Show todo sub-commands"),
+    };
 }
 
 public class Module

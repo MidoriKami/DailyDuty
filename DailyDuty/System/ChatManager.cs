@@ -52,4 +52,6 @@ internal class ChatManager : IDisposable
             Log.Verbose($"Zone Change Messages Suppressed, '{lockoutRemaining}' Remaining");
         }
     }
+
+    public void SendMessages() => OnZoneChangeMessage?.Invoke(this, EventArgs.Empty);
 }

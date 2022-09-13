@@ -17,6 +17,10 @@ internal class TodoWindowCommand : IPluginCommand
         switch (additionalArguments)
         {
             case null:
+                Service.ChatManager.SendMessages();
+                break;
+
+            case "config":
                 configurationWindow.IsOpen = !configurationWindow.IsOpen;
                 break;
 

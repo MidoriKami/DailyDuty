@@ -13,15 +13,24 @@ internal class PrintHelpTextCommand : IPluginCommand
         switch (additionalArguments)
         {
             case null:
-                Chat.Print(Strings.Common.Command ,Strings.Command.Help.Base);
+                foreach (var message in Strings.Command.Help.CoreMessages)
+                {
+                    Chat.Print(Strings.Common.Command, message);
+                }
                 break;
 
             case "timers":
-                Chat.Print(Strings.Common.Command, Strings.Command.Help.Timers);
+                foreach (var message in Strings.Command.Help.TimersMessages)
+                {
+                    Chat.Print(Strings.Common.Command, message);
+                }
                 break;
 
             case "todo":
-                Chat.Print(Strings.Common.Command, Strings.Command.Help.Todo);
+                foreach (var message in Strings.Command.Help.TodoMessages)
+                {
+                    Chat.Print(Strings.Common.Command, message);
+                }
                 break;
         }
     }
