@@ -202,6 +202,9 @@ public class HuntMarks
     public string HuntsRemaining => Loc.Localize("HuntMarks_HuntsRemaining", "Hunts Remaining");
     public string TrackedHuntsStatus => Loc.Localize("HuntMarks_TrackedHuntsStatus", "Tracked Hunts Status");
     public string NoHuntsTracked => Loc.Localize("HuntMarks_NoHuntsTracked", "No hunts have been selected for tracking");
+    public string ForceComplete => Loc.Localize("HuntMarks_ForceComplete", "Force Complete");
+    public string ForceCompleteHelp => Loc.Localize("HuntMarks_ForceCompleteMouseover", "Override module status and mark complete\nHold Shift + Control while clicking");
+    public string NoUndo => Loc.Localize("HuntMarks_NoUndo", "This action cannot be undone for this week");
 }
 
 public class JumboCactpot

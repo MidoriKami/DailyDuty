@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
 using DailyDuty.DataStructures;
@@ -10,7 +11,9 @@ using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
+using ImGuiNET;
 
 namespace DailyDuty.Modules;
 
@@ -95,6 +98,7 @@ internal class HuntMarksWeekly : IModule
 
         private readonly InfoBox status = new();
         private readonly InfoBox trackedHunts = new();
+        private readonly InfoBox forceComplete = new();
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -133,6 +137,38 @@ internal class HuntMarksWeekly : IModule
                     .AddString(Strings.Module.HuntMarks.NoHuntsTracked, Colors.Orange)
                     .Draw();
             }
+
+            forceComplete
+                .AddTitle(Strings.Module.HuntMarks.ForceComplete)
+                .AddAction(ForceCompleteButton)
+                .Draw();
+        }
+
+
+        private void ForceCompleteButton()
+        {
+            var keys = ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl;
+
+            ImGui.TextColored(Colors.Orange, Strings.Module.HuntMarks.ForceCompleteHelp);
+
+            ImGuiHelpers.ScaledDummy(15.0f);
+
+            var textSize = ImGui.CalcTextSize(Strings.Module.HuntMarks.NoUndo);
+            var cursor = ImGui.GetCursorPos();
+            var availableArea = forceComplete.InnerWidth;
+
+            ImGui.SetCursorPos(cursor with {X = cursor.X + availableArea / 2.0f - textSize.X / 2.0f});
+            ImGui.TextColored(Colors.Orange, Strings.Module.HuntMarks.NoUndo);
+
+            ImGui.BeginDisabled(!keys);
+            if (ImGui.Button(Strings.Module.HuntMarks.ForceComplete, new Vector2(forceComplete.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+            {
+                foreach (var element in Settings.TrackedHunts)
+                {
+                    element.State = TrackedHuntState.Killed;
+                }
+            }
+            ImGui.EndDisabled();
         }
     }
 
