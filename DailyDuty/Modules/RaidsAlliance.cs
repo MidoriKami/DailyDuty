@@ -247,11 +247,21 @@ internal class RaidsAlliance : IModule
             if (message.Payloads.FirstOrDefault(p => p is PlayerPayload) is PlayerPayload) return;
 
             // If the message DOES contain an item
-            if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload) return;
+            if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload { Item: { } item } ) return;
 
-            // We looted an item in a normal raid
-            trackedRaid.CurrentDropCount += 1;
-            Service.ConfigurationManager.Save();
+            switch (item.ItemUICategory.Row)
+            {
+                case 34: // Head
+                case 35: // Body
+                case 36: // Legs
+                case 37: // Hands
+                case 38: // Feet
+                case 61 when item.ItemAction.Row == 0: // Miscellany with no itemAction
+                    
+                    trackedRaid.CurrentDropCount += 1;
+                    Service.ConfigurationManager.Save();
+                    break;
+            }
         }
 
         

@@ -248,14 +248,15 @@ internal class RaidsNormal : IModule
             if (message.Payloads.FirstOrDefault(p => p is PlayerPayload) is PlayerPayload) return;
 
             // If the message DOES contain an item
-            if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload item) return;
+            if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload { Item: { } item } ) return;
 
-            // If item category isn't Miscellaneous
-            if (item.Item?.ItemUICategory.Row != 61) return;
-
-            // We looted an item in a normal raid
-            trackedRaid.CurrentDropCount += 1;
-            Service.ConfigurationManager.Save();
+            switch (item.ItemUICategory.Row)
+            {
+                case 61 when item.ItemAction.Row == 0:
+                    trackedRaid.CurrentDropCount += 1;
+                    Service.ConfigurationManager.Save();
+                    break;
+            }
         }
 
         
