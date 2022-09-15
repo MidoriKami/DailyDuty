@@ -17,7 +17,7 @@ internal interface ITimerComponent : IInfoBoxTableConfigurationRow
         owner
             .BeginRow()
             .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TimerTaskEnabled)
-            .AddButton(Strings.UserInterface.Timers.EditTimer, () => Service.WindowManager.AddTimerStyleWindow(ParentModule, ParentModule.GenericSettings.TimerSettings))
+            .AddButton(Strings.UserInterface.Timers.EditTimer + $"##{ParentModule.Name}", () => Service.WindowManager.AddTimerStyleWindow(ParentModule, ParentModule.GenericSettings.TimerSettings))
             .EndRow();
     }
 }
