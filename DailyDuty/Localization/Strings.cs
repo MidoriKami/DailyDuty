@@ -280,7 +280,7 @@ public class Raids
     public string TrackedNormalRaids => Loc.Localize("Raids_TrackedNormalRaids", "Tracked Raids");
     public string Drops => Loc.Localize("Raids_Drops", "Drops");
     public string Regenerate => Loc.Localize("Raids_Regenerate", "Reset Tracked Raids");
-    public string RegenerateHelp => Loc.Localize("Raids_RegenerateHelp", "Reload duty information, and reset settings");
+    public string RegenerateHelp => Loc.Localize("Raids_RegenerateHelp", "Reload duty information, and reset settings\nHold Shift + Control while clicking");
     public string NoRaidsTracked => Loc.Localize("Raids_NoRaidsTracked", "No raids have been selected for tracking");
     public string RaidsRemaining => Loc.Localize("Raids_RaidsRemaining", "Raids Remaining");
     public string RaidRemaining => Loc.Localize("Raid_RaidsRemaining", "Raid Remaining");

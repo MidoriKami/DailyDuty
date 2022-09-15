@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.Enums;
@@ -113,15 +114,7 @@ internal class RaidsAlliance : IModule
             regenerateRaids
                 .AddTitle(Strings.Module.Raids.Regenerate)
                 .AddString(Strings.Module.Raids.RegenerateHelp, Colors.Orange)
-                .AddAction(() =>
-                {
-                    ImGuiHelpers.ScaledDummy(10.0f);
-
-                    if (ImGui.Button(Strings.Module.Raids.Regenerate))
-                    {
-                        RegenerateTrackedRaids();
-                    }
-                })
+                .AddAction(RegenerateRaidList)
                 .Draw();
 
             clickableLink
@@ -135,6 +128,20 @@ internal class RaidsAlliance : IModule
                 .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
                 .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
                 .Draw();
+        }
+
+        private void RegenerateRaidList()
+        {
+            var keys = ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl;
+
+            ImGuiHelpers.ScaledDummy(15.0f);
+
+            ImGui.BeginDisabled(!keys);
+            if (ImGui.Button(Strings.Module.Raids.Regenerate, new Vector2(regenerateRaids.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+            {
+                RegenerateTrackedRaids();
+            }
+            ImGui.EndDisabled();
         }
     }
 
