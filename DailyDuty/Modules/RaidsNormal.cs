@@ -129,6 +129,7 @@ internal class RaidsNormal : IModule
                 .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
                 .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
                 .Draw();
+
         }
 
         private void RegenerateRaidList()
