@@ -27,15 +27,11 @@ internal class WindowManager : IDisposable
 
     public WindowManager()
     {
-        Log.Verbose("Constructing WindowManager");
-
-        Log.Verbose("Adding Windows to WindowManager");
         foreach (var window in windows)
         {
             windowSystem.AddWindow(window);
         }
 
-        Log.Verbose("Adding Draw Delegates");
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
         Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
     }

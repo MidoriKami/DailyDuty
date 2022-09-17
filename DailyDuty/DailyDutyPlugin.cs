@@ -1,5 +1,4 @@
 ﻿using DailyDuty.System;
-using DailyDuty.Utilities;
 using Dalamud.Plugin;
 
 namespace DailyDuty;
@@ -10,7 +9,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     public DailyDutyPlugin(DalamudPluginInterface pluginInterface)
     {
-        Log.Verbose("Inflating Service Class");
         pluginInterface.Create<Service>();
 
         Service.LocalizationManager = new LocalizationManager();

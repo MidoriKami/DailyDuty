@@ -11,7 +11,6 @@ internal interface ITimerComponent : IInfoBoxTableConfigurationRow
     TimeSpan GetTimerPeriod();
     DateTime GetNextReset();
 
-
     void IInfoBoxTableConfigurationRow.GetConfigurationRow(InfoBoxTable owner)
     {
         owner
