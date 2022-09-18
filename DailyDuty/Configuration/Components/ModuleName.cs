@@ -1,7 +1,7 @@
 ﻿using System;
 using DailyDuty.Localization;
 
-namespace DailyDuty.Configuration.Enums;
+namespace DailyDuty.Configuration.Components;
 
 public enum ModuleName
 {
@@ -17,11 +17,10 @@ public enum ModuleName
     MiniCactpot,
     TreasureMap,
     WondrousTails,
-    Daily,
-    Weekly,
     ChallengeLog,
     NormalRaids,
     AllianceRaids,
+    UnrealTrial,
 }
 
 public static class ModuleNameExtensions
@@ -42,11 +41,10 @@ public static class ModuleNameExtensions
             ModuleName.MiniCactpot => Strings.Module.MiniCactpot.Label,
             ModuleName.TreasureMap => Strings.Module.TreasureMap.Label,
             ModuleName.WondrousTails => Strings.Module.WondrousTails.Label,
-            ModuleName.Daily => Strings.Common.Daily,
-            ModuleName.Weekly => Strings.Common.Weekly,
             ModuleName.ChallengeLog => Strings.Module.ChallengeLog.Label,
             ModuleName.NormalRaids => Strings.Module.Raids.NormalLabel,
             ModuleName.AllianceRaids => Strings.Module.Raids.AllianceLabel,
+            ModuleName.UnrealTrial => Strings.Module.UnrealTrial.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

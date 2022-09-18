@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Configuration.Enums;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules;
 
@@ -26,6 +26,7 @@ internal class ModuleManager : IDisposable
         new ChallengeLog(),
         new RaidsNormal(),
         new RaidsAlliance(),
+        new UnrealTrial(),
     };
 
     public void Dispose()

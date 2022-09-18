@@ -36,6 +36,7 @@ internal class CharacterConfiguration
     public ChallengeLogSettings ChallengeLog = new();
     public RaidsNormalSettings RaidsNormal = new();
     public RaidsAllianceSettings RaidsAlliance = new();
+    public UnrealTrialSettings UnrealTrial = new();
 
     public void Save()
     {

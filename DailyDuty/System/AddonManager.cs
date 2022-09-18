@@ -15,6 +15,7 @@ internal class AddonManager : IDisposable
         new LotteryWeeklyAddon(),
         new GoldSaucerAddon(),
         new DutyEventAddon(),
+        new WeeklyPuzzleAddon(),
     };
     
     public void Dispose()

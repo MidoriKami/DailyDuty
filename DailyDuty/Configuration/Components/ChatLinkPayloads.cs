@@ -8,6 +8,7 @@ public enum ChatPayloads
     OpenWondrousTails,
     NormalRaidsDutyFinder,
     AllianceRaidsDutyFinder,
+    OpenPartyFinder
 }
 
 internal record ChatLinkPayload(uint CommandID, ChatPayloads Type, DalamudLinkPayload Payload);
