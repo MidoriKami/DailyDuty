@@ -21,6 +21,13 @@ public abstract class DrawList<T>
         }
     }
 
+    public T AddIndent(int tab)
+    {
+        DrawActions.Add(() => ImGui.Indent(15.0f * tab));
+
+        return DrawListOwner;
+    }
+
     public T AddString(string message, Vector4? color = null)
     {
         if (color == null)
@@ -39,12 +46,16 @@ public abstract class DrawList<T>
     {
         DrawActions.Add(() =>
         {
+            var cursorPosition = ImGui.GetCursorPos();
+
             if (ImGui.Checkbox($"##{label}", ref setting.Value))
             {
                 Service.ConfigurationManager.Save();
             }
 
-            ImGui.SameLine(27.0f * ImGuiHelpers.GlobalScale);
+            var spacing = ImGui.GetStyle().ItemSpacing;
+            cursorPosition += spacing;
+            ImGui.SetCursorPos(cursorPosition with { X = cursorPosition.X + 27.0f * ImGuiHelpers.GlobalScale});
 
             ImGui.TextUnformatted(label);
 
