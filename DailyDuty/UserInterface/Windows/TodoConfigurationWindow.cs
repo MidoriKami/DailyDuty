@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration.Enums;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;

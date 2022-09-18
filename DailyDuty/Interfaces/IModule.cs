@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 
 namespace DailyDuty.Interfaces;
 

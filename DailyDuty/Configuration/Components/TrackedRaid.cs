@@ -1,5 +1,4 @@
-﻿using DailyDuty.Configuration.Enums;
-using DailyDuty.Interfaces;
+﻿using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;

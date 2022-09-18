@@ -3,7 +3,6 @@ using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using System;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -14,7 +13,7 @@ namespace DailyDuty.Modules;
 public class BeastTribeSettings : GenericSettings
 {
     public Setting<int> NotificationThreshold = new(12);
-    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Enums.ComparisonMode.EqualTo);
+    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Components.ComparisonMode.EqualTo);
 }
 
 internal class BeastTribe : IModule

@@ -1,4 +1,4 @@
-﻿using DailyDuty.Configuration.Enums;
+﻿using DailyDuty.Configuration.Components;
 
 namespace DailyDuty.Interfaces;
 

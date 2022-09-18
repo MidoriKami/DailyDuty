@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using DailyDuty.Configuration.Enums;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Utilities;
 
 namespace DailyDuty.System;

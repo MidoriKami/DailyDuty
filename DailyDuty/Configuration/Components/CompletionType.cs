@@ -1,7 +1,7 @@
 ﻿using System;
 using DailyDuty.Localization;
 
-namespace DailyDuty.Configuration.Enums;
+namespace DailyDuty.Configuration.Components;
 
 public enum CompletionType
 {
