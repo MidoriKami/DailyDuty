@@ -12,10 +12,10 @@ internal unsafe class DutyEventAddon : IDisposable
     [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B D9 49 8B F8 41 0F B7 08", DetourName = nameof(ProcessNetworkPacket))]
     private readonly Hook<DutyEventDelegate>? dutyEventHook = null;
 
-    public event EventHandler? DutyStarted;
-    public event EventHandler? DutyCompleted;
-    public event EventHandler? DutyWipe;
-    public event EventHandler? DutyRecommence;
+    public event EventHandler<uint>? DutyStarted;
+    public event EventHandler<uint>? DutyCompleted;
+    public event EventHandler<uint>? DutyWipe;
+    public event EventHandler<uint>? DutyRecommence;
 
     public DutyEventAddon()
     {
@@ -45,22 +45,22 @@ internal unsafe class DutyEventAddon : IDisposable
                 {
                     // Duty Commenced
                     case 0x40000001:
-                        DutyStarted?.Invoke(this, EventArgs.Empty);
+                        DutyStarted?.Invoke(this, Service.ClientState.TerritoryType);
                         break;
 
                     // Party Wipe
                     case 0x40000005:
-                        DutyWipe?.Invoke(this, EventArgs.Empty);
+                        DutyWipe?.Invoke(this, Service.ClientState.TerritoryType);
                         break;
 
                     // Duty Recommence
                     case 0x40000006:
-                        DutyRecommence?.Invoke(this, EventArgs.Empty);
+                        DutyRecommence?.Invoke(this, Service.ClientState.TerritoryType);
                         break;
 
                     // Duty Completed
                     case 0x40000003:
-                        DutyCompleted?.Invoke(this, EventArgs.Empty);
+                        DutyCompleted?.Invoke(this, Service.ClientState.TerritoryType);
                         break;
                 }
             }

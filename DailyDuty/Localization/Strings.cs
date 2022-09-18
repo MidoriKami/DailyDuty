@@ -257,6 +257,7 @@ public class WondrousTails
     public string Overlay => Loc.Localize("WondrousTails_Overlay", "Duty Finder Overlay");
     public string ClickableLink => Loc.Localize("WondrousTails_ClickableLink", "Notifications can be clicked on to open wondrous tails book, or to teleport to Idyllshire if you don't have a book.");
     public string ClickableLinkLabel => Loc.Localize("WondrousTails_ClickableLinkLabel", "Clickable Link");
+    public string ResendNotification => Loc.Localize("WondrousTails_ResendNotification", "Resend after leaving duty");
 }
 
 public class ChallengeLog

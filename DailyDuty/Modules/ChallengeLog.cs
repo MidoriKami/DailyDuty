@@ -234,7 +234,7 @@ internal class ChallengeLog : IModule
             }
         }
 
-        private void OnDutyCompleted(object? sender, EventArgs e)
+        private void OnDutyCompleted(object? sender, uint territory)
         {
             if (dutyState == DungeonDutyRouletteState.EnteredDuty)
             {

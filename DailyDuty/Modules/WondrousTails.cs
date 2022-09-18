@@ -25,6 +25,7 @@ public class WondrousTailsSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(false);
     public Setting<bool> UnclaimedBookWarning = new(true);
     public Setting<bool> OverlayEnabled = new(true);
+    public Setting<bool> ResendOnCompletion = new(false);
 }
 
 internal class WondrousTails : IModule
@@ -77,6 +78,9 @@ internal class WondrousTails : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .AddConfigCheckbox(Strings.Module.WondrousTails.Overlay, Settings.OverlayEnabled)
                 .AddConfigCheckbox(Strings.Module.WondrousTails.DutyNotifications, Settings.InstanceNotifications)
+                .AddIndent(1)
+                .AddConfigCheckbox(Strings.Module.WondrousTails.ResendNotification, Settings.ResendOnCompletion)
+                .AddIndent(-1)
                 .AddConfigCheckbox(Strings.Module.WondrousTails.UnclaimedBookNotifications, Settings.UnclaimedBookWarning)
                 .Draw();
 
@@ -149,6 +153,9 @@ internal class WondrousTails : IModule
         public WondrousTailsBook WondrousTailsBook { get; } = new();
         private readonly WondrousTailsOverlay wondrousTailsOverlay = new();
 
+        private bool dutyCompleted;
+        private uint lastTerritoryType;
+
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -160,12 +167,24 @@ internal class WondrousTails : IModule
 
             Service.AddonManager.Get<DutyEventAddon>().DutyStarted += OnDutyStarted;
             Service.AddonManager.Get<DutyEventAddon>().DutyCompleted += OnDutyCompleted;
+            Service.ClientState.TerritoryChanged += OnZoneChange;
+        }
+
+        private void OnZoneChange(object? sender, ushort e)
+        {
+            if (!Settings.Enabled.Value) return;
+            if (!Settings.ResendOnCompletion.Value) return;
+            if (!dutyCompleted) return;
+
+            dutyCompleted = false;
+            OnDutyCompleted(this, lastTerritoryType);
         }
 
         public void Dispose()
         {
             Service.AddonManager.Get<DutyEventAddon>().DutyStarted -= OnDutyStarted;
             Service.AddonManager.Get<DutyEventAddon>().DutyCompleted -= OnDutyCompleted;
+            Service.ClientState.TerritoryChanged -= OnZoneChange;
 
             wondrousTailsOverlay.Dispose();
         }
@@ -204,13 +223,13 @@ internal class WondrousTails : IModule
             }
         }
         
-        private void OnDutyStarted(object? sender, EventArgs args)
+        private void OnDutyStarted(object? sender, uint territory)
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
             if (!WondrousTailsBook.PlayerHasBook()) return;
 
-            var node = WondrousTailsBook.GetTaskForDuty(Service.ClientState.TerritoryType);
+            var node = WondrousTailsBook.GetTaskForDuty(territory);
             if (node == null) return;
 
             var buttonState = node.TaskState;
@@ -231,17 +250,21 @@ internal class WondrousTails : IModule
                     break;
 
                 case ButtonState.Unknown:
+                default:
                     break;
             }
         }
 
-        private void OnDutyCompleted(object? sender, EventArgs args)
+        private void OnDutyCompleted(object? sender, uint territory)
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
             if (!WondrousTailsBook.PlayerHasBook()) return;
 
-            var node = WondrousTailsBook.GetTaskForDuty(Service.ClientState.TerritoryType);
+            dutyCompleted = true;
+            lastTerritoryType = territory;
+
+            var node = WondrousTailsBook.GetTaskForDuty(territory);
 
             var buttonState = node?.TaskState;
 
