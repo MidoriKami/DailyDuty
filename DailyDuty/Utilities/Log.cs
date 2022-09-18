@@ -35,4 +35,16 @@ internal static class Log
 
         return fullName;
     }
+
+    public static unsafe void Pointer(string label, void* pointer)
+    {
+        PluginLog.Debug($"{label}: {new IntPtr(pointer):X8}");
+    }
+
+    public static unsafe void Pointer(string label, void* pointerA, void* pointerB)
+    {
+        PluginLog.Debug($"{label}:\n" +
+                        $"{new IntPtr(pointerA):X8}\n" +
+                        $"{new IntPtr(pointerB):X8}");
+    }
 }
