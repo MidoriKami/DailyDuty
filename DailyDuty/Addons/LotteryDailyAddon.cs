@@ -8,7 +8,7 @@ namespace DailyDuty.Addons;
 
 internal unsafe class LotteryDailyAddon : IDisposable
 {
-    public event EventHandler<IntPtr>? OnShow;
+    public event EventHandler<IntPtr>? Show;
 
     private delegate void* AgentShow(AgentInterface* agent, void* a2, void* a3);
 
@@ -31,7 +31,7 @@ internal unsafe class LotteryDailyAddon : IDisposable
     {
         try
         {
-            OnShow?.Invoke(this, new IntPtr(addon));
+            Show?.Invoke(this, new IntPtr(addon));
         }
         catch (Exception ex)
         {

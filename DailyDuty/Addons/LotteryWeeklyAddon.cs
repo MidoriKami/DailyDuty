@@ -11,7 +11,7 @@ namespace DailyDuty.Addons;
 
 internal unsafe class LotteryWeeklyAddon : IDisposable
 {
-    public event EventHandler<ReceiveEventArgs>? OnReceiveEvent;
+    public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
     private delegate void* AgentReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID);
     private readonly Hook<AgentReceiveEvent>? agentShowHook;
@@ -22,7 +22,7 @@ internal unsafe class LotteryWeeklyAddon : IDisposable
 
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryWeekly);
 
-        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), ReceiveEvent);
+        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), OnReceiveEvent);
         agentShowHook?.Enable();
     }
 
@@ -31,11 +31,11 @@ internal unsafe class LotteryWeeklyAddon : IDisposable
         agentShowHook?.Dispose();
     }
 
-    public void* ReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
+    public void* OnReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
     {
         try
         {
-            OnReceiveEvent?.Invoke(this, new ReceiveEventArgs(addon, a2, eventData, eventDataItemCount, senderID));
+            ReceiveEvent?.Invoke(this, new ReceiveEventArgs(addon, a2, eventData, eventDataItemCount, senderID));
         }
         catch (Exception ex)
         {

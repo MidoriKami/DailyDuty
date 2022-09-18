@@ -45,7 +45,7 @@ internal unsafe class GoldSaucerAddon : IDisposable
     [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(ProcessNetworkPacket))]
     private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
 
-    public event EventHandler<GoldSaucerEventArgs>? OnGoldSaucerUpdate;
+    public event EventHandler<GoldSaucerEventArgs>? GoldSaucerUpdate;
 
     public GoldSaucerAddon()
     {
@@ -63,7 +63,7 @@ internal unsafe class GoldSaucerAddon : IDisposable
     {
         try
         {
-            OnGoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(a1, a2, a3, a4, a5, data, eventID));
+            GoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(a1, a2, a3, a4, a5, data, eventID));
         }
         catch (Exception ex)
         {

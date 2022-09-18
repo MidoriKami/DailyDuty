@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
@@ -129,14 +128,14 @@ internal class MiniCactpot : IModule
 
             SignatureHelper.Initialise(this);
 
-            Service.AddonManager.Get<LotteryDailyAddon>().OnShow += OnShow;
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += OnGoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryDailyAddon>().Show += OnShow;
+            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += OnGoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<LotteryDailyAddon>().OnShow -= OnShow;
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= OnGoldSaucerUpdate;
+            Service.AddonManager.Get<LotteryDailyAddon>().Show -= OnShow;
+            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate -= OnGoldSaucerUpdate;
         }
 
         public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";

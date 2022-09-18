@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
@@ -155,15 +154,15 @@ internal class FashionReport : IModule
 
             SignatureHelper.Initialise(this);
 
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate += OnGoldSaucerUpdate;
+            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += GoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<GoldSaucerAddon>().OnGoldSaucerUpdate -= OnGoldSaucerUpdate;
+            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate -= GoldSaucerUpdate;
         }
 
-        private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
+        private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
         {
             if (Service.TargetManager.Target?.DataId != 1025176) return;
 
