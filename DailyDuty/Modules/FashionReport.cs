@@ -9,6 +9,7 @@ using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Modules;
@@ -72,9 +73,9 @@ internal class FashionReport : IModule
             modeSelect
                 .AddTitle(Strings.Module.FashionReport.CompletionCondition)
                 .AddConfigRadio(Strings.Module.FashionReport.ModeSingle, Settings.Mode, FashionReportMode.Single, Strings.Module.FashionReport.ModeSingleHelp)
-                .SameLine(110.0f)
+                .SameLine(110.0f * ImGuiHelpers.GlobalScale)
                 .AddConfigRadio(Strings.Module.FashionReport.Mode80Plus, Settings.Mode, FashionReportMode.Plus80, Strings.Module.FashionReport.Mode80PlusHelp)
-                .SameLine(220.0f)
+                .SameLine(220.0f * ImGuiHelpers.GlobalScale)
                 .AddConfigRadio(Strings.Module.FashionReport.ModeAll, Settings.Mode, FashionReportMode.All, Strings.Module.FashionReport.ModeAllHelp)
                 .Draw();
 
