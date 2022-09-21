@@ -5,12 +5,11 @@ using System.Text.RegularExpressions;
 using DailyDuty.Addons.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Addons.Overlays;
 
-internal unsafe class WondrousTailsOverlay : IDisposable
+internal class WondrousTailsOverlay : IDisposable
 {
     private record DutyFinderSearchResult(string SearchKey, uint Value);
 
@@ -67,7 +66,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
     
     private void OnUpdate(object? sender, IntPtr e)
     {
-        UpdateWondrousTails(e.ToAtkUnitBase());
+        UpdateWondrousTails();
     }
 
     private void OnDraw(object? sender, IntPtr e)
@@ -75,7 +74,7 @@ internal unsafe class WondrousTailsOverlay : IDisposable
         if (!Enabled) return;
 
         var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var treeNode = addon.GetBaseTreeNode(e.ToAtkUnitBase());
+        var treeNode = addon.GetBaseTreeNode();
 
         treeNode.MakeCloverNodes();
     }
@@ -119,10 +118,10 @@ internal unsafe class WondrousTailsOverlay : IDisposable
         return wondrousTailsStatus.FirstOrDefault(task => task.DutyList.Contains(duty))?.TaskState;
     }
 
-    private void UpdateWondrousTails(AtkUnitBase* baseNode)
+    private void UpdateWondrousTails()
     {
         var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var treeNode = addon.GetBaseTreeNode(baseNode);
+        var treeNode = addon.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {

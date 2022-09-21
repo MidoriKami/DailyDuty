@@ -2,16 +2,15 @@
 using System.Linq;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons.DataModels;
 
-internal unsafe struct DutyFinderTreeList
+internal struct DutyFinderTreeList
 {
-    private AtkComponentNode* treeNodeBase;
+    private readonly ComponentNode treeNodeBase;
     public List<DutyFinderTreeListItem> Items = new();
 
-    public DutyFinderTreeList(AtkComponentNode* treeListNode)
+    public DutyFinderTreeList(ComponentNode treeListNode)
     {
         treeNodeBase = treeListNode;
 
@@ -24,9 +23,7 @@ internal unsafe struct DutyFinderTreeList
         {
             var id = (uint)i;
 
-            if (treeNodeBase == null) continue;
-
-            var listItemNode = Node.GetNodeByID<AtkComponentNode>(treeNodeBase, id);
+            var listItemNode = treeNodeBase.GetComponentNode(id);
             Items.Add(new DutyFinderTreeListItem(listItemNode));
         }
     }

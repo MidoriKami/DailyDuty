@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FFXIVClientStructs.FFXIV.Component.GUI;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Addons.DataModels;
 
-internal unsafe struct DutyFinderTabBar
+internal struct DutyFinderTabBar
 {
-    private readonly AtkUnitBase* addonBase;
+    private readonly BaseNode addonBase;
     public List<RadioButtonNode> RadioButtons = new();
 
-    public DutyFinderTabBar(AtkUnitBase* addonBase)
+    public DutyFinderTabBar(BaseNode addonBase)
     {
         this.addonBase = addonBase;
 
@@ -24,9 +24,7 @@ internal unsafe struct DutyFinderTabBar
         {
             var id = (uint)i;
 
-            var radioButton = (AtkComponentRadioButton*)addonBase->GetNodeById(id)->GetComponent();
-
-            RadioButtons.Add(new RadioButtonNode(radioButton));
+            RadioButtons.Add(new RadioButtonNode(addonBase.GetComponentNode(id)));
         }
     }
 

@@ -175,21 +175,26 @@ internal unsafe class DutyFinderAddon : IDisposable
         onFinalizeHook!.Original(atkUnitBase);
     }
 
-    public DutyFinderTreeList GetBaseTreeNode(AtkUnitBase* addonPointer)
+    public DutyFinderTreeList GetBaseTreeNode()
     {
-        return new DutyFinderTreeList(Node.GetComponentNode(addonPointer, 52));
+        var baseNode = new BaseNode("ContentsFinder");
+        var treeNode = baseNode.GetComponentNode(52);
+
+        return new DutyFinderTreeList(treeNode);
     }
 
-    public DutyFinderTabBar GetTabBar(AtkUnitBase* addonPointer)
+    public DutyFinderTabBar GetTabBar()
     {
-        return new DutyFinderTabBar(addonPointer);
+        var baseNode = new BaseNode("ContentsFinder");
+
+        return new DutyFinderTabBar(baseNode);
     }
 
     public void HideCloverNodes()
     {
         if (ContentsFinderAddon != null)
         {
-            GetBaseTreeNode(ContentsFinderAddon).HideCloverNodes();
+            GetBaseTreeNode().HideCloverNodes();
         }
     }
 
@@ -197,7 +202,7 @@ internal unsafe class DutyFinderAddon : IDisposable
     {
         if (ContentsFinderAddon != null)
         {
-            GetBaseTreeNode(ContentsFinderAddon).SetColorAll(color);
+            GetBaseTreeNode().SetColorAll(color);
         }
     }
 }

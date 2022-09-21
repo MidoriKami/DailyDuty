@@ -178,7 +178,7 @@ internal class UnrealTrial : IModule
 
             Service.AddonManager.Get<WeeklyPuzzleAddon>().Show += OnShow;
         }
-
+        
         public void Dispose()
         {
             Service.AddonManager.Get<WeeklyPuzzleAddon>().Show -= OnShow;

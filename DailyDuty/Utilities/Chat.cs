@@ -21,6 +21,11 @@ internal static class Chat
         Service.Chat.Print(stringBuilder.BuiltString);
     }
 
+    public static void Print(string tag, IntPtr address)
+    {
+        Print(tag, $"{address:X8}");
+    }
+
     public static unsafe void Print(IntPtr pointer, int offset = 0, bool hex = false)
     {
         try

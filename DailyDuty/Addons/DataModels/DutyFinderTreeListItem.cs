@@ -3,23 +3,24 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using DailyDuty.Utilities;
+using FFXIVClientStructs.FFXIV.Client.System.Memory;
 
 namespace DailyDuty.Addons.DataModels;
 
 internal unsafe struct DutyFinderTreeListItem
 {
-    private readonly AtkComponentNode* treeListItem;
+    private readonly ComponentNode treeListItem;
     public CloverNode CloverNode;
 
     public string Label => GetLabel();
     public string FilteredLabel => GetFilteredLabel();
 
-    public DutyFinderTreeListItem(AtkComponentNode* treeListItem)
+    public DutyFinderTreeListItem(ComponentNode treeListItem)
     {
         this.treeListItem = treeListItem;
 
-        var cloverNode = Node.GetNodeByID<AtkImageNode>(treeListItem, 29, NodeType.Image);
-        var emptyCloverNode = Node.GetNodeByID<AtkImageNode>(treeListItem, 30, NodeType.Image);
+        var cloverNode = treeListItem.GetImageNode(29);
+        var emptyCloverNode = treeListItem.GetImageNode(30);
 
         CloverNode =  new CloverNode(cloverNode, emptyCloverNode);
     }
@@ -36,7 +37,7 @@ internal unsafe struct DutyFinderTreeListItem
 
     private AtkTextNode* GetLabelNode()
     {
-        return Node.GetNodeByID<AtkTextNode>(treeListItem, 5);
+        return treeListItem.GetTextNode(5);
     }
 
     public void MakeCloverNodes()
@@ -52,8 +53,8 @@ internal unsafe struct DutyFinderTreeListItem
             // Coordinates of missing clover node
             var empty = new Vector2(75, 63);
 
-            Node.MakeCloverNode(treeListItem, textNode, 29, clover);
-            Node.MakeCloverNode(treeListItem, textNode, 30, empty, new Vector2(1, 0));
+            MakeCloverNode(treeListItem.GetPointer(), textNode, 29, clover);
+            MakeCloverNode(treeListItem.GetPointer(), textNode, 30, empty, new Vector2(1, 0));
         }
     }
 
@@ -82,5 +83,76 @@ internal unsafe struct DutyFinderTreeListItem
         if (textNode == null) return;
 
         textNode->TextColor = color;
+    }
+
+    private static void MakeCloverNode(AtkComponentNode* rootNode, AtkResNode* beforeNode, uint newNodeID, Vector2 textureCoordinates, Vector2 positionOffset = default)
+    {
+        var customNode = IMemorySpace.GetUISpace()->Create<AtkImageNode>();
+        customNode->AtkResNode.Type = NodeType.Image;
+        customNode->AtkResNode.NodeID = newNodeID;
+        customNode->AtkResNode.Flags = 8243;
+        customNode->AtkResNode.DrawFlags = 0;
+        customNode->WrapMode = 1;
+        customNode->Flags = 0;
+
+        var partsList = (AtkUldPartsList*)IMemorySpace.GetUISpace()->Malloc((ulong)sizeof(AtkUldPartsList), 8);
+        if (partsList == null)
+        {
+            customNode->AtkResNode.Destroy(true);
+            return;
+        }
+
+        partsList->Id = 0;
+        partsList->PartCount = 1;
+
+        var part = (AtkUldPart*) IMemorySpace.GetUISpace()->Malloc((ulong) sizeof(AtkUldPart), 8);
+        if (part == null) {
+            IMemorySpace.Free(partsList, (ulong)sizeof(AtkUldPartsList));
+            customNode->AtkResNode.Destroy(true);
+            return;
+        }
+
+        part->U = (ushort)textureCoordinates.X;
+        part->V = (ushort)textureCoordinates.Y;
+        part->Width = 20;
+        part->Height = 20;
+        
+        partsList->Parts = part;
+
+        var asset = (AtkUldAsset*)IMemorySpace.GetUISpace()->Malloc((ulong)sizeof(AtkUldAsset), 8);
+        if (asset == null) {
+            IMemorySpace.Free(part, (ulong)sizeof(AtkUldPart));
+            IMemorySpace.Free(partsList, (ulong)sizeof(AtkUldPartsList));
+            customNode->AtkResNode.Destroy(true);
+            return;
+        }
+
+        asset->Id = 0;
+        asset->AtkTexture.Ctor();
+        part->UldAsset = asset;
+        customNode->PartsList = partsList;
+
+        customNode->LoadTexture("ui/uld/WeeklyBingo.tex");
+
+        customNode->AtkResNode.ToggleVisibility(true);
+
+        customNode->AtkResNode.SetWidth(20);
+        customNode->AtkResNode.SetHeight(20);
+
+        short xPosition = (short)(290 + positionOffset.X);
+        short yPosition = (short)(2 + positionOffset.Y);
+
+        customNode->AtkResNode.SetPositionShort(xPosition, yPosition);
+
+        var prev = beforeNode->PrevSiblingNode;
+        customNode->AtkResNode.ParentNode = beforeNode->ParentNode;
+
+        beforeNode->PrevSiblingNode = (AtkResNode*) customNode;
+        prev->NextSiblingNode = (AtkResNode*) customNode;
+
+        customNode->AtkResNode.PrevSiblingNode = prev;
+        customNode->AtkResNode.NextSiblingNode = beforeNode;
+
+        rootNode->Component->UldManager.UpdateDrawNodeList();
     }
 }

@@ -5,23 +5,18 @@ namespace DailyDuty.Addons.DataModels;
 
 internal unsafe struct RadioButtonNode
 {
-    private readonly AtkComponentRadioButton* radioButtonNode;
+    private readonly ComponentNode radioButtonNode;
 
     public bool Selected => IsNodeSelected();
 
-    public RadioButtonNode(AtkComponentRadioButton* radioButtonNode)
+    public RadioButtonNode(ComponentNode radioButtonNode)
     {
         this.radioButtonNode = radioButtonNode;
     }
 
     private AtkResNode* GetPrimaryColorResNode()
     {
-        if (radioButtonNode == null) return null;
-
-        var componentBase = radioButtonNode->AtkComponentBase;
-        var uldManager = componentBase.UldManager;
-
-        return Node.GetNodeByID<AtkResNode>(uldManager, 5);
+        return radioButtonNode.GetResNode(5);
     }
 
     private bool IsNodeSelected()

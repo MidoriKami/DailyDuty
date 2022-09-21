@@ -6,12 +6,11 @@ using DailyDuty.Addons.DataModels;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Addons.Overlays;
 
-internal unsafe class DutyRouletteOverlay : IDisposable
+internal class DutyRouletteOverlay : IDisposable
 {
     private record DutyFinderSearchResult(string SearchKey, uint TerritoryType);
 
@@ -61,7 +60,7 @@ internal unsafe class DutyRouletteOverlay : IDisposable
         if (defaultColorSaved == false)
         {
             var addon = Service.AddonManager.Get<DutyFinderAddon>();
-            var tree = addon.GetBaseTreeNode(e.ToAtkUnitBase());
+            var tree = addon.GetBaseTreeNode();
             var line = tree.Items.First();
             userDefaultTextColor = line.GetTextColor();
             defaultColorSaved = true;
@@ -69,14 +68,14 @@ internal unsafe class DutyRouletteOverlay : IDisposable
 
         if (Enabled)
         {
-            if (IsTabSelected(0, e.ToAtkUnitBase()) == false)
-                ResetDefaultTextColor(e.ToAtkUnitBase());
+            if (IsTabSelected(0) == false)
+                ResetDefaultTextColor();
             else
-                SetRouletteColors(e.ToAtkUnitBase());
+                SetRouletteColors();
         }
         else
         {
-            ResetDefaultTextColor(e.ToAtkUnitBase());
+            ResetDefaultTextColor();
         }
     }
 
@@ -84,33 +83,33 @@ internal unsafe class DutyRouletteOverlay : IDisposable
     {
         if (Enabled)
         {
-            if (IsTabSelected(0, e.ToAtkUnitBase()) == false)
-                ResetDefaultTextColor(e.ToAtkUnitBase());
+            if (IsTabSelected(0) == false)
+                ResetDefaultTextColor();
             else
-                SetRouletteColors(e.ToAtkUnitBase());
+                SetRouletteColors();
         }
         else
         {
-            ResetDefaultTextColor(e.ToAtkUnitBase());
+            ResetDefaultTextColor();
         }
     }
 
     private void OnFinalize(object? sender, IntPtr e)
     {
-        ResetDefaultTextColor(e.ToAtkUnitBase());
+        ResetDefaultTextColor();
     }
 
-    private void ResetDefaultTextColor(AtkUnitBase* rootNode)
+    private void ResetDefaultTextColor()
     {
         var addon = Service.AddonManager.Get<DutyFinderAddon>();
 
-        addon.GetBaseTreeNode(rootNode).SetColorAll(userDefaultTextColor);
+        addon.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
     }
 
-    private void SetRouletteColors(AtkUnitBase* rootNode)
+    private void SetRouletteColors()
     {
         var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var treeNode = addon.GetBaseTreeNode(rootNode);
+        var treeNode = addon.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {
@@ -146,10 +145,10 @@ internal unsafe class DutyRouletteOverlay : IDisposable
         return DutyRoulettes.FirstOrDefault(duty => (uint) duty.Roulette == dutyFinderResult.TerritoryType);
     }
 
-    private bool IsTabSelected(uint tab, AtkUnitBase* addonBase)
+    private bool IsTabSelected(uint tab)
     {
         var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var tabBar = addon.GetTabBar(addonBase);
+        var tabBar = addon.GetTabBar();
 
         return tab == tabBar.GetSelectedTabIndex();
     }
