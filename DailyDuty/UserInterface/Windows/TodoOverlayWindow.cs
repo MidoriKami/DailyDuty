@@ -24,6 +24,10 @@ internal class TodoOverlayWindow : Window, IDisposable
     public TodoOverlayWindow() : base($"###DailyDutyTodoOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+
+        Flags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
+        Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
+        Flags |= ImGuiWindowFlags.NoNavFocus;
     }
 
     public void Dispose()

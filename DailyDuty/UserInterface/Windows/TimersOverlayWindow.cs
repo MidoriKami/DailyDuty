@@ -23,6 +23,10 @@ internal class TimersOverlayWindow : Window, IDisposable
     public TimersOverlayWindow() : base($"###DailyDutyTimersOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
         Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+
+        Flags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
+        Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
+        Flags |= ImGuiWindowFlags.NoNavFocus;
     }
 
     public void Dispose()
