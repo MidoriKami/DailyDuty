@@ -12,7 +12,7 @@
     "description": "Configuration.get_Options"
   },
   "Configuration_MarkCompleteWhen": {
-    "message": "Markieren wenn erledigt",
+    "message": "Als erledigt markieren, wenn",
     "description": "Configuration.get_MarkCompleteWhen"
   },
   "Configuration_NotificationOptions": {
@@ -72,7 +72,7 @@
     "description": "Common.get_Complete"
   },
   "Overriden": {
-    "message": "Overriden",
+    "message": "Überschrieben",
     "description": "Common.get_Overriden"
   },
   "LessThanLabel": {
@@ -147,17 +147,73 @@
     "message": "Endwalker",
     "description": "Expansion.get_Endwalker"
   },
-  "Help_Timers": {
-    "message": "\n/dd timers - Zeigt das Alarm Konfigurationsfenster an\n/dd help timers - Zeigt diese Hilfemeldung an\n/dd timers show - Zeigt das Alarm Fenster an\n/dd timers hide - Versteckt das Alarm Fenster\n/dd timers toggle - Schaltet das Alarm Fenster um",
-    "description": "Help.get_Timers"
+  "TimersMessages_Tag": {
+    "message": "== Befehle für Alarme ==",
+    "description": "Help.get_TimersMessages"
   },
-  "Help_Todo": {
-    "message": "\n/dd todo - Zeigt das To-Do Konfigurationsfenster an\n/dd help todo - Zeigt diese Hilfemeldung an\n/dd todo show - Zeigt das To-Do Fenster an\n/dd todo hide - Versteckt das To-Do Fenster\n/dd todo toggle - Schaltet das To-Do Fenster um",
-    "description": "Help.get_Todo"
+  "TimersMessages_Base": {
+    "message": "/dd timers config - Öffnet das Konfigurationsfenster für Alarme",
+    "description": "Help.get_TimersMessages"
   },
-  "Help_Base": {
-    "message": "Befehlsübersicht\n/dd - Hauptfenster anzeigen oder ausblenden\n/dd help timers - Alarme Unterbefehle anzeigen\n/dd help todo - To-Do Unterbefehle anzeigen",
-    "description": "Help.get_Base"
+  "TimersMessages_Help": {
+    "message": "/dd help timers - Zeigt diese Hilfsmeldung",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Show": {
+    "message": "/dd timers show - Öffnet das Fenster für Alarme",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Hide": {
+    "message": "/dd timers hide - Schließt das Fenster für Alarme",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Toggle": {
+    "message": "/dd timers show - Öffnet/Schließt das Fenster für Alarme",
+    "description": "Help.get_TimersMessages"
+  },
+  "TodoMessages_Tag": {
+    "message": "== To-do Befehle ==",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Base": {
+    "message": "/dd todo config - Öffnet das To-do Konfigurationsfenster",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Todo": {
+    "message": "/dd todo - Zeigt alle ausstehenden Aufgaben",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Help": {
+    "message": "/dd help todo - Zeigt diese Hilfsmeldung",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Show": {
+    "message": "/dd todo show - Öffnet das Aufgabenfenster",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Hide": {
+    "message": "/dd todo show - Schließt das Aufgabenfenster",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Toggle": {
+    "message": "/dd todo toggle - Öffnet/Schließt das Aufgabenfenster",
+    "description": "Help.get_TodoMessages"
+  },
+  "CoreMessages_Tag": {
+    "message": "== Hauptbefehle ==",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Base": {
+    "message": "/dd - Öffnet/Schließt das Hauptfenster",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Timers": {
+    "message": "/dd help timers - Zeigt die Hilfe für Befehle zu Alarmen",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Todo": {
+    "message": "/dd help timers - Zeigt die Hilfe für Befehle zu To-dos",
+    "description": "Help.get_CoreMessages"
   },
   "BeastTribe_Label": {
     "message": "Stammesvölker",
@@ -260,8 +316,16 @@
     "description": "DutyRoulette.get_NoRoulettesTracked"
   },
   "DutyRoulette_Override": {
-    "message": "Duty Override",
+    "message": "Inhalt überschrieben",
     "description": "DutyRoulette.get_Override"
+  },
+  "DutyRoulette_CompleteWhenCapped": {
+    "message": "Erledigt, wenn Steinobergrenze erreicht",
+    "description": "DutyRoulette.get_CompleteWhenCapped"
+  },
+  "DutyRoulette_CompleteWhenCappedHelp": {
+    "message": "Markiert Zufallsinhalt als erledigt, wenn die wöchentliche Obergrenze an Allagischen Steinen erreicht ist",
+    "description": "DutyRoulette.get_CompleteWhenCappedHelp"
   },
   "FashionReport_Label": {
     "message": "Kleiderkritik",
@@ -364,12 +428,24 @@
     "description": "HuntMarks.get_HuntsRemaining"
   },
   "HuntMarks_TrackedHuntsStatus": {
-    "message": "Verfolgter Jagdstatus",
+    "message": "Status der Überwachten Jagdlizenzen",
     "description": "HuntMarks.get_TrackedHuntsStatus"
   },
   "HuntMarks_NoHuntsTracked": {
-    "message": "Es wurde keine Jagdlizenz zum Verfolgen ausgewählt",
+    "message": "Es wurden keine Jagdlizenzen zum Überwachen ausgewählt",
     "description": "HuntMarks.get_NoHuntsTracked"
+  },
+  "HuntMarks_ForceComplete": {
+    "message": "Erledigt erzwingen",
+    "description": "HuntMarks.get_ForceComplete"
+  },
+  "HuntMarks_ForceCompleteMouseover": {
+    "message": "Überschreibt den Status des Moduls und markiert es als erledigt\nBeim Klicken Shift + Strg gedrückt halten",
+    "description": "HuntMarks.get_ForceCompleteHelp"
+  },
+  "HuntMarks_NoUndo": {
+    "message": "Dieser Vorgang kann für diese Woche nicht rückgängig gemacht werden",
+    "description": "HuntMarks.get_NoUndo"
   },
   "JumboCactpot_Label": {
     "message": "Jumbo-Glückskaktor",
@@ -483,8 +559,108 @@
     "message": "Aufkleber",
     "description": "WondrousTails.get_Stamps"
   },
+  "WondrousTails_Overlay": {
+    "message": "Inhaltssuche Overlay",
+    "description": "WondrousTails.get_Overlay"
+  },
+  "WondrousTails_ClickableLink": {
+    "message": "Benachrichtigungen können angeklickt werden um, wenn möglich, Khloes Abenteueralbum zu öffnen oder alternativ nach Frohehalde zu teleportieren.",
+    "description": "WondrousTails.get_ClickableLink"
+  },
+  "WondrousTails_ClickableLinkLabel": {
+    "message": "Anklickbarer Link",
+    "description": "WondrousTails.get_ClickableLinkLabel"
+  },
+  "ChallengeLog_Label": {
+    "message": "Aktuelle Agenda",
+    "description": "ChallengeLog.get_Label"
+  },
+  "ChallengeLog_Battle": {
+    "message": "Kampf",
+    "description": "ChallengeLog.get_Battle"
+  },
+  "ChallengeLog_CommendationLabel": {
+    "message": "'WS-Ehrungen' Warnung",
+    "description": "ChallengeLog.get_CommendationLabel"
+  },
+  "ChallengeLog_Commendations": {
+    "message": "WS-Ehrungen",
+    "description": "ChallengeLog.get_Commendations"
+  },
+  "ChallengeLog_CommendationWarning": {
+    "message": "Ehrungen verbleibend",
+    "description": "ChallengeLog.get_CommendationsRemaining"
+  },
+  "ChallengeLog_DungeonRouletteLabel": {
+    "message": "Warnung für 'Dungeon: Zufallsinhalt'",
+    "description": "ChallengeLog.get_DungeonRouletteLabel"
+  },
+  "ChallengeLog_DungeonRoulette": {
+    "message": "Dungeon: Zufallsinhalt",
+    "description": "ChallengeLog.get_DungeonRoulette"
+  },
+  "ChallengeLog_DungeonRoulettesRemaining": {
+    "message": "Zufällige Dungeons verbleibend",
+    "description": "ChallengeLog.get_DungeonRoulettesRemaining"
+  },
+  "ChallengeLog_DungeonMasterLabel": {
+    "message": "Warnung für 'Dungeon: Erfolge'",
+    "description": "ChallengeLog.get_DungeonMasterLabel"
+  },
+  "ChallengeLog_DungeonMaster": {
+    "message": "Dungeon: Erfolge",
+    "description": "ChallengeLog.get_DungeonMaster"
+  },
+  "ChallengeLog_DungeonMasterRemaining": {
+    "message": "Dungeons verbleibend",
+    "description": "ChallengeLog.get_DungeonMasterRemaining"
+  },
+  "AllianceRaids_Label": {
+    "message": "Allianz-Raids",
+    "description": "Raids.get_AllianceLabel"
+  },
+  "NormalRaids_Label": {
+    "message": "Normale Raids",
+    "description": "Raids.get_NormalLabel"
+  },
+  "Raids_TrackedNormalRaids": {
+    "message": "Überwachte Raids",
+    "description": "Raids.get_TrackedNormalRaids"
+  },
+  "Raids_Drops": {
+    "message": "Beute",
+    "description": "Raids.get_Drops"
+  },
+  "Raids_Regenerate": {
+    "message": "Überwachte Raids zurücksetzen",
+    "description": "Raids.get_Regenerate"
+  },
+  "Raids_RegenerateHelp": {
+    "message": "Informationen zu den Inhalten neu laden und Konfiguration überschreiben",
+    "description": "Raids.get_RegenerateHelp"
+  },
+  "Raids_NoRaidsTracked": {
+    "message": "Es sind keien Raids zum Überwachen ausgewählt",
+    "description": "Raids.get_NoRaidsTracked"
+  },
+  "Raids_RaidsRemaining": {
+    "message": "Raids übrig",
+    "description": "Raids.get_RaidsRemaining"
+  },
+  "Raid_RaidsRemaining": {
+    "message": "Raid übrig",
+    "description": "Raids.get_RaidRemaining"
+  },
+  "Raids_ClickableLinkLabel": {
+    "message": "Anklickbarer Link",
+    "description": "Raids.get_ClickableLinkLabel"
+  },
+  "Raids_ClickableLink": {
+    "message": "Benachrichtigungen können angeklickt werden, um die Inhaltssuche zu öffnen",
+    "description": "Raids.get_ClickableLink"
+  },
   "Todo_Label": {
-    "message": "To-Do",
+    "message": "To-do",
     "description": "Todo.get_Label"
   },
   "Todo_MainOptions": {
@@ -558,6 +734,14 @@
   "Todo_UseLongLabel": {
     "message": "Lange Bezeichnungen verwenden",
     "description": "Todo.get_UseLongLabel"
+  },
+  "Todo_CompleteCategory": {
+    "message": "Abgeschlossene Kategorien anzeigen",
+    "description": "Todo.get_CompleteCategory"
+  },
+  "Todo_AllTasksComplete": {
+    "message": "Alle Aufgaben sind erledigt",
+    "description": "Todo.get_AllTasksComplete"
   },
   "Timers_MainOptions": {
     "message": "Haupteinstellungen",
@@ -646,6 +830,22 @@
   "Timers_EnableCustomName": {
     "message": "Benutzerdefinierte Namen aktivieren",
     "description": "Timers.get_EnableCustomName"
+  },
+  "Timers_TextOptions": {
+    "message": "Textoptionen",
+    "description": "Timers.get_TextOptions"
+  },
+  "Timers_HideLabel": {
+    "message": "Beschriftung ausblenden",
+    "description": "Timers.get_HideLabel"
+  },
+  "Timers_HideTime": {
+    "message": "Zeit ausblenden",
+    "description": "Timers.get_HideTime"
+  },
+  "Timers_HideCompleted": {
+    "message": "Erledigte Aufgaben ausblenden",
+    "description": "Timers.get_HideCompleted"
   },
   "Teleport_Label": {
     "message": "Teleport",
