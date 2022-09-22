@@ -19,8 +19,8 @@ internal unsafe struct DutyFinderTreeListItem
     {
         this.treeListItem = treeListItem;
 
-        var cloverNode = treeListItem.GetImageNode(29);
-        var emptyCloverNode = treeListItem.GetImageNode(30);
+        var cloverNode = treeListItem.GetNode<AtkImageNode>(29);
+        var emptyCloverNode = treeListItem.GetNode<AtkImageNode>(30);
 
         CloverNode =  new CloverNode(cloverNode, emptyCloverNode);
     }
@@ -37,7 +37,7 @@ internal unsafe struct DutyFinderTreeListItem
 
     private AtkTextNode* GetLabelNode()
     {
-        return treeListItem.GetTextNode(5);
+        return treeListItem.GetNode<AtkTextNode>(5);
     }
 
     public void MakeCloverNodes()

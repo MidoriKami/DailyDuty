@@ -16,7 +16,7 @@ internal unsafe struct RadioButtonNode
 
     private AtkResNode* GetPrimaryColorResNode()
     {
-        return radioButtonNode.GetResNode(5);
+        return radioButtonNode.GetNode<AtkResNode>(5);
     }
 
     private bool IsNodeSelected()

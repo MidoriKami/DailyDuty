@@ -46,13 +46,16 @@ internal unsafe class BaseNode
 
     public ComponentNode GetNestedNode(params uint[] idList)
     {
-        var startingNode = GetComponentNode(idList[0]);
+        uint index = 0;
 
-        for (var i = 1; i < idList.Length; ++i)
+        ComponentNode startingNode;
+
+        do
         {
-            startingNode = startingNode.GetComponentNode(idList[i]);
-        }
+            startingNode = GetComponentNode(idList[index]);
 
+        } while (index++ < idList.Length);
+        
         return startingNode;
     }
 }
@@ -101,19 +104,9 @@ internal unsafe class ComponentNode
         return new ComponentNode(targetNode);
     }
 
-    public AtkImageNode* GetImageNode(uint id)
+    public T* GetNode<T>(uint id) where T : unmanaged
     {
-        return Node.GetNodeByID<AtkImageNode>(componentBase->UldManager, id);
-    }
-
-    public AtkTextNode* GetTextNode(uint id)
-    {
-        return Node.GetNodeByID<AtkTextNode>(componentBase->UldManager, id);
-    }
-
-    public AtkResNode* GetResNode(uint id)
-    {
-        return Node.GetNodeByID<AtkResNode>(componentBase->UldManager, id);
+        return Node.GetNodeByID<T>(componentBase->UldManager, id);
     }
 
     public AtkComponentNode* GetPointer()
