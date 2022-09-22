@@ -31,6 +31,10 @@ internal class TimersWindowCommand : IPluginCommand
             case "toggle":
                 overlayWindow.Value = !overlayWindow.Value;
                 break;
+
+            default:
+                IPluginCommand.PrintCommandError(CommandArgument, additionalArguments);
+                break;
         }
 
         Service.ConfigurationManager.Save();

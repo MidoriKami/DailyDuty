@@ -32,6 +32,10 @@ internal class PrintHelpTextCommand : IPluginCommand
                     Chat.Print(Strings.Common.Command, message);
                 }
                 break;
+
+            default:
+                IPluginCommand.PrintCommandError(CommandArgument, additionalArguments);
+                break;
         }
     }
 }

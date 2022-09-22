@@ -73,6 +73,7 @@ public class Expansion
 public class Command
 {
     public Help Help { get; } = new();
+    public string InvalidCommand => Loc.Localize("Command_InvalidCommand", "Invalid Command");
 }
 
 public class Help

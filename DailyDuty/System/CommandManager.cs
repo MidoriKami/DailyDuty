@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.System.Commands;
 using DailyDuty.Utilities;
@@ -60,16 +61,29 @@ internal class CommandManager : IDisposable
                 break;
 
             default:
-                foreach (var cmd in commands)
-                {
-                    if (cmd.CommandArgument == subCommand)
-                    {
-                        cmd.Execute(subCommandArguments);
-                    }
-                }
+                ProcessCommand(subCommand, subCommandArguments);
                 break;
         }
     }
+
+    private void ProcessCommand(string subCommand, string? subCommandArguments)
+    {
+        if (commands.Any(command => command.CommandArgument == subCommand))
+        {
+            foreach (var cmd in commands)
+            {
+                if (cmd.CommandArgument == subCommand)
+                {
+                    cmd.Execute(subCommandArguments);
+                }
+            }
+        }
+        else
+        {
+            IPluginCommand.PrintCommandError(subCommand, subCommandArguments);
+        }
+    }
+
     private static string? GetSecondaryCommand(string arguments)
     {
         var stringArray = arguments.Split(' ');
