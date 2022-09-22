@@ -85,7 +85,8 @@ internal unsafe class ComponentNode
     public ComponentNode(AtkComponentNode* node)
     {
         this.node = node;
-        componentBase = node->Component;
+
+        componentBase = node == null ? null : node->Component;
     }
 
     public ComponentNode Print()
@@ -106,6 +107,8 @@ internal unsafe class ComponentNode
 
     public T* GetNode<T>(uint id) where T : unmanaged
     {
+        if(componentBase == null) return null;
+
         return Node.GetNodeByID<T>(componentBase->UldManager, id);
     }
 
