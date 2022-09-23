@@ -4,7 +4,6 @@ using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Logging;
-using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -35,12 +34,9 @@ internal unsafe class DutyFinderAddon : IDisposable
     private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
 
     private AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
-    public bool IsOpen => ContentsFinderAddon != null;
 
     public DutyFinderAddon()
     {
-        SignatureHelper.Initialise(this);
-
         Service.Framework.Update += OnFrameworkUpdate;
 
         var agent = AgentContentsFinder.Instance()->AgentInterface;
