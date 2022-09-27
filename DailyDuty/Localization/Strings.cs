@@ -123,7 +123,7 @@ public class Module
     public WondrousTails WondrousTails { get; } = new();
     public ChallengeLog ChallengeLog { get; } = new();
     public Raids Raids { get; } = new();
-    public UnrealTrial UnrealTrial { get; } = new ();
+    public FauxHollows FauxHollows { get; } = new ();
 }
 
 public class BeastTribe
@@ -291,10 +291,10 @@ public class Raids
     public string ClickableLink => Loc.Localize("Raids_ClickableLink", "Notifications can be clicked on to open the Duty Finder");
 }
 
-public class UnrealTrial
+public class FauxHollows
 {
-    public string Label => Loc.Localize("UnrealTrial_Label", "Unreal Trial");
-    public string TrialAvailable => Loc.Localize("UnrealTrial_TrialAvailable", "Trial Available");
+    public string Label => Loc.Localize("UnrealTrial_Label", "Faux Hollows");
+    public string TrialAvailable => Loc.Localize("UnrealTrial_TrialAvailable", "Unreal Trial Available");
     public string ClickableLinkLabel => Loc.Localize("UnrealTrial_ClickableLinkLabel", "Clickable Link");
     public string ClickableLink => Loc.Localize("UnrealTrial_ClickableLink", "Notifications can be clicked on to open the Party Finder");
     public string RetellingHelp => Loc.Localize("UnrealTrial_IncludeRetelling", "Require completing retelling to mark module as complete");

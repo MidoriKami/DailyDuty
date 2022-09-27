@@ -14,14 +14,14 @@ using ImGuiNET;
 
 namespace DailyDuty.Modules;
 
-public class UnrealTrialSettings : GenericSettings
+public class FauxHollowsSettings : GenericSettings
 {
     public Setting<bool> EnableClickableLink = new(true);
     public Setting<bool> IncludeRetelling = new(true);
     public int FauxHollowsCompleted;
 }
 
-internal class UnrealTrial : IModule
+internal class FauxHollows : IModule
 {
     public ModuleName Name => ModuleName.UnrealTrial;
     public IConfigurationComponent ConfigurationComponent { get; }
@@ -30,10 +30,10 @@ internal class UnrealTrial : IModule
     public ITodoComponent TodoComponent { get; }
     public ITimerComponent TimerComponent { get; }
 
-    private static UnrealTrialSettings Settings => Service.ConfigurationManager.CharacterConfiguration.UnrealTrial;
+    private static FauxHollowsSettings Settings => Service.ConfigurationManager.CharacterConfiguration.FauxHollows;
     public GenericSettings GenericSettings => Settings;
 
-    public UnrealTrial()
+    public FauxHollows()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
@@ -70,13 +70,13 @@ internal class UnrealTrial : IModule
                 .Draw();
 
             completionCondition
-                .AddTitle(Strings.Module.UnrealTrial.Retelling)
-                .AddConfigCheckbox(Strings.Module.UnrealTrial.Retelling, Settings.IncludeRetelling, Strings.Module.UnrealTrial.RetellingHelp)
+                .AddTitle(Strings.Module.FauxHollows.Retelling)
+                .AddConfigCheckbox(Strings.Module.FauxHollows.Retelling, Settings.IncludeRetelling, Strings.Module.FauxHollows.RetellingHelp)
                 .Draw();
 
             clickableLink
-                .AddTitle(Strings.Module.UnrealTrial.ClickableLinkLabel)
-                .AddString(Strings.Module.UnrealTrial.ClickableLink)
+                .AddTitle(Strings.Module.FauxHollows.ClickableLinkLabel)
+                .AddString(Strings.Module.FauxHollows.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
@@ -123,7 +123,7 @@ internal class UnrealTrial : IModule
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.UnrealTrial.Completions)
+                .AddString(Strings.Module.FauxHollows.Completions)
                 .AddString($"{Settings.FauxHollowsCompleted} / {GetRequiredCompletionCount()}", ParentModule.LogicComponent.GetModuleStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
@@ -197,7 +197,7 @@ internal class UnrealTrial : IModule
             Service.ChatManager.SendCommandUnsafe("partyfinder");
         }
 
-        public string GetStatusMessage() => $"{Strings.Module.UnrealTrial.TrialAvailable}";
+        public string GetStatusMessage() => $"{Strings.Module.FauxHollows.TrialAvailable}";
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -225,9 +225,9 @@ internal class UnrealTrial : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.UnrealTrial.Label;
+        public string GetShortTaskLabel() => Strings.Module.FauxHollows.Label;
 
-        public string GetLongTaskLabel() => Strings.Module.UnrealTrial.Label;
+        public string GetLongTaskLabel() => Strings.Module.FauxHollows.Label;
     }
 
     private class ModuleTimerComponent : ITimerComponent

@@ -44,7 +44,7 @@ public static class ModuleNameExtensions
             ModuleName.ChallengeLog => Strings.Module.ChallengeLog.Label,
             ModuleName.NormalRaids => Strings.Module.Raids.NormalLabel,
             ModuleName.AllianceRaids => Strings.Module.Raids.AllianceLabel,
-            ModuleName.UnrealTrial => Strings.Module.UnrealTrial.Label,
+            ModuleName.UnrealTrial => Strings.Module.FauxHollows.Label,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

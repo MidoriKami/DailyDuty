@@ -26,7 +26,7 @@ internal class ModuleManager : IDisposable
         new ChallengeLog(),
         new RaidsNormal(),
         new RaidsAlliance(),
-        new UnrealTrial(),
+        new FauxHollows(),
     };
 
     public void Dispose()
