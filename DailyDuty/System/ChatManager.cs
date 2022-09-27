@@ -111,7 +111,7 @@ internal class ChatManager : IDisposable
 
         var uiModule = (IntPtr) Framework.Instance()->GetUiModule();
 
-        using var payload = new ChatPayload(Encoding.ASCII.GetBytes($"/{command}"));
+        using var payload = new ChatPayload(Encoding.UTF8.GetBytes($"/{command}"));
         var mem1 = Marshal.AllocHGlobal(400);
         Marshal.StructureToPtr(payload, mem1, false);
 
