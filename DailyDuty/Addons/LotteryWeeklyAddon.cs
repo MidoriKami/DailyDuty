@@ -2,7 +2,6 @@
 using DailyDuty.Addons.DataModels;
 using Dalamud.Hooking;
 using Dalamud.Logging;
-using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -18,8 +17,6 @@ internal unsafe class LotteryWeeklyAddon : IDisposable
 
     public LotteryWeeklyAddon()
     {
-        SignatureHelper.Initialise(this);
-
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryWeekly);
 
         agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), OnReceiveEvent);
