@@ -31,7 +31,7 @@ internal class StatusSelectable : ISelectable
 
     private void DrawModuleLabel()
     {
-        ImGui.Text(OwnerModuleName.GetTranslatedString()[..Math.Min(OwnerModuleName.GetTranslatedString().Length, 20)]);
+        ImGui.Text(OwnerModuleName.GetTranslatedString()[..Math.Min(OwnerModuleName.GetTranslatedString().Length, 28)]);
     }
 
     private void DrawModuleStatus()

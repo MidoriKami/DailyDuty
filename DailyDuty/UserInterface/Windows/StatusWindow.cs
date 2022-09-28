@@ -17,7 +17,7 @@ internal class StatusWindow : Window, IDisposable
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(400 * (16.0f / 9.0f), 400),
+            MinimumSize = new Vector2(450 * (16.0f / 9.0f), 450),
             MaximumSize = new Vector2(9999,9999)
         };
 
