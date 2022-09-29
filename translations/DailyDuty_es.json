@@ -147,17 +147,77 @@
     "message": "Endwalker",
     "description": "Expansion.get_Endwalker"
   },
-  "Help_Timers": {
-    "message": "\n/dd timers - Muestra la ventana de configuración de temporizadores\n/dd help timers - Muestra este mensaje de ayuda\n/dd timers show - Muestra la ventana de temporizadores\n/dd timers hide - Oculta la ventana de temporizadores\n/dd timers toggle - Muestra u oculta la ventana de tareas",
-    "description": "Help.get_Timers"
+  "Command_InvalidCommand": {
+    "message": "Comando Inválido",
+    "description": "Command.get_InvalidCommand"
   },
-  "Help_Todo": {
-    "message": "\n/dd todo - Muestra la ventana de configuración de tareas\n/dd help todo - Muestra este mensaje de ayuda\n/dd todo show - Muestra la ventana de tareas\n/dd todo hide - Oculta la ventana de tareas\n/dd todo toggle - Muestra u oculta la ventana de tareas",
-    "description": "Help.get_Todo"
+  "TimersMessages_Tag": {
+    "message": "== Comandos de Temporizadores ==",
+    "description": "Help.get_TimersMessages"
   },
-  "Help_Base": {
-    "message": "Resumen de Comandos\n/dd - Mostrar u ocultar la ventana principal \n/dd help timers - Mostrar subcomandos de temporizadores \n/dd help todo - Mostrar subcomandos de tareas",
-    "description": "Help.get_Base"
+  "TimersMessages_Base": {
+    "message": "/dd timers config - Muestra la ventana de configuración de temporizadores",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Help": {
+    "message": "/dd help timers - Muestra este mensaje de ayuda",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Show": {
+    "message": "/dd timers show - Muestra la ventana de temporizadores",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Hide": {
+    "message": "/dd timers hide - Oculta la ventana de temporizadores",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Toggle": {
+    "message": "/dd timers toggle - Muestra u oculta la ventana de temporizadores",
+    "description": "Help.get_TimersMessages"
+  },
+  "TodoMessages_Tag": {
+    "message": "== Comandos de Tareas ==",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Base": {
+    "message": "/dd todo config - Muestra la ventana de configuración de tareas",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Todo": {
+    "message": "/dd todo - Muestra todas las tareas pendientes",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Help": {
+    "message": "/dd help todo - Muestra este mensaje de ayuda",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Show": {
+    "message": "/dd todo show - Muestra la ventana de tareas",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Hide": {
+    "message": "/dd todo hide - Oculta la ventana de tareas",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Toggle": {
+    "message": "/dd todo toggle - Muestra u oculta la ventana de tareas",
+    "description": "Help.get_TodoMessages"
+  },
+  "CoreMessages_Tag": {
+    "message": "== Comandos Principales ==",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Base": {
+    "message": "/dd - Mostrar u ocultar la ventana principal",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Timers": {
+    "message": "/dd help timers - Mostrar subcomandos de temporizadores",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Todo": {
+    "message": "/dd help todo - Mostrar subcomandos de tareas",
+    "description": "Help.get_CoreMessages"
   },
   "BeastTribe_Label": {
     "message": "Tribus",
@@ -262,6 +322,14 @@
   "DutyRoulette_Override": {
     "message": "Reemplazo de Duties",
     "description": "DutyRoulette.get_Override"
+  },
+  "DutyRoulette_CompleteWhenCapped": {
+    "message": "Completar al alcanzar límite de Tomestones",
+    "description": "DutyRoulette.get_CompleteWhenCapped"
+  },
+  "DutyRoulette_CompleteWhenCappedHelp": {
+    "message": "Marca el módulo de Duty Roulette como completado cuando llegas al límite semanal de tomestones",
+    "description": "DutyRoulette.get_CompleteWhenCappedHelp"
   },
   "FashionReport_Label": {
     "message": "Fashion Report",
@@ -370,6 +438,18 @@
   "HuntMarks_NoHuntsTracked": {
     "message": "No se está rastreando ninguna cacería",
     "description": "HuntMarks.get_NoHuntsTracked"
+  },
+  "HuntMarks_ForceComplete": {
+    "message": "Forzar Completado",
+    "description": "HuntMarks.get_ForceComplete"
+  },
+  "HuntMarks_ForceCompleteMouseover": {
+    "message": "Sobreescribe el estado del módulo y lo marca como completado.\nMantén Mayús y Control al hacer click",
+    "description": "HuntMarks.get_ForceCompleteHelp"
+  },
+  "HuntMarks_NoUndo": {
+    "message": "Esta acción no podrá ser cancelada el resto de la semana",
+    "description": "HuntMarks.get_NoUndo"
   },
   "JumboCactpot_Label": {
     "message": "Jumbo Cactpot",
@@ -483,6 +563,138 @@
     "message": "Sellos",
     "description": "WondrousTails.get_Stamps"
   },
+  "WondrousTails_Overlay": {
+    "message": "Superposición del Duty Finder",
+    "description": "WondrousTails.get_Overlay"
+  },
+  "WondrousTails_ClickableLink": {
+    "message": "Puedes clicar en las notificaciones para abrir el libro de wondrous tails, o teleportarte a Idyllshire si no lo tienes.",
+    "description": "WondrousTails.get_ClickableLink"
+  },
+  "WondrousTails_ClickableLinkLabel": {
+    "message": "Enlaces clicables",
+    "description": "WondrousTails.get_ClickableLinkLabel"
+  },
+  "WondrousTails_ResendNotification": {
+    "message": "Reenviar al abandonar duty",
+    "description": "WondrousTails.get_ResendNotification"
+  },
+  "ChallengeLog_Label": {
+    "message": "Challenge Log",
+    "description": "ChallengeLog.get_Label"
+  },
+  "ChallengeLog_Battle": {
+    "message": "Batalla",
+    "description": "ChallengeLog.get_Battle"
+  },
+  "ChallengeLog_CommendationLabel": {
+    "message": "Advertencia de «Exercising the Right»",
+    "description": "ChallengeLog.get_CommendationLabel"
+  },
+  "ChallengeLog_Commendations": {
+    "message": "Exercising the Right",
+    "description": "ChallengeLog.get_Commendations"
+  },
+  "ChallengeLog_CommendationWarning": {
+    "message": "Comendaciones restantes",
+    "description": "ChallengeLog.get_CommendationsRemaining"
+  },
+  "ChallengeLog_DungeonRouletteLabel": {
+    "message": "Advertencia de «Feeling Lucky»",
+    "description": "ChallengeLog.get_DungeonRouletteLabel"
+  },
+  "ChallengeLog_DungeonRoulette": {
+    "message": "Feeling Lucky",
+    "description": "ChallengeLog.get_DungeonRoulette"
+  },
+  "ChallengeLog_DungeonRoulettesRemaining": {
+    "message": "Ruletas de Mazmorras restantes",
+    "description": "ChallengeLog.get_DungeonRoulettesRemaining"
+  },
+  "ChallengeLog_DungeonMasterLabel": {
+    "message": "Advertencia de «Dungeon Master»",
+    "description": "ChallengeLog.get_DungeonMasterLabel"
+  },
+  "ChallengeLog_DungeonMaster": {
+    "message": "Dungeon Master",
+    "description": "ChallengeLog.get_DungeonMaster"
+  },
+  "ChallengeLog_DungeonMasterRemaining": {
+    "message": "Mazmorras Restantes",
+    "description": "ChallengeLog.get_DungeonMasterRemaining"
+  },
+  "AllianceRaids_Label": {
+    "message": "Raids (Alianza)",
+    "description": "Raids.get_AllianceLabel"
+  },
+  "NormalRaids_Label": {
+    "message": "Raids (Normales)",
+    "description": "Raids.get_NormalLabel"
+  },
+  "Raids_TrackedNormalRaids": {
+    "message": "Raids Rastreadas",
+    "description": "Raids.get_TrackedNormalRaids"
+  },
+  "Raids_Drops": {
+    "message": "Recompensas",
+    "description": "Raids.get_Drops"
+  },
+  "Raids_Regenerate": {
+    "message": "Reiniciar Raid Rastreadas",
+    "description": "Raids.get_Regenerate"
+  },
+  "Raids_RegenerateHelp": {
+    "message": "Recarga la información de duty, y reinicia los ajustes.\nMantén Mayús y Control mientras haces click",
+    "description": "Raids.get_RegenerateHelp"
+  },
+  "Raids_NoRaidsTracked": {
+    "message": "No se está rastreando ninguna raid",
+    "description": "Raids.get_NoRaidsTracked"
+  },
+  "Raids_RaidsRemaining": {
+    "message": "Raids Restantes",
+    "description": "Raids.get_RaidsRemaining"
+  },
+  "Raid_RaidsRemaining": {
+    "message": "Raid Restante",
+    "description": "Raids.get_RaidRemaining"
+  },
+  "Raids_ClickableLinkLabel": {
+    "message": "Enlace clicable",
+    "description": "Raids.get_ClickableLinkLabel"
+  },
+  "Raids_ClickableLink": {
+    "message": "Puedes hacer click en las notificaciones para abrir el Duty Finder",
+    "description": "Raids.get_ClickableLink"
+  },
+  "UnrealTrial_Label": {
+    "message": "Faux Hollows",
+    "description": "FauxHollows.get_Label"
+  },
+  "UnrealTrial_TrialAvailable": {
+    "message": "Trial Unreal Disponible",
+    "description": "FauxHollows.get_TrialAvailable"
+  },
+  "UnrealTrial_ClickableLinkLabel": {
+    "message": "Enlace clicable",
+    "description": "FauxHollows.get_ClickableLinkLabel"
+  },
+  "UnrealTrial_ClickableLink": {
+    "message": "Puedes hacer click en las notificaciones para abrir el Party Finder",
+    "description": "FauxHollows.get_ClickableLink"
+  },
+  "UnrealTrial_IncludeRetelling": {
+    "message": "Requiere completar el retelling para marcar el módulo como completado",
+    "description": "FauxHollows.get_RetellingHelp"
+  },
+  "UnrealTrial_Retelling": {
+    "message": "Incluir Retelling",
+    "description": "FauxHollows.get_Retelling"
+  },
+  "UnrealTrial_Completions": {
+    "message": "Completados",
+    "description": "FauxHollows.get_Completions"
+  },
   "Todo_Label": {
     "message": "Tareas pendientes",
     "description": "Todo.get_Label"
@@ -558,6 +770,14 @@
   "Todo_UseLongLabel": {
     "message": "Usar etiqueta larga",
     "description": "Todo.get_UseLongLabel"
+  },
+  "Todo_CompleteCategory": {
+    "message": "Mostrar Categorías Completadas",
+    "description": "Todo.get_CompleteCategory"
+  },
+  "Todo_AllTasksComplete": {
+    "message": "Todas las Tareas Completadas",
+    "description": "Todo.get_AllTasksComplete"
   },
   "Timers_MainOptions": {
     "message": "Opciones Principales",
@@ -646,6 +866,54 @@
   "Timers_EnableCustomName": {
     "message": "Activar Nombre Personalizado",
     "description": "Timers.get_EnableCustomName"
+  },
+  "Timers_TextOptions": {
+    "message": "Opciones de Texto",
+    "description": "Timers.get_TextOptions"
+  },
+  "Timers_HideLabel": {
+    "message": "Ocultar Etiqueta",
+    "description": "Timers.get_HideLabel"
+  },
+  "Timers_HideTime": {
+    "message": "Ocultar Tiempo",
+    "description": "Timers.get_HideTime"
+  },
+  "Timers_HideCompleted": {
+    "message": "Ocultar Tareas Completadas",
+    "description": "Timers.get_HideCompleted"
+  },
+  "Timers_HumanStyle": {
+    "message": "Humano (p.e. «3 horas»)",
+    "description": "Timers.get_HumanStyle"
+  },
+  "Timers_FullStyle": {
+    "message": "Completo (D.HH:MM:SS)",
+    "description": "Timers.get_FullStyle"
+  },
+  "Timers_NoSecondsStyle": {
+    "message": "Sin Segundos (D.HH:MM)",
+    "description": "Timers.get_NoSecondsStyle"
+  },
+  "Timers_NumDays": {
+    "message": "{0} días",
+    "description": "Timers.get_NumDays"
+  },
+  "Timers_DayPlusHours": {
+    "message": "{0} días, {1} horas",
+    "description": "Timers.get_DayPlusHours"
+  },
+  "Timers_NumHours": {
+    "message": "{0} horas",
+    "description": "Timers.get_NumHours"
+  },
+  "Timers_NumMins": {
+    "message": "{0} minutos",
+    "description": "Timers.get_NumMins"
+  },
+  "Timers_NumSecs": {
+    "message": "{0} segundos",
+    "description": "Timers.get_NumSecs"
   },
   "Teleport_Label": {
     "message": "Teletransporte",

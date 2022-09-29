@@ -147,17 +147,77 @@
     "message": "暁月のフィナーレ",
     "description": "Expansion.get_Endwalker"
   },
-  "Help_Timers": {
-    "message": "\n/dd timers - タイマー設定ウィンドウを表示する\n/dd help timers - このヘルプメッセージを表示する\n/dd timers show - タイマーウィンドウを表示する\n/dd timers hide - タイマーウィンドウを非表示にする\n/dd timers toggle - Toggle",
-    "description": "Help.get_Timers"
+  "Command_InvalidCommand": {
+    "message": "Invalid Command",
+    "description": "Command.get_InvalidCommand"
   },
-  "Help_Todo": {
-    "message": "\n/dd todo - todo 設定ウィンドウを表示\n/dd help todo - このヘルプメッセージを表示\n/dd todo show - todo ウィンドウを表示\n/dd todo hide - todo ウィンドウを隠す\n/dd toggle - タイマーウィンドウを切り替え",
-    "description": "Help.get_Todo"
+  "TimersMessages_Tag": {
+    "message": "== Timers Commands ==",
+    "description": "Help.get_TimersMessages"
   },
-  "Help_Base": {
-    "message": "コマンド概要\n/dd - メインウィンドウを表示または非表示にする\n/dd timers help - タイマーのサブコマンドを表示する\n/dd todo help - タスクのサブコマンドを表示する",
-    "description": "Help.get_Base"
+  "TimersMessages_Base": {
+    "message": "/dd timers config - Shows timer configuration window",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Help": {
+    "message": "/dd help timers - Shows this help message",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Show": {
+    "message": "/dd timers show - Shows the timers window",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Hide": {
+    "message": "/dd timers hide - Hides the timers window",
+    "description": "Help.get_TimersMessages"
+  },
+  "TimersMessages_Toggle": {
+    "message": "/dd timers toggle - Toggle the timers window",
+    "description": "Help.get_TimersMessages"
+  },
+  "TodoMessages_Tag": {
+    "message": "== Todo Commands ==",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Base": {
+    "message": "/dd todo config - Shows todo configuration window",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Todo": {
+    "message": "/dd todo - Displays all outstanding tasks",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Help": {
+    "message": "/dd help todo - Shows this help message",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Show": {
+    "message": "/dd todo show - Shows the todo window",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Hide": {
+    "message": "/dd todo hide - Hides the todo window",
+    "description": "Help.get_TodoMessages"
+  },
+  "TodoMessages_Toggle": {
+    "message": "/dd todo toggle - Toggle the todo window",
+    "description": "Help.get_TodoMessages"
+  },
+  "CoreMessages_Tag": {
+    "message": "== Main Commands ==",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Base": {
+    "message": "/dd - Show or Hide Main Window",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Timers": {
+    "message": "/dd help timers - Show timer sub-commands",
+    "description": "Help.get_CoreMessages"
+  },
+  "CoreMessages_Todo": {
+    "message": "/dd help todo - Show todo sub-commands",
+    "description": "Help.get_CoreMessages"
   },
   "BeastTribe_Label": {
     "message": "友好部族クエスト",
@@ -262,6 +322,14 @@
   "DutyRoulette_Override": {
     "message": "週上限到達済",
     "description": "DutyRoulette.get_Override"
+  },
+  "DutyRoulette_CompleteWhenCapped": {
+    "message": "Complete When Tomecapped",
+    "description": "DutyRoulette.get_CompleteWhenCapped"
+  },
+  "DutyRoulette_CompleteWhenCappedHelp": {
+    "message": "Marks Duty Roulette Module as complete when you are at your weekly tomestone cap",
+    "description": "DutyRoulette.get_CompleteWhenCappedHelp"
   },
   "FashionReport_Label": {
     "message": "ファッションチェック",
@@ -370,6 +438,18 @@
   "HuntMarks_NoHuntsTracked": {
     "message": "追跡するモブハントが選択されていません",
     "description": "HuntMarks.get_NoHuntsTracked"
+  },
+  "HuntMarks_ForceComplete": {
+    "message": "Force Complete",
+    "description": "HuntMarks.get_ForceComplete"
+  },
+  "HuntMarks_ForceCompleteMouseover": {
+    "message": "Override module status and mark complete\nHold Shift + Control while clicking",
+    "description": "HuntMarks.get_ForceCompleteHelp"
+  },
+  "HuntMarks_NoUndo": {
+    "message": "This action cannot be undone for this week",
+    "description": "HuntMarks.get_NoUndo"
   },
   "JumboCactpot_Label": {
     "message": "ジャンボ・くじテンダー",
@@ -483,6 +563,138 @@
     "message": "スタンプ",
     "description": "WondrousTails.get_Stamps"
   },
+  "WondrousTails_Overlay": {
+    "message": "Duty Finder Overlay",
+    "description": "WondrousTails.get_Overlay"
+  },
+  "WondrousTails_ClickableLink": {
+    "message": "Notifications can be clicked on to open wondrous tails book, or to teleport to Idyllshire if you don't have a book.",
+    "description": "WondrousTails.get_ClickableLink"
+  },
+  "WondrousTails_ClickableLinkLabel": {
+    "message": "Clickable Link",
+    "description": "WondrousTails.get_ClickableLinkLabel"
+  },
+  "WondrousTails_ResendNotification": {
+    "message": "Resend after leaving duty",
+    "description": "WondrousTails.get_ResendNotification"
+  },
+  "ChallengeLog_Label": {
+    "message": "Challenge Log",
+    "description": "ChallengeLog.get_Label"
+  },
+  "ChallengeLog_Battle": {
+    "message": "Battle",
+    "description": "ChallengeLog.get_Battle"
+  },
+  "ChallengeLog_CommendationLabel": {
+    "message": "'Exercising the Right' Warning",
+    "description": "ChallengeLog.get_CommendationLabel"
+  },
+  "ChallengeLog_Commendations": {
+    "message": "Exercising the Right",
+    "description": "ChallengeLog.get_Commendations"
+  },
+  "ChallengeLog_CommendationWarning": {
+    "message": "Commendations Remaining",
+    "description": "ChallengeLog.get_CommendationsRemaining"
+  },
+  "ChallengeLog_DungeonRouletteLabel": {
+    "message": "'Feeling Lucky' Warning",
+    "description": "ChallengeLog.get_DungeonRouletteLabel"
+  },
+  "ChallengeLog_DungeonRoulette": {
+    "message": "Feeling Lucky",
+    "description": "ChallengeLog.get_DungeonRoulette"
+  },
+  "ChallengeLog_DungeonRoulettesRemaining": {
+    "message": "Dungeon Roulettes Remaining",
+    "description": "ChallengeLog.get_DungeonRoulettesRemaining"
+  },
+  "ChallengeLog_DungeonMasterLabel": {
+    "message": "'Dungeon Master' Warning",
+    "description": "ChallengeLog.get_DungeonMasterLabel"
+  },
+  "ChallengeLog_DungeonMaster": {
+    "message": "Dungeon Master",
+    "description": "ChallengeLog.get_DungeonMaster"
+  },
+  "ChallengeLog_DungeonMasterRemaining": {
+    "message": "Dungeons Remaining",
+    "description": "ChallengeLog.get_DungeonMasterRemaining"
+  },
+  "AllianceRaids_Label": {
+    "message": "Raids (Alliance)",
+    "description": "Raids.get_AllianceLabel"
+  },
+  "NormalRaids_Label": {
+    "message": "Raids (Normal)",
+    "description": "Raids.get_NormalLabel"
+  },
+  "Raids_TrackedNormalRaids": {
+    "message": "Tracked Raids",
+    "description": "Raids.get_TrackedNormalRaids"
+  },
+  "Raids_Drops": {
+    "message": "Drops",
+    "description": "Raids.get_Drops"
+  },
+  "Raids_Regenerate": {
+    "message": "Reset Tracked Raids",
+    "description": "Raids.get_Regenerate"
+  },
+  "Raids_RegenerateHelp": {
+    "message": "Reload duty information, and reset settings\nHold Shift + Control while clicking",
+    "description": "Raids.get_RegenerateHelp"
+  },
+  "Raids_NoRaidsTracked": {
+    "message": "No raids have been selected for tracking",
+    "description": "Raids.get_NoRaidsTracked"
+  },
+  "Raids_RaidsRemaining": {
+    "message": "Raids Remaining",
+    "description": "Raids.get_RaidsRemaining"
+  },
+  "Raid_RaidsRemaining": {
+    "message": "Raid Remaining",
+    "description": "Raids.get_RaidRemaining"
+  },
+  "Raids_ClickableLinkLabel": {
+    "message": "Clickable Link",
+    "description": "Raids.get_ClickableLinkLabel"
+  },
+  "Raids_ClickableLink": {
+    "message": "Notifications can be clicked on to open the Duty Finder",
+    "description": "Raids.get_ClickableLink"
+  },
+  "UnrealTrial_Label": {
+    "message": "Faux Hollows",
+    "description": "FauxHollows.get_Label"
+  },
+  "UnrealTrial_TrialAvailable": {
+    "message": "Unreal Trial Available",
+    "description": "FauxHollows.get_TrialAvailable"
+  },
+  "UnrealTrial_ClickableLinkLabel": {
+    "message": "Clickable Link",
+    "description": "FauxHollows.get_ClickableLinkLabel"
+  },
+  "UnrealTrial_ClickableLink": {
+    "message": "Notifications can be clicked on to open the Party Finder",
+    "description": "FauxHollows.get_ClickableLink"
+  },
+  "UnrealTrial_IncludeRetelling": {
+    "message": "Require completing retelling to mark module as complete",
+    "description": "FauxHollows.get_RetellingHelp"
+  },
+  "UnrealTrial_Retelling": {
+    "message": "Include Retelling",
+    "description": "FauxHollows.get_Retelling"
+  },
+  "UnrealTrial_Completions": {
+    "message": "Completions",
+    "description": "FauxHollows.get_Completions"
+  },
   "Todo_Label": {
     "message": "タスク",
     "description": "Todo.get_Label"
@@ -558,6 +770,14 @@
   "Todo_UseLongLabel": {
     "message": "長いラベルを使用する",
     "description": "Todo.get_UseLongLabel"
+  },
+  "Todo_CompleteCategory": {
+    "message": "Show Completed Categories",
+    "description": "Todo.get_CompleteCategory"
+  },
+  "Todo_AllTasksComplete": {
+    "message": "All Tasks Completed",
+    "description": "Todo.get_AllTasksComplete"
   },
   "Timers_MainOptions": {
     "message": "メインオプション",
@@ -646,6 +866,54 @@
   "Timers_EnableCustomName": {
     "message": "カスタム名を有効にする",
     "description": "Timers.get_EnableCustomName"
+  },
+  "Timers_TextOptions": {
+    "message": "Text Options",
+    "description": "Timers.get_TextOptions"
+  },
+  "Timers_HideLabel": {
+    "message": "Hide Label",
+    "description": "Timers.get_HideLabel"
+  },
+  "Timers_HideTime": {
+    "message": "Hide Time",
+    "description": "Timers.get_HideTime"
+  },
+  "Timers_HideCompleted": {
+    "message": "Hide Completed Tasks",
+    "description": "Timers.get_HideCompleted"
+  },
+  "Timers_HumanStyle": {
+    "message": "Human (e.g. '3 hours')",
+    "description": "Timers.get_HumanStyle"
+  },
+  "Timers_FullStyle": {
+    "message": "Full (D.HH:MM:SS)",
+    "description": "Timers.get_FullStyle"
+  },
+  "Timers_NoSecondsStyle": {
+    "message": "No Seconds (D.HH:MM)",
+    "description": "Timers.get_NoSecondsStyle"
+  },
+  "Timers_NumDays": {
+    "message": "{0} days",
+    "description": "Timers.get_NumDays"
+  },
+  "Timers_DayPlusHours": {
+    "message": "{0} day, {1} hours",
+    "description": "Timers.get_DayPlusHours"
+  },
+  "Timers_NumHours": {
+    "message": "{0} hours",
+    "description": "Timers.get_NumHours"
+  },
+  "Timers_NumMins": {
+    "message": "{0} minutes",
+    "description": "Timers.get_NumMins"
+  },
+  "Timers_NumSecs": {
+    "message": "{0} seconds",
+    "description": "Timers.get_NumSecs"
   },
   "Teleport_Label": {
     "message": "テレポート",

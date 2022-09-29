@@ -147,6 +147,10 @@
     "message": "Endwalker",
     "description": "Expansion.get_Endwalker"
   },
+  "Command_InvalidCommand": {
+    "message": "Ungültiger Befehl",
+    "description": "Command.get_InvalidCommand"
+  },
   "TimersMessages_Tag": {
     "message": "== Befehle für Alarme ==",
     "description": "Help.get_TimersMessages"
@@ -571,6 +575,10 @@
     "message": "Anklickbarer Link",
     "description": "WondrousTails.get_ClickableLinkLabel"
   },
+  "WondrousTails_ResendNotification": {
+    "message": "Nach Verlassen des Inhalts erneut senden",
+    "description": "WondrousTails.get_ResendNotification"
+  },
   "ChallengeLog_Label": {
     "message": "Aktuelle Agenda",
     "description": "ChallengeLog.get_Label"
@@ -636,7 +644,7 @@
     "description": "Raids.get_Regenerate"
   },
   "Raids_RegenerateHelp": {
-    "message": "Informationen zu den Inhalten neu laden und Konfiguration überschreiben",
+    "message": "Informationen zum Inhalt erneut laden und Konfiguration zurücksetzen\nBeim Klicken Shift + Strg gedrückt halten",
     "description": "Raids.get_RegenerateHelp"
   },
   "Raids_NoRaidsTracked": {
@@ -658,6 +666,34 @@
   "Raids_ClickableLink": {
     "message": "Benachrichtigungen können angeklickt werden, um die Inhaltssuche zu öffnen",
     "description": "Raids.get_ClickableLink"
+  },
+  "UnrealTrial_Label": {
+    "message": "Traumtafel",
+    "description": "FauxHollows.get_Label"
+  },
+  "UnrealTrial_TrialAvailable": {
+    "message": "Traumprüfung verfügbar",
+    "description": "FauxHollows.get_TrialAvailable"
+  },
+  "UnrealTrial_ClickableLinkLabel": {
+    "message": "Anklickbarer Link",
+    "description": "FauxHollows.get_ClickableLinkLabel"
+  },
+  "UnrealTrial_ClickableLink": {
+    "message": "Benachrichtigungen können angeklickt werden, um die Gruppensuche zu öffnen",
+    "description": "FauxHollows.get_ClickableLink"
+  },
+  "UnrealTrial_IncludeRetelling": {
+    "message": "Auch das Abschließen der Extraprüfung ist erforderlich um das Modul abzuschließen",
+    "description": "FauxHollows.get_RetellingHelp"
+  },
+  "UnrealTrial_Retelling": {
+    "message": "Extraprüfung einschließen",
+    "description": "FauxHollows.get_Retelling"
+  },
+  "UnrealTrial_Completions": {
+    "message": "Abschlüsse",
+    "description": "FauxHollows.get_Completions"
   },
   "Todo_Label": {
     "message": "To-do",
@@ -846,6 +882,38 @@
   "Timers_HideCompleted": {
     "message": "Erledigte Aufgaben ausblenden",
     "description": "Timers.get_HideCompleted"
+  },
+  "Timers_HumanStyle": {
+    "message": "Menschenlesbar (z.B. 3 Stunden)",
+    "description": "Timers.get_HumanStyle"
+  },
+  "Timers_FullStyle": {
+    "message": "Vollständig (D.H:MM:SS)",
+    "description": "Timers.get_FullStyle"
+  },
+  "Timers_NoSecondsStyle": {
+    "message": "Ohne Sekunden (D.HH:MM)",
+    "description": "Timers.get_NoSecondsStyle"
+  },
+  "Timers_NumDays": {
+    "message": "{0} Tag(e)",
+    "description": "Timers.get_NumDays"
+  },
+  "Timers_DayPlusHours": {
+    "message": "{0} Tag(e) und {1} Stunde(n)",
+    "description": "Timers.get_DayPlusHours"
+  },
+  "Timers_NumHours": {
+    "message": "{0} Stunde(n)",
+    "description": "Timers.get_NumHours"
+  },
+  "Timers_NumMins": {
+    "message": "{0} Minuten",
+    "description": "Timers.get_NumMins"
+  },
+  "Timers_NumSecs": {
+    "message": "{0} Sekunden",
+    "description": "Timers.get_NumSecs"
   },
   "Teleport_Label": {
     "message": "Teleport",

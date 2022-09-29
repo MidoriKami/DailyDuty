@@ -147,6 +147,10 @@
     "message": "Endwalker",
     "description": "Expansion.get_Endwalker"
   },
+  "Command_InvalidCommand": {
+    "message": "Commande invalide",
+    "description": "Command.get_InvalidCommand"
+  },
   "TimersMessages_Tag": {
     "message": "== Commande des Timers ==",
     "description": "Help.get_TimersMessages"
@@ -156,23 +160,23 @@
     "description": "Help.get_TimersMessages"
   },
   "TimersMessages_Help": {
-    "message": "/dd help timers - Affiche ce message d'aide",
+    "message": "/dd help timers - Afficher ce message d'aide",
     "description": "Help.get_TimersMessages"
   },
   "TimersMessages_Show": {
-    "message": "/dd timers show - Affiche la fenêtre des timers",
+    "message": "/dd timers show - Afficher la fenêtre des timers",
     "description": "Help.get_TimersMessages"
   },
   "TimersMessages_Hide": {
-    "message": "/dd timers hide - Cache la fenêtre des timers",
+    "message": "/dd timers hide - Cacher la fenêtre des timers",
     "description": "Help.get_TimersMessages"
   },
   "TimersMessages_Toggle": {
-    "message": "/dd timers toggle - Bascule la fenêtre des timers",
+    "message": "/dd timers toggle - Basculer la fenêtre des timers",
     "description": "Help.get_TimersMessages"
   },
   "TodoMessages_Tag": {
-    "message": "== Commandes à Faire ==",
+    "message": "== Commandes des Tâches ==",
     "description": "Help.get_TodoMessages"
   },
   "TodoMessages_Base": {
@@ -180,23 +184,23 @@
     "description": "Help.get_TodoMessages"
   },
   "TodoMessages_Todo": {
-    "message": "/dd todo - Affiche toutes les tâches non résolues",
+    "message": "/dd todo - Afficher toutes les tâches non résolues",
     "description": "Help.get_TodoMessages"
   },
   "TodoMessages_Help": {
-    "message": "/dd help todo - Affiche ce message d'aide",
+    "message": "/dd help todo - Afficher ce message d'aide",
     "description": "Help.get_TodoMessages"
   },
   "TodoMessages_Show": {
-    "message": "/dd todo show - Affiche la fenêtre des tâches",
+    "message": "/dd todo show - Afficher la fenêtre des tâches",
     "description": "Help.get_TodoMessages"
   },
   "TodoMessages_Hide": {
-    "message": "/dd todo hide - Cache la fenêtre des tâches",
+    "message": "/dd todo hide - Cacher la fenêtre des tâches",
     "description": "Help.get_TodoMessages"
   },
   "TodoMessages_Toggle": {
-    "message": "/dd todo toggle - Bascule la fenêtre des tâches",
+    "message": "/dd todo toggle - Basculer la fenêtre des tâches",
     "description": "Help.get_TodoMessages"
   },
   "CoreMessages_Tag": {
@@ -204,11 +208,11 @@
     "description": "Help.get_CoreMessages"
   },
   "CoreMessages_Base": {
-    "message": "/dd - Affiche ou cache la fenêtre principale",
+    "message": "/dd - Afficher ou cacher la fenêtre principale",
     "description": "Help.get_CoreMessages"
   },
   "CoreMessages_Timers": {
-    "message": "/dd help timers - Afficher les sous-commandes du timer",
+    "message": "/dd help timers - Afficher les sous-commandes des timers",
     "description": "Help.get_CoreMessages"
   },
   "CoreMessages_Todo": {
@@ -216,11 +220,11 @@
     "description": "Help.get_CoreMessages"
   },
   "BeastTribe_Label": {
-    "message": "Tribus Barbares",
+    "message": "Tribus d'hommes-bêtes",
     "description": "BeastTribe.get_Label"
   },
   "BeastTribe_AllowancesRemaining": {
-    "message": "Allocations Restantes",
+    "message": "Autorisations Restantes",
     "description": "BeastTribe.get_AllowancesRemaining"
   },
   "CustomDelivery_Label": {
@@ -228,7 +232,7 @@
     "description": "CustomDelivery.get_Label"
   },
   "CustomDelivery_AllowancesRemaining": {
-    "message": "Allocations Restantes",
+    "message": "Livraisons Restantes",
     "description": "CustomDelivery.get_AllowancesRemaining"
   },
   "DomanEnclave_Label": {
@@ -236,11 +240,11 @@
     "description": "DomanEnclave.get_Label"
   },
   "DomanEnclave_GilRemaining": {
-    "message": "Gils restants",
+    "message": "gils restants",
     "description": "DomanEnclave.get_GilRemaining"
   },
   "DomanEnclave_UnknownStatus": {
-    "message": "Statut inconnu, visitez le Quartier Enclavé de Doma pour initialiser le module",
+    "message": "Statut inconnu, veuillez visiter le Quartier Enclavé de Doma pour initialiser le module",
     "description": "DomanEnclave.get_UnknownStatus"
   },
   "DomanEnclave_UnknownStatusLabel": {
@@ -252,7 +256,7 @@
     "description": "DomanEnclave.get_BudgetRemaining"
   },
   "DomanEnclave_CurrentAllowance": {
-    "message": "Allocation Actuelle",
+    "message": "Budget maximal autorisé",
     "description": "DomanEnclave.get_CurrentAllowance"
   },
   "DomanEnclave_ClickableLinkLabel": {
@@ -284,47 +288,47 @@
     "description": "DutyRoulette.get_Remaining"
   },
   "DutyRoulette_HideExpertWhenCapped": {
-    "message": "Fonctionnalités de la Roulette Expert",
+    "message": "Mission aléatoire : Expert intelligente",
     "description": "DutyRoulette.get_HideExpertWhenCapped"
   },
   "DutyRoulette_HideExpertHelp": {
-    "message": "Marque la roulette experte comme remplacée lorsque vous êtes à votre limite de tomestone hebdomadaire",
+    "message": "Note la roulette Expert comme complétée lorsque vous êtes à votre limite hebdomadaire de mémoquartz",
     "description": "DutyRoulette.get_HideExpertHelp"
   },
   "DutyRoulette_ExpertTomestones": {
-    "message": "Tomestones expertes",
+    "message": "mémoquartz experts",
     "description": "DutyRoulette.get_ExpertTomestones"
   },
   "DutyRoulette_Overlay": {
-    "message": "Overlay de la recherche de donjon",
+    "message": "Overlay de l'outil de mission",
     "description": "DutyRoulette.get_Overlay"
   },
   "DutyRoulette_DutyComplete": {
-    "message": "Tâche accomplie",
+    "message": "Mission accomplie",
     "description": "DutyRoulette.get_DutyComplete"
   },
   "DutyRoulette_DutyIncomplete": {
-    "message": "Tâche incomplète",
+    "message": "Mission incomplète",
     "description": "DutyRoulette.get_DutyIncomplete"
   },
   "DutyRoulette_RouletteStatus": {
-    "message": "Statut de la roulette",
+    "message": "Statut de la mission aléatoire",
     "description": "DutyRoulette.get_RouletteStatus"
   },
   "DutyRoulette_NoRoulettesTracked": {
-    "message": "Aucune roulette sélectionnée pour le suivi",
+    "message": "Aucune mission aléatoire n'a été sélectionnée pour le suivi",
     "description": "DutyRoulette.get_NoRoulettesTracked"
   },
   "DutyRoulette_Override": {
-    "message": "Remplacer l'instance",
+    "message": "Mission notée comme complétée",
     "description": "DutyRoulette.get_Override"
   },
   "DutyRoulette_CompleteWhenCapped": {
-    "message": "Finir lorsque limite de tomestone atteint",
+    "message": "Module mission aléatoire intelligent",
     "description": "DutyRoulette.get_CompleteWhenCapped"
   },
   "DutyRoulette_CompleteWhenCappedHelp": {
-    "message": "Note le module des roulettes comme complété lorsque vous êtes à votre limite hebdomadaire de mémoquartz",
+    "message": "Note ce module comme étant complété lorsque vous avez atteint votre limite hebdomadaire de mémoquartz",
     "description": "DutyRoulette.get_CompleteWhenCappedHelp"
   },
   "FashionReport_Label": {
@@ -332,15 +336,15 @@
     "description": "FashionReport.get_Label"
   },
   "FashionReport_CompletionCondition": {
-    "message": "Condition d'achèvement",
+    "message": "Condition de complétion",
     "description": "FashionReport.get_CompletionCondition"
   },
   "FashionReport_ModeSingle": {
-    "message": "Seul",
+    "message": "Unique",
     "description": "FashionReport.get_ModeSingle"
   },
   "FashionReport_Mode80Plus": {
-    "message": "80 Plus",
+    "message": "80 ou plus",
     "description": "FashionReport.get_Mode80Plus"
   },
   "FashionReport_ModeAll": {
@@ -348,15 +352,15 @@
     "description": "FashionReport.get_ModeAll"
   },
   "FashionReport_ModeSingleHelp": {
-    "message": "Notifier uniquement si aucune évaluation n'a été dépensée cette semaine et que la Revue de Mode est disponible pour être rendue",
+    "message": "Ne notifier que si aucune évaluation n'a été effectuée cette semaine et que l'évaluation de la Revue de Mode est disponible",
     "description": "FashionReport.get_ModeSingleHelp"
   },
   "FashionReport_Mode80PlusHelp": {
-    "message": "Notifier si des évaluations sont encore disponibles cette semaine, le score le plus élevé est inférieur à 80 et la Revue de Mode est disponible pour être rendue",
+    "message": "Ne notifier que s'il reste une ou plusieurs évaluations cette semaine, que le meilleure score enregistré est inférieur à 80 et que l'évaluation de la Revue de Mode est disponible",
     "description": "FashionReport.get_Mode80PlusHelp"
   },
   "FashionReport_ModeAllHelp": {
-    "message": "Notifier si des évaluations sont encore disponibles cette semaine et que la Revue de Mode est disponible pour être rendue",
+    "message": "Ne notifier que s'il reste une ou plusieurs évaluations cette semaine et que l'évaluation de la Revue de Mode est disponible",
     "description": "FashionReport.get_ModeAllHelp"
   },
   "FashionReport_ClickableLinkLabel": {
@@ -376,7 +380,7 @@
     "description": "FashionReport.get_HighestScore"
   },
   "FashionReport_ReportOpen": {
-    "message": "Ouverture de la Revue",
+    "message": "Ouverture de la Revue de Mode",
     "description": "FashionReport.get_ReportOpen"
   },
   "FashionReport_AvailableNow": {
@@ -384,15 +388,15 @@
     "description": "FashionReport.get_AvailableNow"
   },
   "HuntMarks_LevelOne": {
-    "message": "Niveau 1",
+    "message": "débutant",
     "description": "HuntMarks.get_LevelOne"
   },
   "HuntMarks_LevelTwo": {
-    "message": "Niveau 2",
+    "message": "intermédiaire",
     "description": "HuntMarks.get_LevelTwo"
   },
   "HuntMarks_LevelThree": {
-    "message": "Niveau 3",
+    "message": "avancé",
     "description": "HuntMarks.get_LevelThree"
   },
   "HuntMarks_Elite": {
@@ -420,7 +424,7 @@
     "description": "HuntMarks.get_Unobtained"
   },
   "HuntMarks_Killed": {
-    "message": "Tué",
+    "message": "Vaincu",
     "description": "HuntMarks.get_Killed"
   },
   "HuntMarks_HuntsRemaining": {
@@ -432,15 +436,15 @@
     "description": "HuntMarks.get_TrackedHuntsStatus"
   },
   "HuntMarks_NoHuntsTracked": {
-    "message": "Aucune chasse sélectionnée pour le suivi",
+    "message": "Aucune chasse n'est actuellement sélectionnée pour le suivi",
     "description": "HuntMarks.get_NoHuntsTracked"
   },
   "HuntMarks_ForceComplete": {
-    "message": "Forcer à terminer",
+    "message": "Forcer la complétion",
     "description": "HuntMarks.get_ForceComplete"
   },
   "HuntMarks_ForceCompleteMouseover": {
-    "message": "Remplacer le statut du module et marquer comme terminé\nMaintenir Maj + Contrôle tout en cliquant",
+    "message": "Remplace le statut de ce module et le noter comme terminé.\nPour ce faire, maintenez CTRL + Shift tout en cliquant le bouton.",
     "description": "HuntMarks.get_ForceCompleteHelp"
   },
   "HuntMarks_NoUndo": {
@@ -472,7 +476,7 @@
     "description": "JumboCactpot.get_TicketsAvailable"
   },
   "JumboCactpot_NoTickets": {
-    "message": "Aucun billets",
+    "message": "Aucun billet",
     "description": "JumboCactpot.get_NoTickets"
   },
   "Levequest_Label": {
@@ -480,7 +484,7 @@
     "description": "Levequest.get_Label"
   },
   "Levequest_Accepted": {
-    "message": "Acceptées",
+    "message": "Acceptés",
     "description": "Levequest.get_Accepted"
   },
   "Levequest_NextAllowance": {
@@ -488,7 +492,7 @@
     "description": "Levequest.get_NextAllowance"
   },
   "Levequest_AllowancesRemaining": {
-    "message": "Allocations Restantes",
+    "message": "Autorisations Restantes",
     "description": "Levequest.get_AllowancesRemaining"
   },
   "MiniCactpot_Label": {
@@ -528,11 +532,11 @@
     "description": "WondrousTails.get_UnavailableMessage"
   },
   "WondrousTails_UnavailableRerollMessage": {
-    "message": "Vous avez {0} Transferts disponibles",
+    "message": "Vous avez {0} Transferts disponible(s)",
     "description": "WondrousTails.get_UnavailableRerollMessage"
   },
   "WondrousTails_AvailableMessage": {
-    "message": "Une vignette est déjà disponible pour cette mission",
+    "message": "Une vignette pouvant être collée est déjà disponible pour cette mission",
     "description": "WondrousTails.get_AvailableMessage"
   },
   "WondrousTails_CompletableMessage": {
@@ -540,7 +544,7 @@
     "description": "WondrousTails.get_CompletableMessage"
   },
   "WondrousTails_ClaimableMessage": {
-    "message": "Vous pouvez réclamer une vignette pour la dernière mission",
+    "message": "Vous pouvez faire coller une vignette grâce à la mission que vous venez de compléter",
     "description": "WondrousTails.get_ClaimableMessage"
   },
   "WondrousTails_BookAvailable": {
@@ -552,7 +556,7 @@
     "description": "WondrousTails.get_DutyNotifications"
   },
   "WondrousTails_UnclaimedBookNotifications": {
-    "message": "Avertissement de carnet non récupéré",
+    "message": "Avertir si le Carnet n'a pas été récupéré",
     "description": "WondrousTails.get_UnclaimedBookNotifications"
   },
   "WondrousTails_Stamps": {
@@ -560,19 +564,23 @@
     "description": "WondrousTails.get_Stamps"
   },
   "WondrousTails_Overlay": {
-    "message": "Overlay de la recherche de donjon",
+    "message": "Overlay de l'outil de mission",
     "description": "WondrousTails.get_Overlay"
   },
   "WondrousTails_ClickableLink": {
-    "message": "Vous pouvez cliquer sur les notifications pour ouvrir le carnet de Khloe, ou pour vous téléporter à Idyllshire si vous ne l'avez pas.",
+    "message": "Vous pouvez cliquer sur les notifications pour ouvrir le carnet de Khloe, ou pour vous téléporter à Idyllée si vous ne l'avez pas sur vous.",
     "description": "WondrousTails.get_ClickableLink"
   },
   "WondrousTails_ClickableLinkLabel": {
     "message": "Lien cliquable",
     "description": "WondrousTails.get_ClickableLinkLabel"
   },
+  "WondrousTails_ResendNotification": {
+    "message": "Réenvoyer après avoir quitté la mission",
+    "description": "WondrousTails.get_ResendNotification"
+  },
   "ChallengeLog_Label": {
-    "message": "Carnet d'objectif",
+    "message": "Carnet d'objectifs",
     "description": "ChallengeLog.get_Label"
   },
   "ChallengeLog_Battle": {
@@ -580,7 +588,7 @@
     "description": "ChallengeLog.get_Battle"
   },
   "ChallengeLog_CommendationLabel": {
-    "message": "Avertissement : \"Honeurs\"",
+    "message": "Avertissement : \"Honneurs\"",
     "description": "ChallengeLog.get_CommendationLabel"
   },
   "ChallengeLog_Commendations": {
@@ -608,7 +616,7 @@
     "description": "ChallengeLog.get_DungeonMasterLabel"
   },
   "ChallengeLog_DungeonMaster": {
-    "message": "Donjons : victoires",
+    "message": "Donjons : complétions",
     "description": "ChallengeLog.get_DungeonMaster"
   },
   "ChallengeLog_DungeonMasterRemaining": {
@@ -616,7 +624,7 @@
     "description": "ChallengeLog.get_DungeonMasterRemaining"
   },
   "AllianceRaids_Label": {
-    "message": "Raids (en Alliance)",
+    "message": "Raids (Alliance)",
     "description": "Raids.get_AllianceLabel"
   },
   "NormalRaids_Label": {
@@ -636,7 +644,7 @@
     "description": "Raids.get_Regenerate"
   },
   "Raids_RegenerateHelp": {
-    "message": "Recharger les informations de l'instance, et réinitialiser les paramètres",
+    "message": "Recharger les informations des missions, et réinitialiser les paramètres.\nMaintenez CTRL + Shift tout en cliquant.",
     "description": "Raids.get_RegenerateHelp"
   },
   "Raids_NoRaidsTracked": {
@@ -644,11 +652,11 @@
     "description": "Raids.get_NoRaidsTracked"
   },
   "Raids_RaidsRemaining": {
-    "message": "Raids Restant",
+    "message": "Raids restants",
     "description": "Raids.get_RaidsRemaining"
   },
   "Raid_RaidsRemaining": {
-    "message": "Raid Restant",
+    "message": "Raid restant",
     "description": "Raids.get_RaidRemaining"
   },
   "Raids_ClickableLinkLabel": {
@@ -659,8 +667,36 @@
     "message": "Vous pouvez cliquer sur les notifications pour ouvrir l'Outil de Mission",
     "description": "Raids.get_ClickableLink"
   },
+  "UnrealTrial_Label": {
+    "message": "Touché-Tourné",
+    "description": "FauxHollows.get_Label"
+  },
+  "UnrealTrial_TrialAvailable": {
+    "message": "Défi Irréel disponible",
+    "description": "FauxHollows.get_TrialAvailable"
+  },
+  "UnrealTrial_ClickableLinkLabel": {
+    "message": "Lien cliquable",
+    "description": "FauxHollows.get_ClickableLinkLabel"
+  },
+  "UnrealTrial_ClickableLink": {
+    "message": "Vous pouvez cliquer sur les notifications pour ouvrir la Recherche d'équipe",
+    "description": "FauxHollows.get_ClickableLink"
+  },
+  "UnrealTrial_IncludeRetelling": {
+    "message": "Nécessite de compléter l'essai bonus pour que le module soit noté comme complété",
+    "description": "FauxHollows.get_RetellingHelp"
+  },
+  "UnrealTrial_Retelling": {
+    "message": "Inclure l'essai bonus",
+    "description": "FauxHollows.get_Retelling"
+  },
+  "UnrealTrial_Completions": {
+    "message": "Complétion",
+    "description": "FauxHollows.get_Completions"
+  },
   "Todo_Label": {
-    "message": "À Faire",
+    "message": "Tâches",
     "description": "Todo.get_Label"
   },
   "Todo_MainOptions": {
@@ -684,11 +720,11 @@
     "description": "Todo.get_TaskDisplay"
   },
   "Todo_HideCompletedTasks": {
-    "message": "Masquer les tâches finies",
+    "message": "Masquer les tâches terminées",
     "description": "Todo.get_HideCompletedTasks"
   },
   "Todo_HideUnavailable": {
-    "message": "Masquer les tâches non disponibles",
+    "message": "Masquer les tâches indisponibles",
     "description": "Todo.get_HideUnavailable"
   },
   "Todo_WindowOptions": {
@@ -728,7 +764,7 @@
     "description": "Todo.get_WeeklyTasks"
   },
   "Todo_NoDailyTasksEnabled": {
-    "message": "Activer un module dans Configuration pour suivre les tâches",
+    "message": "Activez un module dans Configuration pour pouvoir suivre les tâches",
     "description": "Todo.get_NoTasksEnabled"
   },
   "Todo_UseLongLabel": {
@@ -764,7 +800,7 @@
     "description": "Timers.get_Opacity"
   },
   "Timers_NoneEnabledWarning": {
-    "message": "Activer les timers que vous souhaitez voir ici avec la commande '/dd timers'",
+    "message": "Activez les timers que vous souhaitez voir ici avec la commande '/dd timers'",
     "description": "Timers.get_NoTimersEnabledWarning"
   },
   "Timers_Label": {
@@ -847,6 +883,38 @@
     "message": "Masquer les tâches finies",
     "description": "Timers.get_HideCompleted"
   },
+  "Timers_HumanStyle": {
+    "message": "Humain (ex : '3 heures')",
+    "description": "Timers.get_HumanStyle"
+  },
+  "Timers_FullStyle": {
+    "message": "Complet (D.HH:MM:SS)",
+    "description": "Timers.get_FullStyle"
+  },
+  "Timers_NoSecondsStyle": {
+    "message": "Sans secondes (D.HH:MM)",
+    "description": "Timers.get_NoSecondsStyle"
+  },
+  "Timers_NumDays": {
+    "message": "{0} jours",
+    "description": "Timers.get_NumDays"
+  },
+  "Timers_DayPlusHours": {
+    "message": "{0} jour, {1} heures",
+    "description": "Timers.get_DayPlusHours"
+  },
+  "Timers_NumHours": {
+    "message": "{0} heures",
+    "description": "Timers.get_NumHours"
+  },
+  "Timers_NumMins": {
+    "message": "{0} minutes",
+    "description": "Timers.get_NumMins"
+  },
+  "Timers_NumSecs": {
+    "message": "{0} secondes",
+    "description": "Timers.get_NumSecs"
+  },
   "Teleport_Label": {
     "message": "Téléportation",
     "description": "Teleport.get_Label"
@@ -864,7 +932,7 @@
     "description": "Teleport.get_CommunicationError"
   },
   "Teleport_NotUnlocked": {
-    "message": "L'aetheryte de destination n'est pas débloquée, téléportation annulée",
+    "message": "L'éthérite de destination n'est pas débloquée, téléportation annulée",
     "description": "Teleport.get_NotUnlocked"
   }
 }
