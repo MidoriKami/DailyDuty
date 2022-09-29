@@ -3,26 +3,27 @@ using System;
 using System.Numerics;
 using System.Text;
 using DailyDuty.Utilities;
+using DailyDuty.Localization;
 
 namespace DailyDuty.Configuration.Components;
 
 [Flags]
 public enum TimerStyle
 {
-    Days = 0b1000,
-    Hours = 0b0100,
-    Minutes = 0b0010,
-    Seconds = 0b0001,
+    Labelled = 0b10000,
+    Days = 0b01000,
+    Hours = 0b00100,
+    Minutes = 0b00010,
+    Seconds = 0b00001,
 
+    Human = Labelled | Days | Hours | Minutes | Seconds,
     Full = Days | Hours | Minutes | Seconds,
-    DaysNoSeconds = Days | Hours | Minutes,
-    NoDays = Hours | Minutes | Seconds,
-    NoDaysNoSeconds = Hours | Minutes,
+    NoSeconds = Days | Hours | Minutes,
 }
 
 public class TimerSettings
 {
-    public Setting<TimerStyle> TimerStyle = new(Components.TimerStyle.Full);
+    public Setting<TimerStyle> TimerStyle = new(Components.TimerStyle.Human);
     public Setting<Vector4> BackgroundColor = new(Colors.Black);
     public Setting<Vector4> ForegroundColor = new(Colors.Purple);
     public Setting<Vector4> TextColor = new(Colors.White);
@@ -39,26 +40,21 @@ public static class TimerStyleExtensions
 {
     public static string GetLabel(this TimerStyle style)
     {
-        if (style == 0)
-            return string.Empty;
-
-        var sb = new StringBuilder(16);
-        if (style.HasFlag(TimerStyle.Days)) sb.Append($"D").Append('.');
-        if (style.HasFlag(TimerStyle.Hours)) sb.Append($"HH").Append(':');
-        if (style.HasFlag(TimerStyle.Minutes)) sb.Append($"MM").Append(':');
-        if (style.HasFlag(TimerStyle.Seconds)) sb.Append($"SS").Append(':');
-
-        return sb.ToString(0, sb.Length - 1);
+        switch (style) {
+            case TimerStyle.Human: return Strings.UserInterface.Timers.HumanStyle;
+            case TimerStyle.Full: return Strings.UserInterface.Timers.FullStyle;
+            case TimerStyle.NoSeconds: return Strings.UserInterface.Timers.NoSecondsStyle;
+            default: return string.Empty;
+        }
     }
 
     public static IEnumerable<TimerStyle> GetConfigurableStyles()
     {
         return new List<TimerStyle>()
         {
+            TimerStyle.Human,
             TimerStyle.Full,
-            TimerStyle.DaysNoSeconds,
-            TimerStyle.NoDays,
-            TimerStyle.NoDaysNoSeconds
+            TimerStyle.NoSeconds,
         };
     }
 }

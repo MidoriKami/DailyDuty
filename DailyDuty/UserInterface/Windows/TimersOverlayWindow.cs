@@ -17,7 +17,7 @@ namespace DailyDuty.UserInterface.Windows;
 internal class TimersOverlayWindow : Window, IDisposable
 {
     private static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
-    
+
     private List<ITimerComponent> trackedTasks = new();
 
     public TimersOverlayWindow() : base($"###DailyDutyTimersOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
@@ -89,7 +89,7 @@ internal class TimersOverlayWindow : Window, IDisposable
             DrawAllTimers(trackedTasks);
         }
     }
-    
+
     public override void PostDraw()
     {
         ImGui.PopStyleColor();
@@ -222,16 +222,20 @@ internal class TimersOverlayWindow : Window, IDisposable
 
     public static string FormatTimespan(TimeSpan span, TimerStyle style)
     {
-        if (style == 0)
-            return string.Empty;
-
-        var sb = new StringBuilder(16);
-
-        if (style.HasFlag(TimerStyle.Days)) sb.Append($"{span.Days:D1}").Append('.');
-        if (style.HasFlag(TimerStyle.Hours)) sb.Append($"{span.Hours:D2}").Append(':');
-        if (style.HasFlag(TimerStyle.Minutes)) sb.Append($"{span.Minutes:D2}").Append(':');
-        if (style.HasFlag(TimerStyle.Seconds)) sb.Append($"{span.Seconds:D2}").Append(':');
-
-        return sb.ToString(0, sb.Length - 1);
+        switch (style) {
+            case TimerStyle.Human:
+                // Human Style just shows the highest order nonzero field.
+                if (span.Days > 1) return String.Format(Strings.UserInterface.Timers.NumDays, span.Days);
+                if (span.Days == 1) return String.Format(Strings.UserInterface.Timers.DayPlusHours, span.Days, span.Hours);
+                else if (span.Hours >= 1) return String.Format(Strings.UserInterface.Timers.NumHours, span.Hours);
+                else if (span.Minutes >= 1) return String.Format(Strings.UserInterface.Timers.NumMins, span.Minutes);
+                else return String.Format(Strings.UserInterface.Timers.NumSecs, span.Seconds);
+            case TimerStyle.Full:
+                return $"{(span.Days>=1?$"{span.Days}.":"")}{span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}";
+            case TimerStyle.NoSeconds:
+                return $"{(span.Days>=1?$"{span.Days}.":"")}{span.Hours:D2}:{span.Minutes:D2}";
+            default:
+                return String.Empty;
+        }
     }
 }
