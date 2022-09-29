@@ -8,9 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
+using Dalamud.Utility;
 
 namespace DailyDuty.UserInterface.Windows;
 
@@ -222,20 +222,18 @@ internal class TimersOverlayWindow : Window, IDisposable
 
     public static string FormatTimespan(TimeSpan span, TimerStyle style)
     {
-        switch (style) {
-            case TimerStyle.Human:
-                // Human Style just shows the highest order nonzero field.
-                if (span.Days > 1) return String.Format(Strings.UserInterface.Timers.NumDays, span.Days);
-                if (span.Days == 1) return String.Format(Strings.UserInterface.Timers.DayPlusHours, span.Days, span.Hours);
-                else if (span.Hours >= 1) return String.Format(Strings.UserInterface.Timers.NumHours, span.Hours);
-                else if (span.Minutes >= 1) return String.Format(Strings.UserInterface.Timers.NumMins, span.Minutes);
-                else return String.Format(Strings.UserInterface.Timers.NumSecs, span.Seconds);
-            case TimerStyle.Full:
-                return $"{(span.Days>=1?$"{span.Days}.":"")}{span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}";
-            case TimerStyle.NoSeconds:
-                return $"{(span.Days>=1?$"{span.Days}.":"")}{span.Hours:D2}:{span.Minutes:D2}";
-            default:
-                return String.Empty;
-        }
+        return style switch
+        {
+            // Human Style just shows the highest order nonzero field.
+            TimerStyle.Human when span.Days > 1 => Strings.UserInterface.Timers.NumDays.Format(span.Days),
+            TimerStyle.Human when span.Days == 1 => Strings.UserInterface.Timers.DayPlusHours.Format(span.Days, span.Hours),
+            TimerStyle.Human when span.Hours > 1 => Strings.UserInterface.Timers.NumHours.Format(span.Hours),
+            TimerStyle.Human when span.Minutes >= 1 => Strings.UserInterface.Timers.NumMins.Format(span.Minutes),
+            TimerStyle.Human => Strings.UserInterface.Timers.NumSecs.Format(span.Seconds),
+
+            TimerStyle.Full => $"{(span.Days >= 1 ? $"{span.Days}." : "")}{span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}",
+            TimerStyle.NoSeconds => $"{(span.Days >= 1 ? $"{span.Days}." : "")}{span.Hours:D2}:{span.Minutes:D2}",
+            _ => string.Empty
+        };
     }
 }

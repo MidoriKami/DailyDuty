@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Numerics;
-using System.Text;
 using DailyDuty.Utilities;
 using DailyDuty.Localization;
 
@@ -40,17 +39,18 @@ public static class TimerStyleExtensions
 {
     public static string GetLabel(this TimerStyle style)
     {
-        switch (style) {
-            case TimerStyle.Human: return Strings.UserInterface.Timers.HumanStyle;
-            case TimerStyle.Full: return Strings.UserInterface.Timers.FullStyle;
-            case TimerStyle.NoSeconds: return Strings.UserInterface.Timers.NoSecondsStyle;
-            default: return string.Empty;
-        }
+        return style switch
+        {
+            TimerStyle.Human => Strings.UserInterface.Timers.HumanStyle,
+            TimerStyle.Full => Strings.UserInterface.Timers.FullStyle,
+            TimerStyle.NoSeconds => Strings.UserInterface.Timers.NoSecondsStyle,
+            _ => string.Empty
+        };
     }
 
     public static IEnumerable<TimerStyle> GetConfigurableStyles()
     {
-        return new List<TimerStyle>()
+        return new List<TimerStyle>
         {
             TimerStyle.Human,
             TimerStyle.Full,
