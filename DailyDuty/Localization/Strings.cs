@@ -362,6 +362,14 @@ public class Timers
     public string HideLabel => Loc.Localize("Timers_HideLabel", "Hide Label");
     public string HideTime => Loc.Localize("Timers_HideTime", "Hide Time");
     public string HideCompleted => Loc.Localize("Timers_HideCompleted", "Hide Completed Tasks");
+    public string HumanStyle => Loc.Localize("Timers_HumanStyle", "Human (e.g. '3 hours')");
+    public string FullStyle => Loc.Localize("Timers_FullStyle", "Full (D.HH:MM:SS)");
+    public string NoSecondsStyle => Loc.Localize("Timers_NoSecondsStyle", "No Seconds (D.HH:MM)");
+    public string NumDays => Loc.Localize("Timers_NumDays", "{0} days");
+    public string DayPlusHours => Loc.Localize("Timers_DayPlusHours", "{0} day, {1} hours");
+    public string NumHours => Loc.Localize("Timers_NumHours", "{0} hours");
+    public string NumMins => Loc.Localize("Timers_NumMins", "{0} minutes");
+    public string NumSecs => Loc.Localize("Timers_NumSecs", "{0} seconds");
 }
 
 public class Teleport
