@@ -339,9 +339,10 @@ internal class DutyRoulette : IModule
         {
             var incompleteTasks = Settings.TrackedRoulettes
                 .Where(roulette => roulette.Tracked.Value && roulette.State == RouletteState.Incomplete)
-                .Select(roulette => roulette.Roulette.GetTranslatedString());
+                .Select(roulette => roulette.Roulette.GetTranslatedString())
+                .ToList();
 
-            return string.Join("\n", incompleteTasks);
+            return incompleteTasks.Any() ? string.Join("\n", incompleteTasks) : Strings.Module.DutyRoulette.Label;
         }
     }
 

@@ -263,9 +263,10 @@ internal class HuntMarksWeekly : IModule
         {
             var strings = Settings.TrackedHunts
                 .Where(hunt => hunt.Tracked.Value && hunt.State != TrackedHuntState.Killed)
-                .Select(hunt => hunt.HuntType.GetLabel());
+                .Select(hunt => hunt.HuntType.GetLabel())
+                .ToList();
 
-            return string.Join("\n", strings);
+            return strings.Count > 0 ? string.Join("\n", strings) : Strings.Module.HuntMarks.WeeklyLabel;
         }
     }
 
