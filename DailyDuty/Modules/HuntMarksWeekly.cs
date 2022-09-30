@@ -266,7 +266,7 @@ internal class HuntMarksWeekly : IModule
                 .Select(hunt => hunt.HuntType.GetLabel())
                 .ToList();
 
-            return strings.Count > 0 ? string.Join("\n", strings) : Strings.Module.HuntMarks.WeeklyLabel;
+            return strings.Any() ? string.Join("\n", strings) : Strings.Module.HuntMarks.WeeklyLabel;
         }
     }
 
