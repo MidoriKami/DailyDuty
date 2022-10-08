@@ -13,10 +13,6 @@ internal class TimersConfigurationWindow : Window, IDisposable
 {
     public static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
 
-    private readonly InfoBox mainOptions = new();
-    private readonly InfoBox windowHidingOptions = new();
-    private readonly InfoBox timersSelection = new();
-
     public TimersConfigurationWindow() : base("DailyDuty Timers Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {
         SizeConstraints = new WindowSizeConstraints
@@ -39,7 +35,7 @@ internal class TimersConfigurationWindow : Window, IDisposable
 
     public override void Draw()
     {
-        mainOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.MainOptions)
             .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideCompleted, Settings.HideCompleted)
@@ -48,14 +44,14 @@ internal class TimersConfigurationWindow : Window, IDisposable
         var enabledModules = Service.ModuleManager.GetTimerComponents()
             .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
 
-        timersSelection
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.Label)
             .BeginTable(0.65f)
             .AddRows(enabledModules, Strings.UserInterface.Todo.NoTasksEnabled)
             .EndTable()
             .Draw();
         
-        windowHidingOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.WindowOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideWindowInDuty, Settings.HideWhileInDuty)
             .AddConfigCheckbox(Strings.UserInterface.Timers.LockWindow, Settings.LockWindowPosition)

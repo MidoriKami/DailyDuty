@@ -14,12 +14,6 @@ internal class TimersStyleWindow : Window, IDisposable
     public TimerSettings Settings { get; }
     private IModule OwnerModule { get; }
 
-    private readonly InfoBox timeDisplay = new();
-    private readonly InfoBox labelDisplay = new();
-    private readonly InfoBox textOptions = new();
-    private readonly InfoBox colorOptions = new();
-    private readonly InfoBox sizeOptions = new();
-
     public TimersStyleWindow(IModule owner, TimerSettings settings, string windowName) : base(windowName)
     {
         Settings = settings;
@@ -46,25 +40,24 @@ internal class TimersStyleWindow : Window, IDisposable
 
     public override void Draw()
     {
-        timeDisplay
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.TimeDisplay)
-            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle,
-                TimerStyleExtensions.GetLabel, width: 175.0f)
+            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: 175.0f)
             .Draw();
 
-        labelDisplay
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.Name)
             .AddConfigCheckbox(Strings.UserInterface.Timers.EnableCustomName, Settings.UseCustomName)
             .AddConfigString(Settings.CustomName)
             .Draw();
 
-        textOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.TextOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideLabel, Settings.HideLabel)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideTime, Settings.HideTime)
             .Draw();
 
-        colorOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.ColorOptions)
             .AddConfigColor(Strings.UserInterface.Timers.Background, Settings.BackgroundColor)
             .AddConfigColor(Strings.UserInterface.Timers.Foreground, Settings.ForegroundColor)
@@ -72,7 +65,7 @@ internal class TimersStyleWindow : Window, IDisposable
             .AddConfigColor(Strings.UserInterface.Timers.Time, Settings.TimeColor)
             .Draw();
 
-        sizeOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.SizeOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
             .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, 125.0f)

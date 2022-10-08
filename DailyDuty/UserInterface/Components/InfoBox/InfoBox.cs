@@ -26,7 +26,7 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
     public float ActualWidth { get; private set; }
     public float InnerWidth { get; private set; }
 
-    public InfoBox()
+    private InfoBox()
     {
         DrawListOwner = this;
     }

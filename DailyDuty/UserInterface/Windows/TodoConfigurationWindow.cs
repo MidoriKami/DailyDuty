@@ -14,13 +14,6 @@ internal class TodoConfigurationWindow : Window, IDisposable
 {
     public static TodoOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TodoOverlay;
 
-    private readonly InfoBox mainOptions = new();
-    private readonly InfoBox taskSelections = new();
-    private readonly InfoBox taskHiding = new();
-    private readonly InfoBox windowHidingOptions = new();
-    private readonly InfoBox dailyTasks = new();
-    private readonly InfoBox weeklyTasks = new();
-
     public TodoConfigurationWindow() : base("DailyDuty Todo Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {
         SizeConstraints = new WindowSizeConstraints
@@ -50,12 +43,12 @@ internal class TodoConfigurationWindow : Window, IDisposable
     public override void Draw()
     {
 
-        mainOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Todo.MainOptions)
             .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
             .Draw();
 
-        taskSelections
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Todo.TaskSelection)
             .AddConfigCheckbox(Strings.UserInterface.Todo.ShowDailyTasks, Settings.ShowDailyTasks)
             .AddConfigCheckbox(Strings.UserInterface.Todo.ShowWeeklyTasks, Settings.ShowWeeklyTasks)
@@ -66,7 +59,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             var enabledDailyTasks = Service.ModuleManager.GetTodoComponents(CompletionType.Daily)
                 .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
 
-            dailyTasks
+            InfoBox.Instance
                 .AddTitle(Strings.UserInterface.Todo.DailyTasks)
                 .BeginTable()
                 .AddRows(enabledDailyTasks, Strings.UserInterface.Todo.NoTasksEnabled)
@@ -79,7 +72,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             var enabledWeeklyTasks = Service.ModuleManager.GetTodoComponents(CompletionType.Weekly)
                 .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
 
-            weeklyTasks
+            InfoBox.Instance
                 .AddTitle(Strings.UserInterface.Todo.WeeklyTasks)
                 .BeginTable()
                 .AddRows(enabledWeeklyTasks, Strings.UserInterface.Todo.NoTasksEnabled)
@@ -87,14 +80,14 @@ internal class TodoConfigurationWindow : Window, IDisposable
                 .Draw();
         }
 
-        taskHiding
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Todo.TaskDisplay)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideCompletedTasks, Settings.HideCompletedTasks)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideUnavailable, Settings.HideUnavailableTasks)
             .AddConfigCheckbox(Strings.UserInterface.Todo.CompleteCategory, Settings.ShowCategoryAsComplete)
             .Draw();
 
-        windowHidingOptions
+        InfoBox.Instance
             .AddTitle(Strings.UserInterface.Todo.WindowOptions)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowCompleted, Settings.HideWhenAllTasksComplete)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowInDuty, Settings.HideWhileInDuty)
