@@ -19,20 +19,20 @@ internal unsafe class BaseNode
         return this;
     }
 
-    public ResNode GetRootNode()
+    public AtkResNode* GetRootNode()
     {
-        if (node == null) return new ResNode(null);
+        if (node == null) return null;
 
-        return new ResNode(node->RootNode);
+        return node->RootNode;
     }
 
-    public ResNode GetResNode(uint id)
+    public T* GetNode<T>(uint id) where T : unmanaged
     {
-        if (node == null) return new ResNode(null);
+        if (node == null) return null;
 
-        var targetNode = node->GetNodeById(id);
+        var targetNode = (T*) node->GetNodeById(id);
 
-        return new ResNode(targetNode);
+        return targetNode;
     }
 
     public ComponentNode GetComponentNode(uint id)
@@ -57,23 +57,6 @@ internal unsafe class BaseNode
         } while (index++ < idList.Length);
         
         return startingNode;
-    }
-}
-
-internal unsafe class ResNode
-{
-    private readonly AtkResNode* node;
-
-    public ResNode(AtkResNode* node)
-    {
-        this.node = node;
-    }
-
-    public ResNode Print()
-    {
-        Chat.Print("AtkResNode", new IntPtr(node));
-    
-        return this;
     }
 }
 
