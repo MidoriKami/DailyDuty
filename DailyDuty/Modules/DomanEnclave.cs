@@ -52,8 +52,6 @@ internal class DomanEnclave : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox clickableLink = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -63,7 +61,7 @@ internal class DomanEnclave : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.DomanEnclave.ClickableLinkLabel)
                 .AddString(Strings.Module.DomanEnclave.ClickableLink)
                 .AddConfigCheckbox(Strings.Module.DomanEnclave.ClickableLinkLabel, Settings.EnableClickableLink)
@@ -80,9 +78,6 @@ internal class DomanEnclave : IModule
         public ISelectable Selectable =>
             new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-        private readonly InfoBox warning = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -94,7 +89,7 @@ internal class DomanEnclave : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()
@@ -114,7 +109,7 @@ internal class DomanEnclave : IModule
 
             if (moduleStatus == ModuleStatus.Unknown)
             {
-                warning
+                InfoBox.Instance
                     .AddTitle(Strings.Module.DomanEnclave.UnknownStatusLabel)
                     .AddString(Strings.Module.DomanEnclave.UnknownStatus, Colors.Orange)
                     .Draw();

@@ -49,8 +49,6 @@ internal class Levequest : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox completionConditions = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -60,7 +58,7 @@ internal class Levequest : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            completionConditions
+            InfoBox.Instance
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
                 .BeginRow()
@@ -81,9 +79,6 @@ internal class Levequest : IModule
         public ISelectable Selectable =>
             new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-        private readonly InfoBox nextAllowances = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -95,7 +90,7 @@ internal class Levequest : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()
@@ -113,7 +108,7 @@ internal class Levequest : IModule
                 .EndTable()
                 .Draw();
 
-            nextAllowances
+            InfoBox.Instance
                 .AddTitle(Strings.Module.Levequest.NextAllowance)
                 .BeginTable()
                 .BeginRow()

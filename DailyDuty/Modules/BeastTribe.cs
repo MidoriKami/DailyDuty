@@ -47,8 +47,6 @@ internal class BeastTribe : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox completionConditions = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -58,7 +56,7 @@ internal class BeastTribe : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            completionConditions
+            InfoBox.Instance
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
                 .BeginTable(0.40f)
                 .BeginRow()
@@ -78,9 +76,6 @@ internal class BeastTribe : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-        private readonly InfoBox target = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -93,7 +88,7 @@ internal class BeastTribe : IModule
             var moduleStatus = logicModule.GetModuleStatus();
             var allowances = logicModule.GetRemainingAllowances();
 
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()
@@ -107,7 +102,7 @@ internal class BeastTribe : IModule
                 .EndTable()
                 .Draw();
 
-            target
+            InfoBox.Instance
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
                 .BeginRow()

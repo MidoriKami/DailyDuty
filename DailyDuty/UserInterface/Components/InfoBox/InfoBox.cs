@@ -31,11 +31,11 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
         DrawListOwner = this;
     }
 
-    private static readonly InfoBox GenericInfoBox = new();
+    public static readonly InfoBox Instance = new();
 
     public static void DrawGenericSettings(IConfigurationComponent component)
     {
-        GenericInfoBox
+        Instance
             .AddTitle(Strings.Configuration.Options)
             .AddConfigCheckbox(Strings.Common.Enabled, component.ParentModule.GenericSettings.Enabled)
             .Draw();
@@ -46,7 +46,7 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
         var logicComponent = component.ParentModule.LogicComponent;
         var moduleStatus = logicComponent.GetModuleStatus();
 
-        GenericInfoBox
+        Instance
             .AddTitle(Strings.Status.Label)
             .BeginTable()
             .BeginRow()
@@ -59,7 +59,7 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
 
     public static void DrawNotificationOptions(IConfigurationComponent component)
     {
-        GenericInfoBox
+        Instance
             .AddTitle(Strings.Configuration.NotificationOptions)
             .AddConfigCheckbox(Strings.Configuration.OnLogin, component.ParentModule.GenericSettings.NotifyOnLogin)
             .AddConfigCheckbox(Strings.Configuration.OnZoneChange, component.ParentModule.GenericSettings.NotifyOnZoneChange, Strings.Common.MessageTimeout)

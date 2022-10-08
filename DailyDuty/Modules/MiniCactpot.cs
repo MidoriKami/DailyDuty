@@ -49,8 +49,6 @@ internal class MiniCactpot : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox clickableLink = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -60,7 +58,7 @@ internal class MiniCactpot : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.MiniCactpot.ClickableLinkLabel)
                 .AddString(Strings.Module.MiniCactpot.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -77,8 +75,6 @@ internal class MiniCactpot : IModule
         public ISelectable Selectable =>
             new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -90,8 +86,7 @@ internal class MiniCactpot : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()

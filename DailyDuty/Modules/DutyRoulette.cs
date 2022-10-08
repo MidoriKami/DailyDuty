@@ -73,11 +73,6 @@ internal class DutyRoulette : IModule
 
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
-        private readonly InfoBox clickableLink = new();
-        private readonly InfoBox dutyFinder = new();
-        private readonly InfoBox options = new();
-        private readonly InfoBox rouletteSelection = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -88,14 +83,14 @@ internal class DutyRoulette : IModule
 
         public void Draw()
         {
-            options
+            InfoBox.Instance
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.HideExpertWhenCapped, Settings.HideExpertWhenCapped, Strings.Module.DutyRoulette.HideExpertHelp)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.CompleteWhenCapped, Settings.CompleteWhenCapped, Strings.Module.DutyRoulette.CompleteWhenCappedHelp)
                 .Draw();
 
-            dutyFinder
+            InfoBox.Instance
                 .AddTitle(Strings.Module.DutyRoulette.Overlay)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.Overlay, Settings.OverlayEnabled)
                 .AddConfigColor(Strings.Module.DutyRoulette.DutyComplete, Settings.CompleteColor)
@@ -103,12 +98,12 @@ internal class DutyRoulette : IModule
                 .AddConfigColor(Strings.Module.DutyRoulette.Override, Settings.OverrideColor)
                 .Draw();
 
-            rouletteSelection
+            InfoBox.Instance
                 .AddTitle(Strings.Module.DutyRoulette.RouletteSelection)
                 .AddList(Settings.TrackedRoulettes)
                 .Draw();
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.DutyRoulette.ClickableLinkLabel)
                 .AddString(Strings.Module.DutyRoulette.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -120,9 +115,6 @@ internal class DutyRoulette : IModule
 
     private class ModuleStatusComponent : IStatusComponent
     {
-        private readonly InfoBox trackedDuties = new();
-        private readonly InfoBox tomestoneStatus = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -141,7 +133,7 @@ internal class DutyRoulette : IModule
 
             if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked.Value))
             {
-                trackedDuties
+                InfoBox.Instance
                     .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
                     .BeginTable()
                     .AddRows(Settings.TrackedRoulettes.Where(row => row.Tracked.Value))
@@ -150,7 +142,7 @@ internal class DutyRoulette : IModule
             }
             else
             {
-                trackedDuties
+                InfoBox.Instance
                     .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
                     .AddString(Strings.Module.DutyRoulette.NoRoulettesTracked, Colors.Orange)
                     .Draw();
@@ -158,7 +150,7 @@ internal class DutyRoulette : IModule
 
             if (Settings.HideExpertWhenCapped.Value || Settings.CompleteWhenCapped.Value)
             {
-                tomestoneStatus
+                InfoBox.Instance
                     .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
                     .BeginTable()
                     .BeginRow()

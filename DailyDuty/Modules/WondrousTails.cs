@@ -62,9 +62,6 @@ internal class WondrousTails : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox optionsInfoBox = new();
-        private readonly InfoBox clickableLink = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -72,7 +69,7 @@ internal class WondrousTails : IModule
 
         public void Draw()
         {
-            optionsInfoBox
+            InfoBox.Instance
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .AddConfigCheckbox(Strings.Module.WondrousTails.Overlay, Settings.OverlayEnabled)
@@ -83,7 +80,7 @@ internal class WondrousTails : IModule
                 .AddConfigCheckbox(Strings.Module.WondrousTails.UnclaimedBookNotifications, Settings.UnclaimedBookWarning)
                 .Draw();
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.WondrousTails.ClickableLinkLabel)
                 .AddString(Strings.Module.WondrousTails.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -99,8 +96,6 @@ internal class WondrousTails : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -112,7 +107,7 @@ internal class WondrousTails : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()

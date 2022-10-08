@@ -59,8 +59,6 @@ internal class HuntMarksWeekly : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox huntTracking = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -70,7 +68,7 @@ internal class HuntMarksWeekly : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            huntTracking
+            InfoBox.Instance
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
                 .AddList(Settings.TrackedHunts)
                 .Draw();
@@ -85,9 +83,6 @@ internal class HuntMarksWeekly : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox trackedHunts = new();
-        private readonly InfoBox forceComplete = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -99,7 +94,7 @@ internal class HuntMarksWeekly : IModule
 
             if (Settings.TrackedHunts.Any(hunt => hunt.Tracked.Value))
             {
-                trackedHunts
+                InfoBox.Instance
                     .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
                     .BeginTable()
                     .AddRows(Settings.TrackedHunts.Where(row => row.Tracked.Value))
@@ -108,13 +103,13 @@ internal class HuntMarksWeekly : IModule
             }
             else
             {
-                trackedHunts
+                InfoBox.Instance
                     .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
                     .AddString(Strings.Module.HuntMarks.NoHuntsTracked, Colors.Orange)
                     .Draw();
             }
 
-            forceComplete
+            InfoBox.Instance
                 .AddTitle(Strings.Module.HuntMarks.ForceComplete)
                 .AddAction(ForceCompleteButton)
                 .Draw();
@@ -130,13 +125,13 @@ internal class HuntMarksWeekly : IModule
 
             var textSize = ImGui.CalcTextSize(Strings.Module.HuntMarks.NoUndo);
             var cursor = ImGui.GetCursorPos();
-            var availableArea = forceComplete.InnerWidth;
+            var availableArea = InfoBox.Instance.InnerWidth;
 
             ImGui.SetCursorPos(cursor with {X = cursor.X + availableArea / 2.0f - textSize.X / 2.0f});
             ImGui.TextColored(Colors.Orange, Strings.Module.HuntMarks.NoUndo);
 
             ImGui.BeginDisabled(!keys);
-            if (ImGui.Button(Strings.Module.HuntMarks.ForceComplete, new Vector2(forceComplete.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+            if (ImGui.Button(Strings.Module.HuntMarks.ForceComplete, new Vector2(InfoBox.Instance.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
             {
                 foreach (var element in Settings.TrackedHunts)
                 {

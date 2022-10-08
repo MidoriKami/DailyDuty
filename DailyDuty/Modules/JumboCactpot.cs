@@ -52,8 +52,6 @@ internal class JumboCactpot : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox clickableLink = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -63,7 +61,7 @@ internal class JumboCactpot : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.JumboCactpot.ClickableLinkLabel)
                 .AddString(Strings.Module.JumboCactpot.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -79,9 +77,6 @@ internal class JumboCactpot : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-        private readonly InfoBox nextDrawing = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -93,7 +88,7 @@ internal class JumboCactpot : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()
@@ -107,7 +102,7 @@ internal class JumboCactpot : IModule
                 .EndTable()
                 .Draw();
 
-            nextDrawing
+            InfoBox.Instance
                 .AddTitle(Strings.Module.JumboCactpot.NextDrawing)
                 .BeginTable()
                 .BeginRow()

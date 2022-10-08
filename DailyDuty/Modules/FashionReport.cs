@@ -53,9 +53,6 @@ internal class FashionReport : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox modeSelect = new();
-        private readonly InfoBox clickableLink = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -65,7 +62,7 @@ internal class FashionReport : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            modeSelect
+            InfoBox.Instance
                 .AddTitle(Strings.Module.FashionReport.CompletionCondition)
                 .AddConfigRadio(Strings.Module.FashionReport.ModeSingle, Settings.Mode, FashionReportMode.Single, Strings.Module.FashionReport.ModeSingleHelp)
                 .SameLine(110.0f * ImGuiHelpers.GlobalScale)
@@ -74,7 +71,7 @@ internal class FashionReport : IModule
                 .AddConfigRadio(Strings.Module.FashionReport.ModeAll, Settings.Mode, FashionReportMode.All, Strings.Module.FashionReport.ModeAllHelp)
                 .Draw();
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.FashionReport.ClickableLinkLabel)
                 .AddString(Strings.Module.FashionReport.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -90,9 +87,6 @@ internal class FashionReport : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
-        private readonly InfoBox reportAvailable = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -104,7 +98,7 @@ internal class FashionReport : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
-            status
+            InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
                 .BeginRow()
@@ -122,7 +116,7 @@ internal class FashionReport : IModule
                 .EndTable()
                 .Draw();
 
-            reportAvailable
+            InfoBox.Instance
                 .AddTitle(Strings.Module.FashionReport.ReportOpen)
                 .BeginTable()
                 .BeginRow()

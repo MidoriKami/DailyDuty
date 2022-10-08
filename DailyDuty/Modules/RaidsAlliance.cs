@@ -82,10 +82,6 @@ internal class RaidsAlliance : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox configuration = new();
-        private readonly InfoBox regenerateRaids = new();
-        private readonly InfoBox clickableLink = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -97,7 +93,7 @@ internal class RaidsAlliance : IModule
 
             if (Settings.TrackedRaids is { } trackedRaids)
             {
-                configuration
+                InfoBox.Instance
                     .AddTitle(Strings.Module.Raids.TrackedNormalRaids)
                     .BeginTable(0.70f)
                     .AddRows(trackedRaids.OfType<IInfoBoxTableConfigurationRow>())
@@ -105,13 +101,13 @@ internal class RaidsAlliance : IModule
                     .Draw();
             }
 
-            regenerateRaids
+            InfoBox.Instance
                 .AddTitle(Strings.Module.Raids.Regenerate)
                 .AddString(Strings.Module.Raids.RegenerateHelp, Colors.Orange)
                 .AddAction(RegenerateRaidList)
                 .Draw();
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.Raids.ClickableLinkLabel)
                 .AddString(Strings.Module.Raids.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -127,7 +123,7 @@ internal class RaidsAlliance : IModule
             ImGuiHelpers.ScaledDummy(15.0f);
 
             ImGui.BeginDisabled(!keys);
-            if (ImGui.Button(Strings.Module.Raids.Regenerate, new Vector2(regenerateRaids.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+            if (ImGui.Button(Strings.Module.Raids.Regenerate, new Vector2(InfoBox.Instance.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
             {
                 RegenerateTrackedRaids();
             }
@@ -141,8 +137,6 @@ internal class RaidsAlliance : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox target = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -154,7 +148,7 @@ internal class RaidsAlliance : IModule
 
             if (Settings.TrackedRaids.Any(raid => raid.Tracked.Value))
             {
-                target
+                InfoBox.Instance
                     .AddTitle(Strings.Common.Target)
                     .BeginTable(0.70f)
                     .AddRows(Settings.TrackedRaids
@@ -165,7 +159,7 @@ internal class RaidsAlliance : IModule
             }
             else
             {
-                target
+                InfoBox.Instance
                     .AddTitle(Strings.Common.Target)
                     .AddString(Strings.Module.Raids.NoRaidsTracked, Colors.Orange)
                     .Draw();

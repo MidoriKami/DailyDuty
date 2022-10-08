@@ -73,8 +73,6 @@ internal class TreasureMap : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
         
-        private readonly InfoBox nextMap = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -86,7 +84,7 @@ internal class TreasureMap : IModule
 
             InfoBox.DrawGenericStatus(this);
 
-            nextMap
+            InfoBox.Instance
                 .AddTitle(Strings.Module.TreasureMap.NextMap)
                 .BeginTable()
                 .BeginRow()

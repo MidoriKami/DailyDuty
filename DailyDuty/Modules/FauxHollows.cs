@@ -52,9 +52,6 @@ internal class FauxHollows : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox clickableLink = new();
-        private readonly InfoBox completionCondition = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -64,12 +61,12 @@ internal class FauxHollows : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            completionCondition
+            InfoBox.Instance
                 .AddTitle(Strings.Module.FauxHollows.Retelling)
                 .AddConfigCheckbox(Strings.Module.FauxHollows.Retelling, Settings.IncludeRetelling, Strings.Module.FauxHollows.RetellingHelp)
                 .Draw();
 
-            clickableLink
+            InfoBox.Instance
                 .AddTitle(Strings.Module.FauxHollows.ClickableLinkLabel)
                 .AddString(Strings.Module.FauxHollows.ClickableLink)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
@@ -85,9 +82,6 @@ internal class FauxHollows : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox target = new();
-        private readonly InfoBox forceComplete = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -97,7 +91,7 @@ internal class FauxHollows : IModule
         {
             InfoBox.DrawGenericStatus(this);
 
-            target
+            InfoBox.Instance
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
                 .BeginRow()
@@ -107,7 +101,7 @@ internal class FauxHollows : IModule
                 .EndTable()
                 .Draw();
 
-            forceComplete
+            InfoBox.Instance
                 .AddTitle(Strings.Module.HuntMarks.ForceComplete)
                 .AddAction(ForceCompleteButton)
                 .Draw();
@@ -124,13 +118,13 @@ internal class FauxHollows : IModule
 
             var textSize = ImGui.CalcTextSize(Strings.Module.HuntMarks.NoUndo);
             var cursor = ImGui.GetCursorPos();
-            var availableArea = forceComplete.InnerWidth;
+            var availableArea = InfoBox.Instance.InnerWidth;
 
             ImGui.SetCursorPos(cursor with {X = cursor.X + availableArea / 2.0f - textSize.X / 2.0f});
             ImGui.TextColored(Colors.Orange, Strings.Module.HuntMarks.NoUndo);
 
             ImGui.BeginDisabled(!keys);
-            if (ImGui.Button(Strings.Module.HuntMarks.ForceComplete, new Vector2(forceComplete.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+            if (ImGui.Button(Strings.Module.HuntMarks.ForceComplete, new Vector2(InfoBox.Instance.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
             {
                 Settings.FauxHollowsCompleted = GetRequiredCompletionCount();
             }

@@ -58,8 +58,6 @@ internal class ChallengeLog : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -67,7 +65,7 @@ internal class ChallengeLog : IModule
 
         public void Draw()
         {
-            options
+            InfoBox.Instance
                 .AddTitle(Strings.Configuration.Options)
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
                 .AddConfigCheckbox(Strings.Module.ChallengeLog.CommendationLabel, Settings.CommendationWarning)
@@ -83,8 +81,6 @@ internal class ChallengeLog : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox target = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -96,7 +92,7 @@ internal class ChallengeLog : IModule
            
             InfoBox.DrawGenericStatus(this);
 
-            target
+            InfoBox.Instance
                 .AddTitle(Strings.Module.ChallengeLog.Battle)
                 .BeginTable()
                 .BeginRow()

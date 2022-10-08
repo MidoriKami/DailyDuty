@@ -64,8 +64,6 @@ internal class HuntMarksDaily : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox huntTracking = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -75,7 +73,7 @@ internal class HuntMarksDaily : IModule
         {
             InfoBox.DrawGenericSettings(this);
 
-            huntTracking
+            InfoBox.Instance
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
                 .AddList(Settings.TrackedHunts)
                 .Draw();
@@ -90,8 +88,6 @@ internal class HuntMarksDaily : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox trackedHunts = new();
-
         public ModuleStatusComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -103,7 +99,7 @@ internal class HuntMarksDaily : IModule
 
             if (Settings.TrackedHunts.Any(hunt => hunt.Tracked.Value))
             {
-                trackedHunts
+                InfoBox.Instance
                     .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
                     .BeginTable(0.60f)
                     .AddRows(Settings.TrackedHunts.Where(row => row.Tracked.Value))
@@ -112,7 +108,7 @@ internal class HuntMarksDaily : IModule
             }
             else
             {
-                trackedHunts
+                InfoBox.Instance
                     .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
                     .AddString(Strings.Module.HuntMarks.NoHuntsTracked, Colors.Orange)
                     .Draw();
