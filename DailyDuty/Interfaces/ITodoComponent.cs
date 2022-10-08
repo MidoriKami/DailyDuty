@@ -4,7 +4,7 @@ using DailyDuty.UserInterface.Components.InfoBox;
 
 namespace DailyDuty.Interfaces;
 
-internal interface ITodoComponent : IInfoBoxTableConfigurationRow
+public interface ITodoComponent : IInfoBoxTableConfigurationRow
 {
     IModule ParentModule { get; }
     CompletionType CompletionType { get; }

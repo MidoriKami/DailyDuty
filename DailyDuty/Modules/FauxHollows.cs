@@ -52,8 +52,6 @@ internal class FauxHollows : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
-        private readonly InfoBox notificationOptions = new();
         private readonly InfoBox clickableLink = new();
         private readonly InfoBox completionCondition = new();
 
@@ -64,10 +62,7 @@ internal class FauxHollows : IModule
 
         public void Draw()
         {
-            options
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             completionCondition
                 .AddTitle(Strings.Module.FauxHollows.Retelling)
@@ -80,11 +75,7 @@ internal class FauxHollows : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 
@@ -94,7 +85,6 @@ internal class FauxHollows : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
         private readonly InfoBox target = new();
         private readonly InfoBox forceComplete = new();
 
@@ -105,19 +95,7 @@ internal class FauxHollows : IModule
         
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-
-            var moduleStatus = logicModule.GetModuleStatus();
-
-            status
-                .AddTitle(Strings.Status.Label)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-                .EndTable()
-                .Draw();
+            InfoBox.DrawGenericStatus(this);
 
             target
                 .AddTitle(Strings.Common.Target)

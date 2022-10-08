@@ -49,9 +49,7 @@ internal class Levequest : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
         private readonly InfoBox completionConditions = new();
-        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -60,10 +58,7 @@ internal class Levequest : IModule
 
         public void Draw()
         {
-            options
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             completionConditions
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
@@ -75,11 +70,7 @@ internal class Levequest : IModule
                 .EndTable()
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 

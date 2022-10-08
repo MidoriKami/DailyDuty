@@ -47,9 +47,7 @@ internal class BeastTribe : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
         private readonly InfoBox completionConditions = new();
-        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -58,26 +56,19 @@ internal class BeastTribe : IModule
 
         public void Draw()
         {
-            options
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             completionConditions
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
-                    .BeginTable(0.40f)
-                        .BeginRow()
-                        .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
-                        .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f)
-                        .EndRow()
-                    .EndTable()
+                .BeginTable(0.40f)
+                .BeginRow()
+                .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
+                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, 100.0f)
+                .EndRow()
+                .EndTable()
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 
@@ -105,34 +96,28 @@ internal class BeastTribe : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
-                    .BeginRow()
-                    .AddString(Strings.Status.ModuleStatus)
-                    .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                    .EndRow()
-
-                    .BeginRow()
-                    .AddString(Strings.Common.Allowances)
-                    .AddString(allowances.ToString(), moduleStatus.GetStatusColor())
-                    .EndRow()
-
+                .BeginRow()
+                .AddString(Strings.Status.ModuleStatus)
+                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+                .EndRow()
+                .BeginRow()
+                .AddString(Strings.Common.Allowances)
+                .AddString(allowances.ToString(), moduleStatus.GetStatusColor())
+                .EndRow()
                 .EndTable()
                 .Draw();
 
             target
                 .AddTitle(Strings.Common.Target)
                 .BeginTable()
-
                 .BeginRow()
                 .AddString(Strings.Common.Mode)
                 .AddString(Settings.ComparisonMode.Value.GetTranslatedString())
                 .EndRow()
-
                 .BeginRow()
                 .AddString(Strings.Common.Target)
                 .AddString(Settings.NotificationThreshold.Value.ToString())
                 .EndRow()
-
                 .EndTable()
                 .Draw();
         }

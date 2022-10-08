@@ -3,7 +3,7 @@ using DailyDuty.Configuration.Components;
 
 namespace DailyDuty.Interfaces;
 
-internal interface IModule : IDisposable
+public interface IModule : IDisposable
 {
     GenericSettings GenericSettings { get; }
     ModuleName Name { get; }

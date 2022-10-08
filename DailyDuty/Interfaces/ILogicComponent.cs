@@ -5,7 +5,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 
 namespace DailyDuty.Interfaces;
 
-internal interface ILogicComponent : IDisposable
+public interface ILogicComponent : IDisposable
 {
     IModule ParentModule { get; }
 

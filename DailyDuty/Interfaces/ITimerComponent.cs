@@ -5,7 +5,7 @@ using DailyDuty.UserInterface.Components.InfoBox;
 
 namespace DailyDuty.Interfaces;
 
-internal interface ITimerComponent : IInfoBoxTableConfigurationRow
+public interface ITimerComponent : IInfoBoxTableConfigurationRow
 {
     IModule ParentModule { get; }
     TimeSpan GetTimerPeriod();

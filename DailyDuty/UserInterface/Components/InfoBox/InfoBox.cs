@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
+using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -27,6 +29,41 @@ public class InfoBox : DrawList<InfoBox>, IDrawable
     public InfoBox()
     {
         DrawListOwner = this;
+    }
+
+    private static readonly InfoBox GenericInfoBox = new();
+
+    public static void DrawGenericSettings(IConfigurationComponent component)
+    {
+        GenericInfoBox
+            .AddTitle(Strings.Configuration.Options)
+            .AddConfigCheckbox(Strings.Common.Enabled, component.ParentModule.GenericSettings.Enabled)
+            .Draw();
+    }
+
+    public static void DrawGenericStatus(IStatusComponent component)
+    {
+        var logicComponent = component.ParentModule.LogicComponent;
+        var moduleStatus = logicComponent.GetModuleStatus();
+
+        GenericInfoBox
+            .AddTitle(Strings.Status.Label)
+            .BeginTable()
+            .BeginRow()
+            .AddString(Strings.Status.ModuleStatus)
+            .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
+            .EndRow()
+            .EndTable()
+            .Draw();
+    }
+
+    public static void DrawNotificationOptions(IConfigurationComponent component)
+    {
+        GenericInfoBox
+            .AddTitle(Strings.Configuration.NotificationOptions)
+            .AddConfigCheckbox(Strings.Configuration.OnLogin, component.ParentModule.GenericSettings.NotifyOnLogin)
+            .AddConfigCheckbox(Strings.Configuration.OnZoneChange, component.ParentModule.GenericSettings.NotifyOnZoneChange, Strings.Common.MessageTimeout)
+            .Draw();
     }
 
     public void Draw()

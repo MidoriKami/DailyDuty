@@ -63,7 +63,7 @@ public static class RouletteStateExtensions
 }
 
 
-public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, RouletteState State) : IInfoBoxTableDataRow, IInfoBoxTableConfigurationRow
+public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, RouletteState State) : IInfoBoxTableDataRow, IInfoBoxListConfigurationRow
 {
     public RouletteState State { get; set; } = State;
 
@@ -76,11 +76,8 @@ public record TrackedRoulette(RouletteType Roulette, Setting<bool> Tracked, Roul
             .EndRow();
     }
 
-    public void GetConfigurationRow(InfoBoxTable owner)
+    public void GetConfigurationRow(InfoBoxList owner)
     {
-        owner
-            .BeginRow()
-            .AddConfigCheckbox(Roulette.GetTranslatedString(), Tracked)
-            .EndRow();
+        owner.AddConfigCheckbox(Roulette.GetTranslatedString(), Tracked);
     }
 }

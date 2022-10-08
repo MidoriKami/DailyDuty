@@ -2,7 +2,7 @@
 
 namespace DailyDuty.Interfaces;
 
-internal interface ISelectable
+public interface ISelectable
 {
     ModuleName OwnerModuleName { get; }
     IDrawable Contents { get; }

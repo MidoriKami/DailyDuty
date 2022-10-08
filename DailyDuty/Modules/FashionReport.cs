@@ -53,10 +53,8 @@ internal class FashionReport : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
         private readonly InfoBox modeSelect = new();
         private readonly InfoBox clickableLink = new();
-        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -65,10 +63,7 @@ internal class FashionReport : IModule
 
         public void Draw()
         {
-            options
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             modeSelect
                 .AddTitle(Strings.Module.FashionReport.CompletionCondition)
@@ -85,11 +80,7 @@ internal class FashionReport : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 

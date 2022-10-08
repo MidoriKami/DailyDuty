@@ -74,7 +74,6 @@ internal class DutyRoulette : IModule
     private class ModuleConfigurationComponent : IConfigurationComponent
     {
         private readonly InfoBox clickableLink = new();
-        private readonly InfoBox notificationOptions = new();
         private readonly InfoBox dutyFinder = new();
         private readonly InfoBox options = new();
         private readonly InfoBox rouletteSelection = new();
@@ -104,14 +103,9 @@ internal class DutyRoulette : IModule
                 .AddConfigColor(Strings.Module.DutyRoulette.Override, Settings.OverrideColor)
                 .Draw();
 
-
             rouletteSelection
                 .AddTitle(Strings.Module.DutyRoulette.RouletteSelection)
-
-                .BeginTable()
-                .AddRows(Settings.TrackedRoulettes.OfType<IInfoBoxTableConfigurationRow>())
-                .EndTable()
-
+                .AddList(Settings.TrackedRoulettes)
                 .Draw();
 
             clickableLink
@@ -120,17 +114,12 @@ internal class DutyRoulette : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 
     private class ModuleStatusComponent : IStatusComponent
     {
-        private readonly InfoBox status = new();
         private readonly InfoBox trackedDuties = new();
         private readonly InfoBox tomestoneStatus = new();
 
@@ -148,27 +137,14 @@ internal class DutyRoulette : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
-            var moduleStatus = logicModule.GetModuleStatus();
-
-            status
-                .AddTitle(Strings.Status.Label)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-                .EndTable()
-                .Draw();
+            InfoBox.DrawGenericStatus(this);
 
             if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked.Value))
             {
                 trackedDuties
                     .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
                     .BeginTable()
-                    .AddRows(Settings.TrackedRoulettes
-                        .Where(row => row.Tracked.Value)
-                        .OfType<IInfoBoxTableDataRow>())
-
+                    .AddRows(Settings.TrackedRoulettes.Where(row => row.Tracked.Value))
                     .EndTable()
                     .Draw();
             }
@@ -179,20 +155,19 @@ internal class DutyRoulette : IModule
                     .AddString(Strings.Module.DutyRoulette.NoRoulettesTracked, Colors.Orange)
                     .Draw();
             }
-            
+
             if (Settings.HideExpertWhenCapped.Value || Settings.CompleteWhenCapped.Value)
+            {
                 tomestoneStatus
                     .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
                     .BeginTable()
-                    
                     .BeginRow()
                     .AddString(Strings.Module.DutyRoulette.ExpertTomestones)
-                    .AddString($"{logicModule.GetCurrentLimitedTomestoneCount()} / {logicModule.CurrentLimitedTomestoneWeeklyCap}",
-                        logicModule.HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
+                    .AddString($"{logicModule.GetCurrentLimitedTomestoneCount()} / {logicModule.CurrentLimitedTomestoneWeeklyCap}", logicModule.HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
                     .EndRow()
-
                     .EndTable()
                     .Draw();
+            }
         }
     }
 

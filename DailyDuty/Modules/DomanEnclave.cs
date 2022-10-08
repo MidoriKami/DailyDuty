@@ -52,9 +52,7 @@ internal class DomanEnclave : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
         private readonly InfoBox clickableLink = new();
-        private readonly InfoBox notificationOptions = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -63,10 +61,7 @@ internal class DomanEnclave : IModule
 
         public void Draw()
         {
-            options
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             clickableLink
                 .AddTitle(Strings.Module.DomanEnclave.ClickableLinkLabel)
@@ -74,11 +69,7 @@ internal class DomanEnclave : IModule
                 .AddConfigCheckbox(Strings.Module.DomanEnclave.ClickableLinkLabel, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 
@@ -106,22 +97,18 @@ internal class DomanEnclave : IModule
             status
                 .AddTitle(Strings.Status.Label)
                 .BeginTable()
-
                 .BeginRow()
                 .AddString(Strings.Status.ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
-
                 .BeginRow()
                 .AddString(Strings.Module.DomanEnclave.BudgetRemaining)
                 .AddString(logicModule.GetRemainingBudget().ToString(), logicModule.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange)
                 .EndRow()
-
                 .BeginRow()
                 .AddString(Strings.Module.DomanEnclave.CurrentAllowance)
                 .AddString(Settings.WeeklyAllowance.ToString())
                 .EndRow()
-                
                 .EndTable()
                 .Draw();
 

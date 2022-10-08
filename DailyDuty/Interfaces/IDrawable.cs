@@ -1,6 +1,6 @@
 ﻿namespace DailyDuty.Interfaces;
 
-internal interface IDrawable
+public interface IDrawable
 {
     void Draw();
 }

@@ -63,7 +63,6 @@ internal class WondrousTails : IModule
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
         private readonly InfoBox optionsInfoBox = new();
-        private readonly InfoBox notificationOptionsInfoBox = new();
         private readonly InfoBox clickableLink = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
@@ -90,11 +89,7 @@ internal class WondrousTails : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptionsInfoBox
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 

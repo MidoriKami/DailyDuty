@@ -83,7 +83,6 @@ internal class ChallengeLog : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
         private readonly InfoBox target = new();
 
         public ModuleStatusComponent(IModule parentModule)
@@ -94,39 +93,24 @@ internal class ChallengeLog : IModule
         public void Draw()
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-
-            var moduleStatus = logicModule.GetModuleStatus();
-            status
-                .AddTitle(Strings.Status.Label)
-                .BeginTable()
-
-                .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-
-                .EndTable()
-                .Draw();
+           
+            InfoBox.DrawGenericStatus(this);
 
             target
                 .AddTitle(Strings.Module.ChallengeLog.Battle)
                 .BeginTable()
-                
                 .BeginRow()
                 .AddString(Strings.Module.ChallengeLog.Commendations)
                 .AddString($"{Settings.Commendations} / 5", logicModule.CommendationStatus().GetStatusColor())
                 .EndRow()
-
                 .BeginRow()
                 .AddString(Strings.Module.ChallengeLog.DungeonRoulette)
                 .AddString($"{Settings.RouletteDungeons} / 3", logicModule.DungeonRouletteStatus().GetStatusColor())
                 .EndRow()
-
                 .BeginRow()
                 .AddString(Strings.Module.ChallengeLog.DungeonMaster)
                 .AddString($"{Settings.DungeonMaster} / 5", logicModule.DungeonMasterStatus().GetStatusColor())
                 .EndRow()
-
                 .EndTable()
                 .Draw();
         }

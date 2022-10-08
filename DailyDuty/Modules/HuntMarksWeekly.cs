@@ -59,9 +59,7 @@ internal class HuntMarksWeekly : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox optionsInfoBox = new();
         private readonly InfoBox huntTracking = new();
-        private readonly InfoBox notificationOptionsInfoBox = new();
 
         public ModuleConfigurationComponent(IModule parentModule)
         {
@@ -70,22 +68,14 @@ internal class HuntMarksWeekly : IModule
 
         public void Draw()
         {
-            optionsInfoBox
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             huntTracking
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
                 .AddList(Settings.TrackedHunts)
                 .Draw();
 
-
-            notificationOptionsInfoBox
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 
@@ -95,7 +85,6 @@ internal class HuntMarksWeekly : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
         private readonly InfoBox trackedHunts = new();
         private readonly InfoBox forceComplete = new();
 
@@ -106,19 +95,7 @@ internal class HuntMarksWeekly : IModule
 
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-
-            var moduleStatus = logicModule.GetModuleStatus();
-
-            status
-                .AddTitle(Strings.Status.Label)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-                .EndTable()
-                .Draw();
+            InfoBox.DrawGenericStatus(this);
 
             if (Settings.TrackedHunts.Any(hunt => hunt.Tracked.Value))
             {
@@ -142,7 +119,6 @@ internal class HuntMarksWeekly : IModule
                 .AddAction(ForceCompleteButton)
                 .Draw();
         }
-
 
         private void ForceCompleteButton()
         {

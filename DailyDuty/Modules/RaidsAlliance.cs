@@ -82,9 +82,7 @@ internal class RaidsAlliance : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox options = new();
         private readonly InfoBox configuration = new();
-        private readonly InfoBox notificationOptions = new();
         private readonly InfoBox regenerateRaids = new();
         private readonly InfoBox clickableLink = new();
 
@@ -95,10 +93,7 @@ internal class RaidsAlliance : IModule
 
         public void Draw()
         {
-            options
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
             if (Settings.TrackedRaids is { } trackedRaids)
             {
@@ -122,11 +117,7 @@ internal class RaidsAlliance : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            notificationOptions
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
 
         private void RegenerateRaidList()
@@ -150,7 +141,6 @@ internal class RaidsAlliance : IModule
 
         public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
-        private readonly InfoBox status = new();
         private readonly InfoBox target = new();
 
         public ModuleStatusComponent(IModule parentModule)
@@ -160,19 +150,7 @@ internal class RaidsAlliance : IModule
         
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-
-            var moduleStatus = logicModule.GetModuleStatus();
-
-            status
-                .AddTitle(Strings.Status.Label)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-                .EndTable()
-                .Draw();
+            InfoBox.DrawGenericStatus(this);
 
             if (Settings.TrackedRaids.Any(raid => raid.Tracked.Value))
             {

@@ -54,9 +54,6 @@ internal class TreasureMap : IModule
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
 
-        private readonly InfoBox optionsInfoBox = new();
-        private readonly InfoBox notificationOptionsInfoBox = new();
-
         public ModuleConfigurationComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -64,16 +61,9 @@ internal class TreasureMap : IModule
 
         public void Draw()
         {
-            optionsInfoBox
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .Draw();
+            InfoBox.DrawGenericSettings(this);
 
-            notificationOptionsInfoBox
-                .AddTitle(Strings.Configuration.NotificationOptions)
-                .AddConfigCheckbox(Strings.Configuration.OnLogin, Settings.NotifyOnLogin)
-                .AddConfigCheckbox(Strings.Configuration.OnZoneChange, Settings.NotifyOnZoneChange)
-                .Draw();
+            InfoBox.DrawNotificationOptions(this);
         }
     }
 
@@ -81,10 +71,8 @@ internal class TreasureMap : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable =>
-            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
-
-        private readonly InfoBox status = new();
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        
         private readonly InfoBox nextMap = new();
 
         public ModuleStatusComponent(IModule parentModule)
@@ -96,18 +84,7 @@ internal class TreasureMap : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
-            var moduleStatus = logicModule.GetModuleStatus();
-
-
-            status
-                .AddTitle(Strings.Status.Label)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-                .EndTable()
-                .Draw();
+            InfoBox.DrawGenericStatus(this);
 
             nextMap
                 .AddTitle(Strings.Module.TreasureMap.NextMap)

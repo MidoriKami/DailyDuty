@@ -59,6 +59,7 @@ public class Common
     public string Header => Loc.Localize("Header", "Header");
     public string Daily => Loc.Localize("Daily", "Daily");
     public string Weekly => Loc.Localize("Weekly", "Weekly");
+    public string MessageTimeout => Loc.Localize("MessageTimeout", "Zone Change notifications will only appear once every five minutes\nThis is to prevent excessive chatlog spamming");
 }
 
 public class Expansion
