@@ -21,6 +21,8 @@ public enum ModuleName
     NormalRaids,
     AllianceRaids,
     UnrealTrial,
+    GrandCompanySupply,
+    GrandCompanyProvision
 }
 
 public static class ModuleNameExtensions
@@ -45,6 +47,8 @@ public static class ModuleNameExtensions
             ModuleName.NormalRaids => Strings.Module.Raids.NormalLabel,
             ModuleName.AllianceRaids => Strings.Module.Raids.AllianceLabel,
             ModuleName.UnrealTrial => Strings.Module.FauxHollows.Label,
+            ModuleName.GrandCompanySupply => Strings.Module.GrandCompany.SupplyLabel,
+            ModuleName.GrandCompanyProvision => Strings.Module.GrandCompany.ProvisioningLabel,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

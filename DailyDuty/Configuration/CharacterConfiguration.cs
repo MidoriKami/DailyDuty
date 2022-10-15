@@ -37,6 +37,8 @@ internal class CharacterConfiguration
     public RaidsNormalSettings RaidsNormal = new();
     public RaidsAllianceSettings RaidsAlliance = new();
     public FauxHollowsSettings FauxHollows = new();
+    public GrandCompanySupplySettings GrandCompanySupply = new();
+    public GrandCompanyProvisionSettings GrandCompanyProvision = new();
 
     public void Save()
     {

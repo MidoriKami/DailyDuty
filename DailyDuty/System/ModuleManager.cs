@@ -27,6 +27,8 @@ internal class ModuleManager : IDisposable
         new RaidsNormal(),
         new RaidsAlliance(),
         new FauxHollows(),
+        new GrandCompanySupply(),
+        new GrandCompanyProvision(),
     };
 
     public void Dispose()

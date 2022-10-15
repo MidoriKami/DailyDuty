@@ -125,6 +125,7 @@ public class Module
     public ChallengeLog ChallengeLog { get; } = new();
     public Raids Raids { get; } = new();
     public FauxHollows FauxHollows { get; } = new ();
+    public GrandCompany GrandCompany { get; } = new();
 }
 
 public class BeastTribe
@@ -301,6 +302,16 @@ public class FauxHollows
     public string RetellingHelp => Loc.Localize("UnrealTrial_IncludeRetelling", "Require completing retelling to mark module as complete");
     public string Retelling => Loc.Localize("UnrealTrial_Retelling", "Include Retelling");
     public string Completions => Loc.Localize("UnrealTrial_Completions", "Completions");
+}
+
+public class GrandCompany
+{
+    public string SupplyLabel => Loc.Localize("GrandCompany_SupplyLabel", "Grand Company (Supply)");
+    public string ProvisioningLabel => Loc.Localize("GrandCompany_Provisioning", "Grand Company (Provision)");
+    public string NoJobsTracked => Loc.Localize("GrandCompany_NoJobsTracked", "No jobs have been selected for tracking");
+    public string TrackedJobs => Loc.Localize("GrandCompany_TrackedJobs", "Tracked Jobs");
+    public string SupplyNotification => Loc.Localize("GrandCompany_SupplyNotification", "Allowances Available");
+    public string ProvisionNotification => Loc.Localize("GrandCompany_SupplyNotification", "Allowances Available");
 }
 
 public class UserInterface
