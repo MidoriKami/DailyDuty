@@ -1,7 +1,6 @@
-﻿// ReSharper disable MemberCanBeMadeStatic.Global
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CheapLoc;
+// ReSharper disable MemberCanBeMadeStatic.Global
 
 namespace DailyDuty.Localization;
 
