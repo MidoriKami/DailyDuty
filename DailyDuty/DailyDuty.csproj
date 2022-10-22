@@ -2,12 +2,8 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Authors></Authors>
-		<Company></Company>
 		<Version>1.0</Version>
-		<AssemblyVersion>3.0.7.0</AssemblyVersion>
-		<Description></Description>
-		<Copyright></Copyright>
+		<AssemblyVersion>3.0.7.1</AssemblyVersion>
 		<PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
 	</PropertyGroup>
 
