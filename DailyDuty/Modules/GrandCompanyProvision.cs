@@ -6,6 +6,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
+using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -86,6 +87,8 @@ internal class GrandCompanyProvision : IModule
         
         public void Draw()
         {
+            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
+            
             InfoBox.DrawGenericStatus(this);
 
             if (Settings.TrackedProvision.Any(row => row.Tracked.Value))
@@ -104,6 +107,16 @@ internal class GrandCompanyProvision : IModule
                     .AddString(Strings.Module.GrandCompany.NoJobsTracked, Colors.Orange)
                     .Draw();
             }
+            
+            InfoBox.Instance
+                .AddTitle(Strings.Module.GrandCompany.NextReset)
+                .BeginTable()
+                .BeginRow()
+                .AddString(Strings.Module.GrandCompany.NextReset)
+                .AddString(logicModule.GetNextGrandCompanyReset())
+                .EndRow()
+                .EndTable()
+                .Draw();
         }
     }
 
@@ -168,7 +181,13 @@ internal class GrandCompanyProvision : IModule
                 .Where(r => r.Tracked.Value)
                 .Count(r => r.State == false);
         }
+        
+        public string GetNextGrandCompanyReset()
+        {
+            var span = Time.NextGrandCompanyReset() - DateTime.UtcNow;
 
+            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
+        }
     }
 
     private class ModuleTodoComponent : ITodoComponent
@@ -198,6 +217,6 @@ internal class GrandCompanyProvision : IModule
 
         public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
 
-        public DateTime GetNextReset() => Time.NextDailyReset();
+        public DateTime GetNextReset() => Time.NextGrandCompanyReset();
     }
 }
