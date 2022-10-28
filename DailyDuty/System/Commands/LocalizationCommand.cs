@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Interfaces;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.System.Commands
 {
@@ -11,7 +12,12 @@ namespace DailyDuty.System.Commands
             switch (additionalArguments)
             {
                 case "generate":
+                    Chat.Print("Command", "Generating Localization File");
                     Service.LocalizationManager.ExportLocalization();
+                    break;
+                
+                default:
+                    Chat.Print("Command", "Invalid Localization Command");
                     break;
             }
         }
