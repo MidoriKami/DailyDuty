@@ -1,4 +1,5 @@
-﻿using FFXIVClientStructs.FFXIV.Client.Graphics;
+﻿using System;
+using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using System.Numerics;
 using System.Text.RegularExpressions;
@@ -27,7 +28,9 @@ internal unsafe struct DutyFinderTreeListItem
 
     private string GetLabel()
     {
-        return GetLabelNode() is not {} labelNode ? string.Empty : labelNode->NodeText.ToString().ToLower();
+        var labelNode = GetLabelNode();
+
+        return labelNode == null ? string.Empty : labelNode->NodeText.ToString().ToLower();
     }
 
     private string GetFilteredLabel()
