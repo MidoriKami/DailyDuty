@@ -188,7 +188,7 @@ internal class TreasureMap : IModule
                 return Strings.Module.TreasureMap.MapAvailable;
             }
 
-            return TimersOverlayWindow.FormatTimespan(span, TimerStyle.Full);
+            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
         }
 
         private DateTime GetNextMapAvailableTime()

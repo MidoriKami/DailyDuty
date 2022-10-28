@@ -244,7 +244,7 @@ internal class FashionReport : IModule
         {
             var span = Time.NextFashionReportReset() - DateTime.UtcNow;
 
-            return TimersOverlayWindow.FormatTimespan(span, TimerStyle.Full);
+            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
         }
     }
 

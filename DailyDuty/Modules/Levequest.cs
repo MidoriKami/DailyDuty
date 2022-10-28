@@ -171,7 +171,7 @@ internal class Levequest : IModule
         {
             var span = Time.NextLeveAllowanceReset() - DateTime.UtcNow;
 
-            return TimersOverlayWindow.FormatTimespan(span, TimerStyle.Full);
+            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
         }
     }
 

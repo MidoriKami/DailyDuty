@@ -311,6 +311,7 @@ public class GrandCompany
     public string TrackedJobs => Loc.Localize("GrandCompany_TrackedJobs", "Tracked Jobs");
     public string SupplyNotification => Loc.Localize("GrandCompany_SupplyNotification", "Allowances Available");
     public string ProvisionNotification => Loc.Localize("GrandCompany_SupplyNotification", "Allowances Available");
+    public string NextReset => Loc.Localize("GrandCompany_NextReset", "Next Reset");
 }
 
 public class UserInterface
