@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using DailyDuty.Configuration.Components;
+using DailyDuty.Localization;
+using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Utilities;
@@ -30,6 +33,21 @@ internal static class Time
         return NextWeeklyReset().AddDays(-4);
     }
 
+    public static DateTime NextGrandCompanyReset()
+    {
+        var now = DateTime.UtcNow;
+        var targetHour = 20;    
+        
+        if( now.Hour < targetHour )
+        {
+            return now.Date.AddHours(targetHour);
+        }
+        else
+        {
+            return now.AddDays(1).Date.AddHours(targetHour);
+        }
+    }
+    
     public static DateTime NextLeveAllowanceReset()
     {
         var now = DateTime.UtcNow;
@@ -109,11 +127,20 @@ internal static class Time
         return targetDayIndex;
     }
 
-    public static bool CompareAdjustedDays(DayOfWeek current, DayOfWeek target, DayOfWeek weekBase = DayOfWeek.Tuesday)
+    public static string FormatTimespan(TimeSpan span, TimerStyle style)
     {
-        var currentIndex = GetAdjustedWeekday(current, weekBase);
-        var targetIndex = GetAdjustedWeekday(target, weekBase);
+        return style switch
+        {
+            // Human Style just shows the highest order nonzero field.
+            TimerStyle.Human when span.Days > 1 => Strings.UserInterface.Timers.NumDays.Format(span.Days),
+            TimerStyle.Human when span.Days == 1 => Strings.UserInterface.Timers.DayPlusHours.Format(span.Days, span.Hours),
+            TimerStyle.Human when span.Hours > 1 => Strings.UserInterface.Timers.NumHours.Format(span.Hours),
+            TimerStyle.Human when span.Minutes >= 1 => Strings.UserInterface.Timers.NumMins.Format(span.Minutes),
+            TimerStyle.Human => Strings.UserInterface.Timers.NumSecs.Format(span.Seconds),
 
-        return currentIndex >= targetIndex;
+            TimerStyle.Full => $"{(span.Days >= 1 ? $"{span.Days}." : "")}{span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}",
+            TimerStyle.NoSeconds => $"{(span.Days >= 1 ? $"{span.Days}." : "")}{span.Hours:D2}:{span.Minutes:D2}",
+            _ => string.Empty
+        };
     }
 }

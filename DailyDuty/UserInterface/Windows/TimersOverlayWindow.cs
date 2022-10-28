@@ -189,7 +189,7 @@ internal class TimersOverlayWindow : Window, IDisposable
         {
             if (remainingTime >= TimeSpan.Zero)
             {
-                var timeText = FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
+                var timeText = Time.FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
                 var timeTextSize = ImGui.CalcTextSize(timeText);
                 ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
                 ImGui.TextColored(timerSettings.TimeColor.Value, timeText);
@@ -218,22 +218,5 @@ internal class TimersOverlayWindow : Window, IDisposable
                 ImGui.TextColored(timerSettings.TextColor.Value, timer.ParentModule.Name.GetTranslatedString());
             }
         }
-    }
-
-    public static string FormatTimespan(TimeSpan span, TimerStyle style)
-    {
-        return style switch
-        {
-            // Human Style just shows the highest order nonzero field.
-            TimerStyle.Human when span.Days > 1 => Strings.UserInterface.Timers.NumDays.Format(span.Days),
-            TimerStyle.Human when span.Days == 1 => Strings.UserInterface.Timers.DayPlusHours.Format(span.Days, span.Hours),
-            TimerStyle.Human when span.Hours > 1 => Strings.UserInterface.Timers.NumHours.Format(span.Hours),
-            TimerStyle.Human when span.Minutes >= 1 => Strings.UserInterface.Timers.NumMins.Format(span.Minutes),
-            TimerStyle.Human => Strings.UserInterface.Timers.NumSecs.Format(span.Seconds),
-
-            TimerStyle.Full => $"{(span.Days >= 1 ? $"{span.Days}." : "")}{span.Hours:D2}:{span.Minutes:D2}:{span.Seconds:D2}",
-            TimerStyle.NoSeconds => $"{(span.Days >= 1 ? $"{span.Days}." : "")}{span.Hours:D2}:{span.Minutes:D2}",
-            _ => string.Empty
-        };
     }
 }
