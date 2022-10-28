@@ -27,7 +27,7 @@ internal unsafe struct DutyFinderTreeListItem
 
     private string GetLabel()
     {
-        return GetLabelNode()->NodeText.ToString().ToLower();
+        return GetLabelNode() is not {} labelNode ? string.Empty : labelNode->NodeText.ToString().ToLower();
     }
 
     private string GetFilteredLabel()
