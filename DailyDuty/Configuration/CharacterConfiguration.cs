@@ -79,39 +79,47 @@ internal class CharacterConfiguration
 
             var versionNumber = GetConfigFileVersion(fileText);
 
-            if (versionNumber == 2)
+            return versionNumber switch
             {
-                var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
-
-                if (loadedCharacterConfiguration == null)
-                {
-                    throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
-                }
-
-                return loadedCharacterConfiguration;
-            }
-            else
-            {
-                CharacterConfiguration migratedConfiguration;
-
-                try
-                {
-                    migratedConfiguration = ConfigMigration.Convert(fileText);
-                    migratedConfiguration.Save();
-                }
-                catch (Exception e)
-                {
-                    PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
-                    migratedConfiguration = CreateNewCharacterConfiguration();
-                }
-
-                return migratedConfiguration;
-            }
+                2 => LoadExistingCharacterConfiguration(contentID, fileText),
+                1 => GenerateMigratedCharacterConfiguration(fileText),
+                _ => CreateNewCharacterConfiguration()
+            };
         }
         else
         {
             return CreateNewCharacterConfiguration();
         }
+    }
+
+    private static CharacterConfiguration GenerateMigratedCharacterConfiguration(string fileText)
+    {
+        CharacterConfiguration migratedConfiguration;
+
+        try
+        {
+            migratedConfiguration = ConfigMigration.Convert(fileText);
+            migratedConfiguration.Save();
+        }
+        catch (Exception e)
+        {
+            PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
+            migratedConfiguration = CreateNewCharacterConfiguration();
+        }
+
+        return migratedConfiguration;
+    }
+
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, string fileText)
+    {
+        var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
+
+        if (loadedCharacterConfiguration == null)
+        {
+            throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
+        }
+
+        return loadedCharacterConfiguration;
     }
 
     private static CharacterConfiguration CreateNewCharacterConfiguration()
@@ -124,6 +132,8 @@ internal class CharacterConfiguration
         var playerName = playerData?.Name.TextValue ?? "Unknown";
         var playerWorld = playerData?.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
 
+        PluginLog.Information($"Creating new configuration file for: {contentId}, {playerName}, {playerWorld}");
+        
         newCharacterConfiguration.CharacterData = new CharacterData()
         {
             Name = playerName,
@@ -137,8 +147,15 @@ internal class CharacterConfiguration
 
     private static int GetConfigFileVersion(string fileText)
     {
-        var json = JObject.Parse(fileText);
-
-        return json.GetValue("Version")?.Value<int>() ?? 0;
+        try
+        {
+            var json = JObject.Parse(fileText);
+            return json.GetValue("Version")?.Value<int>() ?? 0;
+        }
+        catch (Exception e)
+        {
+            PluginLog.Warning(e, "Unable to read configuration version.");
+            return 0;
+        }
     }
 }
