@@ -5,7 +5,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
-using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;

@@ -1,5 +1,4 @@
-﻿using System;
-using FFXIVClientStructs.FFXIV.Client.Graphics;
+﻿using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using System.Numerics;
 using System.Text.RegularExpressions;

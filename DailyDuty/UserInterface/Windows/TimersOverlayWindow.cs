@@ -10,7 +10,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
-using Dalamud.Utility;
 
 namespace DailyDuty.UserInterface.Windows;
 

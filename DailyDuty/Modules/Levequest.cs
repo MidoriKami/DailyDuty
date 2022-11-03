@@ -5,7 +5,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
-using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
