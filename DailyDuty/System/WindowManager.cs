@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Configuration;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -19,7 +20,6 @@ internal class WindowManager : IDisposable
         new ConfigurationWindow(),
         new StatusWindow(),
         new TodoConfigurationWindow(),
-        new TodoOverlayWindow(),
         new TimersConfigurationWindow(),
         new TimersOverlayWindow(),
     };
@@ -33,6 +33,12 @@ internal class WindowManager : IDisposable
 
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
         Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
+        Service.ConfigurationManager.OnCharacterDataAvailable += LoginListener;
+
+        if (Service.ConfigurationManager.CharacterDataLoaded)
+        {
+            LoginListener(this, Service.ConfigurationManager.CharacterConfiguration);
+        }
     }
 
     private void DrawUI() => windowSystem.Draw();
@@ -54,6 +60,7 @@ internal class WindowManager : IDisposable
     {
         Service.PluginInterface.UiBuilder.Draw -= DrawUI;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+        Service.ConfigurationManager.OnCharacterDataAvailable -= LoginListener;
 
         foreach (var window in windows.OfType<IDisposable>())
         {
@@ -61,6 +68,11 @@ internal class WindowManager : IDisposable
         }
 
         windowSystem.RemoveAllWindows();
+    }
+
+    private void LoginListener(object? sender, CharacterConfiguration e)
+    {
+        AddTodoOverlayWindow();
     }
 
     public void AddTimerStyleWindow(IModule parentModule, TimerSettings genericSettingsTimerSettings)
@@ -80,5 +92,23 @@ internal class WindowManager : IDisposable
     {
         windows.Remove(timersStyleWindow);
         windowSystem.RemoveWindow(timersStyleWindow);
+
+        timersStyleWindow.Dispose();
+    }
+
+    public void AddTodoOverlayWindow()
+    {
+        var newWindow = new TodoOverlayWindow();
+
+        windows.Add(newWindow);
+        windowSystem.AddWindow(newWindow);
+    }
+
+    public void RemoveTodoOverlayWindow(TodoOverlayWindow todoOverlayWindow)
+    {
+        windows.Remove(todoOverlayWindow);
+        windowSystem.RemoveWindow(todoOverlayWindow);
+
+        todoOverlayWindow.Dispose();
     }
 }

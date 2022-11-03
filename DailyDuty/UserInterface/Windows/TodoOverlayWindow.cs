@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Interfaces;
@@ -23,21 +22,16 @@ internal class TodoOverlayWindow : Window, IDisposable
 
     public TodoOverlayWindow() : base($"###DailyDutyTodoOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
     {
-        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
-
         Flags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
         Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
         Flags |= ImGuiWindowFlags.NoNavFocus;
-    }
 
+        Service.ClientState.Logout += OnLogout;
+    }
+    
     public void Dispose()
     {
-        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
-    }
-
-    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
-    {
-        WindowName = $"###DailyDutyTodoOverlayWindow+{e.CharacterData.Name}";
+        Service.ClientState.Logout -= OnLogout;
     }
 
     public override void PreOpenCheck()
@@ -209,5 +203,10 @@ internal class TodoOverlayWindow : Window, IDisposable
                     break;
             }
         }
+    }
+
+    private void OnLogout(object? sender, EventArgs e)
+    {
+        Service.WindowManager.RemoveTodoOverlayWindow(this);
     }
 }
