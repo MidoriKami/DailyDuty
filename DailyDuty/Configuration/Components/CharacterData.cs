@@ -1,5 +1,4 @@
 ﻿using System;
-using Dalamud.Logging;
 
 namespace DailyDuty.Configuration.Components;
 
