@@ -30,12 +30,12 @@ internal class ConfigurationWindow : Window, IDisposable
         selectionFrame = new SelectionFrame(selectables, 0.35f, new NavigationButtons());
         configurationFrame = new ConfigurationFrame();
 
-        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+        Service.ConfigurationManager.OnCharacterDataLoaded += UpdateWindowTitle;
     }
 
     public void Dispose()
     {
-        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+        Service.ConfigurationManager.OnCharacterDataLoaded -= UpdateWindowTitle;
     }
 
     private void UpdateWindowTitle(object? sender, CharacterConfiguration e)

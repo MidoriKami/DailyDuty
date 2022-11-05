@@ -29,7 +29,7 @@ internal class StatusWindow : Window, IDisposable
         selectionFrame = new SelectionFrame(selectables, 0.35f, new HideDisabledCheckbox());
         configurationFrame = new ConfigurationFrame();
 
-        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
+        Service.ConfigurationManager.OnCharacterDataLoaded += UpdateWindowTitle;
     }
 
     private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
@@ -39,7 +39,7 @@ internal class StatusWindow : Window, IDisposable
 
     public void Dispose()
     {
-        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
+        Service.ConfigurationManager.OnCharacterDataLoaded -= UpdateWindowTitle;
     }
 
     public override void PreOpenCheck()

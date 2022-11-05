@@ -61,7 +61,7 @@ internal class ChatManager : IDisposable
         SignatureHelper.Initialise(this);
 
         Service.ClientState.TerritoryChanged += OnTerritoryChanged;
-        Service.ConfigurationManager.OnCharacterDataAvailable += OnCharacterDataLoaded;
+        Service.ConfigurationManager.OnCharacterDataLoaded += OnCharacterDataLoaded;
         
         foreach (var module in Service.ModuleManager.GetLogicComponents())
         {
@@ -73,7 +73,7 @@ internal class ChatManager : IDisposable
     public void Dispose()
     {
         Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
-        Service.ConfigurationManager.OnCharacterDataAvailable -= OnCharacterDataLoaded;
+        Service.ConfigurationManager.OnCharacterDataLoaded -= OnCharacterDataLoaded;
     }
 
     private void OnCharacterDataLoaded(object? sender, CharacterConfiguration e)
