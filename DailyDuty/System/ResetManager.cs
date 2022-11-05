@@ -32,7 +32,7 @@ internal class ResetManager : IDisposable
 
             if (now >= module.ParentModule.GenericSettings.NextReset)
             {
-                PluginLog.Debug($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. Next Reset:[{module.ParentModule.GenericSettings.NextReset}]");
+                PluginLog.Debug($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. Next Reset:[{module.ParentModule.GenericSettings.NextReset.ToLocalTime()}]");
 
                 module.DoReset();
                 module.ParentModule.GenericSettings.NextReset = module.GetNextReset();
