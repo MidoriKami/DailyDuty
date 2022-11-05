@@ -44,7 +44,7 @@ internal class CharacterConfiguration
     {
         if (CharacterData.LocalContentID != 0)
         {
-            Log.Verbose($"{DateTime.Now} - {CharacterData.Name} Saved");
+            PluginLog.Verbose($"{DateTime.Now} - {CharacterData.Name} Saved");
 
             var configFileInfo = GetConfigFileInfo(CharacterData.LocalContentID);
 
@@ -56,7 +56,7 @@ internal class CharacterConfiguration
         }
         else
         {
-            Log.Verbose("Tried to save a config with invalid LocalContentID");
+            PluginLog.Warning("Tried to save a config with invalid LocalContentID, aborting save.");
         }
     }
 
@@ -92,6 +92,20 @@ internal class CharacterConfiguration
         }
     }
 
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, string fileText)
+    {
+        var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
+
+        if (loadedCharacterConfiguration == null)
+        {
+            throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
+        }
+        
+        loadedCharacterConfiguration.CharacterData.Update();
+        loadedCharacterConfiguration.Save();
+        return loadedCharacterConfiguration;
+    }
+    
     private static CharacterConfiguration GenerateMigratedCharacterConfiguration(string fileText)
     {
         CharacterConfiguration migratedConfiguration;
@@ -99,6 +113,7 @@ internal class CharacterConfiguration
         try
         {
             migratedConfiguration = ConfigMigration.Convert(fileText);
+            migratedConfiguration.CharacterData.Update();
             migratedConfiguration.Save();
         }
         catch (Exception e)
@@ -110,36 +125,9 @@ internal class CharacterConfiguration
         return migratedConfiguration;
     }
 
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, string fileText)
-    {
-        var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
-
-        if (loadedCharacterConfiguration == null)
-        {
-            throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
-        }
-
-        return loadedCharacterConfiguration;
-    }
-
     private static CharacterConfiguration CreateNewCharacterConfiguration()
     {
         var newCharacterConfiguration = new CharacterConfiguration();
-
-        var playerData = Service.ClientState.LocalPlayer;
-        var contentId = Service.ClientState.LocalContentId;
-
-        var playerName = playerData?.Name.TextValue ?? "Unknown";
-        var playerWorld = playerData?.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
-
-        PluginLog.Information($"Creating new configuration file for: {contentId}, {playerName}, {playerWorld}");
-        
-        newCharacterConfiguration.CharacterData = new CharacterData()
-        {
-            Name = playerName,
-            LocalContentID = contentId,
-            World = playerWorld,
-        };
 
         newCharacterConfiguration.Save();
         return newCharacterConfiguration;
