@@ -28,6 +28,12 @@ internal class TimersStyleWindow : Window
         IsOpen = true;
     }
 
+    public override void PreOpenCheck()
+    {
+        if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
+        if (Service.ClientState.IsPvP) IsOpen = false;
+    }
+    
     public override void PreDraw()
     {
         ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
