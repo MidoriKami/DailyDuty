@@ -3,6 +3,7 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
+using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -10,7 +11,7 @@ namespace DailyDuty.UserInterface.Windows;
 
 internal class TimersStyleWindow : Window
 {
-    public TimerSettings Settings { get; }
+    public TimerSettings Settings { get; set; }
     private IModule OwnerModule { get; }
 
     public TimersStyleWindow(IModule owner) : base($"{Strings.UserInterface.Timers.EditTimerTitle} - {owner.Name.GetTranslatedString()}")
@@ -63,6 +64,14 @@ internal class TimersStyleWindow : Window
             .AddTitle(Strings.UserInterface.Timers.SizeOptions)
             .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
             .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, 125.0f)
+            .Draw();
+        
+        InfoBox.Instance
+            .AddTitle(Strings.UserInterface.Timers.Reset)
+            .AddButton(Strings.UserInterface.Timers.Reset, () => { 
+                OwnerModule.GenericSettings.TimerSettings = new TimerSettings();
+                Settings = OwnerModule.GenericSettings.TimerSettings;
+            }, ImGuiHelpers.ScaledVector2(InfoBox.Instance.InnerWidth, 23.0f))
             .Draw();
     }
 

@@ -14,5 +14,5 @@ public class GenericSettings
     public Setting<bool> TodoUseLongLabel = new(false);
 
     public Setting<bool> TimerTaskEnabled = new(false);
-    public readonly TimerSettings TimerSettings = new();
+    public TimerSettings TimerSettings = new();
 }

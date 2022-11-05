@@ -353,7 +353,10 @@ public class Timers
     public string HideWindowInDuty => Loc.Localize("Timers_HideWindowInDuty", "Hide Window In Duty");
     public string LockWindow => Loc.Localize("Timers_LockWindow", "Lock Window Position");
     public string Opacity => Loc.Localize("Timers_Opacity", "Opacity");
-    public string NoTimersEnabledWarning => Loc.Localize("Timers_NoneEnabledWarning", "Enable which timers you would like to see here with '/dd timers' command");
+
+    public string NoTimersEnabledWarning => Loc.Localize("Timers_NoneEnabledWarning",
+        "Enable which timers you would like to see here with '/dd timers' command");
+
     public string Label => Loc.Localize("Timers_Label", "Timers");
     public string EditTimer => Loc.Localize("Timers_EditTimer", "Edit Style");
     public string EditTimerTitle => Loc.Localize("Timers_EditTimerTitle", "Edit Timer Style");
@@ -382,6 +385,7 @@ public class Timers
     public string NumHours => Loc.Localize("Timers_NumHours", "{0} hours");
     public string NumMins => Loc.Localize("Timers_NumMins", "{0} minutes");
     public string NumSecs => Loc.Localize("Timers_NumSecs", "{0} seconds");
+    public string Reset => Loc.Localize("Timers_Reset", "Reset to Default");
 }
 
 public class Teleport
