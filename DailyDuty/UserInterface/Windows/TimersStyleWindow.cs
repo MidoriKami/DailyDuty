@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -9,15 +8,15 @@ using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Windows;
 
-internal class TimersStyleWindow : Window, IDisposable
+internal class TimersStyleWindow : Window
 {
     public TimerSettings Settings { get; }
     private IModule OwnerModule { get; }
 
-    public TimersStyleWindow(IModule owner, TimerSettings settings, string windowName) : base(windowName)
+    public TimersStyleWindow(IModule owner) : base($"{Strings.UserInterface.Timers.EditTimerTitle} - {owner.Name.GetTranslatedString()}")
     {
-        Settings = settings;
         OwnerModule = owner;
+        Settings = owner.GenericSettings.TimerSettings;
 
         SizeConstraints = new WindowSizeConstraints
         {
@@ -26,11 +25,6 @@ internal class TimersStyleWindow : Window, IDisposable
         };
 
         IsOpen = true;
-    }
-
-    public void Dispose()
-    {
-
     }
 
     public override void PreDraw()
@@ -79,6 +73,6 @@ internal class TimersStyleWindow : Window, IDisposable
 
     public override void OnClose()
     {
-        Service.WindowManager.RemoveTimerStyleWindow(this);
+        Service.WindowManager.RemoveWindow(this);
     }
 }
