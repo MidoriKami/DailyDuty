@@ -22,9 +22,5 @@ public record CharacterData
             Name = playerData.Name.TextValue;
             World = playerData.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
         }
-        else
-        {
-            PluginLog.Warning("Attempted to update CharacterData when LocalPlayer is null.");
-        }
     }
 }
