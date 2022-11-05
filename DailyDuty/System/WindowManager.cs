@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Configuration;
-using DailyDuty.Configuration.Components;
-using DailyDuty.Interfaces;
-using DailyDuty.Localization;
 using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;
@@ -21,7 +18,6 @@ internal class WindowManager : IDisposable
         new StatusWindow(),
         new TodoConfigurationWindow(),
         new TimersConfigurationWindow(),
-        new TimersOverlayWindow(),
     };
 
     public WindowManager()
@@ -33,11 +29,12 @@ internal class WindowManager : IDisposable
 
         Service.PluginInterface.UiBuilder.Draw += DrawUI;
         Service.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
-        Service.ConfigurationManager.OnCharacterDataAvailable += LoginListener;
+        Service.ConfigurationManager.OnCharacterDataLoaded += OnCharacterDataLoaded;
+        Service.ConfigurationManager.OnCharacterDataUnloaded += OnCharacterDataUnloaded;
 
         if (Service.ConfigurationManager.CharacterDataLoaded)
         {
-            LoginListener(this, Service.ConfigurationManager.CharacterConfiguration);
+            OnCharacterDataLoaded(this, Service.ConfigurationManager.CharacterConfiguration);
         }
     }
 
@@ -60,7 +57,8 @@ internal class WindowManager : IDisposable
     {
         Service.PluginInterface.UiBuilder.Draw -= DrawUI;
         Service.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
-        Service.ConfigurationManager.OnCharacterDataAvailable -= LoginListener;
+        Service.ConfigurationManager.OnCharacterDataLoaded -= OnCharacterDataLoaded;
+        Service.ConfigurationManager.OnCharacterDataUnloaded -= OnCharacterDataUnloaded;
 
         foreach (var window in windows.OfType<IDisposable>())
         {
@@ -70,45 +68,37 @@ internal class WindowManager : IDisposable
         windowSystem.RemoveAllWindows();
     }
 
-    private void LoginListener(object? sender, CharacterConfiguration e)
+    private void OnCharacterDataLoaded(object? sender, CharacterConfiguration e)
     {
-        AddTodoOverlayWindow();
+        AddWindow(new TimersOverlayWindow());
+        AddWindow(new TodoOverlayWindow());
+    }
+    
+    private void OnCharacterDataUnloaded(object? sender, EventArgs e)
+    {
+        var windowList = new List<Window>();
+        
+        windowList.AddRange(windows.OfType<TimersOverlayWindow>());
+        windowList.AddRange(windows.OfType<TodoOverlayWindow>());
+        
+        foreach (var overlay in windowList)
+        {
+            RemoveWindow(overlay);
+        }
     }
 
-    public void AddTimerStyleWindow(IModule parentModule, TimerSettings genericSettingsTimerSettings)
+    public void AddWindow(Window newWindow)
     {
-        var windowTitle = $"{Strings.UserInterface.Timers.EditTimerTitle} - {parentModule.Name.GetTranslatedString()}";
-
-        if (!windowSystem.Windows.Any(window => window.WindowName == windowTitle))
+        if (!windowSystem.Windows.Any(window => window.WindowName == newWindow.WindowName))
         {
-            var newWindow = new TimersStyleWindow(parentModule, genericSettingsTimerSettings, windowTitle);
-
             windows.Add(newWindow);
             windowSystem.AddWindow(newWindow);
         }
     }
 
-    public void RemoveTimerStyleWindow(TimersStyleWindow timersStyleWindow)
+    public void RemoveWindow(Window window)
     {
-        windows.Remove(timersStyleWindow);
-        windowSystem.RemoveWindow(timersStyleWindow);
-
-        timersStyleWindow.Dispose();
-    }
-
-    public void AddTodoOverlayWindow()
-    {
-        var newWindow = new TodoOverlayWindow();
-
-        windows.Add(newWindow);
-        windowSystem.AddWindow(newWindow);
-    }
-
-    public void RemoveTodoOverlayWindow(TodoOverlayWindow todoOverlayWindow)
-    {
-        windows.Remove(todoOverlayWindow);
-        windowSystem.RemoveWindow(todoOverlayWindow);
-
-        todoOverlayWindow.Dispose();
+        windows.Remove(window);
+        windowSystem.RemoveWindow(window);
     }
 }

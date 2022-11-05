@@ -19,7 +19,8 @@ internal class ConfigurationManager : IDisposable
     [MemberNotNullWhen(returnValue: true, nameof(backingCharacterConfiguration))]
     public bool CharacterDataLoaded { get; private set; }
 
-    public event EventHandler<CharacterConfiguration>? OnCharacterDataAvailable;
+    public event EventHandler<CharacterConfiguration>? OnCharacterDataLoaded;
+    public event EventHandler? OnCharacterDataUnloaded;
 
     public ConfigurationManager()
     {
@@ -50,6 +51,7 @@ internal class ConfigurationManager : IDisposable
         PluginLog.Verbose($"Logging out of '{CharacterConfiguration.CharacterData.Name}'");
 
         CharacterDataLoaded = false;
+        OnCharacterDataUnloaded?.Invoke(this, EventArgs.Empty);
     }
 
     private void LoginLogic(Framework framework)
@@ -67,9 +69,9 @@ internal class ConfigurationManager : IDisposable
         PluginLog.Verbose($"Logging into Character '{Service.ClientState.LocalPlayer?.Name.TextValue}'");
 
         backingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
+        
         CharacterDataLoaded = true;
-
-        OnCharacterDataAvailable?.Invoke(this, CharacterConfiguration);
+        OnCharacterDataLoaded?.Invoke(this, CharacterConfiguration);
     }
 
     public void Save()

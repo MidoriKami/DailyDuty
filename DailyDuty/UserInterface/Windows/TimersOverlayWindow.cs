@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Configuration.OverlaySettings;
-using DailyDuty.Configuration;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;
@@ -13,31 +12,19 @@ using DailyDuty.Localization;
 
 namespace DailyDuty.UserInterface.Windows;
 
-internal class TimersOverlayWindow : Window, IDisposable
+internal class TimersOverlayWindow : Window
 {
     private static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
 
     private List<ITimerComponent> trackedTasks = new();
 
-    public TimersOverlayWindow() : base($"###DailyDutyTimersOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}")
+    public TimersOverlayWindow() : base($"###DailyDutyTimersOverlayWindow+{Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}{Service.ConfigurationManager.CharacterConfiguration.CharacterData.World}")
     {
-        Service.ConfigurationManager.OnCharacterDataAvailable += UpdateWindowTitle;
-
         Flags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
         Flags |= ImGuiWindowFlags.NoFocusOnAppearing;
         Flags |= ImGuiWindowFlags.NoNavFocus;
     }
-
-    public void Dispose()
-    {
-        Service.ConfigurationManager.OnCharacterDataAvailable -= UpdateWindowTitle;
-    }
-
-    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
-    {
-        WindowName = $"###DailyDutyTimersOverlayWindow+{e.CharacterData.Name}";
-    }
-
+    
     public override void PreOpenCheck()
     {
         if (Settings.Enabled.Value) IsOpen = true;
