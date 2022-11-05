@@ -61,5 +61,4 @@ internal class ConfigurationWindow : Window, IDisposable
         Service.PluginInterface.UiBuilder.AddNotification("Settings Saved", "DailyDuty", NotificationType.Success);
         Service.ConfigurationManager.Save();
     }
-
 }

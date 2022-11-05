@@ -76,6 +76,9 @@ internal class ConfigurationManager : IDisposable
 
     public void Save()
     {
-        CharacterConfiguration.Save();
+        if (CharacterDataLoaded)
+        {
+            CharacterConfiguration.Save();
+        }
     }
 }
