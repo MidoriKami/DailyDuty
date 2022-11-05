@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using DailyDuty.Configuration;
-using DailyDuty.Utilities;
 using Dalamud.Game;
+using Dalamud.Logging;
 
 namespace DailyDuty.System;
 
@@ -40,14 +40,14 @@ internal class ConfigurationManager : IDisposable
 
     private void OnLogin(object? sender, EventArgs e)
     {
-        Log.Verbose("Adding Login Listener");
+        PluginLog.Verbose("Adding Login Listener");
 
         Service.Framework.Update += LoginLogic;
     }
 
     private void OnLogout(object? sender, EventArgs e)
     {
-        Log.Verbose($"Logging out of '{CharacterConfiguration.CharacterData.Name}'");
+        PluginLog.Verbose($"Logging out of '{CharacterConfiguration.CharacterData.Name}'");
 
         CharacterDataLoaded = false;
     }
@@ -58,13 +58,13 @@ internal class ConfigurationManager : IDisposable
 
         Service.Framework.RunOnTick(LoadCharacterConfiguration, TimeSpan.FromSeconds(1));
 
-        Log.Verbose("Removing Login Listener");
+        PluginLog.Verbose("Removing Login Listener");
         Service.Framework.Update -= LoginLogic;
     }
 
     private void LoadCharacterConfiguration()
     {
-        Log.Verbose($"Logging into Character '{Service.ClientState.LocalPlayer?.Name.TextValue}'");
+        PluginLog.Verbose($"Logging into Character '{Service.ClientState.LocalPlayer?.Name.TextValue}'");
 
         backingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
         CharacterDataLoaded = true;

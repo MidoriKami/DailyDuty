@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.System.Commands;
-using DailyDuty.Utilities;
 using Dalamud.Game.Command;
+using Dalamud.Logging;
 
 namespace DailyDuty.System;
 
@@ -45,7 +45,7 @@ internal class CommandManager : IDisposable
 
     private void OnCommand(string command, string arguments)
     {
-        Log.Verbose($"Received Command `{command}` `{arguments}`");
+        PluginLog.Debug($"Received Command `{command}` `{arguments}`");
 
         var subCommand = GetPrimaryCommand(arguments);
         var subCommandArguments = GetSecondaryCommand(arguments);

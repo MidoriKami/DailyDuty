@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Utilities;
+using Dalamud.Logging;
 
 namespace DailyDuty.System;
 
@@ -32,7 +32,7 @@ internal class ResetManager : IDisposable
 
             if (now >= module.ParentModule.GenericSettings.NextReset)
             {
-                Log.Verbose($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. [{module.ParentModule.GenericSettings.NextReset}");
+                PluginLog.Debug($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. Next Reset:[{module.ParentModule.GenericSettings.NextReset}]");
 
                 module.DoReset();
                 module.ParentModule.GenericSettings.NextReset = module.GetNextReset();

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text;
-using DailyDuty.Utilities;
+using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
@@ -94,7 +94,7 @@ internal class ChatManager : IDisposable
         else
         {
             var lockoutRemaining = TimeSpan.FromMinutes(5) - stopwatch.Elapsed;
-            Log.Verbose($"Zone Change Messages Suppressed, '{lockoutRemaining}' Remaining");
+            PluginLog.Debug($"Zone Change Messages Suppressed, '{lockoutRemaining}' Remaining");
         }
     }
 
