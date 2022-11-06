@@ -10,7 +10,7 @@ using ImGuiNET;
 
 namespace DailyDuty.UserInterface.Windows;
 
-internal class TodoConfigurationWindow : Window, IDisposable
+internal class TodoConfigurationWindow : Window
 {
     public static TodoOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TodoOverlay;
 
@@ -23,21 +23,10 @@ internal class TodoConfigurationWindow : Window, IDisposable
         };
     }
 
-    public void Dispose()
-    {
-
-    }
-
     public override void PreOpenCheck()
     {
         if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
         if (Service.ClientState.IsPvP) IsOpen = false;
-    }
-
-    public override void PreDraw()
-    {
-        ImGui.PushID("TodoConfiguration");
-
     }
 
     public override void Draw()
@@ -101,12 +90,7 @@ internal class TodoConfigurationWindow : Window, IDisposable
             .AddConfigColor(Strings.Common.Unavailable, Settings.TaskColors.UnavailableColor)
             .Draw();
     }
-
-    public override void PostDraw()
-    {
-        ImGui.PopID();
-    }
-
+    
     public override void OnClose()
     {
         Service.ConfigurationManager.Save();
