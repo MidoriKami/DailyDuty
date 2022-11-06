@@ -29,7 +29,6 @@ internal class TodoOverlayWindow : Window
     public override void PreOpenCheck()
     {
         IsOpen = Settings.Enabled.Value;
-
         if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
         if (Service.ClientState.IsPvP) IsOpen = false;
         if (Condition.InCutsceneOrQuestEvent()) IsOpen = false;

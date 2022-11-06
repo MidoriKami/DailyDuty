@@ -1,7 +1,6 @@
 ﻿using DailyDuty.Configuration.OverlaySettings;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using System;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Localization;
@@ -9,7 +8,7 @@ using DailyDuty.UserInterface.Components.InfoBox;
 
 namespace DailyDuty.UserInterface.Windows;
 
-internal class TimersConfigurationWindow : Window, IDisposable
+internal class TimersConfigurationWindow : Window
 {
     public static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
 
@@ -21,12 +20,7 @@ internal class TimersConfigurationWindow : Window, IDisposable
             MaximumSize = new Vector2(9999, 9999)
         };
     }
-
-    public void Dispose()
-    {
-
-    }
-
+    
     public override void PreOpenCheck()
     {
         if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
