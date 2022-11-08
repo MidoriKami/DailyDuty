@@ -42,10 +42,15 @@ public abstract class DrawList<T>
         return DrawListOwner;
     }
 
-    public T AddConfigCheckbox(string label, Setting<bool> setting, string? helpText = null)
+    public T AddConfigCheckbox(string label, Setting<bool> setting, string? helpText = null, string? additionalID = null)
     {
         DrawActions.Add(() =>
         {
+            if (additionalID != null)
+            {
+                ImGui.PushID(additionalID);
+            }
+            
             var cursorPosition = ImGui.GetCursorPos();
 
             if (ImGui.Checkbox($"##{label}", ref setting.Value))
@@ -62,6 +67,11 @@ public abstract class DrawList<T>
             if (helpText != null)
             {
                 ImGuiComponents.HelpMarker(helpText);
+            }
+
+            if (additionalID != null)
+            {
+                ImGui.PopID();
             }
         });
 

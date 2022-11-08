@@ -19,7 +19,7 @@ public interface ITodoComponent : IInfoBoxTableConfigurationRow
             owner
                 .BeginRow()
                 .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TodoTaskEnabled)
-                .AddConfigCheckbox(Strings.UserInterface.Todo.UseLongLabel, ParentModule.GenericSettings.TodoUseLongLabel)
+                .AddConfigCheckbox(Strings.UserInterface.Todo.UseLongLabel, ParentModule.GenericSettings.TodoUseLongLabel, additionalID: ParentModule.Name.GetTranslatedString())
                 .EndRow();
         }
         else
