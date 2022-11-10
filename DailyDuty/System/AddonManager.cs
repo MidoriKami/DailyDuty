@@ -16,6 +16,8 @@ internal class AddonManager : IDisposable
         new GoldSaucerAddon(),
         new DutyEventAddon(),
         new WeeklyPuzzleAddon(),
+        new AOZContentResultAddon(),
+        new AOZContentBriefingAddon(),
     };
     
     public void Dispose()

@@ -29,6 +29,7 @@ internal class ModuleManager : IDisposable
         new FauxHollows(),
         new GrandCompanySupply(),
         new GrandCompanyProvision(),
+        new MaskedCarnivale(),
     };
 
     public void Dispose()

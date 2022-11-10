@@ -39,6 +39,7 @@ internal class CharacterConfiguration
     public FauxHollowsSettings FauxHollows = new();
     public GrandCompanySupplySettings GrandCompanySupply = new();
     public GrandCompanyProvisionSettings GrandCompanyProvision = new();
+    public MaskedCarnivaleSettings MaskedCarnivale = new();
 
     public void Save()
     {

@@ -125,6 +125,7 @@ public class Module
     public Raids Raids { get; } = new();
     public FauxHollows FauxHollows { get; } = new ();
     public GrandCompany GrandCompany { get; } = new();
+    public MaskedCarnivale MaskedCarnivale = new();
 }
 
 public class BeastTribe
@@ -312,6 +313,16 @@ public class GrandCompany
     public string SupplyNotification => Loc.Localize("GrandCompany_SupplyNotification", "Allowances Available");
     public string ProvisionNotification => Loc.Localize("GrandCompany_SupplyNotification", "Allowances Available");
     public string NextReset => Loc.Localize("GrandCompany_NextReset", "Next Reset");
+}
+
+public class MaskedCarnivale
+{
+    public string Label => Loc.Localize("MaskedCarnivale_Label", "Masked Carnivale");
+    public string AllowancesRemaining => Loc.Localize("MaskedCarnivale_AllowancesRemaining", "Allowances Remaining");
+    public string NoTasksTracked => Loc.Localize("MaskedCarnivale_NoTasksTracked", "No Tasks Tracked");
+    public string Novice => Loc.Localize("MaskedCarnivale_Novice", "Novice");
+    public string Moderate => Loc.Localize("MaskedCarnivale_Moderate", "Moderate");
+    public string Advanced => Loc.Localize("MaskedCarnivale_Advanced", "Advanced");
 }
 
 public class UserInterface
