@@ -130,7 +130,7 @@ public class Module
 
 public class BeastTribe
 {
-    public string Label => Loc.Localize("BeastTribe_Label", "Beast Tribe");
+    public string Label => Loc.Localize("BeastTribe_Label", "Tribal Quests");
     public string AllowancesRemaining => Loc.Localize("BeastTribe_AllowancesRemaining", "Allowances Remaining");
 }
 
