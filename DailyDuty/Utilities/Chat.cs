@@ -25,23 +25,7 @@ internal static class Chat
     {
         Print(tag, $"{address:X8}");
     }
-
-    public static unsafe void Print(IntPtr pointer, int offset = 0, bool hex = false)
-    {
-        try
-        {
-            var address = (IntPtr)((byte*) pointer + offset);
-
-            Print("Memory", $"{address:X8}");
-
-            Print("Value", hex ? $"{*(int*) address:X8}" : $"{*(int*) address}");
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Pointer Operation Error");
-        }
-    }
-
+    
     public static void PrintError(string message)
     {
         var stringBuilder = new SeStringBuilder();
