@@ -6,6 +6,7 @@ using System.Linq;
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
+using DailyDuty.System;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
@@ -123,7 +124,7 @@ internal class MaskedCarnivale : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-
+        public DalamudLinkPayload? DalamudLinkPayload { get; }
         private AgentInterface* AozContentBriefingAgentInterface => Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.AozContentBriefing);
         
         private delegate byte IsWeeklyCompleteDelegate(AgentInterface* agent, byte index);
@@ -132,6 +133,8 @@ internal class MaskedCarnivale : IModule
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
+            
+            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.UlDah);
             
             SignatureHelper.Initialise(this);
             
@@ -151,41 +154,20 @@ internal class MaskedCarnivale : IModule
             {
                 // Novice
                 case 0 when e.Successful:
-                    foreach (var task in Settings.TrackedTasks)
-                    {
-                        if (task.Task == CarnivaleTask.Novice)
-                        {
-                            task.State = true;
-                            Service.ConfigurationManager.Save();
-                        }
-                    }
+                    SetTaskState(CarnivaleTask.Novice, true);
                     break;
                 
                 // Moderate 
                 case 1 when e.Successful:
-                    foreach (var task in Settings.TrackedTasks)
-                    {
-                        if (task.Task == CarnivaleTask.Moderate)
-                        {
-                            task.State = true;
-                            Service.ConfigurationManager.Save();
-                        }
-                    }
+                    SetTaskState(CarnivaleTask.Moderate, true);
                     break;
                 
                 // Advanced
                 case 2 when e.Successful:
-                    foreach (var task in Settings.TrackedTasks)
-                    {
-                        if (task.Task == CarnivaleTask.Advanced)
-                        {
-                            task.State = true;
-                            Service.ConfigurationManager.Save();
-                        }
-                    }
+                    SetTaskState(CarnivaleTask.Advanced, true);
                     break;
                     
-                // Non-Weekly bonus task
+                // Other
                 case 3:
                     break;
             }
@@ -201,9 +183,7 @@ internal class MaskedCarnivale : IModule
         }
 
         public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Module.MaskedCarnivale.AllowancesRemaining}";
-
-        public DalamudLinkPayload? DalamudLinkPayload => null;
-
+        
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
         public void DoReset()
@@ -217,6 +197,18 @@ internal class MaskedCarnivale : IModule
         public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
         private int GetIncompleteCount() => Settings.TrackedTasks.Where(task => task.Tracked.Value && !task.State).Count();
+
+        private void SetTaskState(CarnivaleTask task, bool completedState)
+        {
+            foreach (var trackedTask in Settings.TrackedTasks)
+            {
+                if (trackedTask.Task == task)
+                {
+                    trackedTask.State = completedState;
+                    Service.ConfigurationManager.Save();
+                }
+            }
+        }
     }
 
     private class ModuleTodoComponent : ITodoComponent

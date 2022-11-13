@@ -19,7 +19,8 @@ internal enum TeleportLocation
 {
     GoldSaucer,
     Idyllshire,
-    DomanEnclave
+    DomanEnclave,
+    UlDah,
 }
 
 internal record TeleportInfo(uint CommandID, TeleportLocation Target, Aetheryte Aetherite);
@@ -36,6 +37,7 @@ internal class TeleportManager : IDisposable
         new TeleportInfo(1, TeleportLocation.GoldSaucer, GetAetheryte(62)),
         new TeleportInfo(2, TeleportLocation.Idyllshire, GetAetheryte(75)),
         new TeleportInfo(3, TeleportLocation.DomanEnclave, GetAetheryte(127)),
+        new TeleportInfo(4, TeleportLocation.UlDah, GetAetheryte(9)),
     };
 
     private List<TeleportLinkPayloads> ChatLinkPayloads { get; } = new();
