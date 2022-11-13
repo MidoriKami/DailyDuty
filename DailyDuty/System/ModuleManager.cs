@@ -30,6 +30,7 @@ internal class ModuleManager : IDisposable
         new GrandCompanySupply(),
         new GrandCompanyProvision(),
         new MaskedCarnivale(),
+        new GrandCompanySquadron(),
     };
 
     public void Dispose()

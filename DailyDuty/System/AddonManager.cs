@@ -18,6 +18,7 @@ internal class AddonManager : IDisposable
         new WeeklyPuzzleAddon(),
         new AOZContentResultAddon(),
         new AOZContentBriefingAddon(),
+        new GcArmyExpeditionResult(),
     };
     
     public void Dispose()

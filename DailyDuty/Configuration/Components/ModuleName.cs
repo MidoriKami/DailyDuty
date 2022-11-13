@@ -23,7 +23,8 @@ public enum ModuleName
     UnrealTrial,
     GrandCompanySupply,
     GrandCompanyProvision,
-    MaskedCarnivale
+    MaskedCarnivale,
+    GrandCompanySquadron
 }
 
 public static class ModuleNameExtensions
@@ -51,6 +52,7 @@ public static class ModuleNameExtensions
             ModuleName.GrandCompanySupply => Strings.Module.GrandCompany.SupplyLabel,
             ModuleName.GrandCompanyProvision => Strings.Module.GrandCompany.ProvisioningLabel,
             ModuleName.MaskedCarnivale => Strings.Module.MaskedCarnivale.Label,
+            ModuleName.GrandCompanySquadron => Strings.Module.GrandCompany.SquadronLabel,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

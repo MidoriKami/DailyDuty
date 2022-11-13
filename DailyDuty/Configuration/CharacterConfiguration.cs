@@ -40,6 +40,7 @@ internal class CharacterConfiguration
     public GrandCompanySupplySettings GrandCompanySupply = new();
     public GrandCompanyProvisionSettings GrandCompanyProvision = new();
     public MaskedCarnivaleSettings MaskedCarnivale = new();
+    public GrandCompanySquadronSettings GrandCompanySquadron = new();
 
     public void Save()
     {
