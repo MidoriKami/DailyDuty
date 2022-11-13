@@ -167,6 +167,7 @@ internal class DutyRoulette : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         public readonly long CurrentLimitedTomestoneWeeklyCap;
 

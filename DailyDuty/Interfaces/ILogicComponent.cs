@@ -14,6 +14,7 @@ public interface ILogicComponent : IDisposable
     string GetStatusMessage();
 
     DalamudLinkPayload? DalamudLinkPayload { get; }
+    bool LinkPayloadActive { get; }
 
     void OnLoginMessage(object? sender, EventArgs e)
     {
@@ -27,7 +28,7 @@ public interface ILogicComponent : IDisposable
         var statusMessage = GetStatusMessage();
 
         if(statusMessage == string.Empty) return;
-        Chat.Print(moduleName, GetStatusMessage(), DalamudLinkPayload);
+        Chat.Print(moduleName, GetStatusMessage(), LinkPayloadActive ? DalamudLinkPayload : null);
     }        
         
     void OnZoneChangeMessage(object? sender, EventArgs e)
@@ -43,7 +44,7 @@ public interface ILogicComponent : IDisposable
         var statusMessage = GetStatusMessage();
 
         if(statusMessage == string.Empty) return;
-        Chat.Print(moduleName, GetStatusMessage(), DalamudLinkPayload);
+        Chat.Print(moduleName, GetStatusMessage(), LinkPayloadActive ? DalamudLinkPayload : null);
     }
 
     DateTime GetNextReset();

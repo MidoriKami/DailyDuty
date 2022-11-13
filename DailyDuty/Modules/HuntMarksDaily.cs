@@ -120,6 +120,7 @@ internal class HuntMarksDaily : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
+        public bool LinkPayloadActive => false;
 
         [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
         private readonly MobHuntStruct* huntData = null;

@@ -116,9 +116,9 @@ internal class ChallengeLog : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
+        public bool LinkPayloadActive => false;
 
         private delegate void* ChallengeLogNetworkData(void* a1, int a2, int* a3);
-
         [Signature("40 55 57 41 56 48 83 EC 20 0F B6 41 1C", DetourName = nameof(ProcessNetworkPacket))]
         private readonly Hook<ChallengeLogNetworkData>? refreshChallengeLogHook = null;
 

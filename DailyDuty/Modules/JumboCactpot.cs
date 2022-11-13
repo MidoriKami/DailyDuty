@@ -116,7 +116,8 @@ internal class JumboCactpot : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+        public DalamudLinkPayload? DalamudLinkPayload { get; } 
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         private int ticketData = -1;
 
@@ -124,6 +125,8 @@ internal class JumboCactpot : IModule
         {
             ParentModule = parentModule;
 
+            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+            
             Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += OnGoldSaucerUpdate;
             Service.AddonManager.Get<LotteryWeeklyAddon>().ReceiveEvent += OnReceiveEvent;
         }

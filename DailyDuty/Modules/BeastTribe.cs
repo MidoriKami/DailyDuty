@@ -121,6 +121,8 @@ internal class BeastTribe : IModule
     private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
+        public DalamudLinkPayload? DalamudLinkPayload => null;
+        public bool LinkPayloadActive => false;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -132,8 +134,6 @@ internal class BeastTribe : IModule
         }
 
         public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.BeastTribe.AllowancesRemaining}";
-
-        public DalamudLinkPayload? DalamudLinkPayload => null;
 
         public DateTime GetNextReset() => Time.NextDailyReset();
 

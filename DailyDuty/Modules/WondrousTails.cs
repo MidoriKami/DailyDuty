@@ -128,6 +128,7 @@ internal class WondrousTails : IModule
         public IModule ParentModule { get; }
 
         public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.NeedsNewBook() ? idyllshireTeleportPayload : openBookPayload;
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
 

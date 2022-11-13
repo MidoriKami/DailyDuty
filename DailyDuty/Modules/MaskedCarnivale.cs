@@ -24,6 +24,8 @@ public class MaskedCarnivaleSettings : GenericSettings
         new(CarnivaleTask.Moderate, new Setting<bool>(true), false),
         new(CarnivaleTask.Advanced, new Setting<bool>(true), false)
     };
+
+    public Setting<bool> EnableClickableLink = new(true);
 }
 
 internal class MaskedCarnivale : IModule
@@ -69,6 +71,12 @@ internal class MaskedCarnivale : IModule
             InfoBox.Instance
                 .AddTitle(Strings.Module.GrandCompany.TrackedJobs)
                 .AddList(Settings.TrackedTasks)
+                .Draw();
+            
+            InfoBox.Instance
+                .AddTitle(Strings.Module.MaskedCarnivale.ClickableLinkLabel)
+                .AddString(Strings.Module.MaskedCarnivale.ClickableLink)
+                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
             
             InfoBox.DrawNotificationOptions(this);
@@ -125,6 +133,8 @@ internal class MaskedCarnivale : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+
         private AgentInterface* AozContentBriefingAgentInterface => Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.AozContentBriefing);
         
         private delegate byte IsWeeklyCompleteDelegate(AgentInterface* agent, byte index);

@@ -123,6 +123,7 @@ internal class Levequest : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
+        public bool LinkPayloadActive => false;
 
         [Signature("88 05 ?? ?? ?? ?? 0F B7 41 06", ScanType = ScanType.StaticAddress)]
         private readonly LevequestStruct* levequestStruct = null;

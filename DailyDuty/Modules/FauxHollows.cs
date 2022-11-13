@@ -141,6 +141,7 @@ internal class FauxHollows : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         public ModuleLogicComponent(IModule parentModule)
         {

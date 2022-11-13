@@ -171,6 +171,7 @@ internal class RaidsAlliance : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         private readonly AgentContentsFinder* contentsFinderAgentInterface = AgentContentsFinder.Instance();
 

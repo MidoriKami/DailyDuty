@@ -131,12 +131,15 @@ internal class FashionReport : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+        public DalamudLinkPayload? DalamudLinkPayload { get; }
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
 
+            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+            
             SignatureHelper.Initialise(this);
 
             Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += GoldSaucerUpdate;

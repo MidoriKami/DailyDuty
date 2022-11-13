@@ -74,8 +74,7 @@ internal class CustomDelivery : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable =>
-            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -123,9 +122,9 @@ internal class CustomDelivery : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
+        public bool LinkPayloadActive => false;
 
         private delegate int GetCustomDeliveryAllowancesDelegate(byte* array);
-
         [Signature("0F B6 41 20 4C 8B C1")]
         private readonly GetCustomDeliveryAllowancesDelegate getCustomDeliveryAllowances = null!;
 

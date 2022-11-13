@@ -99,7 +99,8 @@ internal class TreasureMap : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
-        
+        public bool LinkPayloadActive => false;
+
         private delegate long GetNextMapAvailableTimeDelegate(UIState* uiState);
 
         [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]

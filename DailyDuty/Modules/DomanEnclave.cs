@@ -75,8 +75,7 @@ internal class DomanEnclave : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable =>
-            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -120,7 +119,8 @@ internal class DomanEnclave : IModule
     private unsafe class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; } = Service.TeleportManager.GetPayload(TeleportLocation.DomanEnclave);
+        public DalamudLinkPayload? DalamudLinkPayload { get; }
+        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
 
         private delegate DomanEnclaveStruct* GetDataDelegate();
 
@@ -130,6 +130,9 @@ internal class DomanEnclave : IModule
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
+
+            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.DomanEnclave);
+            
             SignatureHelper.Initialise(this);
             Service.Framework.Update += OnFrameworkUpdate;
         }
