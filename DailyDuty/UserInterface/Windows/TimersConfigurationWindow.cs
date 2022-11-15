@@ -3,6 +3,7 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System.Linq;
 using System.Numerics;
+using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 
@@ -43,6 +44,14 @@ internal class TimersConfigurationWindow : Window
             .BeginTable(0.65f)
             .AddRows(enabledModules, Strings.UserInterface.Todo.NoTasksEnabled)
             .EndTable()
+            .Draw();
+        
+        InfoBox.Instance
+            .AddTitle(Strings.UserInterface.Timers.Ordering)
+            .AddConfigRadio(TimersOrdering.Alphabetical.GetTranslatedString(), Settings.Ordering, TimersOrdering.Alphabetical)
+            .AddConfigRadio(TimersOrdering.AlphabeticalDescending.GetTranslatedString(), Settings.Ordering, TimersOrdering.AlphabeticalDescending)
+            .AddConfigRadio(TimersOrdering.TimeRemaining.GetTranslatedString(), Settings.Ordering, TimersOrdering.TimeRemaining)
+            .AddConfigRadio(TimersOrdering.TimeRemainingDescending.GetTranslatedString(), Settings.Ordering, TimersOrdering.TimeRemainingDescending)
             .Draw();
         
         InfoBox.Instance

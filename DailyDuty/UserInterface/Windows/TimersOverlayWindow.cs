@@ -71,7 +71,7 @@ internal class TimersOverlayWindow : Window
         }
         else
         {
-            DrawAllTimers(trackedTasks);
+            DrawAllTimers();
         }
     }
 
@@ -91,9 +91,9 @@ internal class TimersOverlayWindow : Window
         return tasks;
     }
 
-    private void DrawAllTimers(IEnumerable<ITimerComponent> countdownTimers)
+    private void DrawAllTimers()
     {
-        var timers = countdownTimers.ToArray();
+        var timers = GetOrderedTimers().ToArray();
         var totalWidth = (int)ImGui.GetContentRegionAvail().X;
         var spacing = (int)ImGui.GetStyle().ItemSpacing.X;
         var i = 0;
@@ -144,6 +144,18 @@ internal class TimersOverlayWindow : Window
         }
     }
 
+    private IOrderedEnumerable<ITimerComponent> GetOrderedTimers()
+    {
+        return Settings.Ordering.Value switch
+        {
+            TimersOrdering.Alphabetical => trackedTasks.OrderBy(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
+            TimersOrdering.AlphabeticalDescending => trackedTasks.OrderByDescending(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
+            TimersOrdering.TimeRemaining => trackedTasks.OrderBy(timer => timer.RemainingTime),
+            TimersOrdering.TimeRemainingDescending => trackedTasks.OrderByDescending(timer => timer.RemainingTime),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     private void DrawTimer(ITimerComponent timer)
     {
         var timerSettings = timer.ParentModule.GenericSettings.TimerSettings;
@@ -153,14 +165,13 @@ internal class TimersOverlayWindow : Window
 
         ImGui.BeginGroup();
 
-        var remainingTime = timer.GetNextReset() - DateTime.UtcNow;
-        var deltaTime = 1.0f - (float)(remainingTime / timer.GetTimerPeriod());
+        var deltaTime = 1.0f - (float)(timer.RemainingTime / timer.GetTimerPeriod());
         var cursorStart = ImGui.GetCursorPos();
         ImGui.ProgressBar(deltaTime, new Vector2(timerSettings.Size.Value, 20), "");
 
         DrawLabel(timer, timerSettings, cursorStart);
 
-        DrawTime(timerSettings, remainingTime, cursorStart);
+        DrawTime(timerSettings, timer.RemainingTime, cursorStart);
 
         ImGui.EndGroup();
 

@@ -10,4 +10,5 @@ internal class TimersOverlaySettings
     public Setting<bool> AutoResize = new(true);
     public Setting<bool> HideCompleted = new(false);
     public Setting<float> Opacity = new(1.0f);
+    public Setting<TimersOrdering> Ordering = new(TimersOrdering.Alphabetical);
 }

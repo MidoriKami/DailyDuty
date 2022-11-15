@@ -11,6 +11,7 @@ public interface ITimerComponent : IInfoBoxTableConfigurationRow
     IModule ParentModule { get; }
     TimeSpan GetTimerPeriod();
     DateTime GetNextReset();
+    TimeSpan RemainingTime => GetNextReset() - DateTime.UtcNow;
 
     void IInfoBoxTableConfigurationRow.GetConfigurationRow(InfoBoxTable owner)
     { 

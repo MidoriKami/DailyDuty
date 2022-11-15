@@ -59,6 +59,9 @@ public class Common
     public string Daily => Loc.Localize("Daily", "Daily");
     public string Weekly => Loc.Localize("Weekly", "Weekly");
     public string MessageTimeout => Loc.Localize("MessageTimeout", "Zone Change notifications will only appear once every five minutes\nThis is to prevent excessive chatlog spamming");
+    public string Alphabetical => Loc.Localize("Alphabetical", "Alphabetical");
+    public string Descending => Loc.Localize("Descending", "Descending");
+    public string TimeRemaining => Loc.Localize("TimeRemaining", "TimeRemaining");
 }
 
 public class Expansion
@@ -125,7 +128,7 @@ public class Module
     public Raids Raids { get; } = new();
     public FauxHollows FauxHollows { get; } = new ();
     public GrandCompany GrandCompany { get; } = new();
-    public MaskedCarnivale MaskedCarnivale = new();
+    public MaskedCarnivale MaskedCarnivale { get; } = new();
 }
 
 public class BeastTribe
@@ -368,10 +371,7 @@ public class Timers
     public string HideWindowInDuty => Loc.Localize("Timers_HideWindowInDuty", "Hide Window In Duty");
     public string LockWindow => Loc.Localize("Timers_LockWindow", "Lock Window Position");
     public string Opacity => Loc.Localize("Timers_Opacity", "Opacity");
-
-    public string NoTimersEnabledWarning => Loc.Localize("Timers_NoneEnabledWarning",
-        "Enable which timers you would like to see here with '/dd timers' command");
-
+    public string NoTimersEnabledWarning => Loc.Localize("Timers_NoneEnabledWarning", "Enable which timers you would like to see here with '/dd timers' command");
     public string Label => Loc.Localize("Timers_Label", "Timers");
     public string EditTimer => Loc.Localize("Timers_EditTimer", "Edit Style");
     public string EditTimerTitle => Loc.Localize("Timers_EditTimerTitle", "Edit Timer Style");
@@ -401,6 +401,7 @@ public class Timers
     public string NumMins => Loc.Localize("Timers_NumMins", "{0} minutes");
     public string NumSecs => Loc.Localize("Timers_NumSecs", "{0} seconds");
     public string Reset => Loc.Localize("Timers_Reset", "Reset to Default");
+    public string Ordering => Loc.Localize("Timers_Ordering", "Timers Ordering");
 }
 
 public class Teleport
