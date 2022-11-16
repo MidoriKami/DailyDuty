@@ -148,17 +148,17 @@ internal class MaskedCarnivale : IModule
             
             SignatureHelper.Initialise(this);
             
-            Service.AddonManager.Get<AOZContentResultAddon>().Setup += OnResultSetup;
-            Service.AddonManager.Get<AOZContentBriefingAddon>().Setup += OnBriefingSetup;
+            Service.AddonManager.Get<AOZContentResultAddon>().Setup += OnSetup;
+            Service.Framework.Update += OnFrameworkUpdate;
         }
-        
+
         public void Dispose()
         {
-            Service.AddonManager.Get<AOZContentResultAddon>().Setup -= OnResultSetup;
-            Service.AddonManager.Get<AOZContentBriefingAddon>().Setup -= OnBriefingSetup;
+            Service.AddonManager.Get<AOZContentResultAddon>().Setup -= OnSetup;
+            Service.Framework.Update -= OnFrameworkUpdate;
         }
         
-        private void OnResultSetup(object? sender, AOZContentResultArgs e)
+        private void OnSetup(object? sender, AOZContentResultArgs e)
         {
             switch (e.CompletionType)
             {
@@ -183,15 +183,23 @@ internal class MaskedCarnivale : IModule
             }
         }
         
-        private void OnBriefingSetup(object? sender, EventArgs e)
+        private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
         {
+            if (!Settings.Enabled.Value) return;
+            if (!AozContentBriefingAgentInterface->IsAgentActive()) return;
+            
             foreach (var task in Settings.TrackedTasks)
             {
-                task.State = isWeeklyCompleted(AozContentBriefingAgentInterface, (byte) task.Task) != 0;
-                Service.ConfigurationManager.Save();
+                var completed = isWeeklyCompleted(AozContentBriefingAgentInterface, (byte) task.Task) != 0;
+
+                if (task.State != completed)
+                {
+                    task.State = completed;
+                    Service.ConfigurationManager.Save();
+                }
             }
         }
-
+        
         public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Module.MaskedCarnivale.AllowancesRemaining}";
         
         public DateTime GetNextReset() => Time.NextWeeklyReset();
