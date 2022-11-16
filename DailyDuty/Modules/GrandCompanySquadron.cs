@@ -93,7 +93,6 @@ internal class GrandCompanySquadron : IModule
             ParentModule = parentModule;
 
             Service.AddonManager.Get<GcArmyExpeditionResult>().Setup += OnSetup;
-
             Service.Framework.Update += OnFrameworkUpdate;
         }
         
