@@ -28,7 +28,7 @@ public class TimerSettings
     public Setting<Vector4> TextColor = new(Colors.White);
     public Setting<Vector4> TimeColor = new(Colors.White);
     public Setting<int> Size = new(200);
-    public Setting<bool> StretchToFit = new(false);
+    public Setting<bool> StretchToFit = new(true);
     public Setting<bool> UseCustomName = new(false);
     public Setting<string> CustomName = new(string.Empty);
     public Setting<bool> HideLabel = new(false);
