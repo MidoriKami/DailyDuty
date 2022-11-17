@@ -104,7 +104,7 @@ internal class GrandCompanySquadron : IModule
 
         private void OnSetup(object? sender, ExpeditionResultArgs e)
         {
-            if (e.MissionType == 2 && e.Successful)
+            if (e.MissionType == 3 && e.Successful)
             {
                 Settings.MissionCompleted = true;
                 Service.ConfigurationManager.Save();
