@@ -5,10 +5,11 @@ using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Addons;
 
-public record ExpeditionResultArgs(int MissionType, bool Successful);
+public record ExpeditionResultArgs(uint MissionType, bool Successful);
 
 public unsafe class GcArmyExpeditionResult : IDisposable
 {
@@ -43,8 +44,16 @@ public unsafe class GcArmyExpeditionResult : IDisposable
                 AtkValueHelper.PrintAtkValue(values[index], index);
             }
 #endif
-            
-            Setup?.Invoke(this, new ExpeditionResultArgs(values[6].Int, values[2].Int == 1));
+            var dutyName = values[4].GetString();
+
+            var duty = Service.DataManager.GetExcelSheet<GcArmyExpedition>()!
+                .Where(row => row.Name.RawString == dutyName)
+                .FirstOrDefault();
+
+            if (duty != null)
+            {
+                Setup?.Invoke(this, new ExpeditionResultArgs(duty.GcArmyExpeditionType.Row, values[2].Int == 1));
+            }
         }
         catch (Exception e)
         {
