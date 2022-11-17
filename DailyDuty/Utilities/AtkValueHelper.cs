@@ -31,15 +31,25 @@ public static class AtkValueHelper
                 PluginLog.Debug($"[{index:D3}] [{"string8", 7}]: {Marshal.PtrToStringUTF8(new IntPtr(value.String))}");
                 break;
             case ValueType.Vector:
+                PluginLog.Debug($"[{index:D3}] [{"vector", 7}]: No Representation Implemented");
                 break;
             case ValueType.AllocatedString:
                 PluginLog.Debug($"[{index:D3}] [{"aString", 7}]: {Marshal.PtrToStringUTF8(new IntPtr(value.String))}");
                 break;
             case ValueType.AllocatedVector:
+                PluginLog.Debug($"[{index:D3}] [{"aVector", 7}]: No Representation Implemented");
                 break;
             default:                        
-                PluginLog.Debug($"[{index:D3}] [{"unknown", 7}]: Type: [{value.Type}], Value: {value.Int}");
+                PluginLog.Debug($"[{index:D3}] [{"unknown", 7}]: [{value.Type}]: {BitConverter.ToString(BitConverter.GetBytes((long)value.String)).Replace("-", " ")}");
                 break;
         }
+    }
+}
+
+public static class AtkValueExtensions
+{
+    public static unsafe string GetString(this AtkValue value)
+    {
+        return Marshal.PtrToStringUTF8(new IntPtr(value.String)) ?? "Unable to Allocate String";
     }
 }
