@@ -168,7 +168,7 @@ internal class GrandCompanySupply : IModule
 
         public string GetStatusMessage() => $"{GetIncompleteJobs()} {Strings.Module.GrandCompany.SupplyNotification}";
 
-        public DateTime GetNextReset() => Time.NextDailyReset();
+        public DateTime GetNextReset() => Time.NextGrandCompanyReset();
 
         public void DoReset()
         {
