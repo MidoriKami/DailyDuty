@@ -18,6 +18,7 @@ internal class WindowManager : IDisposable
         new StatusWindow(),
         new TodoConfigurationWindow(),
         new TimersConfigurationWindow(),
+        new AboutWindow(),
     };
 
     public WindowManager()

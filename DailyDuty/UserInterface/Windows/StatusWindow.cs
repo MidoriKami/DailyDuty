@@ -55,5 +55,7 @@ internal class StatusWindow : Window, IDisposable
         selectionFrame.Draw();
 
         configurationFrame.Draw(selectionFrame.Selected);
+        
+        AboutWindow.DrawInfoButton();
     }
 }

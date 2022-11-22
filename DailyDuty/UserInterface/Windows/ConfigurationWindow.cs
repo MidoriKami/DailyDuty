@@ -54,6 +54,8 @@ internal class ConfigurationWindow : Window, IDisposable
         selectionFrame.Draw();
 
         configurationFrame.Draw(selectionFrame.Selected);
+        
+        AboutWindow.DrawInfoButton();
     }
 
     public override void OnClose()
