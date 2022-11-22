@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using DailyDuty.UserInterface.Components.InfoBox;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
