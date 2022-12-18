@@ -42,6 +42,15 @@ internal unsafe struct DutyFinderTreeListItem
         return treeListItem.GetNode<AtkTextNode>(5);
     }
 
+    public void ShiftImageNodes()
+    {
+        var moogleNode = treeListItem.GetNode<AtkResNode>(6);
+        moogleNode->X = 285;
+
+        var levelSync = treeListItem.GetNode<AtkResNode>(10);
+        levelSync->X = 305;
+    }
+
     public void MakeCloverNodes()
     {
         if (CloverNode.EmptyCloverNode == null && CloverNode.GoldenCloverNode == null)
@@ -141,8 +150,8 @@ internal unsafe struct DutyFinderTreeListItem
         customNode->AtkResNode.SetWidth(20);
         customNode->AtkResNode.SetHeight(20);
 
-        short xPosition = (short)(290 + positionOffset.X);
-        short yPosition = (short)(2 + positionOffset.Y);
+        var xPosition = (short)(325 + positionOffset.X);
+        var yPosition = (short)(2 + positionOffset.Y);
 
         customNode->AtkResNode.SetPositionShort(xPosition, yPosition);
 

@@ -41,6 +41,7 @@ internal struct DutyFinderTreeList
         foreach (var item in Items)
         {
             item.MakeCloverNodes();
+            item.ShiftImageNodes();
         }
     }
 
