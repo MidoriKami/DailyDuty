@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.OverlaySettings;
+using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;

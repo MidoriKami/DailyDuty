@@ -1,4 +1,4 @@
-﻿using DailyDuty.Configuration.Components;
+﻿using DailyDuty.DataModels;
 
 namespace DailyDuty.Interfaces;
 

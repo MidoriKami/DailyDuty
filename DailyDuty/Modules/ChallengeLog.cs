@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Addons;
-using DailyDuty.Addons.DataModels;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;

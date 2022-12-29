@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using Dalamud.Interface;
 using ImGuiNET;

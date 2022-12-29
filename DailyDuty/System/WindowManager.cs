@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Configuration;
+using DailyDuty.UserInterface.OverlayWindows;
 using DailyDuty.UserInterface.Windows;
 using Dalamud.Interface.Windowing;
 using KamiLib.Utilities;

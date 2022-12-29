@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using KamiLib.Utilities;
 

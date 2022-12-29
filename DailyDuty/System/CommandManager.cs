@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Commands;
 using DailyDuty.Interfaces;
-using DailyDuty.System.Commands;
 using Dalamud.Game.Command;
 using Dalamud.Logging;
 

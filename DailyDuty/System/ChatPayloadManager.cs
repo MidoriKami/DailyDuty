@@ -1,7 +1,7 @@
-﻿using DailyDuty.Configuration.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.DataModels;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 

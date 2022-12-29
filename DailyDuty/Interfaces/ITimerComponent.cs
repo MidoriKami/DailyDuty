@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Windows;
 using KamiLib.InfoBoxSystem;

@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -15,7 +15,7 @@ namespace DailyDuty.Modules;
 public class LevequestSettings : GenericSettings
 {
     public Setting<int> NotificationThreshold = new(95);
-    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Components.ComparisonMode.EqualTo);
+    public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.EqualTo);
 }
 
 internal class Levequest : IModule

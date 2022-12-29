@@ -1,13 +1,24 @@
-﻿using DailyDuty.Configuration.OverlaySettings;
-using Dalamud.Interface.Windowing;
+﻿using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Localization;
+using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
+
+public class TimersOverlaySettings
+{
+    public Setting<bool> Enabled = new(false);
+    public Setting<bool> HideWhileInDuty = new(true);
+    public Setting<bool> LockWindowPosition = new(false);
+    public Setting<bool> AutoResize = new(true);
+    public Setting<bool> HideCompleted = new(false);
+    public Setting<float> Opacity = new(1.0f);
+    public Setting<TimersOrdering> Ordering = new(TimersOrdering.Alphabetical);
+}
 
 internal class TimersConfigurationWindow : Window
 {

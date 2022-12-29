@@ -3,7 +3,7 @@ using DailyDuty.UserInterface.Components;
 using System;
 using System.Linq;
 using DailyDuty.Addons;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.Utilities;

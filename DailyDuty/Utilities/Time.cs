@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;

@@ -2,7 +2,7 @@
 using DailyDuty.UserInterface.Components;
 using System;
 using DailyDuty.Addons;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game;

@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using Dalamud.Interface;

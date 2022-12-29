@@ -1,7 +1,7 @@
 ﻿using System;
+using DailyDuty.AddonOverlays;
 using DailyDuty.Addons;
-using DailyDuty.Addons.Overlays;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Addons.Overlays;
-using DailyDuty.Configuration.Components;
+using DailyDuty.AddonOverlays;
+using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;

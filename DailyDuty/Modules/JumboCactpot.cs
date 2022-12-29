@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Addons;
-using DailyDuty.Addons.DataModels;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;

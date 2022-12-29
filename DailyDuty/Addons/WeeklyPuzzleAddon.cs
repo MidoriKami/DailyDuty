@@ -1,7 +1,7 @@
-﻿using DailyDuty.Addons.DataModels;
-using Dalamud.Hooking;
+﻿using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using System;
+using DailyDuty.DataModels;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;

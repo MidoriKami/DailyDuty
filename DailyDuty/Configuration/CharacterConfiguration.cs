@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using DailyDuty.Configuration.Components;
-using DailyDuty.Configuration.OverlaySettings;
+using DailyDuty.DataModels;
 using DailyDuty.Modules;
+using DailyDuty.UserInterface.Windows;
 using Dalamud.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

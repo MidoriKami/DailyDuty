@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.Addons.DataModels;
+using DailyDuty.DataModels;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;

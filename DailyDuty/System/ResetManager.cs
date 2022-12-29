@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using Dalamud.Logging;
 
 namespace DailyDuty.System;

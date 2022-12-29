@@ -1,4 +1,4 @@
-﻿using DailyDuty.Configuration.Components;
+﻿using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;

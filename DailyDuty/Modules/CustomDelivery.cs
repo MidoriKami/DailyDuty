@@ -1,5 +1,5 @@
 ﻿using System;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
@@ -14,7 +14,7 @@ namespace DailyDuty.Modules;
 internal class CustomDeliverySettings : GenericSettings
 {
     public Setting<int> NotificationThreshold = new(12);
-    public Setting<ComparisonMode> ComparisonMode = new(Configuration.Components.ComparisonMode.LessThan);
+    public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.LessThan);
 }
 
 internal class CustomDelivery : IModule

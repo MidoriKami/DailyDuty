@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DailyDuty.Configuration.Components;
+using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
 using KamiLib.ConfigMigration;
