@@ -13,6 +13,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Configuration;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 

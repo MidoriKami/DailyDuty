@@ -3,6 +3,7 @@ using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
+using KamiLib.Configuration;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Configuration.Components;

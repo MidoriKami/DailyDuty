@@ -5,6 +5,7 @@ using DailyDuty.Configuration.Components;
 using Dalamud.Interface.Components;
 using Dalamud.Interface;
 using ImGuiNET;
+using KamiLib.Configuration;
 
 namespace DailyDuty.UserInterface.Components.InfoBox;
 

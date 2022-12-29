@@ -11,6 +11,7 @@ using DailyDuty.UserInterface.Components;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using KamiLib.Configuration;
 
 namespace DailyDuty.Modules;
 

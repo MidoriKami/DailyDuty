@@ -1,4 +1,5 @@
 ﻿using System;
+using KamiLib.Configuration;
 
 namespace DailyDuty.Configuration.Components;
 

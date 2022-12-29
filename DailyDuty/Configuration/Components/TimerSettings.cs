@@ -3,6 +3,7 @@ using System;
 using System.Numerics;
 using DailyDuty.Utilities;
 using DailyDuty.Localization;
+using KamiLib.Configuration;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Configuration.Components;

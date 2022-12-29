@@ -3,6 +3,7 @@ using System;
 using System.Numerics;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
+using KamiLib.Configuration;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Configuration.OverlaySettings;

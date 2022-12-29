@@ -13,6 +13,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
+using KamiLib.Configuration;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;

@@ -84,7 +84,7 @@ internal class CharacterConfiguration
             return versionNumber switch
             {
                 2 => LoadExistingCharacterConfiguration(contentID, fileText),
-                1 => GenerateMigratedCharacterConfiguration(fileText),
+                1 => GenerateMigratedCharacterConfiguration(configFileInfo),
                 _ => CreateNewCharacterConfiguration()
             };
         }
@@ -108,7 +108,7 @@ internal class CharacterConfiguration
         return loadedCharacterConfiguration;
     }
     
-    private static CharacterConfiguration GenerateMigratedCharacterConfiguration(string fileText)
+    private static CharacterConfiguration GenerateMigratedCharacterConfiguration(FileInfo fileText)
     {
         CharacterConfiguration migratedConfiguration;
 

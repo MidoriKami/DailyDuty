@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Configuration.Components;
+using KamiLib.Configuration;
 
 namespace DailyDuty.Configuration.OverlaySettings;
 

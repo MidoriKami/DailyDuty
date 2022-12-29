@@ -10,6 +10,7 @@ using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
+using KamiLib.Configuration;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;

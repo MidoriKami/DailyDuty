@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using DailyDuty.Configuration;
 using DailyDuty.Configuration.Components;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
+using KamiLib.ConfigMigration;
+using KamiLib.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Utilities;
 
 internal static class ConfigMigration
 {
-    private static JObject? _parsedJson;
-
-    public static CharacterConfiguration Convert(string fileText)
+    public static CharacterConfiguration Convert(FileInfo filePath)
     {
-        _parsedJson = JObject.Parse(fileText);
+        Migrate.LoadFile(filePath);
 
         return new CharacterConfiguration
         {
@@ -40,11 +41,11 @@ internal static class ConfigMigration
     {
         return new WondrousTailsSettings
         {
-            InstanceNotifications = GetSettingValue<bool>("WondrousTails.InstanceNotifications"),
-            Enabled = GetSettingValue<bool>("WondrousTails.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("WondrousTails.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("WondrousTails.LoginReminder"),
-            EnableClickableLink = GetSettingValue<bool>("WondrousTails.EnableOpenBookLink"),
+            InstanceNotifications = Migrate.GetSettingValue<bool>("WondrousTails.InstanceNotifications"),
+            Enabled = Migrate.GetSettingValue<bool>("WondrousTails.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("WondrousTails.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("WondrousTails.LoginReminder"),
+            EnableClickableLink = Migrate.GetSettingValue<bool>("WondrousTails.EnableOpenBookLink"),
         };
     }
 
@@ -52,11 +53,11 @@ internal static class ConfigMigration
     {
         return new TreasureMapSettings
         {
-            LastMapGathered = GetValue<DateTime>("TreasureMap.LastMapGathered"),
-            NextReset = GetValue<DateTime>("TreasureMap.NextReset"),
-            Enabled = GetSettingValue<bool>("TreasureMap.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("TreasureMap.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("TreasureMap.LoginReminder"),
+            LastMapGathered = Migrate.GetValue<DateTime>("TreasureMap.LastMapGathered"),
+            NextReset = Migrate.GetValue<DateTime>("TreasureMap.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("TreasureMap.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("TreasureMap.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("TreasureMap.LoginReminder"),
         };
     }
 
@@ -64,12 +65,12 @@ internal static class ConfigMigration
     {
         return new MiniCactpotSettings
         {
-            NextReset = GetValue<DateTime>("MiniCactpot.NextReset"),
-            Enabled = GetSettingValue<bool>("MiniCactpot.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("MiniCactpot.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("MiniCactpot.LoginReminder"),
-            EnableClickableLink = GetSettingValue<bool>("MiniCactpot.EnableClickableLink"),
-            TicketsRemaining = GetValue<int>("MiniCactpot.TicketsRemaining"),
+            NextReset = Migrate.GetValue<DateTime>("MiniCactpot.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("MiniCactpot.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("MiniCactpot.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("MiniCactpot.LoginReminder"),
+            EnableClickableLink = Migrate.GetSettingValue<bool>("MiniCactpot.EnableClickableLink"),
+            TicketsRemaining = Migrate.GetValue<int>("MiniCactpot.TicketsRemaining"),
         };
     }
 
@@ -77,12 +78,12 @@ internal static class ConfigMigration
     {
         return new LevequestSettings
         {
-            NextReset = GetValue<DateTime>("Levequest.NextReset"),
-            NotificationThreshold = GetSettingValue<int>("Levequest.NotificationThreshold"),
-            Enabled = GetSettingValue<bool>("Levequest.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("Levequest.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("Levequest.LoginReminder"),
-            ComparisonMode = GetSettingEnum<ComparisonMode>("Levequest.ComparisonMode"),
+            NextReset = Migrate.GetValue<DateTime>("Levequest.NextReset"),
+            NotificationThreshold = Migrate.GetSettingValue<int>("Levequest.NotificationThreshold"),
+            Enabled = Migrate.GetSettingValue<bool>("Levequest.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("Levequest.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("Levequest.LoginReminder"),
+            ComparisonMode = Migrate.GetSettingEnum<ComparisonMode>("Levequest.ComparisonMode"),
         };
     }
 
@@ -90,11 +91,11 @@ internal static class ConfigMigration
     {
         return new JumboCactpotSettings
         {
-            NextReset = GetValue<DateTime>("JumboCactpot.NextReset"),
-            Enabled = GetSettingValue<bool>("JumboCactpot.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("JumboCactpot.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("JumboCactpot.LoginReminder"),
-            EnableClickableLink = GetSettingValue<bool>("JumboCactpot.EnableClickableLink"),
+            NextReset = Migrate.GetValue<DateTime>("JumboCactpot.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("JumboCactpot.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("JumboCactpot.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("JumboCactpot.LoginReminder"),
+            EnableClickableLink = Migrate.GetSettingValue<bool>("JumboCactpot.EnableClickableLink"),
             Tickets = GetTickets("JumboCactpot.Tickets"),
         };
     }
@@ -103,11 +104,11 @@ internal static class ConfigMigration
     {
         return new HuntMarksWeeklySettings
         {
-            NextReset = GetValue<DateTime>("WeeklyHuntMarks.NextReset"),
-            Enabled = GetSettingValue<bool>("WeeklyHuntMarks.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("WeeklyHuntMarks.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("WeeklyHuntMarks.LoginReminder"),
-            TodoUseLongLabel = GetSettingValue<bool>("WeeklyHuntMarks.ExpandedDisplay"),
+            NextReset = Migrate.GetValue<DateTime>("WeeklyHuntMarks.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("WeeklyHuntMarks.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("WeeklyHuntMarks.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("WeeklyHuntMarks.LoginReminder"),
+            TodoUseLongLabel = Migrate.GetSettingValue<bool>("WeeklyHuntMarks.ExpandedDisplay"),
             TrackedHunts = GetTrackedHunts("WeeklyHuntMarks.TrackedHunts"),
         };
     }
@@ -116,11 +117,11 @@ internal static class ConfigMigration
     {
         return new HuntMarksDailySettings
         {
-            NextReset = GetValue<DateTime>("DailyHuntMarks.NextReset"),
-            Enabled = GetSettingValue<bool>("DailyHuntMarks.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("DailyHuntMarks.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("DailyHuntMarks.LoginReminder"),
-            TodoUseLongLabel = GetSettingValue<bool>("DailyHuntMarks.ExpandedDisplay"),
+            NextReset = Migrate.GetValue<DateTime>("DailyHuntMarks.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("DailyHuntMarks.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("DailyHuntMarks.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("DailyHuntMarks.LoginReminder"),
+            TodoUseLongLabel = Migrate.GetSettingValue<bool>("DailyHuntMarks.ExpandedDisplay"),
             TrackedHunts = GetTrackedHunts("DailyHuntMarks.TrackedHunts"),
         };
     }
@@ -129,14 +130,14 @@ internal static class ConfigMigration
     {
         return new FashionReportSettings
         {
-            AllowancesRemaining = GetValue<int>("FashionReport.AllowancesRemaining"),
-            HighestWeeklyScore = GetValue<int>("FashionReport.HighestWeeklyScore"),
-            NextReset = GetValue<DateTime>("FashionReport.NextReset"),
-            Enabled = GetSettingValue<bool>("FashionReport.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("FashionReport.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("FashionReport.LoginReminder"),
-            EnableClickableLink = GetSettingValue<bool>("FashionReport.EnableClickableLink"),
-            Mode = GetSettingEnum<FashionReportMode>("FashionReport.Mode"),
+            AllowancesRemaining = Migrate.GetValue<int>("FashionReport.AllowancesRemaining"),
+            HighestWeeklyScore = Migrate.GetValue<int>("FashionReport.HighestWeeklyScore"),
+            NextReset = Migrate.GetValue<DateTime>("FashionReport.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("FashionReport.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("FashionReport.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("FashionReport.LoginReminder"),
+            EnableClickableLink = Migrate.GetSettingValue<bool>("FashionReport.EnableClickableLink"),
+            Mode = Migrate.GetSettingEnum<FashionReportMode>("FashionReport.Mode"),
         };
     }
 
@@ -144,13 +145,13 @@ internal static class ConfigMigration
     {
         return new DutyRouletteSettings
         {
-            NextReset = GetValue<DateTime>("DutyRoulette.NextReset"),
-            Enabled = GetSettingValue<bool>("DutyRoulette.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("DutyRoulette.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("DutyRoulette.LoginReminder"),
-            EnableClickableLink = GetSettingValue<bool>("DutyRoulette.EnableClickableLink"),
-            HideExpertWhenCapped = GetSettingValue<bool>("DutyRoulette.HideWhenCapped"),
-            TodoUseLongLabel = GetSettingValue<bool>("DutyRoulette.ExpandedDisplay"),
+            NextReset = Migrate.GetValue<DateTime>("DutyRoulette.NextReset"),
+            Enabled = Migrate.GetSettingValue<bool>("DutyRoulette.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("DutyRoulette.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("DutyRoulette.LoginReminder"),
+            EnableClickableLink = Migrate.GetSettingValue<bool>("DutyRoulette.EnableClickableLink"),
+            HideExpertWhenCapped = Migrate.GetSettingValue<bool>("DutyRoulette.HideWhenCapped"),
+            TodoUseLongLabel = Migrate.GetSettingValue<bool>("DutyRoulette.ExpandedDisplay"),
             TrackedRoulettes = GetTrackedRoulettes("DutyRoulette.TrackedRoulettes"),
         };
     }
@@ -159,9 +160,9 @@ internal static class ConfigMigration
     {
         return new CharacterData
         {
-            LocalContentID = GetValue<ulong>("LocalContentID"),
-            Name = GetValue<string>("CharacterName"),
-            World = GetValue<string>("World"),
+            LocalContentID = Migrate.GetValue<ulong>("LocalContentID"),
+            Name = Migrate.GetValue<string>("CharacterName"),
+            World = Migrate.GetValue<string>("World"),
         };
     }
 
@@ -169,11 +170,11 @@ internal static class ConfigMigration
     {
         return new DomanEnclaveSettings
         {
-            NextReset = GetValue<DateTime>("DomanEnclave.NextReset"),
-            EnableClickableLink = GetSettingValue<bool>("DomanEnclave.EnableClickableLink"),
-            Enabled = GetSettingValue<bool>("DomanEnclave.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("DomanEnclave.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("DomanEnclave.LoginReminder"),
+            NextReset = Migrate.GetValue<DateTime>("DomanEnclave.NextReset"),
+            EnableClickableLink = Migrate.GetSettingValue<bool>("DomanEnclave.EnableClickableLink"),
+            Enabled = Migrate.GetSettingValue<bool>("DomanEnclave.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("DomanEnclave.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("DomanEnclave.LoginReminder"),
         };
     }
 
@@ -181,12 +182,12 @@ internal static class ConfigMigration
     {
         return new CustomDeliverySettings
         {
-            NextReset = GetValue<DateTime>("CustomDelivery.NextReset"),
-            NotificationThreshold = GetSettingValue<int>("CustomDelivery.NotificationThreshold"),
-            Enabled = GetSettingValue<bool>("CustomDelivery.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("CustomDelivery.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("CustomDelivery.LoginReminder"),
-            ComparisonMode = GetSettingEnum<ComparisonMode>("CustomDelivery.ComparisonMode"),
+            NextReset = Migrate.GetValue<DateTime>("CustomDelivery.NextReset"),
+            NotificationThreshold = Migrate.GetSettingValue<int>("CustomDelivery.NotificationThreshold"),
+            Enabled = Migrate.GetSettingValue<bool>("CustomDelivery.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("CustomDelivery.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("CustomDelivery.LoginReminder"),
+            ComparisonMode = Migrate.GetSettingEnum<ComparisonMode>("CustomDelivery.ComparisonMode"),
         };
     }
 
@@ -194,40 +195,18 @@ internal static class ConfigMigration
     {
         return new BeastTribeSettings
         {
-            NextReset = GetValue<DateTime>("BeastTribe.NextReset"),
-            NotificationThreshold = GetSettingValue<int>("BeastTribe.NotificationThreshold"),
-            Enabled = GetSettingValue<bool>("BeastTribe.Enabled"),
-            NotifyOnZoneChange = GetSettingValue<bool>("BeastTribe.ZoneChangeReminder"),
-            NotifyOnLogin = GetSettingValue<bool>("BeastTribe.LoginReminder"),
-            ComparisonMode = GetSettingEnum<ComparisonMode>("BeastTribe.ComparisonMode"),
+            NextReset = Migrate.GetValue<DateTime>("BeastTribe.NextReset"),
+            NotificationThreshold = Migrate.GetSettingValue<int>("BeastTribe.NotificationThreshold"),
+            Enabled = Migrate.GetSettingValue<bool>("BeastTribe.Enabled"),
+            NotifyOnZoneChange = Migrate.GetSettingValue<bool>("BeastTribe.ZoneChangeReminder"),
+            NotifyOnLogin = Migrate.GetSettingValue<bool>("BeastTribe.LoginReminder"),
+            ComparisonMode = Migrate.GetSettingEnum<ComparisonMode>("BeastTribe.ComparisonMode"),
         };
-    }
-
-    private static Setting<T> GetSettingValue<T>(string key) where T : struct
-    {
-        return new Setting<T>(_parsedJson!.SelectToken(key)!.Value<T>());
-    }
-
-    private static Setting<T> GetSettingEnum<T>(string key) where T : struct
-    {
-        var readValue = _parsedJson!.SelectToken(key)!.Value<int>();
-
-        return new Setting<T>((T) Enum.ToObject(typeof(T), readValue));
-    }
-
-    private static T GetValue<T>(string key)
-    {
-        return _parsedJson!.SelectToken(key)!.Value<T>()!;
-    }
-
-    private static JArray GetArray(string key)
-    {
-        return (JArray) _parsedJson!.SelectToken(key)!;
     }
 
     private static TrackedRoulette[] GetTrackedRoulettes(string key)
     {
-        var array = GetArray(key);
+        var array = Migrate.GetArray(key);
 
         var resultArray = new TrackedRoulette[array.Count];
 
@@ -247,7 +226,7 @@ internal static class ConfigMigration
 
     private static TrackedHunt[] GetTrackedHunts(string key)
     {
-        var array = GetArray(key);
+        var array = Migrate.GetArray(key);
 
         var resultArray = new TrackedHunt[array.Count];
 
@@ -267,7 +246,7 @@ internal static class ConfigMigration
 
     private static List<int> GetTickets(string key)
     {
-        var array = GetArray(key);
+        var array = Migrate.GetArray(key);
 
         return array.ToObject<List<int>>()!;
     }

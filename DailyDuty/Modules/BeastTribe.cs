@@ -7,6 +7,7 @@ using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using KamiLib.Configuration;
 
 namespace DailyDuty.Modules;
 
