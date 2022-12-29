@@ -59,11 +59,11 @@ internal class Levequest : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.MarkCompleteWhen)
-                .BeginTable(0.40f)
+                .AddTitle(Strings.Configuration.MarkCompleteWhen, out var innerWidth)
+                .BeginTable()
                 .BeginRow()
                 .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
-                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, 100.0f)
+                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, innerWidth / 4.0f)
                 .EndRow()
                 .EndTable()
                 .Draw();

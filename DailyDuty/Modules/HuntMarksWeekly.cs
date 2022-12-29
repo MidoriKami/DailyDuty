@@ -112,35 +112,19 @@ internal class HuntMarksWeekly : IModule
             }
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.HuntMarks.ForceComplete)
-                .AddAction(ForceCompleteButton)
+                .AddTitle(Strings.Module.HuntMarks.ForceComplete, out var innerWidth)
+                .AddString(Strings.Module.HuntMarks.ForceCompleteHelp, Colors.Orange)
+                .AddDummy(20.0f)
+                .AddStringCentered(Strings.Module.HuntMarks.NoUndo, Colors.Orange)
+                .AddDisabledButton(Strings.UserInterface.Timers.Reset, () => 
+                { 
+                    foreach (var element in Settings.TrackedHunts)
+                    {
+                        element.State = TrackedHuntState.Killed;
+                    }
+                    Service.ConfigurationManager.Save();
+                }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
                 .Draw();
-        }
-
-        private void ForceCompleteButton()
-        {
-            var keys = ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl;
-
-            ImGui.TextColored(Colors.Orange, Strings.Module.HuntMarks.ForceCompleteHelp);
-
-            ImGuiHelpers.ScaledDummy(15.0f);
-
-            var textSize = ImGui.CalcTextSize(Strings.Module.HuntMarks.NoUndo);
-            var cursor = ImGui.GetCursorPos();
-            var availableArea = InfoBox.Instance.InnerWidth;
-
-            ImGui.SetCursorPos(cursor with {X = cursor.X + availableArea / 2.0f - textSize.X / 2.0f});
-            ImGui.TextColored(Colors.Orange, Strings.Module.HuntMarks.NoUndo);
-
-            ImGui.BeginDisabled(!keys);
-            if (ImGui.Button(Strings.Module.HuntMarks.ForceComplete, new Vector2(InfoBox.Instance.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
-            {
-                foreach (var element in Settings.TrackedHunts)
-                {
-                    element.State = TrackedHuntState.Killed;
-                }
-            }
-            ImGui.EndDisabled();
         }
     }
 

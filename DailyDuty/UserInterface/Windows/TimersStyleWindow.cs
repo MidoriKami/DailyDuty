@@ -23,7 +23,7 @@ internal class TimersStyleWindow : Window
 
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(200 * (4.0f / 3.0f), 300),
+            MinimumSize = new Vector2(275, 300),
             MaximumSize = new Vector2(9999, 9999)
         };
 
@@ -44,14 +44,14 @@ internal class TimersStyleWindow : Window
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.TimeDisplay)
-            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: 175.0f)
+            .AddTitle(Strings.UserInterface.Timers.TimeDisplay, out var innerWidth)
+            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: innerWidth)
             .Draw();
 
         InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.Name)
             .AddConfigCheckbox(Strings.UserInterface.Timers.EnableCustomName, Settings.UseCustomName)
-            .AddConfigString(Settings.CustomName)
+            .AddConfigString(Settings.CustomName, innerWidth)
             .Draw();
 
         InfoBox.Instance
@@ -69,17 +69,18 @@ internal class TimersStyleWindow : Window
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.SizeOptions)
+            .AddTitle(Strings.UserInterface.Timers.SizeOptions, out var innerWidth2)
             .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
-            .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, 125.0f)
+            .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, innerWidth2 / 2.0f)
             .Draw();
         
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.Reset)
-            .AddButton(Strings.UserInterface.Timers.Reset, () => { 
+            .AddTitle(Strings.UserInterface.Timers.Reset, out var innerWidth3)
+            .AddDisabledButton(Strings.UserInterface.Timers.Reset, () => { 
                 OwnerModule.GenericSettings.TimerSettings = new TimerSettings();
                 Settings = OwnerModule.GenericSettings.TimerSettings;
-            }, ImGuiHelpers.ScaledVector2(InfoBox.Instance.InnerWidth, 23.0f))
+                Service.ConfigurationManager.Save();
+            }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth3)
             .Draw();
     }
 

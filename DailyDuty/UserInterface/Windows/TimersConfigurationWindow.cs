@@ -32,7 +32,7 @@ internal class TimersConfigurationWindow : Window
         
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(350 * (4.0f / 3.0f), 350),
+            MinimumSize = new Vector2(400, 350),
             MaximumSize = new Vector2(9999, 9999)
         };
     }
@@ -70,11 +70,11 @@ internal class TimersConfigurationWindow : Window
             .Draw();
         
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.WindowOptions)
+            .AddTitle(Strings.UserInterface.Timers.WindowOptions, out var innerWidth)
             .AddConfigCheckbox(Strings.UserInterface.Timers.HideWindowInDuty, Settings.HideWhileInDuty)
             .AddConfigCheckbox(Strings.UserInterface.Timers.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Timers.AutoResize, Settings.AutoResize)
-            .AddDragFloat(Strings.UserInterface.Timers.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
+            .AddDragFloat(Strings.UserInterface.Timers.Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
             .Draw();
     }
 

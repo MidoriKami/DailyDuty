@@ -190,18 +190,7 @@ internal class ChallengeLog : IModule
             }
         }
 
-        private void OnContentFinderPop(object? sender, ContentFinderCondition queuedDuty)
-        {
-            // Queued duty was a roulette
-            if (queuedDuty.RowId == 0)
-            {
-                dutyState = DungeonDutyRouletteState.DutyPopped;
-            }
-            else
-            {
-                dutyState = DungeonDutyRouletteState.NotDungeonDuty;
-            }
-        }
+        private void OnContentFinderPop(object? sender, ContentFinderCondition queuedDuty) => dutyState = queuedDuty.RowId == 0 ? DungeonDutyRouletteState.DutyPopped : DungeonDutyRouletteState.NotDungeonDuty;
 
         private void DutyFinderOnReceiveEvent(object? sender, ReceiveEventArgs e)
         {

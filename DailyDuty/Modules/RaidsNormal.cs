@@ -75,6 +75,8 @@ internal class RaidsNormal : IModule
 
             Settings.TrackedRaids.Add(new TrackedRaid(dutyInformation, new Setting<bool>(false), new Setting<int>(1)));
         }
+        
+        Service.ConfigurationManager.Save();
     }
 
     public void Dispose()
@@ -107,9 +109,9 @@ internal class RaidsNormal : IModule
             }
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.Raids.Regenerate)
+                .AddTitle(Strings.Module.Raids.Regenerate, out var innerWidth)
                 .AddString(Strings.Module.Raids.RegenerateHelp, Colors.Orange)
-                .AddAction(RegenerateRaidList)
+                .AddDisabledButton(Strings.Module.Raids.Regenerate, RegenerateTrackedRaids, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
                 .Draw();
 
             InfoBox.Instance

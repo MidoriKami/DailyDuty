@@ -22,7 +22,7 @@ internal class TodoConfigurationWindow : Window
         
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(350 * (4.0f / 3.0f), 350),
+            MinimumSize = new Vector2(400, 350),
             MaximumSize = new Vector2(9999,9999)
         };
     }
@@ -81,13 +81,13 @@ internal class TodoConfigurationWindow : Window
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Todo.WindowOptions)
+            .AddTitle(Strings.UserInterface.Todo.WindowOptions, out var innerWidth)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowCompleted, Settings.HideWhenAllTasksComplete)
             .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowInDuty, Settings.HideWhileInDuty)
             .AddConfigCheckbox(Strings.UserInterface.Todo.LockWindow, Settings.LockWindowPosition)
             .AddConfigCheckbox(Strings.UserInterface.Todo.AutoResize, Settings.AutoResize)
-            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner, 200.0f)
-            .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
+            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner, innerWidth / 2.0f)
+            .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
             .AddConfigColor(Strings.Common.Header, Strings.Common.Default, Settings.TaskColors.HeaderColor, Colors.White)
             .AddConfigColor(Strings.Common.Incomplete, Strings.Common.Default, Settings.TaskColors.IncompleteColor, Colors.Red)
             .AddConfigColor(Strings.Common.Complete, Strings.Common.Default, Settings.TaskColors.CompleteColor, Colors.Green)
