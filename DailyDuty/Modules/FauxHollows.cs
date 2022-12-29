@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
@@ -8,10 +7,10 @@ using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;

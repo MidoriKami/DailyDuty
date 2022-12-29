@@ -2,7 +2,6 @@
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;

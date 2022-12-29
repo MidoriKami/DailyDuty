@@ -1,21 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using DailyDuty.Commands;
 using DailyDuty.Configuration;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using Dalamud.Interface.Windowing;
+using DailyDuty.Utilities;
+using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib;
+using KamiLib.Interfaces;
+using KamiLib.Windows;
 
 namespace DailyDuty.UserInterface.Windows;
 
-internal class StatusWindow : Window, IDisposable
+internal class StatusWindow : SelectionWindow, IDisposable
 {
-    private readonly SelectionFrame selectionFrame;
-    private readonly ConfigurationFrame configurationFrame; 
-
-    public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow")
+    public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 50.0f)
     {
         KamiCommon.CommandManager.AddCommand(new StatusWindowCommand());
         
@@ -27,11 +29,6 @@ internal class StatusWindow : Window, IDisposable
 
         Flags |= ImGuiWindowFlags.NoScrollbar;
         Flags |= ImGuiWindowFlags.NoScrollWithMouse;
-
-        var selectables = Service.ModuleManager.GetStatusSelectables();
-
-        selectionFrame = new SelectionFrame(selectables, 0.35f, new HideDisabledCheckbox());
-        configurationFrame = new ConfigurationFrame();
 
         Service.ConfigurationManager.OnCharacterDataLoaded += UpdateWindowTitle;
     }
@@ -52,14 +49,41 @@ internal class StatusWindow : Window, IDisposable
         if (Service.ClientState.IsPvP) IsOpen = false;
     }
 
-    public override void Draw()
+    protected override IEnumerable<ISelectable> GetSelectables()
     {
-        selectionFrame.HideDisabled = Service.ConfigurationManager.CharacterConfiguration.HideDisabledModulesInSelectWindow;
+        if (Service.ConfigurationManager.CharacterConfiguration.HideDisabledModulesInSelectWindow)
+        {
+            return Service.ModuleManager.GetStatusSelectables()
+                .OfType<StatusSelectable>()
+                .Where(selectable => selectable.ParentModule.GenericSettings.Enabled.Value);
+        }
 
-        selectionFrame.Draw();
+        return Service.ModuleManager.GetStatusSelectables();
+    }
 
-        configurationFrame.Draw(selectionFrame.Selected);
-        
+    protected override void DrawExtras()
+    {
+        DrawHideDisabledButton();
+        PluginVersion.Instance.DrawVersionText();
+    }
+
+    protected override void DrawSpecial()
+    {
         AboutWindow.DrawInfoButton();
+    }
+
+    private static void DrawHideDisabledButton()
+    {
+        var config = Service.ConfigurationManager.CharacterConfiguration;
+        
+        var region = ImGui.GetContentRegionAvail();
+
+        var label = config.HideDisabledModulesInSelectWindow ? Strings.Configuration.ShowDisabled : Strings.Configuration.HideDisabled;
+
+        if (ImGui.Button(label, region with { Y = 23.0f * ImGuiHelpers.GlobalScale }))
+        {
+            config.HideDisabledModulesInSelectWindow = !config.HideDisabledModulesInSelectWindow;
+            Service.ConfigurationManager.Save();
+        }
     }
 }

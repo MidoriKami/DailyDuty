@@ -1,38 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Configuration;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components;
+using DailyDuty.Utilities;
+using Dalamud.Interface;
 using Dalamud.Interface.Internal.Notifications;
-using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
 using KamiLib.CommandSystem;
+using KamiLib.Interfaces;
+using KamiLib.Windows;
 
 namespace DailyDuty.UserInterface.Windows;
 
-internal class ConfigurationWindow : Window, IDisposable
+internal class ConfigurationWindow : SelectionWindow, IDisposable
 {
-    private readonly SelectionFrame selectionFrame;
-    private readonly ConfigurationFrame configurationFrame; 
 
-    public ConfigurationWindow() : base($"DailyDuty {Strings.Configuration.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow")
+    public ConfigurationWindow() : base($"DailyDuty {Strings.Configuration.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow", 0.35f, 40.0f)
     {
         KamiCommon.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
         
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(450 * (16.0f / 9.0f), 450),
+            MinimumSize = new Vector2(700, 450),
             MaximumSize = new Vector2(9999,9999)
         };
 
         Flags |= ImGuiWindowFlags.NoScrollbar;
         Flags |= ImGuiWindowFlags.NoScrollWithMouse;
-
-        var selectables = Service.ModuleManager.GetConfigurationSelectables();
-
-        selectionFrame = new SelectionFrame(selectables, 0.35f, new NavigationButtons());
-        configurationFrame = new ConfigurationFrame();
 
         Service.ConfigurationManager.OnCharacterDataLoaded += UpdateWindowTitle;
     }
@@ -42,10 +38,7 @@ internal class ConfigurationWindow : Window, IDisposable
         Service.ConfigurationManager.OnCharacterDataLoaded -= UpdateWindowTitle;
     }
 
-    private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
-    {
-        WindowName = $"DailyDuty {Strings.Configuration.Label} - {e.CharacterData.Name}###DailyDutyMainWindow";
-    }
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e) => WindowName = $"DailyDuty {Strings.Configuration.Label} - {e.CharacterData.Name}###DailyDutyMainWindow";
 
     public override void PreOpenCheck()
     {
@@ -53,12 +46,16 @@ internal class ConfigurationWindow : Window, IDisposable
         if (Service.ClientState.IsPvP) IsOpen = false;
     }
 
-    public override void Draw()
-    {
-        selectionFrame.Draw();
+    protected override IEnumerable<ISelectable> GetSelectables() => Service.ModuleManager.GetConfigurationSelectables();
 
-        configurationFrame.Draw(selectionFrame.Selected);
-        
+    protected override void DrawExtras()
+    {
+        DrawNavigationButtons();
+        PluginVersion.Instance.DrawVersionText();
+    }
+
+    protected override void DrawSpecial()
+    {
         AboutWindow.DrawInfoButton();
     }
 
@@ -66,5 +63,37 @@ internal class ConfigurationWindow : Window, IDisposable
     {
         Service.PluginInterface.UiBuilder.AddNotification("Settings Saved", "DailyDuty", NotificationType.Success);
         Service.ConfigurationManager.Save();
+    }
+
+    private static void DrawNavigationButtons()
+    {
+        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2.0f, 0.0f) * ImGuiHelpers.GlobalScale);
+
+        var contentRegion = ImGui.GetContentRegionAvail();
+        var buttonWidth = contentRegion.X / 3.0f - 2.0f * ImGuiHelpers.GlobalScale;
+
+        if (ImGui.Button(Strings.UserInterface.Todo.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        {
+            var window = KamiCommon.WindowManager.GetWindowOfType<TodoConfigurationWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+
+        ImGui.SameLine();
+
+        if (ImGui.Button(Strings.UserInterface.Timers.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        {
+            var window = KamiCommon.WindowManager.GetWindowOfType<TimersConfigurationWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+
+        ImGui.SameLine();
+
+        if (ImGui.Button(Strings.Status.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        {
+            var window = KamiCommon.WindowManager.GetWindowOfType<StatusWindow>()!;
+            window.IsOpen = !window.IsOpen;
+        }
+
+        ImGui.PopStyleVar();
     }
 }

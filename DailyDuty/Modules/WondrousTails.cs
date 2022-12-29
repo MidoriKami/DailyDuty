@@ -16,6 +16,7 @@ using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;

@@ -9,6 +9,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 
 namespace DailyDuty.Modules;
 

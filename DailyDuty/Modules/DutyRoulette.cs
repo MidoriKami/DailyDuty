@@ -14,6 +14,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 

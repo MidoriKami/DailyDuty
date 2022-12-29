@@ -1,4 +1,6 @@
 ﻿
+using KamiLib.Interfaces;
+
 namespace DailyDuty.Interfaces;
 
 public interface IConfigurationComponent : IDrawable

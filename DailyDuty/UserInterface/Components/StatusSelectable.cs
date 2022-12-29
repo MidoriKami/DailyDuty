@@ -3,6 +3,7 @@ using ImGuiNET;
 using System;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Components;
@@ -12,6 +13,7 @@ internal class StatusSelectable : ISelectable
     public ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }
     public IModule ParentModule { get; }
+    public string ID => OwnerModuleName.GetTranslatedString();
 
     private readonly Func<ModuleStatus> status;
 

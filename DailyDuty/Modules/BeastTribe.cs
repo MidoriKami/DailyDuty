@@ -8,6 +8,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 
 namespace DailyDuty.Modules;
 

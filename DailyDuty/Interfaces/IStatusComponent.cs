@@ -1,4 +1,6 @@
-﻿namespace DailyDuty.Interfaces;
+﻿using KamiLib.Interfaces;
+
+namespace DailyDuty.Interfaces;
 
 public interface IStatusComponent : IDrawable
 {

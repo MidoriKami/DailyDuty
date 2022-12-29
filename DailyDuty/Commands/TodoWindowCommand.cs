@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DailyDuty.Interfaces;
 using DailyDuty.UserInterface.Windows;
 using KamiLib;
 using KamiLib.CommandSystem;

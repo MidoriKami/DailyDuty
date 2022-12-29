@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
@@ -11,7 +10,6 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
 using KamiLib.Configuration;
@@ -19,7 +17,6 @@ using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
-using ISelectable = DailyDuty.Interfaces.ISelectable;
 
 namespace DailyDuty.Modules;
 

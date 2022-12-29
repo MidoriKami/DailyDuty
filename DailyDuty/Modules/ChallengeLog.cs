@@ -12,6 +12,7 @@ using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 

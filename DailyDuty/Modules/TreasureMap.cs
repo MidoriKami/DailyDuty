@@ -14,6 +14,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 
 namespace DailyDuty.Modules;
 

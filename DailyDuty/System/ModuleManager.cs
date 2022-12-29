@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules;
+using KamiLib.Interfaces;
 
 namespace DailyDuty.System;
 

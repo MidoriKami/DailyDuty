@@ -19,7 +19,6 @@ using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
-using ISelectable = DailyDuty.Interfaces.ISelectable;
 
 namespace DailyDuty.Modules;
 
