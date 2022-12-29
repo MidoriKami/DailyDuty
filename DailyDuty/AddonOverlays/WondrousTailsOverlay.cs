@@ -6,6 +6,7 @@ using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
+using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.AddonOverlays;
@@ -33,8 +34,8 @@ internal class WondrousTailsOverlay : IDisposable
         dutyFinder.Draw += OnDraw;
         dutyFinder.Finalize += OnFinalize;
 
-        var contentFinderData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
-            !.Where(cfc => cfc.Name != string.Empty);
+        var contentFinderData = LuminaCache<ContentFinderCondition>.Instance.GetAll()
+            .Where(cfc => cfc.Name != string.Empty);
 
         foreach (var cfc in contentFinderData)
         {

@@ -12,6 +12,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
@@ -263,8 +264,7 @@ internal class DutyRoulette : IModule
 
         private int GetWeeklyTomestomeLimit()
         {
-            return Service.DataManager
-                .GetExcelSheet<TomestonesItem>()!
+            return LuminaCache<TomestonesItem>.Instance.GetAll()
                 .Select(t => t.Tomestones.Value)
                 .OfType<Tomestones>()
                 .Where(t => t.WeeklyLimit > 0)

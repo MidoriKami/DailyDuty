@@ -1,5 +1,4 @@
-﻿using Dalamud.Data;
-using Dalamud.Game;
+﻿using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Aetherytes;
 using Dalamud.Game.ClientState.Objects;
@@ -16,7 +15,6 @@ internal class Service
     [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
     [PluginService] public static ChatGui Chat { get; private set; } = null!;
     [PluginService] public static ClientState ClientState { get; private set; } = null!;
-    [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
     [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
     [PluginService] public static ToastGui Toast { get; private set;} = null!;

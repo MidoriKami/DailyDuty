@@ -4,6 +4,7 @@ using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Caching;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
@@ -46,7 +47,7 @@ public unsafe class GcArmyExpeditionResult : IDisposable
 #endif
             var dutyName = values[4].GetString();
 
-            var duty = Service.DataManager.GetExcelSheet<GcArmyExpedition>()!
+            var duty = LuminaCache<GcArmyExpedition>.Instance.GetAll()
                 .Where(row => row.Name.RawString == dutyName)
                 .FirstOrDefault();
 

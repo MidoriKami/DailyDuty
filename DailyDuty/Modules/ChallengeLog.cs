@@ -10,6 +10,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
@@ -292,7 +293,7 @@ internal class ChallengeLog : IModule
 
         private uint? GetDutyType(uint territoryType)
         {
-            var territoryInfo = Service.DataManager.GetExcelSheet<TerritoryType>()!.GetRow(territoryType);
+            var territoryInfo = LuminaCache<TerritoryType>.Instance.GetRow(territoryType);
             var contentFinderInfo = territoryInfo?.ContentFinderCondition.Value;
             var contentType = contentFinderInfo?.ContentType.Value;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Localization;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
@@ -34,7 +35,7 @@ public static class RouletteTypeExtensions
 {
     public static string GetTranslatedString(this RouletteType type)
     {
-        return Service.DataManager.GetExcelSheet<ContentRoulette>()!.GetRow((uint) type)!.Category.RawString;
+        return LuminaCache<ContentRoulette>.Instance.GetRow((uint) type)!.Category.RawString;
     }
 }
 

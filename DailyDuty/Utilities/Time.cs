@@ -3,6 +3,7 @@ using System.Linq;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using Dalamud.Utility;
+using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Utilities;
@@ -110,7 +111,7 @@ internal static class Time
     {
         if (playerDatacenterID == null) return 0;
 
-        return Service.DataManager.GetExcelSheet<WorldDCGroupType>()!
+        return LuminaCache<WorldDCGroupType>.Instance.GetAll()
             .Where(world => world.RowId == playerDatacenterID.Value)
             .Select(dc => dc.Region)
             .FirstOrDefault();

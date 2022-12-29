@@ -9,6 +9,7 @@ using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
 using Dalamud.Utility;
+using KamiLib.Caching;
 using KamiLib.Utilities;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
@@ -122,10 +123,7 @@ internal class TeleportManager : IDisposable
         return placeName == null ? "[Name Lookup Failed]" : placeName.Name;
     }
 
-    private static Aetheryte GetAetheryte(uint id)
-    {
-        return Service.DataManager.GetExcelSheet<Aetheryte>()!.GetRow(id)!;
-    }
+    private static Aetheryte GetAetheryte(uint id) => LuminaCache<Aetheryte>.Instance.GetRow(id)!;
 
     private bool AetheryteUnlocked(ExcelRow aetheryte, out AetheryteEntry? entry)
     {

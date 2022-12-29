@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using DailyDuty.Localization;
+using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.DataStructures;
@@ -45,8 +46,8 @@ public class HuntData
     {
         get
         {
-            var orderTypeSheet = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!;
-            var huntOrderSheet = Service.DataManager.GetExcelSheet<MobHuntOrder>()!;
+            var orderTypeSheet = LuminaCache<MobHuntOrderType>.Instance.GetAll();
+            var huntOrderSheet =LuminaCache<MobHuntOrder>.Instance.GetAll();
 
             var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
             var targetRow = indexOffset + HuntID - 1;

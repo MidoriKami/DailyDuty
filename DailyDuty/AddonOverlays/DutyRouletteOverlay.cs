@@ -6,6 +6,7 @@ using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
+using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.AddonOverlays;
@@ -33,8 +34,8 @@ internal class DutyRouletteOverlay : IDisposable
         dutyFinder.Draw += OnDraw;
         dutyFinder.Finalize += OnFinalize;
 
-        var rouletteData = Service.DataManager.GetExcelSheet<ContentRoulette>()
-            !.Where(cr => cr.Name != string.Empty);
+        var rouletteData = LuminaCache<ContentRoulette>.Instance.GetAll()
+            .Where(cr => cr.Name != string.Empty);
 
         foreach (var cr in rouletteData)
         {

@@ -14,6 +14,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
@@ -58,11 +59,11 @@ internal class RaidsNormal : IModule
     {
         Settings.TrackedRaids.Clear();
 
-        var instanceContents = Service.DataManager.GetExcelSheet<InstanceContent>()!
+        var instanceContents = LuminaCache<InstanceContent>.Instance.GetAll()
             .Where(instance => instance.WeekRestriction == 1)
             .Select(instance => instance.RowId);
 
-        var raidDuties = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
+        var raidDuties = LuminaCache<ContentFinderCondition>.Instance.GetAll()
             .Where(cfc => instanceContents.Contains(cfc.Content))
             .Where(cfc => cfc.TerritoryType.Value?.TerritoryIntendedUse == 17)
             .OrderByDescending(cfc => cfc.SortKey)
@@ -120,20 +121,6 @@ internal class RaidsNormal : IModule
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
-        }
-
-        private void RegenerateRaidList()
-        {
-            var keys = ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl;
-
-            ImGuiHelpers.ScaledDummy(15.0f);
-
-            ImGui.BeginDisabled(!keys);
-            if (ImGui.Button(Strings.Module.Raids.Regenerate, new Vector2(InfoBox.Instance.InnerWidth, 23.0f * ImGuiHelpers.GlobalScale)))
-            {
-                RegenerateTrackedRaids();
-            }
-            ImGui.EndDisabled();
         }
     }
 

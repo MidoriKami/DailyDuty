@@ -12,6 +12,7 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
@@ -56,11 +57,11 @@ internal class RaidsAlliance : IModule
     {
         Settings.TrackedRaids.Clear();
 
-        var instanceContents = Service.DataManager.GetExcelSheet<InstanceContent>()!
+        var instanceContents = LuminaCache<InstanceContent>.Instance.GetAll()
             .Where(instance => instance.WeekRestriction == 1)
             .Select(instance => instance.RowId);
 
-        var raidDuties = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
+        var raidDuties = LuminaCache<ContentFinderCondition>.Instance.GetAll()
             .Where(cfc => instanceContents.Contains(cfc.Content))
             .Where(cfc => cfc.TerritoryType.Value?.TerritoryIntendedUse == 8)
             .ToList();

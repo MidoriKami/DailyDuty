@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Localization;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
@@ -11,7 +12,7 @@ public record TrackedGrandCompanySupplyProvisioning(uint ClassJobID, Setting<boo
 {
     public void GetDataRow(InfoBoxTable owner)
     {
-        var jobName = Service.DataManager.GetExcelSheet<ClassJob>()!.GetRow(ClassJobID)!.Name.RawString;
+        var jobName = LuminaCache<ClassJob>.Instance.GetRow(ClassJobID)!.Name.RawString;
 
         owner
             .BeginRow()
@@ -22,7 +23,7 @@ public record TrackedGrandCompanySupplyProvisioning(uint ClassJobID, Setting<boo
 
     public void GetConfigurationRow(InfoBoxList owner)
     {
-        var jobName = Service.DataManager.GetExcelSheet<ClassJob>()!.GetRow(ClassJobID)!.Name.RawString;
+        var jobName = LuminaCache<ClassJob>.Instance.GetRow(ClassJobID)!.Name.RawString;
 
         owner.AddConfigCheckbox($"{char.ToUpper(jobName[0]) + jobName[1..]}", Tracked);
     }
