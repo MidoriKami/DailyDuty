@@ -1,5 +1,9 @@
-﻿using DailyDuty.Interfaces;
+﻿using System.Collections.Generic;
 using DailyDuty.UserInterface.Windows;
+using KamiLib;
+using KamiLib.CommandSystem;
+using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Commands;
 
@@ -7,36 +11,68 @@ internal class TimersWindowCommand : IPluginCommand
 {
     public string CommandArgument => "timers";
 
-    public void Execute(string? additionalArguments)
+    public IEnumerable<ISubCommand> SubCommands { get; } = new List<ISubCommand>
     {
-        var configurationWindow = Service.WindowManager.GetWindowOfType<TimersConfigurationWindow>();
-        var overlayWindow = Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled;
-
-        if (configurationWindow == null) return;
-
-        switch (additionalArguments)
+        new SubCommand
         {
-            case null:
-                configurationWindow.IsOpen = !configurationWindow.IsOpen;
-                break;
+            CommandKeyword = null,
+            CommandAction = () => Chat.PrintError("The configuration window cannot be opened while in a PvP area"),
+            CanExecute = () => Service.ClientState.IsPvP,
+            GetHelpText = () => "Open Timers Configuration Window"
+        },
+        new SubCommand
+        {
+            CommandKeyword = null,
+            CommandAction = () =>
+            {
+                if ( KamiCommon.WindowManager.GetWindowOfType<TimersConfigurationWindow>() is {} mainWindow )
+                {
+                    Chat.Print("Command",!mainWindow.IsOpen ? "Opening Status Configuration Window" : "Closing Status Configuration Window");
 
-            case "show":
-                overlayWindow.Value = true;
-                break;
-
-            case "hide":
-                overlayWindow.Value = false;
-                break;
-
-            case "toggle":
-                overlayWindow.Value = !overlayWindow.Value;
-                break;
-
-            default:
-                IPluginCommand.PrintCommandError(CommandArgument, additionalArguments);
-                break;
-        }
-
-        Service.ConfigurationManager.Save();
-    }
+                    mainWindow.IsOpen = !mainWindow.IsOpen;
+                }
+                else
+                {
+                    Chat.PrintError("Something went wrong trying to open Configuration Window");
+                }
+            },
+            CanExecute = () => !Service.ClientState.IsPvP,
+            GetHelpText = () => "Open Timers Configuration Window"
+        },
+        new SubCommand
+        {
+            CommandKeyword = "show",
+            Aliases = new List<string>{"enable"},
+            CommandAction = () =>
+            {
+                Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = true;
+                Chat.Print("Command", "Enabling Timers Overlay");
+            },
+            GetHelpText = () => "Enable Timers Overlay",
+        },
+        new SubCommand
+        {
+            CommandKeyword = "hide",
+            Aliases = new List<string>{"disable"},
+            CommandAction = () =>
+            {
+                Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = false;
+                Chat.Print("Command", "Disabling Timers Overlay");
+            },
+            GetHelpText = () => "Disable Timers Overlay",
+        },
+        new SubCommand
+        {
+            CommandKeyword = "toggle",
+            Aliases = new List<string>{"t"},
+            CommandAction = () =>
+            {
+                var value = Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value;
+                
+                Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = !value;
+                Chat.Print("Command", $"{(!value ? "Enabling" : "Disabling")} Timers Overlay");
+            },
+            GetHelpText = () => "Toggle Timers Overlay",
+        },
+    };
 }

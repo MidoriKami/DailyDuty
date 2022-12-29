@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Commands;
 using DailyDuty.Configuration;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib;
 
 namespace DailyDuty.UserInterface.Windows;
 
@@ -15,6 +17,8 @@ internal class StatusWindow : Window, IDisposable
 
     public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow")
     {
+        KamiCommon.CommandManager.AddCommand(new StatusWindowCommand());
+        
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(450 * (16.0f / 9.0f), 450),

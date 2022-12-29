@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using DailyDuty.Commands;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib;
 using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
@@ -15,6 +17,8 @@ internal class TodoConfigurationWindow : Window
 
     public TodoConfigurationWindow() : base("DailyDuty Todo Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {
+        KamiCommon.CommandManager.AddCommand(new TodoWindowCommand());
+        
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(350 * (4.0f / 3.0f), 350),
