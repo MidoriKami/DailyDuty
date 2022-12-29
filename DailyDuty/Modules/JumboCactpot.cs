@@ -12,6 +12,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
 
@@ -126,7 +127,7 @@ internal class JumboCactpot : IModule
         {
             ParentModule = parentModule;
 
-            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
             
             Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += OnGoldSaucerUpdate;
             Service.AddonManager.Get<LotteryWeeklyAddon>().ReceiveEvent += OnReceiveEvent;

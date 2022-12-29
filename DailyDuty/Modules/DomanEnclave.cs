@@ -134,7 +134,7 @@ internal class DomanEnclave : IModule
         {
             ParentModule = parentModule;
 
-            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.DomanEnclave);
+            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.DomanEnclave);
             
             SignatureHelper.Initialise(this);
             Service.Framework.Update += OnFrameworkUpdate;

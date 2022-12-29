@@ -156,7 +156,7 @@ internal class WondrousTails : IModule
             SignatureHelper.Initialise(this);
 
             openBookPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
-            idyllshireTeleportPayload = Service.TeleportManager.GetPayload(TeleportLocation.Idyllshire);
+            idyllshireTeleportPayload = TeleportManager.Instance.GetPayload(TeleportLocation.Idyllshire);
 
             Service.AddonManager.Get<DutyEventAddon>().DutyStarted += OnDutyStarted;
             Service.AddonManager.Get<DutyEventAddon>().DutyCompleted += OnDutyCompleted;

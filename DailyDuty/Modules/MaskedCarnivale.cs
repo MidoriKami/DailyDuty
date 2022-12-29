@@ -147,7 +147,7 @@ internal class MaskedCarnivale : IModule
         {
             ParentModule = parentModule;
             
-            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.UlDah);
+            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.UlDah);
             
             SignatureHelper.Initialise(this);
             

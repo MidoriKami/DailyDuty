@@ -141,7 +141,7 @@ internal class FashionReport : IModule
         {
             ParentModule = parentModule;
 
-            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
             
             SignatureHelper.Initialise(this);
 

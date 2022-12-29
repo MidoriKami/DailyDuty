@@ -1,7 +1,10 @@
-﻿using DailyDuty.System;
+﻿using System.Collections.Generic;
+using DailyDuty.DataModels;
+using DailyDuty.System;
 using DailyDuty.UserInterface.Windows;
 using Dalamud.Plugin;
 using KamiLib;
+using KamiLib.Utilities;
 using LocalizationManager = DailyDuty.System.LocalizationManager;
 
 namespace DailyDuty;
@@ -17,9 +20,16 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
         KamiCommon.Initialize(pluginInterface, Name, () => Service.ConfigurationManager.Save());
 
+        TeleportManager.Instance.AddTeleports(new List<TeleportInfo>
+        {
+            new(1, TeleportLocation.GoldSaucer, 62),
+            new(2, TeleportLocation.Idyllshire, 75),
+            new(3, TeleportLocation.DomanEnclave, 127),
+            new(4, TeleportLocation.UlDah, 9),
+        });
+        
         Service.Localization = new LocalizationManager();
         
-        Service.TeleportManager = new TeleportManager();
         Service.ConfigurationManager = new ConfigurationManager();
         Service.AddonManager = new AddonManager();
         Service.ModuleManager = new ModuleManager();
@@ -48,7 +58,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ConfigurationManager.Dispose();
         Service.ChatManager.Dispose();
         Service.ResetManager.Dispose();
-        Service.TeleportManager.Dispose();
         Service.AddonManager.Dispose();
     }
 }

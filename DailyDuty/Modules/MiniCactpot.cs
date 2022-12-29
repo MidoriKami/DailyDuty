@@ -11,6 +11,7 @@ using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
 
@@ -115,7 +116,7 @@ internal class MiniCactpot : IModule
         {
             ParentModule = parentModule;
 
-            DalamudLinkPayload = Service.TeleportManager.GetPayload(TeleportLocation.GoldSaucer);
+            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
             
             SignatureHelper.Initialise(this);
 
