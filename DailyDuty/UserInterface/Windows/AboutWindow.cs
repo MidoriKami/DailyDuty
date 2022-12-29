@@ -3,6 +3,7 @@ using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib;
 using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
@@ -69,7 +70,7 @@ public class AboutWindow : Window
         {
             if (ImGui.Button(FontAwesomeIcon.InfoCircle.ToIconString(), ImGuiHelpers.ScaledVector2(40.0f)))
             {
-                var window =Service.WindowManager.GetWindowOfType<AboutWindow>();
+                var window = KamiCommon.WindowManager.GetWindowOfType<AboutWindow>();
                 if (window != null)
                 {
                     window.IsOpen = true;

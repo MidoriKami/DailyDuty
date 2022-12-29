@@ -4,6 +4,7 @@ using DailyDuty.Localization;
 using DailyDuty.UserInterface.Windows;
 using Dalamud.Interface;
 using ImGuiNET;
+using KamiLib;
 
 namespace DailyDuty.UserInterface.Components;
 
@@ -18,7 +19,7 @@ internal class NavigationButtons : IDrawable
 
         if (ImGui.Button(Strings.UserInterface.Todo.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            var window = Service.WindowManager.GetWindowOfType<TodoConfigurationWindow>()!;
+            var window = KamiCommon.WindowManager.GetWindowOfType<TodoConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
         }
 
@@ -26,7 +27,7 @@ internal class NavigationButtons : IDrawable
 
         if (ImGui.Button(Strings.UserInterface.Timers.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            var window = Service.WindowManager.GetWindowOfType<TimersConfigurationWindow>()!;
+            var window = KamiCommon.WindowManager.GetWindowOfType<TimersConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
         }
 
@@ -34,7 +35,7 @@ internal class NavigationButtons : IDrawable
 
         if (ImGui.Button(Strings.Status.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
-            var window = Service.WindowManager.GetWindowOfType<StatusWindow>()!;
+            var window = KamiCommon.WindowManager.GetWindowOfType<StatusWindow>()!;
             window.IsOpen = !window.IsOpen;
         }
 

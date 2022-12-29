@@ -5,6 +5,7 @@ using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib;
 using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
@@ -88,6 +89,6 @@ internal class TimersStyleWindow : Window
 
     public override void OnClose()
     {
-        Service.WindowManager.RemoveWindow(this);
+        KamiCommon.WindowManager.RemoveWindow(this);
     }
 }

@@ -27,7 +27,6 @@ internal class Service
     [PluginService] public static TargetManager TargetManager { get; private set; } = null!;
 
     public static System.ModuleManager ModuleManager = null!;
-    public static System.WindowManager WindowManager = null!;
     public static System.ConfigurationManager ConfigurationManager = null!;
     public static System.ChatManager ChatManager = null!;
     public static System.ResetManager ResetManager = null!;
