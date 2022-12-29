@@ -8,6 +8,7 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Windows;
 
@@ -87,10 +88,10 @@ internal class TodoConfigurationWindow : Window
             .AddConfigCheckbox(Strings.UserInterface.Todo.AutoResize, Settings.AutoResize)
             .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner, 200.0f)
             .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, 200.0f)
-            .AddConfigColor(Strings.Common.Header, Settings.TaskColors.HeaderColor)
-            .AddConfigColor(Strings.Common.Incomplete, Settings.TaskColors.IncompleteColor)
-            .AddConfigColor(Strings.Common.Complete, Settings.TaskColors.CompleteColor)
-            .AddConfigColor(Strings.Common.Unavailable, Settings.TaskColors.UnavailableColor)
+            .AddConfigColor(Strings.Common.Header, Strings.Common.Default, Settings.TaskColors.HeaderColor, Colors.White)
+            .AddConfigColor(Strings.Common.Incomplete, Strings.Common.Default, Settings.TaskColors.IncompleteColor, Colors.Red)
+            .AddConfigColor(Strings.Common.Complete, Strings.Common.Default, Settings.TaskColors.CompleteColor, Colors.Green)
+            .AddConfigColor(Strings.Common.Unavailable, Strings.Common.Default, Settings.TaskColors.UnavailableColor, Colors.Orange)
             .Draw();
     }
     

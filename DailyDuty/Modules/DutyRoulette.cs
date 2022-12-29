@@ -95,9 +95,9 @@ internal class DutyRoulette : IModule
             InfoBox.Instance
                 .AddTitle(Strings.Module.DutyRoulette.Overlay)
                 .AddConfigCheckbox(Strings.Module.DutyRoulette.Overlay, Settings.OverlayEnabled)
-                .AddConfigColor(Strings.Module.DutyRoulette.DutyComplete, Settings.CompleteColor)
-                .AddConfigColor(Strings.Module.DutyRoulette.DutyIncomplete, Settings.IncompleteColor)
-                .AddConfigColor(Strings.Module.DutyRoulette.Override, Settings.OverrideColor)
+                .AddConfigColor(Strings.Module.DutyRoulette.DutyComplete, Strings.Common.Default, Settings.CompleteColor, Colors.Green)
+                .AddConfigColor(Strings.Module.DutyRoulette.DutyIncomplete, Strings.Common.Default, Settings.IncompleteColor, Colors.Red)
+                .AddConfigColor(Strings.Module.DutyRoulette.Override, Strings.Common.Default, Settings.OverrideColor, Colors.Orange)
                 .Draw();
 
             InfoBox.Instance

@@ -62,6 +62,7 @@ public class Common
     public string Alphabetical => Loc.Localize("Alphabetical", "Alphabetical");
     public string Descending => Loc.Localize("Descending", "Descending");
     public string TimeRemaining => Loc.Localize("TimeRemaining", "Remaining Time");
+    public string Default => Loc.Localize("Default", "Default");
 }
 
 public class Expansion

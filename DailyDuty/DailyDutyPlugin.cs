@@ -35,6 +35,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
 
     public void Dispose()
     {
+        KamiCommon.Dispose();
+        
         Service.ModuleManager.Dispose();
         Service.ConfigurationManager.Dispose();
         Service.ChatManager.Dispose();

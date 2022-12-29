@@ -7,6 +7,7 @@ using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
 using KamiLib.InfoBoxSystem;
+using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Windows;
 
@@ -61,10 +62,10 @@ internal class TimersStyleWindow : Window
 
         InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.ColorOptions)
-            .AddConfigColor(Strings.UserInterface.Timers.Background, Settings.BackgroundColor)
-            .AddConfigColor(Strings.UserInterface.Timers.Foreground, Settings.ForegroundColor)
-            .AddConfigColor(Strings.UserInterface.Timers.Text, Settings.TextColor)
-            .AddConfigColor(Strings.UserInterface.Timers.Time, Settings.TimeColor)
+            .AddConfigColor(Strings.UserInterface.Timers.Background, Strings.Common.Default, Settings.BackgroundColor, Colors.Black)
+            .AddConfigColor(Strings.UserInterface.Timers.Foreground, Strings.Common.Default, Settings.ForegroundColor, Colors.Purple)
+            .AddConfigColor(Strings.UserInterface.Timers.Text, Strings.Common.Default, Settings.TextColor, Colors.White)
+            .AddConfigColor(Strings.UserInterface.Timers.Time, Strings.Common.Default, Settings.TimeColor, Colors.White)
             .Draw();
 
         InfoBox.Instance
