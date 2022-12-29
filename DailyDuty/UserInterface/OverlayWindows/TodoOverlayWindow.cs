@@ -9,6 +9,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib.Utilities;
+using KamiLib.Windows;
 
 namespace DailyDuty.UserInterface.OverlayWindows;
 
