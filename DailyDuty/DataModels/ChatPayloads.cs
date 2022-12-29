@@ -10,5 +10,3 @@ public enum ChatPayloads
     AllianceRaidsDutyFinder,
     OpenPartyFinder
 }
-
-internal record ChatLinkPayload(uint CommandID, ChatPayloads Type, DalamudLinkPayload Payload);

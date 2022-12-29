@@ -130,7 +130,7 @@ internal class FauxHollows : IModule
         {
             ParentModule = parentModule;
 
-            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.OpenPartyFinder, OpenPartyFinder);
+            DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.OpenPartyFinder, OpenPartyFinder);
 
             Service.AddonManager.Get<WeeklyPuzzleAddon>().Show += OnShow;
         }

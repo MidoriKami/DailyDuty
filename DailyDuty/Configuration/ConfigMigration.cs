@@ -4,7 +4,6 @@ using System.IO;
 using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
-using KamiLib.ConfigMigration;
 using KamiLib.Configuration;
 using Newtonsoft.Json.Linq;
 

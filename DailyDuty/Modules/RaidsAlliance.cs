@@ -169,7 +169,7 @@ internal class RaidsAlliance : IModule
         {
             ParentModule = parentModule;
 
-            DalamudLinkPayload = Service.PayloadManager.AddChatLink(ChatPayloads.AllianceRaidsDutyFinder, OpenDutyFinder);
+            DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.AllianceRaidsDutyFinder, OpenDutyFinder);
 
             Service.AddonManager.Get<DutyFinderAddon>().Refresh += OnSelectionChanged;
             Service.Chat.ChatMessage += OnChatMessage;
