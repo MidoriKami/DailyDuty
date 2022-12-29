@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Text.RegularExpressions;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Addons.DataModels;
 

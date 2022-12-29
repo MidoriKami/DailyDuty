@@ -15,6 +15,7 @@ using Dalamud.Utility;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using KamiLib.Utilities;
 using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Modules;

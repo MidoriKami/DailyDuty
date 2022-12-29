@@ -10,6 +10,7 @@ using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
 using Dalamud.Utility;
+using KamiLib.Utilities;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 

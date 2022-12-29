@@ -1,7 +1,8 @@
 ﻿using System;
 using DailyDuty.Configuration.Components;
-using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using KamiLib.Utilities;
+using Condition = DailyDuty.Utilities.Condition;
 
 namespace DailyDuty.Interfaces;
 
