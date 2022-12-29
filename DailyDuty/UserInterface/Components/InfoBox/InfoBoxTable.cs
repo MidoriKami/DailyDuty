@@ -3,6 +3,7 @@ using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using ImGuiNET;
+using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Components.InfoBox;
 

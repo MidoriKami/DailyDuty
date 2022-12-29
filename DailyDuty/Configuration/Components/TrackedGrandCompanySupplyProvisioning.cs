@@ -2,6 +2,7 @@
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
+using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Configuration.Components;

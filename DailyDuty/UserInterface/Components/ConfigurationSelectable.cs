@@ -4,6 +4,7 @@ using ImGuiNET;
 using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
+using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Components;
 

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
+using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Windows;
 
@@ -30,7 +31,7 @@ internal class TimersOverlayWindow : Window
         IsOpen = Settings.Enabled.Value;
         if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
         if (Service.ClientState.IsPvP) IsOpen = false;
-        if (Condition.InCutsceneOrQuestEvent()) IsOpen = false;
+        if (Condition.IsInCutsceneOrQuestEvent()) IsOpen = false;
         if (Condition.IsBoundByDuty() && Settings.HideWhileInDuty.Value) IsOpen = false;
 
         trackedTasks = GetTrackedTasks();
