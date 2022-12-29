@@ -187,7 +187,7 @@ internal class TimersOverlayWindow : Window
         {
             if (remainingTime >= TimeSpan.Zero)
             {
-                var timeText = Time.FormatTimespan(remainingTime, timerSettings.TimerStyle.Value);
+                var timeText = remainingTime.FormatTimespan(timerSettings.TimerStyle.Value);
                 var timeTextSize = ImGui.CalcTextSize(timeText);
                 ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
                 ImGui.TextColored(timerSettings.TimeColor.Value, timeText);

@@ -9,6 +9,7 @@ using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
 

@@ -249,7 +249,7 @@ internal class FashionReport : IModule
         {
             var span = Time.NextFashionReportReset() - DateTime.UtcNow;
 
-            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
+            return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
         }
     }
 

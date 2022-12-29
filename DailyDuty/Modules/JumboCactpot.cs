@@ -205,7 +205,7 @@ internal class JumboCactpot : IModule
         {
             var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
 
-            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
+            return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
         }
     }
 

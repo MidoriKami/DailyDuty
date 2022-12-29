@@ -9,6 +9,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
 

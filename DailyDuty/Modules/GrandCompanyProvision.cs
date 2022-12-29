@@ -189,7 +189,7 @@ internal class GrandCompanyProvision : IModule
         {
             var span = Time.NextGrandCompanyReset() - DateTime.UtcNow;
 
-            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
+            return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
         }
     }
 

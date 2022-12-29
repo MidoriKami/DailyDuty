@@ -10,6 +10,7 @@ using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
 
@@ -173,7 +174,7 @@ internal class Levequest : IModule
         {
             var span = Time.NextLeveAllowanceReset() - DateTime.UtcNow;
 
-            return Time.FormatTimespan(span, Settings.TimerSettings.TimerStyle.Value);
+            return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
         }
     }
 
