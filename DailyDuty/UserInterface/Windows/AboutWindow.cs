@@ -14,8 +14,8 @@ public class AboutWindow : Window
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(575, 625),
-            MaximumSize = new Vector2(575, 625)
+            MinimumSize = new Vector2(575, 575),
+            MaximumSize = new Vector2(575, 575)
         };
 
         Flags |= ImGuiWindowFlags.NoResize;

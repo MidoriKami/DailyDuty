@@ -17,13 +17,13 @@ namespace DailyDuty.UserInterface.Windows;
 
 internal class StatusWindow : SelectionWindow, IDisposable
 {
-    public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 50.0f)
+    public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 45.0f)
     {
         KamiCommon.CommandManager.AddCommand(new StatusWindowCommand());
         
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(450 * (16.0f / 9.0f), 450),
+            MinimumSize = new Vector2(700, 450),
             MaximumSize = new Vector2(9999,9999)
         };
 

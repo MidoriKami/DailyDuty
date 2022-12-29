@@ -34,11 +34,11 @@ internal class ConfigurationManager : IDisposable
             LoadCharacterConfiguration();
         }
 
-        Service.ClientState.Login += OnLogin;
-        Service.ClientState.Logout += OnLogout;
-
         OnCharacterDataLoaded += LoadOverlayWindows;
         OnCharacterDataUnloaded += UnloadOverlayWindows;
+        
+        Service.ClientState.Login += OnLogin;
+        Service.ClientState.Logout += OnLogout;
     }
 
     public void Dispose()
@@ -65,7 +65,7 @@ internal class ConfigurationManager : IDisposable
         OnCharacterDataUnloaded?.Invoke(this, EventArgs.Empty);
     }
 
-    private void LoginLogic(Framework framework)
+    public void LoginLogic(Framework framework)
     {
         if (!LoggedIn) return;
 

@@ -2,13 +2,14 @@
 using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Aetherytes;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.Gui;
 using Dalamud.Game.Gui.Toast;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using CommandManager = Dalamud.Game.Command.CommandManager;
+using Condition = Dalamud.Game.ClientState.Conditions.Condition;
+using LocalizationManager = DailyDuty.System.LocalizationManager;
 
 namespace DailyDuty;
 
@@ -17,7 +18,6 @@ internal class Service
     [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
     [PluginService] public static ChatGui Chat { get; private set; } = null!;
     [PluginService] public static ClientState ClientState { get; private set; } = null!;
-    [PluginService] public static CommandManager Commands { get; private set; } = null!;
     [PluginService] public static Condition Condition { get; private set; } = null!;
     [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
@@ -33,4 +33,5 @@ internal class Service
     public static System.TeleportManager TeleportManager = null!;
     public static System.ChatPayloadManager PayloadManager = null!;
     public static System.AddonManager AddonManager = null!;
+    public static LocalizationManager Localization = null!;
 }
