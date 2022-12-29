@@ -6,7 +6,6 @@ using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game;
-using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -15,6 +14,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
 
@@ -140,7 +140,7 @@ internal class TreasureMap : IModule
         {
             if (Settings.Enabled.Value == false) return;
 
-            if ((int)type != 2115 || !Service.Condition[ConditionFlag.Gathering])
+            if ((int)type != 2115 || !Condition.IsGathering())
                 return;
 
             if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload item)

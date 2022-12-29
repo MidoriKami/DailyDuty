@@ -7,8 +7,6 @@ using Dalamud.Game.Gui;
 using Dalamud.Game.Gui.Toast;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using CommandManager = Dalamud.Game.Command.CommandManager;
-using Condition = Dalamud.Game.ClientState.Conditions.Condition;
 using LocalizationManager = DailyDuty.System.LocalizationManager;
 
 namespace DailyDuty;
@@ -18,7 +16,6 @@ internal class Service
     [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
     [PluginService] public static ChatGui Chat { get; private set; } = null!;
     [PluginService] public static ClientState ClientState { get; private set; } = null!;
-    [PluginService] public static Condition Condition { get; private set; } = null!;
     [PluginService] public static DataManager DataManager { get; private set; } = null!;
     [PluginService] public static Framework Framework { get; private set; } = null!;
     [PluginService] public static AetheryteList AetheryteList { get; private set;} = null!;
