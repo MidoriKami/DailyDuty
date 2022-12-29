@@ -3,7 +3,6 @@ using System.IO;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Modules;
-using DailyDuty.Utilities;
 using Dalamud.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

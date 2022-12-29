@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Interfaces;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using System;
 using DailyDuty.Addons;
 using DailyDuty.Configuration.Components;
@@ -11,6 +10,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.Modules;
 
@@ -57,9 +57,9 @@ internal class GrandCompanySquadron : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 
@@ -76,7 +76,7 @@ internal class GrandCompanySquadron : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
         }
     }
 

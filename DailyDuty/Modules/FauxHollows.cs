@@ -5,13 +5,13 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
@@ -61,7 +61,7 @@ internal class FauxHollows : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Module.FauxHollows.Retelling)
@@ -74,7 +74,7 @@ internal class FauxHollows : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 
@@ -91,7 +91,7 @@ internal class FauxHollows : IModule
         
         public void Draw()
         {
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Common.Target)

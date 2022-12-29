@@ -17,7 +17,7 @@ internal class HideDisabledCheckbox : IDrawable
 
         var label = Config.HideDisabledModulesInSelectWindow ? Strings.Configuration.ShowDisabled : Strings.Configuration.HideDisabled;
 
-        if (ImGui.Button(label, new Vector2(region.X, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(label, region with { Y = 23.0f * ImGuiHelpers.GlobalScale }))
         {
             Config.HideDisabledModulesInSelectWindow = !Config.HideDisabledModulesInSelectWindow;
             Service.ConfigurationManager.Save();

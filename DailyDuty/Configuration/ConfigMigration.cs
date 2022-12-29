@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using DailyDuty.Configuration;
 using DailyDuty.Configuration.Components;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
@@ -9,7 +8,7 @@ using KamiLib.ConfigMigration;
 using KamiLib.Configuration;
 using Newtonsoft.Json.Linq;
 
-namespace DailyDuty.Utilities;
+namespace DailyDuty.Configuration;
 
 internal static class ConfigMigration
 {

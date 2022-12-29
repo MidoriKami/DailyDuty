@@ -4,7 +4,6 @@ using System.Numerics;
 using System.Reflection;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
-using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Utilities;

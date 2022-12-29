@@ -8,10 +8,10 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.Modules;
 
@@ -59,7 +59,7 @@ internal class JumboCactpot : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Module.JumboCactpot.ClickableLinkLabel)
@@ -67,7 +67,7 @@ internal class JumboCactpot : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 

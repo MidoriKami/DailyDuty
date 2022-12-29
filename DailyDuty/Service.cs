@@ -29,7 +29,6 @@ internal class Service
     public static System.ModuleManager ModuleManager = null!;
     public static System.CommandManager CommandSystem = null!;
     public static System.WindowManager WindowManager = null!;
-    public static System.LocalizationManager LocalizationManager = null!;
     public static System.ConfigurationManager ConfigurationManager = null!;
     public static System.ChatManager ChatManager = null!;
     public static System.ResetManager ResetManager = null!;

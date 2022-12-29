@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
-using DailyDuty.UserInterface.Components.InfoBox;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
 

@@ -11,7 +11,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     {
         pluginInterface.Create<Service>();
 
-        Service.LocalizationManager = new LocalizationManager();
         Service.TeleportManager = new TeleportManager();
         Service.ConfigurationManager = new ConfigurationManager();
         Service.PayloadManager = new ChatPayloadManager();
@@ -28,7 +27,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.CommandSystem.Dispose();
         Service.WindowManager.Dispose();
         Service.ModuleManager.Dispose();
-        Service.LocalizationManager.Dispose();
         Service.ConfigurationManager.Dispose();
         Service.ChatManager.Dispose();
         Service.ResetManager.Dispose();

@@ -5,12 +5,12 @@ using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
@@ -73,14 +73,14 @@ internal class HuntMarksDaily : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
                 .AddList(Settings.TrackedHunts)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 
@@ -97,7 +97,7 @@ internal class HuntMarksDaily : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             if (Settings.TrackedHunts.Any(hunt => hunt.Tracked.Value))
             {

@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Interfaces;
-using DailyDuty.Utilities;
 using ImGuiNET;
 using System;
 using DailyDuty.Configuration.Components;

@@ -7,7 +7,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.System;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -16,6 +15,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
@@ -87,7 +87,7 @@ internal class WondrousTails : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Configuration;
 using DailyDuty.UserInterface.Windows;
-using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;
 using KamiLib.Utilities;
 

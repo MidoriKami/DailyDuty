@@ -6,7 +6,6 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -14,6 +13,7 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
@@ -111,7 +111,7 @@ internal class DutyRoulette : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 
@@ -131,7 +131,7 @@ internal class DutyRoulette : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked.Value))
             {

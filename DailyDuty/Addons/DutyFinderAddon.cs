@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.Addons.DataModels;
-using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Logging;

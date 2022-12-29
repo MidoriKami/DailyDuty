@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components.InfoBox;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
 

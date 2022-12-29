@@ -4,11 +4,11 @@ using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.Modules;
 
@@ -56,7 +56,7 @@ internal class Levequest : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
@@ -68,7 +68,7 @@ internal class Levequest : IModule
                 .EndTable()
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 

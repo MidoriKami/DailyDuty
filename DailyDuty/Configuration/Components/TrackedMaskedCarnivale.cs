@@ -1,9 +1,9 @@
 ﻿using System;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components.InfoBox;
-using DailyDuty.Utilities;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Configuration.Components;

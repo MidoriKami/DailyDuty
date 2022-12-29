@@ -115,18 +115,7 @@ internal static class Time
             .Select(dc => dc.Region)
             .FirstOrDefault();
     }
-
-    public static int GetAdjustedWeekday(DayOfWeek targetDay, DayOfWeek weekBase = DayOfWeek.Tuesday)
-    {
-        var offset = 7 - (int) weekBase;
-        var targetDayIndex = (int) targetDay;
-
-        targetDayIndex += offset;
-        targetDayIndex %= 7;
-
-        return targetDayIndex;
-    }
-
+    
     public static string FormatTimespan(TimeSpan span, TimerStyle style)
     {
         return style switch

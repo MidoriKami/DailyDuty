@@ -5,13 +5,13 @@ using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Modules;
@@ -64,14 +64,14 @@ internal class GrandCompanyProvision : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
             
             InfoBox.Instance
                 .AddTitle(Strings.Module.GrandCompany.TrackedJobs)
                 .AddList(Settings.TrackedProvision)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 
@@ -90,7 +90,7 @@ internal class GrandCompanyProvision : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
             
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             if (Settings.TrackedProvision.Any(row => row.Tracked.Value))
             {

@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Interfaces;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using System;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Localization;
@@ -8,6 +7,7 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.Modules;
 
@@ -55,7 +55,7 @@ internal class BeastTribe : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Configuration.MarkCompleteWhen)
@@ -67,7 +67,7 @@ internal class BeastTribe : IModule
                 .EndTable()
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 

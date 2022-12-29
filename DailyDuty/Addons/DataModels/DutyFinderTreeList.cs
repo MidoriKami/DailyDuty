@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using KamiLib.Utilities;
 

@@ -7,7 +7,6 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -16,8 +15,11 @@ using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
+using ISelectable = DailyDuty.Interfaces.ISelectable;
 
 namespace DailyDuty.Modules;
 
@@ -92,7 +94,7 @@ internal class RaidsNormal : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
             if (Settings.TrackedRaids is { } trackedRaids)
             {
@@ -116,7 +118,7 @@ internal class RaidsNormal : IModule
                 .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
                 .Draw();
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
 
         private void RegenerateRaidList()
@@ -147,7 +149,7 @@ internal class RaidsNormal : IModule
         
         public void Draw()
         {
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             if (Settings.TrackedRaids.Any(raid => raid.Tracked.Value))
             {

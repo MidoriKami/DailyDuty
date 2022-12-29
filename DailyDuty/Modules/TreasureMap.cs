@@ -4,7 +4,6 @@ using DailyDuty.Configuration.Components;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.ClientState.Conditions;
@@ -14,6 +13,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.Modules;
 
@@ -60,9 +60,9 @@ internal class TreasureMap : IModule
 
         public void Draw()
         {
-            InfoBox.DrawGenericSettings(this);
+            InfoBox.Instance.DrawGenericSettings(this);
 
-            InfoBox.DrawNotificationOptions(this);
+            InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
 
@@ -81,7 +81,7 @@ internal class TreasureMap : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Module.TreasureMap.NextMap)

@@ -2,8 +2,9 @@
 using System.Numerics;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components.InfoBox;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
+using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Configuration.Components;

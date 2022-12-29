@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using DailyDuty.Utilities;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;

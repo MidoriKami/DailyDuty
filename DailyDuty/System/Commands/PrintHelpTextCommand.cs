@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.Utilities;
 using KamiLib.Utilities;
 
 namespace DailyDuty.System.Commands;

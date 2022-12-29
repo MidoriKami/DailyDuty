@@ -4,9 +4,9 @@ using System.Numerics;
 using DailyDuty.Configuration.Components;
 using DailyDuty.Configuration.OverlaySettings;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components.InfoBox;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
+using KamiLib.InfoBoxSystem;
 
 namespace DailyDuty.UserInterface.Windows;
 

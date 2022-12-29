@@ -6,13 +6,13 @@ using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Components.InfoBox;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
+using KamiLib.InfoBoxSystem;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
@@ -92,7 +92,7 @@ internal class ChallengeLog : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
            
-            InfoBox.DrawGenericStatus(this);
+            InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
                 .AddTitle(Strings.Module.ChallengeLog.Battle)
