@@ -10,29 +10,34 @@ namespace DailyDuty.System;
 
 internal class ModuleManager : IDisposable
 {
-    private List<IModule> Modules { get; } = new()
+    private List<IModule> Modules { get; } 
+
+    public ModuleManager()
     {
-        new BeastTribe(),
-        new CustomDelivery(),
-        new DomanEnclave(),
-        new DutyRoulette(),
-        new FashionReport(),
-        new HuntMarksDaily(),
-        new HuntMarksWeekly(),
-        new JumboCactpot(),
-        new Levequest(),
-        new MiniCactpot(),
-        new TreasureMap(),
-        new WondrousTails(),
-        new ChallengeLog(),
-        new RaidsNormal(),
-        new RaidsAlliance(),
-        new FauxHollows(),
-        new GrandCompanySupply(),
-        new GrandCompanyProvision(),
-        new MaskedCarnivale(),
-        new GrandCompanySquadron(),
-    };
+        Modules = new List<IModule>
+        {
+            new BeastTribe(),
+            new CustomDelivery(),
+            new DomanEnclave(),
+            new DutyRoulette(),
+            new FashionReport(),
+            new HuntMarksDaily(),
+            new HuntMarksWeekly(),
+            new JumboCactpot(),
+            new Levequest(),
+            new MiniCactpot(),
+            new TreasureMap(),
+            new WondrousTails(),
+            new ChallengeLog(),
+            new RaidsNormal(),
+            new RaidsAlliance(),
+            new FauxHollows(),
+            new GrandCompanySupply(),
+            new GrandCompanyProvision(),
+            new MaskedCarnivale(),
+            new GrandCompanySquadron(),
+        };
+    }
 
     public void Dispose()
     {
