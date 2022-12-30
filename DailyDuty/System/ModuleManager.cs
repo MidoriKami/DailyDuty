@@ -50,13 +50,15 @@ internal class ModuleManager : IDisposable
     public IEnumerable<ISelectable> GetConfigurationSelectables()
     {
         return Modules
-            .Select(module => module.ConfigurationComponent.Selectable);
+            .Select(module => module.ConfigurationComponent.Selectable)
+            .OrderBy(module => module.ID);
     }
 
     public IEnumerable<ISelectable> GetStatusSelectables()
     {
         return Modules
-            .Select(module => module.StatusComponent.Selectable);
+            .Select(module => module.StatusComponent.Selectable)
+            .OrderBy(module => module.ID);
     }
 
     public IEnumerable<ITodoComponent> GetTodoComponents(CompletionType type)
