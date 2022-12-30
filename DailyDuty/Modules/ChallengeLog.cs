@@ -156,8 +156,7 @@ internal class ChallengeLog : IModule
             dutyFinderAddon.ReceiveEvent += DutyFinderOnReceiveEvent;
             dutyFinderAddon.Show += DutyFinderOnShow;
 
-            var dutyEventAddon = Service.AddonManager.Get<DutyEventAddon>();
-            dutyEventAddon.DutyCompleted += OnDutyCompleted;
+            DutyState.Instance.DutyCompleted += OnDutyCompleted;
         }
 
         public void Dispose()
@@ -175,8 +174,7 @@ internal class ChallengeLog : IModule
             dutyFinderAddon.ReceiveEvent -= DutyFinderOnReceiveEvent;
             dutyFinderAddon.Show -= DutyFinderOnShow;
 
-            var dutyEventAddon = Service.AddonManager.Get<DutyEventAddon>();
-            dutyEventAddon.DutyCompleted -= OnDutyCompleted;
+            DutyState.Instance.DutyCompleted -= OnDutyCompleted;
         }
 
         private void DutyFinderOnShow(object? sender, IntPtr e)
@@ -208,7 +206,7 @@ internal class ChallengeLog : IModule
             }
         }
 
-        private void OnDutyCompleted(object? sender, uint territory)
+        private void OnDutyCompleted(uint territory)
         {
             if (dutyState == DungeonDutyRouletteState.EnteredDuty)
             {

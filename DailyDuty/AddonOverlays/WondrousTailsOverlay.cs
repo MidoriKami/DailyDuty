@@ -21,9 +21,9 @@ internal class WondrousTailsOverlay : IDisposable
 
     private IEnumerable<WondrousTailsTask> wondrousTailsStatus;
 
-    private WondrousTailsSettings DutyRouletteSettings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
+    private static WondrousTailsSettings DutyRouletteSettings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
 
-    private bool Enabled => DutyRouletteSettings.Enabled.Value && DutyRouletteSettings.OverlayEnabled.Value;
+    private static bool Enabled => DutyRouletteSettings.Enabled.Value && DutyRouletteSettings.OverlayEnabled.Value;
 
     public WondrousTailsOverlay()
     {

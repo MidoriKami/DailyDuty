@@ -159,8 +159,9 @@ internal class WondrousTails : IModule
             openBookPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
             idyllshireTeleportPayload = TeleportManager.Instance.GetPayload(TeleportLocation.Idyllshire);
 
-            Service.AddonManager.Get<DutyEventAddon>().DutyStarted += OnDutyStarted;
-            Service.AddonManager.Get<DutyEventAddon>().DutyCompleted += OnDutyCompleted;
+            DutyState.Instance.DutyStarted += OnDutyStarted;
+            DutyState.Instance.DutyCompleted += OnDutyCompleted;
+            
             Service.ClientState.TerritoryChanged += OnZoneChange;
         }
 
@@ -171,13 +172,14 @@ internal class WondrousTails : IModule
             if (!dutyCompleted) return;
 
             dutyCompleted = false;
-            OnDutyCompleted(this, lastTerritoryType);
+            OnDutyCompleted(lastTerritoryType);
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<DutyEventAddon>().DutyStarted -= OnDutyStarted;
-            Service.AddonManager.Get<DutyEventAddon>().DutyCompleted -= OnDutyCompleted;
+            DutyState.Instance.DutyStarted -= OnDutyStarted;
+            DutyState.Instance.DutyCompleted -= OnDutyCompleted;
+            
             Service.ClientState.TerritoryChanged -= OnZoneChange;
 
             wondrousTailsOverlay.Dispose();
@@ -217,7 +219,7 @@ internal class WondrousTails : IModule
             }
         }
         
-        private void OnDutyStarted(object? sender, uint territory)
+        private void OnDutyStarted(uint territory)
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
@@ -249,7 +251,7 @@ internal class WondrousTails : IModule
             }
         }
 
-        private void OnDutyCompleted(object? sender, uint territory)
+        private void OnDutyCompleted(uint territory)
         {
             if (!Settings.InstanceNotifications.Value) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;

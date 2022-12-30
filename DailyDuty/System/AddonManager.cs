@@ -14,7 +14,6 @@ internal class AddonManager : IDisposable
         new CommendationAddon(),
         new LotteryWeeklyAddon(),
         new GoldSaucerAddon(),
-        new DutyEventAddon(),
         new WeeklyPuzzleAddon(),
         new AOZContentResultAddon(),
         new GcArmyExpeditionResult(),

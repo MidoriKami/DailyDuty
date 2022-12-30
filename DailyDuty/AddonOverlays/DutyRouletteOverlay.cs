@@ -21,7 +21,7 @@ internal class DutyRouletteOverlay : IDisposable
 
     private ByteColor userDefaultTextColor;
 
-    private DutyRouletteSettings RouletteSettings => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette;
+    private static DutyRouletteSettings RouletteSettings => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette;
     private IEnumerable<TrackedRoulette> DutyRoulettes => RouletteSettings.TrackedRoulettes;
 
     private bool Enabled => RouletteSettings.Enabled.Value && RouletteSettings.OverlayEnabled.Value;
@@ -146,7 +146,7 @@ internal class DutyRouletteOverlay : IDisposable
         return DutyRoulettes.FirstOrDefault(duty => (uint) duty.Roulette == dutyFinderResult.TerritoryType);
     }
 
-    private bool IsTabSelected(uint tab)
+    private static bool IsTabSelected(uint tab)
     {
         var addon = Service.AddonManager.Get<DutyFinderAddon>();
         var tabBar = addon.GetTabBar();
