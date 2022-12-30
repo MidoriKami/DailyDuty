@@ -4,8 +4,8 @@ using DailyDuty.DataModels;
 using DailyDuty.Modules;
 using DailyDuty.UserInterface.Windows;
 using Dalamud.Logging;
+using KamiLib.Configuration;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Configuration;
 
@@ -70,20 +70,15 @@ internal class CharacterConfiguration
 
     public static CharacterConfiguration Load(ulong contentID)
     {
-        var configFileInfo = GetConfigFileInfo(contentID);
-
-        if (configFileInfo.Exists)
+        if (GetConfigFileInfo(contentID) is { Exists: true } configFileInfo)
         {
-            var reader = new StreamReader(configFileInfo.FullName);
-            var fileText = reader.ReadToEnd();
-            reader.Dispose();
-
-            var versionNumber = GetConfigFileVersion(fileText);
+            Migrate.LoadFile(configFileInfo);
+            var versionNumber = Migrate.GetFileVersion();
 
             return versionNumber switch
             {
-                2 => LoadExistingCharacterConfiguration(contentID, fileText),
-                1 => GenerateMigratedCharacterConfiguration(configFileInfo),
+                2 => LoadExistingCharacterConfiguration(contentID, configFileInfo),
+                1 => GenerateMigratedCharacterConfiguration(),
                 _ => CreateNewCharacterConfiguration()
             };
         }
@@ -93,8 +88,12 @@ internal class CharacterConfiguration
         }
     }
 
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, string fileText)
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileInfo configFileInfo)
     {
+        var reader = new StreamReader(configFileInfo.FullName);
+        var fileText = reader.ReadToEnd();
+        reader.Dispose();
+        
         var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
 
         if (loadedCharacterConfiguration == null)
@@ -107,13 +106,13 @@ internal class CharacterConfiguration
         return loadedCharacterConfiguration;
     }
     
-    private static CharacterConfiguration GenerateMigratedCharacterConfiguration(FileInfo fileText)
+    private static CharacterConfiguration GenerateMigratedCharacterConfiguration()
     {
         CharacterConfiguration migratedConfiguration;
 
         try
         {
-            migratedConfiguration = ConfigMigration.Convert(fileText);
+            migratedConfiguration = ConfigMigration.Convert();
             migratedConfiguration.CharacterData.Update();
             migratedConfiguration.Save();
         }
@@ -132,19 +131,5 @@ internal class CharacterConfiguration
 
         newCharacterConfiguration.Save();
         return newCharacterConfiguration;
-    }
-
-    private static int GetConfigFileVersion(string fileText)
-    {
-        try
-        {
-            var json = JObject.Parse(fileText);
-            return json.GetValue("Version")?.Value<int>() ?? 0;
-        }
-        catch (Exception e)
-        {
-            PluginLog.Warning(e, "Unable to read configuration version.");
-            return 0;
-        }
     }
 }

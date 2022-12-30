@@ -11,10 +11,8 @@ namespace DailyDuty.Configuration;
 
 internal static class ConfigMigration
 {
-    public static CharacterConfiguration Convert(FileInfo filePath)
+    public static CharacterConfiguration Convert()
     {
-        Migrate.LoadFile(filePath);
-
         return new CharacterConfiguration
         {
             Version = 2,
