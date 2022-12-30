@@ -48,12 +48,19 @@ public static class InfoBoxExtensions
         instance
             .AddTitle(Strings.Status.Suppress, out var innerWidth)
             .AddStringCentered(Strings.Status.SuppressInfo, Colors.Orange)
-            .AddDummy(20.0f)
-            .AddStringCentered(Strings.Module.HuntMarks.NoUndo, Colors.Orange)
-            .AddDisabledButton(Strings.Status.Snooze, () =>
+            .AddDummy(10.0f)
+            .AddDisabledButton(component.ParentModule.GenericSettings.Suppressed.Value ? Strings.Status.UnSnooze : Strings.Status.Snooze, () =>
             {
-                PluginLog.Debug($"Suppressing, {component.ParentModule.Name.GetTranslatedString()}");
-                component.ParentModule.GenericSettings.Suppressed.Value = true;
+                if (!component.ParentModule.GenericSettings.Suppressed.Value)
+                {
+                    PluginLog.Debug($"Snoozing, {component.ParentModule.Name.GetTranslatedString()}");
+                    component.ParentModule.GenericSettings.Suppressed.Value = true;
+                }
+                else
+                {
+                    PluginLog.Debug($"UnSnoozing, {component.ParentModule.Name.GetTranslatedString()}");
+                    component.ParentModule.GenericSettings.Suppressed.Value = false;
+                }
                 Service.ConfigurationManager.Save();
             }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
             .Draw();

@@ -34,6 +34,7 @@ public class Status
     public string Suppress => Loc.Localize("Status_Suppress", "Suppression");
     public string SuppressInfo => Loc.Localize("Status_SuppressInfo", "Suppress notifications until next reset");
     public string Snooze => Loc.Localize("Status_Snooze", "Snooze");
+    public string UnSnooze => Loc.Localize("Status_UnSnooze", "UnSnooze");
 }
 
 public class Common
