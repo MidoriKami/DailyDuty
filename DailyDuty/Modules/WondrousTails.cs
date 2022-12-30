@@ -5,7 +5,6 @@ using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.System;
 using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;

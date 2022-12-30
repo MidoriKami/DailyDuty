@@ -5,7 +5,6 @@ using System.Linq;
 using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
-using DailyDuty.System;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;

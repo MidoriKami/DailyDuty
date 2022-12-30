@@ -1,6 +1,4 @@
-﻿using Dalamud.Game.Text.SeStringHandling.Payloads;
-
-namespace DailyDuty.DataModels;
+﻿namespace DailyDuty.DataModels;
 
 public enum ChatPayloads
 {
