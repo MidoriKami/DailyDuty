@@ -12,9 +12,12 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Caching;
 using KamiLib.InfoBoxSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
+using Lumina.Excel.GeneratedSheets;
+using Condition = KamiLib.Utilities.Condition;
 
 namespace DailyDuty.Modules;
 
@@ -155,17 +158,8 @@ internal class TreasureMap : IModule
             Service.ConfigurationManager.Save();
         }
 
-        private bool IsMap(uint itemID)
-        {
-            var map = GetMapByID(itemID);
-
-            return map != null;
-        }
-
-        private TreasureMapItem? GetMapByID(uint itemID)
-        {
-            return MapList.Maps.FirstOrDefault(map => map.ItemID == itemID);
-        }
+        private static bool IsMap(uint itemID) => LuminaCache<TreasureHuntRank>.Instance.GetAll()
+            .Any(item => item.ItemName.Row == itemID && item.ItemName.Row != 0);
 
         private TimeSpan TimeUntilNextMap()
         {
