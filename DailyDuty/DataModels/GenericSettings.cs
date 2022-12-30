@@ -16,4 +16,6 @@ public class GenericSettings
 
     public Setting<bool> TimerTaskEnabled = new(false);
     public TimerSettings TimerSettings = new();
+
+    public Setting<bool> Suppressed = new(false);
 }

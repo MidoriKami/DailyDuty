@@ -39,16 +39,8 @@ internal class StatusSelectable : ISelectable
     private void DrawModuleStatus()
     {
         var region = ImGui.GetContentRegionAvail();
-        
-        var color = status.Invoke() switch
-        {
-            ModuleStatus.Unknown => Colors.Grey,
-            ModuleStatus.Incomplete => Colors.Red,
-            ModuleStatus.Unavailable => Colors.Orange,
-            ModuleStatus.Complete => Colors.Green,
-            _ => throw new ArgumentOutOfRangeException()
-        };
 
+        var color = status.Invoke().GetStatusColor();
         var text = status.Invoke().GetTranslatedString();
 
         // Override Status if Module is Disabled

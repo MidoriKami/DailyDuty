@@ -39,7 +39,7 @@ internal class TimersOverlayWindow : Window
 
         if (Settings.HideCompleted.Value && trackedTasks.Any())
         {
-            trackedTasks.RemoveAll(module => module.ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete);
+            trackedTasks.RemoveAll(module => module.ParentModule.LogicComponent.Status() == ModuleStatus.Complete);
 
             if (!trackedTasks.Any()) IsOpen = false;
         }
@@ -89,6 +89,7 @@ internal class TimersOverlayWindow : Window
 
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.Enabled.Value);
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.TimerTaskEnabled.Value);
+        tasks.RemoveAll(module => module.ParentModule.GenericSettings.Suppressed.Value);
 
         return tasks;
     }

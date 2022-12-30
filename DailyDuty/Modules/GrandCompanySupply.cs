@@ -85,7 +85,7 @@ internal class GrandCompanySupply : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -124,6 +124,8 @@ internal class GrandCompanySupply : IModule
                 .EndRow()
                 .EndTable()
                 .Draw();
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

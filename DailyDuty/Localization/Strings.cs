@@ -31,6 +31,9 @@ public class Status
 {
     public string Label => Loc.Localize("Status_Label", "Status");
     public string ModuleStatus => Loc.Localize("Status_ModuleStatus", "Module Status");
+    public string Suppress => Loc.Localize("Status_Suppress", "Suppression");
+    public string SuppressInfo => Loc.Localize("Status_SuppressInfo", "Suppress notifications until next reset");
+    public string Snooze => Loc.Localize("Status_Snooze", "Snooze");
 }
 
 public class Common
@@ -63,6 +66,7 @@ public class Common
     public string Descending => Loc.Localize("Descending", "Descending");
     public string TimeRemaining => Loc.Localize("TimeRemaining", "Remaining Time");
     public string Default => Loc.Localize("Default", "Default");
+    public string Suppressed => Loc.Localize("Suppressed", "Suppressed");
 }
 
 public class Expansion
@@ -212,7 +216,7 @@ public class HuntMarks
     public string NoHuntsTracked => Loc.Localize("HuntMarks_NoHuntsTracked", "No hunts have been selected for tracking");
     public string ForceComplete => Loc.Localize("HuntMarks_ForceComplete", "Force Complete");
     public string ForceCompleteHelp => Loc.Localize("HuntMarks_ForceCompleteMouseover", "Override module status and mark complete");
-    public string NoUndo => Loc.Localize("HuntMarks_NoUndo", "This action cannot be undone for this week");
+    public string NoUndo => Loc.Localize("HuntMarks_NoUndo", "This action cannot be undone");
 }
 
 public class JumboCactpot

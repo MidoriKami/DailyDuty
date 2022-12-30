@@ -34,7 +34,7 @@ internal class ResetManager : IDisposable
             {
                 PluginLog.Debug($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. Next Reset:[{module.ParentModule.GenericSettings.NextReset.ToLocalTime()}]");
 
-                module.DoReset();
+                module.Reset();
                 module.ParentModule.GenericSettings.NextReset = module.GetNextReset();
                 Service.ConfigurationManager.Save();
             }

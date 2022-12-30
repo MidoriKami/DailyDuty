@@ -78,7 +78,7 @@ internal class DomanEnclave : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -116,6 +116,8 @@ internal class DomanEnclave : IModule
                     .AddString(Strings.Module.DomanEnclave.UnknownStatus, Colors.Orange)
                     .Draw();
             }
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

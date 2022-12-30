@@ -82,7 +82,7 @@ internal class HuntMarksWeekly : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -124,6 +124,8 @@ internal class HuntMarksWeekly : IModule
                     Service.ConfigurationManager.Save();
                 }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
                 .Draw();
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

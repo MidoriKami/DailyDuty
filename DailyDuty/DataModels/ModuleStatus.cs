@@ -10,7 +10,8 @@ public enum ModuleStatus
     Unknown,
     Incomplete,
     Unavailable,
-    Complete
+    Complete,
+    Suppressed,
 }
 
 public static class ModuleStatusExtensions
@@ -23,6 +24,7 @@ public static class ModuleStatusExtensions
             ModuleStatus.Incomplete => Strings.Common.Incomplete,
             ModuleStatus.Unavailable => Strings.Common.Unavailable,
             ModuleStatus.Complete => Strings.Common.Complete,
+            ModuleStatus.Suppressed => Strings.Common.Suppressed,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }
@@ -35,6 +37,7 @@ public static class ModuleStatusExtensions
             ModuleStatus.Incomplete => Colors.Red,
             ModuleStatus.Unavailable => Colors.Orange,
             ModuleStatus.Complete => Colors.Green,
+            ModuleStatus.Suppressed => Colors.Purple,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

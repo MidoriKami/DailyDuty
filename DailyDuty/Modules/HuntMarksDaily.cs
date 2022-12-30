@@ -89,7 +89,7 @@ internal class HuntMarksDaily : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -116,6 +116,8 @@ internal class HuntMarksDaily : IModule
                     .AddString(Strings.Module.HuntMarks.NoHuntsTracked, Colors.Orange)
                     .Draw();
             }
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

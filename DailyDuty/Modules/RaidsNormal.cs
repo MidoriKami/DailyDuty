@@ -128,7 +128,7 @@ internal class RaidsNormal : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -157,6 +157,8 @@ internal class RaidsNormal : IModule
                     .AddString(Strings.Module.Raids.NoRaidsTracked, Colors.Orange)
                     .Draw();
             }
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

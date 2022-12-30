@@ -90,7 +90,7 @@ internal class MaskedCarnivale : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -129,6 +129,8 @@ internal class MaskedCarnivale : IModule
                     .AddString(Strings.Module.MaskedCarnivale.NoTasksTracked, Colors.Orange)
                     .Draw();
             }
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

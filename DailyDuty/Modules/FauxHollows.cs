@@ -81,7 +81,7 @@ internal class FauxHollows : IModule
     {
         public IModule ParentModule { get; }
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public ModuleStatusComponent(IModule parentModule)
         {
@@ -90,6 +90,8 @@ internal class FauxHollows : IModule
         
         public void Draw()
         {
+            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
+            
             InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
@@ -97,7 +99,7 @@ internal class FauxHollows : IModule
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Module.FauxHollows.Completions)
-                .AddString($"{Settings.FauxHollowsCompleted} / {GetRequiredCompletionCount()}", ParentModule.LogicComponent.GetModuleStatus().GetStatusColor())
+                .AddString($"{Settings.FauxHollowsCompleted} / {GetRequiredCompletionCount()}", logicModule.GetModuleStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -112,6 +114,8 @@ internal class FauxHollows : IModule
                     Service.ConfigurationManager.Save();
                 }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
                 .Draw();
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
 
         private static int GetRequiredCompletionCount()

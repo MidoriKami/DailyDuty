@@ -127,7 +127,7 @@ internal class DutyRoulette : IModule
         public IModule ParentModule { get; }
 
         public ISelectable Selectable =>
-            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.GetModuleStatus);
+            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
 
         public void Draw()
         {
@@ -164,6 +164,8 @@ internal class DutyRoulette : IModule
                     .EndTable()
                     .Draw();
             }
+            
+            InfoBox.Instance.DrawSuppressionOption(this);
         }
     }
 

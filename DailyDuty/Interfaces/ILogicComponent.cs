@@ -11,6 +11,8 @@ public interface ILogicComponent : IDisposable
 
     ModuleStatus GetModuleStatus();
 
+    ModuleStatus Status() => ParentModule.GenericSettings.Suppressed.Value ? ModuleStatus.Suppressed : GetModuleStatus();
+
     string GetStatusMessage();
 
     DalamudLinkPayload? DalamudLinkPayload { get; }
@@ -20,8 +22,7 @@ public interface ILogicComponent : IDisposable
     {
         if (!ParentModule.GenericSettings.Enabled.Value) return;
         if (!ParentModule.GenericSettings.NotifyOnLogin.Value) return;
-        if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete) return;
-        if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable) return;
+        if (ParentModule.LogicComponent.GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
 
         var moduleName = ParentModule.Name.GetTranslatedString();
 
@@ -36,8 +37,7 @@ public interface ILogicComponent : IDisposable
         if (!ParentModule.GenericSettings.Enabled.Value) return;
         if (!ParentModule.GenericSettings.NotifyOnZoneChange.Value) return;
         if (Condition.IsBoundByDuty()) return;
-        if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete) return;
-        if (ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable) return;
+        if (ParentModule.LogicComponent.GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
 
         var moduleName = ParentModule.Name.GetTranslatedString();
 
@@ -50,4 +50,10 @@ public interface ILogicComponent : IDisposable
     DateTime GetNextReset();
 
     void DoReset();
+
+    void Reset()
+    {
+        ParentModule.GenericSettings.Suppressed.Value = false;
+        DoReset();
+    }
 }

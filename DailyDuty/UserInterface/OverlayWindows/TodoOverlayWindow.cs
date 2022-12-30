@@ -158,13 +158,15 @@ internal class TodoOverlayWindow : Window
 
         tasks.RemoveAll(module => !module.ParentModule.GenericSettings.TodoTaskEnabled.Value);
 
+        tasks.RemoveAll(module => module.ParentModule.GenericSettings.Suppressed.Value);
+        
         if (Settings.HideCompletedTasks.Value)
             tasks.RemoveAll(module =>
-                module.ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Complete);
+                module.ParentModule.LogicComponent.Status() == ModuleStatus.Complete);
 
         if (Settings.HideUnavailableTasks.Value)
             tasks.RemoveAll(module =>
-                module.ParentModule.LogicComponent.GetModuleStatus() == ModuleStatus.Unavailable);
+                module.ParentModule.LogicComponent.Status() == ModuleStatus.Unavailable);
 
         return tasks;
     }
@@ -176,7 +178,7 @@ internal class TodoOverlayWindow : Window
             var useLongLabel = task.ParentModule.GenericSettings.TodoUseLongLabel.Value;
             var taskLabel = useLongLabel ? task.GetLongTaskLabel() : task.GetShortTaskLabel();
 
-            switch (task.ParentModule.LogicComponent.GetModuleStatus())
+            switch (task.ParentModule.LogicComponent.Status())
             {
                 case ModuleStatus.Unknown:
                     ImGui.TextColored(Colors.Grey, taskLabel);
