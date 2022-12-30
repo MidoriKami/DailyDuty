@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.DataModels;
+using DailyDuty.System;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -8,15 +9,20 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class LotteryWeeklyAddon : IDisposable
+public unsafe class LotteryWeeklyAddon : IDisposable
 {
+    private static LotteryWeeklyAddon? _instance;
+    public static LotteryWeeklyAddon Instance => _instance ??= new LotteryWeeklyAddon();
+    
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
     private delegate void* AgentReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID);
     private readonly Hook<AgentReceiveEvent>? agentShowHook;
 
-    public LotteryWeeklyAddon()
+    private LotteryWeeklyAddon()
     {
+        AddonManager.AddAddon(this);
+        
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryWeekly);
 
         agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), OnReceiveEvent);

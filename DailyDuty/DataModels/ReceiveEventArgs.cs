@@ -4,7 +4,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.DataModels;
 
-internal unsafe class ReceiveEventArgs : EventArgs
+public unsafe class ReceiveEventArgs : EventArgs
 {
     public ReceiveEventArgs(AgentInterface* agentInterface, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong senderID)
     {

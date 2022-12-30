@@ -4,7 +4,7 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.DataModels;
 
-internal struct DutyFinderTabBar
+public struct DutyFinderTabBar
 {
     private readonly BaseNode addonBase;
     public List<RadioButtonNode> RadioButtons = new();

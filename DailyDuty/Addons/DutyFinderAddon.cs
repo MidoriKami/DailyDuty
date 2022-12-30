@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.DataModels;
+using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Logging;
@@ -10,8 +11,11 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class DutyFinderAddon : IDisposable
+public unsafe class DutyFinderAddon : IDisposable
 {
+    private static DutyFinderAddon? _instance;
+    public static DutyFinderAddon Instance => _instance ??= new DutyFinderAddon();
+    
     public event EventHandler<IntPtr>? Show;
     public event EventHandler<IntPtr>? Draw;
     public event EventHandler<IntPtr>? Finalize;
@@ -35,8 +39,10 @@ internal unsafe class DutyFinderAddon : IDisposable
 
     private AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
 
-    public DutyFinderAddon()
+    private DutyFinderAddon()
     {
+        AddonManager.AddAddon(this);
+        
         Service.Framework.Update += OnFrameworkUpdate;
 
         var agent = AgentContentsFinder.Instance()->AgentInterface;

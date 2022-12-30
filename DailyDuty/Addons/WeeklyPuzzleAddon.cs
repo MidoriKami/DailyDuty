@@ -2,14 +2,18 @@
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using System;
 using DailyDuty.DataModels;
+using DailyDuty.System;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class WeeklyPuzzleAddon : IDisposable
+public unsafe class WeeklyPuzzleAddon : IDisposable
 {
+    private static WeeklyPuzzleAddon? _instance;
+    public static WeeklyPuzzleAddon Instance => _instance ??= new WeeklyPuzzleAddon();
+    
     public event EventHandler<IntPtr>? Show;
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
@@ -21,9 +25,11 @@ internal unsafe class WeeklyPuzzleAddon : IDisposable
 
     private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
 
-    public WeeklyPuzzleAddon()
+    private WeeklyPuzzleAddon()
     {
         SignatureHelper.Initialise(this);
+        
+        AddonManager.AddAddon(this);
 
         var agent = Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalID(245);
 

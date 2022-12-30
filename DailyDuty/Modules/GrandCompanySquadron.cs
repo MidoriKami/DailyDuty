@@ -96,13 +96,13 @@ internal class GrandCompanySquadron : IModule
         {
             ParentModule = parentModule;
 
-            Service.AddonManager.Get<GcArmyExpeditionResult>().Setup += OnSetup;
+            GcArmyExpeditionResult.Instance.Setup += OnSetup;
             Service.Framework.Update += OnFrameworkUpdate;
         }
         
         public void Dispose()
         {
-            Service.AddonManager.Get<GcArmyExpeditionResult>().Setup -= OnSetup;
+            GcArmyExpeditionResult.Instance.Setup -= OnSetup;
             Service.Framework.Update -= OnFrameworkUpdate;
         }
 

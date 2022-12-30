@@ -148,13 +148,11 @@ internal class ChallengeLog : IModule
             Service.ClientState.CfPop += OnContentFinderPop;
             Service.ClientState.TerritoryChanged += OnTerritoryChanged;
 
-            var commendationAddon = Service.AddonManager.Get<CommendationAddon>();
-            commendationAddon.ReceiveEvent += CommendationOnReceiveEvent;
-            commendationAddon.Show += CommendationOnShow;
-
-            var dutyFinderAddon = Service.AddonManager.Get<DutyFinderAddon>();
-            dutyFinderAddon.ReceiveEvent += DutyFinderOnReceiveEvent;
-            dutyFinderAddon.Show += DutyFinderOnShow;
+            CommendationAddon.Instance.ReceiveEvent += CommendationOnReceiveEvent;
+            CommendationAddon.Instance.Show += CommendationOnShow;
+            
+            DutyFinderAddon.Instance.ReceiveEvent += DutyFinderOnReceiveEvent;
+            DutyFinderAddon.Instance.Show += DutyFinderOnShow;
 
             DutyState.Instance.DutyCompleted += OnDutyCompleted;
         }
@@ -166,13 +164,11 @@ internal class ChallengeLog : IModule
             Service.ClientState.CfPop -= OnContentFinderPop;
             Service.ClientState.TerritoryChanged -= OnTerritoryChanged;
 
-            var commendationAddon = Service.AddonManager.Get<CommendationAddon>();
-            commendationAddon.ReceiveEvent -= CommendationOnReceiveEvent;
-            commendationAddon.Show -= CommendationOnShow;
-
-            var dutyFinderAddon = Service.AddonManager.Get<DutyFinderAddon>();
-            dutyFinderAddon.ReceiveEvent -= DutyFinderOnReceiveEvent;
-            dutyFinderAddon.Show -= DutyFinderOnShow;
+            CommendationAddon.Instance.ReceiveEvent -= CommendationOnReceiveEvent;
+            CommendationAddon.Instance.Show -= CommendationOnShow;
+            
+            DutyFinderAddon.Instance.ReceiveEvent -= DutyFinderOnReceiveEvent;
+            DutyFinderAddon.Instance.Show -= DutyFinderOnShow;
 
             DutyState.Instance.DutyCompleted -= OnDutyCompleted;
         }

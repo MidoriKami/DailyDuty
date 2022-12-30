@@ -7,7 +7,7 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.DataModels;
 
-internal unsafe struct DutyFinderTreeListItem
+public unsafe struct DutyFinderTreeListItem
 {
     private readonly ComponentNode treeListItem;
     public CloverNode CloverNode;

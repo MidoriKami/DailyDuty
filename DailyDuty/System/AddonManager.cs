@@ -1,34 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using DailyDuty.Addons;
 
 namespace DailyDuty.System;
 
-internal class AddonManager : IDisposable
+public static class AddonManager
 {
-    private readonly List<IDisposable> addons = new()
+    private static readonly List<IDisposable> LoadedAddons = new();
+
+    public static void AddAddon(IDisposable addon)
     {
-        new DutyFinderAddon(),
-        new LotteryDailyAddon(),
-        new CommendationAddon(),
-        new LotteryWeeklyAddon(),
-        new GoldSaucerAddon(),
-        new WeeklyPuzzleAddon(),
-        new AOZContentResultAddon(),
-        new GcArmyExpeditionResult(),
-    };
+        LoadedAddons.Add(addon);
+    }
     
-    public void Dispose()
+    public static void Cleanup()
     {
-        foreach (var addon in addons)
+        foreach (var addon in LoadedAddons)
         {
             addon.Dispose();
         }
-    }
-
-    public T Get<T>()
-    {
-        return addons.OfType<T>().First();
     }
 }

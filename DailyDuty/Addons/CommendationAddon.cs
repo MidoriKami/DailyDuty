@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.DataModels;
+using DailyDuty.System;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
@@ -8,8 +9,11 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class CommendationAddon : IDisposable
+public unsafe class CommendationAddon : IDisposable
 {
+    private static CommendationAddon? _instance;
+    public static CommendationAddon Instance => _instance ??= new CommendationAddon();
+    
     public event EventHandler<IntPtr>? Show;
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
@@ -19,8 +23,10 @@ internal unsafe class CommendationAddon : IDisposable
     private readonly Hook<AgentReceiveEvent>? receiveEventHook;
     private readonly Hook<AgentShow>? showEventHook;
 
-    public CommendationAddon()
+    private CommendationAddon()
     {
+        AddonManager.AddAddon(this);
+        
         var commendationAgentInterface = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsMvp);
 
         receiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(commendationAgentInterface->VTable->ReceiveEvent), OnReceiveEvent);

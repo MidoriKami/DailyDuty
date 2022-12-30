@@ -121,14 +121,14 @@ internal class MiniCactpot : IModule
             
             SignatureHelper.Initialise(this);
 
-            Service.AddonManager.Get<LotteryDailyAddon>().Show += OnShow;
-            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += OnGoldSaucerUpdate;
+            LotteryDailyAddon.Instance.Show += OnShow;
+            GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<LotteryDailyAddon>().Show -= OnShow;
-            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate -= OnGoldSaucerUpdate;
+            LotteryDailyAddon.Instance.Show -= OnShow;
+            GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
         }
 
         public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";

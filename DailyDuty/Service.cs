@@ -1,10 +1,10 @@
-﻿using Dalamud.Game;
+﻿using DailyDuty.System;
+using Dalamud.Game;
 using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.Gui;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using LocalizationManager = DailyDuty.System.LocalizationManager;
 
 namespace DailyDuty;
 
@@ -17,10 +17,9 @@ internal class Service
     [PluginService] public static GameGui GameGui { get; private set; } = null!;
     [PluginService] public static TargetManager TargetManager { get; private set; } = null!;
 
-    public static System.ModuleManager ModuleManager = null!;
-    public static System.ConfigurationManager ConfigurationManager = null!;
-    public static System.ChatManager ChatManager = null!;
-    public static System.ResetManager ResetManager = null!;
-    public static System.AddonManager AddonManager = null!;
+    public static ModuleManager ModuleManager = null!;
+    public static ConfigurationManager ConfigurationManager = null!;
+    public static ChatManager ChatManager = null!;
+    public static ResetManager ResetManager = null!;
     public static LocalizationManager Localization = null!;
 }

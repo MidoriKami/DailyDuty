@@ -151,14 +151,14 @@ internal class MaskedCarnivale : IModule
             DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.UlDah);
             
             SignatureHelper.Initialise(this);
-            
-            Service.AddonManager.Get<AOZContentResultAddon>().Setup += OnSetup;
+
+            AOZContentResultAddon.Instance.Setup += OnSetup;
             Service.Framework.Update += OnFrameworkUpdate;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<AOZContentResultAddon>().Setup -= OnSetup;
+            AOZContentResultAddon.Instance.Setup -= OnSetup;
             Service.Framework.Update -= OnFrameworkUpdate;
         }
         

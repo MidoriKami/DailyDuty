@@ -174,13 +174,13 @@ internal class RaidsNormal : IModule
 
             DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.NormalRaidsDutyFinder, OpenDutyFinder);
 
-            Service.AddonManager.Get<DutyFinderAddon>().Refresh += OnSelectionChanged;
+            DutyFinderAddon.Instance.Refresh += OnSelectionChanged;
             Service.Chat.ChatMessage += OnChatMessage;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<DutyFinderAddon>().Refresh -= OnSelectionChanged;
+            DutyFinderAddon.Instance.Refresh -= OnSelectionChanged;
             Service.Chat.ChatMessage -= OnChatMessage;
         }
 

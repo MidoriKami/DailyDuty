@@ -146,12 +146,12 @@ internal class FashionReport : IModule
             
             SignatureHelper.Initialise(this);
 
-            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += GoldSaucerUpdate;
+            GoldSaucerAddon.Instance.GoldSaucerUpdate += GoldSaucerUpdate;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate -= GoldSaucerUpdate;
+            GoldSaucerAddon.Instance.GoldSaucerUpdate -= GoldSaucerUpdate;
         }
 
         private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)

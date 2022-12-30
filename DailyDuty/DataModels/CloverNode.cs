@@ -2,14 +2,14 @@
 
 namespace DailyDuty.DataModels;
 
-internal enum CloverState
+public enum CloverState
 {
     Hidden,
     Golden,
     Dark
 }
 
-internal unsafe struct CloverNode
+public unsafe struct CloverNode
 {
     public AtkImageNode* GoldenCloverNode;
     public AtkImageNode* EmptyCloverNode;

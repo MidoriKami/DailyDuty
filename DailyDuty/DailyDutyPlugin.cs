@@ -31,7 +31,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.Localization = new LocalizationManager();
         
         Service.ConfigurationManager = new ConfigurationManager();
-        Service.AddonManager = new AddonManager();
         Service.ModuleManager = new ModuleManager();
         Service.ResetManager = new ResetManager();
         Service.ChatManager = new ChatManager();
@@ -58,6 +57,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ConfigurationManager.Dispose();
         Service.ChatManager.Dispose();
         Service.ResetManager.Dispose();
-        Service.AddonManager.Dispose();
+        
+        AddonManager.Cleanup();
     }
 }

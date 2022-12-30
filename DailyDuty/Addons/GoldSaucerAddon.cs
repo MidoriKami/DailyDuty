@@ -1,11 +1,12 @@
 ﻿using System;
+using DailyDuty.System;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class GoldSaucerEventArgs : EventArgs
+public unsafe class GoldSaucerEventArgs : EventArgs
 {
     public GoldSaucerEventArgs(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID)
     {
@@ -38,8 +39,11 @@ internal unsafe class GoldSaucerEventArgs : EventArgs
     }
 }
 
-internal unsafe class GoldSaucerAddon : IDisposable
+public unsafe class GoldSaucerAddon : IDisposable
 {
+    private static GoldSaucerAddon? _instance;
+    public static GoldSaucerAddon Instance => _instance ??= new GoldSaucerAddon();
+    
     private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID);
 
     [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(ProcessNetworkPacket))]
@@ -47,10 +51,12 @@ internal unsafe class GoldSaucerAddon : IDisposable
 
     public event EventHandler<GoldSaucerEventArgs>? GoldSaucerUpdate;
 
-    public GoldSaucerAddon()
+    private GoldSaucerAddon()
     {
         SignatureHelper.Initialise(this);
 
+        AddonManager.AddAddon(this);
+        
         goldSaucerUpdateHook?.Enable();
     }
 

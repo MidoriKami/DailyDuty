@@ -5,7 +5,7 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.DataModels;
 
-internal struct DutyFinderTreeList
+public struct DutyFinderTreeList
 {
     private readonly ComponentNode treeNodeBase;
     public List<DutyFinderTreeListItem> Items = new();

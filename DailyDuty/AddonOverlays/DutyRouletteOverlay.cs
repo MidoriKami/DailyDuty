@@ -28,11 +28,9 @@ internal class DutyRouletteOverlay : IDisposable
 
     public DutyRouletteOverlay()
     {
-        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
-
-        dutyFinder.Refresh += OnRefresh;
-        dutyFinder.Draw += OnDraw;
-        dutyFinder.Finalize += OnFinalize;
+        DutyFinderAddon.Instance.Refresh += OnRefresh;
+        DutyFinderAddon.Instance.Draw += OnDraw;
+        DutyFinderAddon.Instance.Finalize += OnFinalize;
 
         var rouletteData = LuminaCache<ContentRoulette>.Instance.GetAll()
             .Where(cr => cr.Name != string.Empty);
@@ -47,21 +45,18 @@ internal class DutyRouletteOverlay : IDisposable
 
     public void Dispose()
     {
-        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
-
-        dutyFinder.ResetLabelColors(userDefaultTextColor);
-
-        dutyFinder.Refresh -= OnRefresh;
-        dutyFinder.Draw -= OnDraw;
-        dutyFinder.Finalize -= OnFinalize;
+        DutyFinderAddon.Instance.Refresh -= OnRefresh;
+        DutyFinderAddon.Instance.Draw -= OnDraw;
+        DutyFinderAddon.Instance.Finalize -= OnFinalize;
+        
+        DutyFinderAddon.Instance.ResetLabelColors(userDefaultTextColor);
     }
  
     private void OnDraw(object? sender, IntPtr e)
     {
         if (defaultColorSaved == false)
         {
-            var addon = Service.AddonManager.Get<DutyFinderAddon>();
-            var tree = addon.GetBaseTreeNode();
+            var tree = DutyFinderAddon.Instance.GetBaseTreeNode();
             var line = tree.Items.First();
             userDefaultTextColor = line.GetTextColor();
             defaultColorSaved = true;
@@ -95,22 +90,13 @@ internal class DutyRouletteOverlay : IDisposable
         }
     }
 
-    private void OnFinalize(object? sender, IntPtr e)
-    {
-        ResetDefaultTextColor();
-    }
+    private void OnFinalize(object? sender, IntPtr e) => ResetDefaultTextColor();
 
-    private void ResetDefaultTextColor()
-    {
-        var addon = Service.AddonManager.Get<DutyFinderAddon>();
-
-        addon.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
-    }
+    private void ResetDefaultTextColor() => DutyFinderAddon.Instance.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
 
     private void SetRouletteColors()
     {
-        var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var treeNode = addon.GetBaseTreeNode();
+        var treeNode = DutyFinderAddon.Instance.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {
@@ -148,9 +134,7 @@ internal class DutyRouletteOverlay : IDisposable
 
     private static bool IsTabSelected(uint tab)
     {
-        var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var tabBar = addon.GetTabBar();
-
+        var tabBar = DutyFinderAddon.Instance.GetTabBar();
         return tab == tabBar.GetSelectedTabIndex();
     }
 }

@@ -27,13 +27,11 @@ internal class WondrousTailsOverlay : IDisposable
 
     public WondrousTailsOverlay()
     {
-        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
-
-        dutyFinder.Refresh += OnRefresh;
-        dutyFinder.Update += OnUpdate;
-        dutyFinder.Draw += OnDraw;
-        dutyFinder.Finalize += OnFinalize;
-
+        DutyFinderAddon.Instance.Refresh += OnRefresh;
+        DutyFinderAddon.Instance.Update += OnUpdate;
+        DutyFinderAddon.Instance.Draw += OnDraw;
+        DutyFinderAddon.Instance.Finalize += OnFinalize;
+        
         var contentFinderData = LuminaCache<ContentFinderCondition>.Instance.GetAll()
             .Where(cfc => cfc.Name != string.Empty);
 
@@ -49,14 +47,12 @@ internal class WondrousTailsOverlay : IDisposable
 
     public void Dispose()
     {
-        var dutyFinder = Service.AddonManager.Get<DutyFinderAddon>();
+        DutyFinderAddon.Instance.HideCloverNodes();
 
-        dutyFinder.HideCloverNodes();
-
-        dutyFinder.Refresh -= OnRefresh;
-        dutyFinder.Update -= OnUpdate;
-        dutyFinder.Draw -= OnDraw;
-        dutyFinder.Finalize -= OnFinalize;
+        DutyFinderAddon.Instance.Refresh -= OnRefresh;
+        DutyFinderAddon.Instance.Update -= OnUpdate;
+        DutyFinderAddon.Instance.Draw -= OnDraw;
+        DutyFinderAddon.Instance.Finalize -= OnFinalize;
     }
 
     private void OnRefresh(object? sender, IntPtr e)
@@ -75,16 +71,12 @@ internal class WondrousTailsOverlay : IDisposable
     {
         if (!Enabled) return;
 
-        var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var treeNode = addon.GetBaseTreeNode();
+        var treeNode = DutyFinderAddon.Instance.GetBaseTreeNode();
 
         treeNode.MakeCloverNodes();
     }
 
-    private void OnFinalize(object? sender, IntPtr e)
-    {
-        Service.AddonManager.Get<DutyFinderAddon>().HideCloverNodes();
-    }
+    private void OnFinalize(object? sender, IntPtr e) => DutyFinderAddon.Instance.HideCloverNodes();
 
     private ButtonState? IsWondrousTailsDuty(DutyFinderTreeListItem item)
     {
@@ -115,15 +107,11 @@ internal class WondrousTailsOverlay : IDisposable
         return null;
     }
 
-    private ButtonState? InWondrousTailsBook(uint duty)
-    {
-        return wondrousTailsStatus.FirstOrDefault(task => task.DutyList.Contains(duty))?.TaskState;
-    }
+    private ButtonState? InWondrousTailsBook(uint duty) => wondrousTailsStatus.FirstOrDefault(task => task.DutyList.Contains(duty))?.TaskState;
 
     private void UpdateWondrousTails()
     {
-        var addon = Service.AddonManager.Get<DutyFinderAddon>();
-        var treeNode = addon.GetBaseTreeNode();
+        var treeNode = DutyFinderAddon.Instance.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {

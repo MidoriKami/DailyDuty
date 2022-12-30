@@ -1,4 +1,5 @@
 ﻿using System;
+using DailyDuty.System;
 using Dalamud.Hooking;
 using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
@@ -6,8 +7,11 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Addons;
 
-internal unsafe class LotteryDailyAddon : IDisposable
+public unsafe class LotteryDailyAddon : IDisposable
 {
+    private static LotteryDailyAddon? _instance;
+    public static LotteryDailyAddon Instance => _instance ??= new LotteryDailyAddon();
+    
     public event EventHandler<IntPtr>? Show;
 
     private delegate void* AgentShow(AgentInterface* agent, void* a2, void* a3);
@@ -15,10 +19,12 @@ internal unsafe class LotteryDailyAddon : IDisposable
     [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
     private readonly Hook<AgentShow>? agentShowHook = null;
 
-    public LotteryDailyAddon()
+    private LotteryDailyAddon()
     {
         SignatureHelper.Initialise(this);
 
+        AddonManager.AddAddon(this);
+        
         agentShowHook?.Enable();
     }
 

@@ -129,15 +129,15 @@ internal class JumboCactpot : IModule
             ParentModule = parentModule;
 
             DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
-            
-            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate += OnGoldSaucerUpdate;
-            Service.AddonManager.Get<LotteryWeeklyAddon>().ReceiveEvent += OnReceiveEvent;
+
+            GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
+            LotteryWeeklyAddon.Instance.ReceiveEvent += OnReceiveEvent;
         }
 
         public void Dispose()
         {
-            Service.AddonManager.Get<GoldSaucerAddon>().GoldSaucerUpdate -= OnGoldSaucerUpdate;
-            Service.AddonManager.Get<LotteryWeeklyAddon>().ReceiveEvent -= OnReceiveEvent;
+            GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
+            LotteryWeeklyAddon.Instance.ReceiveEvent -= OnReceiveEvent;
         }
 
         public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";
