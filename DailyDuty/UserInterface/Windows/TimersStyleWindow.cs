@@ -12,7 +12,7 @@ namespace DailyDuty.UserInterface.Windows;
 
 internal class TimersStyleWindow : Window
 {
-    public TimerSettings Settings { get; set; }
+    private TimerSettings Settings { get; set; }
     private IModule OwnerModule { get; }
 
     public TimersStyleWindow(IModule owner) : base($"{Strings.UserInterface.Timers.EditTimerTitle} - {owner.Name.GetTranslatedString()}")

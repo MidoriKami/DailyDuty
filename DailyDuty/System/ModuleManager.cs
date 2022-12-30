@@ -47,35 +47,21 @@ internal class ModuleManager : IDisposable
         }
     }
 
-    public IEnumerable<ISelectable> GetConfigurationSelectables()
-    {
-        return Modules
-            .Select(module => module.ConfigurationComponent.Selectable)
-            .OrderBy(module => module.ID);
-    }
+    public IEnumerable<ISelectable> GetConfigurationSelectables() => Modules
+        .Select(module => module.ConfigurationComponent.Selectable)
+        .OrderBy(module => module.ID);
 
-    public IEnumerable<ISelectable> GetStatusSelectables()
-    {
-        return Modules
-            .Select(module => module.StatusComponent.Selectable)
-            .OrderBy(module => module.ID);
-    }
+    public IEnumerable<ISelectable> GetStatusSelectables() => Modules
+        .Select(module => module.StatusComponent.Selectable)
+        .OrderBy(module => module.ID);
 
-    public IEnumerable<ITodoComponent> GetTodoComponents(CompletionType type)
-    {
-        return Modules
-            .Where(module => module.TodoComponent.CompletionType == type)
-            .Select(module => module.TodoComponent);
-    }
+    public IEnumerable<ITodoComponent> GetTodoComponents(CompletionType type) => Modules
+        .Where(module => module.TodoComponent.CompletionType == type)
+        .Select(module => module.TodoComponent);
 
-    public IEnumerable<ITimerComponent> GetTimerComponents()
-    {
-        return Modules.Select(module => module.TimerComponent);
-    }
+    public IEnumerable<ITimerComponent> GetTimerComponents() => Modules
+        .Select(module => module.TimerComponent);
 
-    public IEnumerable<ILogicComponent> GetLogicComponents()
-    {
-        return Modules
-            .Select(module => module.LogicComponent);
-    }
+    public IEnumerable<ILogicComponent> GetLogicComponents() => Modules
+        .Select(module => module.LogicComponent);
 }

@@ -74,5 +74,14 @@ internal class TodoWindowCommand : IPluginCommand
             },
             GetHelpText = () => "Toggle Todo Overlay",
         },
+        new SubCommand
+        {
+            CommandKeyword = "repeat",
+            CommandAction = () =>
+            {
+                Service.ChatManager.SendMessages();
+            },
+            GetHelpText = () => "Re-display todo tasks in chat"
+        }
     };
 }

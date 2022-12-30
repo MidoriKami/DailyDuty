@@ -16,7 +16,7 @@ public class PluginVersion
         versionText = GetVersionText();
     }
     
-    private string GetVersionText()
+    private static string GetVersionText()
     {
         var assemblyInformation = Assembly.GetExecutingAssembly().FullName!.Split(',');
 

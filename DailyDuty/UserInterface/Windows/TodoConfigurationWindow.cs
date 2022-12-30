@@ -14,7 +14,7 @@ namespace DailyDuty.UserInterface.Windows;
 
 internal class TodoConfigurationWindow : Window
 {
-    public static TodoOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TodoOverlay;
+    private static TodoOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TodoOverlay;
 
     public TodoConfigurationWindow() : base("DailyDuty Todo Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {

@@ -24,7 +24,7 @@ public class TimersOverlaySettings
 
 internal class TimersConfigurationWindow : Window
 {
-    public static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
+    private static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
 
     public TimersConfigurationWindow() : base("DailyDuty Timers Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {

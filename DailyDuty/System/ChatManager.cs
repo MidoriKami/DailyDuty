@@ -100,7 +100,6 @@ internal class ChatManager : IDisposable
 
     public void SendMessages() => OnZoneChangeMessage?.Invoke(this, EventArgs.Empty);
 
-
     // User input is NEVER sent via this function call
     // Forces a forward slash, data should NEVER be sent to the server
     public unsafe void SendCommandUnsafe(string command)
