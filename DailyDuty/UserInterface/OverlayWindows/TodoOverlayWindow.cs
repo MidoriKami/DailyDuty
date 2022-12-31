@@ -153,12 +153,10 @@ internal class TodoOverlayWindow : Window
         if(Settings.ShowWeeklyTasks)
             tasks.AddRange(Service.ModuleManager.GetTodoComponents(CompletionType.Weekly));
 
-        tasks.RemoveAll(module => module.ParentModule.GenericSettings is not
-        {
-            Enabled.Value: true,
-            TodoTaskEnabled.Value: true,
-            Suppressed.Value: false
-        });
+        tasks.RemoveAll(module =>
+            !module.ParentModule.GenericSettings.Enabled ||
+            !module.ParentModule.GenericSettings.TodoTaskEnabled ||
+            module.ParentModule.GenericSettings.Suppressed);
 
         if (Settings.HideCompletedTasks)
             tasks.RemoveAll(module =>

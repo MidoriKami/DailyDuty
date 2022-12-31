@@ -87,12 +87,10 @@ internal class TimersOverlayWindow : Window
     {
         var tasks = Service.ModuleManager.GetTimerComponents().ToList();
 
-        tasks.RemoveAll(module => module.ParentModule.GenericSettings is not
-        {
-            Enabled.Value: true,
-            TimerTaskEnabled.Value: true,
-            Suppressed.Value: false
-        });
+        tasks.RemoveAll(module =>
+            !module.ParentModule.GenericSettings.Enabled ||
+            !module.ParentModule.GenericSettings.TimerTaskEnabled ||
+            module.ParentModule.GenericSettings.Suppressed);
 
         return tasks;
     }
