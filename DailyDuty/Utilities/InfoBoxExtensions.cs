@@ -49,9 +49,9 @@ public static class InfoBoxExtensions
             .AddTitle(Strings.Status.Suppress, out var innerWidth)
             .AddStringCentered(Strings.Status.SuppressInfo, Colors.Orange)
             .AddDummy(10.0f)
-            .AddDisabledButton(component.ParentModule.GenericSettings.Suppressed.Value ? Strings.Status.UnSnooze : Strings.Status.Snooze, () =>
+            .AddDisabledButton(component.ParentModule.GenericSettings.Suppressed ? Strings.Status.UnSnooze : Strings.Status.Snooze, () =>
             {
-                if (!component.ParentModule.GenericSettings.Suppressed.Value)
+                if (!component.ParentModule.GenericSettings.Suppressed)
                 {
                     PluginLog.Debug($"Snoozing, {component.ParentModule.Name.GetTranslatedString()}");
                     component.ParentModule.GenericSettings.Suppressed.Value = true;

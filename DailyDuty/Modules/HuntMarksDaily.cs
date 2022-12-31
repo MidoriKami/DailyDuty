@@ -100,12 +100,12 @@ internal class HuntMarksDaily : IModule
         {
             InfoBox.Instance.DrawGenericStatus(this);
 
-            if (Settings.TrackedHunts.Any(hunt => hunt.Tracked.Value))
+            if (Settings.TrackedHunts.Any(hunt => hunt.Tracked))
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
                     .BeginTable(0.60f)
-                    .AddRows(Settings.TrackedHunts.Where(row => row.Tracked.Value))
+                    .AddRows(Settings.TrackedHunts.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
@@ -191,7 +191,7 @@ internal class HuntMarksDaily : IModule
 
         public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        private int GetIncompleteCount() => Settings.TrackedHunts.Count(hunt => hunt.Tracked.Value && hunt.State != TrackedHuntState.Killed);
+        private static int GetIncompleteCount() => Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
 
         private static bool AllTargetsKilled(HuntData data)
         {
@@ -223,7 +223,7 @@ internal class HuntMarksDaily : IModule
         public string GetLongTaskLabel()
         {
             var strings = Settings.TrackedHunts
-                .Where(hunt => hunt.Tracked.Value && hunt.State != TrackedHuntState.Killed)
+                .Where(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed)
                 .Select(hunt => hunt.HuntType.GetLabel())
                 .ToList();
 

@@ -3,9 +3,9 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using System;
 using DailyDuty.DataModels;
 using DailyDuty.System;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
+using KamiLib.ExceptionSafety;
 
 namespace DailyDuty.Addons;
 
@@ -49,33 +49,23 @@ public unsafe class WeeklyPuzzleAddon : IDisposable
     {
         var result = onReceiveEventHook!.Original(agent, rawData, eventArgs, eventArgsCount, sender);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             var args = new ReceiveEventArgs(agent, rawData, eventArgs, eventArgsCount, sender);
 
             ReceiveEvent?.Invoke(this, args);
-
-            //args.PrintData();
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something when wrong on Weekly Puzzle Receive Event");
-        }
+        });
 
         return result;
     }
 
     public IntPtr WeeklyPuzzle_OnSetup(AtkUnitBase* root)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
             Show?.Invoke(this, new IntPtr(root));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something went wrong opening Weekly Puzzle");
-        }
-
+        });
+        
         return onSetupHook!.Original(root);
     }
 }

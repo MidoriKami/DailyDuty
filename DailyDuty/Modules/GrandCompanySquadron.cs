@@ -108,7 +108,7 @@ internal class GrandCompanySquadron : IModule
 
         private void OnSetup(object? sender, ExpeditionResultArgs e)
         {
-            if (e.MissionType == 3 && e.Successful)
+            if (e is { MissionType: 3, Successful: true })
             {
                 Settings.MissionCompleted = true;
                 Service.ConfigurationManager.Save();
@@ -117,7 +117,7 @@ internal class GrandCompanySquadron : IModule
         
         private void OnFrameworkUpdate(Framework framework)
         {
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
             if (!GcArmyExpeditionAgent->IsAgentActive()) return;
             
             var selectedTab = *((byte*) GcArmyExpeditionAgent + 64);

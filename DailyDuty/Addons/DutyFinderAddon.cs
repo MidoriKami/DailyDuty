@@ -3,10 +3,10 @@ using DailyDuty.DataModels;
 using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.ExceptionSafety;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Addons;
@@ -37,7 +37,7 @@ public unsafe class DutyFinderAddon : IDisposable
     private Hook<AddonOnSetup>? onSetupHook;
     private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
 
-    private AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
+    private static AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
 
     private DutyFinderAddon()
     {
@@ -89,14 +89,10 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         var result = onReceiveEventHook!.Original(agent, rawData, eventArgs, eventArgsCount, sender);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             ReceiveEvent?.Invoke(this, new ReceiveEventArgs(agent, rawData, eventArgs, eventArgsCount, sender));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something when wrong on Duty Finder Receive Event");
-        }
+        });
 
         return result;
     }
@@ -105,14 +101,10 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         var result = onSetupHook!.Original(addon, a2, a3);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             Show?.Invoke(this, new IntPtr(addon));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something when wrong on Duty Finder Setup");
-        }
+        });
 
         return result;
     }
@@ -121,14 +113,10 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             Refresh?.Invoke(this, new IntPtr(atkUnitBase));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something when wrong on Duty Finder Tab Change or Duty Finder Refresh");
-        }
+        });
 
         return result;
     }
@@ -137,15 +125,11 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         var result = onUpdateHook!.Original(atkUnitBase);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             Update?.Invoke(this, new IntPtr(atkUnitBase));
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Something when wrong on Duty Finder Update");
-        }
-
+        });
+        
         return result;
     }
 
@@ -153,31 +137,23 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         onDrawHook!.Original(atkUnitBase);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             Draw?.Invoke(this, new IntPtr(atkUnitBase));
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Something when wrong on Duty Finder Draw");
-        }
+        });
     }
 
     private void OnFinalize(AtkUnitBase* atkUnitBase)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
             Finalize?.Invoke(this, new IntPtr(atkUnitBase));
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Something when wrong on Duty Finder Close");
-        }
-
+        });
+        
         onFinalizeHook!.Original(atkUnitBase);
     }
 
-    public DutyFinderTreeList GetBaseTreeNode()
+    public static DutyFinderTreeList GetBaseTreeNode()
     {
         var baseNode = new BaseNode("ContentsFinder");
         var treeNode = baseNode.GetComponentNode(52);
@@ -185,14 +161,14 @@ public unsafe class DutyFinderAddon : IDisposable
         return new DutyFinderTreeList(treeNode);
     }
 
-    public DutyFinderTabBar GetTabBar()
+    public static DutyFinderTabBar GetTabBar()
     {
         var baseNode = new BaseNode("ContentsFinder");
 
         return new DutyFinderTabBar(baseNode);
     }
 
-    public void HideCloverNodes()
+    public static void HideCloverNodes()
     {
         if (ContentsFinderAddon != null)
         {
@@ -200,19 +176,11 @@ public unsafe class DutyFinderAddon : IDisposable
         }
     }
 
-    public void ResetLabelColors(ByteColor color)
+    public static void ResetLabelColors(ByteColor color)
     {
         if (ContentsFinderAddon != null)
         {
             GetBaseTreeNode().SetColorAll(color);
         }
-    }
-}
-
-public static class IntPointerExtensions
-{
-    public static unsafe AtkUnitBase* ToAtkUnitBase(this IntPtr pointer)
-    {
-        return (AtkUnitBase*) pointer.ToPointer();
     }
 }

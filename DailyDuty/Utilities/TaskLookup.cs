@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.DataStructures;
 using Dalamud.Logging;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
@@ -22,7 +21,7 @@ internal static class TaskLookup
         {
             // Dungeons Lv 1-49
             case 1:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is >= 1 and <= 49)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -30,7 +29,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 50
             case 2:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is 50)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -38,7 +37,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 51-59
             case 3:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is >= 51 and <= 59)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -46,7 +45,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 60
             case 4:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is 60)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -54,7 +53,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 61-69
             case 59:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is >= 61 and <= 69)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -62,7 +61,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 70
             case 60:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is 70)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -70,7 +69,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 71-79
             case 85:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is >= 71 and <= 79)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -78,7 +77,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 80
             case 86:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is 80)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -86,7 +85,7 @@ internal static class TaskLookup
 
             // Dungeons lv 81-89
             case 108:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is >= 81 and <= 89)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -94,7 +93,7 @@ internal static class TaskLookup
 
             // Dungeons Lv 90
             case 109:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId == 2)
                     .Where(m => m.ClassJobLevelRequired is 90)
                     .Select(m => m.TerritoryType.Value!.RowId)
@@ -102,14 +101,14 @@ internal static class TaskLookup
 
             // Palace of the Dead / Heaven on High
             case 53:
-                return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Value?.RowId is 21)
                     .Select(m => m.TerritoryType.Value!.RowId)
                     .ToList();
 
             // Treasure Maps
             case 46:
-                //return LuminaCache<ContentFinderCondition>.Instance.GetAll()
+                //return LuminaCache<ContentFinderCondition>.Instance
                 //    !.Where(m => m.ContentType.Value?.RowId is 9)
                 //    .Select(m => m.TerritoryType.Value!.RowId)
                 //    .ToList();
@@ -176,19 +175,10 @@ internal static class TaskLookup
             return null;
         }
 
-        var data = LuminaCache<ContentFinderCondition>.Instance.GetAll().Where(c => c.Content == instanceContentData)
+        var data = LuminaCache<ContentFinderCondition>.Instance.Where(c => c.Content == instanceContentData)
             .Select(c => c.TerritoryType.Value!.RowId)
             .FirstOrDefault();
 
         return data;
-    }
-
-    public static void PrintTasks(List<WondrousTailsTask> tasks)
-    {
-        foreach (var task in tasks)
-        {
-            var message = $"TaskState: [{task.TaskState}], DutyList: [{string.Join(", ", task.DutyList)}]";
-            PluginLog.Verbose($"WondrousTailsTask: {message}");
-        }
     }
 }

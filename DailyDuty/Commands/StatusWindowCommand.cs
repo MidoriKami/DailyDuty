@@ -16,7 +16,7 @@ internal class StatusWindowCommand : IPluginCommand
         new SubCommand
         {
             CommandKeyword = null,
-            CommandAction = () => Chat.PrintError("The configuration window cannot be opened while in a PvP area"),
+            CommandAction = () => Chat.PrintError("The status window cannot be opened while in a PvP area"),
             CanExecute = () => Service.ClientState.IsPvP,
             GetHelpText = () => "Open Status Window"
         },
@@ -33,7 +33,7 @@ internal class StatusWindowCommand : IPluginCommand
                 }
                 else
                 {
-                    Chat.PrintError("Something went wrong trying to open Configuration Window");
+                    Chat.PrintError("Something went wrong trying to open Status Window");
                 }
             },
             CanExecute = () => !Service.ClientState.IsPvP,

@@ -122,7 +122,7 @@ internal class FashionReport : IModule
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Module.FashionReport.ReportOpen)
-                .AddString(logicModule.FashionReportAvailable() ? Strings.Module.FashionReport.AvailableNow : logicModule.GetNextFashionReport(),
+                .AddString(logicModule.FashionReportAvailable() ? Strings.Module.FashionReport.AvailableNow : ModuleLogicComponent.GetNextFashionReport(),
                     logicModule.FashionReportAvailable() ? Colors.Green : Colors.Orange)
                 .EndRow()
                 .EndTable()
@@ -136,7 +136,7 @@ internal class FashionReport : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -246,7 +246,7 @@ internal class FashionReport : IModule
             return now > reportOpen && now < reportClosed;
         }
 
-        public string GetNextFashionReport()
+        public static string GetNextFashionReport()
         {
             var span = Time.NextFashionReportReset() - DateTime.UtcNow;
 

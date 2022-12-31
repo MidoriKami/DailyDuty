@@ -16,7 +16,7 @@ internal class TodoWindowCommand : IPluginCommand
         new SubCommand
         {
             CommandKeyword = null,
-            CommandAction = () => Chat.PrintError("The configuration window cannot be opened while in a PvP area"),
+            CommandAction = () => Chat.PrintError("The todo window cannot be opened while in a PvP area"),
             CanExecute = () => Service.ClientState.IsPvP,
             GetHelpText = () => "Open Todo Configuration Window"
         },
@@ -27,13 +27,13 @@ internal class TodoWindowCommand : IPluginCommand
             {
                 if ( KamiCommon.WindowManager.GetWindowOfType<TodoConfigurationWindow>() is {} mainWindow )
                 {
-                    Chat.Print("Command",!mainWindow.IsOpen ? "Opening Timers Configuration Window" : "Closing Timers Configuration Window");
+                    Chat.Print("Command",!mainWindow.IsOpen ? "Opening Todo Configuration Window" : "Closing Todo Configuration Window");
 
                     mainWindow.IsOpen = !mainWindow.IsOpen;
                 }
                 else
                 {
-                    Chat.PrintError("Something went wrong trying to open Configuration Window");
+                    Chat.PrintError("Something went wrong trying to open Todo Window");
                 }
             },
             CanExecute = () => !Service.ClientState.IsPvP,

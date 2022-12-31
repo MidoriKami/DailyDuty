@@ -92,7 +92,7 @@ internal class TreasureMap : IModule
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Module.TreasureMap.NextMap)
-                .AddString(logicModule.GetNextTreasureMap())
+                .AddString(ModuleLogicComponent.GetNextTreasureMap())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -112,7 +112,7 @@ internal class TreasureMap : IModule
         [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]
         private readonly GetNextMapAvailableTimeDelegate getNextMapUnixTimestamp = null!;
 
-        private AtkUnitBase* ContentsTimerAgent => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsInfo", 1);
+        private static AtkUnitBase* ContentsTimerAgent => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsInfo", 1);
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -143,7 +143,7 @@ internal class TreasureMap : IModule
 
         private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
-            if (Settings.Enabled.Value == false) return;
+            if (!Settings.Enabled) return;
 
             if ((int)type != 2115 || !Condition.IsGathering())
                 return;
@@ -158,10 +158,10 @@ internal class TreasureMap : IModule
             Service.ConfigurationManager.Save();
         }
 
-        private static bool IsMap(uint itemID) => LuminaCache<TreasureHuntRank>.Instance.GetAll()
+        private static bool IsMap(uint itemID) => LuminaCache<TreasureHuntRank>.Instance
             .Any(item => item.ItemName.Row == itemID && item.ItemName.Row != 0);
 
-        private TimeSpan TimeUntilNextMap()
+        private static TimeSpan TimeUntilNextMap()
         {
             var lastMapTime = Settings.LastMapGathered;
             var nextAvailableTime = lastMapTime.AddHours(18);
@@ -176,7 +176,7 @@ internal class TreasureMap : IModule
             }
         }
 
-        public string GetNextTreasureMap()
+        public static string GetNextTreasureMap()
         {
             var span = TimeUntilNextMap();
 

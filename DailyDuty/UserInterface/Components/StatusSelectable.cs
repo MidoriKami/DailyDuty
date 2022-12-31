@@ -10,7 +10,7 @@ namespace DailyDuty.UserInterface.Components;
 
 internal class StatusSelectable : ISelectable
 {
-    public ModuleName OwnerModuleName { get; }
+    private ModuleName OwnerModuleName { get; }
     public IDrawable Contents { get; }
     public IModule ParentModule { get; }
     public string ID => OwnerModuleName.GetTranslatedString();
@@ -44,7 +44,7 @@ internal class StatusSelectable : ISelectable
         var text = status.Invoke().GetTranslatedString();
 
         // Override Status if Module is Disabled
-        if (!ParentModule.GenericSettings.Enabled.Value)
+        if (!ParentModule.GenericSettings.Enabled)
         {
             text = Strings.Common.Disabled;
             color = Colors.Grey;

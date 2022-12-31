@@ -97,7 +97,7 @@ internal class JumboCactpot : IModule
                 .EndRow()
                 .BeginRow()
                 .AddString(Strings.Module.JumboCactpot.Tickets)
-                .AddString(Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : logicModule.GetTicketsString())
+                .AddString(Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : ModuleLogicComponent.GetTicketsString())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -107,7 +107,7 @@ internal class JumboCactpot : IModule
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Module.JumboCactpot.NextDrawing)
-                .AddString(logicModule.GetNextJumboCactpot())
+                .AddString(ModuleLogicComponent.GetNextJumboCactpot())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -120,7 +120,7 @@ internal class JumboCactpot : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; } 
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         private int ticketData = -1;
 
@@ -148,10 +148,7 @@ internal class JumboCactpot : IModule
 
         public ModuleStatus GetModuleStatus() => Settings.Tickets.Count == 3 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        public string GetTicketsString()
-        {
-            return string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
-        }
+        public static string GetTicketsString() => string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
 
         private void OnReceiveEvent(object? sender, ReceiveEventArgs e)
         {
@@ -202,7 +199,7 @@ internal class JumboCactpot : IModule
             Service.ConfigurationManager.Save();
         }
 
-        public string GetNextJumboCactpot()
+        public static string GetNextJumboCactpot()
         {
             var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
 

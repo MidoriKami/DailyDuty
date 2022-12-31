@@ -53,23 +53,21 @@ internal class RaidsAlliance : IModule
         }
     }
 
-    internal static void RegenerateTrackedRaids()
+    private static void RegenerateTrackedRaids()
     {
         Settings.TrackedRaids.Clear();
 
-        var instanceContents = LuminaCache<InstanceContent>.Instance.GetAll()
+        var instanceContents = LuminaCache<InstanceContent>.Instance
             .Where(instance => instance.WeekRestriction == 1)
             .Select(instance => instance.RowId);
 
-        var raidDuties = LuminaCache<ContentFinderCondition>.Instance.GetAll()
+        var raidDuties = LuminaCache<ContentFinderCondition>.Instance
             .Where(cfc => instanceContents.Contains(cfc.Content))
             .Where(cfc => cfc.TerritoryType.Value?.TerritoryIntendedUse == 8)
             .ToList();
 
-        foreach (var raid in raidDuties)
+        foreach (var dutyInformation in raidDuties.Select(DutyInformation.Construct))
         {
-            var dutyInformation = DutyInformation.Construct(raid);
-
             Settings.TrackedRaids.Add(new TrackedRaid(dutyInformation, new Setting<bool>(false), new Setting<int>(1)));
         }
         
@@ -136,13 +134,13 @@ internal class RaidsAlliance : IModule
         {
             InfoBox.Instance.DrawGenericStatus(this);
 
-            if (Settings.TrackedRaids.Any(raid => raid.Tracked.Value))
+            if (Settings.TrackedRaids.Any(raid => raid.Tracked))
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Common.Target)
                     .BeginTable(0.70f)
                     .AddRows(Settings.TrackedRaids
-                        .Where(raid => raid.Tracked.Value)
+                        .Where(raid => raid.Tracked)
                         .OfType<IInfoBoxTableDataRow>())
                     .EndTable()
                     .Draw();
@@ -163,7 +161,7 @@ internal class RaidsAlliance : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         private readonly AgentContentsFinder* contentsFinderAgentInterface = AgentContentsFinder.Instance();
 
@@ -185,7 +183,7 @@ internal class RaidsAlliance : IModule
 
         private void OnSelectionChanged(object? sender, IntPtr e)
         {
-            var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked.Value).ToList();
+            var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked).ToList();
             if(!enabledRaids.Any()) return;
 
             var contentFinderCondition = *(int*)((byte*) contentsFinderAgentInterface + 6988);
@@ -206,7 +204,7 @@ internal class RaidsAlliance : IModule
         private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
         {
             // If module is enabled
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
 
             // If message is a loot message
             if (((int)type & 0x7F) != 0x3E) return;
@@ -253,22 +251,22 @@ internal class RaidsAlliance : IModule
             }
         }
 
-        private int GetIncompleteCount() => Settings.TrackedRaids.Count(raid => raid.Tracked.Value && raid.GetStatus() == ModuleStatus.Incomplete);
+        private static int GetIncompleteCount() => Settings.TrackedRaids.Count(raid => raid.Tracked && raid.GetStatus() == ModuleStatus.Incomplete);
         public ModuleStatus GetModuleStatus() => GetIncompleteCount() > 0 ? ModuleStatus.Incomplete : ModuleStatus.Complete;
 
-        private TrackedRaid? GetRaidForCurrentZone()
+        private static TrackedRaid? GetRaidForCurrentZone()
         {
             var currentZone = Service.ClientState.TerritoryType;
-            var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked.Value);
+            var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked);
             var trackedRaidForZone = enabledRaids.FirstOrDefault(raid => raid.Duty.TerritoryType == currentZone);
 
             return trackedRaidForZone;
         }
 
-        private uint GetFirstMissingRaid()
+        private static uint GetFirstMissingRaid()
         {
             var duty = Settings.TrackedRaids
-                .Where(raid => raid.Tracked.Value && raid.GetStatus() == ModuleStatus.Incomplete)
+                .Where(raid => raid.Tracked && raid.GetStatus() == ModuleStatus.Incomplete)
                 .FirstOrDefault();
 
             return duty is not null ? duty.Duty.ContentFinderCondition : 1;

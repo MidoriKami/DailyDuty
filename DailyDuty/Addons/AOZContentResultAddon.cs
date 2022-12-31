@@ -1,9 +1,9 @@
 ﻿using System;
 using DailyDuty.System;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.ExceptionSafety;
 
 namespace DailyDuty.Addons;
 
@@ -38,14 +38,11 @@ public unsafe class AOZContentResultAddon : IDisposable
     {
         var result = onSetupHook!.Original(addon, valueCount, values);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
             Setup?.Invoke(this, new AOZContentResultArgs(values[109].UInt, values[111].Byte != 0));
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Something when wrong on AOZContentResult Setup");
-        }
+            
+        });
 
         return result;
     }

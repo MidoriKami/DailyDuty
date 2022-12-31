@@ -135,12 +135,12 @@ internal class DutyRoulette : IModule
 
             InfoBox.Instance.DrawGenericStatus(this);
 
-            if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked.Value))
+            if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked))
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
                     .BeginTable()
-                    .AddRows(Settings.TrackedRoulettes.Where(row => row.Tracked.Value))
+                    .AddRows(Settings.TrackedRoulettes.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
@@ -152,7 +152,7 @@ internal class DutyRoulette : IModule
                     .Draw();
             }
 
-            if (Settings.HideExpertWhenCapped.Value || Settings.CompleteWhenCapped.Value)
+            if (Settings.HideExpertWhenCapped || Settings.CompleteWhenCapped)
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
@@ -173,7 +173,7 @@ internal class DutyRoulette : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         public readonly long CurrentLimitedTomestoneWeeklyCap;
 
@@ -241,7 +241,7 @@ internal class DutyRoulette : IModule
 
         private RouletteState GetRouletteState(RouletteType roulette)
         {
-            if (roulette == RouletteType.Expert && Settings.HideExpertWhenCapped.Value)
+            if (roulette == RouletteType.Expert && Settings.HideExpertWhenCapped)
             {
                 if (HasMaxWeeklyTomestones())
                 {
@@ -264,9 +264,9 @@ internal class DutyRoulette : IModule
             AgentContentsFinder.Instance()->OpenRouletteDuty(GetFirstMissingRoulette());
         }
 
-        private int GetWeeklyTomestomeLimit()
+        private static int GetWeeklyTomestomeLimit()
         {
-            return LuminaCache<TomestonesItem>.Instance.GetAll()
+            return LuminaCache<TomestonesItem>.Instance
                 .Select(t => t.Tomestones.Value)
                 .OfType<Tomestones>()
                 .Where(t => t.WeeklyLimit > 0)
@@ -275,17 +275,17 @@ internal class DutyRoulette : IModule
 
         private int RemainingRoulettesCount()
         {
-            if (Settings.CompleteWhenCapped.Value && HasMaxWeeklyTomestones())
+            if (Settings.CompleteWhenCapped && HasMaxWeeklyTomestones())
             {
                 return 0;
             }
 
             return Settings.TrackedRoulettes
-                .Where(r => r.Tracked.Value)
+                .Where(r => r.Tracked)
                 .Count(r => r.State == RouletteState.Incomplete);
         }
 
-        private byte GetFirstMissingRoulette()
+        private static byte GetFirstMissingRoulette()
         {
             foreach (var trackedRoulette in Settings.TrackedRoulettes)
                 if (trackedRoulette is {State: RouletteState.Incomplete, Tracked.Value: true})
@@ -311,7 +311,7 @@ internal class DutyRoulette : IModule
         public string GetLongTaskLabel()
         {
             var incompleteTasks = Settings.TrackedRoulettes
-                .Where(roulette => roulette.Tracked.Value && roulette.State == RouletteState.Incomplete)
+                .Where(roulette => roulette.Tracked && roulette.State == RouletteState.Incomplete)
                 .Select(roulette => roulette.Roulette.GetTranslatedString())
                 .ToList();
 

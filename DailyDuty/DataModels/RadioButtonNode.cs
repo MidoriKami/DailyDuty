@@ -3,7 +3,7 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.DataModels;
 
-public unsafe struct RadioButtonNode
+public readonly unsafe struct RadioButtonNode
 {
     private readonly ComponentNode radioButtonNode;
 

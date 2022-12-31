@@ -46,8 +46,8 @@ public class HuntData
     {
         get
         {
-            var orderTypeSheet = LuminaCache<MobHuntOrderType>.Instance.GetAll();
-            var huntOrderSheet =LuminaCache<MobHuntOrder>.Instance.GetAll();
+            var orderTypeSheet = LuminaCache<MobHuntOrderType>.Instance;
+            var huntOrderSheet =LuminaCache<MobHuntOrder>.Instance;
 
             var indexOffset = orderTypeSheet.GetRow((uint)HuntType)!.OrderStart.Row;
             var targetRow = indexOffset + HuntID - 1;

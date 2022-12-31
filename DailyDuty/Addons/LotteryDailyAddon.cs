@@ -1,9 +1,9 @@
 ﻿using System;
 using DailyDuty.System;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.ExceptionSafety;
 
 namespace DailyDuty.Addons;
 
@@ -35,15 +35,11 @@ public unsafe class LotteryDailyAddon : IDisposable
 
     public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
             Show?.Invoke(this, new IntPtr(addon));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Unable to update Mini cactpot counts");
-        }
-
+        });
+        
         return agentShowHook!.Original(addon, a2, a3);
     }
 }

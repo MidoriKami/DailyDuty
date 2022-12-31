@@ -99,7 +99,7 @@ internal class DomanEnclave : IModule
                 .EndRow()
                 .BeginRow()
                 .AddString(Strings.Module.DomanEnclave.BudgetRemaining)
-                .AddString(logicModule.GetRemainingBudget().ToString(), logicModule.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange)
+                .AddString(ModuleLogicComponent.GetRemainingBudget().ToString(), ModuleLogicComponent.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange)
                 .EndRow()
                 .BeginRow()
                 .AddString(Strings.Module.DomanEnclave.CurrentAllowance)
@@ -124,7 +124,7 @@ internal class DomanEnclave : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         private delegate DomanEnclaveStruct* GetDataDelegate();
 
@@ -194,11 +194,11 @@ internal class DomanEnclave : IModule
             }
         }
 
-        public int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
+        public static int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
         private ushort GetDonatedThisWeek() => getDomanEnclaveStruct()->Donated;
         private ushort GetWeeklyAllowance() => getDomanEnclaveStruct()->Allowance;
         private bool DataAvailable() => GetWeeklyAllowance() != 0;
-        private bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
+        private static bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
     }
 
     private class ModuleTodoComponent : ITodoComponent

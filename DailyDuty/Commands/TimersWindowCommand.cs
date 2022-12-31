@@ -16,7 +16,7 @@ internal class TimersWindowCommand : IPluginCommand
         new SubCommand
         {
             CommandKeyword = null,
-            CommandAction = () => Chat.PrintError("The configuration window cannot be opened while in a PvP area"),
+            CommandAction = () => Chat.PrintError("The timers window cannot be opened while in a PvP area"),
             CanExecute = () => Service.ClientState.IsPvP,
             GetHelpText = () => "Open Timers Configuration Window"
         },
@@ -33,7 +33,7 @@ internal class TimersWindowCommand : IPluginCommand
                 }
                 else
                 {
-                    Chat.PrintError("Something went wrong trying to open Configuration Window");
+                    Chat.PrintError("Something went wrong trying to open Timers Window");
                 }
             },
             CanExecute = () => !Service.ClientState.IsPvP,

@@ -2,10 +2,10 @@
 using DailyDuty.DataModels;
 using DailyDuty.System;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.ExceptionSafety;
 
 namespace DailyDuty.Addons;
 
@@ -34,17 +34,13 @@ public unsafe class LotteryWeeklyAddon : IDisposable
         agentShowHook?.Dispose();
     }
 
-    public void* OnReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
+    private void* OnReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
             ReceiveEvent?.Invoke(this, new ReceiveEventArgs(addon, a2, eventData, eventDataItemCount, senderID));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "LotteryWeekly Receive Event ran into a problem");
-        }
-
+        });
+        
         return agentShowHook!.Original(addon, a2, eventData, eventDataItemCount, senderID);
     }
 }

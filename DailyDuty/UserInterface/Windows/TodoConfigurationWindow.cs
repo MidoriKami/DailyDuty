@@ -47,10 +47,10 @@ internal class TodoConfigurationWindow : Window
             .AddConfigCheckbox(Strings.UserInterface.Todo.ShowWeeklyTasks, Settings.ShowWeeklyTasks)
             .Draw();
 
-        if (Settings.ShowDailyTasks.Value)
+        if (Settings.ShowDailyTasks)
         {
             var enabledDailyTasks = Service.ModuleManager.GetTodoComponents(CompletionType.Daily)
-                .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
+                .Where(module => module.ParentModule.GenericSettings.Enabled);
 
             InfoBox.Instance
                 .AddTitle(Strings.UserInterface.Todo.DailyTasks)
@@ -60,10 +60,10 @@ internal class TodoConfigurationWindow : Window
                 .Draw();
         }
 
-        if (Settings.ShowWeeklyTasks.Value)
+        if (Settings.ShowWeeklyTasks)
         {
             var enabledWeeklyTasks = Service.ModuleManager.GetTodoComponents(CompletionType.Weekly)
-                .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
+                .Where(module => module.ParentModule.GenericSettings.Enabled);
 
             InfoBox.Instance
                 .AddTitle(Strings.UserInterface.Todo.WeeklyTasks)

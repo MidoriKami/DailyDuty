@@ -23,7 +23,7 @@ internal class WondrousTailsOverlay : IDisposable
 
     private static WondrousTailsSettings DutyRouletteSettings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
 
-    private static bool Enabled => DutyRouletteSettings.Enabled.Value && DutyRouletteSettings.OverlayEnabled.Value;
+    private static bool Enabled => DutyRouletteSettings is {Enabled.Value: true, OverlayEnabled.Value: true};
 
     public WondrousTailsOverlay()
     {
@@ -32,7 +32,7 @@ internal class WondrousTailsOverlay : IDisposable
         DutyFinderAddon.Instance.Draw += OnDraw;
         DutyFinderAddon.Instance.Finalize += OnFinalize;
         
-        var contentFinderData = LuminaCache<ContentFinderCondition>.Instance.GetAll()
+        var contentFinderData = LuminaCache<ContentFinderCondition>.Instance
             .Where(cfc => cfc.Name != string.Empty);
 
         foreach (var cfc in contentFinderData)
@@ -47,7 +47,7 @@ internal class WondrousTailsOverlay : IDisposable
 
     public void Dispose()
     {
-        DutyFinderAddon.Instance.HideCloverNodes();
+        DutyFinderAddon.HideCloverNodes();
 
         DutyFinderAddon.Instance.Refresh -= OnRefresh;
         DutyFinderAddon.Instance.Update -= OnUpdate;
@@ -71,12 +71,12 @@ internal class WondrousTailsOverlay : IDisposable
     {
         if (!Enabled) return;
 
-        var treeNode = DutyFinderAddon.Instance.GetBaseTreeNode();
+        var treeNode = DutyFinderAddon.GetBaseTreeNode();
 
         treeNode.MakeCloverNodes();
     }
 
-    private void OnFinalize(object? sender, IntPtr e) => DutyFinderAddon.Instance.HideCloverNodes();
+    private void OnFinalize(object? sender, IntPtr e) => DutyFinderAddon.HideCloverNodes();
 
     private ButtonState? IsWondrousTailsDuty(DutyFinderTreeListItem item)
     {
@@ -111,7 +111,7 @@ internal class WondrousTailsOverlay : IDisposable
 
     private void UpdateWondrousTails()
     {
-        var treeNode = DutyFinderAddon.Instance.GetBaseTreeNode();
+        var treeNode = DutyFinderAddon.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {

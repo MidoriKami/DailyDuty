@@ -89,16 +89,14 @@ internal class GrandCompanyProvision : IModule
         
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-            
             InfoBox.Instance.DrawGenericStatus(this);
 
-            if (Settings.TrackedProvision.Any(row => row.Tracked.Value))
+            if (Settings.TrackedProvision.Any(row => row.Tracked))
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Status.ModuleStatus)
                     .BeginTable()
-                    .AddRows(Settings.TrackedProvision.Where(row => row.Tracked.Value))
+                    .AddRows(Settings.TrackedProvision.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
@@ -115,7 +113,7 @@ internal class GrandCompanyProvision : IModule
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Module.GrandCompany.NextReset)
-                .AddString(logicModule.GetNextGrandCompanyReset())
+                .AddString(ModuleLogicComponent.GetNextGrandCompanyReset())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -146,7 +144,7 @@ internal class GrandCompanyProvision : IModule
 
         private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
         {
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
             if (GrandCompanySupplyAgent == null) return;
             if (!GrandCompanySupplyAgent->IsAgentActive()) return;
 
@@ -180,14 +178,14 @@ internal class GrandCompanyProvision : IModule
 
         public ModuleStatus GetModuleStatus() => GetIncompleteJobs() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        private int GetIncompleteJobs()
+        private static int GetIncompleteJobs()
         {
             return Settings.TrackedProvision
-                .Where(r => r.Tracked.Value)
+                .Where(r => r.Tracked)
                 .Count(r => r.State == false);
         }
         
-        public string GetNextGrandCompanyReset()
+        public static string GetNextGrandCompanyReset()
         {
             var span = Time.NextGrandCompanyReset() - DateTime.UtcNow;
 

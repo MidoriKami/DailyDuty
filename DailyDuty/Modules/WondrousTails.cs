@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.AddonOverlays;
-using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
@@ -131,7 +130,7 @@ internal class WondrousTails : IModule
         public IModule ParentModule { get; }
 
         public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.NeedsNewBook() ? idyllshireTeleportPayload : openBookPayload;
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
 
@@ -167,8 +166,8 @@ internal class WondrousTails : IModule
 
         private void OnZoneChange(object? sender, ushort e)
         {
-            if (!Settings.Enabled.Value) return;
-            if (!Settings.ResendOnCompletion.Value) return;
+            if (!Settings.Enabled) return;
+            if (!Settings.ResendOnCompletion) return;
             if (!dutyCompleted) return;
 
             dutyCompleted = false;
@@ -189,7 +188,7 @@ internal class WondrousTails : IModule
         {
             if (Condition.IsBoundByDuty()) return string.Empty;
             
-            if (Settings.UnclaimedBookWarning.Value && WondrousTailsBook.NewBookAvailable())
+            if (Settings.UnclaimedBookWarning && WondrousTailsBook.NewBookAvailable())
             {
                 return Strings.Module.WondrousTails.BookAvailable;
             }
@@ -206,7 +205,7 @@ internal class WondrousTails : IModule
 
         public ModuleStatus GetModuleStatus()
         {
-            if (Settings.UnclaimedBookWarning.Value && WondrousTailsBook.NewBookAvailable()) return ModuleStatus.Incomplete;
+            if (Settings.UnclaimedBookWarning && WondrousTailsBook.NewBookAvailable()) return ModuleStatus.Incomplete;
 
             return WondrousTailsBook.IsComplete() ? ModuleStatus.Complete : ModuleStatus.Incomplete;
         }
@@ -221,7 +220,7 @@ internal class WondrousTails : IModule
         
         private void OnDutyStarted(uint territory)
         {
-            if (!Settings.InstanceNotifications.Value) return;
+            if (!Settings.InstanceNotifications) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
             if (!WondrousTailsBook.PlayerHasBook()) return;
 
@@ -234,11 +233,11 @@ internal class WondrousTails : IModule
             {
                 case ButtonState.Unavailable when WondrousTailsBook.GetNumStickers() > 0:
                     Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableMessage);
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(WondrousTailsBook.GetNumSecondChance()), Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
+                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(WondrousTailsBook.GetNumSecondChance()), Settings.EnableClickableLink ? DalamudLinkPayload : null);
                     break;
 
                 case ButtonState.AvailableNow:
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.AvailableMessage, Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
+                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.AvailableMessage, Settings.EnableClickableLink ? DalamudLinkPayload : null);
                     break;
 
                 case ButtonState.Completable:
@@ -253,7 +252,7 @@ internal class WondrousTails : IModule
 
         private void OnDutyCompleted(uint territory)
         {
-            if (!Settings.InstanceNotifications.Value) return;
+            if (!Settings.InstanceNotifications) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
             if (!WondrousTailsBook.PlayerHasBook()) return;
 
@@ -266,7 +265,7 @@ internal class WondrousTails : IModule
 
             if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
             {
-                Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.ClaimableMessage, Settings.EnableClickableLink.Value ? DalamudLinkPayload : null);
+                Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.ClaimableMessage, Settings.EnableClickableLink ? DalamudLinkPayload : null);
             }
         }
     }

@@ -26,7 +26,7 @@ public class LocalizationManager : IDisposable
         Service.PluginInterface.LanguageChanged += OnLanguageChange;
     }
 
-    public void ExportLocalization()
+    private void ExportLocalization()
     {
         try
         {

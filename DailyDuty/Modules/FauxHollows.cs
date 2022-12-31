@@ -120,7 +120,7 @@ internal class FauxHollows : IModule
 
         private static int GetRequiredCompletionCount()
         {
-            return Settings.IncludeRetelling.Value ? 2 : 1;
+            return Settings.IncludeRetelling ? 2 : 1;
         }
     }
 
@@ -128,7 +128,7 @@ internal class FauxHollows : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         public ModuleLogicComponent(IModule parentModule)
         {
@@ -147,7 +147,7 @@ internal class FauxHollows : IModule
 
         private void OnShow(object? sender, IntPtr e)
         {
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
 
             Settings.FauxHollowsCompleted += 1;
             Service.ConfigurationManager.Save();
@@ -171,7 +171,7 @@ internal class FauxHollows : IModule
 
         private static int GetRequiredCompletionCount()
         {
-            return Settings.IncludeRetelling.Value ? 2 : 1;
+            return Settings.IncludeRetelling ? 2 : 1;
         }
     }
 

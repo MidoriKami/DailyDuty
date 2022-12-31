@@ -89,7 +89,7 @@ internal class BeastTribe : IModule
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
             var moduleStatus = logicModule.GetModuleStatus();
-            var allowances = logicModule.GetRemainingAllowances();
+            var allowances = ModuleLogicComponent.GetRemainingAllowances();
 
             InfoBox.Instance
                 .AddTitle(Strings.Status.Label)
@@ -161,7 +161,7 @@ internal class BeastTribe : IModule
             }
         }
 
-        public int GetRemainingAllowances() => (int)PlayerState.GetBeastTribeAllowance();
+        public static int GetRemainingAllowances() => (int)PlayerState.GetBeastTribeAllowance();
     }
 
     private class ModuleTodoComponent : ITodoComponent
@@ -179,7 +179,6 @@ internal class BeastTribe : IModule
 
         public string GetLongTaskLabel() => Strings.Module.BeastTribe.Label;
     }
-
 
     private class ModuleTimerComponent : ITimerComponent
     {

@@ -8,7 +8,6 @@ using Dalamud.Interface;
 using Dalamud.Interface.Internal.Notifications;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Windows;
 
@@ -19,8 +18,6 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
 
     public ConfigurationWindow() : base($"DailyDuty {Strings.Configuration.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow", 0.35f, 40.0f)
     {
-        KamiCommon.CommandManager.AddCommand(new ConfigurationWindowCommands<ConfigurationWindow>());
-        
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(700, 450),

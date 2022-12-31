@@ -112,12 +112,12 @@ internal class MaskedCarnivale : IModule
                 .EndTable()
                 .Draw();
             
-            if (Settings.TrackedTasks.Any(row => row.Tracked.Value))
+            if (Settings.TrackedTasks.Any(row => row.Tracked))
             {
                 InfoBox.Instance
                     .AddTitle(Strings.Status.ModuleStatus)
                     .BeginTable()
-                    .AddRows(Settings.TrackedTasks.Where(row => row.Tracked.Value))
+                    .AddRows(Settings.TrackedTasks.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
@@ -137,7 +137,7 @@ internal class MaskedCarnivale : IModule
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         private AgentInterface* AozContentBriefingAgentInterface => Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.AozContentBriefing);
         
@@ -189,7 +189,7 @@ internal class MaskedCarnivale : IModule
         
         private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
         {
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
             if (!AozContentBriefingAgentInterface->IsAgentActive()) return;
             
             foreach (var task in Settings.TrackedTasks)
@@ -218,9 +218,9 @@ internal class MaskedCarnivale : IModule
 
         public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        private int GetIncompleteCount() => Settings.TrackedTasks.Where(task => task.Tracked.Value && !task.State).Count();
+        private static int GetIncompleteCount() => Settings.TrackedTasks.Where(task => task.Tracked && !task.State).Count();
 
-        private void SetTaskState(CarnivaleTask task, bool completedState)
+        private static void SetTaskState(CarnivaleTask task, bool completedState)
         {
             foreach (var trackedTask in Settings.TrackedTasks)
             {

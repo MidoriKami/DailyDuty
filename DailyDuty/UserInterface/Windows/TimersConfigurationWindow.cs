@@ -52,7 +52,7 @@ internal class TimersConfigurationWindow : Window
             .Draw();
 
         var enabledModules = Service.ModuleManager.GetTimerComponents()
-            .Where(module => module.ParentModule.GenericSettings.Enabled.Value);
+            .Where(module => module.ParentModule.GenericSettings.Enabled);
 
         InfoBox.Instance
             .AddTitle(Strings.UserInterface.Timers.Label)

@@ -22,9 +22,9 @@ internal class DutyRouletteOverlay : IDisposable
     private ByteColor userDefaultTextColor;
 
     private static DutyRouletteSettings RouletteSettings => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette;
-    private IEnumerable<TrackedRoulette> DutyRoulettes => RouletteSettings.TrackedRoulettes;
+    private static IEnumerable<TrackedRoulette> DutyRoulettes => RouletteSettings.TrackedRoulettes;
 
-    private bool Enabled => RouletteSettings.Enabled.Value && RouletteSettings.OverlayEnabled.Value;
+    private static bool Enabled => RouletteSettings is {Enabled.Value: true, OverlayEnabled.Value: true};
 
     public DutyRouletteOverlay()
     {
@@ -32,7 +32,7 @@ internal class DutyRouletteOverlay : IDisposable
         DutyFinderAddon.Instance.Draw += OnDraw;
         DutyFinderAddon.Instance.Finalize += OnFinalize;
 
-        var rouletteData = LuminaCache<ContentRoulette>.Instance.GetAll()
+        var rouletteData = LuminaCache<ContentRoulette>.Instance
             .Where(cr => cr.Name != string.Empty);
 
         foreach (var cr in rouletteData)
@@ -49,14 +49,14 @@ internal class DutyRouletteOverlay : IDisposable
         DutyFinderAddon.Instance.Draw -= OnDraw;
         DutyFinderAddon.Instance.Finalize -= OnFinalize;
         
-        DutyFinderAddon.Instance.ResetLabelColors(userDefaultTextColor);
+        DutyFinderAddon.ResetLabelColors(userDefaultTextColor);
     }
  
     private void OnDraw(object? sender, IntPtr e)
     {
         if (defaultColorSaved == false)
         {
-            var tree = DutyFinderAddon.Instance.GetBaseTreeNode();
+            var tree = DutyFinderAddon.GetBaseTreeNode();
             var line = tree.Items.First();
             userDefaultTextColor = line.GetTextColor();
             defaultColorSaved = true;
@@ -92,11 +92,11 @@ internal class DutyRouletteOverlay : IDisposable
 
     private void OnFinalize(object? sender, IntPtr e) => ResetDefaultTextColor();
 
-    private void ResetDefaultTextColor() => DutyFinderAddon.Instance.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
+    private void ResetDefaultTextColor() => DutyFinderAddon.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
 
     private void SetRouletteColors()
     {
-        var treeNode = DutyFinderAddon.Instance.GetBaseTreeNode();
+        var treeNode = DutyFinderAddon.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {
@@ -134,7 +134,7 @@ internal class DutyRouletteOverlay : IDisposable
 
     private static bool IsTabSelected(uint tab)
     {
-        var tabBar = DutyFinderAddon.Instance.GetTabBar();
+        var tabBar = DutyFinderAddon.GetTabBar();
         return tab == tabBar.GetSelectedTabIndex();
     }
 }

@@ -4,10 +4,10 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.DataModels;
 
-public struct DutyFinderTabBar
+public readonly struct DutyFinderTabBar
 {
     private readonly BaseNode addonBase;
-    public List<RadioButtonNode> RadioButtons = new();
+    private readonly List<RadioButtonNode> radioButtons = new();
 
     public DutyFinderTabBar(BaseNode addonBase)
     {
@@ -24,12 +24,12 @@ public struct DutyFinderTabBar
         {
             var id = (uint)i;
 
-            RadioButtons.Add(new RadioButtonNode(addonBase.GetComponentNode(id)));
+            radioButtons.Add(new RadioButtonNode(addonBase.GetComponentNode(id)));
         }
     }
 
     public int GetSelectedTabIndex()
     {
-        return RadioButtons.FindIndex(button => button.Selected);
+        return radioButtons.FindIndex(button => button.Selected);
     }
 }

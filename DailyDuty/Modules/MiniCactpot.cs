@@ -111,7 +111,7 @@ internal class MiniCactpot : IModule
         public IModule ParentModule { get; }
 
         public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink.Value;
+        public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         public ModuleLogicComponent(IModule parentModule)
         {

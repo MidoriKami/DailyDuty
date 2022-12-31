@@ -2,10 +2,10 @@
 using System.Linq;
 using DailyDuty.System;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Caching;
+using KamiLib.ExceptionSafety;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
@@ -42,18 +42,11 @@ public unsafe class GcArmyExpeditionResult : IDisposable
     {
         var result = onSetupHook!.Original(addon, valueCount, values);
 
-        try
+        Safety.ExecuteSafe(() =>
         {
-#if DEBUG
-            PluginLog.Debug($"Argument Count: {valueCount}");
-            foreach (var index in Enumerable.Range(0, (int)valueCount))
-            {
-                AtkValueHelper.PrintAtkValue(values[index], index);
-            }
-#endif
             var dutyName = values[4].GetString();
 
-            var duty = LuminaCache<GcArmyExpedition>.Instance.GetAll()
+            var duty = LuminaCache<GcArmyExpedition>.Instance
                 .Where(row => row.Name.RawString == dutyName)
                 .FirstOrDefault();
 
@@ -61,12 +54,8 @@ public unsafe class GcArmyExpeditionResult : IDisposable
             {
                 Setup?.Invoke(this, new ExpeditionResultArgs(duty.GcArmyExpeditionType.Row, values[2].Int == 1));
             }
-        }
-        catch (Exception e)
-        {
-            PluginLog.Error(e, "Something when wrong on GcArmyExpeditionResult Setup");
-        }
-
+        });
+        
         return result;
     }
 }

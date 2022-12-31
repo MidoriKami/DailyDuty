@@ -1,42 +1,21 @@
 ﻿using System;
 using DailyDuty.System;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using Dalamud.Utility.Signatures;
+using KamiLib.ExceptionSafety;
 
 namespace DailyDuty.Addons;
 
 public unsafe class GoldSaucerEventArgs : EventArgs
 {
-    public GoldSaucerEventArgs(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID)
+    public GoldSaucerEventArgs(int* data, byte eventID)
     {
         Data = data;
         EventID = eventID;
-        A1 = a1;
-        A2 = a2;
-        A3 = a3;
-        A4 = a4;
-        A5 = a5;
     }
-
-    public void* A1;
-    public byte* A2;
-    public uint A3;
-    public ushort A4;
-    public void* A5;
+    
     public int* Data;
     public byte EventID;
-
-    public void Print()
-    {
-        PluginLog.Verbose($"A1: {(IntPtr)A1:X8}");
-        PluginLog.Verbose($"A2: {(IntPtr)A2:X8}");
-        PluginLog.Verbose($"A3: {A3}");
-        PluginLog.Verbose($"A4: {A4}");
-        PluginLog.Verbose($"A5: {(IntPtr)A5:X8}");
-        PluginLog.Verbose($"Data: {(IntPtr)Data:X8}");
-        PluginLog.Verbose($"EventID: {EventID}");
-    }
 }
 
 public unsafe class GoldSaucerAddon : IDisposable
@@ -67,14 +46,10 @@ public unsafe class GoldSaucerAddon : IDisposable
 
     private void* ProcessNetworkPacket(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
-            GoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(a1, a2, a3, a4, a5, data, eventID));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Unable to get data from Gold Saucer Update");
-        }
+            GoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(data, eventID));
+        });
 
         return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, data, eventID);
     }

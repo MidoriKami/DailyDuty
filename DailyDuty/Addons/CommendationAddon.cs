@@ -2,10 +2,10 @@
 using DailyDuty.DataModels;
 using DailyDuty.System;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.ExceptionSafety;
 
 namespace DailyDuty.Addons;
 
@@ -44,29 +44,23 @@ public unsafe class CommendationAddon : IDisposable
 
     private void* OnReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
             ReceiveEvent?.Invoke(this, new ReceiveEventArgs(agent, rawData, eventArgs, eventArgsCount, sender));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something went wrong when the Commendations Addon was opened");
-        }
+
+        });
 
         return receiveEventHook!.Original(agent, rawData, eventArgs, eventArgsCount, sender);
     }
 
     private void OnShow(AgentInterface* agent)
     {
-        try
+        Safety.ExecuteSafe(() =>
         {
             Show?.Invoke(this, new IntPtr(agent));
-        }
-        catch (Exception ex)
-        {
-            PluginLog.Error(ex, "Something went wrong when the Commendations Addon was opened");
-        }
 
+        });
+        
         showEventHook!.Original(agent);
     }
 }

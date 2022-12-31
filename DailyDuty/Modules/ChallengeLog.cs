@@ -91,8 +91,6 @@ internal class ChallengeLog : IModule
 
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-           
             InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
@@ -100,15 +98,15 @@ internal class ChallengeLog : IModule
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Module.ChallengeLog.Commendations)
-                .AddString($"{Settings.Commendations} / 5", logicModule.CommendationStatus().GetStatusColor())
+                .AddString($"{Settings.Commendations} / 5", ModuleLogicComponent.CommendationStatus().GetStatusColor())
                 .EndRow()
                 .BeginRow()
                 .AddString(Strings.Module.ChallengeLog.DungeonRoulette)
-                .AddString($"{Settings.RouletteDungeons} / 3", logicModule.DungeonRouletteStatus().GetStatusColor())
+                .AddString($"{Settings.RouletteDungeons} / 3", ModuleLogicComponent.DungeonRouletteStatus().GetStatusColor())
                 .EndRow()
                 .BeginRow()
                 .AddString(Strings.Module.ChallengeLog.DungeonMaster)
-                .AddString($"{Settings.DungeonMaster} / 5", logicModule.DungeonMasterStatus().GetStatusColor())
+                .AddString($"{Settings.DungeonMaster} / 5", ModuleLogicComponent.DungeonMasterStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -175,14 +173,14 @@ internal class ChallengeLog : IModule
 
         private void DutyFinderOnShow(object? sender, IntPtr e)
         {
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
 
-            if (Settings.RouletteDungeonWarning.Value && Settings.RouletteDungeons < 3)
+            if (Settings.RouletteDungeonWarning && Settings.RouletteDungeons < 3)
             {
                 Chat.Print(Strings.Module.ChallengeLog.Label, $"{3 - Settings.RouletteDungeons} {Strings.Module.ChallengeLog.DungeonRoulettesRemaining}");
             }
 
-            if (Settings.DungeonWarning.Value && Settings.DungeonMaster < 5)
+            if (Settings.DungeonWarning && Settings.DungeonMaster < 5)
             {
                 Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.DungeonMaster} {Strings.Module.ChallengeLog.DungeonMasterRemaining}");
             }
@@ -255,9 +253,9 @@ internal class ChallengeLog : IModule
 
         private void CommendationOnShow(object? sender, IntPtr e)
         {
-            if (!Settings.Enabled.Value) return;
+            if (!Settings.Enabled) return;
 
-            if (Settings.CommendationWarning.Value && Settings.Commendations < 5)
+            if (Settings.CommendationWarning && Settings.Commendations < 5)
             {
                 Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.Commendations} {Strings.Module.ChallengeLog.CommendationsRemaining}");
             }
@@ -287,7 +285,7 @@ internal class ChallengeLog : IModule
             return refreshChallengeLogHook!.Original(a1, tab, a3);
         }
 
-        private uint? GetDutyType(uint territoryType)
+        private static uint? GetDutyType(uint territoryType)
         {
             var territoryInfo = LuminaCache<TerritoryType>.Instance.GetRow(territoryType);
             var contentFinderInfo = territoryInfo?.ContentFinderCondition.Value;
@@ -315,23 +313,23 @@ internal class ChallengeLog : IModule
             return ModuleStatus.Complete;
         }
 
-        public ModuleStatus CommendationStatus()
+        public static ModuleStatus CommendationStatus()
         {
-            if (Settings.CommendationWarning.Value && Settings.Commendations < 5) return ModuleStatus.Incomplete;
+            if (Settings.CommendationWarning && Settings.Commendations < 5) return ModuleStatus.Incomplete;
 
             return ModuleStatus.Complete;
         }
 
-        public ModuleStatus DungeonRouletteStatus()
+        public static ModuleStatus DungeonRouletteStatus()
         {
-            if (Settings.RouletteDungeonWarning.Value && Settings.RouletteDungeons < 3) return ModuleStatus.Incomplete;
+            if (Settings.RouletteDungeonWarning && Settings.RouletteDungeons < 3) return ModuleStatus.Incomplete;
 
             return ModuleStatus.Complete;
         }
 
-        public ModuleStatus DungeonMasterStatus()
+        public static ModuleStatus DungeonMasterStatus()
         {
-            if (Settings.DungeonWarning.Value && Settings.DungeonMaster < 5) return ModuleStatus.Incomplete;
+            if (Settings.DungeonWarning && Settings.DungeonMaster < 5) return ModuleStatus.Incomplete;
 
             return ModuleStatus.Complete;
         }

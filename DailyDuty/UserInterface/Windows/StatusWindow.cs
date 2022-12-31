@@ -55,7 +55,7 @@ internal class StatusWindow : SelectionWindow, IDisposable
         {
             return Service.ModuleManager.GetStatusSelectables()
                 .OfType<StatusSelectable>()
-                .Where(selectable => selectable.ParentModule.GenericSettings.Enabled.Value);
+                .Where(selectable => selectable.ParentModule.GenericSettings.Enabled);
         }
 
         return Service.ModuleManager.GetStatusSelectables();

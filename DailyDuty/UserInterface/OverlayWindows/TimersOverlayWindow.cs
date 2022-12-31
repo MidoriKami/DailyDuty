@@ -29,15 +29,15 @@ internal class TimersOverlayWindow : Window
     
     public override void PreOpenCheck()
     {
-        IsOpen = Settings.Enabled.Value;
+        IsOpen = Settings.Enabled;
         if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
         if (Service.ClientState.IsPvP) IsOpen = false;
         if (Condition.IsInCutsceneOrQuestEvent()) IsOpen = false;
-        if (Condition.IsBoundByDuty() && Settings.HideWhileInDuty.Value) IsOpen = false;
+        if (Condition.IsBoundByDuty() && Settings.HideWhileInDuty) IsOpen = false;
 
         trackedTasks = GetTrackedTasks();
 
-        if (Settings.HideCompleted.Value && trackedTasks.Any())
+        if (Settings.HideCompleted && trackedTasks.Any())
         {
             trackedTasks.RemoveAll(module => module.ParentModule.LogicComponent.Status() == ModuleStatus.Complete);
 
@@ -53,15 +53,15 @@ internal class TimersOverlayWindow : Window
         var borderColor = ImGui.GetStyle().Colors[(int)ImGuiCol.Border];
         ImGui.PushStyleColor(ImGuiCol.Border, borderColor with {W = Settings.Opacity.Value});
 
-        if (Settings.AutoResize.Value)
+        if (Settings.AutoResize)
         {
             Flags = DrawFlags.AutoResize;
-            Flags |= Settings.LockWindowPosition.Value ? ImGuiWindowFlags.NoInputs : ImGuiWindowFlags.None;
+            Flags |= Settings.LockWindowPosition ? ImGuiWindowFlags.NoInputs : ImGuiWindowFlags.None;
         }
         else
         {
             Flags = DrawFlags.ManualSize;
-            Flags |= Settings.LockWindowPosition.Value ? ImGuiWindowFlags.NoInputs : ImGuiWindowFlags.None;
+            Flags |= Settings.LockWindowPosition ? ImGuiWindowFlags.NoInputs : ImGuiWindowFlags.None;
         }
     }
 
@@ -83,13 +83,16 @@ internal class TimersOverlayWindow : Window
         ImGui.PopStyleColor();
     }
 
-    private List<ITimerComponent> GetTrackedTasks()
+    private static List<ITimerComponent> GetTrackedTasks()
     {
         var tasks = Service.ModuleManager.GetTimerComponents().ToList();
 
-        tasks.RemoveAll(module => !module.ParentModule.GenericSettings.Enabled.Value);
-        tasks.RemoveAll(module => !module.ParentModule.GenericSettings.TimerTaskEnabled.Value);
-        tasks.RemoveAll(module => module.ParentModule.GenericSettings.Suppressed.Value);
+        tasks.RemoveAll(module => module.ParentModule.GenericSettings is not
+        {
+            Enabled.Value: true,
+            TimerTaskEnabled.Value: true,
+            Suppressed.Value: false
+        });
 
         return tasks;
     }
@@ -117,7 +120,7 @@ internal class TimersOverlayWindow : Window
 
                 count++;
                 width += w;
-                if(timerSettings.StretchToFit.Value)
+                if(timerSettings.StretchToFit)
                     resizeCount++;
             }
 
@@ -128,7 +131,7 @@ internal class TimersOverlayWindow : Window
                 var timer = timers[j];
                 var timerSettings = timer.ParentModule.GenericSettings.TimerSettings;
 
-                if(timerSettings.StretchToFit.Value)
+                if(timerSettings.StretchToFit)
                 {
                     timerSettings.Size.Value += add;
                     DrawTimer(timer);
@@ -151,15 +154,15 @@ internal class TimersOverlayWindow : Window
     {
         return Settings.Ordering.Value switch
         {
-            TimersOrdering.Alphabetical => trackedTasks.OrderBy(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
-            TimersOrdering.AlphabeticalDescending => trackedTasks.OrderByDescending(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName.Value ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
+            TimersOrdering.Alphabetical => trackedTasks.OrderBy(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
+            TimersOrdering.AlphabeticalDescending => trackedTasks.OrderByDescending(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
             TimersOrdering.TimeRemaining => trackedTasks.OrderBy(timer => timer.RemainingTime),
             TimersOrdering.TimeRemainingDescending => trackedTasks.OrderByDescending(timer => timer.RemainingTime),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
 
-    private void DrawTimer(ITimerComponent timer)
+    private static void DrawTimer(ITimerComponent timer)
     {
         var timerSettings = timer.ParentModule.GenericSettings.TimerSettings;
 
@@ -184,7 +187,7 @@ internal class TimersOverlayWindow : Window
 
     private static void DrawTime(TimerSettings timerSettings, TimeSpan remainingTime, Vector2 cursorStart)
     {
-        if (!timerSettings.HideTime.Value)
+        if (!timerSettings.HideTime)
         {
             if (remainingTime >= TimeSpan.Zero)
             {
@@ -204,11 +207,11 @@ internal class TimersOverlayWindow : Window
 
     private static void DrawLabel(ITimerComponent timer, TimerSettings timerSettings, Vector2 cursorStart)
     {
-        if (!timerSettings.HideLabel.Value)
+        if (!timerSettings.HideLabel)
         {
             ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + 5.0f});
 
-            if (timerSettings.UseCustomName.Value)
+            if (timerSettings.UseCustomName)
             {
                 ImGui.TextColored(timerSettings.TextColor.Value, timerSettings.CustomName.Value);
             }
