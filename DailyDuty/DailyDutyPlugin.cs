@@ -45,6 +45,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         KamiCommon.WindowManager.AddWindow(new TodoConfigurationWindow());
         KamiCommon.WindowManager.AddWindow(new TimersConfigurationWindow());
         KamiCommon.WindowManager.AddWindow(new AboutWindow());
+        
+#if DEBUG
+        KamiCommon.WindowManager.AddWindow(new HuntMarkDebugWindow());
+#endif
     }
 
     public void Dispose()

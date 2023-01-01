@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.DataModels;
-using DailyDuty.DataStructures;
+using DailyDuty.DataStructures.HuntMarks;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
@@ -129,15 +129,12 @@ internal class HuntMarksWeekly : IModule
         }
     }
 
-    private unsafe class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
         public bool LinkPayloadActive => false;
-
-        [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
-        private readonly MobHuntStruct* huntData = null;
-
+        
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -176,9 +173,9 @@ internal class HuntMarksWeekly : IModule
 
         public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-        private void UpdateState(TrackedHunt hunt)
+        private static void UpdateState(TrackedHunt hunt)
         {
-            var data = huntData->Get(hunt.HuntType);
+            var data = HuntMarkData.Instance.GetHuntData(hunt.HuntType);
 
             switch (hunt.State)
             {
@@ -187,12 +184,12 @@ internal class HuntMarksWeekly : IModule
                     Service.ConfigurationManager.Save();
                     break;
 
-                case TrackedHuntState.Obtained when !data.Obtained && data.KillCounts[0] != 1:
+                case TrackedHuntState.Obtained when data is { Obtained: false, IsCompleted: false }:
                     hunt.State = TrackedHuntState.Unobtained;
                     Service.ConfigurationManager.Save();
                     break;
 
-                case TrackedHuntState.Obtained when data.KillCounts[0] == 1:
+                case TrackedHuntState.Obtained when data.IsCompleted:
                     hunt.State = TrackedHuntState.Killed;
                     Service.ConfigurationManager.Save();
                     break;

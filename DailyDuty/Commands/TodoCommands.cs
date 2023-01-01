@@ -1,44 +1,16 @@
 ﻿using System.Collections.Generic;
-using DailyDuty.UserInterface.Windows;
-using KamiLib;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 
 namespace DailyDuty.Commands;
 
-internal class TodoWindowCommand : IPluginCommand
+internal class TodoCommands : IPluginCommand
 {
     public string CommandArgument => "todo";
 
     public IEnumerable<ISubCommand> SubCommands { get; } = new List<ISubCommand>
     {
-        new SubCommand
-        {
-            CommandKeyword = null,
-            CommandAction = () => Chat.PrintError("The todo window cannot be opened while in a PvP area"),
-            CanExecute = () => Service.ClientState.IsPvP,
-            GetHelpText = () => "Open Todo Configuration Window"
-        },
-        new SubCommand
-        {
-            CommandKeyword = null,
-            CommandAction = () =>
-            {
-                if ( KamiCommon.WindowManager.GetWindowOfType<TodoConfigurationWindow>() is {} mainWindow )
-                {
-                    Chat.Print("Command",!mainWindow.IsOpen ? "Opening Todo Configuration Window" : "Closing Todo Configuration Window");
-
-                    mainWindow.IsOpen = !mainWindow.IsOpen;
-                }
-                else
-                {
-                    Chat.PrintError("Something went wrong trying to open Todo Window");
-                }
-            },
-            CanExecute = () => !Service.ClientState.IsPvP,
-            GetHelpText = () => "Open Todo Configuration Window"
-        },
         new SubCommand
         {
             CommandKeyword = "show",

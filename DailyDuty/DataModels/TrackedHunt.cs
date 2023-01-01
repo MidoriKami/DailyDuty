@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.DataStructures;
+using DailyDuty.DataStructures.HuntMarks;
 using DailyDuty.Localization;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;

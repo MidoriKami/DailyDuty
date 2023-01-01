@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Commands;
 using DailyDuty.Configuration;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
@@ -10,6 +9,7 @@ using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib;
+using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Windows;
 
@@ -19,7 +19,7 @@ internal class StatusWindow : SelectionWindow, IDisposable
 {
     public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 45.0f)
     {
-        KamiCommon.CommandManager.AddCommand(new StatusWindowCommand());
+        KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<StatusWindow>("status"));
         
         SizeConstraints = new WindowSizeConstraints
         {

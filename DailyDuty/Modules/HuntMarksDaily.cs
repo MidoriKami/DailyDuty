@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.DataModels;
-using DailyDuty.DataStructures;
+using DailyDuty.DataStructures.HuntMarks;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
@@ -121,15 +121,12 @@ internal class HuntMarksDaily : IModule
         }
     }
 
-    private unsafe class ModuleLogicComponent : ILogicComponent
+    private class ModuleLogicComponent : ILogicComponent
     {
         public IModule ParentModule { get; }
         public DalamudLinkPayload? DalamudLinkPayload => null;
         public bool LinkPayloadActive => false;
-
-        [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
-        private readonly MobHuntStruct* huntData = null;
-
+        
         public ModuleLogicComponent(IModule parentModule)
         {
             ParentModule = parentModule;
@@ -154,9 +151,9 @@ internal class HuntMarksDaily : IModule
             }
         }
 
-        private void UpdateState(TrackedHunt hunt)
+        private static void UpdateState(TrackedHunt hunt)
         {
-            var data = huntData->Get(hunt.HuntType);
+            var data = HuntMarkData.Instance.GetHuntData(hunt.HuntType);
 
             switch (hunt.State)
             {
@@ -165,12 +162,12 @@ internal class HuntMarksDaily : IModule
                     Service.ConfigurationManager.Save();
                     break;
 
-                case TrackedHuntState.Obtained when !data.Obtained && !AllTargetsKilled(data):
+                case TrackedHuntState.Obtained when data is { Obtained: false, IsCompleted: false }:
                     hunt.State = TrackedHuntState.Unobtained;
                     Service.ConfigurationManager.Save();
                     break;
 
-                case TrackedHuntState.Obtained when AllTargetsKilled(data):
+                case TrackedHuntState.Obtained when data.IsCompleted:
                     hunt.State = TrackedHuntState.Killed;
                     Service.ConfigurationManager.Save();
                     break;
@@ -192,19 +189,6 @@ internal class HuntMarksDaily : IModule
         public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
         private static int GetIncompleteCount() => Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
-
-        private static bool AllTargetsKilled(HuntData data)
-        {
-            var targetInfo = data.TargetInfo;
-
-            for (var i = 0; i < 5; ++i)
-            {
-                if (targetInfo[i]?.NeededKills != data.KillCounts[i])
-                    return false;
-            }
-            
-            return true;
-        }
     }
 
     private class ModuleTodoComponent : ITodoComponent

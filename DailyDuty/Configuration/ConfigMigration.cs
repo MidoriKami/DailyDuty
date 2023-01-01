@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DailyDuty.DataModels;
-using DailyDuty.DataStructures;
+using DailyDuty.DataStructures.HuntMarks;
 using DailyDuty.Modules;
 using KamiLib.Configuration;
 using Newtonsoft.Json.Linq;

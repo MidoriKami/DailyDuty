@@ -6,6 +6,7 @@ using DailyDuty.Commands;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using KamiLib;
+using KamiLib.CommandSystem;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
 
@@ -28,8 +29,9 @@ internal class TimersConfigurationWindow : Window
 
     public TimersConfigurationWindow() : base("DailyDuty Timers Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
     {
-        KamiCommon.CommandManager.AddCommand(new TimersWindowCommand());
-        
+        KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<TimersConfigurationWindow>("timers"));
+        KamiCommon.CommandManager.AddCommand(new TimersCommands());
+
         SizeConstraints = new WindowSizeConstraints
         {
             MinimumSize = new Vector2(400, 350),
