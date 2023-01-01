@@ -70,6 +70,10 @@ public class HuntSelectable : ISelectable, IDrawable
             .AddString("Obtained")
             .AddString(huntData.Obtained.ToString(), color: huntData.Obtained ? Colors.Green : Colors.Orange)
             .EndRow()
+            .BeginRow()
+            .AddString("Complete")
+            .AddString(huntData.IsCompleted.ToString(), color: huntData.IsCompleted ? Colors.Green : Colors.Orange)
+            .EndRow()
             .EndTable()
             .Draw();
 
