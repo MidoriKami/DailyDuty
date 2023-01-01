@@ -20,8 +20,8 @@ public interface ILogicComponent : IDisposable
 
     void OnLoginMessage(object? sender, EventArgs e)
     {
-        if (!ParentModule.GenericSettings.Enabled) return;
-        if (!ParentModule.GenericSettings.NotifyOnLogin) return;
+        if (ParentModule.GenericSettings is not { Enabled.Value: true, NotifyOnLogin.Value: true }) return;
+        if (ParentModule.GenericSettings.Suppressed) return;
         if (ParentModule.LogicComponent.GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
 
         var moduleName = ParentModule.Name.GetTranslatedString();
@@ -34,8 +34,8 @@ public interface ILogicComponent : IDisposable
         
     void OnZoneChangeMessage(object? sender, EventArgs e)
     {
-        if (!ParentModule.GenericSettings.Enabled) return;
-        if (!ParentModule.GenericSettings.NotifyOnZoneChange) return;
+        if (ParentModule.GenericSettings is not { Enabled.Value: true, NotifyOnZoneChange.Value: true }) return;
+        if (ParentModule.GenericSettings.Suppressed) return;
         if (Condition.IsBoundByDuty()) return;
         if (ParentModule.LogicComponent.GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
 
