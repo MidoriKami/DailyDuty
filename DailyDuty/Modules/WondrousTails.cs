@@ -116,7 +116,7 @@ internal class WondrousTails : IModule
                 .EndRow()
                 .BeginRow()
                 .AddString(Strings.Module.WondrousTails.Stamps)
-                .AddString($"{logicModule.WondrousTailsBook.GetNumStickers()} / 9", logicModule.GetModuleStatus().GetStatusColor())
+                .AddString($"{WondrousTailsBook.Instance.Stickers} / 9", logicModule.GetModuleStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -129,7 +129,7 @@ internal class WondrousTails : IModule
     {
         public IModule ParentModule { get; }
 
-        public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.NeedsNewBook() ? idyllshireTeleportPayload : openBookPayload;
+        public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.Instance.NeedsNewBook ? idyllshireTeleportPayload : openBookPayload;
         public bool LinkPayloadActive => Settings.EnableClickableLink;
 
         private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
@@ -143,7 +143,6 @@ internal class WondrousTails : IModule
         private readonly DalamudLinkPayload openBookPayload;
         private readonly DalamudLinkPayload idyllshireTeleportPayload;
 
-        public WondrousTailsBook WondrousTailsBook { get; } = new();
         private readonly WondrousTailsOverlay wondrousTailsOverlay = new();
 
         private bool dutyCompleted;
@@ -188,7 +187,7 @@ internal class WondrousTails : IModule
         {
             if (Condition.IsBoundByDuty()) return string.Empty;
             
-            if (Settings.UnclaimedBookWarning && WondrousTailsBook.NewBookAvailable())
+            if (Settings.UnclaimedBookWarning && WondrousTailsBook.Instance.NewBookAvailable)
             {
                 return Strings.Module.WondrousTails.BookAvailable;
             }
@@ -205,14 +204,14 @@ internal class WondrousTails : IModule
 
         public ModuleStatus GetModuleStatus()
         {
-            if (Settings.UnclaimedBookWarning && WondrousTailsBook.NewBookAvailable()) return ModuleStatus.Incomplete;
+            if (Settings.UnclaimedBookWarning && WondrousTailsBook.Instance.NewBookAvailable) return ModuleStatus.Incomplete;
 
-            return WondrousTailsBook.IsComplete() ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+            return WondrousTailsBook.Instance.Complete ? ModuleStatus.Complete : ModuleStatus.Incomplete;
         }
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
         {
-            if (ItemContextMenuAgent != IntPtr.Zero && WondrousTailsBook.PlayerHasBook())
+            if (ItemContextMenuAgent != IntPtr.Zero && WondrousTailsBook.PlayerHasBook)
             {
                 useItemFunction(ItemContextMenuAgent, WondrousTailsBookItemID);
             }
@@ -222,18 +221,18 @@ internal class WondrousTails : IModule
         {
             if (!Settings.InstanceNotifications) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
-            if (!WondrousTailsBook.PlayerHasBook()) return;
+            if (!WondrousTailsBook.PlayerHasBook) return;
 
-            var node = WondrousTailsBook.GetTaskForDuty(territory);
+            var node = WondrousTailsBook.Instance.GetTaskForDuty(territory);
             if (node == null) return;
 
             var buttonState = node.TaskState;
         
             switch (buttonState)
             {
-                case ButtonState.Unavailable when WondrousTailsBook.GetNumStickers() > 0:
+                case ButtonState.Unavailable when WondrousTailsBook.Instance.Stickers > 0:
                     Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableMessage);
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(WondrousTailsBook.GetNumSecondChance()), Settings.EnableClickableLink ? DalamudLinkPayload : null);
+                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(WondrousTailsBook.Instance.SecondChance), Settings.EnableClickableLink ? DalamudLinkPayload : null);
                     break;
 
                 case ButtonState.AvailableNow:
@@ -254,12 +253,12 @@ internal class WondrousTails : IModule
         {
             if (!Settings.InstanceNotifications) return;
             if (GetModuleStatus() == ModuleStatus.Complete) return;
-            if (!WondrousTailsBook.PlayerHasBook()) return;
+            if (!WondrousTailsBook.PlayerHasBook) return;
 
             dutyCompleted = true;
             lastTerritoryType = territory;
 
-            var node = WondrousTailsBook.GetTaskForDuty(territory);
+            var node = WondrousTailsBook.Instance.GetTaskForDuty(territory);
 
             var buttonState = node?.TaskState;
 

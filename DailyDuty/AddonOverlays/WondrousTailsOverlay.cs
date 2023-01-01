@@ -15,8 +15,6 @@ internal class WondrousTailsOverlay : IDisposable
 {
     private record DutyFinderSearchResult(string SearchKey, uint Value);
 
-    private readonly WondrousTailsBook wondrousTailsBook = new();
-
     private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
 
     private IEnumerable<WondrousTailsTask> wondrousTailsStatus;
@@ -42,7 +40,7 @@ internal class WondrousTailsOverlay : IDisposable
             contentFinderDuties.Add(new DutyFinderSearchResult(simplifiedString, cfc.TerritoryType.Row));
         }
 
-        wondrousTailsStatus = wondrousTailsBook.GetAllTaskData();
+        wondrousTailsStatus = WondrousTailsBook.Instance.GetAllTaskData();
     }
 
     public void Dispose()
@@ -59,7 +57,7 @@ internal class WondrousTailsOverlay : IDisposable
     {
         if (!Enabled) return;
 
-        wondrousTailsStatus = wondrousTailsBook.GetAllTaskData();
+        wondrousTailsStatus = WondrousTailsBook.Instance.GetAllTaskData();
     }
     
     private void OnUpdate(object? sender, IntPtr e)
@@ -117,7 +115,7 @@ internal class WondrousTailsOverlay : IDisposable
         {
             var taskState = IsWondrousTailsDuty(item);
 
-            if (taskState == null || !wondrousTailsBook.PlayerHasBook() || !Enabled)
+            if (taskState == null || !WondrousTailsBook.PlayerHasBook || !Enabled)
             {
                 item.CloverNode.SetVisibility(CloverState.Hidden);
             }

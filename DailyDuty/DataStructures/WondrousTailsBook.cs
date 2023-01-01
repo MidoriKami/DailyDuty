@@ -22,20 +22,22 @@ internal unsafe class WondrousTailsBook
 
     private const int WondrousTailsBookItemID = 2002023;
 
-    public WondrousTailsBook()
+    private static WondrousTailsBook? _instance;
+    public static WondrousTailsBook Instance => _instance ??= new WondrousTailsBook();
+
+    private WondrousTailsBook()
     {
         SignatureHelper.Initialise(this);
     }
 
-    public int GetNumStickers() => wondrousTails->Stickers;
-    public int GetNumSecondChance() => wondrousTails->SecondChance;
-    public bool PlayerHasBook() => InventoryManager.Instance()->GetInventoryItemCount(WondrousTailsBookItemID) > 0;
-    public bool NewBookAvailable() => DateTime.Now > GetDeadline() - TimeSpan.FromDays(7);
-    public bool IsComplete() => wondrousTails->Stickers == 9;
-    public bool NeedsNewBook() => NewBookAvailable() && IsComplete();
-
-    private DateTime GetDeadline() => DateTimeOffset.FromUnixTimeSeconds(wondrousTailsGetDeadline(wondrousTailsDeadlineIndex)).ToLocalTime().DateTime;
-
+    public int Stickers => wondrousTails->Stickers;
+    public int SecondChance => wondrousTails->SecondChance;
+    public static bool PlayerHasBook => InventoryManager.Instance()->GetInventoryItemCount(WondrousTailsBookItemID) > 0;
+    public bool NewBookAvailable =>  DateTime.Now > Deadline - TimeSpan.FromDays(7);
+    public bool Complete => wondrousTails->Stickers == 9;
+    public bool NeedsNewBook => NewBookAvailable && Complete;
+    private DateTime Deadline => DateTimeOffset.FromUnixTimeSeconds(wondrousTailsGetDeadline(wondrousTailsDeadlineIndex)).ToLocalTime().DateTime;
+    
     public WondrousTailsTask? GetTaskForDuty(uint instanceID)
     {
         return GetAllTaskData().FirstOrDefault(task => task.DutyList.Contains(instanceID));
