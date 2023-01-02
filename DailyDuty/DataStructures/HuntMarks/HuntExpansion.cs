@@ -16,20 +16,14 @@ public static class ExpansionExtensions
 {
     public static string GetTranslatedString(this HuntExpansion value)
     {
-        switch (value)
+        return value switch
         {
-            case HuntExpansion.RealmReborn:
-                return Strings.Common.Expansion.RealmReborn;
-            case HuntExpansion.Heavensward:
-                return Strings.Common.Expansion.Heavensward;
-            case HuntExpansion.Stormblood:
-                return Strings.Common.Expansion.Stormblood;
-            case HuntExpansion.Shadowbringers:
-                return Strings.Common.Expansion.Shadowbringers;
-            case HuntExpansion.Endwalker:
-                return Strings.Common.Expansion.Endwalker;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(value), value, null);
-        }
+            HuntExpansion.RealmReborn => Strings.Common.Expansion.RealmReborn,
+            HuntExpansion.Heavensward => Strings.Common.Expansion.Heavensward,
+            HuntExpansion.Stormblood => Strings.Common.Expansion.Stormblood,
+            HuntExpansion.Shadowbringers => Strings.Common.Expansion.Shadowbringers,
+            HuntExpansion.Endwalker => Strings.Common.Expansion.Endwalker,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
     }
 }

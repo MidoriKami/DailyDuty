@@ -20,15 +20,7 @@ public unsafe class HuntMarkData
         return this[type];
     }
     
-    private HuntData this[int index] => new HuntData
-    {
-        HuntID = huntStruct->MarkID[index],
-        HuntType = (HuntMarkType)index,
-        Obtained = huntStruct->Obtained[index],
-        KillCounts = huntStruct->KillCounts[index],
-    };
-
-    private HuntData this[HuntMarkType type] => new HuntData
+    private HuntData this[HuntMarkType type] => new()
     {
         HuntID = huntStruct->MarkID[(int)type],
         HuntType = type,
