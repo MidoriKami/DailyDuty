@@ -47,9 +47,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Remove="Modules\Template\**" />
-		<EmbeddedResource Remove="Modules\Template\**" />
-		<None Remove="Modules\Template\**" />
 		<EmbeddedResource Update="Localization\Strings.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
