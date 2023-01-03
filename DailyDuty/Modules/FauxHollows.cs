@@ -63,14 +63,14 @@ internal class FauxHollows : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.FauxHollows.Retelling)
-                .AddConfigCheckbox(Strings.Module.FauxHollows.Retelling, Settings.IncludeRetelling, Strings.Module.FauxHollows.RetellingHelp)
+                .AddTitle(Strings.FauxHollows_Retelling)
+                .AddConfigCheckbox(Strings.FauxHollows_Retelling, Settings.IncludeRetelling, Strings.FauxHollows_Retelling_Info)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.FauxHollows.ClickableLinkLabel)
-                .AddString(Strings.Module.FauxHollows.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.PartyFinder_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -95,24 +95,24 @@ internal class FauxHollows : IModule
             InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Common.Target)
+                .AddTitle(Strings.Common_Target)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.FauxHollows.Completions)
+                .AddString(Strings.Common_Completions)
                 .AddString($"{Settings.FauxHollowsCompleted} / {GetRequiredCompletionCount()}", logicModule.GetModuleStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.HuntMarks.ForceComplete, out var innerWidth)
-                .AddString(Strings.Module.HuntMarks.ForceCompleteHelp, Colors.Orange)
+                .AddTitle(Strings.HuntMarks_ForceComplete, out var innerWidth)
+                .AddString(Strings.HuntMarks_ForceComplete_Info, Colors.Orange)
                 .AddDummy(20.0f)
-                .AddStringCentered(Strings.Module.HuntMarks.NoUndo, Colors.Orange)
-                .AddDisabledButton(Strings.UserInterface.Timers.Reset, () => { 
+                .AddStringCentered(Strings.HuntMarks_ForceComplete_Warning, innerWidth, Colors.Orange)
+                .AddDisabledButton(Strings.Common_Reset, () => { 
                     Settings.FauxHollowsCompleted = GetRequiredCompletionCount();
                     Service.ConfigurationManager.Save();
-                }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
+                }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
                 .Draw();
             
             InfoBox.Instance.DrawSuppressionOption(this);
@@ -158,7 +158,7 @@ internal class FauxHollows : IModule
             Service.ChatManager.SendCommandUnsafe("partyfinder");
         }
 
-        public string GetStatusMessage() => $"{Strings.Module.FauxHollows.TrialAvailable}";
+        public string GetStatusMessage() => $"{Strings.FauxHollows_TrialAvailable}";
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -186,9 +186,9 @@ internal class FauxHollows : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.FauxHollows.Label;
+        public string GetShortTaskLabel() => Strings.FauxHollows_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.FauxHollows.Label;
+        public string GetLongTaskLabel() => Strings.FauxHollows_Label;
     }
 
     private class ModuleTimerComponent : ITimerComponent

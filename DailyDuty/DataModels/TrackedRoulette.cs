@@ -56,9 +56,9 @@ public static class RouletteStateExtensions
     {
         return type switch
         {
-            RouletteState.Complete => Strings.Common.Complete,
-            RouletteState.Incomplete => Strings.Common.Incomplete,
-            RouletteState.Overriden => Strings.Common.Overriden,
+            RouletteState.Complete => Strings.Common_Complete,
+            RouletteState.Incomplete => Strings.Common_Incomplete,
+            RouletteState.Overriden => Strings.Common_Overriden,
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }

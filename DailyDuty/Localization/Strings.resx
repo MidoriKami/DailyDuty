@@ -1,0 +1,658 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Config_Label" xml:space="preserve">
+        <value>Configuration</value>
+    </data>
+    <data name="Config_Options" xml:space="preserve">
+        <value>Options</value>
+    </data>
+    <data name="Config_MarkCompleteWhen" xml:space="preserve">
+        <value>Mark Complete When</value>
+    </data>
+    <data name="Config_NotificationOptions" xml:space="preserve">
+        <value>Notification Options</value>
+    </data>
+    <data name="Config_LoginNotification" xml:space="preserve">
+        <value>Send Notification on Login</value>
+    </data>
+    <data name="Config_ZoneChageNotification" xml:space="preserve">
+        <value>Send Notification on Zone Change</value>
+    </data>
+    <data name="Config_HideDisabled" xml:space="preserve">
+        <value>Hide Disabled</value>
+    </data>
+    <data name="Config_ShowDisabled" xml:space="preserve">
+        <value>Show Disabled</value>
+    </data>
+    <data name="Status_Label" xml:space="preserve">
+        <value>Status</value>
+    </data>
+    <data name="Status_ModuleStatus" xml:space="preserve">
+        <value>Module Status</value>
+    </data>
+    <data name="Status_Suppression" xml:space="preserve">
+        <value>Suppression</value>
+    </data>
+    <data name="Status_Suppression_Info" xml:space="preserve">
+        <value>Suppress notifications until next reset</value>
+    </data>
+    <data name="Status_Snooze" xml:space="preserve">
+        <value>Snooze</value>
+    </data>
+    <data name="Status_Unsnooze" xml:space="preserve">
+        <value>UnSnooze</value>
+    </data>
+    <data name="Common_Enabled" xml:space="preserve">
+        <value>Enabled</value>
+    </data>
+    <data name="Common_Disabled" xml:space="preserve">
+        <value>Disabled</value>
+    </data>
+    <data name="Common_Unknown" xml:space="preserve">
+        <value>Unknown</value>
+    </data>
+    <data name="Common_Incomplete" xml:space="preserve">
+        <value>Incomplete</value>
+    </data>
+    <data name="Common_Unavailable" xml:space="preserve">
+        <value>Unavailable</value>
+    </data>
+    <data name="Common_Complete" xml:space="preserve">
+        <value>Complete</value>
+    </data>
+    <data name="Common_Overriden" xml:space="preserve">
+        <value>Overriden</value>
+    </data>
+    <data name="Common_LessThan" xml:space="preserve">
+        <value>Less Than</value>
+    </data>
+    <data name="Common_LessThanEqual" xml:space="preserve">
+        <value>Less Than or Equal To</value>
+    </data>
+    <data name="Common_Equal" xml:space="preserve">
+        <value>Equal To</value>
+    </data>
+    <data name="Common_Allowances" xml:space="preserve">
+        <value>Allowances</value>
+    </data>
+    <data name="Common_Target" xml:space="preserve">
+        <value>Target</value>
+    </data>
+    <data name="Common_Mode" xml:space="preserve">
+        <value>Mode</value>
+    </data>
+    <data name="Common_TopLeft" xml:space="preserve">
+        <value>Top Left</value>
+    </data>
+    <data name="Common_TopRight" xml:space="preserve">
+        <value>Top Right</value>
+    </data>
+    <data name="Common_BottomLeft" xml:space="preserve">
+        <value>Bottom Left</value>
+    </data>
+    <data name="Common_BottomRight" xml:space="preserve">
+        <value>Bottom Right</value>
+    </data>
+    <data name="Common_Header" xml:space="preserve">
+        <value>Header</value>
+    </data>
+    <data name="Common_MessageTimeout_Info" xml:space="preserve">
+        <value>Zone Change notifications will only appear once every five minutes
+This is to prevent excessive chatlog spamming</value>
+    </data>
+    <data name="Common_Alphabetical" xml:space="preserve">
+        <value>Alphabetical</value>
+    </data>
+    <data name="Common_Descending" xml:space="preserve">
+        <value>Descending</value>
+    </data>
+    <data name="Common_RemainingTime" xml:space="preserve">
+        <value>Remaining Time</value>
+    </data>
+    <data name="Common_Default" xml:space="preserve">
+        <value>Default</value>
+    </data>
+    <data name="Common_Suppressed" xml:space="preserve">
+        <value>Suppressed</value>
+    </data>
+    <data name="Expansion_RealmReborn" xml:space="preserve">
+        <value>A Realm Reborn</value>
+    </data>
+    <data name="Expansion_Heavensward" xml:space="preserve">
+        <value>Heavensward</value>
+    </data>
+    <data name="Expansion_Stormblood" xml:space="preserve">
+        <value>Stormblood</value>
+    </data>
+    <data name="Expansion_Shadowbringers" xml:space="preserve">
+        <value>Shadowbringers</value>
+    </data>
+    <data name="Expansion_Endwalker" xml:space="preserve">
+        <value>Endwalker</value>
+    </data>
+    <data name="TribalQuests_Label" xml:space="preserve">
+        <value>Tribal Quests</value>
+    </data>
+    <data name="Common_AllowancesRemaining" xml:space="preserve">
+        <value>Allowances Remaining</value>
+    </data>
+    <data name="CustomDelivery_Label" xml:space="preserve">
+        <value>Custom Delivery</value>
+    </data>
+    <data name="DomanEnclave_Label" xml:space="preserve">
+        <value>Doman Enclave</value>
+    </data>
+    <data name="DomanEnclave_GilRemaining" xml:space="preserve">
+        <value>gil Remaining</value>
+    </data>
+    <data name="DomanEnclave_StatusUnknown_Info" xml:space="preserve">
+        <value>Status unknown, visit the Doman Enclave to initialize module</value>
+    </data>
+    <data name="DomanEnclave_StatusUnknown" xml:space="preserve">
+        <value>Status Unknown</value>
+    </data>
+    <data name="DomanEnclave_BudgetRemaining" xml:space="preserve">
+        <value>Budget Remaining</value>
+    </data>
+    <data name="DomanEnclave_CurrentAllowance" xml:space="preserve">
+        <value>Current Allowance</value>
+    </data>
+    <data name="Common_ClickableLink" xml:space="preserve">
+        <value>Clickable Link</value>
+    </data>
+    <data name="DomanEnclave_ClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to the Doman Enclave</value>
+    </data>
+    <data name="DutyRoulette_Label" xml:space="preserve">
+        <value>Duty Roulette</value>
+    </data>
+    <data name="DutyRoulette_RouletteSelection" xml:space="preserve">
+        <value>Select Roulettes to Track</value>
+    </data>
+    <data name="DutyFinder_ClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to open the Duty Finder</value>
+    </data>
+    <data name="DutyRoulette_Remaining" xml:space="preserve">
+        <value>Roulettes Remaining</value>
+    </data>
+    <data name="DutyRoulette_ExpertFeature" xml:space="preserve">
+        <value>Expert Roulette Feature</value>
+    </data>
+    <data name="DutyRoulette_ExpertFeature_Info" xml:space="preserve">
+        <value>Marks the Expert Roulette as overriden when you are at your weekly tomestone cap</value>
+    </data>
+    <data name="DutyRoulette_ExpertTomestones" xml:space="preserve">
+        <value>Expert Tomestones</value>
+    </data>
+    <data name="DutyFinder_Overlay" xml:space="preserve">
+        <value>Duty Finder Overlay</value>
+    </data>
+    <data name="DutyRoulette_DutyComplete" xml:space="preserve">
+        <value>Duty Complete</value>
+    </data>
+    <data name="DutyRoulette_DutyIncomplete" xml:space="preserve">
+        <value>Duty Incomplete</value>
+    </data>
+    <data name="DutyRoulette_Status" xml:space="preserve">
+        <value>Roulette Status</value>
+    </data>
+    <data name="DutyRoulette_NothingTracked" xml:space="preserve">
+        <value>No roulettes have been selected for tracking</value>
+    </data>
+    <data name="DutyRoulette_Override" xml:space="preserve">
+        <value>Duty Override</value>
+    </data>
+    <data name="DutyRoulette_CompleteWhenCapped" xml:space="preserve">
+        <value>Complete When Tomecapped</value>
+    </data>
+    <data name="DutyRoulette_CompleteWhenCapped_Info" xml:space="preserve">
+        <value>Marks Duty Roulette Module as complete when you are at your weekly tomestone cap</value>
+    </data>
+    <data name="FashionReport_Label" xml:space="preserve">
+        <value>Fashion Report</value>
+    </data>
+    <data name="FashionReport_CompletionCondition" xml:space="preserve">
+        <value>Completion Condition</value>
+    </data>
+    <data name="Common_Single" xml:space="preserve">
+        <value>Single</value>
+    </data>
+    <data name="FashionReport_Mode80Plus" xml:space="preserve">
+        <value>80 Plus</value>
+    </data>
+    <data name="Common_All" xml:space="preserve">
+        <value>All</value>
+    </data>
+    <data name="FashionReport_SingleMode_Info" xml:space="preserve">
+        <value>Only notify if no allowances have been spent this week and Fashion Report is available for turn-in</value>
+    </data>
+    <data name="FashionReport_80Mode_Info" xml:space="preserve">
+        <value>Notify if any allowances remain this week, the highest score is below 80 and Fashion Report is available for turn-in</value>
+    </data>
+    <data name="FashionReport_AllMode_Info" xml:space="preserve">
+        <value>Notify if any allowances remain this week and fashion report is available for turn-in</value>
+    </data>
+    <data name="GoldSaucer_ClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to the Gold Saucer</value>
+    </data>
+    <data name="Common_AllowancesAvailable" xml:space="preserve">
+        <value>Allowances Available</value>
+    </data>
+    <data name="FashionReport_HighestScore" xml:space="preserve">
+        <value>Highest Score</value>
+    </data>
+    <data name="FashionReport_ReportOpen" xml:space="preserve">
+        <value>Report Open</value>
+    </data>
+    <data name="Common_AvailableNow" xml:space="preserve">
+        <value>Available Now</value>
+    </data>
+    <data name="HuntMarks_LevelOne" xml:space="preserve">
+        <value>Level One</value>
+    </data>
+    <data name="HuntMarks_LevelTwo" xml:space="preserve">
+        <value>Level Two</value>
+    </data>
+    <data name="HuntMarks_LevelThree" xml:space="preserve">
+        <value>Level Three</value>
+    </data>
+    <data name="HuntMarks_Elite" xml:space="preserve">
+        <value>Elite</value>
+    </data>
+    <data name="HuntMarks_DailyLabel" xml:space="preserve">
+        <value>Hunt Marks (Daily)</value>
+    </data>
+    <data name="HuntMarks_WeeklyLabel" xml:space="preserve">
+        <value>Hunt Marks (Weekly)</value>
+    </data>
+    <data name="HuntMarks_Tracked" xml:space="preserve">
+        <value>Tracked Hunts</value>
+    </data>
+    <data name="HuntMarks_Obtained" xml:space="preserve">
+        <value>Obtained</value>
+    </data>
+    <data name="HuntMarks_Unobtained" xml:space="preserve">
+        <value>Unobtained</value>
+    </data>
+    <data name="HuntMarks_Killed" xml:space="preserve">
+        <value>Killed</value>
+    </data>
+    <data name="HuntMarks_Remaining" xml:space="preserve">
+        <value>Hunts Remaining</value>
+    </data>
+    <data name="HuntMarks_Status" xml:space="preserve">
+        <value>Tracked Hunts Status</value>
+    </data>
+    <data name="HuntMarks_NothingTracked" xml:space="preserve">
+        <value>No hunts have been selected for tracking</value>
+    </data>
+    <data name="HuntMarks_ForceComplete" xml:space="preserve">
+        <value>Force Complete</value>
+    </data>
+    <data name="HuntMarks_ForceComplete_Info" xml:space="preserve">
+        <value>Override module status and mark complete</value>
+    </data>
+    <data name="HuntMarks_ForceComplete_Warning" xml:space="preserve">
+        <value>This action cannot be undone</value>
+    </data>
+    <data name="JumboCactpot_Label" xml:space="preserve">
+        <value>Jumbo Cactpot</value>
+    </data>
+    <data name="JumboCactpot_Tickets" xml:space="preserve">
+        <value>Tickets</value>
+    </data>
+    <data name="JumboCactpot_NextDrawing" xml:space="preserve">
+        <value>Next Drawing</value>
+    </data>
+    <data name="JumboCactpot_TicketsAvailable" xml:space="preserve">
+        <value>Tickets Available</value>
+    </data>
+    <data name="JumboCactpot_NoTickets" xml:space="preserve">
+        <value>No Tickets</value>
+    </data>
+    <data name="Levequest_Label" xml:space="preserve">
+        <value>Levequest</value>
+    </data>
+    <data name="Common_Accepted" xml:space="preserve">
+        <value>Accepted</value>
+    </data>
+    <data name="Levequest_NextAllowance" xml:space="preserve">
+        <value>Next Allowance</value>
+    </data>
+    <data name="MiniCactpot_Label" xml:space="preserve">
+        <value>Mini Cactpot</value>
+    </data>
+    <data name="MiniCactpot_TicketsRemaining" xml:space="preserve">
+        <value>Tickets Remaining</value>
+    </data>
+    <data name="TreasureMap_Label" xml:space="preserve">
+        <value>Treasure Map</value>
+    </data>
+    <data name="TreasureMap_MapAvailable" xml:space="preserve">
+        <value>Map Available</value>
+    </data>
+    <data name="TreasureMap_NextMap" xml:space="preserve">
+        <value>Next Map</value>
+    </data>
+    <data name="WondrousTails_Label" xml:space="preserve">
+        <value>Wondrous Tails</value>
+    </data>
+    <data name="WondrousTails_RerollNotice" xml:space="preserve">
+        <value>This instance is available for a stamp if you re-roll it</value>
+    </data>
+    <data name="WondrousTails_RerollCount" xml:space="preserve">
+        <value>You have {0} Re-Rolls Available</value>
+    </data>
+    <data name="WondrousTails_AlreadyAvailable" xml:space="preserve">
+        <value>A stamp is already available for this instance</value>
+    </data>
+    <data name="WondrousTails_Completable" xml:space="preserve">
+        <value>Completing this instance will reward you with a stamp</value>
+    </data>
+    <data name="WondrousTails_Claimable" xml:space="preserve">
+        <value>You can claim a stamp for the last instance</value>
+    </data>
+    <data name="WondrousTails_BookAvailable" xml:space="preserve">
+        <value>Book Available</value>
+    </data>
+    <data name="WondrousTails_DutyNotifications" xml:space="preserve">
+        <value>Duty Start/End Notifications</value>
+    </data>
+    <data name="WondrousTails_UnclaimedBookWarning" xml:space="preserve">
+        <value>Unclaimed Book Warning</value>
+    </data>
+    <data name="Common_Stamps" xml:space="preserve">
+        <value>Stamps</value>
+    </data>
+    <data name="WondrousTails_ClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to open wondrous tails book, or to teleport to Idyllshire if you don't have a book.</value>
+    </data>
+    <data name="WondrousTails_ResendNotification" xml:space="preserve">
+        <value>Resend after leaving duty</value>
+    </data>
+    <data name="ChallengeLog_Label" xml:space="preserve">
+        <value>Challenge Log</value>
+    </data>
+    <data name="Common_Battle" xml:space="preserve">
+        <value>Battle</value>
+    </data>
+    <data name="ChallengeLog_CommendationLabel" xml:space="preserve">
+        <value>'Exercising the Right' Warning</value>
+    </data>
+    <data name="ChallengeLog_Commendation" xml:space="preserve">
+        <value>Exercising the Right</value>
+    </data>
+    <data name="ChallengeLog_CommendationsRemaining" xml:space="preserve">
+        <value>Commendations Remaining</value>
+    </data>
+    <data name="ChallengeLog_DungeonRouletteLabel" xml:space="preserve">
+        <value>'Feeling Lucky' Warning</value>
+    </data>
+    <data name="ChallengeLog_DungeonRoulette" xml:space="preserve">
+        <value>Feeling Lucky</value>
+    </data>
+    <data name="ChallengeLog_DungeonRoulettesRemaining" xml:space="preserve">
+        <value>Dungeon Roulettes Remaining</value>
+    </data>
+    <data name="ChallengeLog_DungeonMasterLabel" xml:space="preserve">
+        <value>'Dungeon Master' Warning</value>
+    </data>
+    <data name="ChallengeLog_DungeonMaster" xml:space="preserve">
+        <value>Dungeon Master</value>
+    </data>
+    <data name="ChallengeLog_DungeonMasterRemaining" xml:space="preserve">
+        <value>Dungeons Remaining</value>
+    </data>
+    <data name="Raids_AllianceLabel" xml:space="preserve">
+        <value>Raids (Alliance)</value>
+    </data>
+    <data name="Raids_NormalLabel" xml:space="preserve">
+        <value>Raids (Normal)</value>
+    </data>
+    <data name="Raids_TrackedRaids" xml:space="preserve">
+        <value>Tracked Raids</value>
+    </data>
+    <data name="Common_Drops" xml:space="preserve">
+        <value>Drops</value>
+    </data>
+    <data name="Raids_Regenerate" xml:space="preserve">
+        <value>Reset Tracked Raids</value>
+    </data>
+    <data name="Raids_Regenerate_Info" xml:space="preserve">
+        <value>Reload duty information, and reset settings</value>
+    </data>
+    <data name="DisabledButton_Hover" xml:space="preserve">
+        <value>Hold Shift + Control while clicking</value>
+    </data>
+    <data name="Raids_NothingTracked" xml:space="preserve">
+        <value>No raids have been selected for tracking</value>
+    </data>
+    <data name="Raids_RaidsRemaining" xml:space="preserve">
+        <value>Raids Remaining</value>
+    </data>
+    <data name="Raids_RaidRemaining" xml:space="preserve">
+        <value>Raid Remaining</value>
+    </data>
+    <data name="FauxHollows_Label" xml:space="preserve">
+        <value>Faux Hollows</value>
+    </data>
+    <data name="FauxHollows_TrialAvailable" xml:space="preserve">
+        <value>Unreal Trial Available</value>
+    </data>
+    <data name="PartyFinder_ClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to open the Party Finder</value>
+    </data>
+    <data name="FauxHollows_Retelling_Info" xml:space="preserve">
+        <value>Require completing retelling to mark module as complete</value>
+    </data>
+    <data name="FauxHollows_Retelling" xml:space="preserve">
+        <value>Include Retelling</value>
+    </data>
+    <data name="Common_Completions" xml:space="preserve">
+        <value>Completions</value>
+    </data>
+    <data name="GrandCompany_SupplyLabel" xml:space="preserve">
+        <value>Grand Company (Supply)</value>
+    </data>
+    <data name="GrandCompany_ProvisioningLabel" xml:space="preserve">
+        <value>Grand Company (Provision)</value>
+    </data>
+    <data name="GrandCompany_NothingTracked" xml:space="preserve">
+        <value>No jobs have been selected for tracking</value>
+    </data>
+    <data name="GrandCompany_Tracked" xml:space="preserve">
+        <value>Tracked Jobs</value>
+    </data>
+    <data name="Common_NextReset" xml:space="preserve">
+        <value>Next Reset</value>
+    </data>
+    <data name="GrandCompany_SquadronLabel" xml:space="preserve">
+        <value>Grand Company (Squadron)</value>
+    </data>
+    <data name="GrandCompany_MissionAvailable" xml:space="preserve">
+        <value>Mission Available</value>
+    </data>
+    <data name="MaskedCarnivale_Label" xml:space="preserve">
+        <value>Masked Carnivale</value>
+    </data>
+    <data name="MaskedCarnivale_NothingTracked" xml:space="preserve">
+        <value>No Tasks Tracked</value>
+    </data>
+    <data name="MaskedCarnivale_Novice" xml:space="preserve">
+        <value>Novice</value>
+    </data>
+    <data name="MaskedCarnivale_Moderate" xml:space="preserve">
+        <value>Moderate</value>
+    </data>
+    <data name="MaskedCarnivale_Advanced" xml:space="preserve">
+        <value>Advanced</value>
+    </data>
+    <data name="UlDah_ClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to Ul'dah</value>
+    </data>
+    <data name="Todo_Label" xml:space="preserve">
+        <value>Todo</value>
+    </data>
+    <data name="Common_MainOptions" xml:space="preserve">
+        <value>Main Options</value>
+    </data>
+    <data name="Common_TaskSelection" xml:space="preserve">
+        <value>Task Selection</value>
+    </data>
+    <data name="Todo_ShowDailyTasks" xml:space="preserve">
+        <value>Show Daily Tasks</value>
+    </data>
+    <data name="Todo_ShowWeeklyTasks" xml:space="preserve">
+        <value>Show Weekly Tasks</value>
+    </data>
+    <data name="Todo_TaskDisplay" xml:space="preserve">
+        <value>Task Display Options</value>
+    </data>
+    <data name="Common_HideCompletedTasks" xml:space="preserve">
+        <value>Hide Completed Tasks</value>
+    </data>
+    <data name="Todo_HideUnavailable" xml:space="preserve">
+        <value>Hide Unavailable Tasks</value>
+    </data>
+    <data name="Common_WindowOptions" xml:space="preserve">
+        <value>Window Options</value>
+    </data>
+    <data name="Common_HideWhenComplete" xml:space="preserve">
+        <value>Hide Window When Complete</value>
+    </data>
+    <data name="Common_HideInDuty" xml:space="preserve">
+        <value>Hide Window In Duty</value>
+    </data>
+    <data name="Common_LockWindowPosition" xml:space="preserve">
+        <value>Lock Window Position</value>
+    </data>
+    <data name="Common_AutoResize" xml:space="preserve">
+        <value>Auto Resize</value>
+    </data>
+    <data name="Todo_AnchorCorner" xml:space="preserve">
+        <value>Anchor Corner</value>
+    </data>
+    <data name="Common_Opacity" xml:space="preserve">
+        <value>Opacity</value>
+    </data>
+    <data name="Common_DailyTasks" xml:space="preserve">
+        <value>Daily Tasks</value>
+    </data>
+    <data name="Common_WeeklyTasks" xml:space="preserve">
+        <value>Weekly Tasks</value>
+    </data>
+    <data name="Todo_NothingEnabled" xml:space="preserve">
+        <value>Enable a module in Configuration to track Tasks</value>
+    </data>
+    <data name="Todo_UseLongLabel" xml:space="preserve">
+        <value>Use Long Label</value>
+    </data>
+    <data name="Todo_ShowCompleted" xml:space="preserve">
+        <value>Show Completed Categories</value>
+    </data>
+    <data name="Todo_AllCompleted" xml:space="preserve">
+        <value>All Tasks Completed</value>
+    </data>
+    <data name="Timers_NothingEnabled" xml:space="preserve">
+        <value>Enable which timers you would like to see here with '/dd timers' command</value>
+    </data>
+    <data name="Timers_Label" xml:space="preserve">
+        <value>Timers</value>
+    </data>
+    <data name="Timers_EditStyle" xml:space="preserve">
+        <value>Edit Style</value>
+    </data>
+    <data name="Timers_EditTimerStyle" xml:space="preserve">
+        <value>Edit Timer Style</value>
+    </data>
+    <data name="Timers_TimeOptions" xml:space="preserve">
+        <value>Time Display Options</value>
+    </data>
+    <data name="Timers_ColorOptions" xml:space="preserve">
+        <value>Color Options</value>
+    </data>
+    <data name="Common_Background" xml:space="preserve">
+        <value>Background</value>
+    </data>
+    <data name="Common_Foreground" xml:space="preserve">
+        <value>Foreground</value>
+    </data>
+    <data name="Common_Text" xml:space="preserve">
+        <value>Text</value>
+    </data>
+    <data name="Common_Time" xml:space="preserve">
+        <value>Time</value>
+    </data>
+    <data name="Timers_SizeOptions" xml:space="preserve">
+        <value>Size Options</value>
+    </data>
+    <data name="Timers_StretchToFit" xml:space="preserve">
+        <value>Stretch to Fit</value>
+    </data>
+    <data name="Timers_Size" xml:space="preserve">
+        <value>Size</value>
+    </data>
+    <data name="Timers_DisplayName" xml:space="preserve">
+        <value>Display Name</value>
+    </data>
+    <data name="Timers_EnableCustomName" xml:space="preserve">
+        <value>Enable Custom Name</value>
+    </data>
+    <data name="Timers_TextOptions" xml:space="preserve">
+        <value>Text Options</value>
+    </data>
+    <data name="Timers_HideLabel" xml:space="preserve">
+        <value>Hide Label</value>
+    </data>
+    <data name="Timers_HideTime" xml:space="preserve">
+        <value>Hide Time</value>
+    </data>
+    <data name="Timers_HumanStyle" xml:space="preserve">
+        <value>Human (e.g. '3 hours')</value>
+    </data>
+    <data name="Timers_FullStyle" xml:space="preserve">
+        <value>Full (D.HH:MM:SS)</value>
+    </data>
+    <data name="Timers_NoSecondsStyle" xml:space="preserve">
+        <value>No Seconds (D.HH:MM)</value>
+    </data>
+    <data name="Timers_NumDays" xml:space="preserve">
+        <value>{0} days</value>
+    </data>
+    <data name="Timers_DayPlusHours" xml:space="preserve">
+        <value>{0} day, {1} hours</value>
+    </data>
+    <data name="Timers_NumHours" xml:space="preserve">
+        <value>{0} hours</value>
+    </data>
+    <data name="Timers_NumMins" xml:space="preserve">
+        <value>{0} minutes</value>
+    </data>
+    <data name="Timers_NumSecs" xml:space="preserve">
+        <value>{0} seconds</value>
+    </data>
+    <data name="Common_Reset" xml:space="preserve">
+        <value>Reset to Default</value>
+    </data>
+    <data name="Timers_Ordering" xml:space="preserve">
+        <value>Timers Ordering</value>
+    </data>
+</root>

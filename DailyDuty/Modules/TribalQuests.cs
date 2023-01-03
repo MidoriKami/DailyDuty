@@ -60,11 +60,11 @@ internal class TribalQuests : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.MarkCompleteWhen, out var innerWidth)
+                .AddTitle(Strings.Config_MarkCompleteWhen, out var innerWidth)
                 .BeginTable()
                 .BeginRow()
                 .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
-                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, innerWidth / 4.0f)
+                .AddSliderInt(Strings.Common_Allowances, Settings.NotificationThreshold, 0, 12, innerWidth / 4.0f)
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -92,28 +92,28 @@ internal class TribalQuests : IModule
             var allowances = ModuleLogicComponent.GetRemainingAllowances();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Common.Allowances)
+                .AddString(Strings.Common_Allowances)
                 .AddString(allowances.ToString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Common.Target)
+                .AddTitle(Strings.Common_Target)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Common.Mode)
+                .AddString(Strings.Common_Mode)
                 .AddString(Settings.ComparisonMode.Value.GetTranslatedString())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Common.Target)
+                .AddString(Strings.Common_Target)
                 .AddString(Settings.NotificationThreshold.Value.ToString())
                 .EndRow()
                 .EndTable()
@@ -138,7 +138,7 @@ internal class TribalQuests : IModule
         {
         }
 
-        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.BeastTribe.AllowancesRemaining}";
+        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
 
         public DateTime GetNextReset() => Time.NextDailyReset();
 
@@ -175,9 +175,9 @@ internal class TribalQuests : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.BeastTribe.Label;
+        public string GetShortTaskLabel() => Strings.TribalQuests_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.BeastTribe.Label;
+        public string GetLongTaskLabel() => Strings.TribalQuests_Label;
     }
 
     private class ModuleTimerComponent : ITimerComponent

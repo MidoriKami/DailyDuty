@@ -77,7 +77,7 @@ internal class HuntMarksDaily : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
+                .AddTitle(Strings.HuntMarks_Tracked)
                 .AddList(Settings.TrackedHunts)
                 .Draw();
 
@@ -103,7 +103,7 @@ internal class HuntMarksDaily : IModule
             if (Settings.TrackedHunts.Any(hunt => hunt.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
+                    .AddTitle(Strings.HuntMarks_Status)
                     .BeginTable(0.60f)
                     .AddRows(Settings.TrackedHunts.Where(row => row.Tracked))
                     .EndTable()
@@ -112,8 +112,8 @@ internal class HuntMarksDaily : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
-                    .AddString(Strings.Module.HuntMarks.NoHuntsTracked, Colors.Orange)
+                    .AddTitle(Strings.HuntMarks_Status)
+                    .AddString(Strings.HuntMarks_NothingTracked, Colors.Orange)
                     .Draw();
             }
             
@@ -174,7 +174,7 @@ internal class HuntMarksDaily : IModule
             }
         }
 
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Module.HuntMarks.HuntsRemaining}";
+        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.HuntMarks_Remaining}";
 
         public DateTime GetNextReset() => Time.NextDailyReset();
 
@@ -202,7 +202,7 @@ internal class HuntMarksDaily : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.HuntMarks.DailyLabel;
+        public string GetShortTaskLabel() => Strings.HuntMarks_DailyLabel;
 
         public string GetLongTaskLabel()
         {
@@ -211,7 +211,7 @@ internal class HuntMarksDaily : IModule
                 .Select(hunt => hunt.HuntType.GetLabel())
                 .ToList();
 
-            return strings.Any() ? string.Join("\n", strings) : Strings.Module.HuntMarks.DailyLabel;
+            return strings.Any() ? string.Join("\n", strings) : Strings.HuntMarks_DailyLabel;
         }
     }
 

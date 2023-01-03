@@ -15,7 +15,7 @@ internal class TimersStyleWindow : Window
     private TimerSettings Settings { get; set; }
     private IModule OwnerModule { get; }
 
-    public TimersStyleWindow(IModule owner) : base($"{Strings.UserInterface.Timers.EditTimerTitle} - {owner.Name.GetTranslatedString()}")
+    public TimersStyleWindow(IModule owner) : base($"{Strings.Timers_EditTimerStyle} - {owner.Name.GetTranslatedString()}")
     {
         OwnerModule = owner;
         Settings = owner.GenericSettings.TimerSettings;
@@ -43,43 +43,43 @@ internal class TimersStyleWindow : Window
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.TimeDisplay, out var innerWidth)
+            .AddTitle(Strings.Timers_TimeOptions, out var innerWidth)
             .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: innerWidth)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.Name)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.EnableCustomName, Settings.UseCustomName)
+            .AddTitle(Strings.Timers_DisplayName)
+            .AddConfigCheckbox(Strings.Timers_EnableCustomName, Settings.UseCustomName)
             .AddConfigString(Settings.CustomName, innerWidth)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.TextOptions)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.HideLabel, Settings.HideLabel)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.HideTime, Settings.HideTime)
+            .AddTitle(Strings.Timers_TextOptions)
+            .AddConfigCheckbox(Strings.Timers_HideLabel, Settings.HideLabel)
+            .AddConfigCheckbox(Strings.Timers_HideTime, Settings.HideTime)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.ColorOptions)
-            .AddConfigColor(Strings.UserInterface.Timers.Background, Strings.Common.Default, Settings.BackgroundColor, Colors.Black)
-            .AddConfigColor(Strings.UserInterface.Timers.Foreground, Strings.Common.Default, Settings.ForegroundColor, Colors.Purple)
-            .AddConfigColor(Strings.UserInterface.Timers.Text, Strings.Common.Default, Settings.TextColor, Colors.White)
-            .AddConfigColor(Strings.UserInterface.Timers.Time, Strings.Common.Default, Settings.TimeColor, Colors.White)
+            .AddTitle(Strings.Timers_ColorOptions)
+            .AddConfigColor(Strings.Common_Background, Strings.Common_Default, Settings.BackgroundColor, Colors.Black)
+            .AddConfigColor(Strings.Common_Foreground, Strings.Common_Default, Settings.ForegroundColor, Colors.Purple)
+            .AddConfigColor(Strings.Common_Text, Strings.Common_Default, Settings.TextColor, Colors.White)
+            .AddConfigColor(Strings.Timers_Label, Strings.Common_Default, Settings.TimeColor, Colors.White)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.SizeOptions, out var innerWidth2)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.StretchToFit, Settings.StretchToFit)
-            .AddSliderInt(Strings.UserInterface.Timers.Size, Settings.Size, 10, 500, innerWidth2 / 2.0f)
+            .AddTitle(Strings.Timers_SizeOptions, out var innerWidth2)
+            .AddConfigCheckbox(Strings.Timers_StretchToFit, Settings.StretchToFit)
+            .AddSliderInt(Strings.Timers_Size, Settings.Size, 10, 500, innerWidth2 / 2.0f)
             .Draw();
         
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.Reset, out var innerWidth3)
-            .AddDisabledButton(Strings.UserInterface.Timers.Reset, () => { 
+            .AddTitle(Strings.Common_Reset, out var innerWidth3)
+            .AddDisabledButton(Strings.Common_Reset, () => { 
                 OwnerModule.GenericSettings.TimerSettings = new TimerSettings();
                 Settings = OwnerModule.GenericSettings.TimerSettings;
                 Service.ConfigurationManager.Save();
-            }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth3)
+            }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth3)
             .Draw();
     }
 

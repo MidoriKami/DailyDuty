@@ -62,9 +62,9 @@ internal class JumboCactpot : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.JumboCactpot.ClickableLinkLabel)
-                .AddString(Strings.Module.JumboCactpot.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.GoldSaucer_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -89,24 +89,24 @@ internal class JumboCactpot : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.JumboCactpot.Tickets)
-                .AddString(Settings.Tickets.Count == 0 ? Strings.Module.JumboCactpot.NoTickets : ModuleLogicComponent.GetTicketsString())
+                .AddString(Strings.JumboCactpot_Tickets)
+                .AddString(Settings.Tickets.Count == 0 ? Strings.JumboCactpot_NoTickets : ModuleLogicComponent.GetTicketsString())
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.JumboCactpot.NextDrawing)
+                .AddTitle(Strings.JumboCactpot_NextDrawing)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.JumboCactpot.NextDrawing)
+                .AddString(Strings.JumboCactpot_NextDrawing)
                 .AddString(ModuleLogicComponent.GetNextJumboCactpot())
                 .EndRow()
                 .EndTable()
@@ -140,7 +140,7 @@ internal class JumboCactpot : IModule
             LotteryWeeklyAddon.Instance.ReceiveEvent -= OnReceiveEvent;
         }
 
-        public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.Module.JumboCactpot.TicketsAvailable}";
+        public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.JumboCactpot_TicketsAvailable}";
 
         public DateTime GetNextReset() => Time.NextJumboCactpotReset();
 
@@ -218,9 +218,9 @@ internal class JumboCactpot : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.JumboCactpot.Label;
+        public string GetShortTaskLabel() => Strings.JumboCactpot_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.JumboCactpot.Label;
+        public string GetLongTaskLabel() => Strings.JumboCactpot_Label;
     }
 
 

@@ -69,11 +69,11 @@ internal class ChallengeLog : IModule
         public void Draw()
         {
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .AddConfigCheckbox(Strings.Module.ChallengeLog.CommendationLabel, Settings.CommendationWarning)
-                .AddConfigCheckbox(Strings.Module.ChallengeLog.DungeonRouletteLabel, Settings.RouletteDungeonWarning)
-                .AddConfigCheckbox(Strings.Module.ChallengeLog.DungeonMasterLabel, Settings.DungeonWarning)
+                .AddTitle(Strings.Config_Options)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.Enabled)
+                .AddConfigCheckbox(Strings.ChallengeLog_CommendationLabel, Settings.CommendationWarning)
+                .AddConfigCheckbox(Strings.ChallengeLog_DungeonRouletteLabel, Settings.RouletteDungeonWarning)
+                .AddConfigCheckbox(Strings.ChallengeLog_DungeonMasterLabel, Settings.DungeonWarning)
                 .Draw();
         }
     }
@@ -94,18 +94,18 @@ internal class ChallengeLog : IModule
             InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.ChallengeLog.Battle)
+                .AddTitle(Strings.Common_Battle)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.ChallengeLog.Commendations)
+                .AddString(Strings.ChallengeLog_Commendation)
                 .AddString($"{Settings.Commendations} / 5", ModuleLogicComponent.CommendationStatus().GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.ChallengeLog.DungeonRoulette)
+                .AddString(Strings.ChallengeLog_DungeonRoulette)
                 .AddString($"{Settings.RouletteDungeons} / 3", ModuleLogicComponent.DungeonRouletteStatus().GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.ChallengeLog.DungeonMaster)
+                .AddString(Strings.ChallengeLog_DungeonMaster)
                 .AddString($"{Settings.DungeonMaster} / 5", ModuleLogicComponent.DungeonMasterStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
@@ -177,12 +177,12 @@ internal class ChallengeLog : IModule
 
             if (Settings.RouletteDungeonWarning && Settings.RouletteDungeons < 3)
             {
-                Chat.Print(Strings.Module.ChallengeLog.Label, $"{3 - Settings.RouletteDungeons} {Strings.Module.ChallengeLog.DungeonRoulettesRemaining}");
+                Chat.Print(Strings.ChallengeLog_Label, $"{3 - Settings.RouletteDungeons} {Strings.ChallengeLog_DungeonRoulettesRemaining}");
             }
 
             if (Settings.DungeonWarning && Settings.DungeonMaster < 5)
             {
-                Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.DungeonMaster} {Strings.Module.ChallengeLog.DungeonMasterRemaining}");
+                Chat.Print(Strings.ChallengeLog_Label, $"{5 - Settings.DungeonMaster} {Strings.ChallengeLog_DungeonMasterRemaining}");
             }
         }
 
@@ -257,7 +257,7 @@ internal class ChallengeLog : IModule
 
             if (Settings.CommendationWarning && Settings.Commendations < 5)
             {
-                Chat.Print(Strings.Module.ChallengeLog.Label, $"{5 - Settings.Commendations} {Strings.Module.ChallengeLog.CommendationsRemaining}");
+                Chat.Print(Strings.ChallengeLog_Label, $"{5 - Settings.Commendations} {Strings.ChallengeLog_CommendationsRemaining}");
             }
         }
 
@@ -346,9 +346,9 @@ internal class ChallengeLog : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.ChallengeLog.Label;
+        public string GetShortTaskLabel() => Strings.ChallengeLog_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.ChallengeLog.Label;
+        public string GetLongTaskLabel() => Strings.ChallengeLog_Label;
 
     }
 

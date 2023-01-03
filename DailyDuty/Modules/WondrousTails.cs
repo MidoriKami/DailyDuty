@@ -70,20 +70,20 @@ internal class WondrousTails : IModule
         public void Draw()
         {
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .AddConfigCheckbox(Strings.Module.WondrousTails.Overlay, Settings.OverlayEnabled)
-                .AddConfigCheckbox(Strings.Module.WondrousTails.DutyNotifications, Settings.InstanceNotifications)
+                .AddTitle(Strings.Config_Options)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.Enabled)
+                .AddConfigCheckbox(Strings.DutyFinder_Overlay, Settings.OverlayEnabled)
+                .AddConfigCheckbox(Strings.WondrousTails_DutyNotifications, Settings.InstanceNotifications)
                 .AddIndent(1)
-                .AddConfigCheckbox(Strings.Module.WondrousTails.ResendNotification, Settings.ResendOnCompletion)
+                .AddConfigCheckbox(Strings.WondrousTails_ResendNotification, Settings.ResendOnCompletion)
                 .AddIndent(-1)
-                .AddConfigCheckbox(Strings.Module.WondrousTails.UnclaimedBookNotifications, Settings.UnclaimedBookWarning)
+                .AddConfigCheckbox(Strings.WondrousTails_UnclaimedBookWarning, Settings.UnclaimedBookWarning)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.WondrousTails.ClickableLinkLabel)
-                .AddString(Strings.Module.WondrousTails.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.WondrousTails_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -108,14 +108,14 @@ internal class WondrousTails : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.WondrousTails.Stamps)
+                .AddString(Strings.Common_Stamps)
                 .AddString($"{WondrousTailsBook.Instance.Stickers} / 9", logicModule.GetModuleStatus().GetStatusColor())
                 .EndRow()
                 .EndTable()
@@ -189,7 +189,7 @@ internal class WondrousTails : IModule
             
             if (Settings.UnclaimedBookWarning && WondrousTailsBook.Instance.NewBookAvailable)
             {
-                return Strings.Module.WondrousTails.BookAvailable;
+                return Strings.WondrousTails_BookAvailable;
             }
 
             return string.Empty;
@@ -231,16 +231,16 @@ internal class WondrousTails : IModule
             switch (buttonState)
             {
                 case ButtonState.Unavailable when WondrousTailsBook.Instance.Stickers > 0:
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableMessage);
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.UnavailableRerollMessage.Format(WondrousTailsBook.Instance.SecondChance), Settings.EnableClickableLink ? DalamudLinkPayload : null);
+                    Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_RerollNotice);
+                    Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_RerollCount.Format(WondrousTailsBook.Instance.SecondChance), Settings.EnableClickableLink ? DalamudLinkPayload : null);
                     break;
 
                 case ButtonState.AvailableNow:
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.AvailableMessage, Settings.EnableClickableLink ? DalamudLinkPayload : null);
+                    Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_AlreadyAvailable, Settings.EnableClickableLink ? DalamudLinkPayload : null);
                     break;
 
                 case ButtonState.Completable:
-                    Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.CompletableMessage);
+                    Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_Completable);
                     break;
 
                 case ButtonState.Unknown:
@@ -264,7 +264,7 @@ internal class WondrousTails : IModule
 
             if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
             {
-                Chat.Print(Strings.Module.WondrousTails.Label, Strings.Module.WondrousTails.ClaimableMessage, Settings.EnableClickableLink ? DalamudLinkPayload : null);
+                Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_Claimable, Settings.EnableClickableLink ? DalamudLinkPayload : null);
             }
         }
     }
@@ -280,9 +280,9 @@ internal class WondrousTails : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.WondrousTails.Label;
+        public string GetShortTaskLabel() => Strings.WondrousTails_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.WondrousTails.Label;
+        public string GetLongTaskLabel() => Strings.WondrousTails_Label;
     }
 
 

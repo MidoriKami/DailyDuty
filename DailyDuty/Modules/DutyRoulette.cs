@@ -88,29 +88,29 @@ internal class DutyRoulette : IModule
         public void Draw()
         {
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.Options)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-                .AddConfigCheckbox(Strings.Module.DutyRoulette.HideExpertWhenCapped, Settings.HideExpertWhenCapped, Strings.Module.DutyRoulette.HideExpertHelp)
-                .AddConfigCheckbox(Strings.Module.DutyRoulette.CompleteWhenCapped, Settings.CompleteWhenCapped, Strings.Module.DutyRoulette.CompleteWhenCappedHelp)
+                .AddTitle(Strings.Config_Options)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.Enabled)
+                .AddConfigCheckbox(Strings.DutyRoulette_ExpertFeature, Settings.HideExpertWhenCapped, Strings.DutyRoulette_ExpertFeature_Info)
+                .AddConfigCheckbox(Strings.DutyRoulette_CompleteWhenCapped, Settings.CompleteWhenCapped, Strings.DutyRoulette_CompleteWhenCapped_Info)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.DutyRoulette.Overlay)
-                .AddConfigCheckbox(Strings.Module.DutyRoulette.Overlay, Settings.OverlayEnabled)
-                .AddConfigColor(Strings.Module.DutyRoulette.DutyComplete, Strings.Common.Default, Settings.CompleteColor, Colors.Green)
-                .AddConfigColor(Strings.Module.DutyRoulette.DutyIncomplete, Strings.Common.Default, Settings.IncompleteColor, Colors.Red)
-                .AddConfigColor(Strings.Module.DutyRoulette.Override, Strings.Common.Default, Settings.OverrideColor, Colors.Orange)
+                .AddTitle(Strings.DutyFinder_Overlay)
+                .AddConfigCheckbox(Strings.DutyFinder_Overlay, Settings.OverlayEnabled)
+                .AddConfigColor(Strings.DutyRoulette_DutyComplete, Strings.Common_Default, Settings.CompleteColor, Colors.Green)
+                .AddConfigColor(Strings.DutyRoulette_DutyIncomplete, Strings.Common_Default, Settings.IncompleteColor, Colors.Red)
+                .AddConfigColor(Strings.DutyRoulette_Override, Strings.Common_Default, Settings.OverrideColor, Colors.Orange)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.DutyRoulette.RouletteSelection)
+                .AddTitle(Strings.DutyRoulette_RouletteSelection)
                 .AddList(Settings.TrackedRoulettes)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.DutyRoulette.ClickableLinkLabel)
-                .AddString(Strings.Module.DutyRoulette.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.DutyFinder_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -138,7 +138,7 @@ internal class DutyRoulette : IModule
             if (Settings.TrackedRoulettes.Any(roulette => roulette.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
+                    .AddTitle(Strings.DutyRoulette_Status)
                     .BeginTable()
                     .AddRows(Settings.TrackedRoulettes.Where(row => row.Tracked))
                     .EndTable()
@@ -147,18 +147,18 @@ internal class DutyRoulette : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.DutyRoulette.RouletteStatus)
-                    .AddString(Strings.Module.DutyRoulette.NoRoulettesTracked, Colors.Orange)
+                    .AddTitle(Strings.DutyRoulette_Status)
+                    .AddString(Strings.DutyRoulette_NothingTracked, Colors.Orange)
                     .Draw();
             }
 
             if (Settings.HideExpertWhenCapped || Settings.CompleteWhenCapped)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.DutyRoulette.ExpertTomestones)
+                    .AddTitle(Strings.DutyRoulette_ExpertTomestones)
                     .BeginTable()
                     .BeginRow()
-                    .AddString(Strings.Module.DutyRoulette.ExpertTomestones)
+                    .AddString(Strings.DutyRoulette_ExpertTomestones)
                     .AddString($"{logicModule.GetCurrentLimitedTomestoneCount()} / {logicModule.CurrentLimitedTomestoneWeeklyCap}", logicModule.HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
                     .EndRow()
                     .EndTable()
@@ -208,7 +208,7 @@ internal class DutyRoulette : IModule
 
         public string GetStatusMessage()
         {
-            return $"{RemainingRoulettesCount()} {Strings.Module.DutyRoulette.Remaining}";
+            return $"{RemainingRoulettesCount()} {Strings.DutyRoulette_Remaining}";
         }
 
         public DateTime GetNextReset() => Time.NextDailyReset();
@@ -306,7 +306,7 @@ internal class DutyRoulette : IModule
         public CompletionType CompletionType => CompletionType.Daily;
         public bool HasLongLabel => true;
 
-        public string GetShortTaskLabel() => Strings.Module.DutyRoulette.Label;
+        public string GetShortTaskLabel() => Strings.DutyRoulette_Label;
 
         public string GetLongTaskLabel()
         {
@@ -315,7 +315,7 @@ internal class DutyRoulette : IModule
                 .Select(roulette => roulette.Roulette.GetTranslatedString())
                 .ToList();
 
-            return incompleteTasks.Any() ? string.Join("\n", incompleteTasks) : Strings.Module.DutyRoulette.Label;
+            return incompleteTasks.Any() ? string.Join("\n", incompleteTasks) : Strings.DutyRoulette_Label;
         }
     }
 

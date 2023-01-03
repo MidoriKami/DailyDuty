@@ -96,7 +96,7 @@ internal class RaidsAlliance : IModule
             if (Settings.TrackedRaids is { } trackedRaids)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.Raids.TrackedNormalRaids)
+                    .AddTitle(Strings.Raids_TrackedRaids)
                     .BeginTable(0.70f)
                     .AddRows(trackedRaids.OfType<IInfoBoxTableConfigurationRow>())
                     .EndTable()
@@ -104,15 +104,15 @@ internal class RaidsAlliance : IModule
             }
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.Raids.Regenerate, out var innerWidth)
-                .AddString(Strings.Module.Raids.RegenerateHelp, Colors.Orange)
-                .AddDisabledButton(Strings.Module.Raids.Regenerate, RegenerateTrackedRaids, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
+                .AddTitle(Strings.Raids_Regenerate, out var innerWidth)
+                .AddString(Strings.Raids_Regenerate_Info, Colors.Orange)
+                .AddDisabledButton(Strings.Raids_Regenerate, RegenerateTrackedRaids, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.Raids.ClickableLinkLabel)
-                .AddString(Strings.Module.Raids.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.DutyFinder_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -137,7 +137,7 @@ internal class RaidsAlliance : IModule
             if (Settings.TrackedRaids.Any(raid => raid.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Common.Target)
+                    .AddTitle(Strings.Common_Target)
                     .BeginTable(0.70f)
                     .AddRows(Settings.TrackedRaids
                         .Where(raid => raid.Tracked)
@@ -148,8 +148,8 @@ internal class RaidsAlliance : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Common.Target)
-                    .AddString(Strings.Module.Raids.NoRaidsTracked, Colors.Orange)
+                    .AddTitle(Strings.Common_Target)
+                    .AddString(Strings.Raids_NothingTracked, Colors.Orange)
                     .Draw();
             }
             
@@ -239,7 +239,7 @@ internal class RaidsAlliance : IModule
             AgentContentsFinder.Instance()->OpenRegularDuty(GetFirstMissingRaid());
         }
 
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Module.Raids.RaidRemaining}";
+        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Raids_RaidRemaining}";
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -284,9 +284,9 @@ internal class RaidsAlliance : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.Raids.AllianceLabel;
+        public string GetShortTaskLabel() => Strings.Raids_AllianceLabel;
 
-        public string GetLongTaskLabel() => Strings.Module.Raids.AllianceLabel;
+        public string GetLongTaskLabel() => Strings.Raids_AllianceLabel;
     }
 
 

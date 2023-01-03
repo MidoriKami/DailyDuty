@@ -73,7 +73,7 @@ internal class GrandCompanySupply : IModule
             InfoBox.Instance.DrawGenericSettings(this);
             
             InfoBox.Instance
-                .AddTitle(Strings.Module.GrandCompany.TrackedJobs)
+                .AddTitle(Strings.GrandCompany_Tracked)
                 .AddList(Settings.TrackedSupply)
                 .Draw();
 
@@ -99,7 +99,7 @@ internal class GrandCompanySupply : IModule
             if (Settings.TrackedSupply.Any(row => row.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status.ModuleStatus)
+                    .AddTitle(Strings.Status_ModuleStatus)
                     .BeginTable()
                     .AddRows(Settings.TrackedSupply.Where(row => row.Tracked))
                     .EndTable()
@@ -108,16 +108,16 @@ internal class GrandCompanySupply : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status.ModuleStatus)
-                    .AddString(Strings.Module.GrandCompany.NoJobsTracked, Colors.Orange)
+                    .AddTitle(Strings.Status_ModuleStatus)
+                    .AddString(Strings.GrandCompany_NothingTracked, Colors.Orange)
                     .Draw();
             }
             
             InfoBox.Instance
-                .AddTitle(Strings.Module.GrandCompany.NextReset)
+                .AddTitle(Strings.Common_NextReset)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.GrandCompany.NextReset)
+                .AddString(Strings.Common_NextReset)
                 .AddString(ModuleLogicComponent.GetNextGrandCompanyReset())
                 .EndRow()
                 .EndTable()
@@ -169,7 +169,7 @@ internal class GrandCompanySupply : IModule
             }
         }
 
-        public string GetStatusMessage() => $"{GetIncompleteJobs()} {Strings.Module.GrandCompany.SupplyNotification}";
+        public string GetStatusMessage() => $"{GetIncompleteJobs()} {Strings.Common_AllowancesAvailable}";
 
         public DateTime GetNextReset() => Time.NextGrandCompanyReset();
 
@@ -209,9 +209,9 @@ internal class GrandCompanySupply : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.GrandCompany.SupplyLabel;
+        public string GetShortTaskLabel() => Strings.GrandCompany_SupplyLabel;
 
-        public string GetLongTaskLabel() => Strings.Module.GrandCompany.SupplyLabel;
+        public string GetLongTaskLabel() => Strings.GrandCompany_SupplyLabel;
     }
 
     private class ModuleTimerComponent : ITimerComponent

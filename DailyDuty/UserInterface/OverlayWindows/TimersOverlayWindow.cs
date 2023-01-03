@@ -69,7 +69,7 @@ internal class TimersOverlayWindow : Window
     {
         if (trackedTasks.Count == 0)
         {
-            ImGui.TextColored(Colors.Orange, Strings.UserInterface.Timers.NoTimersEnabledWarning);
+            ImGui.TextColored(Colors.Orange, Strings.Timers_NothingEnabled);
         }
         else
         {
@@ -196,9 +196,9 @@ internal class TimersOverlayWindow : Window
             }
             else
             {
-                var timeTextSize = ImGui.CalcTextSize(Strings.UserInterface.Timers.AvailableNow);
+                var timeTextSize = ImGui.CalcTextSize(Strings.Common_AvailableNow);
                 ImGui.SetCursorPos(cursorStart with {X = cursorStart.X + timerSettings.Size.Value - 5.0f - timeTextSize.X});
-                ImGui.TextColored(timerSettings.TimeColor.Value, Strings.UserInterface.Timers.AvailableNow);
+                ImGui.TextColored(timerSettings.TimeColor.Value, Strings.Common_AvailableNow);
             }
         }
     }

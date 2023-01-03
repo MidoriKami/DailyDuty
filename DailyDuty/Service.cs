@@ -21,5 +21,4 @@ internal class Service
     public static ConfigurationManager ConfigurationManager = null!;
     public static ChatManager ChatManager = null!;
     public static ResetManager ResetManager = null!;
-    public static LocalizationManager Localization = null!;
 }

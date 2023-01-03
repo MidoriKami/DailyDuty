@@ -71,14 +71,14 @@ internal class MaskedCarnivale : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.GrandCompany.TrackedJobs)
+                .AddTitle(Strings.GrandCompany_Tracked)
                 .AddList(Settings.TrackedTasks)
                 .Draw();
             
             InfoBox.Instance
-                .AddTitle(Strings.Module.MaskedCarnivale.ClickableLinkLabel)
-                .AddString(Strings.Module.MaskedCarnivale.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.UlDah_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
             
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -103,10 +103,10 @@ internal class MaskedCarnivale : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .EndTable()
@@ -115,7 +115,7 @@ internal class MaskedCarnivale : IModule
             if (Settings.TrackedTasks.Any(row => row.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status.ModuleStatus)
+                    .AddTitle(Strings.Status_ModuleStatus)
                     .BeginTable()
                     .AddRows(Settings.TrackedTasks.Where(row => row.Tracked))
                     .EndTable()
@@ -124,8 +124,8 @@ internal class MaskedCarnivale : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status.ModuleStatus)
-                    .AddString(Strings.Module.MaskedCarnivale.NoTasksTracked, Colors.Orange)
+                    .AddTitle(Strings.Status_ModuleStatus)
+                    .AddString(Strings.MaskedCarnivale_NothingTracked, Colors.Orange)
                     .Draw();
             }
             
@@ -204,7 +204,7 @@ internal class MaskedCarnivale : IModule
             }
         }
         
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Module.MaskedCarnivale.AllowancesRemaining}";
+        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Common_AllowancesRemaining}";
         
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -244,9 +244,9 @@ internal class MaskedCarnivale : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.MaskedCarnivale.Label;
+        public string GetShortTaskLabel() => Strings.MaskedCarnivale_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.MaskedCarnivale.Label;
+        public string GetLongTaskLabel() => Strings.MaskedCarnivale_Label;
     }
 
     private class ModuleTimerComponent : ITimerComponent

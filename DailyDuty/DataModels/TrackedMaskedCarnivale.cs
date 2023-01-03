@@ -21,7 +21,7 @@ public record TrackedMaskedCarnivale(CarnivaleTask Task, Setting<bool> Tracked, 
         owner
             .BeginRow()
             .AddString(Task.GetTranslatedString())
-            .AddString(State ? Strings.Common.Complete : Strings.Common.Incomplete, State ? Colors.Green : Colors.Orange)
+            .AddString(State ? Strings.Common_Complete : Strings.Common_Incomplete, State ? Colors.Green : Colors.Orange)
             .EndRow();
     }
 
@@ -39,9 +39,9 @@ public static class CarnivaleTaskExtensions
     {
         return task switch
         {
-            CarnivaleTask.Novice => Strings.Module.MaskedCarnivale.Novice,
-            CarnivaleTask.Moderate => Strings.Module.MaskedCarnivale.Moderate,
-            CarnivaleTask.Advanced => Strings.Module.MaskedCarnivale.Advanced,
+            CarnivaleTask.Novice => Strings.MaskedCarnivale_Novice,
+            CarnivaleTask.Moderate => Strings.MaskedCarnivale_Moderate,
+            CarnivaleTask.Advanced => Strings.MaskedCarnivale_Advanced,
             _ => throw new ArgumentOutOfRangeException(nameof(task), task, null)
         };
     }

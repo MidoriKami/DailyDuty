@@ -32,7 +32,7 @@ public record TrackedRaid(DutyInformation Duty, Setting<bool> Tracked, Setting<i
         owner
             .BeginRow()
             .AddConfigCheckbox(Duty.Name, Tracked)
-            .AddInputInt(Strings.Module.Raids.Drops + $"##{Duty.Name}", NumItems, 0, 10, 0, 0, 30.0f)
+            .AddInputInt(Strings.Common_Drops + $"##{Duty.Name}", NumItems, 0, 10, 0, 0, 30.0f)
             .EndRow();
     }
 

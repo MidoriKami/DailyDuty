@@ -81,20 +81,20 @@ public static class HuntMarkTypeExtensions
             case HuntMarkType.StormbloodLevelOne:
             case HuntMarkType.ShadowbringersLevelOne:
             case HuntMarkType.EndwalkerLevelOne:
-                return Strings.Module.HuntMarks.LevelOne;
+                return Strings.HuntMarks_LevelOne;
 
             case HuntMarkType.ShadowbringersLevelTwo:
             case HuntMarkType.EndwalkerLevelTwo:
             case HuntMarkType.HeavenswardLevelTwo:
             case HuntMarkType.StormbloodLevelTwo:
-                return Strings.Module.HuntMarks.LevelTwo;
+                return Strings.HuntMarks_LevelTwo;
 
 
             case HuntMarkType.StormbloodLevelThree:
             case HuntMarkType.ShadowbringersLevelThree:
             case HuntMarkType.EndwalkerLevelThree:
             case HuntMarkType.HeavenswardLevelThree:
-                return Strings.Module.HuntMarks.LevelThree;
+                return Strings.HuntMarks_LevelThree;
 
 
             case HuntMarkType.HeavenswardElite:
@@ -102,7 +102,7 @@ public static class HuntMarkTypeExtensions
             case HuntMarkType.EndwalkerElite:
             case HuntMarkType.ShadowbringersElite:
             case HuntMarkType.RealmRebornElite:
-                return Strings.Module.HuntMarks.Elite;
+                return Strings.HuntMarks_Elite;
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(type), type, null);

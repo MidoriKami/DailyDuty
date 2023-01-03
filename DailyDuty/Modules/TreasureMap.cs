@@ -83,15 +83,14 @@ internal class TreasureMap : IModule
 
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
             InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.TreasureMap.NextMap)
+                .AddTitle(Strings.TreasureMap_NextMap)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.TreasureMap.NextMap)
+                .AddString(Strings.TreasureMap_NextMap)
                 .AddString(ModuleLogicComponent.GetNextTreasureMap())
                 .EndRow()
                 .EndTable()
@@ -130,7 +129,7 @@ internal class TreasureMap : IModule
             Service.Framework.Update -= OnFrameworkUpdate;
         }
 
-        public string GetStatusMessage() => Strings.Module.TreasureMap.MapAvailable;
+        public string GetStatusMessage() => Strings.TreasureMap_MapAvailable;
 
         public DateTime GetNextReset() => Time.NextDailyReset();
 
@@ -182,7 +181,7 @@ internal class TreasureMap : IModule
 
             if (span == TimeSpan.Zero)
             {
-                return Strings.Module.TreasureMap.MapAvailable;
+                return Strings.TreasureMap_MapAvailable;
             }
 
             return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
@@ -229,9 +228,9 @@ internal class TreasureMap : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.TreasureMap.Label;
+        public string GetShortTaskLabel() => Strings.TreasureMap_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.TreasureMap.Label;
+        public string GetLongTaskLabel() => Strings.TreasureMap_Label;
     }
 
 

@@ -47,10 +47,10 @@ public static class WindowAnchorExtensions
     {
         return anchor switch
         {
-            WindowAnchor.TopLeft => Strings.Common.TopLeft,
-            WindowAnchor.TopRight => Strings.Common.TopRight,
-            WindowAnchor.BottomLeft => Strings.Common.BottomLeft,
-            WindowAnchor.BottomRight => Strings.Common.BottomRight,
+            WindowAnchor.TopLeft => Strings.Common_TopLeft,
+            WindowAnchor.TopRight => Strings.Common_TopRight,
+            WindowAnchor.BottomLeft => Strings.Common_BottomLeft,
+            WindowAnchor.BottomRight => Strings.Common_BottomRight,
             _ => throw new ArgumentOutOfRangeException(nameof(anchor), anchor, null)
         };
     }

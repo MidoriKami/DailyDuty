@@ -18,11 +18,11 @@ public static class ExpansionExtensions
     {
         return value switch
         {
-            HuntExpansion.RealmReborn => Strings.Common.Expansion.RealmReborn,
-            HuntExpansion.Heavensward => Strings.Common.Expansion.Heavensward,
-            HuntExpansion.Stormblood => Strings.Common.Expansion.Stormblood,
-            HuntExpansion.Shadowbringers => Strings.Common.Expansion.Shadowbringers,
-            HuntExpansion.Endwalker => Strings.Common.Expansion.Endwalker,
+            HuntExpansion.RealmReborn => Strings.Expansion_RealmReborn,
+            HuntExpansion.Heavensward => Strings.Expansion_Heavensward,
+            HuntExpansion.Stormblood => Strings.Expansion_Stormblood,
+            HuntExpansion.Shadowbringers => Strings.Expansion_Stormblood,
+            HuntExpansion.Endwalker => Strings.Expansion_Endwalker,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

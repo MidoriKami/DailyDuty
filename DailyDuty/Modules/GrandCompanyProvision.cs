@@ -68,7 +68,7 @@ internal class GrandCompanyProvision : IModule
             InfoBox.Instance.DrawGenericSettings(this);
             
             InfoBox.Instance
-                .AddTitle(Strings.Module.GrandCompany.TrackedJobs)
+                .AddTitle(Strings.GrandCompany_Tracked)
                 .AddList(Settings.TrackedProvision)
                 .Draw();
 
@@ -94,7 +94,7 @@ internal class GrandCompanyProvision : IModule
             if (Settings.TrackedProvision.Any(row => row.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status.ModuleStatus)
+                    .AddTitle(Strings.Status_ModuleStatus)
                     .BeginTable()
                     .AddRows(Settings.TrackedProvision.Where(row => row.Tracked))
                     .EndTable()
@@ -103,16 +103,16 @@ internal class GrandCompanyProvision : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status.ModuleStatus)
-                    .AddString(Strings.Module.GrandCompany.NoJobsTracked, Colors.Orange)
+                    .AddTitle(Strings.Status_ModuleStatus)
+                    .AddString(Strings.GrandCompany_NothingTracked, Colors.Orange)
                     .Draw();
             }
             
             InfoBox.Instance
-                .AddTitle(Strings.Module.GrandCompany.NextReset)
+                .AddTitle(Strings.Common_NextReset)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.GrandCompany.NextReset)
+                .AddString(Strings.Common_NextReset)
                 .AddString(ModuleLogicComponent.GetNextGrandCompanyReset())
                 .EndRow()
                 .EndTable()
@@ -164,7 +164,7 @@ internal class GrandCompanyProvision : IModule
             }
         }
 
-        public string GetStatusMessage() => $"{GetIncompleteJobs()} {Strings.Module.GrandCompany.ProvisionNotification}";
+        public string GetStatusMessage() => $"{GetIncompleteJobs()} {Strings.Common_AllowancesAvailable}";
 
         public DateTime GetNextReset() => Time.NextGrandCompanyReset();
 
@@ -204,9 +204,9 @@ internal class GrandCompanyProvision : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.GrandCompany.ProvisioningLabel;
+        public string GetShortTaskLabel() => Strings.GrandCompany_ProvisioningLabel;
 
-        public string GetLongTaskLabel() => Strings.Module.GrandCompany.ProvisioningLabel;
+        public string GetLongTaskLabel() => Strings.GrandCompany_ProvisioningLabel;
     }
 
     private class ModuleTimerComponent : ITimerComponent

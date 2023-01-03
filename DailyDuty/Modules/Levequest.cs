@@ -61,11 +61,11 @@ internal class Levequest : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.MarkCompleteWhen, out var innerWidth)
+                .AddTitle(Strings.Config_MarkCompleteWhen, out var innerWidth)
                 .BeginTable()
                 .BeginRow()
                 .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
-                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 100, innerWidth / 4.0f)
+                .AddSliderInt(Strings.Common_Allowances, Settings.NotificationThreshold, 0, 100, innerWidth / 4.0f)
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -93,28 +93,28 @@ internal class Levequest : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Common.Allowances)
+                .AddString(Strings.Common_Allowances)
                 .AddString(logicModule.GetRemainingAllowances().ToString())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.Levequest.Accepted)
+                .AddString(Strings.Common_Accepted)
                 .AddString(logicModule.GetAcceptedLeves().ToString())
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.Levequest.NextAllowance)
+                .AddTitle(Strings.Levequest_NextAllowance)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.Levequest.NextAllowance)
+                .AddString(Strings.Levequest_NextAllowance)
                 .AddString(logicModule.GetNextLeviquest())
                 .EndRow()
                 .EndTable()
@@ -145,7 +145,7 @@ internal class Levequest : IModule
 
         }
 
-        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.Levequest.AllowancesRemaining}";
+        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
 
         public DateTime GetNextReset() => Time.NextLeveAllowanceReset();
 
@@ -191,9 +191,9 @@ internal class Levequest : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.Levequest.Label;
+        public string GetShortTaskLabel() => Strings.Levequest_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.Levequest.Label;
+        public string GetLongTaskLabel() => Strings.Levequest_Label;
     }
 
 

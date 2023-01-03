@@ -17,7 +17,7 @@ namespace DailyDuty.UserInterface.Windows;
 
 internal class StatusWindow : SelectionWindow, IDisposable
 {
-    public StatusWindow() : base($"DailyDuty {Strings.Status.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 45.0f)
+    public StatusWindow() : base($"DailyDuty {Strings.Status_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 45.0f)
     {
         KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<StatusWindow>("status"));
         
@@ -35,7 +35,7 @@ internal class StatusWindow : SelectionWindow, IDisposable
 
     private void UpdateWindowTitle(object? sender, CharacterConfiguration e)
     {
-        WindowName = $"DailyDuty {Strings.Status.Label} - {e.CharacterData.Name}###DailyDutyStatusWindow";
+        WindowName = $"DailyDuty {Strings.Status_Label} - {e.CharacterData.Name}###DailyDutyStatusWindow";
     }
 
     public void Dispose()
@@ -78,7 +78,7 @@ internal class StatusWindow : SelectionWindow, IDisposable
         
         var region = ImGui.GetContentRegionAvail();
 
-        var label = config.HideDisabledModulesInSelectWindow ? Strings.Configuration.ShowDisabled : Strings.Configuration.HideDisabled;
+        var label = config.HideDisabledModulesInSelectWindow ? Strings.Config_ShowDisabled : Strings.Config_HideDisabled;
 
         if (ImGui.Button(label, region with { Y = 23.0f * ImGuiHelpers.GlobalScale }))
         {

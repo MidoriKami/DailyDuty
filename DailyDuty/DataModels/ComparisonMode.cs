@@ -16,9 +16,9 @@ public static class ComparisonModeExtensions
     {
         return mode switch
         {
-            ComparisonMode.LessThan => Strings.Common.LessThanLabel,
-            ComparisonMode.EqualTo => Strings.Common.EqualToLabel,
-            ComparisonMode.LessThanOrEqual => Strings.Common.LessThanOrEqualLabel,
+            ComparisonMode.LessThan => Strings.Common_LessThan,
+            ComparisonMode.EqualTo => Strings.Common_Equal,
+            ComparisonMode.LessThanOrEqual => Strings.Common_LessThanEqual,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
         };
     }

@@ -64,18 +64,18 @@ internal class FashionReport : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.FashionReport.CompletionCondition)
-                .AddConfigRadio(Strings.Module.FashionReport.ModeSingle, Settings.Mode, FashionReportMode.Single, Strings.Module.FashionReport.ModeSingleHelp)
+                .AddTitle(Strings.FashionReport_CompletionCondition)
+                .AddConfigRadio(Strings.Common_Single, Settings.Mode, FashionReportMode.Single, Strings.FashionReport_SingleMode_Info)
                 .SameLine(110.0f * ImGuiHelpers.GlobalScale)
-                .AddConfigRadio(Strings.Module.FashionReport.Mode80Plus, Settings.Mode, FashionReportMode.Plus80, Strings.Module.FashionReport.Mode80PlusHelp)
+                .AddConfigRadio(Strings.FashionReport_Mode80Plus, Settings.Mode, FashionReportMode.Plus80, Strings.FashionReport_80Mode_Info)
                 .SameLine(220.0f * ImGuiHelpers.GlobalScale)
-                .AddConfigRadio(Strings.Module.FashionReport.ModeAll, Settings.Mode, FashionReportMode.All, Strings.Module.FashionReport.ModeAllHelp)
+                .AddConfigRadio(Strings.Common_All, Settings.Mode, FashionReportMode.All, Strings.FashionReport_AllMode_Info)
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.FashionReport.ClickableLinkLabel)
-                .AddString(Strings.Module.FashionReport.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.GoldSaucer_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -100,29 +100,29 @@ internal class FashionReport : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.FashionReport.AllowancesAvailable)
+                .AddString(Strings.Common_AllowancesAvailable)
                 .AddString(Settings.AllowancesRemaining.ToString())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.FashionReport.HighestScore)
+                .AddString(Strings.FashionReport_HighestScore)
                 .AddString(Settings.HighestWeeklyScore.ToString())
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.FashionReport.ReportOpen)
+                .AddTitle(Strings.FashionReport_ReportOpen)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Module.FashionReport.ReportOpen)
-                .AddString(logicModule.FashionReportAvailable() ? Strings.Module.FashionReport.AvailableNow : ModuleLogicComponent.GetNextFashionReport(),
+                .AddString(Strings.FashionReport_ReportOpen)
+                .AddString(logicModule.FashionReportAvailable() ? Strings.Common_AvailableNow : ModuleLogicComponent.GetNextFashionReport(),
                     logicModule.FashionReportAvailable() ? Colors.Green : Colors.Orange)
                 .EndRow()
                 .EndTable()
@@ -196,10 +196,10 @@ internal class FashionReport : IModule
             {
                 case FashionReportMode.All:
                 case FashionReportMode.Single when Settings.AllowancesRemaining == 4:
-                    return $"{Settings.AllowancesRemaining} {Strings.Module.FashionReport.AllowancesAvailable}";
+                    return $"{Settings.AllowancesRemaining} {Strings.Common_AllowancesAvailable}";
 
                 case FashionReportMode.Plus80 when Settings.HighestWeeklyScore <= 80:
-                    return $"{Settings.HighestWeeklyScore} {Strings.Module.FashionReport.HighestScore}";
+                    return $"{Settings.HighestWeeklyScore} {Strings.FashionReport_HighestScore}";
 
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -265,9 +265,9 @@ internal class FashionReport : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.FashionReport.Label;
+        public string GetShortTaskLabel() => Strings.FashionReport_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.FashionReport.Label;
+        public string GetLongTaskLabel() => Strings.FashionReport_Label;
     }
 
 

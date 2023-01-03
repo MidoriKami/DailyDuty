@@ -64,9 +64,9 @@ internal class DomanEnclave : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.DomanEnclave.ClickableLinkLabel)
-                .AddString(Strings.Module.DomanEnclave.ClickableLink)
-                .AddConfigCheckbox(Strings.Module.DomanEnclave.ClickableLinkLabel, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.DomanEnclave_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_ClickableLink, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -91,18 +91,18 @@ internal class DomanEnclave : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.DomanEnclave.BudgetRemaining)
+                .AddString(Strings.DomanEnclave_BudgetRemaining)
                 .AddString(ModuleLogicComponent.GetRemainingBudget().ToString(), ModuleLogicComponent.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange)
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.DomanEnclave.CurrentAllowance)
+                .AddString(Strings.DomanEnclave_CurrentAllowance)
                 .AddString(Settings.WeeklyAllowance.ToString())
                 .EndRow()
                 .EndTable()
@@ -111,8 +111,8 @@ internal class DomanEnclave : IModule
             if (moduleStatus == ModuleStatus.Unknown)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.DomanEnclave.UnknownStatusLabel)
-                    .AddString(Strings.Module.DomanEnclave.UnknownStatus, Colors.Orange)
+                    .AddTitle(Strings.DomanEnclave_StatusUnknown)
+                    .AddString(Strings.DomanEnclave_StatusUnknown_Info, Colors.Orange)
                     .Draw();
             }
             
@@ -157,9 +157,9 @@ internal class DomanEnclave : IModule
 
         public string GetStatusMessage()
         {
-            if (GetModuleStatus() == ModuleStatus.Unknown) return Strings.Module.DomanEnclave.UnknownStatus;
+            if (GetModuleStatus() == ModuleStatus.Unknown) return Strings.DomanEnclave_StatusUnknown;
 
-            return $"{GetRemainingBudget()} {Strings.Module.DomanEnclave.GilRemaining}";
+            return $"{GetRemainingBudget()} {Strings.DomanEnclave_GilRemaining}";
         }
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
@@ -212,9 +212,9 @@ internal class DomanEnclave : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.DomanEnclave.Label;
+        public string GetShortTaskLabel() => Strings.DomanEnclave_Label;
 
-        public string GetLongTaskLabel()  => Strings.Module.DomanEnclave.Label;
+        public string GetLongTaskLabel()  => Strings.DomanEnclave_Label;
     }
 
 

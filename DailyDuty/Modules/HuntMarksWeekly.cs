@@ -70,7 +70,7 @@ internal class HuntMarksWeekly : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.HuntMarks.TrackedHunts)
+                .AddTitle(Strings.HuntMarks_Tracked)
                 .AddList(Settings.TrackedHunts)
                 .Draw();
 
@@ -96,7 +96,7 @@ internal class HuntMarksWeekly : IModule
             if (Settings.TrackedHunts.Any(hunt => hunt.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
+                    .AddTitle(Strings.HuntMarks_Status)
                     .BeginTable()
                     .AddRows(Settings.TrackedHunts.Where(row => row.Tracked))
                     .EndTable()
@@ -105,24 +105,24 @@ internal class HuntMarksWeekly : IModule
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Module.HuntMarks.TrackedHuntsStatus)
-                    .AddString(Strings.Module.HuntMarks.NoHuntsTracked, Colors.Orange)
+                    .AddTitle(Strings.HuntMarks_Status)
+                    .AddString(Strings.HuntMarks_NothingTracked, Colors.Orange)
                     .Draw();
             }
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.HuntMarks.ForceComplete, out var innerWidth)
-                .AddString(Strings.Module.HuntMarks.ForceCompleteHelp, Colors.Orange)
+                .AddTitle(Strings.HuntMarks_ForceComplete, out var innerWidth)
+                .AddString(Strings.HuntMarks_ForceComplete_Info, Colors.Orange)
                 .AddDummy(20.0f)
-                .AddStringCentered(Strings.Module.HuntMarks.NoUndo, Colors.Orange)
-                .AddDisabledButton(Strings.UserInterface.Timers.Reset, () => 
+                .AddStringCentered(Strings.HuntMarks_ForceComplete_Warning, innerWidth, Colors.Orange)
+                .AddDisabledButton(Strings.Common_Reset, () => 
                 { 
                     foreach (var element in Settings.TrackedHunts)
                     {
                         element.State = TrackedHuntState.Killed;
                     }
                     Service.ConfigurationManager.Save();
-                }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.Module.Raids.RegenerateTooltip, innerWidth)
+                }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
                 .Draw();
             
             InfoBox.Instance.DrawSuppressionOption(this);
@@ -159,7 +159,7 @@ internal class HuntMarksWeekly : IModule
             }
         }
 
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Module.HuntMarks.HuntsRemaining}";
+        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.HuntMarks_Remaining}";
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -213,7 +213,7 @@ internal class HuntMarksWeekly : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.HuntMarks.WeeklyLabel;
+        public string GetShortTaskLabel() => Strings.HuntMarks_WeeklyLabel;
 
         public string GetLongTaskLabel()
         {
@@ -222,7 +222,7 @@ internal class HuntMarksWeekly : IModule
                 .Select(hunt => hunt.HuntType.GetLabel())
                 .ToList();
 
-            return strings.Any() ? string.Join("\n", strings) : Strings.Module.HuntMarks.WeeklyLabel;
+            return strings.Any() ? string.Join("\n", strings) : Strings.HuntMarks_WeeklyLabel;
         }
     }
 

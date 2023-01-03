@@ -42,9 +42,9 @@ public static class TimerStyleExtensions
     {
         return style switch
         {
-            TimerStyle.Human => Strings.UserInterface.Timers.HumanStyle,
-            TimerStyle.Full => Strings.UserInterface.Timers.FullStyle,
-            TimerStyle.NoSeconds => Strings.UserInterface.Timers.NoSecondsStyle,
+            TimerStyle.Human => Strings.Timers_HumanStyle,
+            TimerStyle.Full => Strings.Timers_FullStyle,
+            TimerStyle.NoSeconds => Strings.Timers_NoSecondsStyle,
             _ => string.Empty
         };
     }

@@ -99,13 +99,13 @@ internal class TodoOverlayWindow : Window
 
         if (!dailyTasks.Any() && !Settings.ShowCategoryAsComplete) return;
 
-        ImGui.TextColored(Settings.TaskColors.HeaderColor.Value, Strings.UserInterface.Todo.DailyTasks);
+        ImGui.TextColored(Settings.TaskColors.HeaderColor.Value, Strings.Common_DailyTasks);
 
         ImGui.Indent(30.0f * ImGuiHelpers.GlobalScale);
 
         if (!dailyTasks.Any() && Settings.ShowCategoryAsComplete)
         {
-            ImGui.TextColored(Settings.TaskColors.CompleteColor.Value, Strings.UserInterface.Todo.AllTasksComplete);
+            ImGui.TextColored(Settings.TaskColors.CompleteColor.Value, Strings.Todo_AllCompleted);
         }
         else
         {
@@ -121,13 +121,13 @@ internal class TodoOverlayWindow : Window
 
         if (!weeklyTasks.Any() && !Settings.ShowCategoryAsComplete) return;
 
-        ImGui.TextColored(Settings.TaskColors.HeaderColor.Value, Strings.UserInterface.Todo.WeeklyTasks);
+        ImGui.TextColored(Settings.TaskColors.HeaderColor.Value, Strings.Common_WeeklyTasks);
 
         ImGui.Indent(30.0f * ImGuiHelpers.GlobalScale);
 
         if (!weeklyTasks.Any() && Settings.ShowCategoryAsComplete)
         {
-            ImGui.TextColored(Settings.TaskColors.CompleteColor.Value, Strings.UserInterface.Todo.AllTasksComplete);
+            ImGui.TextColored(Settings.TaskColors.CompleteColor.Value, Strings.Todo_AllCompleted);
         }
         else
         {

@@ -60,11 +60,11 @@ internal class CustomDelivery : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Configuration.MarkCompleteWhen, out var innerWidth)
+                .AddTitle(Strings.Config_MarkCompleteWhen, out var innerWidth)
                 .BeginTable()
                 .BeginRow()
                 .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
-                .AddSliderInt(Strings.Common.Allowances, Settings.NotificationThreshold, 0, 12, innerWidth / 4.0f)
+                .AddSliderInt(Strings.Common_Allowances, Settings.NotificationThreshold, 0, 12, innerWidth / 4.0f)
                 .EndRow()
                 .EndTable()
                 .Draw();
@@ -92,28 +92,28 @@ internal class CustomDelivery : IModule
             var allowances = logicModule.GetRemainingAllowances();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Common.Allowances)
+                .AddString(Strings.Common_Allowances)
                 .AddString(allowances.ToString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .EndTable()
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Common.Target)
+                .AddTitle(Strings.Common_Target)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Common.Mode)
+                .AddString(Strings.Common_Mode)
                 .AddString(Settings.ComparisonMode.Value.GetTranslatedString())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Common.Target)
+                .AddString(Strings.Common_Target)
                 .AddString(Settings.NotificationThreshold.Value.ToString())
                 .EndRow()
                 .EndTable()
@@ -146,7 +146,7 @@ internal class CustomDelivery : IModule
         {
         }
 
-        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Module.CustomDelivery.AllowancesRemaining}";
+        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -186,9 +186,9 @@ internal class CustomDelivery : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.CustomDelivery.Label;
+        public string GetShortTaskLabel() => Strings.CustomDelivery_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.CustomDelivery.Label;
+        public string GetLongTaskLabel() => Strings.CustomDelivery_Label;
     }
 
 

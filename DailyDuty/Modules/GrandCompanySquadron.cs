@@ -134,7 +134,7 @@ internal class GrandCompanySquadron : IModule
             }
         }
         
-        public string GetStatusMessage() => Strings.Module.GrandCompany.SquadronMessage;
+        public string GetStatusMessage() => Strings.GrandCompany_MissionAvailable;
 
         public DateTime GetNextReset() => Time.NextWeeklyReset();
 
@@ -154,9 +154,9 @@ internal class GrandCompanySquadron : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.GrandCompany.SquadronLabel;
+        public string GetShortTaskLabel() => Strings.GrandCompany_SquadronLabel;
 
-        public string GetLongTaskLabel() => Strings.Module.GrandCompany.SquadronLabel;
+        public string GetLongTaskLabel() => Strings.GrandCompany_SquadronLabel;
     }
 
     private class ModuleTimerComponent : ITimerComponent

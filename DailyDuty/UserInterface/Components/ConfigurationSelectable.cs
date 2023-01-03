@@ -37,7 +37,7 @@ internal class ConfigurationSelectable : ISelectable
     {
         var region = ImGui.GetContentRegionAvail();
 
-        var text = ParentModule.GenericSettings.Enabled ? Strings.Common.Enabled : Strings.Common.Disabled;
+        var text = ParentModule.GenericSettings.Enabled ? Strings.Common_Enabled : Strings.Common_Disabled;
         var color = ParentModule.GenericSettings.Enabled ? Colors.Green : Colors.Red;
 
         var textSize = ImGui.CalcTextSize(text);

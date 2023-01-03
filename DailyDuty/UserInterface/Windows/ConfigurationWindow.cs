@@ -16,7 +16,7 @@ namespace DailyDuty.UserInterface.Windows;
 internal class ConfigurationWindow : SelectionWindow, IDisposable
 {
 
-    public ConfigurationWindow() : base($"DailyDuty {Strings.Configuration.Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow", 0.35f, 40.0f)
+    public ConfigurationWindow() : base($"DailyDuty {Strings.Config_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow", 0.35f, 40.0f)
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -35,7 +35,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
         Service.ConfigurationManager.OnCharacterDataLoaded -= UpdateWindowTitle;
     }
 
-    private void UpdateWindowTitle(object? sender, CharacterConfiguration e) => WindowName = $"DailyDuty {Strings.Configuration.Label} - {e.CharacterData.Name}###DailyDutyMainWindow";
+    private void UpdateWindowTitle(object? sender, CharacterConfiguration e) => WindowName = $"DailyDuty {Strings.Config_Label} - {e.CharacterData.Name}###DailyDutyMainWindow";
 
     public override void PreOpenCheck()
     {
@@ -69,7 +69,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
         var contentRegion = ImGui.GetContentRegionAvail();
         var buttonWidth = contentRegion.X / 3.0f - 2.0f * ImGuiHelpers.GlobalScale;
 
-        if (ImGui.Button(Strings.UserInterface.Todo.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.Todo_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = KamiCommon.WindowManager.GetWindowOfType<TodoConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
@@ -77,7 +77,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
 
         ImGui.SameLine();
 
-        if (ImGui.Button(Strings.UserInterface.Timers.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.Timers_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = KamiCommon.WindowManager.GetWindowOfType<TimersConfigurationWindow>()!;
             window.IsOpen = !window.IsOpen;
@@ -85,7 +85,7 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
 
         ImGui.SameLine();
 
-        if (ImGui.Button(Strings.Status.Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
+        if (ImGui.Button(Strings.Status_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
         {
             var window = KamiCommon.WindowManager.GetWindowOfType<StatusWindow>()!;
             window.IsOpen = !window.IsOpen;

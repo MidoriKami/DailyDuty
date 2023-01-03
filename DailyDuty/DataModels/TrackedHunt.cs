@@ -41,9 +41,9 @@ public static class TrackedHuntStateExtensions
     {
         return state switch
         {
-            TrackedHuntState.Unobtained => Strings.Module.HuntMarks.Unobtained,
-            TrackedHuntState.Obtained => Strings.Module.HuntMarks.Obtained,
-            TrackedHuntState.Killed => Strings.Module.HuntMarks.Killed,
+            TrackedHuntState.Unobtained => Strings.HuntMarks_Unobtained,
+            TrackedHuntState.Obtained => Strings.HuntMarks_Obtained,
+            TrackedHuntState.Killed => Strings.HuntMarks_Killed,
             _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
         };
     }

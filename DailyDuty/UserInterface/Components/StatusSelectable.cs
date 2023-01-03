@@ -46,7 +46,7 @@ internal class StatusSelectable : ISelectable
         // Override Status if Module is Disabled
         if (!ParentModule.GenericSettings.Enabled)
         {
-            text = Strings.Common.Disabled;
+            text = Strings.Common_Disabled;
             color = Colors.Grey;
         }
 

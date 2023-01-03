@@ -48,23 +48,23 @@ internal class TimersConfigurationWindow : Window
     public override void Draw()
     {
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.MainOptions)
-            .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.HideCompleted, Settings.HideCompleted)
+            .AddTitle(Strings.Common_MainOptions)
+            .AddConfigCheckbox(Strings.Common_Enabled, Settings.Enabled)
+            .AddConfigCheckbox(Strings.Common_HideCompletedTasks, Settings.HideCompleted)
             .Draw();
 
         var enabledModules = Service.ModuleManager.GetTimerComponents()
             .Where(module => module.ParentModule.GenericSettings.Enabled);
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.Label)
+            .AddTitle(Strings.Timers_Label)
             .BeginTable(0.65f)
-            .AddRows(enabledModules, Strings.UserInterface.Todo.NoTasksEnabled)
+            .AddRows(enabledModules, Strings.Timers_NothingEnabled)
             .EndTable()
             .Draw();
         
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.Ordering)
+            .AddTitle(Strings.Timers_Ordering)
             .AddConfigRadio(TimersOrdering.Alphabetical.GetTranslatedString(), Settings.Ordering, TimersOrdering.Alphabetical)
             .AddConfigRadio(TimersOrdering.AlphabeticalDescending.GetTranslatedString(), Settings.Ordering, TimersOrdering.AlphabeticalDescending)
             .AddConfigRadio(TimersOrdering.TimeRemaining.GetTranslatedString(), Settings.Ordering, TimersOrdering.TimeRemaining)
@@ -72,11 +72,11 @@ internal class TimersConfigurationWindow : Window
             .Draw();
         
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Timers.WindowOptions, out var innerWidth)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.HideWindowInDuty, Settings.HideWhileInDuty)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.LockWindow, Settings.LockWindowPosition)
-            .AddConfigCheckbox(Strings.UserInterface.Timers.AutoResize, Settings.AutoResize)
-            .AddDragFloat(Strings.UserInterface.Timers.Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
+            .AddTitle(Strings.Common_WindowOptions, out var innerWidth)
+            .AddConfigCheckbox(Strings.Common_HideInDuty, Settings.HideWhileInDuty)
+            .AddConfigCheckbox(Strings.Common_LockWindowPosition, Settings.LockWindowPosition)
+            .AddConfigCheckbox(Strings.Common_AutoResize, Settings.AutoResize)
+            .AddDragFloat(Strings.Common_Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
             .Draw();
     }
 

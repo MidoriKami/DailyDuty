@@ -61,9 +61,9 @@ internal class MiniCactpot : IModule
             InfoBox.Instance.DrawGenericSettings(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Module.MiniCactpot.ClickableLinkLabel)
-                .AddString(Strings.Module.MiniCactpot.ClickableLink)
-                .AddConfigCheckbox(Strings.Common.Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Common_ClickableLink)
+                .AddString(Strings.GoldSaucer_ClickableLink)
+                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
                 .Draw();
 
             InfoBox.Instance.DrawNotificationOptions(this);
@@ -89,14 +89,14 @@ internal class MiniCactpot : IModule
             var moduleStatus = logicModule.GetModuleStatus();
 
             InfoBox.Instance
-                .AddTitle(Strings.Status.Label)
+                .AddTitle(Strings.Status_Label)
                 .BeginTable()
                 .BeginRow()
-                .AddString(Strings.Status.ModuleStatus)
+                .AddString(Strings.Status_ModuleStatus)
                 .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
                 .EndRow()
                 .BeginRow()
-                .AddString(Strings.Module.MiniCactpot.TicketsRemaining)
+                .AddString(Strings.MiniCactpot_TicketsRemaining)
                 .AddString(Settings.TicketsRemaining.ToString())
                 .EndRow()
                 .EndTable()
@@ -131,7 +131,7 @@ internal class MiniCactpot : IModule
             GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
         }
 
-        public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.Module.MiniCactpot.TicketsRemaining}";
+        public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.MiniCactpot_TicketsRemaining}";
 
         public DateTime GetNextReset() => Time.NextDailyReset();
 
@@ -174,9 +174,9 @@ internal class MiniCactpot : IModule
             ParentModule = parentModule;
         }
 
-        public string GetShortTaskLabel() => Strings.Module.MiniCactpot.Label;
+        public string GetShortTaskLabel() => Strings.MiniCactpot_Label;
 
-        public string GetLongTaskLabel() => Strings.Module.MiniCactpot.Label;
+        public string GetLongTaskLabel() => Strings.MiniCactpot_Label;
     }
 
 

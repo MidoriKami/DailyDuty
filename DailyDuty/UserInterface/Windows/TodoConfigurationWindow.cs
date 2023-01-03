@@ -39,14 +39,14 @@ internal class TodoConfigurationWindow : Window
     {
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Todo.MainOptions)
-            .AddConfigCheckbox(Strings.Common.Enabled, Settings.Enabled)
+            .AddTitle(Strings.Common_MainOptions)
+            .AddConfigCheckbox(Strings.Common_Enabled, Settings.Enabled)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Todo.TaskSelection)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.ShowDailyTasks, Settings.ShowDailyTasks)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.ShowWeeklyTasks, Settings.ShowWeeklyTasks)
+            .AddTitle(Strings.Common_TaskSelection)
+            .AddConfigCheckbox(Strings.Todo_ShowDailyTasks, Settings.ShowDailyTasks)
+            .AddConfigCheckbox(Strings.Todo_ShowWeeklyTasks, Settings.ShowWeeklyTasks)
             .Draw();
 
         if (Settings.ShowDailyTasks)
@@ -55,9 +55,9 @@ internal class TodoConfigurationWindow : Window
                 .Where(module => module.ParentModule.GenericSettings.Enabled);
 
             InfoBox.Instance
-                .AddTitle(Strings.UserInterface.Todo.DailyTasks)
+                .AddTitle(Strings.Common_DailyTasks)
                 .BeginTable()
-                .AddRows(enabledDailyTasks, Strings.UserInterface.Todo.NoTasksEnabled)
+                .AddRows(enabledDailyTasks, Strings.Todo_NothingEnabled)
                 .EndTable()
                 .Draw();
         }
@@ -68,32 +68,32 @@ internal class TodoConfigurationWindow : Window
                 .Where(module => module.ParentModule.GenericSettings.Enabled);
 
             InfoBox.Instance
-                .AddTitle(Strings.UserInterface.Todo.WeeklyTasks)
+                .AddTitle(Strings.Common_WeeklyTasks)
                 .BeginTable()
-                .AddRows(enabledWeeklyTasks, Strings.UserInterface.Todo.NoTasksEnabled)
+                .AddRows(enabledWeeklyTasks, Strings.Todo_NothingEnabled)
                 .EndTable()
                 .Draw();
         }
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Todo.TaskDisplay)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.HideCompletedTasks, Settings.HideCompletedTasks)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.HideUnavailable, Settings.HideUnavailableTasks)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.CompleteCategory, Settings.ShowCategoryAsComplete)
+            .AddTitle(Strings.Todo_TaskDisplay)
+            .AddConfigCheckbox(Strings.Common_HideCompletedTasks, Settings.HideCompletedTasks)
+            .AddConfigCheckbox(Strings.Todo_HideUnavailable, Settings.HideUnavailableTasks)
+            .AddConfigCheckbox(Strings.Todo_ShowCompleted, Settings.ShowCategoryAsComplete)
             .Draw();
 
         InfoBox.Instance
-            .AddTitle(Strings.UserInterface.Todo.WindowOptions, out var innerWidth)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowCompleted, Settings.HideWhenAllTasksComplete)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.HideWindowInDuty, Settings.HideWhileInDuty)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.LockWindow, Settings.LockWindowPosition)
-            .AddConfigCheckbox(Strings.UserInterface.Todo.AutoResize, Settings.AutoResize)
-            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.UserInterface.Todo.AnchorCorner, innerWidth / 2.0f)
-            .AddDragFloat(Strings.UserInterface.Todo.Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
-            .AddConfigColor(Strings.Common.Header, Strings.Common.Default, Settings.TaskColors.HeaderColor, Colors.White)
-            .AddConfigColor(Strings.Common.Incomplete, Strings.Common.Default, Settings.TaskColors.IncompleteColor, Colors.Red)
-            .AddConfigColor(Strings.Common.Complete, Strings.Common.Default, Settings.TaskColors.CompleteColor, Colors.Green)
-            .AddConfigColor(Strings.Common.Unavailable, Strings.Common.Default, Settings.TaskColors.UnavailableColor, Colors.Orange)
+            .AddTitle(Strings.Common_WindowOptions, out var innerWidth)
+            .AddConfigCheckbox(Strings.Common_HideWhenComplete, Settings.HideWhenAllTasksComplete)
+            .AddConfigCheckbox(Strings.Common_HideInDuty, Settings.HideWhileInDuty)
+            .AddConfigCheckbox(Strings.Common_LockWindowPosition, Settings.LockWindowPosition)
+            .AddConfigCheckbox(Strings.Common_AutoResize, Settings.AutoResize)
+            .AddConfigCombo(Enum.GetValues<WindowAnchor>(), Settings.AnchorCorner, WindowAnchorExtensions.GetTranslatedString, Strings.Todo_AnchorCorner, innerWidth / 2.0f)
+            .AddDragFloat(Strings.Common_Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
+            .AddConfigColor(Strings.Common_Header, Strings.Common_Default, Settings.TaskColors.HeaderColor, Colors.White)
+            .AddConfigColor(Strings.Common_Incomplete, Strings.Common_Default, Settings.TaskColors.IncompleteColor, Colors.Red)
+            .AddConfigColor(Strings.Common_Complete, Strings.Common_Default, Settings.TaskColors.CompleteColor, Colors.Green)
+            .AddConfigColor(Strings.Common_Unavailable, Strings.Common_Default, Settings.TaskColors.UnavailableColor, Colors.Orange)
             .Draw();
     }
     

@@ -17,7 +17,7 @@ public record TrackedGrandCompanySupplyProvisioning(uint ClassJobID, Setting<boo
         owner
             .BeginRow()
             .AddString($"{char.ToUpper(jobName[0]) + jobName[1..]}")
-            .AddString(State ? Strings.Common.Complete : Strings.Common.Incomplete, State ? Colors.Green : Colors.Orange)
+            .AddString(State ? Strings.Common_Complete : Strings.Common_Incomplete, State ? Colors.Green : Colors.Orange)
             .EndRow();
     }
 

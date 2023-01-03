@@ -20,7 +20,7 @@ public interface ITimerComponent : IInfoBoxTableConfigurationRow
         owner
             .BeginRow()
             .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TimerTaskEnabled)
-            .AddButton(Strings.UserInterface.Timers.EditTimer + $"##{ParentModule.Name}", 
+            .AddButton(Strings.Timers_EditTimerStyle + $"##{ParentModule.Name}", 
                 () => KamiCommon.WindowManager.AddWindow(new TimersStyleWindow(ParentModule)))
             .EndRow();
     }

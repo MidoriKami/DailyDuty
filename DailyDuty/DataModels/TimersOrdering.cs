@@ -17,10 +17,10 @@ public static class TimersOrderingExtensions
     {
         return type switch
         {
-            TimersOrdering.Alphabetical => Strings.Common.Alphabetical,
-            TimersOrdering.AlphabeticalDescending => $"{Strings.Common.Alphabetical} {Strings.Common.Descending}",
-            TimersOrdering.TimeRemaining => Strings.Common.TimeRemaining,
-            TimersOrdering.TimeRemainingDescending => $"{Strings.Common.TimeRemaining} {Strings.Common.Descending}",
+            TimersOrdering.Alphabetical => Strings.Common_Alphabetical,
+            TimersOrdering.AlphabeticalDescending => $"{Strings.Common_Alphabetical} {Strings.Common_Descending}",
+            TimersOrdering.TimeRemaining => Strings.Common_RemainingTime,
+            TimersOrdering.TimeRemainingDescending => $"{Strings.Common_RemainingTime} {Strings.Common_Descending}",
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }

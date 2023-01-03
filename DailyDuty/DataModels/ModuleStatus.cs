@@ -20,11 +20,11 @@ public static class ModuleStatusExtensions
     {
         return value switch
         {
-            ModuleStatus.Unknown => Strings.Common.Unknown,
-            ModuleStatus.Incomplete => Strings.Common.Incomplete,
-            ModuleStatus.Unavailable => Strings.Common.Unavailable,
-            ModuleStatus.Complete => Strings.Common.Complete,
-            ModuleStatus.Suppressed => Strings.Common.Suppressed,
+            ModuleStatus.Unknown => Strings.Common_Unknown,
+            ModuleStatus.Incomplete => Strings.Common_Incomplete,
+            ModuleStatus.Unavailable => Strings.Common_Unavailable,
+            ModuleStatus.Complete => Strings.Common_Complete,
+            ModuleStatus.Suppressed => Strings.Common_Suppressed,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
     }

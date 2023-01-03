@@ -5,7 +5,6 @@ using DailyDuty.UserInterface.Windows;
 using Dalamud.Plugin;
 using KamiLib;
 using KamiLib.Utilities;
-using LocalizationManager = DailyDuty.System.LocalizationManager;
 
 namespace DailyDuty;
 
@@ -28,7 +27,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
             new(4, TeleportLocation.UlDah, 9),
         });
         
-        Service.Localization = new LocalizationManager();
+        LocalizationManager.Instance.Initialize();
         
         Service.ConfigurationManager = new ConfigurationManager();
         Service.ModuleManager = new ModuleManager();
@@ -52,7 +51,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     {
         KamiCommon.Dispose();
         
-        Service.Localization.Dispose();
+        LocalizationManager.Cleanup();
         
         Service.ModuleManager.Dispose();
         Service.ConfigurationManager.Dispose();
