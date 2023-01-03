@@ -4,9 +4,9 @@
     "net6.0-windows7.0": {
       "DalamudPackager": {
         "type": "Direct",
-        "requested": "[2.1.8, )",
-        "resolved": "2.1.8",
-        "contentHash": "YqagNXs9InxmqkXzq7kLveImxnodkBEicAhydMXVp7dFjC7xb76U6zGgAax4/BWIWfZeWzr5DJyQSev31kj81A=="
+        "requested": "[2.1.9, )",
+        "resolved": "2.1.9",
+        "contentHash": "raxjlbAWAt9AYXTiRlRJOHHFOraNicVsPJXlFQEzx+Ym2Imh990llQ5bQ+DACVGgy65+axVnlL9QwkKspY5yzQ=="
       },
       "kamilib": {
         "type": "Project"
