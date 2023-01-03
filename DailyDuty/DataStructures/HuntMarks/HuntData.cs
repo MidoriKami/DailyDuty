@@ -15,20 +15,5 @@ public class HuntData
         HuntMarkType.StormbloodElite or
         HuntMarkType.HeavenswardElite or
         HuntMarkType.RealmRebornElite;
-
-    public bool IsCompleted
-    {
-        get
-        {
-            if (IsElite)
-            {
-                return TargetInfo[0]?.NeededKills == KillCounts[0];
-            }
-            else
-            {
-                return Enumerable.Range(0, 5)
-                    .All(index => TargetInfo[index]?.NeededKills == KillCounts[index]);
-            }
-        }
-    }
+    public bool IsCompleted => Enumerable.Range(0, IsElite ? 1 : 5).All(index => (TargetInfo[index]?.NeededKills ?? 0) == KillCounts[index]);
 }
