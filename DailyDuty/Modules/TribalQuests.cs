@@ -19,7 +19,7 @@ public class BeastTribeSettings : GenericSettings
     public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.EqualTo);
 }
 
-internal class BeastTribe : IModule
+internal class TribalQuests : IModule
 {
     public ModuleName Name => ModuleName.BeastTribe;
     public IConfigurationComponent ConfigurationComponent { get; }
@@ -31,7 +31,7 @@ internal class BeastTribe : IModule
     private static BeastTribeSettings Settings => Service.ConfigurationManager.CharacterConfiguration.BeastTribe;
     public GenericSettings GenericSettings => Settings;
 
-    public BeastTribe()
+    public TribalQuests()
     {
         ConfigurationComponent = new ModuleConfigurationComponent(this);
         StatusComponent = new ModuleStatusComponent(this);
