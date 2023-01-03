@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CheapLoc;
+﻿using CheapLoc;
 // ReSharper disable MemberCanBeMadeStatic.Global
 
 namespace DailyDuty.Localization;
@@ -9,7 +8,6 @@ internal static class Strings
     public static Configuration Configuration { get; } = new();
     public static Status Status { get; } = new();
     public static Common Common { get; } = new();
-    public static Command Command { get; } = new();
     public static Module Module { get; } = new();
     public static UserInterface UserInterface { get; } = new();
 }
@@ -17,7 +15,6 @@ internal static class Strings
 public class Configuration
 {
     public string Label => Loc.Localize("Configuration_Label", "Configuration");
-    public string ModuleNotSelected => Loc.Localize("Configuration_ModuleNotSelected", "Select an item to configure in the left pane");
     public string Options => Loc.Localize("Configuration_Options", "Options");
     public string MarkCompleteWhen => Loc.Localize("Configuration_MarkCompleteWhen", "Mark Complete When");
     public string NotificationOptions => Loc.Localize("Configuration_NotificationOptions", "Notification Options");
@@ -41,7 +38,6 @@ public class Common
 {
     public Expansion Expansion { get; } = new();
 
-    public string Command => Loc.Localize("Command", "Command");
     public string Enabled => Loc.Localize("Enabled", "Enabled");
     public string Disabled => Loc.Localize("Disabled", "Disabled");
     public string Unknown => Loc.Localize("Unknown", "Unknown");
@@ -60,8 +56,6 @@ public class Common
     public string BottomLeft => Loc.Localize("BottomLeft", "Bottom Left");
     public string BottomRight => Loc.Localize("BottomRight", "Bottom Right");
     public string Header => Loc.Localize("Header", "Header");
-    public string Daily => Loc.Localize("Daily", "Daily");
-    public string Weekly => Loc.Localize("Weekly", "Weekly");
     public string MessageTimeout => Loc.Localize("MessageTimeout", "Zone Change notifications will only appear once every five minutes\nThis is to prevent excessive chatlog spamming");
     public string Alphabetical => Loc.Localize("Alphabetical", "Alphabetical");
     public string Descending => Loc.Localize("Descending", "Descending");
@@ -77,44 +71,6 @@ public class Expansion
     public string Stormblood => Loc.Localize("Expansion_Stormblood", "Stormblood");
     public string Shadowbringers => Loc.Localize("Expansion_Shadowbringers", "Shadowbringers");
     public string Endwalker => Loc.Localize("Expansion_Endwalker", "Endwalker");
-}
-
-public class Command
-{
-    public Help Help { get; } = new();
-    public string InvalidCommand => Loc.Localize("Command_InvalidCommand", "Invalid Command");
-}
-
-public class Help
-{
-    public IEnumerable<string> TimersMessages => new[]
-    {
-        Loc.Localize("TimersMessages_Tag", "== Timers Commands =="),
-        Loc.Localize("TimersMessages_Base", "/dd timers config - Shows timer configuration window"),
-        Loc.Localize("TimersMessages_Help", "/dd help timers - Shows this help message"),
-        Loc.Localize("TimersMessages_Show", "/dd timers show - Shows the timers window"),
-        Loc.Localize("TimersMessages_Hide", "/dd timers hide - Hides the timers window"),
-        Loc.Localize("TimersMessages_Toggle", "/dd timers toggle - Toggle the timers window"),
-    };
-
-    public IEnumerable<string> TodoMessages => new[]
-    {
-        Loc.Localize("TodoMessages_Tag", "== Todo Commands =="),
-        Loc.Localize("TodoMessages_Base", "/dd todo config - Shows todo configuration window"),
-        Loc.Localize("TodoMessages_Todo", "/dd todo - Displays all outstanding tasks"),
-        Loc.Localize("TodoMessages_Help", "/dd help todo - Shows this help message"),
-        Loc.Localize("TodoMessages_Show", "/dd todo show - Shows the todo window"),
-        Loc.Localize("TodoMessages_Hide", "/dd todo hide - Hides the todo window"),
-        Loc.Localize("TodoMessages_Toggle", "/dd todo toggle - Toggle the todo window"),
-    };
-
-    public IEnumerable<string> CoreMessages => new[]
-    {
-        Loc.Localize("CoreMessages_Tag", "== Main Commands =="),
-        Loc.Localize("CoreMessages_Base", "/dd - Show or Hide Main Window"),
-        Loc.Localize("CoreMessages_Timers", "/dd help timers - Show timer sub-commands"),
-        Loc.Localize("CoreMessages_Todo", "/dd help todo - Show todo sub-commands"),
-    };
 }
 
 public class Module
@@ -343,7 +299,6 @@ public class UserInterface
 {
     public Todo Todo = new();
     public Timers Timers = new();
-    public Teleport Teleport = new();
 }
 
 public class Todo
@@ -409,13 +364,4 @@ public class Timers
     public string NumSecs => Loc.Localize("Timers_NumSecs", "{0} seconds");
     public string Reset => Loc.Localize("Timers_Reset", "Reset to Default");
     public string Ordering => Loc.Localize("Timers_Ordering", "Timers Ordering");
-}
-
-public class Teleport
-{
-    public string Label => Loc.Localize("Teleport_Label", "Teleport");
-    public string Error => Loc.Localize("Teleport_Error", "Cannot teleport in this situation");
-    public string Teleporting => Loc.Localize("Teleport_Teleporting", "Teleporting to '{0}'");
-    public string CommunicationError => Loc.Localize("Teleport_CommunicationError", "To use the teleport function, you must install the \"Teleporter\" plugin");
-    public string NotUnlocked => Loc.Localize("Teleport_NotUnlocked", "Destination Aetheryte is not unlocked, teleport cancelled");
 }
