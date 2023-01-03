@@ -16,7 +16,7 @@ internal class ModuleManager : IDisposable
     {
         Modules = new List<IModule>
         {
-            new BeastTribe(),
+            new TribalQuests(),
             new CustomDelivery(),
             new DomanEnclave(),
             new DutyRoulette(),
