@@ -1,0 +1,656 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:element name="root" msdata:IsDataSet="true">
+        </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Config_Label" xml:space="preserve">
+        <value>設定</value>
+    </data>
+  <data name="Config_Options" xml:space="preserve">
+        <value>オプション</value>
+    </data>
+  <data name="Config_MarkCompleteWhen" xml:space="preserve">
+        <value>完了した日時をマーク</value>
+    </data>
+  <data name="Config_NotificationOptions" xml:space="preserve">
+        <value>通知の設定</value>
+    </data>
+  <data name="Config_LoginNotification" xml:space="preserve">
+        <value>ログイン時に通知を送信する</value>
+    </data>
+  <data name="Config_ZoneChageNotification" xml:space="preserve">
+        <value>ゾーン変更時に通知を送信する</value>
+    </data>
+  <data name="Config_HideDisabled" xml:space="preserve">
+        <value>無効化されたものを非表示にする</value>
+    </data>
+  <data name="Config_ShowDisabled" xml:space="preserve">
+        <value>無効のものを表示</value>
+    </data>
+  <data name="Status_Label" xml:space="preserve">
+        <value>状態</value>
+    </data>
+  <data name="Status_ModuleStatus" xml:space="preserve">
+        <value>モジュールの状態</value>
+    </data>
+  <data name="Status_Suppression" xml:space="preserve">
+        <value>Dano de ocupação</value>
+    </data>
+  <data name="Status_Suppression_Info" xml:space="preserve">
+        <value>次のリセットまで通知を停止する</value>
+    </data>
+  <data name="Status_Snooze" xml:space="preserve">
+        <value>スヌーズ</value>
+    </data>
+  <data name="Status_Unsnooze" xml:space="preserve">
+        <value>スヌーズ解除</value>
+    </data>
+  <data name="Common_Enabled" xml:space="preserve">
+        <value>有効</value>
+    </data>
+  <data name="Common_Disabled" xml:space="preserve">
+        <value>無効</value>
+    </data>
+  <data name="Common_Unknown" xml:space="preserve">
+        <value>不明</value>
+    </data>
+  <data name="Common_Incomplete" xml:space="preserve">
+        <value>未完成</value>
+    </data>
+  <data name="Common_Unavailable" xml:space="preserve">
+        <value>利用不可</value>
+    </data>
+  <data name="Common_Complete" xml:space="preserve">
+        <value>完了</value>
+    </data>
+  <data name="Common_Overriden" xml:space="preserve">
+        <value>上書きする</value>
+    </data>
+  <data name="Common_LessThan" xml:space="preserve">
+        <value>未満</value>
+    </data>
+  <data name="Common_LessThanEqual" xml:space="preserve">
+        <value>以下または等しい</value>
+    </data>
+  <data name="Common_Equal" xml:space="preserve">
+        <value>等しい</value>
+    </data>
+  <data name="Common_Allowances" xml:space="preserve">
+        <value>受注権</value>
+    </data>
+  <data name="Common_Target" xml:space="preserve">
+        <value>ターゲット</value>
+    </data>
+  <data name="Common_Mode" xml:space="preserve">
+        <value>モード</value>
+    </data>
+  <data name="Common_TopLeft" xml:space="preserve">
+        <value>左上</value>
+    </data>
+  <data name="Common_TopRight" xml:space="preserve">
+        <value>右上</value>
+    </data>
+  <data name="Common_BottomLeft" xml:space="preserve">
+        <value>左下</value>
+    </data>
+  <data name="Common_BottomRight" xml:space="preserve">
+        <value>右下</value>
+    </data>
+  <data name="Common_Header" xml:space="preserve">
+        <value>ヘッダー</value>
+    </data>
+  <data name="Common_MessageTimeout_Info" xml:space="preserve">
+        <value>ゾーンの変更時の通知は、5分ごとに1回のみ表示されます
+これは過剰なチャットログを防ぐためです</value>
+    </data>
+  <data name="Common_Alphabetical" xml:space="preserve">
+        <value>アルファベット</value>
+    </data>
+  <data name="Common_Descending" xml:space="preserve">
+        <value>降順</value>
+    </data>
+  <data name="Common_RemainingTime" xml:space="preserve">
+        <value>残り時間</value>
+    </data>
+  <data name="Common_Default" xml:space="preserve">
+        <value>Default</value>
+    </data>
+  <data name="Common_Suppressed" xml:space="preserve">
+        <value>非表示</value>
+    </data>
+  <data name="Expansion_RealmReborn" xml:space="preserve">
+        <value>新生エオルゼア</value>
+    </data>
+  <data name="Expansion_Heavensward" xml:space="preserve">
+        <value>蒼天のイシュガルド</value>
+    </data>
+  <data name="Expansion_Stormblood" xml:space="preserve">
+        <value>紅蓮のリベレーター</value>
+    </data>
+  <data name="Expansion_Shadowbringers" xml:space="preserve">
+        <value>漆黒のヴィランズ</value>
+    </data>
+  <data name="Expansion_Endwalker" xml:space="preserve">
+        <value>暁月のフィナーレ</value>
+    </data>
+  <data name="TribalQuests_Label" xml:space="preserve">
+        <value>部族クエスト</value>
+    </data>
+  <data name="Common_AllowancesRemaining" xml:space="preserve">
+        <value>残り受注回数</value>
+    </data>
+  <data name="CustomDelivery_Label" xml:space="preserve">
+        <value>お得意様取引</value>
+    </data>
+  <data name="DomanEnclave_Label" xml:space="preserve">
+        <value>ドマ町人地復興</value>
+    </data>
+  <data name="DomanEnclave_GilRemaining" xml:space="preserve">
+        <value>予算額</value>
+    </data>
+  <data name="DomanEnclave_StatusUnknown_Info" xml:space="preserve">
+        <value>状態が不明です。モジュールを初期化するには、ドマ町人地にアクセスしてください。</value>
+    </data>
+  <data name="DomanEnclave_StatusUnknown" xml:space="preserve">
+        <value>不明なステータス</value>
+    </data>
+  <data name="DomanEnclave_BudgetRemaining" xml:space="preserve">
+        <value>残りの予算額</value>
+    </data>
+  <data name="DomanEnclave_CurrentAllowance" xml:space="preserve">
+        <value>今の予算額</value>
+    </data>
+  <data name="Common_ClickableLink" xml:space="preserve">
+        <value>クリック可能なリンク</value>
+    </data>
+  <data name="DomanEnclave_ClickableLink" xml:space="preserve">
+        <value>通知をクリックするとドマ町人地にテレポートできます。</value>
+    </data>
+  <data name="DutyRoulette_Label" xml:space="preserve">
+        <value>デイリールーレット</value>
+    </data>
+  <data name="DutyRoulette_RouletteSelection" xml:space="preserve">
+        <value>追跡するルーレットを選択</value>
+    </data>
+  <data name="DutyFinder_ClickableLink" xml:space="preserve">
+        <value>通知をクリックして、コンテンツファインダーを開きます</value>
+    </data>
+  <data name="DutyRoulette_Remaining" xml:space="preserve">
+        <value>残りのルーレット</value>
+    </data>
+  <data name="DutyRoulette_ExpertFeature" xml:space="preserve">
+        <value>エキスパートルーレット機能</value>
+    </data>
+  <data name="DutyRoulette_ExpertFeature_Info" xml:space="preserve">
+        <value>トームストーンが週上限に達したとき、エキスパートルーレットを完了とマークします</value>
+    </data>
+  <data name="DutyRoulette_ExpertTomestones" xml:space="preserve">
+        <value>エキスパートトームストーン</value>
+    </data>
+  <data name="DutyFinder_Overlay" xml:space="preserve">
+        <value>Duty Finderオーバーレイ</value>
+    </data>
+  <data name="DutyRoulette_DutyComplete" xml:space="preserve">
+        <value>達成済</value>
+    </data>
+  <data name="DutyRoulette_DutyIncomplete" xml:space="preserve">
+        <value>未達成</value>
+    </data>
+  <data name="DutyRoulette_Status" xml:space="preserve">
+        <value>ルーレットのステータス</value>
+    </data>
+  <data name="DutyRoulette_NothingTracked" xml:space="preserve">
+        <value>トラッキング用のルーレットが選択されていません</value>
+    </data>
+  <data name="DutyRoulette_Override" xml:space="preserve">
+        <value>週上限到達済</value>
+    </data>
+  <data name="DutyRoulette_CompleteWhenCapped" xml:space="preserve">
+        <value>トームストーンが上限に達したとき完了にする</value>
+    </data>
+  <data name="DutyRoulette_CompleteWhenCapped_Info" xml:space="preserve">
+        <value>トームストーンが週上限に達したとき、エキスパートルーレットを完了とマークします</value>
+    </data>
+  <data name="FashionReport_Label" xml:space="preserve">
+        <value>ファッションチェック</value>
+    </data>
+  <data name="FashionReport_CompletionCondition" xml:space="preserve">
+        <value>完了条件</value>
+    </data>
+  <data name="Common_Single" xml:space="preserve">
+        <value>参加賞</value>
+    </data>
+  <data name="FashionReport_Mode80Plus" xml:space="preserve">
+        <value>80点以上</value>
+    </data>
+  <data name="Common_All" xml:space="preserve">
+        <value>すべて</value>
+    </data>
+  <data name="FashionReport_SingleMode_Info" xml:space="preserve">
+        <value>今週の挑戦回数を消費していない、かつファッションチェックが提出可能の場合のみ通知する</value>
+    </data>
+  <data name="FashionReport_80Mode_Info" xml:space="preserve">
+        <value>今週の挑戦可能回数が残っていて、最高得点が80点以下かつファッションチェックが提出可能な場合につうちする</value>
+    </data>
+  <data name="FashionReport_AllMode_Info" xml:space="preserve">
+        <value>今週の挑戦可能回数が残っていて、ファッションチェックが提出可能の場合は通知する</value>
+    </data>
+  <data name="GoldSaucer_ClickableLink" xml:space="preserve">
+        <value>通知をクリックするとゴールドソーサーにテレポートできます。</value>
+    </data>
+  <data name="Common_AllowancesAvailable" xml:space="preserve">
+        <value>個の調達任務が残っています</value>
+    </data>
+  <data name="FashionReport_HighestScore" xml:space="preserve">
+        <value>最高スコア</value>
+    </data>
+  <data name="FashionReport_ReportOpen" xml:space="preserve">
+        <value>ファッションチェック再開</value>
+    </data>
+  <data name="Common_AvailableNow" xml:space="preserve">
+        <value>利用可能</value>
+    </data>
+  <data name="HuntMarks_LevelOne" xml:space="preserve">
+        <value>初級</value>
+    </data>
+  <data name="HuntMarks_LevelTwo" xml:space="preserve">
+        <value>中級</value>
+    </data>
+  <data name="HuntMarks_LevelThree" xml:space="preserve">
+        <value>上級</value>
+    </data>
+  <data name="HuntMarks_Elite" xml:space="preserve">
+        <value>リスキーモブ</value>
+    </data>
+  <data name="HuntMarks_DailyLabel" xml:space="preserve">
+        <value>モブハント (毎日)</value>
+    </data>
+  <data name="HuntMarks_WeeklyLabel" xml:space="preserve">
+        <value>モブハント (毎週)</value>
+    </data>
+  <data name="HuntMarks_Tracked" xml:space="preserve">
+        <value>追跡中のモブハント</value>
+    </data>
+  <data name="HuntMarks_Obtained" xml:space="preserve">
+        <value>獲得済み</value>
+    </data>
+  <data name="HuntMarks_Unobtained" xml:space="preserve">
+        <value>未獲得</value>
+    </data>
+  <data name="HuntMarks_Killed" xml:space="preserve">
+        <value>討伐済</value>
+    </data>
+  <data name="HuntMarks_Remaining" xml:space="preserve">
+        <value>残りのモブハント</value>
+    </data>
+  <data name="HuntMarks_Status" xml:space="preserve">
+        <value>追跡中のモブハントステータス</value>
+    </data>
+  <data name="HuntMarks_NothingTracked" xml:space="preserve">
+        <value>追跡するモブハントが選択されていません</value>
+    </data>
+  <data name="HuntMarks_ForceComplete" xml:space="preserve">
+        <value>強制完了</value>
+    </data>
+  <data name="HuntMarks_ForceComplete_Info" xml:space="preserve">
+        <value>モジュールの状態を上書きし、完了をマークする</value>
+    </data>
+  <data name="HuntMarks_ForceComplete_Warning" xml:space="preserve">
+        <value>この操作は元に戻せません</value>
+    </data>
+  <data name="JumboCactpot_Label" xml:space="preserve">
+        <value>ジャンボ・くじテンダー</value>
+    </data>
+  <data name="JumboCactpot_Tickets" xml:space="preserve">
+        <value>くじ</value>
+    </data>
+  <data name="JumboCactpot_NextDrawing" xml:space="preserve">
+        <value>抽選結果発表まで</value>
+    </data>
+  <data name="JumboCactpot_TicketsAvailable" xml:space="preserve">
+        <value>利用可能なチケット</value>
+    </data>
+  <data name="JumboCactpot_NoTickets" xml:space="preserve">
+        <value>くじがありません</value>
+    </data>
+  <data name="Levequest_Label" xml:space="preserve">
+        <value>リーヴクエスト</value>
+    </data>
+  <data name="Common_Accepted" xml:space="preserve">
+        <value>受注済</value>
+    </data>
+  <data name="Levequest_NextAllowance" xml:space="preserve">
+        <value>次の受注権</value>
+    </data>
+  <data name="MiniCactpot_Label" xml:space="preserve">
+        <value>ミニ・くじテンダー</value>
+    </data>
+  <data name="MiniCactpot_TicketsRemaining" xml:space="preserve">
+        <value>残り購入可能枚数</value>
+    </data>
+  <data name="TreasureMap_Label" xml:space="preserve">
+        <value>宝の地図</value>
+    </data>
+  <data name="TreasureMap_MapAvailable" xml:space="preserve">
+        <value>地図が取得可能です</value>
+    </data>
+  <data name="TreasureMap_NextMap" xml:space="preserve">
+        <value>次の地図</value>
+    </data>
+  <data name="WondrousTails_Label" xml:space="preserve">
+        <value>クロの空想帳</value>
+    </data>
+  <data name="WondrousTails_RerollNotice" xml:space="preserve">
+        <value>このインスタンスは「リトライ」すれば未コンプリートに戻せます</value>
+    </data>
+  <data name="WondrousTails_RerollCount" xml:space="preserve">
+        <value>{0} のリロールが利用可能です</value>
+    </data>
+  <data name="WondrousTails_AlreadyAvailable" xml:space="preserve">
+        <value>このインスタンスではすでにスタンプが利用可能です</value>
+    </data>
+  <data name="WondrousTails_Completable" xml:space="preserve">
+        <value>このインスタンスを完成させると、スタンプがもらえます。</value>
+    </data>
+  <data name="WondrousTails_Claimable" xml:space="preserve">
+        <value>最後のインスタンスのスタンプを取得することができます</value>
+    </data>
+  <data name="WondrousTails_BookAvailable" xml:space="preserve">
+        <value>新しい空想帳を取得可能</value>
+    </data>
+  <data name="WondrousTails_DutyNotifications" xml:space="preserve">
+        <value>コンテンツ開始/終了時の通知</value>
+    </data>
+  <data name="WondrousTails_UnclaimedBookWarning" xml:space="preserve">
+        <value>空想帳を受け取っていない場合警告する</value>
+    </data>
+  <data name="Common_Stamps" xml:space="preserve">
+        <value>スタンプ</value>
+    </data>
+  <data name="WondrousTails_ClickableLink" xml:space="preserve">
+        <value>通知をクリックして黒の空想帳を開く、本を持っていない場合はイディルシャイアにテレポートする</value>
+    </data>
+  <data name="WondrousTails_ResendNotification" xml:space="preserve">
+        <value>コンテンツ退出時に再通知する</value>
+    </data>
+  <data name="ChallengeLog_Label" xml:space="preserve">
+        <value>攻略手帳</value>
+    </data>
+  <data name="Common_Battle" xml:space="preserve">
+        <value>バトル</value>
+    </data>
+  <data name="ChallengeLog_CommendationLabel" xml:space="preserve">
+        <value>「MIP推薦」の通知</value>
+    </data>
+  <data name="ChallengeLog_Commendation" xml:space="preserve">
+        <value>MIP推薦</value>
+    </data>
+  <data name="ChallengeLog_CommendationsRemaining" xml:space="preserve">
+        <value>残りのMIP推薦回数</value>
+    </data>
+  <data name="ChallengeLog_DungeonRouletteLabel" xml:space="preserve">
+        <value>「ダンジョン：コンテンツルーレット」の通知</value>
+    </data>
+  <data name="ChallengeLog_DungeonRoulette" xml:space="preserve">
+        <value>ダンジョン：コンテンツルーレット</value>
+    </data>
+  <data name="ChallengeLog_DungeonRoulettesRemaining" xml:space="preserve">
+        <value>残りのルーレット回数</value>
+    </data>
+  <data name="ChallengeLog_DungeonMasterLabel" xml:space="preserve">
+        <value>「ダンジョン：攻略回数」の通知</value>
+    </data>
+  <data name="ChallengeLog_DungeonMaster" xml:space="preserve">
+        <value>ダンジョン：攻略回数</value>
+    </data>
+  <data name="ChallengeLog_DungeonMasterRemaining" xml:space="preserve">
+        <value>残りのダンジョン回数</value>
+    </data>
+  <data name="Raids_AllianceLabel" xml:space="preserve">
+        <value>アライアンスレイド</value>
+    </data>
+  <data name="Raids_NormalLabel" xml:space="preserve">
+        <value>ノーマルレイド</value>
+    </data>
+  <data name="Raids_TrackedRaids" xml:space="preserve">
+        <value>追跡するレイド</value>
+    </data>
+  <data name="Common_Drops" xml:space="preserve">
+        <value>ドロップ</value>
+    </data>
+  <data name="Raids_Regenerate" xml:space="preserve">
+        <value>追跡されたレイドをリセット</value>
+    </data>
+  <data name="Raids_Regenerate_Info" xml:space="preserve">
+        <value>デューティ情報を再読み込みして設定をリセットする</value>
+    </data>
+  <data name="DisabledButton_Hover" xml:space="preserve">
+        <value>Shiftキーを押しながらクリック</value>
+    </data>
+  <data name="Raids_NothingTracked" xml:space="preserve">
+        <value>追跡するレイドが選択されていません</value>
+    </data>
+  <data name="Raids_RaidsRemaining" xml:space="preserve">
+        <value>残りのレイド</value>
+    </data>
+  <data name="Raids_RaidRemaining" xml:space="preserve">
+        <value>残りのレイド</value>
+    </data>
+  <data name="FauxHollows_Label" xml:space="preserve">
+        <value>ソーチョーの幻想盤</value>
+    </data>
+  <data name="FauxHollows_TrialAvailable" xml:space="preserve">
+        <value>幻討滅戦が利用可能です</value>
+    </data>
+  <data name="PartyFinder_ClickableLink" xml:space="preserve">
+        <value>通知をクリックして、パーティー募集を開きます</value>
+    </data>
+  <data name="FauxHollows_Retelling_Info" xml:space="preserve">
+        <value>モジュールを完全にマークするためにボーナスチャンス分も完了する必要があります</value>
+    </data>
+  <data name="FauxHollows_Retelling" xml:space="preserve">
+        <value>ボーナスチャンスを含める</value>
+    </data>
+  <data name="Common_Completions" xml:space="preserve">
+        <value>完了</value>
+    </data>
+  <data name="GrandCompany_SupplyLabel" xml:space="preserve">
+        <value>グランドカンパニー(軍需品調達)</value>
+    </data>
+  <data name="GrandCompany_ProvisioningLabel" xml:space="preserve">
+        <value>グランドカンパニー(補給品調達)</value>
+    </data>
+  <data name="GrandCompany_NothingTracked" xml:space="preserve">
+        <value>追跡するジョブが選択されていません</value>
+    </data>
+  <data name="GrandCompany_Tracked" xml:space="preserve">
+        <value>追跡されたジョブ</value>
+    </data>
+  <data name="Common_NextReset" xml:space="preserve">
+        <value>次のリセット</value>
+    </data>
+  <data name="GrandCompany_SquadronLabel" xml:space="preserve">
+        <value>グランドカンパニー(小隊任務)</value>
+    </data>
+  <data name="GrandCompany_MissionAvailable" xml:space="preserve">
+        <value>小隊任務が利用可能です</value>
+    </data>
+  <data name="MaskedCarnivale_Label" xml:space="preserve">
+        <value>マスクカーニバル</value>
+    </data>
+  <data name="MaskedCarnivale_NothingTracked" xml:space="preserve">
+        <value>追跡中のタスクはありません</value>
+    </data>
+  <data name="MaskedCarnivale_Novice" xml:space="preserve">
+        <value>初級</value>
+    </data>
+  <data name="MaskedCarnivale_Moderate" xml:space="preserve">
+        <value>中級</value>
+    </data>
+  <data name="MaskedCarnivale_Advanced" xml:space="preserve">
+        <value>上級</value>
+    </data>
+  <data name="UlDah_ClickableLink" xml:space="preserve">
+        <value>通知をクリックするとウルダハにテレポートできます</value>
+    </data>
+  <data name="Todo_Label" xml:space="preserve">
+        <value>タスク</value>
+    </data>
+  <data name="Common_MainOptions" xml:space="preserve">
+        <value>メインオプション</value>
+    </data>
+  <data name="Common_TaskSelection" xml:space="preserve">
+        <value>タスクを選択する</value>
+    </data>
+  <data name="Todo_ShowDailyTasks" xml:space="preserve">
+        <value>デイリータスクを表示</value>
+    </data>
+  <data name="Todo_ShowWeeklyTasks" xml:space="preserve">
+        <value>週間タスクの表示</value>
+    </data>
+  <data name="Todo_TaskDisplay" xml:space="preserve">
+        <value>タスクの表示オプション</value>
+    </data>
+  <data name="Common_HideCompletedTasks" xml:space="preserve">
+        <value>完了したタスクを非表示</value>
+    </data>
+  <data name="Todo_HideUnavailable" xml:space="preserve">
+        <value>利用できない項目を非表示にする</value>
+    </data>
+  <data name="Common_WindowOptions" xml:space="preserve">
+        <value>ウィンドウオプション</value>
+    </data>
+  <data name="Common_HideWhenComplete" xml:space="preserve">
+        <value>完了時にウィンドウを隠す</value>
+    </data>
+  <data name="Common_HideInDuty" xml:space="preserve">
+        <value>コンテンツ中はウィンドウを非表示にする</value>
+    </data>
+  <data name="Common_LockWindowPosition" xml:space="preserve">
+        <value>ウィンドウの位置を固定</value>
+    </data>
+  <data name="Common_AutoResize" xml:space="preserve">
+        <value>自動サイズ調整...</value>
+    </data>
+  <data name="Todo_AnchorCorner" xml:space="preserve">
+        <value>アンカーコーナー</value>
+    </data>
+  <data name="Common_Opacity" xml:space="preserve">
+        <value>不透明度</value>
+    </data>
+  <data name="Common_DailyTasks" xml:space="preserve">
+        <value>デイリータスク</value>
+    </data>
+  <data name="Common_WeeklyTasks" xml:space="preserve">
+        <value>週間タスク</value>
+    </data>
+  <data name="Todo_NothingEnabled" xml:space="preserve">
+        <value>設定でタスクを追跡するモジュールを有効にします</value>
+    </data>
+  <data name="Todo_UseLongLabel" xml:space="preserve">
+        <value>長いラベルを使用する</value>
+    </data>
+  <data name="Todo_ShowCompleted" xml:space="preserve">
+        <value>完了したカテゴリを表示する</value>
+    </data>
+  <data name="Todo_AllCompleted" xml:space="preserve">
+        <value>すべてのタスクが完成しました</value>
+    </data>
+  <data name="Timers_NothingEnabled" xml:space="preserve">
+        <value>'/dd timers' コマンドでここで表示したいタイマーを有効にする</value>
+    </data>
+  <data name="Timers_Label" xml:space="preserve">
+        <value>タイマー</value>
+    </data>
+  <data name="Timers_EditStyle" xml:space="preserve">
+        <value>スタイルを編集</value>
+    </data>
+  <data name="Timers_EditTimerStyle" xml:space="preserve">
+        <value>タイマーのスタイルを編集</value>
+    </data>
+  <data name="Timers_TimeOptions" xml:space="preserve">
+        <value>タイマーの表示オプション</value>
+    </data>
+  <data name="Timers_ColorOptions" xml:space="preserve">
+        <value>カラーオプション</value>
+    </data>
+  <data name="Common_Background" xml:space="preserve">
+        <value>背景</value>
+    </data>
+  <data name="Common_Foreground" xml:space="preserve">
+        <value>前景</value>
+    </data>
+  <data name="Common_Text" xml:space="preserve">
+        <value>テキスト</value>
+    </data>
+  <data name="Common_Time" xml:space="preserve">
+        <value>時間</value>
+    </data>
+  <data name="Timers_SizeOptions" xml:space="preserve">
+        <value>サイズオプション</value>
+    </data>
+  <data name="Timers_StretchToFit" xml:space="preserve">
+        <value>サイズに合うよう引き伸ばし</value>
+    </data>
+  <data name="Timers_Size" xml:space="preserve">
+        <value>サイズ</value>
+    </data>
+  <data name="Timers_DisplayName" xml:space="preserve">
+        <value>表示名</value>
+    </data>
+  <data name="Timers_EnableCustomName" xml:space="preserve">
+        <value>カスタム名を有効にする</value>
+    </data>
+  <data name="Timers_TextOptions" xml:space="preserve">
+        <value>テキストオプション</value>
+    </data>
+  <data name="Timers_HideLabel" xml:space="preserve">
+        <value>ラベルを非表示にする</value>
+    </data>
+  <data name="Timers_HideTime" xml:space="preserve">
+        <value>時間を非表示</value>
+    </data>
+  <data name="Timers_HumanStyle" xml:space="preserve">
+        <value>Human (e.g. '3 hours')</value>
+    </data>
+  <data name="Timers_FullStyle" xml:space="preserve">
+        <value>Full (DH:MM:SS)</value>
+    </data>
+  <data name="Timers_NoSecondsStyle" xml:space="preserve">
+        <value>秒数非表示 (D.HH:MM)</value>
+    </data>
+  <data name="Timers_NumDays" xml:space="preserve">
+        <value>{0} 日</value>
+    </data>
+  <data name="Timers_DayPlusHours" xml:space="preserve">
+        <value>{0} 日 {1} 時間</value>
+    </data>
+  <data name="Timers_NumHours" xml:space="preserve">
+        <value>{0} 時間</value>
+    </data>
+  <data name="Timers_NumMins" xml:space="preserve">
+        <value>{0}分</value>
+    </data>
+  <data name="Timers_NumSecs" xml:space="preserve">
+        <value>{0} 秒</value>
+    </data>
+  <data name="Common_Reset" xml:space="preserve">
+        <value>デフォルトに戻す</value>
+    </data>
+  <data name="Timers_Ordering" xml:space="preserve">
+        <value>タイマーの表示順</value>
+    </data>
+</root>
