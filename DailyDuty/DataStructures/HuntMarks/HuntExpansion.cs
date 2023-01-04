@@ -21,7 +21,7 @@ public static class ExpansionExtensions
             HuntExpansion.RealmReborn => Strings.Expansion_RealmReborn,
             HuntExpansion.Heavensward => Strings.Expansion_Heavensward,
             HuntExpansion.Stormblood => Strings.Expansion_Stormblood,
-            HuntExpansion.Shadowbringers => Strings.Expansion_Stormblood,
+            HuntExpansion.Shadowbringers => Strings.Expansion_Shadowbringers,
             HuntExpansion.Endwalker => Strings.Expansion_Endwalker,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
