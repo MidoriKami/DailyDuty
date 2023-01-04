@@ -196,7 +196,7 @@ internal class FashionReport : IModule
             {
                 case FashionReportMode.All:
                 case FashionReportMode.Single when Settings.AllowancesRemaining == 4:
-                    return $"{Settings.AllowancesRemaining} {Strings.Common_AllowancesAvailable}";
+                    return $"{Settings.AllowancesRemaining} {Strings.FashionReport_AllowancesAvailable}";
 
                 case FashionReportMode.Plus80 when Settings.HighestWeeklyScore <= 80:
                     return $"{Settings.HighestWeeklyScore} {Strings.FashionReport_HighestScore}";
