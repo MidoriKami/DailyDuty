@@ -1,4 +1,5 @@
-﻿using DailyDuty.Localization;
+﻿using System.Globalization;
+using DailyDuty.Localization;
 using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.InfoBoxSystem;
@@ -16,7 +17,7 @@ public record TrackedGrandCompanySupplyProvisioning(uint ClassJobID, Setting<boo
 
         owner
             .BeginRow()
-            .AddString($"{char.ToUpper(jobName[0]) + jobName[1..]}")
+            .AddString(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(jobName))
             .AddString(State ? Strings.Common_Complete : Strings.Common_Incomplete, State ? Colors.Green : Colors.Orange)
             .EndRow();
     }
@@ -25,7 +26,7 @@ public record TrackedGrandCompanySupplyProvisioning(uint ClassJobID, Setting<boo
     {
         var jobName = LuminaCache<ClassJob>.Instance.GetRow(ClassJobID)!.Name.RawString;
 
-        owner.AddConfigCheckbox($"{char.ToUpper(jobName[0]) + jobName[1..]}", Tracked);
+        owner.AddConfigCheckbox(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(jobName), Tracked);
     }
 
     public bool State { get; set; } = State;
