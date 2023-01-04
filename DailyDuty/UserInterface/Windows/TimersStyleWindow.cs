@@ -64,7 +64,7 @@ internal class TimersStyleWindow : Window
             .AddConfigColor(Strings.Common_Background, Strings.Common_Default, Settings.BackgroundColor, Colors.Black)
             .AddConfigColor(Strings.Common_Foreground, Strings.Common_Default, Settings.ForegroundColor, Colors.Purple)
             .AddConfigColor(Strings.Common_Text, Strings.Common_Default, Settings.TextColor, Colors.White)
-            .AddConfigColor(Strings.Timers_Label, Strings.Common_Default, Settings.TimeColor, Colors.White)
+            .AddConfigColor(Strings.Common_Time, Strings.Common_Default, Settings.TimeColor, Colors.White)
             .Draw();
 
         InfoBox.Instance
