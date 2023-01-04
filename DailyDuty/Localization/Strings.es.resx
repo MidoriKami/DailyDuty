@@ -251,8 +251,8 @@ Esto es para evitar llenar demasiado el registro del chat</value>
   <data name="GoldSaucer_ClickableLink" xml:space="preserve">
         <value>Puedes hacer clic en las notificaciones para teletransportarte al Gold Saucer</value>
     </data>
-  <data name="Common_AllowancesAvailable" xml:space="preserve">
-        <value>Allowances Disponibles</value>
+    <data name="Common_AllowancesAvailable" xml:space="preserve">
+        <value>Livraisons disponibles</value>
     </data>
   <data name="FashionReport_HighestScore" xml:space="preserve">
         <value>Puntuación Más Alta</value>
@@ -652,5 +652,8 @@ Esto es para evitar llenar demasiado el registro del chat</value>
     </data>
   <data name="Timers_Ordering" xml:space="preserve">
         <value>Orden de temporizadores</value>
+    </data>
+    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Livraisons disponibles</value>
     </data>
 </root>

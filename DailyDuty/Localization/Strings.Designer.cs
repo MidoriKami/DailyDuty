@@ -970,6 +970,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allowances Available.
+        /// </summary>
+        internal static string FashionReport_AllowancesAvailable {
+            get {
+                return ResourceManager.GetString("FashionReport_AllowancesAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completion Condition.
         /// </summary>
         internal static string FashionReport_CompletionCondition {

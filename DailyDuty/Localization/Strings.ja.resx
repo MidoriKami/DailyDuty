@@ -20,19 +20,19 @@
         <value>設定</value>
     </data>
   <data name="Config_Options" xml:space="preserve">
-        <value>オプション</value>
+        <value>通知の有効化</value>
     </data>
   <data name="Config_MarkCompleteWhen" xml:space="preserve">
-        <value>完了した日時をマーク</value>
+        <value>完了条件</value>
     </data>
   <data name="Config_NotificationOptions" xml:space="preserve">
-        <value>通知の設定</value>
+        <value>通知設定</value>
     </data>
   <data name="Config_LoginNotification" xml:space="preserve">
-        <value>ログイン時に通知を送信する</value>
+        <value>ログイン時に通知を送信</value>
     </data>
   <data name="Config_ZoneChageNotification" xml:space="preserve">
-        <value>ゾーン変更時に通知を送信する</value>
+        <value>ゾーン変更時に通知を送信</value>
     </data>
   <data name="Config_HideDisabled" xml:space="preserve">
         <value>無効化されたものを非表示にする</value>
@@ -47,7 +47,7 @@
         <value>モジュールの状態</value>
     </data>
   <data name="Status_Suppression" xml:space="preserve">
-        <value>Dano de ocupação</value>
+        <value>非表示</value>
     </data>
   <data name="Status_Suppression_Info" xml:space="preserve">
         <value>次のリセットまで通知を停止する</value>
@@ -68,7 +68,7 @@
         <value>不明</value>
     </data>
   <data name="Common_Incomplete" xml:space="preserve">
-        <value>未完成</value>
+        <value>未完了</value>
     </data>
   <data name="Common_Unavailable" xml:space="preserve">
         <value>利用不可</value>
@@ -83,7 +83,7 @@
         <value>未満</value>
     </data>
   <data name="Common_LessThanEqual" xml:space="preserve">
-        <value>以下または等しい</value>
+        <value>以下</value>
     </data>
   <data name="Common_Equal" xml:space="preserve">
         <value>等しい</value>
@@ -147,7 +147,7 @@
         <value>暁月のフィナーレ</value>
     </data>
   <data name="TribalQuests_Label" xml:space="preserve">
-        <value>部族クエスト</value>
+        <value>友好部族クエスト</value>
     </data>
   <data name="Common_AllowancesRemaining" xml:space="preserve">
         <value>残り受注回数</value>
@@ -162,10 +162,10 @@
         <value>予算額</value>
     </data>
   <data name="DomanEnclave_StatusUnknown_Info" xml:space="preserve">
-        <value>状態が不明です。モジュールを初期化するには、ドマ町人地にアクセスしてください。</value>
+        <value>状態が不明です。情報を取得するには、ドマ町人地のNPCと会話してください。</value>
     </data>
   <data name="DomanEnclave_StatusUnknown" xml:space="preserve">
-        <value>不明なステータス</value>
+        <value>状態: 不明</value>
     </data>
   <data name="DomanEnclave_BudgetRemaining" xml:space="preserve">
         <value>残りの予算額</value>
@@ -183,7 +183,7 @@
         <value>デイリールーレット</value>
     </data>
   <data name="DutyRoulette_RouletteSelection" xml:space="preserve">
-        <value>追跡するルーレットを選択</value>
+        <value>対象のルーレットを選択</value>
     </data>
   <data name="DutyFinder_ClickableLink" xml:space="preserve">
         <value>通知をクリックして、コンテンツファインダーを開きます</value>
@@ -198,10 +198,10 @@
         <value>トームストーンが週上限に達したとき、エキスパートルーレットを完了とマークします</value>
     </data>
   <data name="DutyRoulette_ExpertTomestones" xml:space="preserve">
-        <value>エキスパートトームストーン</value>
+        <value>最新のトームストーン</value>
     </data>
   <data name="DutyFinder_Overlay" xml:space="preserve">
-        <value>Duty Finderオーバーレイ</value>
+        <value>コンテンツファインダーにオーバーレイを表示</value>
     </data>
   <data name="DutyRoulette_DutyComplete" xml:space="preserve">
         <value>達成済</value>
@@ -210,10 +210,10 @@
         <value>未達成</value>
     </data>
   <data name="DutyRoulette_Status" xml:space="preserve">
-        <value>ルーレットのステータス</value>
+        <value>ルーレットの状態</value>
     </data>
   <data name="DutyRoulette_NothingTracked" xml:space="preserve">
-        <value>トラッキング用のルーレットが選択されていません</value>
+        <value>対象のルーレットが選択されていません</value>
     </data>
   <data name="DutyRoulette_Override" xml:space="preserve">
         <value>週上限到達済</value>
@@ -282,10 +282,10 @@
         <value>モブハント (毎週)</value>
     </data>
   <data name="HuntMarks_Tracked" xml:space="preserve">
-        <value>追跡中のモブハント</value>
+        <value>対象のモブハント</value>
     </data>
   <data name="HuntMarks_Obtained" xml:space="preserve">
-        <value>獲得済み</value>
+        <value>獲得済</value>
     </data>
   <data name="HuntMarks_Unobtained" xml:space="preserve">
         <value>未獲得</value>
@@ -300,13 +300,13 @@
         <value>追跡中のモブハントステータス</value>
     </data>
   <data name="HuntMarks_NothingTracked" xml:space="preserve">
-        <value>追跡するモブハントが選択されていません</value>
+        <value>対象のモブハントが選択されていません</value>
     </data>
   <data name="HuntMarks_ForceComplete" xml:space="preserve">
         <value>強制完了</value>
     </data>
   <data name="HuntMarks_ForceComplete_Info" xml:space="preserve">
-        <value>モジュールの状態を上書きし、完了をマークする</value>
+        <value>手動で状態を上書きし、完了マークを付ける</value>
     </data>
   <data name="HuntMarks_ForceComplete_Warning" xml:space="preserve">
         <value>この操作は元に戻せません</value>
@@ -360,13 +360,13 @@
         <value>{0} のリロールが利用可能です</value>
     </data>
   <data name="WondrousTails_AlreadyAvailable" xml:space="preserve">
-        <value>このインスタンスではすでにスタンプが利用可能です</value>
+        <value>このコンテンツではすでにスタンプが利用可能です</value>
     </data>
   <data name="WondrousTails_Completable" xml:space="preserve">
-        <value>このインスタンスを完成させると、スタンプがもらえます。</value>
+        <value>このコンテンツをクリアすると、スタンプがもらえます。</value>
     </data>
   <data name="WondrousTails_Claimable" xml:space="preserve">
-        <value>最後のインスタンスのスタンプを取得することができます</value>
+        <value>最後のコンテンツのスタンプを取得することができます</value>
     </data>
   <data name="WondrousTails_BookAvailable" xml:space="preserve">
         <value>新しい空想帳を取得可能</value>
@@ -381,7 +381,8 @@
         <value>スタンプ</value>
     </data>
   <data name="WondrousTails_ClickableLink" xml:space="preserve">
-        <value>通知をクリックして黒の空想帳を開く、本を持っていない場合はイディルシャイアにテレポートする</value>
+        <value>通知をクリックすると、クロの空想帳を開きます。
+本を持っていない場合はイディルシャイアにテレポートします。</value>
     </data>
   <data name="WondrousTails_ResendNotification" xml:space="preserve">
         <value>コンテンツ退出時に再通知する</value>
@@ -426,22 +427,22 @@
         <value>ノーマルレイド</value>
     </data>
   <data name="Raids_TrackedRaids" xml:space="preserve">
-        <value>追跡するレイド</value>
+        <value>対象のレイド</value>
     </data>
   <data name="Common_Drops" xml:space="preserve">
         <value>ドロップ</value>
     </data>
   <data name="Raids_Regenerate" xml:space="preserve">
-        <value>追跡されたレイドをリセット</value>
+        <value>対象のレイドを初期化</value>
     </data>
   <data name="Raids_Regenerate_Info" xml:space="preserve">
-        <value>デューティ情報を再読み込みして設定をリセットする</value>
+        <value>コンテンツ情報を再読み込みして設定をリセットする</value>
     </data>
   <data name="DisabledButton_Hover" xml:space="preserve">
-        <value>Shiftキーを押しながらクリック</value>
+        <value>ShiftキーとCtrlキーを押しながらクリック</value>
     </data>
   <data name="Raids_NothingTracked" xml:space="preserve">
-        <value>追跡するレイドが選択されていません</value>
+        <value>対象のレイドが選択されていません</value>
     </data>
   <data name="Raids_RaidsRemaining" xml:space="preserve">
         <value>残りのレイド</value>
@@ -474,10 +475,10 @@
         <value>グランドカンパニー(補給品調達)</value>
     </data>
   <data name="GrandCompany_NothingTracked" xml:space="preserve">
-        <value>追跡するジョブが選択されていません</value>
+        <value>対象のジョブが選択されていません</value>
     </data>
   <data name="GrandCompany_Tracked" xml:space="preserve">
-        <value>追跡されたジョブ</value>
+        <value>対象のジョブ</value>
     </data>
   <data name="Common_NextReset" xml:space="preserve">
         <value>次のリセット</value>
@@ -492,7 +493,7 @@
         <value>マスクカーニバル</value>
     </data>
   <data name="MaskedCarnivale_NothingTracked" xml:space="preserve">
-        <value>追跡中のタスクはありません</value>
+        <value>対象のタスク無し</value>
     </data>
   <data name="MaskedCarnivale_Novice" xml:space="preserve">
         <value>初級</value>
@@ -519,7 +520,7 @@
         <value>デイリータスクを表示</value>
     </data>
   <data name="Todo_ShowWeeklyTasks" xml:space="preserve">
-        <value>週間タスクの表示</value>
+        <value>ウィークリータスクの表示</value>
     </data>
   <data name="Todo_TaskDisplay" xml:space="preserve">
         <value>タスクの表示オプション</value>
@@ -528,10 +529,10 @@
         <value>完了したタスクを非表示</value>
     </data>
   <data name="Todo_HideUnavailable" xml:space="preserve">
-        <value>利用できない項目を非表示にする</value>
+        <value>利用できないタスクを非表示にする</value>
     </data>
   <data name="Common_WindowOptions" xml:space="preserve">
-        <value>ウィンドウオプション</value>
+        <value>ウィンドウ設定</value>
     </data>
   <data name="Common_HideWhenComplete" xml:space="preserve">
         <value>完了時にウィンドウを隠す</value>
@@ -546,7 +547,7 @@
         <value>自動サイズ調整...</value>
     </data>
   <data name="Todo_AnchorCorner" xml:space="preserve">
-        <value>アンカーコーナー</value>
+        <value>角に固定</value>
     </data>
   <data name="Common_Opacity" xml:space="preserve">
         <value>不透明度</value>
@@ -555,7 +556,7 @@
         <value>デイリータスク</value>
     </data>
   <data name="Common_WeeklyTasks" xml:space="preserve">
-        <value>週間タスク</value>
+        <value>ウィークリータスク</value>
     </data>
   <data name="Todo_NothingEnabled" xml:space="preserve">
         <value>設定でタスクを追跡するモジュールを有効にします</value>
@@ -567,7 +568,7 @@
         <value>完了したカテゴリを表示する</value>
     </data>
   <data name="Todo_AllCompleted" xml:space="preserve">
-        <value>すべてのタスクが完成しました</value>
+        <value>すべてのタスクが完了しました</value>
     </data>
   <data name="Timers_NothingEnabled" xml:space="preserve">
         <value>'/dd timers' コマンドでここで表示したいタイマーを有効にする</value>
@@ -582,10 +583,10 @@
         <value>タイマーのスタイルを編集</value>
     </data>
   <data name="Timers_TimeOptions" xml:space="preserve">
-        <value>タイマーの表示オプション</value>
+        <value>タイマーの表示設定</value>
     </data>
   <data name="Timers_ColorOptions" xml:space="preserve">
-        <value>カラーオプション</value>
+        <value>色の設定</value>
     </data>
   <data name="Common_Background" xml:space="preserve">
         <value>背景</value>
@@ -600,7 +601,7 @@
         <value>時間</value>
     </data>
   <data name="Timers_SizeOptions" xml:space="preserve">
-        <value>サイズオプション</value>
+        <value>サイズ設定</value>
     </data>
   <data name="Timers_StretchToFit" xml:space="preserve">
         <value>サイズに合うよう引き伸ばし</value>
@@ -615,22 +616,22 @@
         <value>カスタム名を有効にする</value>
     </data>
   <data name="Timers_TextOptions" xml:space="preserve">
-        <value>テキストオプション</value>
+        <value>テキスト設定</value>
     </data>
   <data name="Timers_HideLabel" xml:space="preserve">
         <value>ラベルを非表示にする</value>
     </data>
   <data name="Timers_HideTime" xml:space="preserve">
-        <value>時間を非表示</value>
+        <value>時間を非表示にする</value>
     </data>
   <data name="Timers_HumanStyle" xml:space="preserve">
         <value>Human (e.g. '3 hours')</value>
     </data>
   <data name="Timers_FullStyle" xml:space="preserve">
-        <value>Full (DH:MM:SS)</value>
+        <value>全て表示 (DH:MM:SS)</value>
     </data>
   <data name="Timers_NoSecondsStyle" xml:space="preserve">
-        <value>秒数非表示 (D.HH:MM)</value>
+        <value>秒数を非表示 (D.HH:MM)</value>
     </data>
   <data name="Timers_NumDays" xml:space="preserve">
         <value>{0} 日</value>
@@ -642,7 +643,7 @@
         <value>{0} 時間</value>
     </data>
   <data name="Timers_NumMins" xml:space="preserve">
-        <value>{0}分</value>
+        <value>{0} 分</value>
     </data>
   <data name="Timers_NumSecs" xml:space="preserve">
         <value>{0} 秒</value>

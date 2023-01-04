@@ -250,8 +250,8 @@
   <data name="GoldSaucer_ClickableLink" xml:space="preserve">
         <value>Benachrichtigungen können angeklickt werden, um zum Gold Saucer zu teleportieren</value>
     </data>
-  <data name="Common_AllowancesAvailable" xml:space="preserve">
-        <value>Verbleibende Freibriefe</value>
+    <data name="Common_AllowancesAvailable" xml:space="preserve">
+        <value>Livraisons disponibles</value>
     </data>
   <data name="FashionReport_HighestScore" xml:space="preserve">
         <value>Höchste Bewertung</value>
@@ -651,5 +651,8 @@
     </data>
   <data name="Timers_Ordering" xml:space="preserve">
         <value>Timer-Reihenfolge</value>
+    </data>
+    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Livraisons disponibles</value>
     </data>
 </root>

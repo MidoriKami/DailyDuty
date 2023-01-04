@@ -17,7 +17,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Config_Label" xml:space="preserve">
-        <value>Paramètres</value>
+        <value>Configuration</value>
     </data>
   <data name="Config_Options" xml:space="preserve">
         <value>Paramètres</value>
@@ -47,7 +47,7 @@
         <value>Statut du module</value>
     </data>
   <data name="Status_Suppression" xml:space="preserve">
-        <value>Dommage d'Occupation</value>
+        <value>Rendre muet</value>
     </data>
   <data name="Status_Suppression_Info" xml:space="preserve">
         <value>Supprimer les notifications jusqu'à la prochaine réinitialisation</value>
@@ -56,7 +56,7 @@
         <value>Ajourner</value>
     </data>
   <data name="Status_Unsnooze" xml:space="preserve">
-        <value>Annuler Rappel</value>
+        <value>Annuler l'ajournement</value>
     </data>
   <data name="Common_Enabled" xml:space="preserve">
         <value>Activé</value>
@@ -150,7 +150,7 @@ Afin de prévenir le spam excessif dans le chat</value>
         <value>Quêtes tribales</value>
     </data>
   <data name="Common_AllowancesRemaining" xml:space="preserve">
-        <value>Défis restants</value>
+        <value>Autorisations Restantes</value>
     </data>
   <data name="CustomDelivery_Label" xml:space="preserve">
         <value>Commandes spéciales</value>
@@ -162,7 +162,7 @@ Afin de prévenir le spam excessif dans le chat</value>
         <value>gils restants</value>
     </data>
   <data name="DomanEnclave_StatusUnknown_Info" xml:space="preserve">
-        <value>Statut inconnu, veuillez visiter le Quartier Enclavé de Doma pour initialiser le module</value>
+        <value>État inconnu, veuillez visiter le Quartier Enclavé de Doma pour initialiser le module</value>
     </data>
   <data name="DomanEnclave_StatusUnknown" xml:space="preserve">
         <value>État inconnu</value>
@@ -183,7 +183,7 @@ Afin de prévenir le spam excessif dans le chat</value>
         <value>Missions Aléatoires</value>
     </data>
   <data name="DutyRoulette_RouletteSelection" xml:space="preserve">
-        <value>Sélectionner les Missions à suivre</value>
+        <value>Sélectionnez les Roulettes à suivre</value>
     </data>
   <data name="DutyFinder_ClickableLink" xml:space="preserve">
         <value>Vous pouvez cliquer sur les notifications pour ouvrir l'Outil de Mission</value>
@@ -210,7 +210,7 @@ Afin de prévenir le spam excessif dans le chat</value>
         <value>Mission incomplète</value>
     </data>
   <data name="DutyRoulette_Status" xml:space="preserve">
-        <value>Statut de la mission aléatoire</value>
+        <value>État de la mission aléatoire</value>
     </data>
   <data name="DutyRoulette_NothingTracked" xml:space="preserve">
         <value>Aucune mission aléatoire n'a été sélectionnée pour le suivi</value>
@@ -652,5 +652,8 @@ Afin de prévenir le spam excessif dans le chat</value>
     </data>
   <data name="Timers_Ordering" xml:space="preserve">
         <value>Ordre des timers</value>
+    </data>
+    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Livraisons disponibles</value>
     </data>
 </root>

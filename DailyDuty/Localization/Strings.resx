@@ -655,4 +655,7 @@ This is to prevent excessive chatlog spamming</value>
     <data name="Timers_Ordering" xml:space="preserve">
         <value>Timers Ordering</value>
     </data>
+    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Allowances Available</value>
+    </data>
 </root>
