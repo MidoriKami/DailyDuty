@@ -106,7 +106,7 @@ internal class RaidsNormal : IModule
 
             InfoBox.Instance
                 .AddTitle(Strings.Raids_Regenerate, out var innerWidth)
-                .AddString(Strings.Raids_Regenerate_Info, Colors.Orange)
+                .AddStringCentered(Strings.Raids_Regenerate_Info, innerWidth, Colors.Orange)
                 .AddDisabledButton(Strings.Raids_Regenerate, RegenerateTrackedRaids, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
                 .Draw();
 
