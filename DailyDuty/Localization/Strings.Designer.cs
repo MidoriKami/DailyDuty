@@ -1600,6 +1600,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module Data.
+        /// </summary>
+        internal static string Status_ModuleData {
+            get {
+                return ResourceManager.GetString("Status_ModuleData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Module Status.
         /// </summary>
         internal static string Status_ModuleStatus {

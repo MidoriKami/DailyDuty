@@ -694,4 +694,7 @@ This is to prevent excessive chatlog spamming</value>
     <data name="Commands_Todo_EnablingDisabling" xml:space="preserve">
         <value>{0} Todo Overlay</value>
     </data>
+    <data name="Status_ModuleData" xml:space="preserve">
+        <value>Module Data</value>
+    </data>
 </root>
