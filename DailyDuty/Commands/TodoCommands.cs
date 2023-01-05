@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Localization;
 using Dalamud.Utility;
-using FFXIVClientStructs.FFXIV.Common.Lua;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
-using Lumina.Data.Parsing;
 
 namespace DailyDuty.Commands;
 
@@ -15,11 +13,6 @@ internal class TodoCommands : IPluginCommand
 
     public IEnumerable<ISubCommand> SubCommands { get; } = new List<ISubCommand>
     {
-        new SubCommand // window open command handled by KamiLib
-        {
-            CommandKeyword = null,
-            Hidden = true,
-        },
         new SubCommand
         {
             CommandKeyword = "show",

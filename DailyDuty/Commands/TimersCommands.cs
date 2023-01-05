@@ -13,11 +13,6 @@ internal class TimersCommands : IPluginCommand
 
     public IEnumerable<ISubCommand> SubCommands { get; } = new List<ISubCommand>
     {
-        new SubCommand // window open command handled by KamiLib
-        {
-            CommandKeyword = null,
-            Hidden = true,
-        },
         new SubCommand
         {
             CommandKeyword = "show",
