@@ -91,13 +91,11 @@ internal class TribalQuests : IModule
             var moduleStatus = logicModule.GetModuleStatus();
             var allowances = ModuleLogicComponent.GetRemainingAllowances();
 
+            InfoBox.Instance.DrawGenericStatus(this);
+            
             InfoBox.Instance
-                .AddTitle(Strings.Status_Label)
+                .AddTitle(Strings.Status_ModuleData)
                 .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status_ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
                 .BeginRow()
                 .AddString(Strings.Common_Allowances)
                 .AddString(allowances.ToString(), moduleStatus.GetStatusColor())

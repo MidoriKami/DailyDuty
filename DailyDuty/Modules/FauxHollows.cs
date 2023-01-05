@@ -95,7 +95,7 @@ internal class FauxHollows : IModule
             InfoBox.Instance.DrawGenericStatus(this);
 
             InfoBox.Instance
-                .AddTitle(Strings.Common_Target)
+                .AddTitle(Strings.Status_ModuleData)
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Common_Completions)
@@ -106,7 +106,7 @@ internal class FauxHollows : IModule
 
             InfoBox.Instance
                 .AddTitle(Strings.HuntMarks_ForceComplete, out var innerWidth)
-                .AddString(Strings.HuntMarks_ForceComplete_Info, Colors.Orange)
+                .AddStringCentered(Strings.HuntMarks_ForceComplete_Info, innerWidth, Colors.Orange)
                 .AddDummy(20.0f)
                 .AddStringCentered(Strings.HuntMarks_ForceComplete_Warning, innerWidth, Colors.Orange)
                 .AddDisabledButton(Strings.Common_Reset, () => { 

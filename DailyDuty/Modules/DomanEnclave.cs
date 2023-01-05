@@ -68,7 +68,7 @@ internal class DomanEnclave : IModule
                 .AddString(Strings.DomanEnclave_ClickableLink)
                 .AddConfigCheckbox(Strings.Common_ClickableLink, Settings.EnableClickableLink)
                 .Draw();
-
+            
             InfoBox.Instance.DrawNotificationOptions(this);
         }
     }
@@ -90,13 +90,11 @@ internal class DomanEnclave : IModule
 
             var moduleStatus = logicModule.GetModuleStatus();
 
+            InfoBox.Instance.DrawGenericStatus(this);
+            
             InfoBox.Instance
-                .AddTitle(Strings.Status_Label)
+                .AddTitle(Strings.Status_ModuleData)
                 .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status_ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
                 .BeginRow()
                 .AddString(Strings.DomanEnclave_BudgetRemaining)
                 .AddString(ModuleLogicComponent.GetRemainingBudget().ToString(), ModuleLogicComponent.GetRemainingBudget() == 0 ? Colors.Green : Colors.Orange)
@@ -107,7 +105,7 @@ internal class DomanEnclave : IModule
                 .EndRow()
                 .EndTable()
                 .Draw();
-
+                
             if (moduleStatus == ModuleStatus.Unknown)
             {
                 InfoBox.Instance

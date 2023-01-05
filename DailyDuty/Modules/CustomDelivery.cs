@@ -91,13 +91,11 @@ internal class CustomDelivery : IModule
             var moduleStatus = logicModule.GetModuleStatus();
             var allowances = logicModule.GetRemainingAllowances();
 
+            InfoBox.Instance.DrawGenericStatus(this);
+            
             InfoBox.Instance
-                .AddTitle(Strings.Status_Label)
+                .AddTitle(Strings.Status_ModuleData)
                 .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status_ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
                 .BeginRow()
                 .AddString(Strings.Common_Allowances)
                 .AddString(allowances.ToString(), moduleStatus.GetStatusColor())
@@ -106,7 +104,7 @@ internal class CustomDelivery : IModule
                 .Draw();
 
             InfoBox.Instance
-                .AddTitle(Strings.Common_Target)
+                .AddTitle(Strings.Config_Label)
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.Common_Mode)

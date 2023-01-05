@@ -57,7 +57,7 @@ internal class TodoConfigurationWindow : Window
             InfoBox.Instance
                 .AddTitle(Strings.Common_DailyTasks)
                 .BeginTable()
-                .AddRows(enabledDailyTasks, Strings.Todo_NothingEnabled)
+                .AddConfigurationRows(enabledDailyTasks, Strings.Todo_NothingEnabled)
                 .EndTable()
                 .Draw();
         }
@@ -70,7 +70,7 @@ internal class TodoConfigurationWindow : Window
             InfoBox.Instance
                 .AddTitle(Strings.Common_WeeklyTasks)
                 .BeginTable()
-                .AddRows(enabledWeeklyTasks, Strings.Todo_NothingEnabled)
+                .AddConfigurationRows(enabledWeeklyTasks, Strings.Todo_NothingEnabled)
                 .EndTable()
                 .Draw();
         }

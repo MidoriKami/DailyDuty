@@ -59,7 +59,7 @@ internal class TimersConfigurationWindow : Window
         InfoBox.Instance
             .AddTitle(Strings.Timers_Label)
             .BeginTable(0.65f)
-            .AddRows(enabledModules, Strings.Timers_NothingEnabled)
+            .AddConfigurationRows(enabledModules, Strings.Timers_NothingEnabled)
             .EndTable()
             .Draw();
         

@@ -99,17 +99,17 @@ internal class GrandCompanySupply : IModule
             if (Settings.TrackedSupply.Any(row => row.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleStatus)
+                    .AddTitle(Strings.Status_ModuleData)
                     .BeginTable()
-                    .AddRows(Settings.TrackedSupply.Where(row => row.Tracked))
+                    .AddDataRows(Settings.TrackedSupply.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleStatus)
-                    .AddString(Strings.GrandCompany_NothingTracked, Colors.Orange)
+                    .AddTitle(Strings.Status_ModuleData, out var innerWidth)
+                    .AddStringCentered(Strings.GrandCompany_NothingTracked, innerWidth, Colors.Orange)
                     .Draw();
             }
             

@@ -98,34 +98,22 @@ internal class MaskedCarnivale : IModule
 
         public void Draw()
         {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
-
-            var moduleStatus = logicModule.GetModuleStatus();
-
-            InfoBox.Instance
-                .AddTitle(Strings.Status_Label)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status_ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
-                .EndTable()
-                .Draw();
+            InfoBox.Instance.DrawGenericStatus(this);
             
             if (Settings.TrackedTasks.Any(row => row.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleStatus)
+                    .AddTitle(Strings.Status_ModuleData)
                     .BeginTable()
-                    .AddRows(Settings.TrackedTasks.Where(row => row.Tracked))
+                    .AddDataRows(Settings.TrackedTasks.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleStatus)
-                    .AddString(Strings.MaskedCarnivale_NothingTracked, Colors.Orange)
+                    .AddTitle(Strings.Status_ModuleData, out var innerWidth)
+                    .AddStringCentered(Strings.MaskedCarnivale_NothingTracked, innerWidth, Colors.Orange)
                     .Draw();
             }
             

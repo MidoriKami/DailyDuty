@@ -99,7 +99,7 @@ internal class RaidsNormal : IModule
                 InfoBox.Instance
                     .AddTitle(Strings.Raids_TrackedRaids)
                     .BeginTable(0.70f)
-                    .AddRows(trackedRaids.OfType<IInfoBoxTableConfigurationRow>())
+                    .AddConfigurationRows(trackedRaids)
                     .EndTable()
                     .Draw();
             }
@@ -138,19 +138,17 @@ internal class RaidsNormal : IModule
             if (Settings.TrackedRaids.Any(raid => raid.Tracked))
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Common_Target)
+                    .AddTitle(Strings.Status_ModuleData)
                     .BeginTable(0.70f)
-                    .AddRows(Settings.TrackedRaids
-                        .Where(raid => raid.Tracked)
-                        .OfType<IInfoBoxTableDataRow>())
+                    .AddDataRows(Settings.TrackedRaids.Where(raid => raid.Tracked))
                     .EndTable()
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.Common_Target)
-                    .AddString(Strings.Raids_NothingTracked, Colors.Orange)
+                    .AddTitle(Strings.Status_ModuleData, out var innerWidth)
+                    .AddStringCentered(Strings.Raids_NothingTracked, innerWidth, Colors.Orange)
                     .Draw();
             }
             

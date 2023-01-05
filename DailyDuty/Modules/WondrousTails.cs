@@ -105,15 +105,11 @@ internal class WondrousTails : IModule
         {
             if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
 
-            var moduleStatus = logicModule.GetModuleStatus();
-
+            InfoBox.Instance.DrawGenericStatus(this);
+            
             InfoBox.Instance
-                .AddTitle(Strings.Status_Label)
+                .AddTitle(Strings.Status_ModuleData)
                 .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Status_ModuleStatus)
-                .AddString(moduleStatus.GetTranslatedString(), moduleStatus.GetStatusColor())
-                .EndRow()
                 .BeginRow()
                 .AddString(Strings.Common_Stamps)
                 .AddString($"{WondrousTailsBook.Instance.Stickers} / 9", logicModule.GetModuleStatus().GetStatusColor())

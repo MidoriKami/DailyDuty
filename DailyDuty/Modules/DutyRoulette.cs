@@ -140,15 +140,15 @@ internal class DutyRoulette : IModule
                 InfoBox.Instance
                     .AddTitle(Strings.DutyRoulette_Status)
                     .BeginTable()
-                    .AddRows(Settings.TrackedRoulettes.Where(row => row.Tracked))
+                    .AddDataRows(Settings.TrackedRoulettes.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.DutyRoulette_Status)
-                    .AddString(Strings.DutyRoulette_NothingTracked, Colors.Orange)
+                    .AddTitle(Strings.DutyRoulette_Status, out var innerWidth)
+                    .AddStringCentered(Strings.DutyRoulette_NothingTracked, innerWidth, Colors.Orange)
                     .Draw();
             }
 

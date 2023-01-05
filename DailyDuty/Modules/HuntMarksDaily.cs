@@ -105,15 +105,15 @@ internal class HuntMarksDaily : IModule
                 InfoBox.Instance
                     .AddTitle(Strings.HuntMarks_Status)
                     .BeginTable(0.60f)
-                    .AddRows(Settings.TrackedHunts.Where(row => row.Tracked))
+                    .AddDataRows(Settings.TrackedHunts.Where(row => row.Tracked))
                     .EndTable()
                     .Draw();
             }
             else
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.HuntMarks_Status)
-                    .AddString(Strings.HuntMarks_NothingTracked, Colors.Orange)
+                    .AddTitle(Strings.HuntMarks_Status, out var innerWidth)
+                    .AddStringCentered(Strings.HuntMarks_NothingTracked, innerWidth, Colors.Orange)
                     .Draw();
             }
             
