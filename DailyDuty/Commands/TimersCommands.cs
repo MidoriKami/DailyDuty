@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.Localization;
+using Dalamud.Utility;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
@@ -11,6 +13,11 @@ internal class TimersCommands : IPluginCommand
 
     public IEnumerable<ISubCommand> SubCommands { get; } = new List<ISubCommand>
     {
+        new SubCommand // window open command handled by KamiLib
+        {
+            CommandKeyword = null,
+            Hidden = true,
+        },
         new SubCommand
         {
             CommandKeyword = "show",
@@ -18,9 +25,9 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = true;
-                Chat.Print("Command", "Enabling Timers Overlay");
+                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_EnablingDisabling.Format(Strings.Common_Enabling));
             },
-            GetHelpText = () => "Enable Timers Overlay",
+            GetHelpText = () => Strings.Commands_Timers_EnableOverlay,
         },
         new SubCommand
         {
@@ -29,9 +36,9 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = false;
-                Chat.Print("Command", "Disabling Timers Overlay");
+                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_EnablingDisabling.Format(Strings.Common_Disabling));
             },
-            GetHelpText = () => "Disable Timers Overlay",
+            GetHelpText = () => Strings.Commands_Timers_DisableOverlay,
         },
         new SubCommand
         {
@@ -40,11 +47,12 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 var value = Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value;
+                var enablingDisabling = !value ? Strings.Common_Enabling : Strings.Common_Disabling;
                 
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = !value;
-                Chat.Print("Command", $"{(!value ? "Enabling" : "Disabling")} Timers Overlay");
+                Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_Timers_EnablingDisabling, enablingDisabling));
             },
-            GetHelpText = () => "Toggle Timers Overlay",
+            GetHelpText = () => Strings.Commands_Timers_ToggleOverlay,
         },
     };
 }

@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.Localization;
+using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Common.Lua;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
+using Lumina.Data.Parsing;
 
 namespace DailyDuty.Commands;
 
@@ -11,6 +15,11 @@ internal class TodoCommands : IPluginCommand
 
     public IEnumerable<ISubCommand> SubCommands { get; } = new List<ISubCommand>
     {
+        new SubCommand // window open command handled by KamiLib
+        {
+            CommandKeyword = null,
+            Hidden = true,
+        },
         new SubCommand
         {
             CommandKeyword = "show",
@@ -18,9 +27,9 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = true;
-                Chat.Print("Command", "Enabling Todo Overlay");
+                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_EnablingDisabling.Format(Strings.Common_Enabling));
             },
-            GetHelpText = () => "Enable Todo Overlay",
+            GetHelpText = () => Strings.Commands_Todo_EnableOverlay,
         },
         new SubCommand
         {
@@ -29,9 +38,9 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = false;
-                Chat.Print("Command", "Disabling Todo Overlay");
+                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_EnablingDisabling.Format(Strings.Common_Disabling));
             },
-            GetHelpText = () => "Disable Todo Overlay",
+            GetHelpText = () => Strings.Commands_Todo_DisableOverlay,
         },
         new SubCommand
         {
@@ -40,11 +49,12 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 var value = Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value;
+                var enableDisable = !value ? Strings.Common_Enabling : Strings.Common_Disabling;
                 
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = !value;
-                Chat.Print("Command", $"{(!value ? "Enabling" : "Disabling")} Todo Overlay");
+                Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_Todo_EnablingDisabling, enableDisable));
             },
-            GetHelpText = () => "Toggle Todo Overlay",
+            GetHelpText = () => Strings.Commands_Todo_ToggleOverlay,
         },
         new SubCommand
         {
@@ -53,7 +63,7 @@ internal class TodoCommands : IPluginCommand
             {
                 Service.ChatManager.SendMessages();
             },
-            GetHelpText = () => "Re-display todo tasks in chat"
+            GetHelpText = () => Strings.Commands_Todo_RepeatMessages
         }
     };
 }
