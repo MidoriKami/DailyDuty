@@ -31,7 +31,6 @@
 	<ItemGroup>
 		<None Remove="DailyDuty.json" />
 		<None Remove="README.md" />
-		<None Remove="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -41,11 +40,7 @@
 	<ItemGroup>
 		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="..\translations\**" Link="translations\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<EmbeddedResource Update="Localization\Strings.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>
