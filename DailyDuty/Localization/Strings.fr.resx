@@ -653,7 +653,46 @@ Afin de prévenir le spam excessif dans le chat</value>
   <data name="Timers_Ordering" xml:space="preserve">
         <value>Ordre des timers</value>
     </data>
-    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
-        <value>Livraisons disponibles</value>
+  <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Tentatives disponibles</value>
+    </data>
+  <data name="Commands_Timers_EnableOverlay" xml:space="preserve">
+        <value>Activer l'overlay des minuteurs</value>
+    </data>
+  <data name="Commands_Timers_DisableOverlay" xml:space="preserve">
+        <value>Désactiver l'overlay des minuteurs</value>
+    </data>
+  <data name="Commands_Timers_ToggleOverlay" xml:space="preserve">
+        <value>Afficher ou masquer l'overlay des minuteurs</value>
+    </data>
+  <data name="Common_Command" xml:space="preserve">
+        <value>Commande</value>
+    </data>
+  <data name="Commands_Todo_EnableOverlay" xml:space="preserve">
+        <value>Activer l'overlay liste des tâches</value>
+    </data>
+  <data name="Commands_Todo_DisableOverlay" xml:space="preserve">
+        <value>Désactiver l'overlay liste des tâches</value>
+    </data>
+  <data name="Commands_Todo_ToggleOverlay" xml:space="preserve">
+        <value>Afficher ou masquer l'overlay de liste des tâches</value>
+    </data>
+  <data name="Commands_Todo_RepeatMessages" xml:space="preserve">
+        <value>Ré-afficher la liste des tâches dans le chat</value>
+    </data>
+  <data name="Status_ModuleData" xml:space="preserve">
+        <value>Données du module</value>
+    </data>
+  <data name="Commands_Timers_EnablingOverlay" xml:space="preserve">
+        <value>Activation de l'overlay des minuteurs</value>
+    </data>
+  <data name="Commands_Timers_DisablingOverlay" xml:space="preserve">
+        <value>Désactivation de l'overlay des minuteurs</value>
+    </data>
+  <data name="Commands_Todo_EnablingOverlay" xml:space="preserve">
+        <value>Activation de l'overlay de la liste des tâches</value>
+    </data>
+  <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
+        <value>Désactivation de l'overlay de la liste des tâches</value>
     </data>
 </root>

@@ -250,8 +250,8 @@
   <data name="GoldSaucer_ClickableLink" xml:space="preserve">
         <value>Benachrichtigungen können angeklickt werden, um zum Gold Saucer zu teleportieren</value>
     </data>
-    <data name="Common_AllowancesAvailable" xml:space="preserve">
-        <value>Livraisons disponibles</value>
+  <data name="Common_AllowancesAvailable" xml:space="preserve">
+        <value>Verbleibende Freibriefe</value>
     </data>
   <data name="FashionReport_HighestScore" xml:space="preserve">
         <value>Höchste Bewertung</value>
@@ -652,7 +652,46 @@
   <data name="Timers_Ordering" xml:space="preserve">
         <value>Timer-Reihenfolge</value>
     </data>
-    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
-        <value>Livraisons disponibles</value>
+  <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Verbleibende Freibriefe</value>
+    </data>
+  <data name="Commands_Timers_EnableOverlay" xml:space="preserve">
+        <value>Timer-Overlay aktivieren</value>
+    </data>
+  <data name="Commands_Timers_DisableOverlay" xml:space="preserve">
+        <value>Timer-Overlay deaktivieren</value>
+    </data>
+  <data name="Commands_Timers_ToggleOverlay" xml:space="preserve">
+        <value>Timer-Overlay umschalten</value>
+    </data>
+  <data name="Common_Command" xml:space="preserve">
+        <value>Befehl</value>
+    </data>
+  <data name="Commands_Todo_EnableOverlay" xml:space="preserve">
+        <value>Todo-Overlay aktivieren</value>
+    </data>
+  <data name="Commands_Todo_DisableOverlay" xml:space="preserve">
+        <value>Todo-Overlay deaktivieren</value>
+    </data>
+  <data name="Commands_Todo_ToggleOverlay" xml:space="preserve">
+        <value>Todo-Overlay umschalten</value>
+    </data>
+  <data name="Commands_Todo_RepeatMessages" xml:space="preserve">
+        <value>Todo-Aufgaben im Chat erneut anzeigen</value>
+    </data>
+  <data name="Status_ModuleData" xml:space="preserve">
+        <value>Moduldaten</value>
+    </data>
+  <data name="Commands_Timers_EnablingOverlay" xml:space="preserve">
+        <value>Aktiviere Timer-Overlay</value>
+    </data>
+  <data name="Commands_Timers_DisablingOverlay" xml:space="preserve">
+        <value>Deaktiviere Timer-Overlay</value>
+    </data>
+  <data name="Commands_Todo_EnablingOverlay" xml:space="preserve">
+        <value>Aktiviere Todo-Overlay</value>
+    </data>
+  <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
+        <value>Deaktiviere Todo-Overlay</value>
     </data>
 </root>

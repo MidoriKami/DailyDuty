@@ -654,4 +654,46 @@
   <data name="Timers_Ordering" xml:space="preserve">
         <value>タイマーの表示順</value>
     </data>
+  <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>個の調達任務が残っています</value>
+    </data>
+  <data name="Commands_Timers_EnableOverlay" xml:space="preserve">
+        <value>タイマーオーバーレイを有効化</value>
+    </data>
+  <data name="Commands_Timers_DisableOverlay" xml:space="preserve">
+        <value>タイマーオーバーレイを無効化</value>
+    </data>
+  <data name="Commands_Timers_ToggleOverlay" xml:space="preserve">
+        <value>タイマーオーバーレイを切替え</value>
+    </data>
+  <data name="Common_Command" xml:space="preserve">
+        <value>コマンド</value>
+    </data>
+  <data name="Commands_Todo_EnableOverlay" xml:space="preserve">
+        <value>ToDo オーバーレイを有効化</value>
+    </data>
+  <data name="Commands_Todo_DisableOverlay" xml:space="preserve">
+        <value>ToDo オーバーレイを無効化</value>
+    </data>
+  <data name="Commands_Todo_ToggleOverlay" xml:space="preserve">
+        <value>Todo オーバーレイの切替え</value>
+    </data>
+  <data name="Commands_Todo_RepeatMessages" xml:space="preserve">
+        <value>チャットにToDoタスクを再表示</value>
+    </data>
+  <data name="Status_ModuleData" xml:space="preserve">
+        <value>モジュールの情報</value>
+    </data>
+  <data name="Commands_Timers_EnablingOverlay" xml:space="preserve">
+        <value>Enabling Timers Overlay</value>
+    </data>
+  <data name="Commands_Timers_DisablingOverlay" xml:space="preserve">
+        <value>Disabling Timers Overlay</value>
+    </data>
+  <data name="Commands_Todo_EnablingOverlay" xml:space="preserve">
+        <value>Enabling Todo Overlay</value>
+    </data>
+  <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
+        <value>Disabling Todo Overlay</value>
+    </data>
 </root>

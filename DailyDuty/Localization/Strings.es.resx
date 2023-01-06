@@ -251,8 +251,8 @@ Esto es para evitar llenar demasiado el registro del chat</value>
   <data name="GoldSaucer_ClickableLink" xml:space="preserve">
         <value>Puedes hacer clic en las notificaciones para teletransportarte al Gold Saucer</value>
     </data>
-    <data name="Common_AllowancesAvailable" xml:space="preserve">
-        <value>Livraisons disponibles</value>
+  <data name="Common_AllowancesAvailable" xml:space="preserve">
+        <value>Allowances Disponibles</value>
     </data>
   <data name="FashionReport_HighestScore" xml:space="preserve">
         <value>Puntuación Más Alta</value>
@@ -653,7 +653,46 @@ Esto es para evitar llenar demasiado el registro del chat</value>
   <data name="Timers_Ordering" xml:space="preserve">
         <value>Orden de temporizadores</value>
     </data>
-    <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
-        <value>Livraisons disponibles</value>
+  <data name="FashionReport_AllowancesAvailable" xml:space="preserve">
+        <value>Allowances Disponibles</value>
+    </data>
+  <data name="Commands_Timers_EnableOverlay" xml:space="preserve">
+        <value>Habilitar superposición de Timers</value>
+    </data>
+  <data name="Commands_Timers_DisableOverlay" xml:space="preserve">
+        <value>Desactivar superposición de Timers</value>
+    </data>
+  <data name="Commands_Timers_ToggleOverlay" xml:space="preserve">
+        <value>Alternar superposición de Timers</value>
+    </data>
+  <data name="Common_Command" xml:space="preserve">
+        <value>Comando</value>
+    </data>
+  <data name="Commands_Todo_EnableOverlay" xml:space="preserve">
+        <value>Habilitar superposición de tareas</value>
+    </data>
+  <data name="Commands_Todo_DisableOverlay" xml:space="preserve">
+        <value>Desactivar superposición de tareas</value>
+    </data>
+  <data name="Commands_Todo_ToggleOverlay" xml:space="preserve">
+        <value>Alternar superposición de tareas</value>
+    </data>
+  <data name="Commands_Todo_RepeatMessages" xml:space="preserve">
+        <value>Volver a mostrar tareas pendientes en el chat</value>
+    </data>
+  <data name="Status_ModuleData" xml:space="preserve">
+        <value>Datos de Módulo</value>
+    </data>
+  <data name="Commands_Timers_EnablingOverlay" xml:space="preserve">
+        <value>Habilitando superposición de Timers</value>
+    </data>
+  <data name="Commands_Timers_DisablingOverlay" xml:space="preserve">
+        <value>Desactivando superposición de Timers</value>
+    </data>
+  <data name="Commands_Todo_EnablingOverlay" xml:space="preserve">
+        <value>Habilitando superposición de tareas</value>
+    </data>
+  <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
+        <value>Desactivando superposición de tareas</value>
     </data>
 </root>
