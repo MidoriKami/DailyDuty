@@ -159,6 +159,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabling Timers Overlay.
+        /// </summary>
+        internal static string Commands_Timers_DisablingOverlay {
+            get {
+                return ResourceManager.GetString("Commands_Timers_DisablingOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Timers Overlay.
         /// </summary>
         internal static string Commands_Timers_EnableOverlay {
@@ -168,11 +177,11 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Timers Overlay.
+        ///   Looks up a localized string similar to Enabling Timers Overlay.
         /// </summary>
-        internal static string Commands_Timers_EnablingDisabling {
+        internal static string Commands_Timers_EnablingOverlay {
             get {
-                return ResourceManager.GetString("Commands_Timers_EnablingDisabling", resourceCulture);
+                return ResourceManager.GetString("Commands_Timers_EnablingOverlay", resourceCulture);
             }
         }
         
@@ -195,6 +204,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabling Todo Overlay.
+        /// </summary>
+        internal static string Commands_Todo_DisablingOverlay {
+            get {
+                return ResourceManager.GetString("Commands_Todo_DisablingOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Todo Overlay.
         /// </summary>
         internal static string Commands_Todo_EnableOverlay {
@@ -204,11 +222,11 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Todo Overlay.
+        ///   Looks up a localized string similar to Enabling Todo Overlay.
         /// </summary>
-        internal static string Commands_Todo_EnablingDisabling {
+        internal static string Commands_Todo_EnablingOverlay {
             get {
-                return ResourceManager.GetString("Commands_Todo_EnablingDisabling", resourceCulture);
+                return ResourceManager.GetString("Commands_Todo_EnablingOverlay", resourceCulture);
             }
         }
         
@@ -411,15 +429,6 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disabling.
-        /// </summary>
-        internal static string Common_Disabling {
-            get {
-                return ResourceManager.GetString("Common_Disabling", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Drops.
         /// </summary>
         internal static string Common_Drops {
@@ -434,15 +443,6 @@ namespace DailyDuty.Localization {
         internal static string Common_Enabled {
             get {
                 return ResourceManager.GetString("Common_Enabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enabling.
-        /// </summary>
-        internal static string Common_Enabling {
-            get {
-                return ResourceManager.GetString("Common_Enabling", resourceCulture);
             }
         }
         

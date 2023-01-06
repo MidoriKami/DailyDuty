@@ -670,15 +670,6 @@ This is to prevent excessive chatlog spamming</value>
     <data name="Common_Command" xml:space="preserve">
         <value>Command</value>
     </data>
-    <data name="Commands_Timers_EnablingDisabling" xml:space="preserve">
-        <value>{0} Timers Overlay</value>
-    </data>
-    <data name="Common_Enabling" xml:space="preserve">
-        <value>Enabling</value>
-    </data>
-    <data name="Common_Disabling" xml:space="preserve">
-        <value>Disabling</value>
-    </data>
     <data name="Commands_Todo_EnableOverlay" xml:space="preserve">
         <value>Enable Todo Overlay</value>
     </data>
@@ -691,10 +682,19 @@ This is to prevent excessive chatlog spamming</value>
     <data name="Commands_Todo_RepeatMessages" xml:space="preserve">
         <value>Re-display todo tasks in chat</value>
     </data>
-    <data name="Commands_Todo_EnablingDisabling" xml:space="preserve">
-        <value>{0} Todo Overlay</value>
-    </data>
     <data name="Status_ModuleData" xml:space="preserve">
         <value>Module Data</value>
+    </data>
+    <data name="Commands_Timers_EnablingOverlay" xml:space="preserve">
+        <value>Enabling Timers Overlay</value>
+    </data>
+    <data name="Commands_Timers_DisablingOverlay" xml:space="preserve">
+        <value>Disabling Timers Overlay</value>
+    </data>
+    <data name="Commands_Todo_EnablingOverlay" xml:space="preserve">
+        <value>Enabling Todo Overlay</value>
+    </data>
+    <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
+        <value>Disabling Todo Overlay</value>
     </data>
 </root>

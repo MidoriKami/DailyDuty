@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Localization;
-using Dalamud.Utility;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
@@ -20,7 +19,7 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = true;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_EnablingDisabling.Format(Strings.Common_Enabling));
+                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_EnablingOverlay);
             },
             GetHelpText = () => Strings.Commands_Timers_EnableOverlay,
         },
@@ -31,7 +30,7 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = false;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_EnablingDisabling.Format(Strings.Common_Disabling));
+                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_DisablingOverlay);
             },
             GetHelpText = () => Strings.Commands_Timers_DisableOverlay,
         },
@@ -42,10 +41,10 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 var value = Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value;
-                var enablingDisabling = !value ? Strings.Common_Enabling : Strings.Common_Disabling;
+                var enablingDisabling = !value ? Strings.Commands_Timers_EnablingOverlay : Strings.Commands_Timers_DisablingOverlay;
                 
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = !value;
-                Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_Timers_EnablingDisabling, enablingDisabling));
+                Chat.Print(Strings.Common_Command, enablingDisabling);
             },
             GetHelpText = () => Strings.Commands_Timers_ToggleOverlay,
         },

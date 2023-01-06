@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Localization;
-using Dalamud.Utility;
 using KamiLib.CommandSystem;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
@@ -20,7 +19,7 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = true;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_EnablingDisabling.Format(Strings.Common_Enabling));
+                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_EnablingOverlay);
             },
             GetHelpText = () => Strings.Commands_Todo_EnableOverlay,
         },
@@ -31,7 +30,7 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = false;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_EnablingDisabling.Format(Strings.Common_Disabling));
+                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_DisablingOverlay);
             },
             GetHelpText = () => Strings.Commands_Todo_DisableOverlay,
         },
@@ -42,10 +41,10 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 var value = Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value;
-                var enableDisable = !value ? Strings.Common_Enabling : Strings.Common_Disabling;
+                var enableDisable = !value ? Strings.Commands_Todo_EnablingOverlay : Strings.Commands_Todo_DisablingOverlay;
                 
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = !value;
-                Chat.Print(Strings.Common_Command, string.Format(Strings.Commands_Todo_EnablingDisabling, enableDisable));
+                Chat.Print(Strings.Common_Command, enableDisable);
             },
             GetHelpText = () => Strings.Commands_Todo_ToggleOverlay,
         },
