@@ -627,8 +627,8 @@
   <data name="Timers_HumanStyle" xml:space="preserve">
         <value>Human (e.g. '3 hours')</value>
     </data>
-  <data name="Timers_FullStyle" xml:space="preserve">
-        <value>全て表示 (DH:MM:SS)</value>
+    <data name="Timers_FullStyle" xml:space="preserve">
+        <value>全て表示 (D.H:MM:SS)</value>
     </data>
   <data name="Timers_NoSecondsStyle" xml:space="preserve">
         <value>秒数を非表示 (D.HH:MM)</value>
@@ -685,15 +685,15 @@
         <value>モジュールの情報</value>
     </data>
   <data name="Commands_Timers_EnablingOverlay" xml:space="preserve">
-        <value>Enabling Timers Overlay</value>
+        <value>タイマーオーバーレイを有効にしています</value>
     </data>
   <data name="Commands_Timers_DisablingOverlay" xml:space="preserve">
-        <value>Disabling Timers Overlay</value>
+        <value>タイマーオーバーレイを無効にしています</value>
     </data>
   <data name="Commands_Todo_EnablingOverlay" xml:space="preserve">
-        <value>Enabling Todo Overlay</value>
+        <value>ToDoオーバーレイを有効にしています</value>
     </data>
   <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
-        <value>Disabling Todo Overlay</value>
+        <value>ToDoオーバーレイを無効にしています</value>
     </data>
 </root>
