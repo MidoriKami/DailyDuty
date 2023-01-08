@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DailyDuty.Configuration;
 using DailyDuty.UserInterface.OverlayWindows;
-using Dalamud.Game;
 using Dalamud.Interface.Windowing;
 using Dalamud.Logging;
 using KamiLib;
@@ -29,11 +28,6 @@ internal class ConfigurationManager : IDisposable
 
     public ConfigurationManager()
     {
-        if (LoggedIn)
-        {
-            LoadCharacterConfiguration();
-        }
-
         OnCharacterDataLoaded += LoadOverlayWindows;
         OnCharacterDataUnloaded += UnloadOverlayWindows;
         
@@ -52,9 +46,13 @@ internal class ConfigurationManager : IDisposable
 
     private void OnLogin(object? sender, EventArgs e)
     {
-        PluginLog.Verbose("Adding Login Listener");
-
-        Service.Framework.Update += LoginLogic;
+        PluginLog.Verbose($"Logging into Character '{Service.ClientState.LocalPlayer?.Name.TextValue}'");
+        
+        backingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
+        
+        CharacterDataLoaded = true;
+        OnCharacterDataLoaded?.Invoke(this, CharacterConfiguration);
+        Service.ChatManager.ResetZoneTimer();
     }
 
     private void OnLogout(object? sender, EventArgs e)
@@ -64,32 +62,23 @@ internal class ConfigurationManager : IDisposable
         CharacterDataLoaded = false;
         OnCharacterDataUnloaded?.Invoke(this, EventArgs.Empty);
     }
-
-    public void LoginLogic(Framework framework)
-    {
-        if (!LoggedIn) return;
-
-        Service.Framework.RunOnTick(LoadCharacterConfiguration, TimeSpan.FromSeconds(1));
-
-        PluginLog.Verbose("Removing Login Listener");
-        Service.Framework.Update -= LoginLogic;
-    }
-
-    private void LoadCharacterConfiguration()
-    {
-        PluginLog.Verbose($"Logging into Character '{Service.ClientState.LocalPlayer?.Name.TextValue}'");
-
-        backingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
-        
-        CharacterDataLoaded = true;
-        OnCharacterDataLoaded?.Invoke(this, CharacterConfiguration);
-    }
-
+    
     public void Save()
     {
         if (CharacterDataLoaded)
         {
             CharacterConfiguration.Save();
+        }
+    }
+
+    /// <summary>
+    /// For initiating login if plugin is reloaded
+    /// </summary>
+    public void TryLogin()
+    {
+        if (LoggedIn)
+        {
+            OnLogin(this, EventArgs.Empty);
         }
     }
     

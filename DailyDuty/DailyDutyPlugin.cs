@@ -34,8 +34,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         Service.ResetManager = new ResetManager();
         Service.ChatManager = new ChatManager();
         
-        // Check if we are already logged in
-        Service.ConfigurationManager.LoginLogic(Service.Framework);
+        Service.ConfigurationManager.TryLogin();
         
         KamiCommon.CommandManager.AddHandler(ShorthandCommand, "shorthand command to open configuration window");
         

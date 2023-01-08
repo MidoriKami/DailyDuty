@@ -98,6 +98,8 @@ internal class ChatManager : IDisposable
         }
     }
 
+    public void ResetZoneTimer() => stopwatch.Stop();
+
     public void SendMessages() => OnZoneChangeMessage?.Invoke(this, EventArgs.Empty);
 
     // User input is NEVER sent via this function call
