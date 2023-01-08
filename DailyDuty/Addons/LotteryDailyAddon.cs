@@ -12,7 +12,7 @@ public unsafe class LotteryDailyAddon : IDisposable
     private static LotteryDailyAddon? _instance;
     public static LotteryDailyAddon Instance => _instance ??= new LotteryDailyAddon();
     
-    public event EventHandler<IntPtr>? Show;
+    public event EventHandler<nint>? Show;
 
     private delegate void* AgentShow(AgentInterface* agent, void* a2, void* a3);
 
@@ -37,7 +37,7 @@ public unsafe class LotteryDailyAddon : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            Show?.Invoke(this, new IntPtr(addon));
+            Show?.Invoke(this, new nint(addon));
         });
         
         return agentShowHook!.Original(addon, a2, a3);

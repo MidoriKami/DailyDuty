@@ -17,7 +17,7 @@ namespace DailyDuty.System;
 internal readonly struct ChatPayload : IDisposable 
 {
     [FieldOffset(0)]
-    private readonly IntPtr textPtr;
+    private readonly nint textPtr;
 
     [FieldOffset(16)]
     private readonly ulong textLen;
@@ -49,7 +49,7 @@ internal class ChatManager : IDisposable
     public event EventHandler? OnLoginMessage;
     public event EventHandler? OnZoneChangeMessage;
 
-    private delegate void ProcessChatBoxDelegate(IntPtr uiModule, IntPtr message, IntPtr unused, byte a4);
+    private delegate void ProcessChatBoxDelegate(nint uiModule, nint message, nint unused, byte a4);
 
     [Signature("48 89 5C 24 ?? 57 48 83 EC 20 48 8B FA 48 8B D9 45 84 C9")]
     private readonly ProcessChatBoxDelegate? processChatBox = null!;
@@ -108,13 +108,13 @@ internal class ChatManager : IDisposable
             throw new InvalidOperationException("Could not find signature for chat sending");
         }
 
-        var uiModule = (IntPtr) Framework.Instance()->GetUiModule();
+        var uiModule = (nint) Framework.Instance()->GetUiModule();
 
         using var payload = new ChatPayload(Encoding.UTF8.GetBytes($"/{command}"));
         var mem1 = Marshal.AllocHGlobal(400);
         Marshal.StructureToPtr(payload, mem1, false);
 
-        processChatBox(uiModule, mem1, IntPtr.Zero, 0);
+        processChatBox(uiModule, mem1, nint.Zero, 0);
 
         Marshal.FreeHGlobal(mem1);
     }

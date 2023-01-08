@@ -128,12 +128,12 @@ internal class WondrousTails : IModule
         public DalamudLinkPayload DalamudLinkPayload => WondrousTailsBook.Instance.NeedsNewBook ? idyllshireTeleportPayload : openBookPayload;
         public bool LinkPayloadActive => Settings.EnableClickableLink;
 
-        private delegate void UseItemDelegate(IntPtr a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
+        private delegate void UseItemDelegate(nint a1, uint a2, uint a3 = 9999, uint a4 = 0, short a5 = 0);
 
         [Signature("E8 ?? ?? ?? ?? E9 ?? ?? ?? ?? 41 B0 01 BA 13 00 00 00")]
         private readonly UseItemDelegate useItemFunction = null!;
 
-        private IntPtr ItemContextMenuAgent => (IntPtr)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.InventoryContext);
+        private nint ItemContextMenuAgent => (nint)Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.InventoryContext);
         private const uint WondrousTailsBookItemID = 2002023;
 
         private readonly DalamudLinkPayload openBookPayload;
@@ -207,7 +207,7 @@ internal class WondrousTails : IModule
 
         private void OpenWondrousTailsBook(uint arg1, SeString arg2)
         {
-            if (ItemContextMenuAgent != IntPtr.Zero && WondrousTailsBook.PlayerHasBook)
+            if (ItemContextMenuAgent != nint.Zero && WondrousTailsBook.PlayerHasBook)
             {
                 useItemFunction(ItemContextMenuAgent, WondrousTailsBookItemID);
             }

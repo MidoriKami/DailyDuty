@@ -16,11 +16,11 @@ public unsafe class DutyFinderAddon : IDisposable
     private static DutyFinderAddon? _instance;
     public static DutyFinderAddon Instance => _instance ??= new DutyFinderAddon();
     
-    public event EventHandler<IntPtr>? Show;
-    public event EventHandler<IntPtr>? Draw;
-    public event EventHandler<IntPtr>? Finalize;
-    public event EventHandler<IntPtr>? Update;
-    public event EventHandler<IntPtr>? Refresh;
+    public event EventHandler<nint>? Show;
+    public event EventHandler<nint>? Draw;
+    public event EventHandler<nint>? Finalize;
+    public event EventHandler<nint>? Update;
+    public event EventHandler<nint>? Refresh;
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
     private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
@@ -47,7 +47,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
         var agent = AgentContentsFinder.Instance()->AgentInterface;
 
-        onReceiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent.VTable->ReceiveEvent), DutyFinder_ReceiveEvent);
+        onReceiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new nint(agent.VTable->ReceiveEvent), DutyFinder_ReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 
@@ -70,11 +70,11 @@ public unsafe class DutyFinderAddon : IDisposable
 
         var addon = ContentsFinderAddon;
 
-        onDrawHook ??= Hook<AddonDraw>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[41]), OnDraw);
-        onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[39]), OnFinalize);
-        onUpdateHook ??= Hook<AddonUpdate>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[40]), OnUpdate);
-        onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[48]), OnRefresh);
-        onSetupHook ??= Hook<AddonOnSetup>.FromAddress(new IntPtr(addon->AtkEventListener.vfunc[46]), OnSetup);
+        onDrawHook ??= Hook<AddonDraw>.FromAddress(new nint(addon->AtkEventListener.vfunc[41]), OnDraw);
+        onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new nint(addon->AtkEventListener.vfunc[39]), OnFinalize);
+        onUpdateHook ??= Hook<AddonUpdate>.FromAddress(new nint(addon->AtkEventListener.vfunc[40]), OnUpdate);
+        onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new nint(addon->AtkEventListener.vfunc[48]), OnRefresh);
+        onSetupHook ??= Hook<AddonOnSetup>.FromAddress(new nint(addon->AtkEventListener.vfunc[46]), OnSetup);
 
         onDrawHook?.Enable();
         onFinalizeHook?.Enable();
@@ -103,7 +103,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
         Safety.ExecuteSafe(() =>
         {
-            Show?.Invoke(this, new IntPtr(addon));
+            Show?.Invoke(this, new nint(addon));
         });
 
         return result;
@@ -115,7 +115,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
         Safety.ExecuteSafe(() =>
         {
-            Refresh?.Invoke(this, new IntPtr(atkUnitBase));
+            Refresh?.Invoke(this, new nint(atkUnitBase));
         });
 
         return result;
@@ -127,7 +127,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
         Safety.ExecuteSafe(() =>
         {
-            Update?.Invoke(this, new IntPtr(atkUnitBase));
+            Update?.Invoke(this, new nint(atkUnitBase));
         });
         
         return result;
@@ -139,7 +139,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
         Safety.ExecuteSafe(() =>
         {
-            Draw?.Invoke(this, new IntPtr(atkUnitBase));
+            Draw?.Invoke(this, new nint(atkUnitBase));
         });
     }
 
@@ -147,7 +147,7 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            Finalize?.Invoke(this, new IntPtr(atkUnitBase));
+            Finalize?.Invoke(this, new nint(atkUnitBase));
         });
         
         onFinalizeHook!.Original(atkUnitBase);

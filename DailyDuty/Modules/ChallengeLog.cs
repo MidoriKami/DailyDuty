@@ -171,7 +171,7 @@ internal class ChallengeLog : IModule
             DutyState.Instance.DutyCompleted -= OnDutyCompleted;
         }
 
-        private void DutyFinderOnShow(object? sender, IntPtr e)
+        private void DutyFinderOnShow(object? sender, nint e)
         {
             if (!Settings.Enabled) return;
 
@@ -251,7 +251,7 @@ internal class ChallengeLog : IModule
             }
         }
 
-        private void CommendationOnShow(object? sender, IntPtr e)
+        private void CommendationOnShow(object? sender, nint e)
         {
             if (!Settings.Enabled) return;
 

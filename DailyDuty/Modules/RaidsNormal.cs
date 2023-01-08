@@ -180,7 +180,7 @@ internal class RaidsNormal : IModule
             Service.Chat.ChatMessage -= OnChatMessage;
         }
 
-        private void OnSelectionChanged(object? sender, IntPtr e)
+        private void OnSelectionChanged(object? sender, nint e)
         {
             var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked).ToList();
             if(!enabledRaids.Any()) return;

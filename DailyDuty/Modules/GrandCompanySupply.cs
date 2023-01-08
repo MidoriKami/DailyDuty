@@ -153,7 +153,7 @@ internal class GrandCompanySupply : IModule
             if (GrandCompanySupplyAgent == null) return;
             if (!GrandCompanySupplyAgent->IsAgentActive()) return;
 
-            var dataArray = new GrandCompanyDataArray(new IntPtr(GrandCompanySupplyAgent));
+            var dataArray = new GrandCompanyDataArray(new nint(GrandCompanySupplyAgent));
 
             foreach (var tracked in Settings.TrackedSupply)
             {

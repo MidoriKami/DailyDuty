@@ -11,7 +11,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.AddonOverlays;
 
-internal class WondrousTailsOverlay : IDisposable
+internal partial class WondrousTailsOverlay : IDisposable
 {
     private record DutyFinderSearchResult(string SearchKey, uint Value);
 
@@ -35,7 +35,7 @@ internal class WondrousTailsOverlay : IDisposable
 
         foreach (var cfc in contentFinderData)
         {
-            var simplifiedString = Regex.Replace(cfc.Name.ToString().ToLower(), "[^\\p{L}\\p{N}]", "");
+            var simplifiedString = AlphanumericRegex().Replace(cfc.Name.ToString().ToLower(), "");
 
             contentFinderDuties.Add(new DutyFinderSearchResult(simplifiedString, cfc.TerritoryType.Row));
         }
@@ -53,19 +53,19 @@ internal class WondrousTailsOverlay : IDisposable
         DutyFinderAddon.Instance.Finalize -= OnFinalize;
     }
 
-    private void OnRefresh(object? sender, IntPtr e)
+    private void OnRefresh(object? sender, nint e)
     {
         if (!Enabled) return;
 
         wondrousTailsStatus = WondrousTailsBook.Instance.GetAllTaskData();
     }
     
-    private void OnUpdate(object? sender, IntPtr e)
+    private void OnUpdate(object? sender, nint e)
     {
         UpdateWondrousTails();
     }
 
-    private void OnDraw(object? sender, IntPtr e)
+    private void OnDraw(object? sender, nint e)
     {
         if (!Enabled) return;
 
@@ -74,7 +74,7 @@ internal class WondrousTailsOverlay : IDisposable
         treeNode.MakeCloverNodes();
     }
 
-    private void OnFinalize(object? sender, IntPtr e) => DutyFinderAddon.HideCloverNodes();
+    private void OnFinalize(object? sender, nint e) => DutyFinderAddon.HideCloverNodes();
 
     private ButtonState? IsWondrousTailsDuty(DutyFinderTreeListItem item)
     {
@@ -129,4 +129,7 @@ internal class WondrousTailsOverlay : IDisposable
             }
         }
     }
+
+    [GeneratedRegex("[^\\p{L}\\p{N}]")]
+    private static partial Regex AlphanumericRegex();
 }

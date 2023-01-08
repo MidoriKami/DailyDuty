@@ -12,9 +12,9 @@ public unsafe class WeeklyPuzzleAddon : IDisposable
     private static WeeklyPuzzleAddon? _instance;
     public static WeeklyPuzzleAddon Instance => _instance ??= new WeeklyPuzzleAddon();
     
-    public event EventHandler<IntPtr>? Show;
+    public event EventHandler<nint>? Show;
 
-    private delegate IntPtr WeeklyPuzzleOnSetup(AtkUnitBase* root);
+    private delegate nint WeeklyPuzzleOnSetup(AtkUnitBase* root);
     [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B F9 48 81 C1", DetourName = nameof(WeeklyPuzzle_OnSetup))]
     private readonly Hook<WeeklyPuzzleOnSetup>? onSetupHook = null;
 
@@ -31,11 +31,11 @@ public unsafe class WeeklyPuzzleAddon : IDisposable
         onSetupHook?.Dispose();
     }
     
-    public IntPtr WeeklyPuzzle_OnSetup(AtkUnitBase* root)
+    public nint WeeklyPuzzle_OnSetup(AtkUnitBase* root)
     {
         Safety.ExecuteSafe(() =>
         {
-            Show?.Invoke(this, new IntPtr(root));
+            Show?.Invoke(this, new nint(root));
         });
         
         return onSetupHook!.Original(root);

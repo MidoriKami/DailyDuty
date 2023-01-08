@@ -25,7 +25,7 @@ public unsafe class LotteryWeeklyAddon : IDisposable
         
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryWeekly);
 
-        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(agent->VTable->ReceiveEvent), OnReceiveEvent);
+        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new nint(agent->VTable->ReceiveEvent), OnReceiveEvent);
         agentShowHook?.Enable();
     }
 

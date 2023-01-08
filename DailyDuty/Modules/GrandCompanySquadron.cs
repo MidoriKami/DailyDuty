@@ -124,7 +124,7 @@ internal class GrandCompanySquadron : IModule
             if (selectedTab != 2) return;
 
             // This data block contains all the information for the tasks in the selected tab
-            var dataBlockAddress = new IntPtr(*(long*)((byte*) GcArmyExpeditionAgent + 40));
+            var dataBlockAddress = new nint(*(long*)((byte*) GcArmyExpeditionAgent + 40));
             var weeklyCompleted = *((byte*) dataBlockAddress.ToPointer() + 128) == 0;
 
             if (Settings.MissionCompleted != weeklyCompleted)

@@ -14,7 +14,7 @@ public unsafe class CommendationAddon : IDisposable
     private static CommendationAddon? _instance;
     public static CommendationAddon Instance => _instance ??= new CommendationAddon();
     
-    public event EventHandler<IntPtr>? Show;
+    public event EventHandler<nint>? Show;
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
     private delegate void AgentShow(AgentInterface* agent);
@@ -29,8 +29,8 @@ public unsafe class CommendationAddon : IDisposable
         
         var commendationAgentInterface = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsMvp);
 
-        receiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new IntPtr(commendationAgentInterface->VTable->ReceiveEvent), OnReceiveEvent);
-        showEventHook ??= Hook<AgentShow>.FromAddress(new IntPtr(commendationAgentInterface->VTable->Show), OnShow);
+        receiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new nint(commendationAgentInterface->VTable->ReceiveEvent), OnReceiveEvent);
+        showEventHook ??= Hook<AgentShow>.FromAddress(new nint(commendationAgentInterface->VTable->Show), OnShow);
 
         receiveEventHook?.Enable();
         showEventHook?.Enable();
@@ -57,7 +57,7 @@ public unsafe class CommendationAddon : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            Show?.Invoke(this, new IntPtr(agent));
+            Show?.Invoke(this, new nint(agent));
 
         });
         

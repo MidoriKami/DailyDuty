@@ -52,7 +52,7 @@ internal class DutyRouletteOverlay : IDisposable
         DutyFinderAddon.ResetLabelColors(userDefaultTextColor);
     }
  
-    private void OnDraw(object? sender, IntPtr e)
+    private void OnDraw(object? sender, nint e)
     {
         if (defaultColorSaved == false)
         {
@@ -75,7 +75,7 @@ internal class DutyRouletteOverlay : IDisposable
         }
     }
 
-    private void OnRefresh(object? sender, IntPtr e)
+    private void OnRefresh(object? sender, nint e)
     {
         if (Enabled)
         {
@@ -90,7 +90,7 @@ internal class DutyRouletteOverlay : IDisposable
         }
     }
 
-    private void OnFinalize(object? sender, IntPtr e) => ResetDefaultTextColor();
+    private void OnFinalize(object? sender, nint e) => ResetDefaultTextColor();
 
     private void ResetDefaultTextColor() => DutyFinderAddon.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
 

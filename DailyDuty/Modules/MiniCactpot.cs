@@ -150,7 +150,7 @@ internal class MiniCactpot : IModule
             }
         }
 
-        private void OnShow(object? sender, IntPtr e)
+        private void OnShow(object? sender, nint e)
         {
             Settings.TicketsRemaining -= 1;
             Service.ConfigurationManager.Save();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Dalamud.Logging;
 using Dalamud.Memory;
 using FFXIVClientStructs.FFXIV.Client.System.String;
@@ -10,13 +9,13 @@ public unsafe class GrandCompanyDataArray
 {
     private readonly GrandCompanyDataRow* dataRows;
 
-    public GrandCompanyDataArray(IntPtr supplyAgentPointer)
+    public GrandCompanyDataArray(nint supplyAgentPointer)
     {
         // Offset 104 bytes is a pointer to the datablock we want
         var dataPointer = supplyAgentPointer + 104;
 
         // Dereference and offset to first element
-        var dataBlock = new IntPtr(*(long*)dataPointer.ToPointer());
+        var dataBlock = new nint(*(long*)dataPointer.ToPointer());
 
         dataRows = (GrandCompanyDataRow*) dataBlock;
     }

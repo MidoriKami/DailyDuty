@@ -145,7 +145,7 @@ internal class FauxHollows : IModule
 
         }
 
-        private void OnShow(object? sender, IntPtr e)
+        private void OnShow(object? sender, nint e)
         {
             if (!Settings.Enabled) return;
 
