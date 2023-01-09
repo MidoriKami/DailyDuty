@@ -8,7 +8,7 @@ using Vector4 = System.Numerics.Vector4;
 
 namespace DailyDuty.DataModels;
 
-public unsafe struct DutyFinderTreeListItem
+public unsafe partial struct DutyFinderTreeListItem
 {
     private readonly ComponentNode treeListItem;
     public CloverNode CloverNode;
@@ -35,7 +35,7 @@ public unsafe struct DutyFinderTreeListItem
 
     private string GetFilteredLabel()
     {
-        return Regex.Replace(Label, "[^\\p{L}\\p{N}]", "");
+        return AlphanumericRegex().Replace(Label, "");
     }
 
     private AtkTextNode* GetLabelNode()
@@ -167,4 +167,7 @@ public unsafe struct DutyFinderTreeListItem
 
         rootNode->Component->UldManager.UpdateDrawNodeList();
     }
+
+    [GeneratedRegex("[^\\p{L}\\p{N}]")]
+    private static partial Regex AlphanumericRegex();
 }
