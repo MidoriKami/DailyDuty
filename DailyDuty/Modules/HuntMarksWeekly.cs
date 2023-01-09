@@ -11,9 +11,9 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using KamiLib.Configuration;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
+using KamiLib.Misc;
 
 namespace DailyDuty.Modules;
 

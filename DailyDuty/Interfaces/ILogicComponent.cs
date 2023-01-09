@@ -1,7 +1,8 @@
 ﻿using System;
 using DailyDuty.DataModels;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using KamiLib.Utilities;
+using KamiLib.ChatCommands;
+using KamiLib.GameState;
 
 namespace DailyDuty.Interfaces;
 

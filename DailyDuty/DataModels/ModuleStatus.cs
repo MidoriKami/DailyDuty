@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Localization;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 
 namespace DailyDuty.DataModels;
 

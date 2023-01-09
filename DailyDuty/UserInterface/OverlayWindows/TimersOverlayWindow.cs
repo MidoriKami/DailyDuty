@@ -9,7 +9,8 @@ using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
+using KamiLib.GameState;
 using KamiLib.Windows;
 
 namespace DailyDuty.UserInterface.OverlayWindows;

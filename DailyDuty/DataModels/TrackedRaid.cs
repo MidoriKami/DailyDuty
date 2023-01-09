@@ -1,8 +1,7 @@
 ﻿using DailyDuty.Localization;
 using KamiLib.Configuration;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.DataModels;

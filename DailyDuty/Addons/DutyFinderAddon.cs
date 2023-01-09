@@ -6,8 +6,8 @@ using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.ExceptionSafety;
-using KamiLib.Utilities;
+using KamiLib.Atk;
+using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
@@ -23,19 +23,12 @@ public unsafe class DutyFinderAddon : IDisposable
     public event EventHandler<nint>? Refresh;
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
-    private delegate void AddonDraw(AtkUnitBase* atkUnitBase);
-    private delegate byte AddonOnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3);    
-    private delegate void AddonFinalize(AtkUnitBase* atkUnitBase);
-    private delegate byte AddonUpdate(AtkUnitBase* atkUnitBase);
-    private delegate void* AddonOnSetup(AtkUnitBase* addon, uint a2, void* a3);
-    private delegate void* AgentReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender);
-
-    private Hook<AddonDraw>? onDrawHook;
-    private Hook<AddonFinalize>? onFinalizeHook;
-    private Hook<AddonUpdate>? onUpdateHook;
-    private Hook<AddonOnRefresh>? onRefreshHook;
-    private Hook<AddonOnSetup>? onSetupHook;
-    private readonly Hook<AgentReceiveEvent>? onReceiveEventHook;
+    private Hook<Delegates.Addon.Draw>? onDrawHook;
+    private Hook<Delegates.Addon.Finalize>? onFinalizeHook;
+    private Hook<Delegates.Addon.Update>? onUpdateHook;
+    private Hook<Delegates.Addon.OnRefresh>? onRefreshHook;
+    private Hook<Delegates.Addon.OnSetup>? onSetupHook;
+    private readonly Hook<Delegates.Agent.ReceiveEvent>? onReceiveEventHook;
 
     private static AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
 
@@ -47,7 +40,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
         var agent = AgentContentsFinder.Instance()->AgentInterface;
 
-        onReceiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new nint(agent.VTable->ReceiveEvent), DutyFinder_ReceiveEvent);
+        onReceiveEventHook ??= Hook<Delegates.Agent.ReceiveEvent>.FromAddress(new nint(agent.VTable->ReceiveEvent), DutyFinder_ReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 
@@ -70,11 +63,11 @@ public unsafe class DutyFinderAddon : IDisposable
 
         var addon = ContentsFinderAddon;
 
-        onDrawHook ??= Hook<AddonDraw>.FromAddress(new nint(addon->AtkEventListener.vfunc[41]), OnDraw);
-        onFinalizeHook ??= Hook<AddonFinalize>.FromAddress(new nint(addon->AtkEventListener.vfunc[39]), OnFinalize);
-        onUpdateHook ??= Hook<AddonUpdate>.FromAddress(new nint(addon->AtkEventListener.vfunc[40]), OnUpdate);
-        onRefreshHook ??= Hook<AddonOnRefresh>.FromAddress(new nint(addon->AtkEventListener.vfunc[48]), OnRefresh);
-        onSetupHook ??= Hook<AddonOnSetup>.FromAddress(new nint(addon->AtkEventListener.vfunc[46]), OnSetup);
+        onDrawHook ??= Hook<Delegates.Addon.Draw>.FromAddress(new nint(addon->AtkEventListener.vfunc[41]), OnDraw);
+        onFinalizeHook ??= Hook<Delegates.Addon.Finalize>.FromAddress(new nint(addon->AtkEventListener.vfunc[39]), OnFinalize);
+        onUpdateHook ??= Hook<Delegates.Addon.Update>.FromAddress(new nint(addon->AtkEventListener.vfunc[40]), OnUpdate);
+        onRefreshHook ??= Hook<Delegates.Addon.OnRefresh>.FromAddress(new nint(addon->AtkEventListener.vfunc[48]), OnRefresh);
+        onSetupHook ??= Hook<Delegates.Addon.OnSetup>.FromAddress(new nint(addon->AtkEventListener.vfunc[46]), OnSetup);
 
         onDrawHook?.Enable();
         onFinalizeHook?.Enable();
@@ -85,7 +78,7 @@ public unsafe class DutyFinderAddon : IDisposable
         Service.Framework.Update -= OnFrameworkUpdate;
     }
 
-    private void* DutyFinder_ReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
+    private nint DutyFinder_ReceiveEvent(AgentInterface* agent, nint rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
     {
         var result = onReceiveEventHook!.Original(agent, rawData, eventArgs, eventArgsCount, sender);
 
@@ -97,9 +90,9 @@ public unsafe class DutyFinderAddon : IDisposable
         return result;
     }
 
-    private void* OnSetup(AtkUnitBase* addon, uint a2, void* a3)
+    private nint OnSetup(AtkUnitBase* addon, int valueCount, AtkValue* values)
     {
-        var result = onSetupHook!.Original(addon, a2, a3);
+        var result = onSetupHook!.Original(addon, valueCount, values);
 
         Safety.ExecuteSafe(() =>
         {
@@ -109,9 +102,9 @@ public unsafe class DutyFinderAddon : IDisposable
         return result;
     }
 
-    private byte OnRefresh(AtkUnitBase* atkUnitBase, int a2, long a3)
+    private byte OnRefresh(AtkUnitBase* atkUnitBase, int valueCount, AtkValue* values)
     {
-        var result = onRefreshHook!.Original(atkUnitBase, a2, a3);
+        var result = onRefreshHook!.Original(atkUnitBase, valueCount, values);
 
         Safety.ExecuteSafe(() =>
         {

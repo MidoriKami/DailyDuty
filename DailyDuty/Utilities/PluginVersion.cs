@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using ImGuiNET;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 
 namespace DailyDuty.Utilities;
 

@@ -5,7 +5,7 @@ using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.ExceptionSafety;
+using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
@@ -17,11 +17,8 @@ public unsafe class CommendationAddon : IDisposable
     public event EventHandler<nint>? Show;
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
-    private delegate void AgentShow(AgentInterface* agent);
-    private delegate void* AgentReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender);
-
-    private readonly Hook<AgentReceiveEvent>? receiveEventHook;
-    private readonly Hook<AgentShow>? showEventHook;
+    private readonly Hook<Delegates.Agent.ReceiveEvent>? receiveEventHook;
+    private readonly Hook<Delegates.Agent.Show>? showEventHook;
 
     private CommendationAddon()
     {
@@ -29,8 +26,8 @@ public unsafe class CommendationAddon : IDisposable
         
         var commendationAgentInterface = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.ContentsMvp);
 
-        receiveEventHook ??= Hook<AgentReceiveEvent>.FromAddress(new nint(commendationAgentInterface->VTable->ReceiveEvent), OnReceiveEvent);
-        showEventHook ??= Hook<AgentShow>.FromAddress(new nint(commendationAgentInterface->VTable->Show), OnShow);
+        receiveEventHook ??= Hook<Delegates.Agent.ReceiveEvent>.FromAddress(new nint(commendationAgentInterface->VTable->ReceiveEvent), OnReceiveEvent);
+        showEventHook ??= Hook<Delegates.Agent.Show>.FromAddress(new nint(commendationAgentInterface->VTable->Show), OnShow);
 
         receiveEventHook?.Enable();
         showEventHook?.Enable();
@@ -42,7 +39,7 @@ public unsafe class CommendationAddon : IDisposable
         showEventHook?.Dispose();
     }
 
-    private void* OnReceiveEvent(AgentInterface* agent, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
+    private nint OnReceiveEvent(AgentInterface* agent, nint rawData, AtkValue* eventArgs, uint eventArgsCount, ulong sender)
     {
         Safety.ExecuteSafe(() =>
         {

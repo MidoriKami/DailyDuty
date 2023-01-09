@@ -5,7 +5,7 @@ using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.ExceptionSafety;
+using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
@@ -16,8 +16,7 @@ public unsafe class LotteryWeeklyAddon : IDisposable
     
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
-    private delegate void* AgentReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID);
-    private readonly Hook<AgentReceiveEvent>? agentShowHook;
+    private readonly Hook<Delegates.Agent.ReceiveEvent>? agentShowHook;
 
     private LotteryWeeklyAddon()
     {
@@ -25,7 +24,7 @@ public unsafe class LotteryWeeklyAddon : IDisposable
         
         var agent = Framework.Instance()->UIModule->GetAgentModule()->GetAgentByInternalId(AgentId.LotteryWeekly);
 
-        agentShowHook ??= Hook<AgentReceiveEvent>.FromAddress(new nint(agent->VTable->ReceiveEvent), OnReceiveEvent);
+        agentShowHook ??= Hook<Delegates.Agent.ReceiveEvent>.FromAddress(new nint(agent->VTable->ReceiveEvent), OnReceiveEvent);
         agentShowHook?.Enable();
     }
 
@@ -34,7 +33,7 @@ public unsafe class LotteryWeeklyAddon : IDisposable
         agentShowHook?.Dispose();
     }
 
-    private void* OnReceiveEvent(AgentInterface* addon, void* a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
+    private nint OnReceiveEvent(AgentInterface* addon, nint a2, AtkValue* eventData, uint eventDataItemCount, ulong senderID)
     {
         Safety.ExecuteSafe(() =>
         {

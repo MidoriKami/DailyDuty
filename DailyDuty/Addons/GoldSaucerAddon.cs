@@ -2,7 +2,7 @@
 using DailyDuty.System;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
-using KamiLib.ExceptionSafety;
+using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
@@ -23,10 +23,8 @@ public unsafe class GoldSaucerAddon : IDisposable
     private static GoldSaucerAddon? _instance;
     public static GoldSaucerAddon Instance => _instance ??= new GoldSaucerAddon();
     
-    private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventID);
-
     [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(ProcessNetworkPacket))]
-    private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
+    private readonly Hook<Delegates.Other.GoldSaucerUpdate>? goldSaucerUpdateHook = null;
 
     public event EventHandler<GoldSaucerEventArgs>? GoldSaucerUpdate;
 

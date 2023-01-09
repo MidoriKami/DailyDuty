@@ -5,8 +5,7 @@ using DailyDuty.Localization;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.InfoBoxSystem;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 
 namespace DailyDuty.UserInterface.Windows;
 

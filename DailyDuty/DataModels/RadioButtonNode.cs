@@ -1,5 +1,5 @@
 ﻿using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Utilities;
+using KamiLib.Atk;
 
 namespace DailyDuty.DataModels;
 

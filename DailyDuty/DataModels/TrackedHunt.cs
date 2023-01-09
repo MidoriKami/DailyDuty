@@ -3,9 +3,8 @@ using System.Numerics;
 using DailyDuty.DataStructures.HuntMarks;
 using DailyDuty.Localization;
 using KamiLib.Configuration;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 
 namespace DailyDuty.DataModels;
 

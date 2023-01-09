@@ -3,7 +3,7 @@ using DailyDuty.System;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.ExceptionSafety;
+using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
@@ -14,15 +14,14 @@ public unsafe class LotteryDailyAddon : IDisposable
     
     public event EventHandler<nint>? Show;
 
-    private delegate void* AgentShow(AgentInterface* agent, void* a2, void* a3);
+    private delegate void* DailyLotteryAgentShow(AgentInterface* agent, void* a2, void* a3);
 
     [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
-    private readonly Hook<AgentShow>? agentShowHook = null;
+    private readonly Hook<DailyLotteryAgentShow>? agentShowHook = null;
 
     private LotteryDailyAddon()
     {
         SignatureHelper.Initialise(this);
-
         AddonManager.AddAddon(this);
         
         agentShowHook?.Enable();

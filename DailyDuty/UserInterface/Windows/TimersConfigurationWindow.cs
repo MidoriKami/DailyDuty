@@ -6,9 +6,9 @@ using DailyDuty.Commands;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using KamiLib;
-using KamiLib.CommandSystem;
+using KamiLib.ChatCommands;
 using KamiLib.Configuration;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 
 namespace DailyDuty.UserInterface.Windows;
 

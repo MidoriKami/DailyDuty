@@ -5,7 +5,7 @@ namespace DailyDuty.DataModels;
 
 public unsafe class ReceiveEventArgs : EventArgs
 {
-    public ReceiveEventArgs(AgentInterface* agentInterface, void* rawData, AtkValue* eventArgs, uint eventArgsCount, ulong senderID)
+    public ReceiveEventArgs(AgentInterface* agentInterface, nint rawData, AtkValue* eventArgs, uint eventArgsCount, ulong senderID)
     {
         AgentInterface = agentInterface;
         RawData = rawData;
@@ -15,7 +15,7 @@ public unsafe class ReceiveEventArgs : EventArgs
     }
 
     public AgentInterface* AgentInterface;
-    public void* RawData;
+    public nint RawData;
     public AtkValue* EventArgs;
     public uint EventArgsCount;
     public ulong SenderID;

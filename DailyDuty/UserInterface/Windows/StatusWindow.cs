@@ -9,7 +9,7 @@ using DailyDuty.Utilities;
 using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.CommandSystem;
+using KamiLib.ChatCommands;
 using KamiLib.Interfaces;
 using KamiLib.Windows;
 

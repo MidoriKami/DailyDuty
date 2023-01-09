@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Localization;
-using KamiLib.CommandSystem;
+using KamiLib.ChatCommands;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 
 namespace DailyDuty.Commands;
 

@@ -4,7 +4,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 
 namespace DailyDuty.UserInterface.Windows;
 

@@ -3,8 +3,8 @@ using ImGuiNET;
 using System;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 
 namespace DailyDuty.UserInterface.Components;
 

@@ -3,7 +3,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using System;
 using DailyDuty.System;
 using Dalamud.Utility.Signatures;
-using KamiLib.ExceptionSafety;
+using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
@@ -14,9 +14,8 @@ public unsafe class WeeklyPuzzleAddon : IDisposable
     
     public event EventHandler<nint>? Show;
 
-    private delegate nint WeeklyPuzzleOnSetup(AtkUnitBase* root);
     [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B F9 48 81 C1", DetourName = nameof(WeeklyPuzzle_OnSetup))]
-    private readonly Hook<WeeklyPuzzleOnSetup>? onSetupHook = null;
+    private readonly Hook<Delegates.Addon.OnSetup>? onSetupHook = null;
 
     private WeeklyPuzzleAddon()
     {
@@ -31,13 +30,13 @@ public unsafe class WeeklyPuzzleAddon : IDisposable
         onSetupHook?.Dispose();
     }
     
-    public nint WeeklyPuzzle_OnSetup(AtkUnitBase* root)
+    public nint WeeklyPuzzle_OnSetup(AtkUnitBase* root, int valueCount, AtkValue* values)
     {
         Safety.ExecuteSafe(() =>
         {
             Show?.Invoke(this, new nint(root));
         });
         
-        return onSetupHook!.Original(root);
+        return onSetupHook!.Original(root, valueCount, values);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using DailyDuty.DataModels;
 using DailyDuty.Localization;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
 
 namespace DailyDuty.Interfaces;

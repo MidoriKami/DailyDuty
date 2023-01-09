@@ -3,7 +3,7 @@ using System.Numerics;
 using DailyDuty.Localization;
 using KamiLib.Caching;
 using KamiLib.Configuration;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
 using Lumina.Excel.GeneratedSheets;
 

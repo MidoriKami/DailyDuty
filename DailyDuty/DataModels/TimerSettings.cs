@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Localization;
 using KamiLib.Configuration;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 
 namespace DailyDuty.DataModels;
 

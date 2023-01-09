@@ -3,7 +3,7 @@ using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using DailyDuty.UserInterface.Windows;
 using KamiLib;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
 
 namespace DailyDuty.Interfaces;

@@ -13,11 +13,11 @@ using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Caching;
-using KamiLib.InfoBoxSystem;
+using KamiLib.Drawing;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
+using KamiLib.Misc;
 using Lumina.Excel.GeneratedSheets;
-using Condition = KamiLib.Utilities.Condition;
+using Condition = KamiLib.GameState.Condition;
 
 namespace DailyDuty.Modules;
 

@@ -3,8 +3,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using Dalamud.Logging;
 using ImGuiNET;
-using KamiLib.InfoBoxSystem;
-using KamiLib.Utilities;
+using KamiLib.Drawing;
 
 namespace DailyDuty.Utilities;
 

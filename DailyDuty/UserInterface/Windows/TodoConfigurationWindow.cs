@@ -7,9 +7,8 @@ using DailyDuty.Localization;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.CommandSystem;
-using KamiLib.InfoBoxSystem;
-using KamiLib.Utilities;
+using KamiLib.ChatCommands;
+using KamiLib.Drawing;
 
 namespace DailyDuty.UserInterface.Windows;
 

@@ -4,7 +4,7 @@ using DailyDuty.System;
 using DailyDuty.UserInterface.Windows;
 using Dalamud.Plugin;
 using KamiLib;
-using KamiLib.Utilities;
+using KamiLib.Teleporter;
 
 namespace DailyDuty;
 

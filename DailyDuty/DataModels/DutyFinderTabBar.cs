@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using KamiLib.Utilities;
+using KamiLib.Atk;
 
 namespace DailyDuty.DataModels;
 
