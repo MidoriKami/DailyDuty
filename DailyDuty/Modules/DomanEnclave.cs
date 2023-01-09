@@ -110,8 +110,8 @@ internal class DomanEnclave : IModule
             if (moduleStatus == ModuleStatus.Unknown)
             {
                 InfoBox.Instance
-                    .AddTitle(Strings.DomanEnclave_StatusUnknown)
-                    .AddString(Strings.DomanEnclave_StatusUnknown_Info, Colors.Orange)
+                    .AddTitle(Strings.DomanEnclave_StatusUnknown, out var innerWidth)
+                    .AddStringCentered(Strings.DomanEnclave_StatusUnknown_Info, innerWidth, Colors.Orange)
                     .Draw();
             }
             
