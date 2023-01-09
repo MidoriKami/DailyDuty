@@ -18,8 +18,6 @@ internal class ConfigurationManager : IDisposable
 
     public CharacterConfiguration CharacterConfiguration => CharacterDataLoaded ? backingCharacterConfiguration : nullCharacterConfiguration;
 
-    private static bool LoggedIn => Service.ClientState is { LocalPlayer: not null, LocalContentId: not 0 };
-    
     [MemberNotNullWhen(returnValue: true, nameof(backingCharacterConfiguration))]
     public bool CharacterDataLoaded { get; private set; }
 
@@ -76,7 +74,7 @@ internal class ConfigurationManager : IDisposable
     /// </summary>
     public void TryLogin()
     {
-        if (LoggedIn)
+        if (Service.ClientState.IsLoggedIn)
         {
             OnLogin(this, EventArgs.Empty);
         }
