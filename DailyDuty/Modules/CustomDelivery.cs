@@ -128,7 +128,7 @@ internal class CustomDelivery : IModule
         public bool LinkPayloadActive => false;
 
         private delegate int GetCustomDeliveryAllowancesDelegate(byte* array);
-        [Signature("0F B6 41 20 4C 8B C1")]
+        [Signature("0F B6 41 24 4C 8B C1")]
         private readonly GetCustomDeliveryAllowancesDelegate getCustomDeliveryAllowances = null!;
 
         [Signature("48 8D 0D ?? ?? ?? ?? 41 0F BA EC", ScanType = ScanType.StaticAddress)]
