@@ -111,7 +111,7 @@ internal class TreasureMap : IModule
         [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]
         private readonly GetNextMapAvailableTimeDelegate getNextMapUnixTimestamp = null!;
 
-        private static AtkUnitBase* ContentsTimerAgent => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsInfo", 1);
+        private static AtkUnitBase* ContentsTimerAgent => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsInfo");
 
         public ModuleLogicComponent(IModule parentModule)
         {

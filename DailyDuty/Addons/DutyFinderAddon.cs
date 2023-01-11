@@ -30,7 +30,7 @@ public unsafe class DutyFinderAddon : IDisposable
     private Hook<Delegates.Addon.OnSetup>? onSetupHook;
     private readonly Hook<Delegates.Agent.ReceiveEvent>? onReceiveEventHook;
 
-    private static AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder", 1);
+    private static AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder");
 
     private DutyFinderAddon()
     {
