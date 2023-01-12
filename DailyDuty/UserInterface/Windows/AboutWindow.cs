@@ -45,11 +45,11 @@ public class AboutWindow : Window
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
         
         InfoBox.Instance
-            .AddTitle("Support")
+            .AddTitle("Support", out var innerWidth)
             .AddString("If you would like to help me out, \nI have setup a Ko-Fi specifically for this plugin.")
             .AddString("Even if you choose not to donate, know that I genuinely appreciate that you are enjoying using what I have put my heart into creating for you. <3")
             .AddAction(() => ImGuiHelpers.ScaledDummy(10.0f))
-            .AddButton("Support me on Ko-Fi", () => Process.Start(new ProcessStartInfo {FileName = "https://ko-fi.com/midorikami", UseShellExecute = true}), ImGuiHelpers.ScaledVector2(InfoBox.Instance.InnerWidth, 27.0f))
+            .AddButton("Support me on Ko-Fi", () => Process.Start(new ProcessStartInfo {FileName = "https://ko-fi.com/midorikami", UseShellExecute = true}), new Vector2(innerWidth, 27.0f))
             .Draw();
         
         ImGui.PopStyleColor(3);
