@@ -72,10 +72,7 @@ internal class CharacterConfiguration
     {
         if (GetConfigFileInfo(contentID) is { Exists: true } configFileInfo)
         {
-            Migrate.LoadFile(configFileInfo);
-            var versionNumber = Migrate.GetFileVersion();
-
-            return versionNumber switch
+            return Migrate.GetFileVersion(configFileInfo) switch
             {
                 2 => LoadExistingCharacterConfiguration(contentID, configFileInfo),
                 1 => GenerateMigratedCharacterConfiguration(),

@@ -176,6 +176,7 @@ internal class ChallengeLog : IModule
         private void DutyFinderOnShow(object? sender, nint e)
         {
             if (!Settings.Enabled) return;
+            if (Settings.Suppressed) return;
 
             if (Settings.RouletteDungeonWarning && Settings.RouletteDungeons < 3)
             {
@@ -256,6 +257,7 @@ internal class ChallengeLog : IModule
         private void CommendationOnShow(object? sender, nint e)
         {
             if (!Settings.Enabled) return;
+            if (Settings.Suppressed) return;
 
             if (Settings.CommendationWarning && Settings.Commendations < 5)
             {

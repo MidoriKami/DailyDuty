@@ -63,11 +63,11 @@ public unsafe class DutyFinderAddon : IDisposable
 
         var addon = ContentsFinderAddon;
 
-        onDrawHook ??= Hook<Delegates.Addon.Draw>.FromAddress(new nint(addon->AtkEventListener.vfunc[41]), OnDraw);
-        onFinalizeHook ??= Hook<Delegates.Addon.Finalize>.FromAddress(new nint(addon->AtkEventListener.vfunc[39]), OnFinalize);
-        onUpdateHook ??= Hook<Delegates.Addon.Update>.FromAddress(new nint(addon->AtkEventListener.vfunc[40]), OnUpdate);
-        onRefreshHook ??= Hook<Delegates.Addon.OnRefresh>.FromAddress(new nint(addon->AtkEventListener.vfunc[48]), OnRefresh);
-        onSetupHook ??= Hook<Delegates.Addon.OnSetup>.FromAddress(new nint(addon->AtkEventListener.vfunc[46]), OnSetup);
+        onFinalizeHook ??= Hook<Delegates.Addon.Finalize>.FromAddress(new nint(addon->AtkEventListener.vfunc[40]), OnFinalize);
+        onUpdateHook ??= Hook<Delegates.Addon.Update>.FromAddress(new nint(addon->AtkEventListener.vfunc[41]), OnUpdate);
+        onDrawHook ??= Hook<Delegates.Addon.Draw>.FromAddress(new nint(addon->AtkEventListener.vfunc[42]), OnDraw);
+        onSetupHook ??= Hook<Delegates.Addon.OnSetup>.FromAddress(new nint(addon->AtkEventListener.vfunc[47]), OnSetup);
+        onRefreshHook ??= Hook<Delegates.Addon.OnRefresh>.FromAddress(new nint(addon->AtkEventListener.vfunc[49]), OnRefresh);
 
         onDrawHook?.Enable();
         onFinalizeHook?.Enable();
