@@ -4,7 +4,7 @@ namespace DailyDuty.DataStructures.HuntMarks;
 
 public unsafe class HuntMarkData
 {
-    [Signature("D1 48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ??", ScanType = ScanType.StaticAddress)]
+    [Signature("48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ?? CC", ScanType = ScanType.StaticAddress)]
     private readonly MobHuntStruct* huntStruct = null;
     
     private static HuntMarkData? _instance;
