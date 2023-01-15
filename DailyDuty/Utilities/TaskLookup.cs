@@ -21,6 +21,7 @@ internal static class TaskLookup
             case 0:
                 return LuminaCache<ContentFinderCondition>.Instance
                     .Where(c => c.Content == bingoOrderData.Data)
+                    .OrderBy(row => row.SortKey)
                     .Select(c => c.TerritoryType.Row)
                     .ToList();
             
@@ -29,27 +30,18 @@ internal static class TaskLookup
                 return LuminaCache<ContentFinderCondition>.Instance
                     .Where(m => m.ContentType.Row is 2)
                     .Where(m => m.ClassJobLevelRequired == bingoOrderData.Data)
+                    .OrderBy(row => row.SortKey)
                     .Select(m => m.TerritoryType.Row)
                     .ToList();
             
             // Level Range Dungeon
             case 2:
-                return bingoOrderData.Data switch
-                {
-                    // Level 1 - 50
-                    50 => LuminaCache<ContentFinderCondition>.Instance
-                        .Where(m => m.ContentType.Row is 2)
-                        .Where(m => m.ClassJobLevelRequired is >= 1 and <= 49)
-                        .Select(m => m.TerritoryType.Row)
-                        .ToList(),
-                    
-                    // Level (x - 9) - (x - 1) :: Example => 60 becomes 51 - 59
-                    _ => LuminaCache<ContentFinderCondition>.Instance
-                        .Where(m => m.ContentType.Row is 2)
-                        .Where(m => m.ClassJobLevelRequired >= bingoOrderData.Data - 9 && m.ClassJobLevelRequired <= bingoOrderData.Data - 1)
-                        .Select(m => m.TerritoryType.Row)
-                        .ToList()
-                };
+                return LuminaCache<ContentFinderCondition>.Instance
+                    .Where(m => m.ContentType.Row is 2)
+                    .Where(m => m.ClassJobLevelRequired >= bingoOrderData.Data - (bingoOrderData.Data > 50 ? 9 : 49) && m.ClassJobLevelRequired <= bingoOrderData.Data - 1)
+                    .OrderBy(row => row.SortKey)
+                    .Select(m => m.TerritoryType.Row)
+                    .ToList();
             
             // Special categories
             case 3:
@@ -64,6 +56,7 @@ internal static class TaskLookup
                     // Deep Dungeons
                     3 => LuminaCache<ContentFinderCondition>.Instance
                         .Where(m => m.ContentType.Row is 21)
+                        .OrderBy(row => row.SortKey)
                         .Select(m => m.TerritoryType.Row)
                         .ToList(),
                     
@@ -72,6 +65,8 @@ internal static class TaskLookup
             
             // Multi-instance raids
             case 4:
+                var raidIndex = (int)(bingoOrderData.Data - 11) * 2;
+                
                 return bingoOrderData.Data switch
                 {
                     // Binding Coil, Second Coil, Final Coil
@@ -97,7 +92,7 @@ internal static class TaskLookup
                         .Where(row => row.ItemLevelRequired >= 425)
                         .OrderBy(row => row.SortKey)
                         .Select(row => row.TerritoryType.Row)
-                        .ToArray()[(int)(-11 + bingoOrderData.Data)..(int)(-10 + bingoOrderData.Data)]
+                        .ToArray()[raidIndex..(raidIndex + 2)]
                         .ToList(),
                     
                     _ => new List<uint>()
