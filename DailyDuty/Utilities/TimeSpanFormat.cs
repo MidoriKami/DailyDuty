@@ -14,7 +14,7 @@ public static class TimeSpanExtensions
             // Human Style just shows the highest order nonzero field.
             TimerStyle.Human when span.Days > 1 => Strings.Timers_NumDays.Format(span.Days),
             TimerStyle.Human when span.Days == 1 => Strings.Timers_DayPlusHours.Format(span.Days, span.Hours),
-            TimerStyle.Human when span.Hours > 1 => Strings.Timers_NumHours.Format(span.Hours),
+            TimerStyle.Human when span.Hours >= 1 => Strings.Timers_NumHours.Format(span.Hours),
             TimerStyle.Human when span.Minutes >= 1 => Strings.Timers_NumMins.Format(span.Minutes),
             TimerStyle.Human => Strings.Timers_NumSecs.Format(span.Seconds),
 
