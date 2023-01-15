@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dalamud;
 using Dalamud.Logging;
+using Dalamud.Utility;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -10,175 +12,99 @@ internal static class TaskLookup
 {
     public static List<uint> GetInstanceListFromID(uint id)
     {
-        var values = TryGetFromDatabase(id);
-
-        if (values != null)
+        var bingoOrderData = LuminaCache<WeeklyBingoOrderData>.Instance.GetRow(id);
+        if (bingoOrderData is null) return new List<uint>();
+        
+        switch (bingoOrderData.Type)
         {
-            return new List<uint> {values.Value};
-        }
-
-        switch (id)
-        {
-            // Dungeons Lv 1-49
+            // Specific Duty
+            case 0:
+                return LuminaCache<ContentFinderCondition>.Instance
+                    .Where(c => c.Content == bingoOrderData.Data)
+                    .Select(c => c.TerritoryType.Row)
+                    .ToList();
+            
+            // Specific Level Dungeon
             case 1:
                 return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is >= 1 and <= 49)
-                    .Select(m => m.TerritoryType.Value!.RowId)
+                    .Where(m => m.ContentType.Row is 2)
+                    .Where(m => m.ClassJobLevelRequired == bingoOrderData.Data)
+                    .Select(m => m.TerritoryType.Row)
                     .ToList();
-
-            // Dungeons Lv 50
+            
+            // Level Range Dungeon
             case 2:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is 50)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 51-59
+                return bingoOrderData.Data switch
+                {
+                    // Level 1 - 50
+                    50 => LuminaCache<ContentFinderCondition>.Instance
+                        .Where(m => m.ContentType.Row is 2)
+                        .Where(m => m.ClassJobLevelRequired is >= 1 and <= 49)
+                        .Select(m => m.TerritoryType.Row)
+                        .ToList(),
+                    
+                    // Level (x - 9) - (x - 1) :: Example => 60 becomes 51 - 59
+                    _ => LuminaCache<ContentFinderCondition>.Instance
+                        .Where(m => m.ContentType.Row is 2)
+                        .Where(m => m.ClassJobLevelRequired >= bingoOrderData.Data - 9 && m.ClassJobLevelRequired <= bingoOrderData.Data - 1)
+                        .Select(m => m.TerritoryType.Row)
+                        .ToList()
+                };
+            
+            // Special categories
             case 3:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is >= 51 and <= 59)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 60
+                return bingoOrderData.Unknown5 switch
+                {
+                    // Treasure Map Instances are Not Supported
+                    1 => new List<uint>(),
+                    
+                    // PvP Categories are Not Supported
+                    2 => new List<uint>(),
+                    
+                    // Deep Dungeons
+                    3 => LuminaCache<ContentFinderCondition>.Instance
+                        .Where(m => m.ContentType.Row is 21)
+                        .Select(m => m.TerritoryType.Row)
+                        .ToList(),
+                    
+                    _ => new List<uint>()
+                };
+            
+            // Multi-instance raids
             case 4:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is 60)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 61-69
-            case 59:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is >= 61 and <= 69)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 70
-            case 60:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is 70)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 71-79
-            case 85:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is >= 71 and <= 79)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 80
-            case 86:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is 80)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons lv 81-89
-            case 108:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is >= 81 and <= 89)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Dungeons Lv 90
-            case 109:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId == 2)
-                    .Where(m => m.ClassJobLevelRequired is 90)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Palace of the Dead / Heaven on High
-            case 53:
-                return LuminaCache<ContentFinderCondition>.Instance
-                    .Where(m => m.ContentType.Value?.RowId is 21)
-                    .Select(m => m.TerritoryType.Value!.RowId)
-                    .ToList();
-
-            // Treasure Maps
-            case 46:
-                //return LuminaCache<ContentFinderCondition>.Instance
-                //    !.Where(m => m.ContentType.Value?.RowId is 9)
-                //    .Select(m => m.TerritoryType.Value!.RowId)
-                //    .ToList();
-                return new List<uint>();
-
-            // The Binding Coil of Bahamut
-            case 121:
-                return new List<uint> { 241, 242, 243, 244, 245 };
-
-            // The Second Coil of Bahamut
-            case 122:
-                return new List<uint> { 355, 356, 357, 358 };
-
-            // The Final Coil of Bahamut
-            case 123:
-                return new List<uint> { 193, 194, 195, 196 };
-
-            // Alexander: Gordias
-            case 124:
-                return new List<uint> { 442, 443, 444, 445 };
-
-            // Alexander: Midas
-            case 125:
-                return new List<uint> {520, 521, 522, 523};
-
-            // Alexander: The Creator
-            case 126:
-                return new List<uint> { 580, 581, 582, 583 };
-
-            // Omega: Deltascape
-            case 127:
-                return new List<uint> { 691, 692, 693, 694 };
-
-            // Omega: Sigmascape
-            case 128:
-                return new List<uint> { 748, 749, 750, 751 };
-
-            // Omega: Alphascape
-            case 129:
-                return new List<uint> { 798, 799, 800, 801 };
-
-            // PvP
-            case 67 or 54 or 52:
-                return new List<uint>();
-
+                return bingoOrderData.Data switch
+                {
+                    // Binding Coil, Second Coil, Final Coil
+                    2 => new List<uint> { 241, 242, 243, 244, 245 },
+                    3 => new List<uint> { 355, 356, 357, 358 },
+                    4 => new List<uint> { 193, 194, 195, 196 },
+                    
+                    // Gordias, Midas, The Creator
+                    5 => new List<uint> { 442, 443, 444, 445 },
+                    6 => new List<uint> {520, 521, 522, 523},
+                    7 => new List<uint> { 580, 581, 582, 583 },
+                    
+                    // Deltascape, Sigmascape, Alphascape
+                    8 => new List<uint> { 691, 692, 693, 694 },
+                    9 => new List<uint> { 748, 749, 750, 751 },
+                    10 => new List<uint> { 798, 799, 800, 801 },
+                    
+                    > 10 => LuminaCache<ContentFinderCondition>.Instance
+                        .OfLanguage(ClientLanguage.English)
+                        .Where(row => row.ContentType.Row is 5)
+                        .Where(row => row.ContentMemberType.Row is 3)
+                        .Where(row => !row.Name.ToDalamudString().TextValue.Contains("Savage"))
+                        .Where(row => row.ItemLevelRequired >= 425)
+                        .OrderBy(row => row.SortKey)
+                        .Select(row => row.TerritoryType.Row)
+                        .ToArray()[(int)(-11 + bingoOrderData.Data)..(int)(-10 + bingoOrderData.Data)]
+                        .ToList(),
+                    
+                    _ => new List<uint>()
+                };
         }
-
-        if (id != 0)
-        {
-            PluginLog.Information($"[WondrousTails] Unrecognized ID: {id}");
-        }
-
+        
+        PluginLog.Information($"[WondrousTails] Unrecognized ID: {id}");
         return new List<uint>();
-    }
-
-    private static uint? TryGetFromDatabase(uint id)
-    {
-        var instanceContentData = LuminaCache<WeeklyBingoOrderData>.Instance
-            .GetRow(id)
-            !.Data;
-
-        if (instanceContentData < 20000)
-        {
-            return null;
-        }
-
-        var data = LuminaCache<ContentFinderCondition>.Instance.Where(c => c.Content == instanceContentData)
-            .Select(c => c.TerritoryType.Value!.RowId)
-            .FirstOrDefault();
-
-        return data;
     }
 }
