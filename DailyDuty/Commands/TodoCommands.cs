@@ -18,7 +18,6 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = true;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_EnablingOverlay);
                 Service.ConfigurationManager.Save();
             },
             GetHelpText = () => Strings.Commands_Todo_EnableOverlay,
@@ -30,7 +29,6 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = false;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Todo_DisablingOverlay);
                 Service.ConfigurationManager.Save();
             },
             GetHelpText = () => Strings.Commands_Todo_DisableOverlay,
@@ -42,10 +40,8 @@ internal class TodoCommands : IPluginCommand
             CommandAction = () =>
             {
                 var value = Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value;
-                var enableDisable = !value ? Strings.Commands_Todo_EnablingOverlay : Strings.Commands_Todo_DisablingOverlay;
                 
                 Service.ConfigurationManager.CharacterConfiguration.TodoOverlay.Enabled.Value = !value;
-                Chat.Print(Strings.Common_Command, enableDisable);
                 Service.ConfigurationManager.Save();
             },
             GetHelpText = () => Strings.Commands_Todo_ToggleOverlay,

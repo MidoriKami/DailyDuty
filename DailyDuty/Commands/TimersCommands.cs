@@ -18,7 +18,6 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = true;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_EnablingOverlay);
                 Service.ConfigurationManager.Save();
             },
             GetHelpText = () => Strings.Commands_Timers_EnableOverlay,
@@ -30,7 +29,6 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = false;
-                Chat.Print(Strings.Common_Command, Strings.Commands_Timers_DisablingOverlay);
                 Service.ConfigurationManager.Save();
             },
             GetHelpText = () => Strings.Commands_Timers_DisableOverlay,
@@ -42,10 +40,8 @@ internal class TimersCommands : IPluginCommand
             CommandAction = () =>
             {
                 var value = Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value;
-                var enablingDisabling = !value ? Strings.Commands_Timers_EnablingOverlay : Strings.Commands_Timers_DisablingOverlay;
                 
                 Service.ConfigurationManager.CharacterConfiguration.TimersOverlay.Enabled.Value = !value;
-                Chat.Print(Strings.Common_Command, enablingDisabling);
                 Service.ConfigurationManager.Save();
             },
             GetHelpText = () => Strings.Commands_Timers_ToggleOverlay,
