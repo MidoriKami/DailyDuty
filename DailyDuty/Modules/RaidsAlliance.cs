@@ -224,11 +224,10 @@ internal class RaidsAlliance : IModule
                     break;
             }
         }
-
         
         private void OpenDutyFinder(uint arg1, SeString arg2)
         {
-            AgentContentsFinder.Instance()->OpenRegularDuty(GetFirstMissingRaid());
+            AgentContentsFinder.Instance()->OpenRegularDuty(GetFirstRaid());
         }
 
         public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Raids_RaidRemaining}";
@@ -255,13 +254,16 @@ internal class RaidsAlliance : IModule
             return trackedRaidForZone;
         }
 
-        private static uint GetFirstMissingRaid()
+        private static uint GetFirstRaid()
         {
-            var duty = Settings.TrackedRaids
-                .Where(raid => raid.Tracked && raid.GetStatus() == ModuleStatus.Incomplete)
-                .FirstOrDefault();
-
-            return duty is not null ? duty.Duty.ContentFinderCondition : 1;
+            if (Settings.TrackedRaids.Any(raid => raid.GetStatus() == ModuleStatus.Incomplete))
+            {
+                return Settings.TrackedRaids.First(raid => raid.GetStatus() == ModuleStatus.Incomplete).Duty.ContentFinderCondition;
+            }
+            else
+            {
+                return Settings.TrackedRaids.First().Duty.ContentFinderCondition;
+            }
         }
     }
 
