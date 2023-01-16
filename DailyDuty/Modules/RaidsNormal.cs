@@ -218,7 +218,6 @@ internal class RaidsNormal : IModule
                     break;
             }
         }
-
         
         private void OpenDutyFinder(uint arg1, SeString arg2)
         {
