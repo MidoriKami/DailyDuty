@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Addons;
+using DailyDuty.Configuration;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -10,8 +11,8 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using ImGuiNET;
 using KamiLib.Caching;
 using KamiLib.ChatCommands;
 using KamiLib.Configuration;
@@ -47,37 +48,34 @@ internal class RaidsNormal : IModule
         LogicComponent = new ModuleLogicComponent(this);
         TodoComponent = new ModuleTodoComponent(this);
         TimerComponent = new ModuleTimerComponent(this);
-
-        if (Settings.TrackedRaids.Count == 0)
-        {
-            RegenerateTrackedRaids();
-        }
-    }
-
-    private static void RegenerateTrackedRaids()
-    {
-        Settings.TrackedRaids.Clear();
-
-        var instanceContents = LuminaCache<InstanceContent>.Instance
-            .Where(instance => instance.WeekRestriction == 1)
-            .Select(instance => instance.RowId);
-
-        var raidDuties = LuminaCache<ContentFinderCondition>.Instance
-            .Where(cfc => instanceContents.Contains(cfc.Content))
-            .Where(cfc => cfc.TerritoryType.Value?.TerritoryIntendedUse == 17)
-            .OrderByDescending(cfc => cfc.SortKey)
-            .ToList();
-
-        foreach (var dutyInformation in raidDuties.Select(DutyInformation.Construct))
-        {
-            Settings.TrackedRaids.Add(new TrackedRaid(dutyInformation, new Setting<bool>(false), new Setting<int>(1)));
-        }
         
-        Service.ConfigurationManager.Save();
+        Service.ConfigurationManager.OnCharacterDataLoaded += ConfigurationLoaded;
     }
 
+    private void ConfigurationLoaded(object? sender, CharacterConfiguration e)
+    {
+        if (!Settings.TrackedRaids.Any() || IsDataStale())
+        {
+            PluginLog.Information("New Limited Normal Raid Found. Reloading duty information.");
+            
+            Settings.TrackedRaids.Clear();
+
+            foreach (var limitedDuty in DutyLists.Instance.LimitedSavage)
+            {
+                var cfc = LuminaCache<ContentFinderCondition>.Instance.First(entry => entry.TerritoryType.Row == limitedDuty);
+                
+                Settings.TrackedRaids.Add(new TrackedRaid(cfc));
+            }
+            
+            Service.ConfigurationManager.Save();
+        }
+    }
+
+    private static bool IsDataStale() => Settings.TrackedRaids.Any(trackedTask => !DutyLists.Instance.LimitedSavage.Contains(trackedTask.Duty.TerritoryType));
+    
     public void Dispose()
     {
+        Service.ConfigurationManager.OnCharacterDataLoaded -= ConfigurationLoaded;
         LogicComponent.Dispose();
     }
 
@@ -104,12 +102,6 @@ internal class RaidsNormal : IModule
                     .EndTable()
                     .Draw();
             }
-
-            InfoBox.Instance
-                .AddTitle(Strings.Raids_Regenerate, out var innerWidth)
-                .AddStringCentered(Strings.Raids_Regenerate_Info, innerWidth, Colors.Orange)
-                .AddDisabledButton(Strings.Raids_Regenerate, RegenerateTrackedRaids, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
-                .Draw();
 
             InfoBox.Instance
                 .AddTitle(Strings.Common_ClickableLink)
