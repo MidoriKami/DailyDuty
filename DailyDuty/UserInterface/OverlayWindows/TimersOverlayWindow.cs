@@ -155,8 +155,8 @@ internal class TimersOverlayWindow : Window
         {
             TimersOrdering.Alphabetical => trackedTasks.OrderBy(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
             TimersOrdering.AlphabeticalDescending => trackedTasks.OrderByDescending(timer => timer.ParentModule.GenericSettings.TimerSettings.UseCustomName ? timer.ParentModule.GenericSettings.TimerSettings.CustomName.Value : timer.ParentModule.Name.GetTranslatedString()),
-            TimersOrdering.TimeRemaining => trackedTasks.OrderBy(timer => timer.RemainingTime),
-            TimersOrdering.TimeRemainingDescending => trackedTasks.OrderByDescending(timer => timer.RemainingTime),
+            TimersOrdering.TimeRemaining => trackedTasks.OrderBy(timer => timer.RemainingTime.TotalMinutes),
+            TimersOrdering.TimeRemainingDescending => trackedTasks.OrderByDescending(timer => timer.RemainingTime.TotalMinutes),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
