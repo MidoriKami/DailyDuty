@@ -51,7 +51,7 @@ internal class CharacterConfiguration
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            var writer = new StreamWriter(configFileInfo.FullName);
+            var writer = new StreamWriter(new FileStream(configFileInfo.FullName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite));
             writer.Write(serializedContents);
             writer.Dispose();
         }
@@ -85,9 +85,9 @@ internal class CharacterConfiguration
         }
     }
 
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileInfo configFileInfo)
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileSystemInfo configFileInfo)
     {
-        var reader = new StreamReader(configFileInfo.FullName);
+        var reader = new StreamReader(new FileStream(configFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
         var fileText = reader.ReadToEnd();
         reader.Dispose();
         
