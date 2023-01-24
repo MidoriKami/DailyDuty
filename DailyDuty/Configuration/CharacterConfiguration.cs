@@ -51,7 +51,7 @@ internal class CharacterConfiguration
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            var writer = new StreamWriter(new FileStream(configFileInfo.FullName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite));
+            var writer = new StreamWriter(configFileInfo.FullName);
             writer.Write(serializedContents);
             writer.Dispose();
         }
