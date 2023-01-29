@@ -69,7 +69,6 @@ public abstract class AbstractTestModule : IModule
     {
         public IModule ParentModule { get; }
         public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
         public TestModuleConfigurationComponent(IModule parentModule) => ParentModule = parentModule;
         
         public void Draw()

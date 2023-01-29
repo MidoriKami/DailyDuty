@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using DailyDuty.Interfaces;
+using Dalamud.Utility.Signatures;
 using KamiLib;
 using KamiLib.ChatCommands;
 using KamiLib.Interfaces;
-using SignatureHelper = Dalamud.Utility.Signatures.SignatureHelper;
 
 namespace DailyDuty.Modules;
 
@@ -19,7 +19,7 @@ public unsafe class TestModule : AbstractTestModule
 
     public static void DoTheThing()
     {
-        
+
     }
 }
 

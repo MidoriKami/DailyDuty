@@ -34,7 +34,7 @@ public static class ModuleNameExtensions
     {
         return value switch
         {
-            ModuleName.TestModule => "Debugging Test Module",
+            ModuleName.TestModule => "[Debug] Test Module",
             ModuleName.BeastTribe => Strings.TribalQuests_Label,
             ModuleName.CustomDelivery => Strings.CustomDelivery_Label,
             ModuleName.DomanEnclave => Strings.DomanEnclave_Label,
