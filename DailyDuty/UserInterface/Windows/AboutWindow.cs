@@ -70,8 +70,7 @@ public class AboutWindow : Window
         {
             if (ImGui.Button(FontAwesomeIcon.InfoCircle.ToIconString(), ImGuiHelpers.ScaledVector2(40.0f)))
             {
-                var window = KamiCommon.WindowManager.GetWindowOfType<AboutWindow>();
-                if (window != null)
+                if(KamiCommon.WindowManager.GetWindowOfType<AboutWindow>() is {} window)
                 {
                     window.IsOpen = true;
                 }

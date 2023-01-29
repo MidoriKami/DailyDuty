@@ -37,6 +37,10 @@ internal class ModuleManager : IDisposable
             new MaskedCarnivale(),
             new GrandCompanySquadron(),
         };
+        
+#if DEBUG
+        Modules.Add(new TestModule());
+#endif
     }
 
     public void Dispose()
