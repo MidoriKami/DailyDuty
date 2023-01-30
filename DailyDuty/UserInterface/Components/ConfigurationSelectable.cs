@@ -8,19 +8,21 @@ using KamiLib.Interfaces;
 
 namespace DailyDuty.UserInterface.Components;
 
-internal class ConfigurationSelectable : ISelectable
+internal class ConfigurationSelectable : ISelectable, IDrawable
 {
-    private ModuleName OwnerModuleName { get; }
-    public IDrawable Contents { get; }
-    private IModule ParentModule { get; }
+    public IDrawable Contents => this;
+    
+    private readonly IConfigurationComponent configurationComponent;
+    private ModuleName OwnerModuleName => configurationComponent.ParentModule.Name;
+    private IModule ParentModule => configurationComponent.ParentModule;
     public string ID => OwnerModuleName.GetTranslatedString();
 
-    public ConfigurationSelectable(IModule parentModule, IDrawable contents)
+    public ConfigurationSelectable(IConfigurationComponent parentModule)
     {
-        OwnerModuleName = parentModule.Name;
-        ParentModule = parentModule;
-        Contents = contents;
+        configurationComponent = parentModule;
     }
+    
+    public void Draw() => configurationComponent.DrawConfiguration();
 
     public void DrawLabel()
     {
@@ -45,4 +47,5 @@ internal class ConfigurationSelectable : ISelectable
         ImGui.SameLine(region.X - textSize.X + 3.0f);
         ImGui.TextColored(color, text);
     }
+
 }

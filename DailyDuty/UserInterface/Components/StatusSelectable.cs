@@ -8,22 +8,24 @@ using KamiLib.Interfaces;
 
 namespace DailyDuty.UserInterface.Components;
 
-internal class StatusSelectable : ISelectable
+internal class StatusSelectable : ISelectable, IDrawable
 {
-    private ModuleName OwnerModuleName { get; }
-    public IDrawable Contents { get; }
-    public IModule ParentModule { get; }
+    public IDrawable Contents => this;
+    
+    private readonly IStatusComponent statusComponent;
+    private ModuleName OwnerModuleName => statusComponent.ParentModule.Name;
+    public IModule ParentModule => statusComponent.ParentModule;
     public string ID => OwnerModuleName.GetTranslatedString();
 
-    private readonly Func<ModuleStatus> status;
+    private readonly Func<ModuleStatus> getStatus;
 
-    public StatusSelectable(IModule parentModule, IDrawable contents, Func<ModuleStatus> status)
+    public StatusSelectable(IStatusComponent parentModule)
     {
-        OwnerModuleName = parentModule.Name;
-        ParentModule = parentModule;
-        Contents = contents;
-        this.status = status;
+        statusComponent = parentModule;
+        getStatus = parentModule.ParentModule.LogicComponent.GetModuleStatus;
     }
+
+    public void Draw() => statusComponent.DrawStatus();
 
     public void DrawLabel()
     {
@@ -40,8 +42,8 @@ internal class StatusSelectable : ISelectable
     {
         var region = ImGui.GetContentRegionAvail();
 
-        var color = status.Invoke().GetStatusColor();
-        var text = status.Invoke().GetTranslatedString();
+        var color = getStatus.Invoke().GetStatusColor();
+        var text = getStatus.Invoke().GetTranslatedString();
 
         // Override Status if Module is Disabled
         if (!ParentModule.GenericSettings.Enabled)

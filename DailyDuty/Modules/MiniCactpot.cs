@@ -1,16 +1,12 @@
-﻿using System;
-using DailyDuty.Addons;
+﻿using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using KamiLib.Interfaces;
-using KamiLib.Misc;
 using KamiLib.Teleporter;
 
 namespace DailyDuty.Modules;
@@ -21,171 +17,86 @@ public class MiniCactpotSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(false);
 }
 
-internal class MiniCactpot : IModule
+public unsafe class MiniCactpot : AbstractModule
 {
-    public ModuleName Name => ModuleName.MiniCactpot;
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public IStatusComponent StatusComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public ITodoComponent TodoComponent { get; }
-    public ITimerComponent TimerComponent { get; }
+    public override ModuleName Name => ModuleName.MiniCactpot;
+    public override CompletionType CompletionType => CompletionType.Daily;
 
     private static MiniCactpotSettings Settings => Service.ConfigurationManager.CharacterConfiguration.MiniCactpot;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
+    
+    public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
+    public override bool LinkPayloadActive => Settings.EnableClickableLink;
+    
     public MiniCactpot()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        StatusComponent = new ModuleStatusComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-        TodoComponent = new ModuleTodoComponent(this);
-        TimerComponent = new ModuleTimerComponent(this);
+        SignatureHelper.Initialise(this);
+
+        LotteryDailyAddon.Instance.Show += OnShow;
+        GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
-        LogicComponent.Dispose();
+        LotteryDailyAddon.Instance.Show -= OnShow;
+        GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        //1010445 Mini Cactpot Broker
+        if (Service.TargetManager.Target?.DataId != 1010445) return;
 
-        public ModuleConfigurationComponent(IModule parentModule)
+        if (e.EventID == 5)
         {
-            ParentModule = parentModule;
+            Settings.TicketsRemaining = e.Data[4];
+            Service.ConfigurationManager.Save();
         }
-
-        public void Draw()
+        else
         {
-            InfoBox.Instance.DrawGenericSettings(this);
-
-            InfoBox.Instance
-                .AddTitle(Strings.Common_ClickableLink)
-                .AddString(Strings.GoldSaucer_ClickableLink)
-                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
-                .Draw();
-
-            InfoBox.Instance.DrawNotificationOptions(this);
-        }
-    }
-
-    private class ModuleStatusComponent : IStatusComponent
-    {
-        public IModule ParentModule { get; }
-
-        public ISelectable Selectable =>
-            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
-
-        public ModuleStatusComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericStatus(this);
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Status_ModuleData)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.MiniCactpot_TicketsRemaining)
-                .AddString(Settings.TicketsRemaining.ToString())
-                .EndRow()
-                .EndTable()
-                .Draw();
-            
-            InfoBox.Instance.DrawSuppressionOption(this);
-        }
-    }
-
-    private unsafe class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-
-        public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink;
-
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-
-            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
-            
-            SignatureHelper.Initialise(this);
-
-            LotteryDailyAddon.Instance.Show += OnShow;
-            GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
-        }
-
-        public void Dispose()
-        {
-            LotteryDailyAddon.Instance.Show -= OnShow;
-            GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
-        }
-
-        public string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.MiniCactpot_TicketsRemaining}";
-
-        public DateTime GetNextReset() => Time.NextDailyReset();
-
-        public void DoReset() => Settings.TicketsRemaining = 3;
-
-        public ModuleStatus GetModuleStatus() => Settings.TicketsRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-
-        private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
-        {
-            //1010445 Mini Cactpot Broker
-            if (Service.TargetManager.Target?.DataId != 1010445) return;
-
-            if (e.EventID == 5)
-            {
-                Settings.TicketsRemaining = e.Data[4];
-                Service.ConfigurationManager.Save();
-            }
-            else
-            {
-                Settings.TicketsRemaining = 0;
-                Service.ConfigurationManager.Save();
-            }
-        }
-
-        private void OnShow(object? sender, nint e)
-        {
-            Settings.TicketsRemaining -= 1;
+            Settings.TicketsRemaining = 0;
             Service.ConfigurationManager.Save();
         }
     }
 
-    private class ModuleTodoComponent : ITodoComponent
+    private void OnShow(object? sender, nint e)
     {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Daily;
-        public bool HasLongLabel => false;
-
-        public ModuleTodoComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public string GetShortTaskLabel() => Strings.MiniCactpot_Label;
-
-        public string GetLongTaskLabel() => Strings.MiniCactpot_Label;
+        Settings.TicketsRemaining -= 1;
+        Service.ConfigurationManager.Save();
     }
 
+    public override string GetStatusMessage() => $"{Settings.TicketsRemaining} {Strings.MiniCactpot_TicketsRemaining}";
+    public override void DoReset() => Settings.TicketsRemaining = 3;
+    public override ModuleStatus GetModuleStatus() => Settings.TicketsRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-    private class ModuleTimerComponent : ITimerComponent
+    protected override void DrawConfiguration()
     {
-        public IModule ParentModule { get; }
+        InfoBox.Instance.DrawGenericSettings(this);
 
-        public ModuleTimerComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
+        InfoBox.Instance
+            .AddTitle(Strings.Common_ClickableLink)
+            .AddString(Strings.GoldSaucer_ClickableLink)
+            .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
+            .Draw();
 
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(1);
+        InfoBox.Instance.DrawNotificationOptions(this);
+    }
 
-        public DateTime GetNextReset() => Time.NextDailyReset();
+    protected override void DrawStatus()
+    {
+        InfoBox.Instance.DrawGenericStatus(this);
+            
+        InfoBox.Instance
+            .AddTitle(Strings.Status_ModuleData)
+            .BeginTable()
+            .BeginRow()
+            .AddString(Strings.MiniCactpot_TicketsRemaining)
+            .AddString(Settings.TicketsRemaining.ToString())
+            .EndRow()
+            .EndTable()
+            .Draw();
+            
+        InfoBox.Instance.DrawSuppressionOption(this);
     }
 }

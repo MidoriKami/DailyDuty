@@ -68,10 +68,10 @@ public abstract class AbstractTestModule : IModule
     private class TestModuleConfigurationComponent : IConfigurationComponent
     {
         public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        public ISelectable Selectable => new ConfigurationSelectable(this);
         public TestModuleConfigurationComponent(IModule parentModule) => ParentModule = parentModule;
         
-        public void Draw()
+        public void DrawConfiguration()
         {
             
         }
@@ -80,10 +80,10 @@ public abstract class AbstractTestModule : IModule
     private class TestModuleStatusComponent : IStatusComponent
     {
         public IModule ParentModule { get; }
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
+        public ISelectable Selectable => new StatusSelectable(this);
         public TestModuleStatusComponent(IModule parentModule) => ParentModule = parentModule;
         
-        public void Draw()
+        public void DrawStatus()
         {
             
         }

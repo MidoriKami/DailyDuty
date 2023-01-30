@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Addons;
 using DailyDuty.Configuration;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -17,7 +15,6 @@ using KamiLib.Caching;
 using KamiLib.ChatCommands;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using KamiLib.Interfaces;
 using KamiLib.Misc;
 using Lumina.Excel.GeneratedSheets;
 
@@ -29,29 +26,80 @@ public class RaidsNormalSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(true);
 }
 
-internal class RaidsNormal : IModule
+public unsafe class RaidsNormal : AbstractModule
 {
-    public ModuleName Name => ModuleName.NormalRaids;
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public IStatusComponent StatusComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public ITodoComponent TodoComponent { get; }
-    public ITimerComponent TimerComponent { get; }
+    public override ModuleName Name => ModuleName.NormalRaids;
+    public override CompletionType CompletionType => CompletionType.Weekly;
 
     private static RaidsNormalSettings Settings => Service.ConfigurationManager.CharacterConfiguration.RaidsNormal;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
+    public override DalamudLinkPayload? DalamudLinkPayload { get; }
+    public override bool LinkPayloadActive => Settings.EnableClickableLink;
+    private readonly AgentContentsFinder* contentsFinderAgentInterface = AgentContentsFinder.Instance();
+    
     public RaidsNormal()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        StatusComponent = new ModuleStatusComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-        TodoComponent = new ModuleTodoComponent(this);
-        TimerComponent = new ModuleTimerComponent(this);
-        
+        DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.NormalRaidsDutyFinder, OpenDutyFinder);
+
+        DutyFinderAddon.Instance.Refresh += OnSelectionChanged;
+        Service.Chat.ChatMessage += OnChatMessage;
         Service.ConfigurationManager.OnCharacterDataLoaded += ConfigurationLoaded;
     }
 
+    public override void Dispose()
+    {
+        DutyFinderAddon.Instance.Refresh -= OnSelectionChanged;
+        Service.Chat.ChatMessage -= OnChatMessage;
+        Service.ConfigurationManager.OnCharacterDataLoaded -= ConfigurationLoaded;
+    }
+    
+    private void OnSelectionChanged(object? sender, nint e)
+    {
+        var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked).ToList();
+        if(!enabledRaids.Any()) return;
+
+        var contentFinderCondition = *(int*)((byte*) contentsFinderAgentInterface + 6988);
+        var trackedRaid = enabledRaids.FirstOrDefault(raid => raid.Duty.ContentFinderCondition == contentFinderCondition);
+
+        if (trackedRaid != null)
+        {
+            var numCollectedRewards = *((byte*) contentsFinderAgentInterface + 7000);
+
+            if (trackedRaid.CurrentDropCount != numCollectedRewards)
+            {
+                trackedRaid.CurrentDropCount = numCollectedRewards;
+                Service.ConfigurationManager.Save();
+            }
+        }
+    }
+
+    private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
+    {
+        // If module is enabled
+        if (!Settings.Enabled) return;
+
+        // If message is a loot message
+        if (((int)type & 0x7F) != 0x3E) return;
+
+        // If we are in a zone that we are tracking
+        if (GetRaidForCurrentZone() is not { } trackedRaid) return;
+
+        // If the message does NOT contain a player payload
+        if (message.Payloads.FirstOrDefault(p => p is PlayerPayload) is PlayerPayload) return;
+
+        // If the message DOES contain an item
+        if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload { Item: { } item } ) return;
+
+        switch (item.ItemUICategory.Row)
+        {
+            case 61 when item.ItemAction.Row == 0:
+                trackedRaid.CurrentDropCount += 1;
+                Service.ConfigurationManager.Save();
+                break;
+        }
+    }
+    
     private void ConfigurationLoaded(object? sender, CharacterConfiguration e)
     {
         if (!Settings.TrackedRaids.Any() || IsDataStale())
@@ -71,224 +119,85 @@ internal class RaidsNormal : IModule
         }
     }
 
-    private static bool IsDataStale() => Settings.TrackedRaids.Any(trackedTask => !DutyLists.Instance.LimitedSavage.Contains(trackedTask.Duty.TerritoryType));
+    public override void DoReset()
+    {
+        foreach (var raid in Settings.TrackedRaids)
+        {
+            raid.CurrentDropCount = 0;
+        }
+    }
     
-    public void Dispose()
+    private static bool IsDataStale() => Settings.TrackedRaids.Any(trackedTask => !DutyLists.Instance.LimitedSavage.Contains(trackedTask.Duty.TerritoryType));
+    private void OpenDutyFinder(uint arg1, SeString arg2) => AgentContentsFinder.Instance()->OpenRegularDuty(GetFirstRaid());
+    public override string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Raids_RaidsRemaining}";
+    private static int GetIncompleteCount() => Settings.TrackedRaids.Count(raid => raid.Tracked && raid.GetStatus() == ModuleStatus.Incomplete);
+    public override ModuleStatus GetModuleStatus() => GetIncompleteCount() > 0 ? ModuleStatus.Incomplete : ModuleStatus.Complete;
+
+    private static TrackedRaid? GetRaidForCurrentZone()
     {
-        Service.ConfigurationManager.OnCharacterDataLoaded -= ConfigurationLoaded;
-        LogicComponent.Dispose();
+        var currentZone = Service.ClientState.TerritoryType;
+        var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked);
+        var trackedRaidForZone = enabledRaids.FirstOrDefault(raid => raid.Duty.TerritoryType == currentZone);
+
+        return trackedRaidForZone;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    private static uint GetFirstRaid()
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
-        public ModuleConfigurationComponent(IModule parentModule)
+        if (Settings.TrackedRaids.Any(raid => raid.GetStatus() == ModuleStatus.Incomplete))
         {
-            ParentModule = parentModule;
+            return Settings.TrackedRaids.First(raid => raid.GetStatus() == ModuleStatus.Incomplete).Duty.ContentFinderCondition;
         }
-
-        public void Draw()
+        else
         {
-            InfoBox.Instance.DrawGenericSettings(this);
+            return Settings.TrackedRaids.First().Duty.ContentFinderCondition;
+        }
+    }
 
-            if (Settings.TrackedRaids is { } trackedRaids)
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.Raids_TrackedRaids)
-                    .BeginTable(0.70f)
-                    .AddConfigurationRows(trackedRaids)
-                    .EndTable()
-                    .Draw();
-            }
+    protected override void DrawConfiguration()
+    {
+        InfoBox.Instance.DrawGenericSettings(this);
 
+        if (Settings.TrackedRaids is { } trackedRaids)
+        {
             InfoBox.Instance
-                .AddTitle(Strings.Common_ClickableLink)
-                .AddString(Strings.DutyFinder_ClickableLink)
-                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
+                .AddTitle(Strings.Raids_TrackedRaids)
+                .BeginTable(0.70f)
+                .AddConfigurationRows(trackedRaids)
+                .EndTable()
                 .Draw();
-
-            InfoBox.Instance.DrawNotificationOptions(this);
         }
+
+        InfoBox.Instance
+            .AddTitle(Strings.Common_ClickableLink)
+            .AddString(Strings.DutyFinder_ClickableLink)
+            .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
+            .Draw();
+
+        InfoBox.Instance.DrawNotificationOptions(this);
     }
 
-    private class ModuleStatusComponent : IStatusComponent
+    protected override void DrawStatus()
     {
-        public IModule ParentModule { get; }
+        InfoBox.Instance.DrawGenericStatus(this);
 
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
-
-        public ModuleStatusComponent(IModule parentModule)
+        if (Settings.TrackedRaids.Any(raid => raid.Tracked))
         {
-            ParentModule = parentModule;
+            InfoBox.Instance
+                .AddTitle(Strings.Status_ModuleData)
+                .BeginTable(0.70f)
+                .AddDataRows(Settings.TrackedRaids.Where(raid => raid.Tracked))
+                .EndTable()
+                .Draw();
         }
-        
-        public void Draw()
+        else
         {
-            InfoBox.Instance.DrawGenericStatus(this);
-
-            if (Settings.TrackedRaids.Any(raid => raid.Tracked))
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleData)
-                    .BeginTable(0.70f)
-                    .AddDataRows(Settings.TrackedRaids.Where(raid => raid.Tracked))
-                    .EndTable()
-                    .Draw();
-            }
-            else
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleData, out var innerWidth)
-                    .AddStringCentered(Strings.Raids_NothingTracked, innerWidth, Colors.Orange)
-                    .Draw();
-            }
+            InfoBox.Instance
+                .AddTitle(Strings.Status_ModuleData, out var innerWidth)
+                .AddStringCentered(Strings.Raids_NothingTracked, innerWidth, Colors.Orange)
+                .Draw();
+        }
             
-            InfoBox.Instance.DrawSuppressionOption(this);
-        }
-    }
-
-    private unsafe class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink;
-
-        private readonly AgentContentsFinder* contentsFinderAgentInterface = AgentContentsFinder.Instance();
-
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-
-            DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.NormalRaidsDutyFinder, OpenDutyFinder);
-
-            DutyFinderAddon.Instance.Refresh += OnSelectionChanged;
-            Service.Chat.ChatMessage += OnChatMessage;
-        }
-
-        public void Dispose()
-        {
-            DutyFinderAddon.Instance.Refresh -= OnSelectionChanged;
-            Service.Chat.ChatMessage -= OnChatMessage;
-        }
-
-        private void OnSelectionChanged(object? sender, nint e)
-        {
-            var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked).ToList();
-            if(!enabledRaids.Any()) return;
-
-            var contentFinderCondition = *(int*)((byte*) contentsFinderAgentInterface + 6988);
-            var trackedRaid = enabledRaids.FirstOrDefault(raid => raid.Duty.ContentFinderCondition == contentFinderCondition);
-
-            if (trackedRaid != null)
-            {
-                var numCollectedRewards = *((byte*) contentsFinderAgentInterface + 7000);
-
-                if (trackedRaid.CurrentDropCount != numCollectedRewards)
-                {
-                    trackedRaid.CurrentDropCount = numCollectedRewards;
-                    Service.ConfigurationManager.Save();
-                }
-            }
-        }
-
-        private void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
-        {
-            // If module is enabled
-            if (!Settings.Enabled) return;
-
-            // If message is a loot message
-            if (((int)type & 0x7F) != 0x3E) return;
-
-            // If we are in a zone that we are tracking
-            if (GetRaidForCurrentZone() is not { } trackedRaid) return;
-
-            // If the message does NOT contain a player payload
-            if (message.Payloads.FirstOrDefault(p => p is PlayerPayload) is PlayerPayload) return;
-
-            // If the message DOES contain an item
-            if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload { Item: { } item } ) return;
-
-            switch (item.ItemUICategory.Row)
-            {
-                case 61 when item.ItemAction.Row == 0:
-                    trackedRaid.CurrentDropCount += 1;
-                    Service.ConfigurationManager.Save();
-                    break;
-            }
-        }
-        
-        private void OpenDutyFinder(uint arg1, SeString arg2)
-        {
-            AgentContentsFinder.Instance()->OpenRegularDuty(GetFirstRaid());
-        }
-
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Raids_RaidsRemaining}";
-
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
-
-        public void DoReset()
-        {
-            foreach (var raid in Settings.TrackedRaids)
-            {
-                raid.CurrentDropCount = 0;
-            }
-        }
-
-        private static int GetIncompleteCount() => Settings.TrackedRaids.Count(raid => raid.Tracked && raid.GetStatus() == ModuleStatus.Incomplete);
-        public ModuleStatus GetModuleStatus() => GetIncompleteCount() > 0 ? ModuleStatus.Incomplete : ModuleStatus.Complete;
-
-        private static TrackedRaid? GetRaidForCurrentZone()
-        {
-            var currentZone = Service.ClientState.TerritoryType;
-            var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked);
-            var trackedRaidForZone = enabledRaids.FirstOrDefault(raid => raid.Duty.TerritoryType == currentZone);
-
-            return trackedRaidForZone;
-        }
-
-        private static uint GetFirstRaid()
-        {
-            if (Settings.TrackedRaids.Any(raid => raid.GetStatus() == ModuleStatus.Incomplete))
-            {
-                return Settings.TrackedRaids.First(raid => raid.GetStatus() == ModuleStatus.Incomplete).Duty.ContentFinderCondition;
-            }
-            else
-            {
-                return Settings.TrackedRaids.First().Duty.ContentFinderCondition;
-            }
-        }
-    }
-
-    private class ModuleTodoComponent : ITodoComponent
-    {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Weekly;
-        public bool HasLongLabel => false;
-
-        public ModuleTodoComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public string GetShortTaskLabel() => Strings.Raids_NormalLabel;
-
-        public string GetLongTaskLabel() => Strings.Raids_NormalLabel;
-    }
-
-
-    private class ModuleTimerComponent : ITimerComponent
-    {
-        public IModule ParentModule { get; }
-
-        public ModuleTimerComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
-
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+        InfoBox.Instance.DrawSuppressionOption(this);
     }
 }

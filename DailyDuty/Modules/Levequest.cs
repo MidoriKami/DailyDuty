@@ -3,13 +3,10 @@ using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using KamiLib.Interfaces;
 using KamiLib.Misc;
 
 namespace DailyDuty.Modules;
@@ -20,190 +17,94 @@ public class LevequestSettings : GenericSettings
     public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.EqualTo);
 }
 
-internal class Levequest : IModule
+public unsafe class Levequest : AbstractModule
 {
-    public ModuleName Name => ModuleName.Levequest;
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public IStatusComponent StatusComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public ITodoComponent TodoComponent { get; }
-    public ITimerComponent TimerComponent { get; }
-
+    public override ModuleName Name => ModuleName.Levequest;
+    public override CompletionType CompletionType => CompletionType.Daily;
+    public override TimeSpan GetTimerPeriod() => TimeSpan.FromHours(12);
+    
     private static LevequestSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Levequest;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
+    [Signature("88 05 ?? ?? ?? ?? 0F B7 41 06", ScanType = ScanType.StaticAddress)]
+    private readonly LevequestStruct* levequestStruct = null;
+    
     public Levequest()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        StatusComponent = new ModuleStatusComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-        TodoComponent = new ModuleTodoComponent(this);
-        TimerComponent = new ModuleTimerComponent(this);
+        SignatureHelper.Initialise(this);
     }
 
-    public void Dispose()
+    public override string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
+    public override DateTime GetNextReset() => Time.NextLeveAllowanceReset();
+    private int GetRemainingAllowances() => levequestStruct->AllowancesRemaining;
+    private int GetAcceptedLeves() => levequestStruct->LevesAccepted;
+
+    public override ModuleStatus GetModuleStatus()
     {
-        LogicComponent.Dispose();
-    }
-
-    private class ModuleConfigurationComponent : IConfigurationComponent
-    {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
-        public ModuleConfigurationComponent(IModule parentModule)
+        switch (Settings.ComparisonMode.Value)
         {
-            ParentModule = parentModule;
-        }
+            case ComparisonMode.LessThan when Settings.NotificationThreshold.Value > GetRemainingAllowances():
+            case ComparisonMode.EqualTo when Settings.NotificationThreshold.Value == GetRemainingAllowances():
+            case ComparisonMode.LessThanOrEqual when Settings.NotificationThreshold.Value >= GetRemainingAllowances():
+                return ModuleStatus.Complete;
 
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(this);
-
-            InfoBox.Instance
-                .AddTitle(Strings.Config_MarkCompleteWhen, out var innerWidth)
-                .BeginTable()
-                .BeginRow()
-                .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
-                .AddSliderInt(Strings.Common_Allowances, Settings.NotificationThreshold, 0, 100, innerWidth / 4.0f)
-                .EndRow()
-                .EndTable()
-                .Draw();
-
-            InfoBox.Instance.DrawNotificationOptions(this);
+            default:
+                return ModuleStatus.Incomplete;
         }
     }
 
-    private class ModuleStatusComponent : IStatusComponent
+    private static string GetNextLeviquest()
     {
-        public IModule ParentModule { get; }
+        var span = Time.NextLeveAllowanceReset() - DateTime.UtcNow;
 
-        public ISelectable Selectable =>
-            new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
+        return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
+    }
+    
+    protected override void DrawConfiguration()
+    {
+        InfoBox.Instance.DrawGenericSettings(this);
 
-        public ModuleStatusComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
+        InfoBox.Instance
+            .AddTitle(Strings.Config_MarkCompleteWhen, out var innerWidth)
+            .BeginTable()
+            .BeginRow()
+            .AddConfigCombo(Enum.GetValues<ComparisonMode>(), Settings.ComparisonMode, ComparisonModeExtensions.GetTranslatedString)
+            .AddSliderInt(Strings.Common_Allowances, Settings.NotificationThreshold, 0, 100, innerWidth / 4.0f)
+            .EndRow()
+            .EndTable()
+            .Draw();
 
-        public void Draw()
-        {
-            if (ParentModule.LogicComponent is not ModuleLogicComponent logicModule) return;
+        InfoBox.Instance.DrawNotificationOptions(this);
+    }
 
-            InfoBox.Instance.DrawGenericStatus(this);
+    protected override void DrawStatus()
+    {
+        InfoBox.Instance.DrawGenericStatus(this);
             
-            InfoBox.Instance
-                .AddTitle(Strings.Status_ModuleData)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Common_Allowances)
-                .AddString(logicModule.GetRemainingAllowances().ToString())
-                .EndRow()
-                .BeginRow()
-                .AddString(Strings.Common_Accepted)
-                .AddString(logicModule.GetAcceptedLeves().ToString())
-                .EndRow()
-                .EndTable()
-                .Draw();
+        InfoBox.Instance
+            .AddTitle(Strings.Status_ModuleData)
+            .BeginTable()
+            .BeginRow()
+            .AddString(Strings.Common_Allowances)
+            .AddString(GetRemainingAllowances().ToString())
+            .EndRow()
+            .BeginRow()
+            .AddString(Strings.Common_Accepted)
+            .AddString(GetAcceptedLeves().ToString())
+            .EndRow()
+            .EndTable()
+            .Draw();
 
-            InfoBox.Instance
-                .AddTitle(Strings.Levequest_NextAllowance)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.Levequest_NextAllowance)
-                .AddString(logicModule.GetNextLeviquest())
-                .EndRow()
-                .EndTable()
-                .Draw();
+        InfoBox.Instance
+            .AddTitle(Strings.Levequest_NextAllowance)
+            .BeginTable()
+            .BeginRow()
+            .AddString(Strings.Levequest_NextAllowance)
+            .AddString(GetNextLeviquest())
+            .EndRow()
+            .EndTable()
+            .Draw();
             
-            InfoBox.Instance.DrawSuppressionOption(this);
-        }
-    }
-
-    private unsafe class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload => null;
-        public bool LinkPayloadActive => false;
-
-        [Signature("88 05 ?? ?? ?? ?? 0F B7 41 06", ScanType = ScanType.StaticAddress)]
-        private readonly LevequestStruct* levequestStruct = null;
-
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-
-            SignatureHelper.Initialise(this);
-        }
-
-        public void Dispose()
-        {
-
-        }
-
-        public string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
-
-        public DateTime GetNextReset() => Time.NextLeveAllowanceReset();
-
-        public void DoReset()
-        {
-            // Do nothing
-        }
-
-        public ModuleStatus GetModuleStatus()
-        {
-            switch (Settings.ComparisonMode.Value)
-            {
-                case ComparisonMode.LessThan when Settings.NotificationThreshold.Value > GetRemainingAllowances():
-                case ComparisonMode.EqualTo when Settings.NotificationThreshold.Value == GetRemainingAllowances():
-                case ComparisonMode.LessThanOrEqual when Settings.NotificationThreshold.Value >= GetRemainingAllowances():
-                    return ModuleStatus.Complete;
-
-                default:
-                    return ModuleStatus.Incomplete;
-            }
-        }
-
-        public int GetRemainingAllowances() => levequestStruct->AllowancesRemaining;
-
-        public int GetAcceptedLeves() => levequestStruct->LevesAccepted;
-
-        public string GetNextLeviquest()
-        {
-            var span = Time.NextLeveAllowanceReset() - DateTime.UtcNow;
-
-            return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
-        }
-    }
-
-    private class ModuleTodoComponent : ITodoComponent
-    {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Daily;
-        public bool HasLongLabel => false;
-
-        public ModuleTodoComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public string GetShortTaskLabel() => Strings.Levequest_Label;
-
-        public string GetLongTaskLabel() => Strings.Levequest_Label;
-    }
-
-
-    private class ModuleTimerComponent : ITimerComponent
-    {
-        public IModule ParentModule { get; }
-
-        public ModuleTimerComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromHours(12);
-
-        public DateTime GetNextReset() => Time.NextLeveAllowanceReset();
+        InfoBox.Instance.DrawSuppressionOption(this);
     }
 }

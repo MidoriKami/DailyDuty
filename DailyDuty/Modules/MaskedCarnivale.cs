@@ -1,6 +1,4 @@
 ﻿using DailyDuty.Interfaces;
-using DailyDuty.UserInterface.Components;
-using System;
 using System.Linq;
 using DailyDuty.Addons;
 using DailyDuty.DataModels;
@@ -8,13 +6,10 @@ using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using KamiLib.Interfaces;
-using KamiLib.Misc;
 using KamiLib.Teleporter;
 
 namespace DailyDuty.Modules;
@@ -31,223 +26,140 @@ public class MaskedCarnivaleSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(true);
 }
 
-internal class MaskedCarnivale : IModule
+public unsafe class MaskedCarnivale : AbstractModule
 {
-    public ModuleName Name => ModuleName.MaskedCarnivale;
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public IStatusComponent StatusComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public ITodoComponent TodoComponent { get; }
-    public ITimerComponent TimerComponent { get; }
+    public override ModuleName Name => ModuleName.MaskedCarnivale;
+    public override CompletionType CompletionType => CompletionType.Weekly;
 
     private static MaskedCarnivaleSettings Settings => Service.ConfigurationManager.CharacterConfiguration.MaskedCarnivale;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
+    public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.UlDah);
+    public override bool LinkPayloadActive => Settings.EnableClickableLink;
+    private AgentInterface* AozContentBriefingAgentInterface => AgentModule.Instance()->GetAgentByInternalId(AgentId.AozContentBriefing);
+
+    private delegate byte IsWeeklyCompleteDelegate(AgentInterface* agent, byte index);
+    [Signature("4C 8B C1 80 FA 03")] private readonly IsWeeklyCompleteDelegate isWeeklyCompleted = null!;
+    
     public MaskedCarnivale()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        StatusComponent = new ModuleStatusComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-        TodoComponent = new ModuleTodoComponent(this);
-        TimerComponent = new ModuleTimerComponent(this);
+        SignatureHelper.Initialise(this);
+
+        AOZContentResultAddon.Instance.Setup += OnSetup;
+        Service.Framework.Update += OnFrameworkUpdate;
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
-        LogicComponent.Dispose();
+        AOZContentResultAddon.Instance.Setup -= OnSetup;
+        Service.Framework.Update -= OnFrameworkUpdate;
     }
-
-    private class ModuleConfigurationComponent : IConfigurationComponent
-    {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
-
-        public ModuleConfigurationComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(this);
-
-            InfoBox.Instance
-                .AddTitle(Strings.GrandCompany_Tracked)
-                .AddList(Settings.TrackedTasks)
-                .Draw();
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Common_ClickableLink)
-                .AddString(Strings.UlDah_ClickableLink)
-                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
-                .Draw();
-            
-            InfoBox.Instance.DrawNotificationOptions(this);
-        }
-    }
-
-    private class ModuleStatusComponent : IStatusComponent
-    {
-        public IModule ParentModule { get; }
-
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
-
-        public ModuleStatusComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericStatus(this);
-            
-            if (Settings.TrackedTasks.Any(row => row.Tracked))
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleData)
-                    .BeginTable()
-                    .AddDataRows(Settings.TrackedTasks.Where(row => row.Tracked))
-                    .EndTable()
-                    .Draw();
-            }
-            else
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.Status_ModuleData, out var innerWidth)
-                    .AddStringCentered(Strings.MaskedCarnivale_NothingTracked, innerWidth, Colors.Orange)
-                    .Draw();
-            }
-            
-            InfoBox.Instance.DrawSuppressionOption(this);
-        }
-    }
-
-    private unsafe class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; }
-        public bool LinkPayloadActive => Settings.EnableClickableLink;
-
-        private AgentInterface* AozContentBriefingAgentInterface => Framework.Instance()->GetUiModule()->GetAgentModule()->GetAgentByInternalId(AgentId.AozContentBriefing);
         
-        private delegate byte IsWeeklyCompleteDelegate(AgentInterface* agent, byte index);
-        [Signature("4C 8B C1 80 FA 03")] private readonly IsWeeklyCompleteDelegate isWeeklyCompleted = null!;
-        
-        public ModuleLogicComponent(IModule parentModule)
+    private void OnSetup(object? sender, AOZContentResultArgs e)
+    {
+        switch (e.CompletionType)
         {
-            ParentModule = parentModule;
-            
-            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.UlDah);
-            
-            SignatureHelper.Initialise(this);
-
-            AOZContentResultAddon.Instance.Setup += OnSetup;
-            Service.Framework.Update += OnFrameworkUpdate;
-        }
-
-        public void Dispose()
-        {
-            AOZContentResultAddon.Instance.Setup -= OnSetup;
-            Service.Framework.Update -= OnFrameworkUpdate;
-        }
-        
-        private void OnSetup(object? sender, AOZContentResultArgs e)
-        {
-            switch (e.CompletionType)
-            {
-                // Novice
-                case 0 when e.Successful:
-                    SetTaskState(CarnivaleTask.Novice, true);
-                    break;
+            // Novice
+            case 0 when e.Successful:
+                SetTaskState(CarnivaleTask.Novice, true);
+                break;
                 
-                // Moderate 
-                case 1 when e.Successful:
-                    SetTaskState(CarnivaleTask.Moderate, true);
-                    break;
+            // Moderate 
+            case 1 when e.Successful:
+                SetTaskState(CarnivaleTask.Moderate, true);
+                break;
                 
-                // Advanced
-                case 2 when e.Successful:
-                    SetTaskState(CarnivaleTask.Advanced, true);
-                    break;
+            // Advanced
+            case 2 when e.Successful:
+                SetTaskState(CarnivaleTask.Advanced, true);
+                break;
                     
-                // Other
-                case 3:
-                    break;
-            }
+            // Other
+            case 3:
+                break;
         }
+    }
         
-        private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
-        {
-            if (!Settings.Enabled) return;
-            if (!AozContentBriefingAgentInterface->IsAgentActive()) return;
+    private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
+    {
+        if (!Settings.Enabled) return;
+        if (!AozContentBriefingAgentInterface->IsAgentActive()) return;
             
-            foreach (var task in Settings.TrackedTasks)
-            {
-                var completed = isWeeklyCompleted(AozContentBriefingAgentInterface, (byte) task.Task) != 0;
-
-                if (task.State != completed)
-                {
-                    task.State = completed;
-                    Service.ConfigurationManager.Save();
-                }
-            }
-        }
-        
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Common_AllowancesRemaining}";
-        
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
-
-        public void DoReset()
+        foreach (var task in Settings.TrackedTasks)
         {
-            foreach (var task in Settings.TrackedTasks)
+            var completed = isWeeklyCompleted(AozContentBriefingAgentInterface, (byte) task.Task) != 0;
+
+            if (task.State != completed)
             {
-                task.State = false;
-            }
-        }
-
-        public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-
-        private static int GetIncompleteCount() => Settings.TrackedTasks.Where(task => task.Tracked && !task.State).Count();
-
-        private static void SetTaskState(CarnivaleTask task, bool completedState)
-        {
-            foreach (var trackedTask in Settings.TrackedTasks)
-            {
-                if (trackedTask.Task == task)
-                {
-                    trackedTask.State = completedState;
-                    Service.ConfigurationManager.Save();
-                }
+                task.State = completed;
+                Service.ConfigurationManager.Save();
             }
         }
     }
 
-    private class ModuleTodoComponent : ITodoComponent
+    public override void DoReset()
     {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Weekly;
-        public bool HasLongLabel => false;
-
-        public ModuleTodoComponent(IModule parentModule)
+        foreach (var task in Settings.TrackedTasks)
         {
-            ParentModule = parentModule;
+            task.State = false;
         }
-
-        public string GetShortTaskLabel() => Strings.MaskedCarnivale_Label;
-
-        public string GetLongTaskLabel() => Strings.MaskedCarnivale_Label;
     }
 
-    private class ModuleTimerComponent : ITimerComponent
+    private static void SetTaskState(CarnivaleTask task, bool completedState)
     {
-        public IModule ParentModule { get; }
-
-        public ModuleTimerComponent(IModule parentModule)
+        foreach (var trackedTask in Settings.TrackedTasks)
         {
-            ParentModule = parentModule;
+            if (trackedTask.Task == task)
+            {
+                trackedTask.State = completedState;
+                Service.ConfigurationManager.Save();
+            }
         }
+    }
+    
+    public override string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Common_AllowancesRemaining}";
+    public override ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    private static int GetIncompleteCount() => Settings.TrackedTasks.Where(task => task.Tracked && !task.State).Count();
 
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+    protected override void DrawConfiguration()
+    {
+        InfoBox.Instance.DrawGenericSettings(this);
+
+        InfoBox.Instance
+            .AddTitle(Strings.GrandCompany_Tracked)
+            .AddList(Settings.TrackedTasks)
+            .Draw();
+            
+        InfoBox.Instance
+            .AddTitle(Strings.Common_ClickableLink)
+            .AddString(Strings.UlDah_ClickableLink)
+            .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
+            .Draw();
+            
+        InfoBox.Instance.DrawNotificationOptions(this);
+    }
+
+    protected override void DrawStatus()
+    {
+        InfoBox.Instance.DrawGenericStatus(this);
+            
+        if (Settings.TrackedTasks.Any(row => row.Tracked))
+        {
+            InfoBox.Instance
+                .AddTitle(Strings.Status_ModuleData)
+                .BeginTable()
+                .AddDataRows(Settings.TrackedTasks.Where(row => row.Tracked))
+                .EndTable()
+                .Draw();
+        }
+        else
+        {
+            InfoBox.Instance
+                .AddTitle(Strings.Status_ModuleData, out var innerWidth)
+                .AddStringCentered(Strings.MaskedCarnivale_NothingTracked, innerWidth, Colors.Orange)
+                .Draw();
+        }
+            
+        InfoBox.Instance.DrawSuppressionOption(this);
     }
 }

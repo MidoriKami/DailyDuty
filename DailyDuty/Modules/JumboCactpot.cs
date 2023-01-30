@@ -5,12 +5,10 @@ using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using KamiLib.Interfaces;
 using KamiLib.Misc;
 using KamiLib.Teleporter;
 
@@ -22,214 +20,129 @@ public class JumboCactpotSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(false);
 }
 
-internal class JumboCactpot : IModule
+public unsafe class JumboCactpot : AbstractModule
 {
-    public ModuleName Name => ModuleName.JumboCactpot;
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public IStatusComponent StatusComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public ITodoComponent TodoComponent { get; }
-    public ITimerComponent TimerComponent { get; }
+    public override ModuleName Name => ModuleName.JumboCactpot;
+    public override CompletionType CompletionType => CompletionType.Weekly;
 
     private static JumboCactpotSettings Settings => Service.ConfigurationManager.CharacterConfiguration.JumboCactpot;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
+    public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer); 
+    public override bool LinkPayloadActive => Settings.EnableClickableLink;
 
+    private int ticketData = -1;
+    
     public JumboCactpot()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        StatusComponent = new ModuleStatusComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-        TodoComponent = new ModuleTodoComponent(this);
-        TimerComponent = new ModuleTimerComponent(this);
+        GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
+        LotteryWeeklyAddon.Instance.ReceiveEvent += OnReceiveEvent;
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
-        LogicComponent.Dispose();
+        GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
+        LotteryWeeklyAddon.Instance.ReceiveEvent -= OnReceiveEvent;
     }
-
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    
+    private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        //1010446 Jumbo Cactpot Broker
+        if (Service.TargetManager.Target?.DataId != 1010446) return;
+        Settings.Tickets.Clear();
 
-        public ModuleConfigurationComponent(IModule parentModule)
+        for(var i = 0; i < 3; ++i)
         {
-            ParentModule = parentModule;
-        }
+            var ticketValue = e.Data[i + 2];
 
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(this);
-
-            InfoBox.Instance
-                .AddTitle(Strings.Common_ClickableLink)
-                .AddString(Strings.GoldSaucer_ClickableLink)
-                .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
-                .Draw();
-
-            InfoBox.Instance.DrawNotificationOptions(this);
-        }
-    }
-
-    private class ModuleStatusComponent : IStatusComponent
-    {
-        public IModule ParentModule { get; }
-
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
-
-        public ModuleStatusComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericStatus(this);
-            
-            InfoBox.Instance
-                .AddTitle(Strings.Status_ModuleData)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.JumboCactpot_Tickets)
-                .AddString(Settings.Tickets.Count == 0 ? Strings.JumboCactpot_NoTickets : ModuleLogicComponent.GetTicketsString())
-                .EndRow()
-                .EndTable()
-                .Draw();
-
-            InfoBox.Instance
-                .AddTitle(Strings.JumboCactpot_NextDrawing)
-                .BeginTable()
-                .BeginRow()
-                .AddString(Strings.JumboCactpot_NextDrawing)
-                .AddString(ModuleLogicComponent.GetNextJumboCactpot())
-                .EndRow()
-                .EndTable()
-                .Draw();
-            
-            InfoBox.Instance.DrawSuppressionOption(this);
-        }
-    }
-
-    private unsafe class ModuleLogicComponent : ILogicComponent
-    {
-        public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload { get; } 
-        public bool LinkPayloadActive => Settings.EnableClickableLink;
-
-        private int ticketData = -1;
-
-        public ModuleLogicComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-
-            DalamudLinkPayload = TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
-
-            GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
-            LotteryWeeklyAddon.Instance.ReceiveEvent += OnReceiveEvent;
-        }
-
-        public void Dispose()
-        {
-            GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
-            LotteryWeeklyAddon.Instance.ReceiveEvent -= OnReceiveEvent;
-        }
-
-        public string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.JumboCactpot_TicketsAvailable}";
-
-        public DateTime GetNextReset() => Time.NextJumboCactpotReset();
-
-        public void DoReset() => Settings.Tickets.Clear();
-
-        public ModuleStatus GetModuleStatus() => Settings.Tickets.Count == 3 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-
-        public static string GetTicketsString() => string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
-
-        private void OnReceiveEvent(object? sender, ReceiveEventArgs e)
-        {
-            var data = e.EventArgs->Int;
-
-            switch (e.SenderID)
+            if (ticketValue != 10000)
             {
-                // Message is from JumboCactpot
-                case 0 when data >= 0:
-                    ticketData = data;
-                    break;
-
-                // Message is from SelectYesNo
-                case 5:
-                    switch (data)
-                    {
-                        case -1:
-                        case 1:
-                            ticketData = -1;
-                            break;
-
-                        case 0 when ticketData >= 0:
-                            Settings.Tickets.Add(ticketData);
-                            ticketData = -1;
-                            Service.ConfigurationManager.Save();
-                            break;
-                    }
-                    break;
+                Settings.Tickets.Add(ticketValue);
             }
         }
 
-        private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)
+        Service.ConfigurationManager.Save();
+    }
+
+    private void OnReceiveEvent(object? sender, ReceiveEventArgs e)
+    {
+        var data = e.EventArgs->Int;
+
+        switch (e.SenderID)
         {
-            //1010446 Jumbo Cactpot Broker
-            if (Service.TargetManager.Target?.DataId != 1010446) return;
-            Settings.Tickets.Clear();
+            // Message is from JumboCactpot
+            case 0 when data >= 0:
+                ticketData = data;
+                break;
 
-            for(var i = 0; i < 3; ++i)
-            {
-                var ticketValue = e.Data[i + 2];
-
-                if (ticketValue != 10000)
+            // Message is from SelectYesNo
+            case 5:
+                switch (data)
                 {
-                    Settings.Tickets.Add(ticketValue);
+                    case -1:
+                    case 1:
+                        ticketData = -1;
+                        break;
+
+                    case 0 when ticketData >= 0:
+                        Settings.Tickets.Add(ticketData);
+                        ticketData = -1;
+                        Service.ConfigurationManager.Save();
+                        break;
                 }
-            }
-
-            Service.ConfigurationManager.Save();
-        }
-
-        public static string GetNextJumboCactpot()
-        {
-            var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
-
-            return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
+                break;
         }
     }
+    
+    public override string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.JumboCactpot_TicketsAvailable}";
+    public override DateTime GetNextReset() => Time.NextJumboCactpotReset();
+    public override void DoReset() => Settings.Tickets.Clear();
+    public override ModuleStatus GetModuleStatus() => Settings.Tickets.Count == 3 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    private static string GetTicketsString() => string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));
 
-    private class ModuleTodoComponent : ITodoComponent
+    private static string GetNextJumboCactpot()
     {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Weekly;
-        public bool HasLongLabel => false;
+        var span = Time.NextJumboCactpotReset() - DateTime.UtcNow;
 
-        public ModuleTodoComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
+        return span.FormatTimespan(Settings.TimerSettings.TimerStyle.Value);
+    }
+    
+    protected override void DrawConfiguration()
+    {
+        InfoBox.Instance.DrawGenericSettings(this);
 
-        public string GetShortTaskLabel() => Strings.JumboCactpot_Label;
+        InfoBox.Instance
+            .AddTitle(Strings.Common_ClickableLink)
+            .AddString(Strings.GoldSaucer_ClickableLink)
+            .AddConfigCheckbox(Strings.Common_Enabled, Settings.EnableClickableLink)
+            .Draw();
 
-        public string GetLongTaskLabel() => Strings.JumboCactpot_Label;
+        InfoBox.Instance.DrawNotificationOptions(this);
     }
 
-
-    private class ModuleTimerComponent : ITimerComponent
+    protected override void DrawStatus()
     {
-        public IModule ParentModule { get; }
+        InfoBox.Instance.DrawGenericStatus(this);
+            
+        InfoBox.Instance
+            .AddTitle(Strings.Status_ModuleData)
+            .BeginTable()
+            .BeginRow()
+            .AddString(Strings.JumboCactpot_Tickets)
+            .AddString(Settings.Tickets.Count == 0 ? Strings.JumboCactpot_NoTickets : GetTicketsString())
+            .EndRow()
+            .EndTable()
+            .Draw();
 
-        public ModuleTimerComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
-
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
-
-        public DateTime GetNextReset() => Time.NextJumboCactpotReset();
+        InfoBox.Instance
+            .AddTitle(Strings.JumboCactpot_NextDrawing)
+            .BeginTable()
+            .BeginRow()
+            .AddString(Strings.JumboCactpot_NextDrawing)
+            .AddString(GetNextJumboCactpot())
+            .EndRow()
+            .EndTable()
+            .Draw();
+            
+        InfoBox.Instance.DrawSuppressionOption(this);
     }
 }

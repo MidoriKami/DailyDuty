@@ -1,19 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using DailyDuty.DataModels;
 using DailyDuty.DataStructures.HuntMarks;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Game;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility.Signatures;
 using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using KamiLib.Interfaces;
-using KamiLib.Misc;
 
 namespace DailyDuty.Modules;
 
@@ -29,214 +23,128 @@ public class HuntMarksWeeklySettings : GenericSettings
     };
 }
 
-internal class HuntMarksWeekly : IModule
+public class HuntMarksWeekly : AbstractModule
 {
-    public ModuleName Name => ModuleName.HuntMarksWeekly;
-    public IConfigurationComponent ConfigurationComponent { get; }
-    public IStatusComponent StatusComponent { get; }
-    public ILogicComponent LogicComponent { get; }
-    public ITodoComponent TodoComponent { get; }
-    public ITimerComponent TimerComponent { get; }
+    public override ModuleName Name => ModuleName.HuntMarksWeekly;
 
     private static HuntMarksWeeklySettings Settings => Service.ConfigurationManager.CharacterConfiguration.HuntMarksWeekly;
-    public GenericSettings GenericSettings => Settings;
+    public override GenericSettings GenericSettings => Settings;
 
     public HuntMarksWeekly()
     {
-        ConfigurationComponent = new ModuleConfigurationComponent(this);
-        StatusComponent = new ModuleStatusComponent(this);
-        LogicComponent = new ModuleLogicComponent(this);
-        TodoComponent = new ModuleTodoComponent(this);
-        TimerComponent = new ModuleTimerComponent(this);
+        Service.Framework.Update += OnFrameworkUpdate;
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
-        LogicComponent.Dispose();
+        Service.Framework.Update -= OnFrameworkUpdate;
     }
 
-    private class ModuleConfigurationComponent : IConfigurationComponent
+    private void OnFrameworkUpdate(Framework framework)
     {
-        public IModule ParentModule { get; }
-        public ISelectable Selectable => new ConfigurationSelectable(ParentModule, this);
+        if (!Service.ConfigurationManager.CharacterDataLoaded) return;
 
-        public ModuleConfigurationComponent(IModule parentModule)
+        foreach (var hunt in Settings.TrackedHunts)
         {
-            ParentModule = parentModule;
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericSettings(this);
-
-            InfoBox.Instance
-                .AddTitle(Strings.HuntMarks_Tracked)
-                .AddList(Settings.TrackedHunts)
-                .Draw();
-
-            InfoBox.Instance.DrawNotificationOptions(this);
+            UpdateState(hunt);
         }
     }
 
-    private class ModuleStatusComponent : IStatusComponent
+    public override void DoReset()
     {
-        public IModule ParentModule { get; }
-
-        public ISelectable Selectable => new StatusSelectable(ParentModule, this, ParentModule.LogicComponent.Status);
-
-        public ModuleStatusComponent(IModule parentModule)
+        foreach (var hunt in Settings.TrackedHunts)
         {
-            ParentModule = parentModule;
-        }
-
-        public void Draw()
-        {
-            InfoBox.Instance.DrawGenericStatus(this);
-
-            if (Settings.TrackedHunts.Any(hunt => hunt.Tracked))
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.HuntMarks_Status)
-                    .BeginTable()
-                    .AddDataRows(Settings.TrackedHunts.Where(row => row.Tracked))
-                    .EndTable()
-                    .Draw();
-            }
-            else
-            {
-                InfoBox.Instance
-                    .AddTitle(Strings.HuntMarks_Status, out var innerWidth2)
-                    .AddStringCentered(Strings.HuntMarks_NothingTracked, innerWidth2, Colors.Orange)
-                    .Draw();
-            }
-
-            InfoBox.Instance
-                .AddTitle(Strings.HuntMarks_ForceComplete, out var innerWidth)
-                .AddString(Strings.HuntMarks_ForceComplete_Info, Colors.Orange)
-                .AddDummy(20.0f)
-                .AddStringCentered(Strings.HuntMarks_ForceComplete_Warning, innerWidth, Colors.Orange)
-                .AddDisabledButton(Strings.Common_Reset, () => 
-                { 
-                    foreach (var element in Settings.TrackedHunts)
-                    {
-                        element.State = TrackedHuntState.Killed;
-                    }
-                    Service.ConfigurationManager.Save();
-                }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
-                .Draw();
-            
-            InfoBox.Instance.DrawSuppressionOption(this);
+            hunt.State = TrackedHuntState.Unobtained;
         }
     }
 
-    private class ModuleLogicComponent : ILogicComponent
+    private static void UpdateState(TrackedHunt hunt)
     {
-        public IModule ParentModule { get; }
-        public DalamudLinkPayload? DalamudLinkPayload => null;
-        public bool LinkPayloadActive => false;
-        
-        public ModuleLogicComponent(IModule parentModule)
+        var data = HuntMarkData.Instance.GetHuntData(hunt.HuntType);
+
+        switch (hunt.State)
         {
-            ParentModule = parentModule;
+            case TrackedHuntState.Unobtained when data.Obtained:
+                hunt.State = TrackedHuntState.Obtained;
+                Service.ConfigurationManager.Save();
+                break;
 
-            SignatureHelper.Initialise(this);
-
-            Service.Framework.Update += OnFrameworkUpdate;
-        }
-
-        public void Dispose()
-        {
-            Service.Framework.Update -= OnFrameworkUpdate;
-        }
-
-        private void OnFrameworkUpdate(Framework framework)
-        {
-            if (!Service.ConfigurationManager.CharacterDataLoaded) return;
-
-            foreach (var hunt in Settings.TrackedHunts)
-            {
-                UpdateState(hunt);
-            }
-        }
-
-        public string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.HuntMarks_Remaining}";
-
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
-
-        public void DoReset()
-        {
-            foreach (var hunt in Settings.TrackedHunts)
-            {
+            case TrackedHuntState.Obtained when data is { Obtained: false, IsCompleted: false }:
                 hunt.State = TrackedHuntState.Unobtained;
-            }
-        }
+                Service.ConfigurationManager.Save();
+                break;
 
-        public ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-
-        private static void UpdateState(TrackedHunt hunt)
-        {
-            var data = HuntMarkData.Instance.GetHuntData(hunt.HuntType);
-
-            switch (hunt.State)
-            {
-                case TrackedHuntState.Unobtained when data.Obtained:
-                    hunt.State = TrackedHuntState.Obtained;
-                    Service.ConfigurationManager.Save();
-                    break;
-
-                case TrackedHuntState.Obtained when data is { Obtained: false, IsCompleted: false }:
-                    hunt.State = TrackedHuntState.Unobtained;
-                    Service.ConfigurationManager.Save();
-                    break;
-
-                case TrackedHuntState.Obtained when data.IsCompleted:
-                    hunt.State = TrackedHuntState.Killed;
-                    Service.ConfigurationManager.Save();
-                    break;
-            }
-        }
-
-        private static int GetIncompleteCount()
-        {
-            return Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
+            case TrackedHuntState.Obtained when data.IsCompleted:
+                hunt.State = TrackedHuntState.Killed;
+                Service.ConfigurationManager.Save();
+                break;
         }
     }
 
-    private class ModuleTodoComponent : ITodoComponent
+    public override string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.HuntMarks_Remaining}";
+    public override ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    private static int GetIncompleteCount() => Settings.TrackedHunts.Count(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed);
+    public override CompletionType CompletionType => CompletionType.Weekly;
+    public override bool HasLongLabel => true;
+
+    public override string GetLongTaskLabel()
     {
-        public IModule ParentModule { get; }
-        public CompletionType CompletionType => CompletionType.Weekly;
-        public bool HasLongLabel => true;
+        var strings = Settings.TrackedHunts
+            .Where(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed)
+            .Select(hunt => hunt.HuntType.GetLabel())
+            .ToList();
 
-        public ModuleTodoComponent(IModule parentModule)
-        {
-            ParentModule = parentModule;
-        }
+        return strings.Any() ? string.Join("\n", strings) : Strings.HuntMarks_WeeklyLabel;
+    }
+    
+    protected override void DrawConfiguration()
+    {
+        InfoBox.Instance.DrawGenericSettings(this);
 
-        public string GetShortTaskLabel() => Strings.HuntMarks_WeeklyLabel;
+        InfoBox.Instance
+            .AddTitle(Strings.HuntMarks_Tracked)
+            .AddList(Settings.TrackedHunts)
+            .Draw();
 
-        public string GetLongTaskLabel()
-        {
-            var strings = Settings.TrackedHunts
-                .Where(hunt => hunt.Tracked && hunt.State != TrackedHuntState.Killed)
-                .Select(hunt => hunt.HuntType.GetLabel())
-                .ToList();
-
-            return strings.Any() ? string.Join("\n", strings) : Strings.HuntMarks_WeeklyLabel;
-        }
+        InfoBox.Instance.DrawNotificationOptions(this);
     }
 
-    private class ModuleTimerComponent : ITimerComponent
+    protected override void DrawStatus()
     {
-        public IModule ParentModule { get; }
+        InfoBox.Instance.DrawGenericStatus(this);
 
-        public ModuleTimerComponent(IModule parentModule)
+        if (Settings.TrackedHunts.Any(hunt => hunt.Tracked))
         {
-            ParentModule = parentModule;
+            InfoBox.Instance
+                .AddTitle(Strings.HuntMarks_Status)
+                .BeginTable()
+                .AddDataRows(Settings.TrackedHunts.Where(row => row.Tracked))
+                .EndTable()
+                .Draw();
+        }
+        else
+        {
+            InfoBox.Instance
+                .AddTitle(Strings.HuntMarks_Status, out var innerWidth2)
+                .AddStringCentered(Strings.HuntMarks_NothingTracked, innerWidth2, Colors.Orange)
+                .Draw();
         }
 
-        public TimeSpan GetTimerPeriod() => TimeSpan.FromDays(7);
-
-        public DateTime GetNextReset() => Time.NextWeeklyReset();
+        InfoBox.Instance
+            .AddTitle(Strings.HuntMarks_ForceComplete, out var innerWidth)
+            .AddString(Strings.HuntMarks_ForceComplete_Info, Colors.Orange)
+            .AddDummy(20.0f)
+            .AddStringCentered(Strings.HuntMarks_ForceComplete_Warning, innerWidth, Colors.Orange)
+            .AddDisabledButton(Strings.Common_Reset, () => 
+            { 
+                foreach (var element in Settings.TrackedHunts)
+                {
+                    element.State = TrackedHuntState.Killed;
+                }
+                Service.ConfigurationManager.Save();
+            }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
+            .Draw();
+            
+        InfoBox.Instance.DrawSuppressionOption(this);
     }
 }
