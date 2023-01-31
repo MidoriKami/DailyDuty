@@ -90,6 +90,7 @@ public unsafe class ChallengeLog : AbstractModule
     {
         var strings = Settings.TrackedTasks
             .Where(task => task.Enabled && !task.Completed)
+            .OrderBy(task => task.RowID)
             .Select(task => task.GetTaskName())
             .ToList();
 
