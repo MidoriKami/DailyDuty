@@ -5,7 +5,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game;
-using ImGuiNET;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 
@@ -129,21 +128,6 @@ public class HuntMarksWeekly : AbstractModule
                 .AddStringCentered(Strings.HuntMarks_NothingTracked, innerWidth2, Colors.Orange)
                 .Draw();
         }
-
-        InfoBox.Instance
-            .AddTitle(Strings.HuntMarks_ForceComplete, out var innerWidth)
-            .AddString(Strings.HuntMarks_ForceComplete_Info, Colors.Orange)
-            .AddDummy(20.0f)
-            .AddStringCentered(Strings.HuntMarks_ForceComplete_Warning, innerWidth, Colors.Orange)
-            .AddDisabledButton(Strings.Common_Reset, () => 
-            { 
-                foreach (var element in Settings.TrackedHunts)
-                {
-                    element.State = TrackedHuntState.Killed;
-                }
-                Service.ConfigurationManager.Save();
-            }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth)
-            .Draw();
             
         InfoBox.Instance.DrawSuppressionOption(this);
     }
