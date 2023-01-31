@@ -1,11 +1,8 @@
 ﻿using System;
 using DailyDuty.DataModels;
-using DailyDuty.Localization;
 using DailyDuty.UserInterface.Components;
-using DailyDuty.UserInterface.Windows;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using KamiLib;
 using KamiLib.Drawing;
 using KamiLib.Interfaces;
 using KamiLib.Misc;
@@ -91,12 +88,4 @@ public abstract class AbstractModule :
         CompletionType.Weekly => TimeSpan.FromDays(7),
         _ => TimeSpan.Zero
     };
-
-    void IInfoBoxTableConfigurationRow.GetConfigurationRow(InfoBoxTable owner)
-    { 
-        owner.BeginRow()
-            .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TimerTaskEnabled)
-            .AddButton(Strings.Timers_EditStyle + $"##{ParentModule.Name}",() => KamiCommon.WindowManager.AddWindow(new TimersStyleWindow(ParentModule)))
-            .EndRow();
-    }
 }

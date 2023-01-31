@@ -8,19 +8,30 @@ using KamiLib.Interfaces;
 
 namespace DailyDuty.Interfaces;
 
-public interface ITimerComponent : IInfoBoxTableConfigurationRow
+public interface ITimerComponent
 {
     IModule ParentModule { get; }
     TimeSpan GetTimerPeriod();
     DateTime GetNextReset();
     TimeSpan RemainingTime => GetNextReset() - DateTime.UtcNow;
 
-    void IInfoBoxTableConfigurationRow.GetConfigurationRow(InfoBoxTable owner)
-    { 
+    TimersConfigurationRow GetTimersConfigurationRow() => new(this);
+}
+
+public class TimersConfigurationRow : IInfoBoxTableConfigurationRow
+{
+    private readonly ITimerComponent timerComponent;
+    public TimersConfigurationRow(ITimerComponent component)
+    {
+        timerComponent = component;
+    }
+
+    public void GetConfigurationRow(InfoBoxTable owner)
+    {
         owner
             .BeginRow()
-            .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TimerTaskEnabled)
-            .AddButton(Strings.Timers_EditStyle + $"##{ParentModule.Name}",() => KamiCommon.WindowManager.AddWindow(new TimersStyleWindow(ParentModule)))
+            .AddConfigCheckbox(timerComponent.ParentModule.Name.GetTranslatedString(), timerComponent.ParentModule.GenericSettings.TimerTaskEnabled)
+            .AddButton(Strings.Timers_EditStyle + $"##{timerComponent.ParentModule.Name}",() => KamiCommon.WindowManager.AddWindow(new TimersStyleWindow(timerComponent.ParentModule)))
             .EndRow();
     }
 }

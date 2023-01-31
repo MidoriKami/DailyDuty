@@ -5,7 +5,7 @@ using KamiLib.Interfaces;
 
 namespace DailyDuty.Interfaces;
 
-public interface ITodoComponent : IInfoBoxTableConfigurationRow
+public interface ITodoComponent
 {
     IModule ParentModule { get; }
     CompletionType CompletionType { get; }
@@ -13,21 +13,33 @@ public interface ITodoComponent : IInfoBoxTableConfigurationRow
     string GetShortTaskLabel();
     string GetLongTaskLabel();
 
-    void IInfoBoxTableConfigurationRow.GetConfigurationRow(InfoBoxTable owner)
+    TodoConfigurationRow GetTodoConfigurationRow() => new(this);
+}
+
+public class TodoConfigurationRow : IInfoBoxTableConfigurationRow
+{
+    private readonly ITodoComponent todoComponent;
+    
+    public TodoConfigurationRow(ITodoComponent component)
     {
-        if (HasLongLabel)
+        todoComponent = component;
+    }
+
+    public void GetConfigurationRow(InfoBoxTable owner)
+    {
+        if (todoComponent.HasLongLabel)
         {
             owner
                 .BeginRow()
-                .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TodoTaskEnabled)
-                .AddConfigCheckbox(Strings.Todo_UseLongLabel, ParentModule.GenericSettings.TodoUseLongLabel, additionalID: ParentModule.Name.GetTranslatedString())
+                .AddConfigCheckbox(todoComponent.ParentModule.Name.GetTranslatedString(), todoComponent.ParentModule.GenericSettings.TodoTaskEnabled)
+                .AddConfigCheckbox(Strings.Todo_UseLongLabel, todoComponent.ParentModule.GenericSettings.TodoUseLongLabel, additionalID: todoComponent.ParentModule.Name.GetTranslatedString())
                 .EndRow();
         }
         else
         {
             owner
                 .BeginRow()
-                .AddConfigCheckbox(ParentModule.Name.GetTranslatedString(), ParentModule.GenericSettings.TodoTaskEnabled)
+                .AddConfigCheckbox(todoComponent.ParentModule.Name.GetTranslatedString(), todoComponent.ParentModule.GenericSettings.TodoTaskEnabled)
                 .EndRow();
         }
     }
