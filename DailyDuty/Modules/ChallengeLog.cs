@@ -1,20 +1,22 @@
-﻿using DailyDuty.Addons;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DailyDuty.Configuration;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
+using Dalamud.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using KamiLib.ChatCommands;
+using KamiLib.Caching;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
+using LuminaContentsNote = Lumina.Excel.GeneratedSheets.ContentsNote;
 
 namespace DailyDuty.Modules;
 
 public class ChallengeLogSettings : GenericSettings
 {
-    public Setting<bool> CommendationWarning = new(true);
-    public Setting<bool> RouletteDungeonWarning = new(true);
-    public Setting<bool> DungeonWarning = new(true);
+    public List<TrackedContentNote> TrackedTasks = new();
 }
 
 public unsafe class ChallengeLog : AbstractModule
@@ -27,54 +29,71 @@ public unsafe class ChallengeLog : AbstractModule
 
     public ChallengeLog()
     {
-        CommendationAddon.Instance.Show += CommendationOnShow;
-        DutyFinderAddon.Instance.Show += DutyFinderOnShow;
+        Service.Framework.Update += OnFrameworkUpdate;
+        Service.ConfigurationManager.OnCharacterDataLoaded += RefreshTrackedTasks;
     }
-    
+
     public override void Dispose()
     {
-        CommendationAddon.Instance.Show -= CommendationOnShow;
-        DutyFinderAddon.Instance.Show -= DutyFinderOnShow;
+        Service.Framework.Update -= OnFrameworkUpdate;
+        Service.ConfigurationManager.OnCharacterDataLoaded -= RefreshTrackedTasks;
     }
     
-    public static ModuleStatus CommendationStatus() => ContentsNote.Instance()->IsContentNoteComplete(25) ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-    public static ModuleStatus DungeonRouletteStatus() => ContentsNote.Instance()->IsContentNoteComplete(1) ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-    public static ModuleStatus DungeonMasterStatus()=> ContentsNote.Instance()->IsContentNoteComplete(2) ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-
-    private void DutyFinderOnShow(object? sender, nint e)
+    private void OnFrameworkUpdate(Framework framework)
     {
         if (!Settings.Enabled) return;
         if (Settings.Suppressed) return;
-
-        if (Settings.RouletteDungeonWarning && DungeonRouletteStatus() != ModuleStatus.Complete)
+        
+        foreach (var task in Settings.TrackedTasks)
         {
-            Chat.Print(Strings.ChallengeLog_Label, $"{Strings.ChallengeLog_DungeonRoulette} {Strings.Common_AllowancesAvailable}");
-        }
-
-        if (Settings.DungeonWarning && DungeonMasterStatus() != ModuleStatus.Complete)
-        {
-            Chat.Print(Strings.ChallengeLog_Label, $"{Strings.ChallengeLog_DungeonMaster} {Strings.Common_AllowancesAvailable}");
-        }
-    }
-
-    private void CommendationOnShow(object? sender, nint e)
-    {
-        if (!Settings.Enabled) return;
-        if (Settings.Suppressed) return;
-
-        if (Settings.CommendationWarning && CommendationStatus() != ModuleStatus.Complete)
-        {
-            Chat.Print(Strings.ChallengeLog_Label, $"{Strings.ChallengeLog_Commendation} {Strings.Common_AllowancesAvailable}");
+            task.Completed = ContentsNote.Instance()->IsContentNoteComplete(task.RowID);
         }
     }
     
-    public override ModuleStatus GetModuleStatus()
+    private void RefreshTrackedTasks(object? sender, CharacterConfiguration e)
     {
-        if (CommendationStatus() != ModuleStatus.Complete) return ModuleStatus.Incomplete;
-        if (DungeonRouletteStatus() != ModuleStatus.Complete) return ModuleStatus.Incomplete;
-        if (DungeonMasterStatus() != ModuleStatus.Complete) return ModuleStatus.Incomplete;
+        var luminaData = LuminaCache<LuminaContentsNote>.Instance
+            .Where(row => row.RequiredAmount is not 0)
+            .ToList();
+        
+        var configCount = Settings.TrackedTasks.Count;
 
-        return ModuleStatus.Complete;
+        // Check for mismatch between saved data and gamedata
+        if (luminaData.Count != configCount)
+        {
+            // Find which entries we are missing and add them
+            foreach (var luminaEntry in luminaData)
+            {
+                // If none of our saved entries has this value add it
+                if (!Settings.TrackedTasks.Any(task => task.RowID == luminaEntry.RowId))
+                {
+                    Settings.TrackedTasks.Add(new TrackedContentNote((int)luminaEntry.RowId, new Setting<bool>(false), false));
+                }
+            }
+        }
+    }
+
+    private static int GetIncompleteCount() => Settings.TrackedTasks
+        .Where(task => task.Enabled && !task.Completed)
+        .Count();
+
+    public override string GetStatusMessage() => $"{GetIncompleteCount()} {Strings.Common_AllowancesAvailable}";
+
+    public override ModuleStatus GetModuleStatus() => Settings.TrackedTasks
+        .Where(task => task.Enabled)
+        .All(task => task.Completed) 
+        ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+
+    public override bool HasLongLabel => true;
+
+    public override string GetLongTaskLabel()
+    {
+        var strings = Settings.TrackedTasks
+            .Where(task => task.Enabled && !task.Completed)
+            .Select(task => task.GetTaskName())
+            .ToList();
+
+        return strings.Any() ? string.Join("\n", strings) : TodoTaskLabel;
     }
 
     protected override void DrawConfiguration()
@@ -82,37 +101,36 @@ public unsafe class ChallengeLog : AbstractModule
         InfoBox.Instance
             .AddTitle(Strings.Config_Options)
             .AddConfigCheckbox(Strings.Common_Enabled, Settings.Enabled)
-            .AddConfigCheckbox(Strings.ChallengeLog_CommendationLabel, Settings.CommendationWarning)
-            .AddConfigCheckbox(Strings.ChallengeLog_DungeonRouletteLabel, Settings.RouletteDungeonWarning)
-            .AddConfigCheckbox(Strings.ChallengeLog_DungeonMasterLabel, Settings.DungeonWarning)
             .Draw();
+        
+        InfoBox.Instance
+            .AddTitle(Strings.GrandCompany_Tracked)
+            .AddList(Settings.TrackedTasks)
+            .Draw();
+        
+        InfoBox.Instance.DrawNotificationOptions(this);
     }
     
     protected override void DrawStatus()
     {
         InfoBox.Instance.DrawGenericStatus(this);
-
-        var commendationStatus = CommendationStatus() == ModuleStatus.Complete;
-        var rouletteStatus = DungeonRouletteStatus() == ModuleStatus.Complete;
-        var dungeonMasterStatus = DungeonMasterStatus() == ModuleStatus.Complete;
-            
-        InfoBox.Instance
-            .AddTitle(Strings.Common_Battle)
-            .BeginTable()
-            .BeginRow()
-            .AddString(Strings.ChallengeLog_Commendation)
-            .AddString(commendationStatus ? Strings.Common_Complete : Strings.Common_Incomplete, commendationStatus ? Colors.Green : Colors.Orange)
-            .EndRow()
-            .BeginRow()
-            .AddString(Strings.ChallengeLog_DungeonRoulette)
-            .AddString(rouletteStatus ? Strings.Common_Complete : Strings.Common_Incomplete, rouletteStatus ? Colors.Green : Colors.Orange)
-            .EndRow()
-            .BeginRow()
-            .AddString(Strings.ChallengeLog_DungeonMaster)
-            .AddString(dungeonMasterStatus ? Strings.Common_Complete : Strings.Common_Incomplete, dungeonMasterStatus ? Colors.Green : Colors.Orange)
-            .EndRow()
-            .EndTable()
-            .Draw();
+        
+        if (Settings.TrackedTasks.Any(hunt => hunt.Enabled))
+        {
+            InfoBox.Instance
+                .AddTitle(Strings.GrandCompany_Tracked)
+                .BeginTable()
+                .AddDataRows(Settings.TrackedTasks.Where(task => task.Enabled))
+                .EndTable()
+                .Draw();
+        }
+        else
+        {
+            InfoBox.Instance
+                .AddTitle(Strings.GrandCompany_Tracked, out var innerWidth)
+                .AddStringCentered(Strings.MaskedCarnivale_NothingTracked, innerWidth, Colors.Orange)
+                .Draw();
+        }
             
         InfoBox.Instance.DrawSuppressionOption(this);
     }
