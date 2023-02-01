@@ -1,41 +1,52 @@
 ﻿using System;
-using System.Threading;
+using System.Diagnostics;
 using DailyDuty.DataModels;
+using Dalamud.Game;
 using Dalamud.Logging;
 
 namespace DailyDuty.System;
 
-internal class ResetManager : IDisposable
+public class ResetManager : IDisposable
 {
-    private readonly CancellationTokenSource cancellationToken = new();
-
+    private readonly Stopwatch timer = Stopwatch.StartNew();
+    
     public ResetManager()
     {
-        FrameworkOnUpdate();
+        Service.Framework.Update += FrameworkOnUpdate;
     }
 
-    private void FrameworkOnUpdate()
+    private void FrameworkOnUpdate(Framework framework)
     {
-        Service.Framework.RunOnTick(FrameworkOnUpdate,TimeSpan.FromSeconds(5), cancellationToken: cancellationToken.Token);
-
-        if (Service.ConfigurationManager.CharacterDataLoaded)
+        if (timer.Elapsed.TotalSeconds > 5)
         {
             ResetModules();
+
+            timer.Reset();
         }
     }
 
     public static void ResetModules()
     {
-        foreach (var module in Service.ModuleManager.GetLogicComponents())
+        if (Service.ConfigurationManager.CharacterDataLoaded)
         {
-            var now = DateTime.UtcNow;
-
-            if (now >= module.ParentModule.GenericSettings.NextReset)
+            var anyModulesReset = false;
+            
+            foreach (var module in Service.ModuleManager.GetLogicComponents())
             {
-                module.Reset();
-                module.ParentModule.GenericSettings.NextReset = module.GetNextReset();
-                
-                PluginLog.Debug($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. Next Reset:[{module.ParentModule.GenericSettings.NextReset.ToLocalTime()}]");
+                var now = DateTime.UtcNow;
+
+                if (now >= module.ParentModule.GenericSettings.NextReset)
+                {
+                    module.Reset();
+                    module.ParentModule.GenericSettings.NextReset = module.GetNextReset();
+
+                    anyModulesReset = true;
+                    PluginLog.Debug($"[{module.ParentModule.Name.GetTranslatedString()}] performing reset. Next Reset:[{module.ParentModule.GenericSettings.NextReset.ToLocalTime()}]");
+                }
+            }
+
+            if (anyModulesReset)
+            {
                 Service.ConfigurationManager.Save();
             }
         }
@@ -43,6 +54,6 @@ internal class ResetManager : IDisposable
 
     public void Dispose()
     {
-        cancellationToken.Cancel();
+        Service.Framework.Update += FrameworkOnUpdate;
     }
 }
