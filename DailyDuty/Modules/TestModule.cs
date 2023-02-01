@@ -3,6 +3,7 @@ using DailyDuty.Interfaces;
 using Dalamud.Utility.Signatures;
 using KamiLib;
 using KamiLib.ChatCommands;
+using KamiLib.Hooking;
 using KamiLib.Interfaces;
 
 namespace DailyDuty.Modules;
@@ -19,7 +20,7 @@ public unsafe class TestModule : AbstractTestModule
 
     public static void DoTheThing()
     {
-
+        
     }
 }
 
@@ -32,7 +33,7 @@ public class TestCommand : IPluginCommand
         new SubCommand
         {
             Hidden = true,
-            CommandAction = TestModule.DoTheThing
+            CommandAction = () => Safety.ExecuteSafe(TestModule.DoTheThing)
         }
     };
 }
