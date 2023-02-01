@@ -51,9 +51,9 @@ internal class CharacterConfiguration
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
-            var writer = new StreamWriter(configFileInfo.FullName);
+            using var writer = new StreamWriter(configFileInfo.FullName);
             writer.Write(serializedContents);
-            writer.Dispose();
+            writer.Close();
         }
         else
         {
@@ -72,9 +72,15 @@ internal class CharacterConfiguration
     {
         if (GetConfigFileInfo(contentID) is { Exists: true } configFileInfo)
         {
-            return Migrate.GetFileVersion(configFileInfo) switch
+            using var reader = new StreamReader(configFileInfo.FullName);
+            var fileText = reader.ReadToEnd();
+            reader.Close();
+                
+            Migrate.ParseJObject(fileText);
+            
+            return Migrate.GetFileVersion() switch
             {
-                2 => LoadExistingCharacterConfiguration(contentID, configFileInfo),
+                2 => LoadExistingCharacterConfiguration(contentID, fileText),
                 1 => GenerateMigratedCharacterConfiguration(),
                 _ => CreateNewCharacterConfiguration()
             };
@@ -85,12 +91,8 @@ internal class CharacterConfiguration
         }
     }
 
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, FileSystemInfo configFileInfo)
+    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, string fileText)
     {
-        var reader = new StreamReader(new FileStream(configFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-        var fileText = reader.ReadToEnd();
-        reader.Dispose();
-        
         var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
 
         if (loadedCharacterConfiguration == null)
