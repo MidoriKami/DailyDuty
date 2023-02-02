@@ -57,6 +57,7 @@ internal class ConfigurationManager : IDisposable
     {
         PluginLog.Verbose($"Logging out of '{CharacterConfiguration.CharacterData.Name}'");
 
+        CharacterConfiguration.SaveBackup();
         CharacterDataLoaded = false;
         OnCharacterDataUnloaded?.Invoke(this, EventArgs.Empty);
     }

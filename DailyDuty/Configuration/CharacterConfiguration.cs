@@ -41,13 +41,13 @@ internal class CharacterConfiguration
     public MaskedCarnivaleSettings MaskedCarnivale = new();
     public GrandCompanySquadronSettings GrandCompanySquadron = new();
 
-    public void Save()
+    public void Save(bool saveBackup = false)
     {
         if (CharacterData.LocalContentID != 0)
         {
             PluginLog.Verbose($"{DateTime.Now} - {CharacterData.Name} Saved");
 
-            var configFileInfo = GetConfigFileInfo(CharacterData.LocalContentID);
+            var configFileInfo = saveBackup ? GetConfigFileInfo(CharacterData.LocalContentID) : GetBackupConfigFileInfo(CharacterData.LocalContentID);
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
@@ -61,11 +61,20 @@ internal class CharacterConfiguration
         }
     }
 
+    public void SaveBackup() => Save(true);
+    
     private static FileInfo GetConfigFileInfo(ulong contentID)
     {
         var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
 
         return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.json");
+    }
+    
+    private static FileInfo GetBackupConfigFileInfo(ulong contentID)
+    {
+        var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
+
+        return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.bak.json");
     }
 
     public static CharacterConfiguration Load(ulong contentID)
