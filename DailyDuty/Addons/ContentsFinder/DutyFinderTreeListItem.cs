@@ -1,14 +1,13 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Numerics;
+using DailyDuty.DataModels;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
-using Vector2 = System.Numerics.Vector2;
-using Vector4 = System.Numerics.Vector4;
 
-namespace DailyDuty.DataModels;
+namespace DailyDuty.Addons.ContentsFinder;
 
-public unsafe partial struct DutyFinderTreeListItem
+public unsafe struct DutyFinderTreeListItem
 {
     private readonly ComponentNode treeListItem;
     public CloverNode CloverNode;
@@ -33,15 +32,8 @@ public unsafe partial struct DutyFinderTreeListItem
         return labelNode == null ? string.Empty : labelNode->NodeText.ToString().ToLower();
     }
 
-    private string GetFilteredLabel()
-    {
-        return AlphanumericRegex().Replace(Label, "");
-    }
-
-    private AtkTextNode* GetLabelNode()
-    {
-        return treeListItem.GetNode<AtkTextNode>(5);
-    }
+    private string GetFilteredLabel() => AddonContentsFinder.Alphanumeric().Replace(Label, "");
+    private AtkTextNode* GetLabelNode() => treeListItem.GetNode<AtkTextNode>(5);
 
     public void ShiftImageNodes()
     {
@@ -167,7 +159,4 @@ public unsafe partial struct DutyFinderTreeListItem
 
         rootNode->Component->UldManager.UpdateDrawNodeList();
     }
-
-    [GeneratedRegex("[^\\p{L}\\p{N}]")]
-    private static partial Regex AlphanumericRegex();
 }

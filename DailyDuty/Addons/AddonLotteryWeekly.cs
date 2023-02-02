@@ -9,16 +9,16 @@ using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
-public unsafe class LotteryWeeklyAddon : IDisposable
+public unsafe class AddonLotteryWeekly : IDisposable
 {
-    private static LotteryWeeklyAddon? _instance;
-    public static LotteryWeeklyAddon Instance => _instance ??= new LotteryWeeklyAddon();
+    private static AddonLotteryWeekly? _instance;
+    public static AddonLotteryWeekly Instance => _instance ??= new AddonLotteryWeekly();
     
     public event EventHandler<ReceiveEventArgs>? ReceiveEvent;
 
     private readonly Hook<Delegates.Agent.ReceiveEvent>? agentShowHook;
 
-    private LotteryWeeklyAddon()
+    private AddonLotteryWeekly()
     {
         AddonManager.AddAddon(this);
         

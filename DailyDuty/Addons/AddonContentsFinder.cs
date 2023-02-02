@@ -1,19 +1,24 @@
 ﻿using System;
-using DailyDuty.DataModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using DailyDuty.Addons.ContentsFinder;
 using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
+using KamiLib.Caching;
 using KamiLib.Hooking;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Addons;
 
-public unsafe class DutyFinderAddon : IDisposable
+public unsafe partial class AddonContentsFinder : IDisposable
 {
-    private static DutyFinderAddon? _instance;
-    public static DutyFinderAddon Instance => _instance ??= new DutyFinderAddon();
+    private static AddonContentsFinder? _instance;
+    public static AddonContentsFinder Instance => _instance ??= new AddonContentsFinder();
     
     public event EventHandler<nint>? Draw;
     public event EventHandler<nint>? Finalize;
@@ -25,11 +30,38 @@ public unsafe class DutyFinderAddon : IDisposable
     private Hook<Delegates.Addon.Update>? onUpdateHook;
     private Hook<Delegates.Addon.OnRefresh>? onRefreshHook;
 
-    private static AtkUnitBase* ContentsFinderAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder");
+    private static AtkUnitBase* ContentsFinderAtkUnitBase => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsFinder");
 
-    private DutyFinderAddon()
+    [GeneratedRegex("[^\\p{L}\\p{N}]")]
+    public static partial Regex Alphanumeric();
+    
+    public record DutyFinderSearchResult(string SearchKey, uint TerritoryType);
+    public readonly List<DutyFinderSearchResult> Roulettes = new();
+    public readonly List<DutyFinderSearchResult> Duties = new();
+    
+    private AddonContentsFinder()
     {
         AddonManager.AddAddon(this);
+        
+        // Get a normalized list of Roulette Names
+        var rouletteData = LuminaCache<ContentRoulette>.Instance
+            .Where(cr => cr.Name != string.Empty);
+
+        foreach (var cr in rouletteData)
+        {
+            var simplifiedString = Alphanumeric().Replace(cr.Category.ToString().ToLower(), "");
+            Roulettes.Add(new DutyFinderSearchResult(simplifiedString, cr.RowId));
+        }
+        
+        // Get a normalized list of Duty Names
+        var contentFinderData = LuminaCache<ContentFinderCondition>.Instance
+            .Where(cfc => cfc.Name != string.Empty);
+        
+        foreach (var cfc in contentFinderData)
+        {
+            var simplifiedString = Alphanumeric().Replace(cfc.Name.ToString().ToLower(), "");
+            Duties.Add(new DutyFinderSearchResult(simplifiedString, cfc.TerritoryType.Row));
+        }
         
         Service.Framework.Update += OnFrameworkUpdate;
     }
@@ -38,26 +70,26 @@ public unsafe class DutyFinderAddon : IDisposable
     {
         Service.Framework.Update -= OnFrameworkUpdate;
 
-        onDrawHook?.Dispose();
         onFinalizeHook?.Dispose();
         onUpdateHook?.Dispose();
+        onDrawHook?.Dispose();
         onRefreshHook?.Dispose();
     }
 
     private void OnFrameworkUpdate(Framework framework)
     {
-        if (ContentsFinderAddon == null) return;
+        if (ContentsFinderAtkUnitBase == null) return;
 
-        var addon = ContentsFinderAddon;
+        var addon = ContentsFinderAtkUnitBase;
 
         onFinalizeHook ??= Hook<Delegates.Addon.Finalize>.FromAddress(new nint(addon->AtkEventListener.vfunc[40]), OnFinalize);
         onUpdateHook ??= Hook<Delegates.Addon.Update>.FromAddress(new nint(addon->AtkEventListener.vfunc[41]), OnUpdate);
         onDrawHook ??= Hook<Delegates.Addon.Draw>.FromAddress(new nint(addon->AtkEventListener.vfunc[42]), OnDraw);
         onRefreshHook ??= Hook<Delegates.Addon.OnRefresh>.FromAddress(new nint(addon->AtkEventListener.vfunc[49]), OnRefresh);
 
-        onDrawHook?.Enable();
         onFinalizeHook?.Enable();
         onUpdateHook?.Enable();
+        onDrawHook?.Enable();
         onRefreshHook?.Enable();
 
         Service.Framework.Update -= OnFrameworkUpdate;
@@ -124,7 +156,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
     public static void HideCloverNodes()
     {
-        if (ContentsFinderAddon != null)
+        if (ContentsFinderAtkUnitBase != null)
         {
             GetBaseTreeNode().HideCloverNodes();
         }
@@ -132,7 +164,7 @@ public unsafe class DutyFinderAddon : IDisposable
 
     public static void ResetLabelColors(ByteColor color)
     {
-        if (ContentsFinderAddon != null)
+        if (ContentsFinderAtkUnitBase != null)
         {
             GetBaseTreeNode().SetColorAll(color);
         }

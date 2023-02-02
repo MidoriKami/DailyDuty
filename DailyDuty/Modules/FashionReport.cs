@@ -35,12 +35,12 @@ public unsafe class FashionReport : AbstractModule
     
     public FashionReport()
     {
-        GoldSaucerAddon.Instance.GoldSaucerUpdate += GoldSaucerUpdate;
+        AgentGoldSaucer.Instance.GoldSaucerUpdate += GoldSaucerUpdate;
     }
 
     public override void Dispose()
     {
-        GoldSaucerAddon.Instance.GoldSaucerUpdate -= GoldSaucerUpdate;
+        AgentGoldSaucer.Instance.GoldSaucerUpdate -= GoldSaucerUpdate;
     }
 
     private void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)

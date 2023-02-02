@@ -32,12 +32,12 @@ public class FauxHollows : AbstractModule
     {
         DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.OpenPartyFinder, OpenPartyFinder);
 
-        WeeklyPuzzleAddon.Instance.Show += OnShow;
+        AddonWeeklyPuzzle.Instance.Show += OnShow;
     }
         
     public override void Dispose()
     {
-        WeeklyPuzzleAddon.Instance.Show -= OnShow;
+        AddonWeeklyPuzzle.Instance.Show -= OnShow;
     }
 
     private void OnShow(object? sender, nint e)

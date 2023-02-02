@@ -7,19 +7,19 @@ using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
-public unsafe class LotteryDailyAddon : IDisposable
+public unsafe class AddonLotteryDaily : IDisposable
 {
-    private static LotteryDailyAddon? _instance;
-    public static LotteryDailyAddon Instance => _instance ??= new LotteryDailyAddon();
+    private static AddonLotteryDaily? _instance;
+    public static AddonLotteryDaily Instance => _instance ??= new AddonLotteryDaily();
     
     public event EventHandler<nint>? Show;
 
     private delegate void* DailyLotteryAgentShow(AgentInterface* agent, void* a2, void* a3);
 
-    [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(LotteryDaily_Show))]
+    [Signature("40 53 57 41 55 48 81 EC ?? ?? ?? ?? 48 8B 05", DetourName = nameof(OnShow))]
     private readonly Hook<DailyLotteryAgentShow>? agentShowHook = null;
 
-    private LotteryDailyAddon()
+    private AddonLotteryDaily()
     {
         SignatureHelper.Initialise(this);
         AddonManager.AddAddon(this);
@@ -32,7 +32,7 @@ public unsafe class LotteryDailyAddon : IDisposable
         agentShowHook?.Dispose();
     }
 
-    public void* LotteryDaily_Show(AgentInterface* addon, void* a2, void* a3)
+    public void* OnShow(AgentInterface* addon, void* a2, void* a3)
     {
         Safety.ExecuteSafe(() =>
         {

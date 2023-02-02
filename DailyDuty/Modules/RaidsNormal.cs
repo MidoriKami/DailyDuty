@@ -42,14 +42,14 @@ public unsafe class RaidsNormal : AbstractModule
     {
         DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.NormalRaidsDutyFinder, OpenDutyFinder);
 
-        DutyFinderAddon.Instance.Refresh += OnSelectionChanged;
+        AddonContentsFinder.Instance.Refresh += OnSelectionChanged;
         Service.Chat.ChatMessage += OnChatMessage;
         Service.ConfigurationManager.OnCharacterDataLoaded += ConfigurationLoaded;
     }
 
     public override void Dispose()
     {
-        DutyFinderAddon.Instance.Refresh -= OnSelectionChanged;
+        AddonContentsFinder.Instance.Refresh -= OnSelectionChanged;
         Service.Chat.ChatMessage -= OnChatMessage;
         Service.ConfigurationManager.OnCharacterDataLoaded -= ConfigurationLoaded;
     }

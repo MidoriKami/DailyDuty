@@ -45,13 +45,13 @@ public unsafe class MaskedCarnivale : AbstractModule
     {
         SignatureHelper.Initialise(this);
 
-        AOZContentResultAddon.Instance.Setup += OnSetup;
+        AddonAozContentResult.Instance.Setup += OnSetup;
         Service.Framework.Update += OnFrameworkUpdate;
     }
 
     public override void Dispose()
     {
-        AOZContentResultAddon.Instance.Setup -= OnSetup;
+        AddonAozContentResult.Instance.Setup -= OnSetup;
         Service.Framework.Update -= OnFrameworkUpdate;
     }
         

@@ -7,17 +7,17 @@ using KamiLib.Hooking;
 
 namespace DailyDuty.Addons;
 
-public unsafe class WeeklyPuzzleAddon : IDisposable
+public unsafe class AddonWeeklyPuzzle : IDisposable
 {
-    private static WeeklyPuzzleAddon? _instance;
-    public static WeeklyPuzzleAddon Instance => _instance ??= new WeeklyPuzzleAddon();
+    private static AddonWeeklyPuzzle? _instance;
+    public static AddonWeeklyPuzzle Instance => _instance ??= new AddonWeeklyPuzzle();
     
     public event EventHandler<nint>? Show;
 
-    [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B F9 48 81 C1", DetourName = nameof(WeeklyPuzzle_OnSetup))]
+    [Signature("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC 30 48 8B F9 48 81 C1", DetourName = nameof(OnSetup))]
     private readonly Hook<Delegates.Addon.OnSetup>? onSetupHook = null;
 
-    private WeeklyPuzzleAddon()
+    private AddonWeeklyPuzzle()
     {
         SignatureHelper.Initialise(this);
         AddonManager.AddAddon(this);
@@ -30,7 +30,7 @@ public unsafe class WeeklyPuzzleAddon : IDisposable
         onSetupHook?.Dispose();
     }
     
-    public nint WeeklyPuzzle_OnSetup(AtkUnitBase* root, int valueCount, AtkValue* values)
+    public nint OnSetup(AtkUnitBase* root, int valueCount, AtkValue* values)
     {
         Safety.ExecuteSafe(() =>
         {

@@ -34,14 +34,14 @@ public unsafe class JumboCactpot : AbstractModule
     
     public JumboCactpot()
     {
-        GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
-        LotteryWeeklyAddon.Instance.ReceiveEvent += OnReceiveEvent;
+        AgentGoldSaucer.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
+        AddonLotteryWeekly.Instance.ReceiveEvent += OnReceiveEvent;
     }
 
     public override void Dispose()
     {
-        GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
-        LotteryWeeklyAddon.Instance.ReceiveEvent -= OnReceiveEvent;
+        AgentGoldSaucer.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
+        AddonLotteryWeekly.Instance.ReceiveEvent -= OnReceiveEvent;
     }
     
     private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)

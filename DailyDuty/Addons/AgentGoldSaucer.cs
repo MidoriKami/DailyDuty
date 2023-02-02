@@ -18,17 +18,17 @@ public unsafe class GoldSaucerEventArgs : EventArgs
     public byte EventID;
 }
 
-public unsafe class GoldSaucerAddon : IDisposable
+public unsafe class AgentGoldSaucer : IDisposable
 {
-    private static GoldSaucerAddon? _instance;
-    public static GoldSaucerAddon Instance => _instance ??= new GoldSaucerAddon();
+    private static AgentGoldSaucer? _instance;
+    public static AgentGoldSaucer Instance => _instance ??= new AgentGoldSaucer();
     
     [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(ProcessNetworkPacket))]
     private readonly Hook<Delegates.Other.GoldSaucerUpdate>? goldSaucerUpdateHook = null;
 
     public event EventHandler<GoldSaucerEventArgs>? GoldSaucerUpdate;
 
-    private GoldSaucerAddon()
+    private AgentGoldSaucer()
     {
         SignatureHelper.Initialise(this);
 

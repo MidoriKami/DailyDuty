@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.DataModels;
 using KamiLib.Atk;
 
-namespace DailyDuty.DataModels;
+namespace DailyDuty.Addons.ContentsFinder;
 
 public readonly struct DutyFinderTabBar
 {
@@ -28,8 +29,5 @@ public readonly struct DutyFinderTabBar
         }
     }
 
-    public int GetSelectedTabIndex()
-    {
-        return radioButtons.FindIndex(button => button.Selected);
-    }
+    public int GetSelectedTabIndex() => radioButtons.FindIndex(button => button.Selected);
 }

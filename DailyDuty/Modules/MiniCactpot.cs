@@ -33,14 +33,14 @@ public unsafe class MiniCactpot : AbstractModule
     {
         SignatureHelper.Initialise(this);
 
-        LotteryDailyAddon.Instance.Show += OnShow;
-        GoldSaucerAddon.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
+        AddonLotteryDaily.Instance.Show += OnShow;
+        AgentGoldSaucer.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
     }
 
     public override void Dispose()
     {
-        LotteryDailyAddon.Instance.Show -= OnShow;
-        GoldSaucerAddon.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
+        AddonLotteryDaily.Instance.Show -= OnShow;
+        AgentGoldSaucer.Instance.GoldSaucerUpdate -= OnGoldSaucerUpdate;
     }
 
     private void OnGoldSaucerUpdate(object? sender, GoldSaucerEventArgs e)

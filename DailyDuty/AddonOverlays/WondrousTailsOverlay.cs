@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using DailyDuty.Addons;
+using DailyDuty.Addons.ContentsFinder;
 using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
-using KamiLib.Caching;
-using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.AddonOverlays;
 
-internal partial class WondrousTailsOverlay : IDisposable
+internal class WondrousTailsOverlay : IDisposable
 {
-    private record DutyFinderSearchResult(string SearchKey, uint Value);
-
-    private readonly List<DutyFinderSearchResult> contentFinderDuties = new();
-
     private IEnumerable<WondrousTailsTask> wondrousTailsStatus;
 
     private static WondrousTailsSettings DutyRouletteSettings => Service.ConfigurationManager.CharacterConfiguration.WondrousTails;
@@ -25,32 +19,22 @@ internal partial class WondrousTailsOverlay : IDisposable
 
     public WondrousTailsOverlay()
     {
-        DutyFinderAddon.Instance.Refresh += OnRefresh;
-        DutyFinderAddon.Instance.Update += OnUpdate;
-        DutyFinderAddon.Instance.Draw += OnDraw;
-        DutyFinderAddon.Instance.Finalize += OnFinalize;
+        AddonContentsFinder.Instance.Refresh += OnRefresh;
+        AddonContentsFinder.Instance.Update += OnUpdate;
+        AddonContentsFinder.Instance.Draw += OnDraw;
+        AddonContentsFinder.Instance.Finalize += OnFinalize;
         
-        var contentFinderData = LuminaCache<ContentFinderCondition>.Instance
-            .Where(cfc => cfc.Name != string.Empty);
-
-        foreach (var cfc in contentFinderData)
-        {
-            var simplifiedString = AlphanumericRegex().Replace(cfc.Name.ToString().ToLower(), "");
-
-            contentFinderDuties.Add(new DutyFinderSearchResult(simplifiedString, cfc.TerritoryType.Row));
-        }
-
         wondrousTailsStatus = WondrousTailsBook.Instance.GetAllTaskData();
     }
 
     public void Dispose()
     {
-        DutyFinderAddon.HideCloverNodes();
+        AddonContentsFinder.HideCloverNodes();
 
-        DutyFinderAddon.Instance.Refresh -= OnRefresh;
-        DutyFinderAddon.Instance.Update -= OnUpdate;
-        DutyFinderAddon.Instance.Draw -= OnDraw;
-        DutyFinderAddon.Instance.Finalize -= OnFinalize;
+        AddonContentsFinder.Instance.Refresh -= OnRefresh;
+        AddonContentsFinder.Instance.Update -= OnUpdate;
+        AddonContentsFinder.Instance.Draw -= OnDraw;
+        AddonContentsFinder.Instance.Finalize -= OnFinalize;
     }
 
     private void OnRefresh(object? sender, nint e)
@@ -69,12 +53,12 @@ internal partial class WondrousTailsOverlay : IDisposable
     {
         if (!Enabled) return;
 
-        var treeNode = DutyFinderAddon.GetBaseTreeNode();
+        var treeNode = AddonContentsFinder.GetBaseTreeNode();
 
         treeNode.MakeCloverNodes();
     }
 
-    private void OnFinalize(object? sender, nint e) => DutyFinderAddon.HideCloverNodes();
+    private void OnFinalize(object? sender, nint e) => AddonContentsFinder.HideCloverNodes();
 
     private ButtonState? IsWondrousTailsDuty(DutyFinderTreeListItem item)
     {
@@ -83,7 +67,7 @@ internal partial class WondrousTailsOverlay : IDisposable
         
         var containsEllipsis = nodeString.Contains("...");
 
-        foreach (var result in contentFinderDuties)
+        foreach (var result in AddonContentsFinder.Instance.Duties)
         {
             if (containsEllipsis)
             {
@@ -93,12 +77,12 @@ internal partial class WondrousTailsOverlay : IDisposable
 
                 if (result.SearchKey[..nodeStringLength] == nodeRegexString)
                 {
-                    return InWondrousTailsBook(result.Value);
+                    return InWondrousTailsBook(result.TerritoryType);
                 }
             }
             else if (result.SearchKey == nodeRegexString)
             {
-                return InWondrousTailsBook(result.Value);
+                return InWondrousTailsBook(result.TerritoryType);
             }
         }
 
@@ -109,7 +93,7 @@ internal partial class WondrousTailsOverlay : IDisposable
 
     private void UpdateWondrousTails()
     {
-        var treeNode = DutyFinderAddon.GetBaseTreeNode();
+        var treeNode = AddonContentsFinder.GetBaseTreeNode();
 
         foreach (var item in treeNode.Items)
         {
@@ -129,7 +113,4 @@ internal partial class WondrousTailsOverlay : IDisposable
             }
         }
     }
-
-    [GeneratedRegex("[^\\p{L}\\p{N}]")]
-    private static partial Regex AlphanumericRegex();
 }

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.DataModels;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using KamiLib.Atk;
 
-namespace DailyDuty.DataModels;
+namespace DailyDuty.Addons.ContentsFinder;
 
 public struct DutyFinderTreeList
 {

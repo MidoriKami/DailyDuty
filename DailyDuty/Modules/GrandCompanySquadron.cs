@@ -25,13 +25,13 @@ public unsafe class GrandCompanySquadron : AbstractModule
     
     public GrandCompanySquadron()
     {
-        GcArmyExpeditionResult.Instance.Setup += OnSetup;
+        AddonGcArmyExpeditionResult.Instance.Setup += OnSetup;
         Service.Framework.Update += OnFrameworkUpdate;
     }
         
     public override void Dispose()
     {
-        GcArmyExpeditionResult.Instance.Setup -= OnSetup;
+        AddonGcArmyExpeditionResult.Instance.Setup -= OnSetup;
         Service.Framework.Update -= OnFrameworkUpdate;
     }
 
