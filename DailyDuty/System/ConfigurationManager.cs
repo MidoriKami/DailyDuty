@@ -35,6 +35,11 @@ internal class ConfigurationManager : IDisposable
 
     public void Dispose()
     {
+        if (Service.ClientState.IsLoggedIn)
+        {
+            CharacterConfiguration.SaveBackup();
+        }
+        
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         
