@@ -47,7 +47,7 @@ internal class CharacterConfiguration
         {
             PluginLog.Verbose($"{DateTime.Now} - {CharacterData.Name} Saved");
 
-            var configFileInfo = saveBackup ? GetConfigFileInfo(CharacterData.LocalContentID) : GetBackupConfigFileInfo(CharacterData.LocalContentID);
+            var configFileInfo = saveBackup ? GetBackupConfigFileInfo(CharacterData.LocalContentID) : GetConfigFileInfo(CharacterData.LocalContentID);
 
             var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
 
