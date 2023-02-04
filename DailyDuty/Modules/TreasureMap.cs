@@ -93,7 +93,7 @@ public unsafe class TreasureMap : AbstractModule
     public override string GetStatusMessage() => Strings.TreasureMap_MapAvailable;
     public override ModuleStatus GetModuleStatus() => TimeUntilNextMap() == TimeSpan.Zero ? ModuleStatus.Incomplete : ModuleStatus.Complete;
     public override TimeSpan GetTimerPeriod() => TimeSpan.FromHours(18);
-    public override DateTime GetNextReset() => Settings.LastMapGathered + TimeSpan.FromHours(18);
+    protected override DateTime GetTimerReset() => Settings.LastMapGathered + TimeSpan.FromHours(18);
 
     private static bool IsMap(uint itemID) => LuminaCache<TreasureHuntRank>.Instance
         .Any(item => item.ItemName.Row == itemID && item.ItemName.Row != 0);

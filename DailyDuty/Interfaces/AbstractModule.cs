@@ -38,7 +38,8 @@ public abstract class AbstractModule :
     public virtual string GetStatusMessage() => string.Empty;
     public virtual DalamudLinkPayload? DalamudLinkPayload => null;
     public virtual bool LinkPayloadActive => false;
-    public virtual DateTime GetNextReset() => CompletionType switch
+    DateTime ILogicComponent.GetNextReset() => GetModuleReset();
+    protected virtual DateTime GetModuleReset() => CompletionType switch
     {
         CompletionType.Daily => Time.NextDailyReset(),
         CompletionType.Weekly => Time.NextWeeklyReset(),
@@ -82,6 +83,8 @@ public abstract class AbstractModule :
 
     // Timer Component
     //
+    DateTime ITimerComponent.GetNextReset() => GetTimerReset();
+    protected virtual DateTime GetTimerReset() => GetModuleReset();
     public virtual TimeSpan GetTimerPeriod() => CompletionType switch
     {
         CompletionType.Daily => TimeSpan.FromDays(1),

@@ -21,8 +21,7 @@ public unsafe class Levequest : AbstractModule
 {
     public override ModuleName Name => ModuleName.Levequest;
     public override CompletionType CompletionType => CompletionType.Daily;
-    public override TimeSpan GetTimerPeriod() => TimeSpan.FromHours(12);
-    
+
     private static LevequestSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Levequest;
     public override GenericSettings GenericSettings => Settings;
 
@@ -34,8 +33,9 @@ public unsafe class Levequest : AbstractModule
         SignatureHelper.Initialise(this);
     }
 
+    public override TimeSpan GetTimerPeriod() => TimeSpan.FromHours(12);
+    protected override DateTime GetModuleReset() => Time.NextLeveAllowanceReset();
     public override string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
-    public override DateTime GetNextReset() => Time.NextLeveAllowanceReset();
     private int GetRemainingAllowances() => levequestStruct->AllowancesRemaining;
     private int GetAcceptedLeves() => levequestStruct->LevesAccepted;
 

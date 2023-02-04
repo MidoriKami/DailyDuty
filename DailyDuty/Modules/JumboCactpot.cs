@@ -94,7 +94,7 @@ public unsafe class JumboCactpot : AbstractModule
     }
     
     public override string GetStatusMessage() => $"{3 - Settings.Tickets.Count} {Strings.JumboCactpot_TicketsAvailable}";
-    public override DateTime GetNextReset() => Time.NextJumboCactpotReset();
+    protected override DateTime GetModuleReset() => Time.NextJumboCactpotReset();
     public override void DoReset() => Settings.Tickets.Clear();
     public override ModuleStatus GetModuleStatus() => Settings.Tickets.Count == 3 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     private static string GetTicketsString() => string.Join(" ", Settings.Tickets.Select(num => string.Format($"[{num:D4}]")));

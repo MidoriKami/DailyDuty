@@ -66,7 +66,7 @@ public unsafe class GrandCompanyProvision : AbstractModule
     }
 
     public override string GetStatusMessage() => $"{GetIncompleteJobs()} {Strings.Common_AllowancesAvailable}";
-    public override DateTime GetNextReset() => Time.NextGrandCompanyReset();
+    protected override DateTime GetModuleReset() => Time.NextGrandCompanyReset();
 
     public override void DoReset()
     {

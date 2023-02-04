@@ -21,7 +21,7 @@ public class ResetManager : IDisposable
         {
             ResetModules();
 
-            timer.Reset();
+            timer.Restart();
         }
     }
 

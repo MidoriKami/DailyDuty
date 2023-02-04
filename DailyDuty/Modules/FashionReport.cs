@@ -25,9 +25,7 @@ public unsafe class FashionReport : AbstractModule
 {
     public override ModuleName Name => ModuleName.FashionReport;
     public override CompletionType CompletionType => CompletionType.Weekly;
-    public override TimeSpan GetTimerPeriod() => TimeSpan.FromDays(4);
-    public override DateTime GetNextReset() => Time.NextFashionReportReset();
-    
+
     private static FashionReportSettings Settings => Service.ConfigurationManager.CharacterConfiguration.FashionReport;
     public override GenericSettings GenericSettings => Settings;
     public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
@@ -79,6 +77,8 @@ public unsafe class FashionReport : AbstractModule
         }
     }
 
+    public override TimeSpan GetTimerPeriod() => TimeSpan.FromDays(4);
+    protected override DateTime GetTimerReset() => Time.NextFashionReportReset();
     public override string GetStatusMessage()
     {
         switch(Settings.Mode.Value)
