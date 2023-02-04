@@ -28,7 +28,7 @@ public class GrandCompanySupplySettings : GenericSettings
     };
 }
 
-public unsafe class GrandCompanySupply : AbstractModule
+public unsafe class GrandCompanySupply : Module
 {
     public override ModuleName Name => ModuleName.GrandCompanySupply;
     public override CompletionType CompletionType => CompletionType.Daily;

@@ -13,7 +13,7 @@ public class GrandCompanySquadronSettings : GenericSettings
     public bool MissionCompleted;
 }
 
-public unsafe class GrandCompanySquadron : AbstractModule
+public unsafe class GrandCompanySquadron : Module
 {
     public override ModuleName Name => ModuleName.GrandCompanySquadron;
     public override CompletionType CompletionType => CompletionType.Weekly;

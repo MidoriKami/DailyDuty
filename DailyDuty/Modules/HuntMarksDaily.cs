@@ -30,7 +30,7 @@ public class HuntMarksDailySettings : GenericSettings
     };
 }
 
-public class HuntMarksDaily : AbstractModule
+public class HuntMarksDaily : Module
 {
     public override ModuleName Name => ModuleName.HuntMarksDaily;
 

@@ -22,7 +22,7 @@ public class HuntMarksWeeklySettings : GenericSettings
     };
 }
 
-public class HuntMarksWeekly : AbstractModule
+public class HuntMarksWeekly : Module
 {
     public override ModuleName Name => ModuleName.HuntMarksWeekly;
 

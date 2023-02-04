@@ -9,7 +9,7 @@ using KamiLib.Misc;
 
 namespace DailyDuty.Interfaces;
 
-public abstract class AbstractModule : 
+public abstract class Module : 
     IModule, 
     ILogicComponent, 
     IConfigurationComponent, 

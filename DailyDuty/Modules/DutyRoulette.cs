@@ -45,7 +45,7 @@ public class DutyRouletteSettings : GenericSettings
     };
 }
 
-public unsafe class DutyRoulette : AbstractModule
+public unsafe class DutyRoulette : Module
 {
     public override ModuleName Name => ModuleName.DutyRoulette;
     public override CompletionType CompletionType => CompletionType.Daily;

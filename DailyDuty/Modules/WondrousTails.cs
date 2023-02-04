@@ -25,7 +25,7 @@ public class WondrousTailsSettings : GenericSettings
     public Setting<bool> ResendOnCompletion = new(false);
 }
 
-public unsafe class WondrousTails : AbstractModule
+public unsafe class WondrousTails : Module
 {
     public override ModuleName Name => ModuleName.WondrousTails;
     public override CompletionType CompletionType => CompletionType.Weekly;

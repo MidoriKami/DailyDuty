@@ -26,7 +26,7 @@ public class RaidsNormalSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(true);
 }
 
-public unsafe class RaidsNormal : AbstractModule
+public unsafe class RaidsNormal : Module
 {
     public override ModuleName Name => ModuleName.NormalRaids;
     public override CompletionType CompletionType => CompletionType.Weekly;

@@ -17,7 +17,7 @@ public class LevequestSettings : GenericSettings
     public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.EqualTo);
 }
 
-public unsafe class Levequest : AbstractModule
+public unsafe class Levequest : Module
 {
     public override ModuleName Name => ModuleName.Levequest;
     public override CompletionType CompletionType => CompletionType.Daily;

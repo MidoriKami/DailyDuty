@@ -21,7 +21,7 @@ public class FashionReportSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(false);
 }
 
-public unsafe class FashionReport : AbstractModule
+public unsafe class FashionReport : Module
 {
     public override ModuleName Name => ModuleName.FashionReport;
     public override CompletionType CompletionType => CompletionType.Weekly;

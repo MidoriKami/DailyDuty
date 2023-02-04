@@ -15,7 +15,7 @@ public class CustomDeliverySettings : GenericSettings
     public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.LessThan);
 }
 
-public unsafe class CustomDelivery : AbstractModule
+public unsafe class CustomDelivery : Module
 {
     public override ModuleName Name => ModuleName.CustomDelivery;
     public override CompletionType CompletionType => CompletionType.Weekly;

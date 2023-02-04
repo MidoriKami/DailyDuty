@@ -20,7 +20,7 @@ public class DomanEnclaveSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(true);
 }
 
-public unsafe class DomanEnclave : AbstractModule
+public unsafe class DomanEnclave : Module
 {
     public override ModuleName Name => ModuleName.DomanEnclave;
     public override CompletionType CompletionType => CompletionType.Weekly;

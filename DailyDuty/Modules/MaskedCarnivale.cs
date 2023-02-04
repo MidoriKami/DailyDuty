@@ -26,7 +26,7 @@ public class MaskedCarnivaleSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(true);
 }
 
-public unsafe class MaskedCarnivale : AbstractModule
+public unsafe class MaskedCarnivale : Module
 {
     public override ModuleName Name => ModuleName.MaskedCarnivale;
     public override CompletionType CompletionType => CompletionType.Weekly;

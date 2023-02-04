@@ -20,7 +20,7 @@ public class JumboCactpotSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(false);
 }
 
-public unsafe class JumboCactpot : AbstractModule
+public unsafe class JumboCactpot : Module
 {
     public override ModuleName Name => ModuleName.JumboCactpot;
     public override CompletionType CompletionType => CompletionType.Weekly;

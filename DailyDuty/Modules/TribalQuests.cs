@@ -15,7 +15,7 @@ public class BeastTribeSettings : GenericSettings
     public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.EqualTo);
 }
 
-public class TribalQuests : AbstractModule
+public class TribalQuests : Module
 {
     public override ModuleName Name => ModuleName.BeastTribe;
     public override CompletionType CompletionType => CompletionType.Daily;

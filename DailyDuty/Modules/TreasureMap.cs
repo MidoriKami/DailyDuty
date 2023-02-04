@@ -23,7 +23,7 @@ public class TreasureMapSettings : GenericSettings
     public DateTime LastMapGathered;
 }
 
-public unsafe class TreasureMap : AbstractModule
+public unsafe class TreasureMap : Module
 {
     public override ModuleName Name => ModuleName.TreasureMap;
     public override CompletionType CompletionType => CompletionType.Daily;

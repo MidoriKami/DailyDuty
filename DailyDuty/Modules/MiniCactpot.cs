@@ -17,7 +17,7 @@ public class MiniCactpotSettings : GenericSettings
     public Setting<bool> EnableClickableLink = new(false);
 }
 
-public unsafe class MiniCactpot : AbstractModule
+public unsafe class MiniCactpot : Module
 {
     public override ModuleName Name => ModuleName.MiniCactpot;
     public override CompletionType CompletionType => CompletionType.Daily;

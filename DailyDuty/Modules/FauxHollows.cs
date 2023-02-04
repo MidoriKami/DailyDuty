@@ -18,7 +18,7 @@ public class FauxHollowsSettings : GenericSettings
     public int FauxHollowsCompleted;
 }
 
-public class FauxHollows : AbstractModule
+public class FauxHollows : Module
 {
     public override ModuleName Name => ModuleName.UnrealTrial;
     public override CompletionType CompletionType => CompletionType.Weekly;

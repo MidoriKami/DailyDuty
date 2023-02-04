@@ -19,7 +19,7 @@ public class ChallengeLogSettings : GenericSettings
     public List<TrackedContentNote> TrackedTasks = new();
 }
 
-public unsafe class ChallengeLog : AbstractModule
+public unsafe class ChallengeLog : Module
 {
     public override ModuleName Name => ModuleName.ChallengeLog;
     public override CompletionType CompletionType => CompletionType.Weekly;
