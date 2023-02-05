@@ -1,12 +1,13 @@
 ﻿using System.Linq;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.DataStructures.HuntMarks;
 
-public class HuntData
+public unsafe class HuntData
 {
     public byte HuntID { get; init; }
     public HuntMarkType HuntType { get; init; }
-    public KillCounts KillCounts { get; init; } = null!;
+    public MobHunt.KillCounts* KillCounts { get; init; }
     public HuntInfo TargetInfo => new(HuntType, HuntID, IsElite);
     public bool Obtained { get; init; }
     public bool IsElite => HuntType is
@@ -15,5 +16,5 @@ public class HuntData
         HuntMarkType.StormbloodElite or
         HuntMarkType.HeavenswardElite or
         HuntMarkType.RealmRebornElite;
-    public bool IsCompleted => Enumerable.Range(0, IsElite ? 1 : 5).All(index => (TargetInfo[index]?.NeededKills ?? 0) == KillCounts[index]);
+    public bool IsCompleted => Enumerable.Range(0, IsElite ? 1 : 5).All(index => (TargetInfo[index]?.NeededKills ?? 0) == (*KillCounts)[index]);
 }

@@ -1,11 +1,11 @@
 ﻿using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.DataStructures.HuntMarks;
 
 public unsafe class HuntMarkData
 {
-    [Signature("48 8D 0D ?? ?? ?? ?? 48 83 C4 20 5F E9 ?? ?? ?? ?? CC", ScanType = ScanType.StaticAddress)]
-    private readonly MobHuntStruct* huntStruct = null;
+    private MobHunt* HuntStruct => MobHunt.Instance();
     
     private static HuntMarkData? _instance;
     public static HuntMarkData Instance => _instance ??= new HuntMarkData();
@@ -22,10 +22,10 @@ public unsafe class HuntMarkData
     
     private HuntData this[HuntMarkType type] => new()
     {
-        HuntID = huntStruct->MarkID[(int)type],
+        HuntID = HuntStruct->MarkID[(int)type],
         HuntType = type,
-        Obtained = huntStruct->Obtained[(int)type],
-        KillCounts = huntStruct->KillCounts[(int)type],
+        Obtained = HuntStruct->IsMarkBillObtained((int)type),
+        KillCounts = (MobHunt.KillCounts*)&(HuntStruct->CurrentKills[5 * (int)type]),
     };
 }
 

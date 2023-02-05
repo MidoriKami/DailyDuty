@@ -118,11 +118,11 @@ public class HuntSelectable : ISelectable, IDrawable
         }
     }
 
-    private void DrawKillCounts(int index)
+    private unsafe void DrawKillCounts(int index)
     {
         var data = HuntMarkData.Instance.GetHuntData(huntType);
 
-        var currentCount = data.KillCounts[index];
+        var currentCount = (*data.KillCounts)[index];
         var targetCount = data.TargetInfo[index]?.NeededKills ?? 0;
 
         var complete = currentCount == targetCount;
