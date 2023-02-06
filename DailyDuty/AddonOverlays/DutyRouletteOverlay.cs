@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Addons;
-using DailyDuty.Addons.ContentsFinder;
 using DailyDuty.DataModels;
 using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.AddonOverlays;
 
-internal class DutyRouletteOverlay : IDisposable
+public unsafe class DutyRouletteOverlay : IDisposable
 {
     private static DutyRouletteSettings RouletteSettings => Service.ConfigurationManager.CharacterConfiguration.DutyRoulette;
     private static IEnumerable<TrackedRoulette> DutyRoulettes => RouletteSettings.TrackedRoulettes;
@@ -31,93 +32,147 @@ internal class DutyRouletteOverlay : IDisposable
         AddonContentsFinder.Instance.Refresh -= OnRefresh;
         AddonContentsFinder.Instance.Draw -= OnDraw;
         AddonContentsFinder.Instance.Finalize -= OnFinalize;
-        
-        AddonContentsFinder.ResetLabelColors(userDefaultTextColor);
     }
  
-    private void OnDraw(object? sender, nint e)
+    private void OnDraw(object? sender, nint addonBase)
     {
-        if (defaultColorSaved == false)
-        {
-            var tree = AddonContentsFinder.GetBaseTreeNode();
-            var line = tree.Items.First();
-            userDefaultTextColor = line.GetTextColor();
-            defaultColorSaved = true;
-        }
+        SaveUserDefaultColor(addonBase);
 
-        if (Enabled)
+        if (Enabled && defaultColorSaved)
         {
-            if (IsTabSelected(0) == false)
-                ResetDefaultTextColor();
-            else
-                SetRouletteColors();
+            if (AddonContentsFinder.GetSelectedTab(addonBase) is 0) 
+                SetRouletteColors(addonBase);
+            else 
+                ResetDefaultTextColor(addonBase);
         }
         else
         {
-            ResetDefaultTextColor();
+            ResetDefaultTextColor(addonBase);
         }
     }
 
-    private void OnRefresh(object? sender, nint e)
+    private void OnRefresh(object? sender, nint addonBase)
     {
-        if (Enabled)
+        if (Enabled && defaultColorSaved)
         {
-            if (IsTabSelected(0) == false)
-                ResetDefaultTextColor();
-            else
-                SetRouletteColors();
+            if (AddonContentsFinder.GetSelectedTab(addonBase) is 0) 
+                SetRouletteColors(addonBase);
+            else 
+                ResetDefaultTextColor(addonBase);
         }
         else
         {
-            ResetDefaultTextColor();
+            ResetDefaultTextColor(addonBase);
         }
     }
 
-    private void OnFinalize(object? sender, nint e) => ResetDefaultTextColor();
-
-    private void ResetDefaultTextColor() => AddonContentsFinder.GetBaseTreeNode().SetColorAll(userDefaultTextColor);
-
-    private void SetRouletteColors()
+    private void OnFinalize(object? sender, nint addonBase) => ResetDefaultTextColor(addonBase);
+    
+    private void SaveUserDefaultColor(nint addonBase)
     {
-        var treeNode = AddonContentsFinder.GetBaseTreeNode();
-
-        foreach (var item in treeNode.Items)
+        if (defaultColorSaved) return;
+        
+        foreach (var item in AddonContentsFinder.GetDutyListItems(addonBase))
         {
-            if (IsRouletteDuty(item) is { } trackedRoulette)
+            if (item == nint.Zero) continue;
+            
+            var textNode = AddonContentsFinder.GetListItemTextNode(item);
+            if (textNode is not null)
+            {
+                var nodeColor = GetVectorColor(textNode->TextColor);
+                        
+                // If the color is one of our presets, skip.
+                if (nodeColor == RouletteSettings.CompleteColor.Value) continue;
+                if (nodeColor == RouletteSettings.IncompleteColor.Value) continue;
+                if (nodeColor == RouletteSettings.OverrideColor.Value) continue;
+                        
+                userDefaultTextColor = textNode->TextColor;
+                defaultColorSaved = true;
+                return;
+            }
+        }
+    }
+
+    private void ResetDefaultTextColor(nint addonBase)
+    {
+        foreach (var listItemNode in AddonContentsFinder.GetDutyListItems(addonBase))
+        {
+            var textNode = AddonContentsFinder.GetListItemTextNode(listItemNode);
+            if (textNode is not null)
+            {
+                SetTextNodeColor(textNode, userDefaultTextColor);
+            }
+        }
+    }
+
+    private void SetRouletteColors(nint addonBase)
+    {
+        foreach (var item in AddonContentsFinder.GetDutyListItems(addonBase))
+        {
+            var textNode = AddonContentsFinder.GetListItemTextNode(item);
+            var listItemText = AddonContentsFinder.FilterString(textNode);
+            
+            if (IsRouletteDuty(listItemText) is { } trackedRoulette)
             {
                 switch (trackedRoulette)
                 {
                     case { Tracked.Value: true, State: RouletteState.Complete }:
-                        item.SetTextColor(RouletteSettings.CompleteColor.Value);
+                        SetTextNodeColor(textNode, RouletteSettings.CompleteColor.Value);
                         break;
-
+        
                     case { Tracked.Value: true, State: RouletteState.Incomplete }:
-                        item.SetTextColor(RouletteSettings.IncompleteColor.Value);
+                        SetTextNodeColor(textNode, RouletteSettings.IncompleteColor.Value);
                         break;
-
+        
                     case { Tracked.Value: true, State: RouletteState.Overriden }:
-                        item.SetTextColor(RouletteSettings.OverrideColor.Value);
+                        SetTextNodeColor(textNode, RouletteSettings.OverrideColor.Value);
                         break;
-
+        
                     default:
-                        item.SetTextColor(userDefaultTextColor);
+                        SetTextNodeColor(textNode, userDefaultTextColor);
                         break;
                 }
             }
         }
     }
 
-    private TrackedRoulette? IsRouletteDuty(DutyFinderTreeListItem item)
+    private static TrackedRoulette? IsRouletteDuty(string filteredString)
     {
-        var dutyFinderResult = AddonContentsFinder.Instance.Roulettes.FirstOrDefault(duty => duty.SearchKey == item.FilteredLabel);
+        var dutyFinderResult = AddonContentsFinder.Instance.Roulettes.FirstOrDefault(duty => duty.SearchKey == filteredString);
         if (dutyFinderResult == null) return null;
-
+    
         return DutyRoulettes.FirstOrDefault(duty => (uint) duty.Roulette == dutyFinderResult.TerritoryType);
     }
 
-    private static bool IsTabSelected(uint tab)
+    private void SetTextNodeColor(AtkTextNode* textNode, Vector4 color) => SetTextNodeColor(textNode, GetByteColor(color));
+
+    private void SetTextNodeColor(AtkTextNode* textNode, ByteColor color)
     {
-        var tabBar = AddonContentsFinder.GetTabBar();
-        return tab == tabBar.GetSelectedTabIndex();
+        textNode->TextColor.R = color.R;
+        textNode->TextColor.G = color.G;
+        textNode->TextColor.B = color.B;
+        textNode->TextColor.A = color.A;
+    }
+
+    private static ByteColor GetByteColor(Vector4 vectorColor)
+    {
+        return new ByteColor
+        {
+            A = (byte) (vectorColor.W * 255),
+            R = (byte) (vectorColor.X * 255),
+            G = (byte) (vectorColor.Y * 255),
+            B = (byte) (vectorColor.Z * 255),
+        };
+    }
+
+    private static Vector4 GetVectorColor(ByteColor byteColor)
+    {
+        return new Vector4
+        {
+            W = byteColor.A / 255.0f,
+            X = byteColor.R / 255.0f,
+            Y = byteColor.G / 255.0f,
+            Z = byteColor.B / 255.0f,
+        };
     }
 }

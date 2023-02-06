@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DailyDuty.Addons.ContentsFinder;
 using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.Hooking;
-using FFXIVClientStructs.FFXIV.Client.Graphics;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
 using KamiLib.Caching;
@@ -101,6 +100,15 @@ public unsafe partial class AddonContentsFinder : IDisposable
 
         Safety.ExecuteSafe(() =>
         {
+            var list = GetDutyListItems(atkUnitBase);
+            
+            foreach (var element in list)
+            {
+                var textNodeString = GetListItemFilteredString(element);
+                PluginLog.Debug(textNodeString);
+            }
+            PluginLog.Debug("========");
+            
             Refresh?.Invoke(this, new nint(atkUnitBase));
         });
 
@@ -139,34 +147,50 @@ public unsafe partial class AddonContentsFinder : IDisposable
         onFinalizeHook!.Original(atkUnitBase);
     }
 
-    public static DutyFinderTreeList GetBaseTreeNode()
-    {
-        var baseNode = new BaseNode("ContentsFinder");
-        var treeNode = baseNode.GetComponentNode(52);
+    public static uint GetSelectedTab(AtkUnitBase* addonBase) => GetSelectedTab((nint) addonBase);
+    public static uint GetSelectedTab(nint addonBase) => *(uint*) (addonBase + 0x16A8);
 
-        return new DutyFinderTreeList(treeNode);
+    public static IEnumerable<nint> GetDutyListItems(nint addonBase) => GetDutyListItems((AtkUnitBase*) addonBase);
+    public static IEnumerable<nint> GetDutyListItems(AtkUnitBase* addonBase)
+    {
+        var treeListNode = (AtkComponentNode*) addonBase->GetNodeById(52);
+        if (treeListNode is null) return new List<nint>();
+        
+        var treeListNodeComponent = treeListNode->Component;
+        if (treeListNodeComponent is null) return new List<nint>();
+        
+        return Enumerable.Range(61001, 15).Append(6).Select(index => (nint)Node.GetNodeByID<AtkComponentNode>(treeListNodeComponent->UldManager, (uint)index));
     }
 
-    public static DutyFinderTabBar GetTabBar()
-    {
-        var baseNode = new BaseNode("ContentsFinder");
+    public static AtkTextNode* GetListItemTextNode(nint listItem) => GetListItemNode<AtkTextNode>(listItem, 5);
 
-        return new DutyFinderTabBar(baseNode);
+    public static T* GetListItemNode<T>(nint listItem, uint nodeId) where T : unmanaged
+    {
+        if (listItem == nint.Zero) return null;
+        
+        var listItemNode = (AtkComponentNode*) listItem;
+        var listItemComponent = listItemNode->Component;
+        if (listItemComponent is null) return null;
+
+        return Node.GetNodeByID<T>(listItemComponent->UldManager, nodeId);
     }
 
-    public static void HideCloverNodes()
+    public static string GetListItemFilteredString(nint listItem)
     {
-        if (ContentsFinderAtkUnitBase != null)
-        {
-            GetBaseTreeNode().HideCloverNodes();
-        }
+        var nodeText = GetListItemString(listItem);
+
+        return Alphanumeric().Replace(nodeText, string.Empty).ToLower();
     }
 
-    public static void ResetLabelColors(ByteColor color)
+    public static string GetListItemString(nint listItem)
     {
-        if (ContentsFinderAtkUnitBase != null)
-        {
-            GetBaseTreeNode().SetColorAll(color);
-        }
+        if (listItem == nint.Zero) return string.Empty;
+
+        var textNode = GetListItemTextNode(listItem);
+        if (textNode is null) return string.Empty;
+
+        return textNode->NodeText.ToString();
     }
+
+    public static string FilterString(AtkTextNode* textNode) => Alphanumeric().Replace(textNode->NodeText.ToString(), string.Empty).ToLower();
 }
