@@ -46,23 +46,23 @@ public unsafe class WondrousTails : Module
     private readonly WondrousTailsOverlay wondrousTailsOverlay = new();
 
     private bool dutyCompleted;
-    private uint lastTerritoryType;
+    private ushort lastTerritoryType;
     
     public WondrousTails()
     {
         openBookPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.OpenWondrousTails, OpenWondrousTailsBook);
         idyllshireTeleportPayload = TeleportManager.Instance.GetPayload(TeleportLocation.Idyllshire);
 
-        DutyState.Instance.DutyStarted += OnDutyStarted;
-        DutyState.Instance.DutyCompleted += OnDutyCompleted;
+        Service.DutyState.DutyStarted += OnDutyStarted;
+        Service.DutyState.DutyCompleted += OnDutyCompleted;
             
         Service.ClientState.TerritoryChanged += OnZoneChange;
     }
 
     public override void Dispose()
     {
-        DutyState.Instance.DutyStarted -= OnDutyStarted;
-        DutyState.Instance.DutyCompleted -= OnDutyCompleted;
+        Service.DutyState.DutyStarted -= OnDutyStarted;
+        Service.DutyState.DutyCompleted -= OnDutyCompleted;
             
         Service.ClientState.TerritoryChanged -= OnZoneChange;
 
@@ -70,7 +70,7 @@ public unsafe class WondrousTails : Module
         overlay.Dispose();
     }
 
-    private void OnDutyStarted(uint territory)
+    private void OnDutyStarted(object? sender, ushort territory)
     {
         if (!Settings.InstanceNotifications) return;
         if (GetModuleStatus() == ModuleStatus.Complete) return;
@@ -102,7 +102,7 @@ public unsafe class WondrousTails : Module
         }
     }
 
-    private void OnDutyCompleted(uint territory)
+    private void OnDutyCompleted(object? sender, ushort territory)
     {
         if (!Settings.InstanceNotifications) return;
         if (GetModuleStatus() == ModuleStatus.Complete) return;
@@ -128,7 +128,7 @@ public unsafe class WondrousTails : Module
         if (!dutyCompleted) return;
 
         dutyCompleted = false;
-        OnDutyCompleted(lastTerritoryType);
+        OnDutyCompleted(this, lastTerritoryType);
     }
 
     public override string GetStatusMessage()
