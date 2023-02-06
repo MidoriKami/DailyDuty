@@ -100,15 +100,6 @@ public unsafe partial class AddonContentsFinder : IDisposable
 
         Safety.ExecuteSafe(() =>
         {
-            var list = GetDutyListItems(atkUnitBase);
-            
-            foreach (var element in list)
-            {
-                var textNodeString = GetListItemFilteredString(element);
-                PluginLog.Debug(textNodeString);
-            }
-            PluginLog.Debug("========");
-            
             Refresh?.Invoke(this, new nint(atkUnitBase));
         });
 
