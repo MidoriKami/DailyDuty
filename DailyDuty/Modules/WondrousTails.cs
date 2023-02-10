@@ -83,7 +83,7 @@ public unsafe class WondrousTails : Module
         
         switch (buttonState)
         {
-            case ButtonState.Unavailable when WondrousTailsBook.Instance.Stickers > 0:
+            case ButtonState.Unavailable when WondrousTailsBook.Instance is { Stickers: > 0, SecondChance: > 0 }:
                 Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_RerollNotice);
                 Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_RerollCount.Format(WondrousTailsBook.Instance.SecondChance), Settings.EnableClickableLink ? DalamudLinkPayload : null);
                 break;
