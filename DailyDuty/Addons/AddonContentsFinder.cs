@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using DailyDuty.System;
 using Dalamud.Game;
 using Dalamud.Hooking;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
 using KamiLib.Caching;
