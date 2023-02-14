@@ -470,7 +470,7 @@
         <value>SG (Liefereinsätze)</value>
     </data>
   <data name="GrandCompany_ProvisioningLabel" xml:space="preserve">
-        <value>SG (Einsatzkommando)</value>
+        <value>SG (Nachschub)</value>
     </data>
   <data name="GrandCompany_NothingTracked" xml:space="preserve">
         <value>Keine Jobs zum Tracken ausgewählt</value>
@@ -638,7 +638,7 @@
         <value>{0} Tag(e) und {1} Stunde(n)</value>
     </data>
   <data name="Timers_NumHours" xml:space="preserve">
-        <value>{0} Stunde(n)</value>
+        <value>{0} Stunden</value>
     </data>
   <data name="Timers_NumMins" xml:space="preserve">
         <value>{0} Minuten</value>
