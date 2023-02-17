@@ -3,14 +3,14 @@ using System.IO;
 using DailyDuty.DataModels;
 using DailyDuty.Modules;
 using DailyDuty.UserInterface.Windows;
+using Dalamud.Configuration;
 using Dalamud.Logging;
-using KamiLib.Configuration;
 using Newtonsoft.Json;
 
 namespace DailyDuty.Configuration;
 
 [Serializable]
-internal class CharacterConfiguration
+internal class CharacterConfiguration : IPluginConfiguration
 {
     public int Version { get; set; } = 2;
 
@@ -62,38 +62,62 @@ internal class CharacterConfiguration
     }
 
     public void SaveBackup() => Save(true);
-    
-    private static FileInfo GetConfigFileInfo(ulong contentID)
-    {
-        var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
-
-        return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.json");
-    }
-    
-    private static FileInfo GetBackupConfigFileInfo(ulong contentID)
-    {
-        var pluginConfigDirectory = Service.PluginInterface.ConfigDirectory;
-
-        return new FileInfo(pluginConfigDirectory.FullName + $@"\{contentID}.bak.json");
-    }
+    private static FileInfo GetConfigFileInfo(ulong contentID) => new(Service.PluginInterface.ConfigDirectory.FullName + $@"\{contentID}.json");
+    private static FileInfo GetBackupConfigFileInfo(ulong contentID) => new(Service.PluginInterface.ConfigDirectory.FullName + $@"\{contentID}.bak.json");
 
     public static CharacterConfiguration Load(ulong contentID)
     {
+        // If configuration file exists for this character
         if (GetConfigFileInfo(contentID) is { Exists: true } configFileInfo)
         {
+            // File exists, read all contents
             using var reader = new StreamReader(configFileInfo.FullName);
             var fileText = reader.ReadToEnd();
             reader.Close();
-                
-            Migrate.ParseJObject(fileText);
-            
-            return Migrate.GetFileVersion() switch
+
+            // Deserialize, and get version
+            return JsonConvert.DeserializeObject<IPluginConfiguration>(fileText)?.Version switch
             {
+                // Config is correct version, load config
                 2 => LoadExistingCharacterConfiguration(contentID, fileText),
-                1 => GenerateMigratedCharacterConfiguration(),
+                
+                // If version is null due to corrupted json
+                null => TryLoadBackupConfiguration(contentID),
+                
+                // Config wrong version, make new config, it's been long enough since we moved to version 2
                 _ => CreateNewCharacterConfiguration()
             };
         }
+        
+        // If it doesn't exist, make it.
+        else
+        {
+            return CreateNewCharacterConfiguration();
+        }
+    }
+    private static CharacterConfiguration TryLoadBackupConfiguration(ulong contentID)
+    {
+        // If backup config file exists for this character
+        if (GetBackupConfigFileInfo(contentID) is { Exists: true } backupConfigFileInfo)
+        {
+            // File exists, read all contents
+            using var reader = new StreamReader(backupConfigFileInfo.FullName);
+            var fileText = reader.ReadToEnd();
+            reader.Close();
+            
+            // Double check that backup config file version is what we expect
+            // Deserialize, and get version
+            return JsonConvert.DeserializeObject<IPluginConfiguration>(fileText)?.Version switch
+            {
+                // Backup Config is correct version, load config the same way we would a normal config but give it the backup filetext
+                2 => LoadExistingCharacterConfiguration(contentID, fileText),
+
+                // Config is null or wrong version, make new config
+                _ => CreateNewCharacterConfiguration()
+            };
+        }
+        
+        // Backup config doesn't exist, we already tried to load an exist config, we gotta nuke and retry
         else
         {
             return CreateNewCharacterConfiguration();
@@ -114,25 +138,6 @@ internal class CharacterConfiguration
         return loadedCharacterConfiguration;
     }
     
-    private static CharacterConfiguration GenerateMigratedCharacterConfiguration()
-    {
-        CharacterConfiguration migratedConfiguration;
-
-        try
-        {
-            migratedConfiguration = ConfigMigration.Convert();
-            migratedConfiguration.CharacterData.Update();
-            migratedConfiguration.Save();
-        }
-        catch (Exception e)
-        {
-            PluginLog.Warning(e, "Unable to Migrate Configuration, generating new configuration instead.");
-            migratedConfiguration = CreateNewCharacterConfiguration();
-        }
-
-        return migratedConfiguration;
-    }
-
     private static CharacterConfiguration CreateNewCharacterConfiguration()
     {
         var newCharacterConfiguration = new CharacterConfiguration();
