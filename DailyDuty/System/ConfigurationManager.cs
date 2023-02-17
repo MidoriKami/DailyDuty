@@ -52,6 +52,7 @@ internal class ConfigurationManager : IDisposable
         PluginLog.Verbose($"Logging into Character '{Service.ClientState.LocalPlayer?.Name.TextValue}'");
         
         backingCharacterConfiguration = CharacterConfiguration.Load(Service.ClientState.LocalContentId);
+        backingCharacterConfiguration.Save();
         
         CharacterDataLoaded = true;
         OnCharacterDataLoaded?.Invoke(this, CharacterConfiguration);

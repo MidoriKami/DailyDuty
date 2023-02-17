@@ -23,7 +23,7 @@ public class TaskColors
     public Setting<Vector4> UnavailableColor = new(Colors.Orange);
 }
 
-internal class TodoOverlaySettings
+public class TodoOverlaySettings
 {
     public Setting<bool> ShowDailyTasks = new(true);
     public Setting<bool> ShowWeeklyTasks = new(true);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using DailyDuty.DataModels;
 using DailyDuty.Modules;
@@ -8,11 +9,6 @@ using Dalamud.Logging;
 using Newtonsoft.Json;
 
 namespace DailyDuty.Configuration;
-
-public class ConfigVersion : IPluginConfiguration
-{
-    public int Version { get; set; }
-}
 
 [Serializable]
 public class CharacterConfiguration : IPluginConfiguration
@@ -51,100 +47,74 @@ public class CharacterConfiguration : IPluginConfiguration
         if (CharacterData.LocalContentID != 0)
         {
             PluginLog.Verbose($"{DateTime.Now} - {CharacterData.Name} Saved");
-
-            var configFileInfo = saveBackup ? GetBackupConfigFileInfo(CharacterData.LocalContentID) : GetConfigFileInfo(CharacterData.LocalContentID);
-
-            var serializedContents = JsonConvert.SerializeObject(this, Formatting.Indented);
-
-            using var writer = new StreamWriter(configFileInfo.FullName);
-            writer.Write(serializedContents);
-            writer.Close();
-        }
-        else
-        {
-            PluginLog.Warning("Tried to save a config with invalid LocalContentID, aborting save.");
+            
+            SaveConfigFile(GetConfigFileInfo(CharacterData.LocalContentID, saveBackup));
         }
     }
 
     public void SaveBackup() => Save(true);
-    private static FileInfo GetConfigFileInfo(ulong contentID) => new(Service.PluginInterface.ConfigDirectory.FullName + $@"\{contentID}.json");
-    private static FileInfo GetBackupConfigFileInfo(ulong contentID) => new(Service.PluginInterface.ConfigDirectory.FullName + $@"\{contentID}.bak.json");
-
+    
     public static CharacterConfiguration Load(ulong contentID)
     {
-        // If configuration file exists for this character
-        if (GetConfigFileInfo(contentID) is { Exists: true } configFileInfo)
+        try
         {
-            // File exists, read all contents
-            using var reader = new StreamReader(configFileInfo.FullName);
-            var fileText = reader.ReadToEnd();
-            reader.Close();
+            var mainConfigFileInfo = GetConfigFileInfo(contentID, false);
+            var backupConfigFileInfo = GetConfigFileInfo(contentID, true);
 
-            // Deserialize, and get version
-            return JsonConvert.DeserializeObject<ConfigVersion>(fileText)?.Version switch
-            {
-                // Config is correct version, load config
-                2 => LoadExistingCharacterConfiguration(contentID, fileText),
-                
-                // If not correct version or null, try loading backup
-                _ => TryLoadBackupConfiguration(contentID),
-            };
+            return TryLoadConfiguration(mainConfigFileInfo, backupConfigFileInfo);
         }
-        
-        // If it doesn't exist, make it.
-        else
+        catch (Exception e)
         {
-            return CreateNewCharacterConfiguration();
+            PluginLog.Warning(e, $"Exception Occured during loading Character {contentID}. Loading new default config instead.");
+            return new CharacterConfiguration();
         }
-    }
-    private static CharacterConfiguration TryLoadBackupConfiguration(ulong contentID)
-    {
-        // If backup config file exists for this character
-        if (GetBackupConfigFileInfo(contentID) is { Exists: true } backupConfigFileInfo)
-        {
-            // File exists, read all contents
-            using var reader = new StreamReader(backupConfigFileInfo.FullName);
-            var fileText = reader.ReadToEnd();
-            reader.Close();
-            
-            // Double check that backup config file version is what we expect
-            // Deserialize, and get version
-            return JsonConvert.DeserializeObject<ConfigVersion>(fileText)?.Version switch
-            {
-                // Backup Config is correct version, load config the same way we would a normal config but give it the backup filetext
-                2 => LoadExistingCharacterConfiguration(contentID, fileText),
-
-                // Config is null or wrong version, make new config
-                _ => CreateNewCharacterConfiguration()
-            };
-        }
-        
-        // Backup config doesn't exist, we already tried to load an exist config, we gotta nuke and retry
-        else
-        {
-            return CreateNewCharacterConfiguration();
-        }
-    }
-
-    private static CharacterConfiguration LoadExistingCharacterConfiguration(ulong contentID, string fileText)
-    {
-        var loadedCharacterConfiguration = JsonConvert.DeserializeObject<CharacterConfiguration>(fileText);
-
-        if (loadedCharacterConfiguration == null)
-        {
-            throw new FileLoadException($"Unable to load configuration file for contentID: {contentID}");
-        }
-        
-        loadedCharacterConfiguration.CharacterData.Update();
-        loadedCharacterConfiguration.Save();
-        return loadedCharacterConfiguration;
     }
     
-    private static CharacterConfiguration CreateNewCharacterConfiguration()
+    private static CharacterConfiguration TryLoadConfiguration(FileSystemInfo? mainConfigInfo = null, FileSystemInfo? backupConfigInfo = null)
     {
-        var newCharacterConfiguration = new CharacterConfiguration();
+        try
+        {
+            if (TryLoadSpecificConfiguration(mainConfigInfo, out var mainCharacterConfiguration)) return mainCharacterConfiguration;
+        }
+        catch (Exception e)
+        {
+            PluginLog.Warning(e, "Exception Occured loading Main Configuration. Attempting to load Backup Config.");
+        }
+        
+        if (TryLoadSpecificConfiguration(backupConfigInfo, out var backupCharacterConfiguration)) return backupCharacterConfiguration;
 
-        newCharacterConfiguration.Save();
-        return newCharacterConfiguration;
+        return new CharacterConfiguration();
+    }
+    
+    private static bool TryLoadSpecificConfiguration(FileSystemInfo? fileInfo, [NotNullWhen(true)] out CharacterConfiguration? info)
+    {
+        if (fileInfo is null || !fileInfo.Exists)
+        {
+            info = null;
+            return false;
+        }
+        
+        info = JsonConvert.DeserializeObject<CharacterConfiguration>(LoadFile(fileInfo));
+        return info is not null;
+    }
+    
+    private static FileInfo GetConfigFileInfo(ulong contentId, bool backupFile) => new(Service.PluginInterface.ConfigDirectory.FullName + $@"\{contentId}{(backupFile ? ".bak" : string.Empty)}.json");
+
+    private static string LoadFile(FileSystemInfo fileInfo)
+    {
+        using var reader = new StreamReader(fileInfo.FullName);
+        return reader.ReadToEnd();
+    }
+
+    private static void SaveFile(FileSystemInfo file, string fileText)
+    {
+        using var writer = new StreamWriter(file.FullName);
+        writer.Write(fileText);
+    }
+
+    private void SaveConfigFile(FileSystemInfo file)
+    {
+        var text = JsonConvert.SerializeObject(this, Formatting.Indented);
+        SaveFile(file, text);
     }
 }
