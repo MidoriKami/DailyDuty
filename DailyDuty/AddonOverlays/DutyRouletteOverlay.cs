@@ -22,14 +22,12 @@ public unsafe class DutyRouletteOverlay : IDisposable
     
     public DutyRouletteOverlay()
     {
-        AddonContentsFinder.Instance.Refresh += OnRefresh;
         AddonContentsFinder.Instance.Draw += OnDraw;
         AddonContentsFinder.Instance.Finalize += OnFinalize;
     }
 
     public void Dispose()
     {
-        AddonContentsFinder.Instance.Refresh -= OnRefresh;
         AddonContentsFinder.Instance.Draw -= OnDraw;
         AddonContentsFinder.Instance.Finalize -= OnFinalize;
     }
@@ -38,36 +36,24 @@ public unsafe class DutyRouletteOverlay : IDisposable
     {
         SaveUserDefaultColor(addonBase);
 
-        if (Enabled && defaultColorSaved)
+        if (Enabled && defaultColorSaved && AddonContentsFinder.GetSelectedTab(addonBase) is 0)
         {
-            if (AddonContentsFinder.GetSelectedTab(addonBase) is 0) 
-                SetRouletteColors(addonBase);
-            else 
-                ResetDefaultTextColor(addonBase);
+            SetRouletteColors(addonBase);
         }
-        else
+        else if (defaultColorSaved)
         {
             ResetDefaultTextColor(addonBase);
         }
     }
 
-    private void OnRefresh(object? sender, nint addonBase)
+    private void OnFinalize(object? sender, nint addonBase)
     {
-        if (Enabled && defaultColorSaved)
-        {
-            if (AddonContentsFinder.GetSelectedTab(addonBase) is 0) 
-                SetRouletteColors(addonBase);
-            else 
-                ResetDefaultTextColor(addonBase);
-        }
-        else
+        if (defaultColorSaved)
         {
             ResetDefaultTextColor(addonBase);
         }
     }
 
-    private void OnFinalize(object? sender, nint addonBase) => ResetDefaultTextColor(addonBase);
-    
     private void SaveUserDefaultColor(nint addonBase)
     {
         if (defaultColorSaved) return;
@@ -75,7 +61,7 @@ public unsafe class DutyRouletteOverlay : IDisposable
         foreach (var item in AddonContentsFinder.GetDutyListItems(addonBase))
         {
             if (item == nint.Zero) continue;
-            
+
             var textNode = AddonContentsFinder.GetListItemTextNode(item);
             if (textNode is not null)
             {
@@ -85,6 +71,7 @@ public unsafe class DutyRouletteOverlay : IDisposable
                 if (nodeColor == RouletteSettings.CompleteColor.Value) continue;
                 if (nodeColor == RouletteSettings.IncompleteColor.Value) continue;
                 if (nodeColor == RouletteSettings.OverrideColor.Value) continue;
+                if (nodeColor == Vector4.Zero) continue; // Blank
                         
                 userDefaultTextColor = textNode->TextColor;
                 defaultColorSaved = true;
