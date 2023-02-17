@@ -9,8 +9,13 @@ using Newtonsoft.Json;
 
 namespace DailyDuty.Configuration;
 
+public class ConfigVersion : IPluginConfiguration
+{
+    public int Version { get; set; }
+}
+
 [Serializable]
-internal class CharacterConfiguration : IPluginConfiguration
+public class CharacterConfiguration : IPluginConfiguration
 {
     public int Version { get; set; } = 2;
 
@@ -76,16 +81,13 @@ internal class CharacterConfiguration : IPluginConfiguration
             reader.Close();
 
             // Deserialize, and get version
-            return JsonConvert.DeserializeObject<IPluginConfiguration>(fileText)?.Version switch
+            return JsonConvert.DeserializeObject<ConfigVersion>(fileText)?.Version switch
             {
                 // Config is correct version, load config
                 2 => LoadExistingCharacterConfiguration(contentID, fileText),
                 
-                // If version is null due to corrupted json
-                null => TryLoadBackupConfiguration(contentID),
-                
-                // Config wrong version, make new config, it's been long enough since we moved to version 2
-                _ => CreateNewCharacterConfiguration()
+                // If not correct version or null, try loading backup
+                _ => TryLoadBackupConfiguration(contentID),
             };
         }
         
@@ -107,7 +109,7 @@ internal class CharacterConfiguration : IPluginConfiguration
             
             // Double check that backup config file version is what we expect
             // Deserialize, and get version
-            return JsonConvert.DeserializeObject<IPluginConfiguration>(fileText)?.Version switch
+            return JsonConvert.DeserializeObject<ConfigVersion>(fileText)?.Version switch
             {
                 // Backup Config is correct version, load config the same way we would a normal config but give it the backup filetext
                 2 => LoadExistingCharacterConfiguration(contentID, fileText),
