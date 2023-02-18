@@ -38,7 +38,7 @@ public abstract class AbstractTestModule : IModule
         TimerComponent = new TestModuleTimerComponent(this);
     }
     
-    public void Dispose() { }
+    public virtual void Dispose() { }
 
     private class TestModuleLogicComponent : ILogicComponent
     {

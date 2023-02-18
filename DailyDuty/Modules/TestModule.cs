@@ -18,6 +18,10 @@ public unsafe class TestModule : AbstractTestModule
         KamiCommon.CommandManager.AddCommand(new TestCommand());
     }
 
+    public override void Dispose()
+    {
+    }
+
     public static void DoTheThing()
     {
         
