@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using DailyDuty.Configuration;
 using DailyDuty.Localization;
@@ -78,9 +79,9 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFFC);
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
-        
-        if (ImGuiComponents.IconButton("KoFiButton", FontAwesomeIcon.Coffee)) KamiCommon.WindowManager.ToggleWindowOfType<AboutWindow>();
-        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Support Me On Ko-Fi");
+
+        if (ImGuiComponents.IconButton("KoFiButton", FontAwesomeIcon.Coffee)) Process.Start(new ProcessStartInfo { FileName = "https://ko-fi.com/midorikami", UseShellExecute = true });
+        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Support Me on Ko-Fi");
         
         ImGui.PopStyleColor(3);
     }

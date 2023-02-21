@@ -37,6 +37,20 @@ public class TimersConfigurationSelectable : ISelectable, IDrawable
     public void DrawLabel()
     {
         ImGui.Text(ID);
+        DrawModuleStatus();
+    }
+    
+    private void DrawModuleStatus()
+    {
+        var region = ImGui.GetContentRegionAvail();
+
+        var text = Settings.Enabled ? Strings.Common_Enabled : Strings.Common_Disabled;
+        var color = Settings.Enabled ? Colors.Green : Colors.Red;
+
+        var textSize = ImGui.CalcTextSize(text);
+
+        ImGui.SameLine(region.X - textSize.X + 3.0f);
+        ImGui.TextColored(color, text);
     }
     
     public void Draw()
