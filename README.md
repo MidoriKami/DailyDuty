@@ -14,13 +14,21 @@ DailyDuty will **not** track anything to do with Retainers or Free Companies, fo
 
 You can open the configuration window with the chat command `/dd`
 
-![image](https://user-images.githubusercontent.com/9083275/187050359-62476589-17d1-4c6a-a926-e18c3d842b43.png)
+![image](https://user-images.githubusercontent.com/9083275/220256522-2224378b-0065-423d-b7f3-c9b2f68bd8f5.png)
 
 ## Status Window
 
 You can open the status window with the chat command `/dd status`
 
-![image](https://user-images.githubusercontent.com/9083275/187050373-70bf8f3b-0a51-423e-9f95-2f01e7bf95e7.png)
+![image](https://user-images.githubusercontent.com/9083275/220256604-0c4ac28a-6733-43f7-b0c3-ef449617f967.png)
+
+## Overlays
+
+DailyDuty includes two configurable overlays, **Todo Overlay** and **Timers Overlay**, these overlays let you display the remaining tasks in an easy to use way.
+
+| Todo Overlay      | Timers Overlay |
+| ----------- | ----------- |
+| ![image](https://user-images.githubusercontent.com/9083275/220256852-39eb2691-06b5-4a8f-aecb-77affe161190.png)      | ![image](https://user-images.githubusercontent.com/9083275/220257271-a231157b-b7e2-4468-8899-6cbcc1928f15.png)       |
 
 ## Notifications
 
