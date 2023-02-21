@@ -13,7 +13,7 @@ namespace DailyDuty.UserInterface.Windows;
 
 public class HuntMarkDebugWindow : SelectionWindow
 {
-    public HuntMarkDebugWindow() : base("HuntMark Debug Window", 0.25f, 0.0f)
+    public HuntMarkDebugWindow() : base("HuntMark Debug Window")
     {
         KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<HuntMarkDebugWindow>("hunts"));
         

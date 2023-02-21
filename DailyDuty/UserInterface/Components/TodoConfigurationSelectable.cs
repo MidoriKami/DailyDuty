@@ -1,40 +1,31 @@
 ﻿using System;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Commands;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
-using Dalamud.Interface.Windowing;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.ChatCommands;
 using KamiLib.Drawing;
+using KamiLib.Interfaces;
 
-namespace DailyDuty.UserInterface.Windows;
+namespace DailyDuty.UserInterface.Components;
 
-internal class TodoConfigurationWindow : Window
+internal class TodoConfigurationSelectable : ISelectable, IDrawable
 {
+    public IDrawable Contents => this;
+    public string ID => "Todo Overlay";
     private static TodoOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TodoOverlay;
 
-    public TodoConfigurationWindow() : base("DailyDuty Todo Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
+    public TodoConfigurationSelectable()
     {
-        KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<TodoConfigurationWindow>("todo"));
         KamiCommon.CommandManager.AddCommand(new TodoCommands());
-        
-        SizeConstraints = new WindowSizeConstraints
-        {
-            MinimumSize = new Vector2(400, 350),
-            MaximumSize = new Vector2(9999,9999)
-        };
     }
-
-    public override void PreOpenCheck()
+    public void DrawLabel()
     {
-        if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
-        if (Service.ClientState.IsPvP) IsOpen = false;
+        ImGui.Text(ID);
     }
-
-    public override void Draw()
+    
+    public void Draw()
     {
 
         InfoBox.Instance
@@ -94,10 +85,5 @@ internal class TodoConfigurationWindow : Window
             .AddConfigColor(Strings.Common_Complete, Strings.Common_Default, Settings.TaskColors.CompleteColor, Colors.Green)
             .AddConfigColor(Strings.Common_Unavailable, Strings.Common_Default, Settings.TaskColors.UnavailableColor, Colors.Orange)
             .Draw();
-    }
-    
-    public override void OnClose()
-    {
-        Service.ConfigurationManager.Save();
     }
 }

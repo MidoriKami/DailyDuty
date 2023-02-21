@@ -17,7 +17,7 @@ namespace DailyDuty.UserInterface.Windows;
 
 internal class StatusWindow : SelectionWindow, IDisposable
 {
-    public StatusWindow() : base($"DailyDuty {Strings.Status_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 0.35f, 45.0f)
+    public StatusWindow() : base($"DailyDuty {Strings.Status_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyStatusWindow", 45.0f)
     {
         KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<StatusWindow>("status"));
         
@@ -65,11 +65,6 @@ internal class StatusWindow : SelectionWindow, IDisposable
     {
         DrawHideDisabledButton();
         PluginVersion.Instance.DrawVersionText();
-    }
-
-    protected override void DrawSpecial()
-    {
-        AboutWindow.DrawInfoButton();
     }
 
     private static void DrawHideDisabledButton()

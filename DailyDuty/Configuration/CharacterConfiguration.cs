@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using DailyDuty.DataModels;
 using DailyDuty.Modules;
-using DailyDuty.UserInterface.Windows;
+using DailyDuty.UserInterface.Components;
 using Dalamud.Configuration;
 using Dalamud.Logging;
 using Newtonsoft.Json;

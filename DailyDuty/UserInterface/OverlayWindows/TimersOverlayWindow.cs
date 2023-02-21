@@ -5,7 +5,7 @@ using System.Numerics;
 using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using DailyDuty.UserInterface.Windows;
+using DailyDuty.UserInterface.Components;
 using DailyDuty.Utilities;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;

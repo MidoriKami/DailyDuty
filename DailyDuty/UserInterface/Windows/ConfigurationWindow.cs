@@ -5,6 +5,7 @@ using DailyDuty.Configuration;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using Dalamud.Interface.Internal.Notifications;
 using ImGuiNET;
 using KamiLib;
@@ -16,7 +17,7 @@ namespace DailyDuty.UserInterface.Windows;
 internal class ConfigurationWindow : SelectionWindow, IDisposable
 {
 
-    public ConfigurationWindow() : base($"DailyDuty {Strings.Config_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow", 0.35f, 40.0f)
+    public ConfigurationWindow() : base($"DailyDuty {Strings.Config_Label} - {Service.ConfigurationManager.CharacterConfiguration.CharacterData.Name}###DailyDutyMainWindow", 47.0f)
     {
         SizeConstraints = new WindowSizeConstraints
         {
@@ -50,12 +51,6 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
         DrawNavigationButtons();
         PluginVersion.Instance.DrawVersionText();
     }
-
-    protected override void DrawSpecial()
-    {
-        AboutWindow.DrawInfoButton();
-    }
-
     public override void OnClose()
     {
         Service.PluginInterface.UiBuilder.AddNotification("Settings Saved", "DailyDuty", NotificationType.Success);
@@ -64,33 +59,29 @@ internal class ConfigurationWindow : SelectionWindow, IDisposable
 
     private static void DrawNavigationButtons()
     {
-        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, new Vector2(2.0f, 0.0f) * ImGuiHelpers.GlobalScale);
+        var itemSize = ImGuiHelpers.ScaledVector2(23.0f);
+        var region = ImGui.GetContentRegionAvail();
+        var padding = ImGui.GetStyle().ItemSpacing;
 
-        var contentRegion = ImGui.GetContentRegionAvail();
-        var buttonWidth = contentRegion.X / 3.0f - 2.0f * ImGuiHelpers.GlobalScale;
-
-        if (ImGui.Button(Strings.Todo_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
-        {
-            var window = KamiCommon.WindowManager.GetWindowOfType<TodoConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
-        }
-
+        var buttonsTotalSize = itemSize * 3 + padding * 2;
+        
+        ImGui.SetCursorPos(ImGui.GetCursorPos() with { X = region.X / 2.0f - buttonsTotalSize.X / 2.0f, Y = padding.Y});
+        
+        if (ImGuiComponents.IconButton("ConfigurationButton", FontAwesomeIcon.Cog)) KamiCommon.WindowManager.ToggleWindowOfType<OverlayConfigurationWindow>();
+        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Open Overlay Configuration");
+        ImGui.SameLine();
+        
+        if (ImGuiComponents.IconButton("StatusButton", FontAwesomeIcon.InfoCircle)) KamiCommon.WindowManager.ToggleWindowOfType<StatusWindow>();
+        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Open Task Status");
         ImGui.SameLine();
 
-        if (ImGui.Button(Strings.Timers_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
-        {
-            var window = KamiCommon.WindowManager.GetWindowOfType<TimersConfigurationWindow>()!;
-            window.IsOpen = !window.IsOpen;
-        }
-
-        ImGui.SameLine();
-
-        if (ImGui.Button(Strings.Status_Label, new Vector2(buttonWidth, 23.0f * ImGuiHelpers.GlobalScale)))
-        {
-            var window = KamiCommon.WindowManager.GetWindowOfType<StatusWindow>()!;
-            window.IsOpen = !window.IsOpen;
-        }
-
-        ImGui.PopStyleVar();
+        ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFFC);
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
+        
+        if (ImGuiComponents.IconButton("KoFiButton", FontAwesomeIcon.Coffee)) KamiCommon.WindowManager.ToggleWindowOfType<AboutWindow>();
+        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Support Me On Ko-Fi");
+        
+        ImGui.PopStyleColor(3);
     }
 }

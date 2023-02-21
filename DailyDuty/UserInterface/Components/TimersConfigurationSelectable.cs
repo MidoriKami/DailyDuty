@@ -1,16 +1,14 @@
-﻿using Dalamud.Interface.Windowing;
-using ImGuiNET;
-using System.Linq;
-using System.Numerics;
+﻿using System.Linq;
 using DailyDuty.Commands;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
+using ImGuiNET;
 using KamiLib;
-using KamiLib.ChatCommands;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
+using KamiLib.Interfaces;
 
-namespace DailyDuty.UserInterface.Windows;
+namespace DailyDuty.UserInterface.Components;
 
 public class TimersOverlaySettings
 {
@@ -23,29 +21,25 @@ public class TimersOverlaySettings
     public Setting<TimersOrdering> Ordering = new(TimersOrdering.Alphabetical);
 }
 
-internal class TimersConfigurationWindow : Window
+public class TimersConfigurationSelectable : ISelectable, IDrawable
 {
+    public IDrawable Contents => this;
+
+    public string ID => "Timers Overlay";
+    
     private static TimersOverlaySettings Settings => Service.ConfigurationManager.CharacterConfiguration.TimersOverlay;
 
-    public TimersConfigurationWindow() : base("DailyDuty Timers Configuration", ImGuiWindowFlags.AlwaysVerticalScrollbar)
+    public TimersConfigurationSelectable()
     {
-        KamiCommon.CommandManager.AddCommand(new OpenWindowCommand<TimersConfigurationWindow>("timers"));
         KamiCommon.CommandManager.AddCommand(new TimersCommands());
-
-        SizeConstraints = new WindowSizeConstraints
-        {
-            MinimumSize = new Vector2(400, 350),
-            MaximumSize = new Vector2(9999, 9999)
-        };
     }
     
-    public override void PreOpenCheck()
+    public void DrawLabel()
     {
-        if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
-        if (Service.ClientState.IsPvP) IsOpen = false;
+        ImGui.Text(ID);
     }
-
-    public override void Draw()
+    
+    public void Draw()
     {
         InfoBox.Instance
             .AddTitle(Strings.Common_MainOptions)
@@ -78,10 +72,5 @@ internal class TimersConfigurationWindow : Window
             .AddConfigCheckbox(Strings.Common_AutoResize, Settings.AutoResize)
             .AddDragFloat(Strings.Common_Opacity, Settings.Opacity, 0.0f, 1.0f, innerWidth / 2.0f)
             .Draw();
-    }
-
-    public override void OnClose()
-    {
-        Service.ConfigurationManager.Save();
     }
 }

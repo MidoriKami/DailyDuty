@@ -31,7 +31,7 @@ public class TimersConfigurationRow : IInfoBoxTableConfigurationRow
         owner
             .BeginRow()
             .AddConfigCheckbox(timerComponent.ParentModule.Name.GetTranslatedString(), timerComponent.ParentModule.GenericSettings.TimerTaskEnabled)
-            .AddButton(Strings.Timers_EditStyle + $"##{timerComponent.ParentModule.Name}",() => KamiCommon.WindowManager.AddWindow(new TimersStyleWindow(timerComponent.ParentModule)))
+            .AddButton(Strings.Timers_EditStyle + $"##{timerComponent.ParentModule.Name}",() => KamiCommon.WindowManager.ToggleWindowOfType<TimerStyleConfigurationWindow>())
             .EndRow();
     }
 }

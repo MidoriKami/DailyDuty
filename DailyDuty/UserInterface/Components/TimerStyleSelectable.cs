@@ -1,49 +1,36 @@
-﻿using System.Numerics;
-using DailyDuty.DataModels;
+﻿using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
-using Dalamud.Interface.Windowing;
 using ImGuiNET;
-using KamiLib;
 using KamiLib.Drawing;
+using KamiLib.Interfaces;
 
-namespace DailyDuty.UserInterface.Windows;
+namespace DailyDuty.UserInterface.Components;
 
-internal class TimersStyleWindow : Window
+public class TimerStyleSelectable : ISelectable, IDrawable
 {
+    private readonly IModule module;
     private TimerSettings Settings { get; set; }
-    private IModule OwnerModule { get; }
+    public IDrawable Contents => this;
 
-    public TimersStyleWindow(IModule owner) : base($"{Strings.Timers_EditTimerStyle} - {owner.Name.GetTranslatedString()}")
+    public string ID => module.Name.GetTranslatedString();
+
+    public TimerStyleSelectable(IModule module)
     {
-        OwnerModule = owner;
-        Settings = owner.GenericSettings.TimerSettings;
-
-        SizeConstraints = new WindowSizeConstraints
-        {
-            MinimumSize = new Vector2(275, 300),
-            MaximumSize = new Vector2(9999, 9999)
-        };
-
-        IsOpen = true;
-    }
-
-    public override void PreOpenCheck()
-    {
-        if (!Service.ConfigurationManager.CharacterDataLoaded) IsOpen = false;
-        if (Service.ClientState.IsPvP) IsOpen = false;
+        this.module = module;
+        Settings = this.module.GenericSettings.TimerSettings;
     }
     
-    public override void PreDraw()
+    public void DrawLabel()
     {
-        ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 0.0f);
+        ImGui.Text(ID);
     }
-
-    public override void Draw()
+    
+    public void Draw()
     {
         InfoBox.Instance
             .AddTitle(Strings.Timers_TimeOptions, out var innerWidth)
-            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), OwnerModule.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: innerWidth)
+            .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), module.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: innerWidth)
             .Draw();
 
         InfoBox.Instance
@@ -75,20 +62,10 @@ internal class TimersStyleWindow : Window
         InfoBox.Instance
             .AddTitle(Strings.Common_Reset, out var innerWidth3)
             .AddDisabledButton(Strings.Common_Reset, () => { 
-                OwnerModule.GenericSettings.TimerSettings = new TimerSettings();
-                Settings = OwnerModule.GenericSettings.TimerSettings;
+                module.GenericSettings.TimerSettings = new TimerSettings();
+                Settings = module.GenericSettings.TimerSettings;
                 Service.ConfigurationManager.Save();
             }, !(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl), Strings.DisabledButton_Hover, innerWidth3)
             .Draw();
-    }
-
-    public override void PostDraw()
-    {
-        ImGui.PopStyleVar();
-    }
-
-    public override void OnClose()
-    {
-        KamiCommon.WindowManager.RemoveWindow(this);
     }
 }
