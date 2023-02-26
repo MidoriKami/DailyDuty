@@ -54,6 +54,6 @@ public class ResetManager : IDisposable
 
     public void Dispose()
     {
-        Service.Framework.Update += FrameworkOnUpdate;
+        Service.Framework.Update -= FrameworkOnUpdate;
     }
 }
