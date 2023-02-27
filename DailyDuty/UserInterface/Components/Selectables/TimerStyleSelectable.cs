@@ -24,10 +24,31 @@ public class TimerStyleSelectable : ISelectable, IDrawable
     public void DrawLabel()
     {
         ImGui.Text(ID);
+        DrawModuleStatus();
+    }
+    
+    private void DrawModuleStatus()
+    {
+        var region = ImGui.GetContentRegionAvail();
+
+        var enabled = module.GenericSettings.TimerTaskEnabled && module.GenericSettings.Enabled;
+        
+        var text = enabled ? Strings.Common_Enabled : Strings.Common_Disabled;
+        var color = enabled ? Colors.Green : Colors.Red;
+
+        var textSize = ImGui.CalcTextSize(text);
+
+        ImGui.SameLine(region.X - textSize.X + 3.0f);
+        ImGui.TextColored(color, text);
     }
     
     public void Draw()
     {
+        InfoBox.Instance
+            .AddTitle(Strings.Common_MainOptions)
+            .AddConfigCheckbox(Strings.Common_Enabled, module.GenericSettings.TimerTaskEnabled)
+            .Draw();
+        
         InfoBox.Instance
             .AddTitle(Strings.Timers_TimeOptions, out var innerWidth)
             .AddConfigCombo(TimerStyleExtensions.GetConfigurableStyles(), module.GenericSettings.TimerSettings.TimerStyle, TimerStyleExtensions.GetLabel, width: innerWidth)

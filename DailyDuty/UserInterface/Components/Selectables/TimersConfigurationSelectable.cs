@@ -66,9 +66,9 @@ public class TimersConfigurationSelectable : ISelectable, IDrawable
 
         InfoBox.Instance
             .AddTitle(Strings.Timers_Label)
-            .BeginTable(0.65f)
-            .AddConfigurationRows(enabledModules.Select(task => task.GetTimersConfigurationRow()), Strings.Timers_NothingEnabled)
-            .EndTable()
+            .BeginList()
+            .AddRows(enabledModules.Select(task => task.GetTimersConfigurationRow()))
+            .EndList()
             .Draw();
         
         InfoBox.Instance

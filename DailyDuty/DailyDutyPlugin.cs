@@ -39,9 +39,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         KamiCommon.CommandManager.AddHandler(ShorthandCommand, "shorthand command to open configuration window");
         
         KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
-        KamiCommon.WindowManager.AddWindow(new StatusWindow());
-        KamiCommon.WindowManager.AddWindow(new OverlayConfigurationWindow());
-        KamiCommon.WindowManager.AddWindow(new TimerStyleConfigurationWindow());
         KamiCommon.WindowManager.AddWindow(new HuntMarkDebugWindow());
     }
 

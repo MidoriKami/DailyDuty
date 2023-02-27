@@ -1,8 +1,5 @@
 ﻿using System;
 using DailyDuty.DataModels;
-using DailyDuty.Localization;
-using DailyDuty.UserInterface.Windows;
-using KamiLib;
 using KamiLib.Drawing;
 using KamiLib.Interfaces;
 
@@ -18,20 +15,17 @@ public interface ITimerComponent
     TimersConfigurationRow GetTimersConfigurationRow() => new(this);
 }
 
-public class TimersConfigurationRow : IInfoBoxTableConfigurationRow
+public class TimersConfigurationRow : IInfoBoxListConfigurationRow
 {
     private readonly ITimerComponent timerComponent;
     public TimersConfigurationRow(ITimerComponent component)
     {
         timerComponent = component;
     }
-
-    public void GetConfigurationRow(InfoBoxTable owner)
+    
+    public void GetConfigurationRow(InfoBoxList owner)
     {
         owner
-            .BeginRow()
-            .AddConfigCheckbox(timerComponent.ParentModule.Name.GetTranslatedString(), timerComponent.ParentModule.GenericSettings.TimerTaskEnabled)
-            .AddButton(Strings.Timers_EditStyle + $"##{timerComponent.ParentModule.Name}",() => KamiCommon.WindowManager.ToggleWindowOfType<TimerStyleConfigurationWindow>())
-            .EndRow();
+            .AddConfigCheckbox(timerComponent.ParentModule.Name.GetTranslatedString(), timerComponent.ParentModule.GenericSettings.TimerTaskEnabled);
     }
 }

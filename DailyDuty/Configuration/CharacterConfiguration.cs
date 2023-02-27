@@ -17,6 +17,7 @@ public class CharacterConfiguration : IPluginConfiguration
 
     public CharacterData CharacterData = new();
     public bool HideDisabledModulesInSelectWindow = false;
+    public bool HideDisabledTimersInConfigWindow = false;
 
     public TodoOverlaySettings TodoOverlay = new();
     public TimersOverlaySettings TimersOverlay = new();
