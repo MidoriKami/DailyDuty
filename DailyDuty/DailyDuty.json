@@ -2,7 +2,7 @@
   "Author": "MidoriKami",
   "Name": "Daily Duty",
   "Punchline": "Easily Track Daily and Weekly tasks",
-  "Description": "Automatically track and complete many daily and weekly tasks.",
+  "Description": "Automatically track and complete many daily and weekly tasks.\n\n/dd help → Display all available commands",
   "Tags": [
     "utility"
   ],
