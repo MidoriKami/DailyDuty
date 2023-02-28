@@ -704,4 +704,16 @@ Afin de prévenir le spam excessif dans le chat</value>
     <data name="Common_Weekly" xml:space="preserve">
         <value>Weekly</value>
     </data>
+    <data name="Tabs_ModuleConfiguration" xml:space="preserve">
+        <value>Module Configuration</value>
+    </data>
+    <data name="Tabs_ModuleStatus" xml:space="preserve">
+        <value>Module Status</value>
+    </data>
+    <data name="Tabs_OverlayConfiguration" xml:space="preserve">
+        <value>Overlay Configuration</value>
+    </data>
+    <data name="Tabs_TimerStyles" xml:space="preserve">
+        <value>Timer Styles</value>
+    </data>
 </root>

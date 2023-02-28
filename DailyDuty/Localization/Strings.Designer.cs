@@ -1681,6 +1681,42 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module Configuration.
+        /// </summary>
+        internal static string Tabs_ModuleConfiguration {
+            get {
+                return ResourceManager.GetString("Tabs_ModuleConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Status.
+        /// </summary>
+        internal static string Tabs_ModuleStatus {
+            get {
+                return ResourceManager.GetString("Tabs_ModuleStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overlay Configuration.
+        /// </summary>
+        internal static string Tabs_OverlayConfiguration {
+            get {
+                return ResourceManager.GetString("Tabs_OverlayConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timer Styles.
+        /// </summary>
+        internal static string Tabs_TimerStyles {
+            get {
+                return ResourceManager.GetString("Tabs_TimerStyles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color Options.
         /// </summary>
         internal static string Timers_ColorOptions {

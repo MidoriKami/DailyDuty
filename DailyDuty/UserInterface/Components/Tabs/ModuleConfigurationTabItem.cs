@@ -11,7 +11,7 @@ namespace DailyDuty.UserInterface.Components.Tabs;
 
 public class ModuleConfigurationTabItem : ISelectionWindowTab
 {
-    public string TabName => "Module Configuration";
+    public string TabName => Strings.Tabs_ModuleConfiguration;
     public ISelectable? LastSelection { get; set; }
     public IEnumerable<ISelectable> GetTabSelectables() => Service.ModuleManager.GetConfigurationSelectables(filterType);
 

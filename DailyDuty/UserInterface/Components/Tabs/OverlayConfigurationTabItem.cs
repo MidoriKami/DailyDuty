@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.Localization;
 using KamiLib.Interfaces;
 
 namespace DailyDuty.UserInterface.Components.Tabs;
@@ -11,7 +12,7 @@ public class OverlayConfigurationTabItem : ISelectionWindowTab
         new TodoConfigurationSelectable()
     };
 
-    public string TabName => "Overlay Configuration";
+    public string TabName => Strings.Tabs_OverlayConfiguration;
     public ISelectable? LastSelection { get; set; }
     public IEnumerable<ISelectable> GetTabSelectables() => selectables;
 }

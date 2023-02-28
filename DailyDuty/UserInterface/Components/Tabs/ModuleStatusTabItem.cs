@@ -9,7 +9,7 @@ namespace DailyDuty.UserInterface.Components.Tabs;
 
 public class ModuleStatusTabItem : ISelectionWindowTab
 {
-    public string TabName => "Module Status";
+    public string TabName => Strings.Tabs_ModuleStatus;
     public ISelectable? LastSelection { get; set; }
     public IEnumerable<ISelectable> GetTabSelectables()
     {

@@ -9,7 +9,7 @@ namespace DailyDuty.UserInterface.Components.Tabs;
 
 public class TimerStyleTabItem : ISelectionWindowTab
 {
-    public string TabName => "Timer Styles";
+    public string TabName => Strings.Tabs_TimerStyles;
     public ISelectable? LastSelection { get; set; }
     
     public IEnumerable<ISelectable> GetTabSelectables()
