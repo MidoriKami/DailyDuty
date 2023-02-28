@@ -393,6 +393,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Daily.
+        /// </summary>
+        internal static string Common_Daily {
+            get {
+                return ResourceManager.GetString("Common_Daily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Daily Tasks.
         /// </summary>
         internal static string Common_DailyTasks {
@@ -610,6 +619,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show All.
+        /// </summary>
+        internal static string Common_ShowAll {
+            get {
+                return ResourceManager.GetString("Common_ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Single.
         /// </summary>
         internal static string Common_Single {
@@ -705,6 +723,15 @@ namespace DailyDuty.Localization {
         internal static string Common_Unknown {
             get {
                 return ResourceManager.GetString("Common_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weekly.
+        /// </summary>
+        internal static string Common_Weekly {
+            get {
+                return ResourceManager.GetString("Common_Weekly", resourceCulture);
             }
         }
         

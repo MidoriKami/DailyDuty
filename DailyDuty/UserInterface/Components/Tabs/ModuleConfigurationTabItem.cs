@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using DailyDuty.DataModels;
+using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -11,7 +13,9 @@ public class ModuleConfigurationTabItem : ISelectionWindowTab
 {
     public string TabName => "Module Configuration";
     public ISelectable? LastSelection { get; set; }
-    public IEnumerable<ISelectable> GetTabSelectables() => Service.ModuleManager.GetConfigurationSelectables();
+    public IEnumerable<ISelectable> GetTabSelectables() => Service.ModuleManager.GetConfigurationSelectables(filterType);
+
+    private CompletionType? filterType; 
 
     public void DrawTabExtras()
     {
@@ -20,8 +24,28 @@ public class ModuleConfigurationTabItem : ISelectionWindowTab
         
         var cursorStart = ImGui.GetCursorPos();
         cursorStart.X += region.X / 2.0f - buttonSize.X / 2.0f;
+
+        ImGui.PushItemWidth(region.X - buttonSize.X - ImGui.GetStyle().ItemSpacing.X);
+        if (ImGui.BeginCombo("##FilterCombo", filterType is null ? Strings.Common_ShowAll : filterType.ToString()))
+        {
+            if (ImGui.Selectable(Strings.Common_ShowAll, filterType == CompletionType.Daily))
+            {
+                filterType = null;
+            }
+            
+            if (ImGui.Selectable(Strings.Common_Daily, filterType == CompletionType.Daily))
+            {
+                filterType = CompletionType.Daily;
+            }
+            
+            if (ImGui.Selectable(Strings.Common_Weekly, filterType == CompletionType.Weekly))
+            {
+                filterType = CompletionType.Weekly;
+            }
+            ImGui.EndCombo();
+        }
         
-        ImGui.SetCursorPos(cursorStart);
+        ImGui.SameLine();
         
         ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
         ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFFC);

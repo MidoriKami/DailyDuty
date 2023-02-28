@@ -51,7 +51,8 @@ internal class ModuleManager : IDisposable
         }
     }
 
-    public IEnumerable<ISelectable> GetConfigurationSelectables() => Modules
+    public IEnumerable<ISelectable> GetConfigurationSelectables(CompletionType? type = null) => Modules
+        .Where(module => type is null || module.TodoComponent.CompletionType == type)
         .Select(module => module.ConfigurationComponent.Selectable)
         .OrderBy(module => module.ID);
 

@@ -695,4 +695,13 @@ Esto es para evitar llenar demasiado el registro del chat</value>
   <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
         <value>Desactivando superposición de tareas</value>
     </data>
+    <data name="Common_ShowAll" xml:space="preserve">
+        <value>Show All</value>
+    </data>
+    <data name="Common_Daily" xml:space="preserve">
+        <value>Daily</value>
+    </data>
+    <data name="Common_Weekly" xml:space="preserve">
+        <value>Weekly</value>
+    </data>
 </root>

@@ -694,4 +694,13 @@
   <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
         <value>Deaktiviere Todo-Overlay</value>
     </data>
+    <data name="Common_ShowAll" xml:space="preserve">
+        <value>Show All</value>
+    </data>
+    <data name="Common_Daily" xml:space="preserve">
+        <value>Daily</value>
+    </data>
+    <data name="Common_Weekly" xml:space="preserve">
+        <value>Weekly</value>
+    </data>
 </root>

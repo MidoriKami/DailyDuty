@@ -695,4 +695,13 @@ Afin de prévenir le spam excessif dans le chat</value>
   <data name="Commands_Todo_DisablingOverlay" xml:space="preserve">
         <value>Désactivation de l'overlay de la liste des tâches</value>
     </data>
+    <data name="Common_ShowAll" xml:space="preserve">
+        <value>Show All</value>
+    </data>
+    <data name="Common_Daily" xml:space="preserve">
+        <value>Daily</value>
+    </data>
+    <data name="Common_Weekly" xml:space="preserve">
+        <value>Weekly</value>
+    </data>
 </root>
