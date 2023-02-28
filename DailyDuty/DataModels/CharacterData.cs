@@ -6,20 +6,6 @@ namespace DailyDuty.DataModels;
 public record CharacterData
 {
     public string Name = "Unknown";
-    public ulong LocalContentID;
+    public ulong LocalContentID = 0;
     public string World = "UnknownWorld";
-
-    public CharacterData() => Update();
-
-    public void Update()
-    {
-        var playerData = Service.ClientState.LocalPlayer;
-
-        if (playerData != null)
-        {
-            LocalContentID = Service.ClientState.LocalContentId;
-            Name = playerData.Name.TextValue;
-            World = playerData.HomeWorld.GameData?.Name.ToString() ?? "UnknownWorld";
-        }
-    }
 }
