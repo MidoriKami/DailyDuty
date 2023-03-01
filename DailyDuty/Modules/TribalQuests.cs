@@ -3,7 +3,7 @@ using System;
 using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 
@@ -15,7 +15,7 @@ public class BeastTribeSettings : GenericSettings
     public Setting<ComparisonMode> ComparisonMode = new(DataModels.ComparisonMode.EqualTo);
 }
 
-public class TribalQuests : Module
+public unsafe class TribalQuests : Module
 {
     public override ModuleName Name => ModuleName.BeastTribe;
     public override CompletionType CompletionType => CompletionType.Daily;
@@ -23,7 +23,7 @@ public class TribalQuests : Module
     private static BeastTribeSettings Settings => Service.ConfigurationManager.CharacterConfiguration.BeastTribe;
     public override GenericSettings GenericSettings => Settings;
 
-    private static int GetRemainingAllowances() => (int)PlayerState.GetBeastTribeAllowance();
+    private static int GetRemainingAllowances() => (int) QuestManager.Instance()->GetBeastTribeAllowance();
     public override string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
 
     public override ModuleStatus GetModuleStatus()
