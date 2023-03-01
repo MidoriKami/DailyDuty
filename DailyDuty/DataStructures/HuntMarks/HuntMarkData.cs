@@ -25,7 +25,7 @@ public unsafe class HuntMarkData
         HuntID = HuntStruct->MarkID[(int)type],
         HuntType = type,
         Obtained = HuntStruct->IsMarkBillObtained((int)type),
-        KillCounts = (MobHunt.KillCounts*)&(HuntStruct->CurrentKills[5 * (int)type]),
+        KillCounts = HuntStruct->CurrentKillsSpan[(int)type],
     };
 }
 
