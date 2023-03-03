@@ -1,10 +1,9 @@
 ﻿using System;
 using DailyDuty.DataModels;
-using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
-using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Misc;
@@ -24,20 +23,12 @@ public unsafe class Levequest : Module
 
     private static LevequestSettings Settings => Service.ConfigurationManager.CharacterConfiguration.Levequest;
     public override GenericSettings GenericSettings => Settings;
-
-    [Signature("88 05 ?? ?? ?? ?? 0F B7 41 06", ScanType = ScanType.StaticAddress)]
-    private readonly LevequestStruct* levequestStruct = null;
     
-    public Levequest()
-    {
-        SignatureHelper.Initialise(this);
-    }
-
     public override TimeSpan GetTimerPeriod() => TimeSpan.FromHours(12);
     protected override DateTime GetModuleReset() => Time.NextLeveAllowanceReset();
     public override string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
-    private int GetRemainingAllowances() => levequestStruct->AllowancesRemaining;
-    private int GetAcceptedLeves() => levequestStruct->LevesAccepted;
+    private int GetRemainingAllowances() => QuestManager.Instance()->NumLeveAllowances;
+    private int GetAcceptedLeves() => QuestManager.Instance()->NumAcceptedLeveQuests;
 
     public override ModuleStatus GetModuleStatus()
     {

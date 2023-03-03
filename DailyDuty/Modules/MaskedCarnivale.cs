@@ -5,9 +5,7 @@ using DailyDuty.DataModels;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Teleporter;
@@ -36,15 +34,10 @@ public unsafe class MaskedCarnivale : Module
 
     public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.UlDah);
     public override bool LinkPayloadActive => Settings.EnableClickableLink;
-    private AgentInterface* AozContentBriefingAgentInterface => AgentModule.Instance()->GetAgentByInternalId(AgentId.AozContentBriefing);
-
-    private delegate byte IsWeeklyCompleteDelegate(AgentInterface* agent, byte index);
-    [Signature("4C 8B C1 80 FA 03")] private readonly IsWeeklyCompleteDelegate isWeeklyCompleted = null!;
+    private AgentAozContentBriefing* AozContentBriefingAgentInterface => (AgentAozContentBriefing*) AgentModule.Instance()->GetAgentByInternalId(AgentId.AozContentBriefing);
     
     public MaskedCarnivale()
     {
-        SignatureHelper.Initialise(this);
-
         AddonAozContentResult.Instance.Setup += OnSetup;
         Service.Framework.Update += OnFrameworkUpdate;
     }
@@ -83,12 +76,12 @@ public unsafe class MaskedCarnivale : Module
     private void OnFrameworkUpdate(Dalamud.Game.Framework framework)
     {
         if (!Settings.Enabled) return;
-        if (!AozContentBriefingAgentInterface->IsAgentActive()) return;
+        if (!AozContentBriefingAgentInterface->AgentInterface.IsAgentActive()) return;
             
         foreach (var task in Settings.TrackedTasks)
         {
-            var completed = isWeeklyCompleted(AozContentBriefingAgentInterface, (byte) task.Task) != 0;
-
+            var completed = AozContentBriefingAgentInterface->IsWeeklyChallengeComplete((byte) task.Task);
+            
             if (task.State != completed)
             {
                 task.State = completed;

@@ -8,7 +8,6 @@ using Dalamud.Game;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Caching;
@@ -30,17 +29,11 @@ public unsafe class TreasureMap : Module
 
     private static TreasureMapSettings Settings => Service.ConfigurationManager.CharacterConfiguration.TreasureMap;
     public override GenericSettings GenericSettings => Settings;
-
-    private delegate long GetNextMapAvailableTimeDelegate(UIState* uiState);
-    [Signature("E8 ?? ?? ?? ?? 48 8B F8 E8 ?? ?? ?? ?? 49 8D 9F")]
-    private readonly GetNextMapAvailableTimeDelegate getNextMapUnixTimestamp = null!;
-
+    
     private static AtkUnitBase* ContentsTimerAgent => (AtkUnitBase*) Service.GameGui.GetAddonByName("ContentsInfo");
     
     public TreasureMap()
     {
-        SignatureHelper.Initialise(this);
-
         Service.Chat.ChatMessage += OnChatMessage;
         Service.Framework.Update += OnFrameworkUpdate;
     }
@@ -127,7 +120,7 @@ public unsafe class TreasureMap : Module
 
     private DateTime GetNextMapAvailableTime()
     {
-        var unixTimestamp = getNextMapUnixTimestamp(UIState.Instance());
+        var unixTimestamp = UIState.Instance()->GetNextMapAllowanceTimestamp();
 
         return unixTimestamp == -1 ? DateTime.MinValue : DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).UtcDateTime;
     }

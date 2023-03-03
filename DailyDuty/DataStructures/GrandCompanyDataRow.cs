@@ -31,14 +31,14 @@ public unsafe class GrandCompanyDataArray
 [StructLayout(LayoutKind.Explicit, Size = 160)]
 public unsafe struct GrandCompanyDataRow
 {
-    [FieldOffset(0x00)] public readonly Utf8String ItemName;
-    [FieldOffset(0x70)] private readonly int IconID;
-    [FieldOffset(0x74)] public readonly int ExpReward;
-    [FieldOffset(0x78)] public readonly int SealReward;
-    [FieldOffset(0x80)] public readonly int NumPossessed;
-    [FieldOffset(0x90)] public readonly int NumRequested;
-    [FieldOffset(0x9A)] private readonly byte TurnInAvailable;
-    [FieldOffset(0x9B)] private readonly byte Bonus;
+    [FieldOffset(0x00)] public Utf8String ItemName;
+    [FieldOffset(0x70)] private int IconID;
+    [FieldOffset(0x74)] public int ExpReward;
+    [FieldOffset(0x78)] public int SealReward;
+    [FieldOffset(0x80)] public int NumPossessed;
+    [FieldOffset(0x90)] public int NumRequested;
+    [FieldOffset(0x9A)] private byte TurnInAvailable;
+    [FieldOffset(0x9B)] private byte Bonus;
 
     public bool IsTurnInAvailable => TurnInAvailable == 0;
     public bool IsBonusReward => Bonus != 0;

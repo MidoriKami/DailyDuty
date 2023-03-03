@@ -59,12 +59,12 @@ public unsafe class RaidsNormal : Module
         var enabledRaids = Settings.TrackedRaids.Where(raid => raid.Tracked).ToList();
         if(!enabledRaids.Any()) return;
 
-        var contentFinderCondition = *(int*)((byte*) contentsFinderAgentInterface + 6988);
+        var contentFinderCondition = contentsFinderAgentInterface->SelectedDutyId;
         var trackedRaid = enabledRaids.FirstOrDefault(raid => raid.Duty.ContentFinderCondition == contentFinderCondition);
 
         if (trackedRaid != null)
         {
-            var numCollectedRewards = *((byte*) contentsFinderAgentInterface + 7000);
+            var numCollectedRewards = contentsFinderAgentInterface->NumCollectedRewards;
 
             if (trackedRaid.CurrentDropCount != numCollectedRewards)
             {

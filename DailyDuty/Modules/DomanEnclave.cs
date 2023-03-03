@@ -1,11 +1,10 @@
 ﻿using DailyDuty.DataModels;
-using DailyDuty.DataStructures;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Teleporter;
@@ -30,13 +29,8 @@ public unsafe class DomanEnclave : Module
     public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.DomanEnclave);
     public override bool LinkPayloadActive => Settings.EnableClickableLink;
     
-    private delegate DomanEnclaveStruct* GetDataDelegate();
-    [Signature("E8 ?? ?? ?? ?? 48 85 C0 74 09 0F B6 B8")]
-    private readonly GetDataDelegate getDomanEnclaveStruct = null!;
-    
     public DomanEnclave()
     {
-        SignatureHelper.Initialise(this);
         Service.Framework.Update += OnFrameworkUpdate;
     }
 
@@ -92,8 +86,8 @@ public unsafe class DomanEnclave : Module
     }
 
     private static int GetRemainingBudget() => Settings.WeeklyAllowance - Settings.DonatedThisWeek;
-    private ushort GetDonatedThisWeek() => getDomanEnclaveStruct()->Donated;
-    private ushort GetWeeklyAllowance() => getDomanEnclaveStruct()->Allowance;
+    private ushort GetDonatedThisWeek() => ReconstructionBoxManager.Instance()->ReconstructionBoxData->Donated;
+    private ushort GetWeeklyAllowance() => ReconstructionBoxManager.Instance()->ReconstructionBoxData->Allowance;
     private bool DataAvailable() => GetWeeklyAllowance() != 0;
     private static bool ModuleInitialized() => Settings.WeeklyAllowance != 0;
 

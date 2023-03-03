@@ -7,14 +7,12 @@ using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Caching;
 using KamiLib.ChatCommands;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
-using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules;
 
@@ -57,23 +55,9 @@ public unsafe class DutyRoulette : Module
     
     private readonly DutyRouletteOverlay overlay = new();
 
-    private readonly long currentLimitedTomestoneWeeklyCap;
-
-    private delegate long GetCurrentLimitedTomestoneCountDelegate(byte a1 = 9);
-    [Signature("48 83 EC 28 80 F9 09")] private readonly GetCurrentLimitedTomestoneCountDelegate getCurrentLimitedTomestoneCount = null!;
-    private delegate byte IsRouletteIncompleteDelegate(AgentInterface* agent, byte a2);
-    [Signature("48 83 EC 28 84 D2 75 07 32 C0", ScanType = ScanType.Text)]
-    private readonly IsRouletteIncompleteDelegate isRouletteIncomplete = null!;
-
-    [Signature("48 8D 0D ?? ?? ?? ?? E8 ?? ?? ?? ?? 84 C0 74 0C 48 8D 4C 24", ScanType = ScanType.StaticAddress)]
-    private readonly AgentInterface* rouletteBasePointer = null!;
-    
     public DutyRoulette()
     {
-        SignatureHelper.Initialise(this);
-
         DalamudLinkPayload = ChatPayloadManager.Instance.AddChatLink(ChatPayloads.DutyRouletteDutyFinder, OpenDutyFinder);
-        currentLimitedTomestoneWeeklyCap = GetWeeklyTomestomeLimit();
 
         Service.Framework.Update += OnFrameworkUpdate;
     }
@@ -119,24 +103,15 @@ public unsafe class DutyRoulette : Module
             }
         }
 
-        var isComplete = isRouletteIncomplete(rouletteBasePointer, (byte) roulette) == 0;
+        var isComplete = RouletteController.Instance()->IsRouletteComplete((byte) roulette);
 
         return isComplete ? RouletteState.Complete : RouletteState.Incomplete;
     }
 
-    private bool HasMaxWeeklyTomestones() => getCurrentLimitedTomestoneCount() == currentLimitedTomestoneWeeklyCap;
+    private bool HasMaxWeeklyTomestones() => InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount() == InventoryManager.GetLimitedTomestoneWeeklyLimit();
 
     private void OpenDutyFinder(uint arg1, SeString arg2) => AgentContentsFinder.Instance()->OpenRouletteDuty(GetFirstMissingRoulette());
-
-    private static int GetWeeklyTomestomeLimit()
-    {
-        return LuminaCache<TomestonesItem>.Instance
-            .Select(t => t.Tomestones.Value)
-            .OfType<Tomestones>()
-            .Where(t => t.WeeklyLimit > 0)
-            .Max(t => t.WeeklyLimit);
-    }
-
+    
     private int RemainingRoulettesCount()
     {
         if (Settings.CompleteWhenCapped && HasMaxWeeklyTomestones()) return 0;
@@ -226,7 +201,7 @@ public unsafe class DutyRoulette : Module
                 .BeginTable()
                 .BeginRow()
                 .AddString(Strings.DutyRoulette_ExpertTomestones)
-                .AddString($"{getCurrentLimitedTomestoneCount()} / {currentLimitedTomestoneWeeklyCap}", HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
+                .AddString($"{InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount()} / {InventoryManager.GetLimitedTomestoneWeeklyLimit()}", HasMaxWeeklyTomestones() ? Colors.Green : Colors.Orange)
                 .EndRow()
                 .EndTable()
                 .Draw();

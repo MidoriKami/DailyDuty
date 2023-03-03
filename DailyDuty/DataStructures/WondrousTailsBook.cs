@@ -2,48 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Utilities;
-using Dalamud.Utility.Signatures;
-using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.DataStructures;
 
-internal unsafe class WondrousTailsBook
+public record WondrousTailsTask(PlayerState.WeeklyBingoTaskStatus TaskState, List<uint> DutyList);
+
+public unsafe class WondrousTailsBook
 {
-    [Signature("88 05 ?? ?? ?? ?? 8B 43 18", ScanType = ScanType.StaticAddress)]
-    private readonly WondrousTailsStruct* wondrousTails = null;
-
-    private delegate int WondrousTailsGetDeadlineDelegate(int* deadlineIndex);
-    [Signature("8B 81 ?? ?? ?? ?? C1 E8 04 25")]
-    private readonly WondrousTailsGetDeadlineDelegate wondrousTailsGetDeadline = null!;
-
-    [Signature("48 8D 0D ?? ?? ?? ?? 48 89 BD ?? ?? ?? ?? E8 ?? ?? ?? ?? 44 8B C0", ScanType = ScanType.StaticAddress)]
-    private readonly int* wondrousTailsDeadlineIndex = null;
-
-    private const int WondrousTailsBookItemID = 2002023;
-
     private static WondrousTailsBook? _instance;
     public static WondrousTailsBook Instance => _instance ??= new WondrousTailsBook();
-
-    private WondrousTailsBook()
-    {
-        SignatureHelper.Initialise(this);
-    }
-
-    public int Stickers => wondrousTails->Stickers;
-    public int SecondChance => wondrousTails->SecondChance;
-    public static bool PlayerHasBook => InventoryManager.Instance()->GetInventoryItemCount(WondrousTailsBookItemID) > 0;
-    public bool NewBookAvailable =>  DateTime.Now > Deadline - TimeSpan.FromDays(7);
-    public bool Complete => wondrousTails->Stickers == 9;
-    public bool NeedsNewBook => NewBookAvailable && Complete;
-    private DateTime Deadline => DateTimeOffset.FromUnixTimeSeconds(wondrousTailsGetDeadline(wondrousTailsDeadlineIndex)).ToLocalTime().DateTime;
     
-    public WondrousTailsTask? GetTaskForDuty(uint instanceID) => 
-        GetAllTaskData().FirstOrDefault(task => task.DutyList.Contains(instanceID));
+    public int Stickers => PlayerState.Instance()->WeeklyBingoNumPlacedStickers;
+    public uint SecondChance => PlayerState.Instance()->WeeklyBingoNumSecondChancePoints;
+    public static bool PlayerHasBook => PlayerState.Instance()->HasWeeklyBingoJournal;
+    public bool NewBookAvailable => DateTime.Now > Deadline - TimeSpan.FromDays(7);
+    public bool IsComplete => Stickers == 9;
+    public bool NeedsNewBook => NewBookAvailable && IsComplete;
+    private DateTime Deadline => DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).ToLocalTime().DateTime; 
+    
+    public static WondrousTailsTask? GetTaskForDuty(uint instanceID) => GetAllTaskData().FirstOrDefault(task => task.DutyList.Contains(instanceID));
 
-    public IEnumerable<WondrousTailsTask> GetAllTaskData() => 
+    public static IEnumerable<WondrousTailsTask> GetAllTaskData() => 
         (from index in Enumerable.Range(0, 16) 
-            let taskButtonState = wondrousTails->TaskStatus(index) 
-            let instances = TaskLookup.GetInstanceListFromID(wondrousTails->Tasks[index]) 
+            let taskButtonState = PlayerState.Instance()->GetWeeklyBingoTaskStatus(index)
+            let instances = TaskLookup.GetInstanceListFromID(PlayerState.Instance()->WeeklyBingoOrderData[index]) 
             select new WondrousTailsTask(taskButtonState, instances))
         .ToList();
 }

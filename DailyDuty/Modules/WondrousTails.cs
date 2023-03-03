@@ -7,6 +7,7 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Utility;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.ChatCommands;
 using KamiLib.Configuration;
@@ -76,28 +77,24 @@ public unsafe class WondrousTails : Module
         if (GetModuleStatus() == ModuleStatus.Complete) return;
         if (!WondrousTailsBook.PlayerHasBook) return;
 
-        var node = WondrousTailsBook.Instance.GetTaskForDuty(territory);
+        var node = WondrousTailsBook.GetTaskForDuty(territory);
         if (node == null) return;
 
         var buttonState = node.TaskState;
         
         switch (buttonState)
         {
-            case ButtonState.Unavailable when WondrousTailsBook.Instance is { Stickers: > 0, SecondChance: > 0 }:
+            case PlayerState.WeeklyBingoTaskStatus.Claimed when WondrousTailsBook.Instance is { Stickers: > 0, SecondChance: > 0 }:
                 Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_RerollNotice);
                 Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_RerollCount.Format(WondrousTailsBook.Instance.SecondChance), Settings.EnableClickableLink ? DalamudLinkPayload : null);
                 break;
 
-            case ButtonState.AvailableNow:
+            case PlayerState.WeeklyBingoTaskStatus.Claimable:
                 Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_AlreadyAvailable, Settings.EnableClickableLink ? DalamudLinkPayload : null);
                 break;
 
-            case ButtonState.Completable:
+            case PlayerState.WeeklyBingoTaskStatus.Open:
                 Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_Completable);
-                break;
-
-            case ButtonState.Unknown:
-            default:
                 break;
         }
     }
@@ -111,11 +108,11 @@ public unsafe class WondrousTails : Module
         dutyCompleted = true;
         lastTerritoryType = territory;
 
-        var node = WondrousTailsBook.Instance.GetTaskForDuty(territory);
+        var node = WondrousTailsBook.GetTaskForDuty(territory);
 
         var buttonState = node?.TaskState;
 
-        if (buttonState is ButtonState.Completable or ButtonState.AvailableNow)
+        if (buttonState is PlayerState.WeeklyBingoTaskStatus.Claimable or PlayerState.WeeklyBingoTaskStatus.Open)
         {
             Chat.Print(Strings.WondrousTails_Label, Strings.WondrousTails_Claimable, Settings.EnableClickableLink ? DalamudLinkPayload : null);
         }
@@ -147,7 +144,7 @@ public unsafe class WondrousTails : Module
     {
         if (Settings.UnclaimedBookWarning && WondrousTailsBook.Instance.NewBookAvailable) return ModuleStatus.Incomplete;
 
-        return WondrousTailsBook.Instance.Complete ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        return WondrousTailsBook.Instance.IsComplete ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
 
     private void OpenWondrousTailsBook(uint arg1, SeString arg2)

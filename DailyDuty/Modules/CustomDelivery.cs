@@ -3,7 +3,7 @@ using DailyDuty.DataModels;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
-using Dalamud.Utility.Signatures;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 
@@ -23,17 +23,6 @@ public unsafe class CustomDelivery : Module
     private static CustomDeliverySettings Settings => Service.ConfigurationManager.CharacterConfiguration.CustomDelivery;
     public override GenericSettings GenericSettings => Settings;
     
-    private delegate int GetCustomDeliveryAllowancesDelegate(byte* array);
-    [Signature("0F B6 41 24 4C 8B C1")]
-    private readonly GetCustomDeliveryAllowancesDelegate getCustomDeliveryAllowances = null!;
-    
-    [Signature("48 8D 0D ?? ?? ?? ?? 41 0F BA EC", ScanType = ScanType.StaticAddress)]
-    private readonly byte* staticArrayPointer = null!;
-    
-    public CustomDelivery() => SignatureHelper.Initialise(this);
-
-    private int GetRemainingAllowances() => 12 - getCustomDeliveryAllowances(staticArrayPointer);
-
     public override ModuleStatus GetModuleStatus()
     {
         switch (Settings.ComparisonMode.Value)
@@ -47,6 +36,8 @@ public unsafe class CustomDelivery : Module
                 return ModuleStatus.Incomplete;
         }
     }    
+    
+    private int GetRemainingAllowances() => SatisfactionSupplyManager.Instance()->GetRemainingAllowances();
     
     public override string GetStatusMessage() => $"{GetRemainingAllowances()} {Strings.Common_AllowancesRemaining}";
 

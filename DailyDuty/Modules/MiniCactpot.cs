@@ -4,7 +4,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Utilities;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Utility.Signatures;
 using KamiLib.Configuration;
 using KamiLib.Drawing;
 using KamiLib.Teleporter;
@@ -25,14 +24,11 @@ public unsafe class MiniCactpot : Module
     private static MiniCactpotSettings Settings => Service.ConfigurationManager.CharacterConfiguration.MiniCactpot;
     public override GenericSettings GenericSettings => Settings;
 
-    
     public override DalamudLinkPayload DalamudLinkPayload => TeleportManager.Instance.GetPayload(TeleportLocation.GoldSaucer);
     public override bool LinkPayloadActive => Settings.EnableClickableLink;
     
     public MiniCactpot()
     {
-        SignatureHelper.Initialise(this);
-
         AddonLotteryDaily.Instance.Show += OnShow;
         AgentGoldSaucer.Instance.GoldSaucerUpdate += OnGoldSaucerUpdate;
     }

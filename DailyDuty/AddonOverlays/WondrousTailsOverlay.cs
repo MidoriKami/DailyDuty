@@ -6,6 +6,7 @@ using DailyDuty.Addons;
 using DailyDuty.DataModels;
 using DailyDuty.DataStructures;
 using DailyDuty.Modules;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
 
@@ -28,7 +29,7 @@ public unsafe class WondrousTailsOverlay : IDisposable
         AddonContentsFinder.Instance.Draw += OnDraw;
         AddonContentsFinder.Instance.Finalize += OnFinalize;
         
-        wondrousTailsStatus = WondrousTailsBook.Instance.GetAllTaskData();
+        wondrousTailsStatus = WondrousTailsBook.GetAllTaskData();
     }
 
     public void Dispose()
@@ -43,7 +44,7 @@ public unsafe class WondrousTailsOverlay : IDisposable
     {
         if (!Enabled) return;
 
-        wondrousTailsStatus = WondrousTailsBook.Instance.GetAllTaskData();
+        wondrousTailsStatus = WondrousTailsBook.GetAllTaskData();
     }
     
     private void OnUpdate(object? sender, nint addonBase)
@@ -56,11 +57,11 @@ public unsafe class WondrousTailsOverlay : IDisposable
             {
                 SetCloverNodesVisibility(listItem, CloverState.Hidden);
             }
-            else if (taskState == ButtonState.Unavailable)
+            else if (taskState == PlayerState.WeeklyBingoTaskStatus.Claimed)
             {
                 SetCloverNodesVisibility(listItem, CloverState.Dark);
             }
-            else if (taskState is ButtonState.AvailableNow or ButtonState.Completable)
+            else if (taskState is PlayerState.WeeklyBingoTaskStatus.Open or PlayerState.WeeklyBingoTaskStatus.Claimable)
             {
                 SetCloverNodesVisibility(listItem, CloverState.Golden);
             }
@@ -117,7 +118,7 @@ public unsafe class WondrousTailsOverlay : IDisposable
         }
     }
 
-    private ButtonState? IsWondrousTailsDuty(nint item)
+    private PlayerState.WeeklyBingoTaskStatus? IsWondrousTailsDuty(nint item)
     {
         var nodeString = AddonContentsFinder.GetListItemString(item);
         var nodeRegexString = AddonContentsFinder.GetListItemFilteredString(item);
@@ -146,7 +147,7 @@ public unsafe class WondrousTailsOverlay : IDisposable
         return null;
     }
 
-    private ButtonState? GetWondrousTailsTaskState(uint duty) => wondrousTailsStatus.FirstOrDefault(task => task.DutyList.Contains(duty))?.TaskState;
+    private PlayerState.WeeklyBingoTaskStatus? GetWondrousTailsTaskState(uint duty) => wondrousTailsStatus.FirstOrDefault(task => task.DutyList.Contains(duty))?.TaskState;
     
     private void SetCloverNodesVisibility(nint listItem, CloverState state)
     {
