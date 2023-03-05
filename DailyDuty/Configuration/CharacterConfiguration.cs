@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using DailyDuty.DataModels;
@@ -47,7 +48,19 @@ public class CharacterConfiguration : IPluginConfiguration
     {
         if (CharacterData.LocalContentID != 0)
         {
+#if DEBUG
+            var trace = new StackTrace().GetFrame(2);
+                
+            if (trace is not null)
+            {
+                var callingClass = trace.GetMethod()?.DeclaringType;
+                var callingName = trace.GetMethod()?.Name;
+                    
+                PluginLog.Verbose($"[{callingClass}::{callingName}] {DateTime.Now} - {CharacterData.Name} Saving");
+            }
+#else
             PluginLog.Verbose($"{DateTime.Now} - {CharacterData.Name} Saved");
+#endif     
             
             SaveConfigFile(GetConfigFileInfo(CharacterData.LocalContentID, saveBackup));
         }
@@ -67,7 +80,7 @@ public class CharacterConfiguration : IPluginConfiguration
         catch (Exception e)
         {
             PluginLog.Warning(e, $"Exception Occured during loading Character {contentID}. Loading new default config instead.");
-            return new CharacterConfiguration();
+            return CreateNewCharacterConfiguration();
         }
     }
     
@@ -84,7 +97,7 @@ public class CharacterConfiguration : IPluginConfiguration
         
         if (TryLoadSpecificConfiguration(backupConfigInfo, out var backupCharacterConfiguration)) return backupCharacterConfiguration;
 
-        return new CharacterConfiguration();
+        return CreateNewCharacterConfiguration();
     }
     
     private static bool TryLoadSpecificConfiguration(FileSystemInfo? fileInfo, [NotNullWhen(true)] out CharacterConfiguration? info)
@@ -118,4 +131,13 @@ public class CharacterConfiguration : IPluginConfiguration
         var text = JsonConvert.SerializeObject(this, Formatting.Indented);
         SaveFile(file, text);
     }
+    
+    private static CharacterConfiguration CreateNewCharacterConfiguration() => new()
+    {
+        CharacterData = new CharacterData
+        {
+            Name = Service.ClientState.LocalPlayer?.Name.TextValue ?? "Unknown",
+            LocalContentID = Service.ClientState.LocalContentId,
+        },
+    };
 }

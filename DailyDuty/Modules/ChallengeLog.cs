@@ -70,6 +70,8 @@ public unsafe class ChallengeLog : Module
                     Settings.TrackedTasks.Add(new TrackedContentNote((int)luminaEntry.RowId, new Setting<bool>(false), false));
                 }
             }
+            
+            Service.ConfigurationManager.Save();
         }
     }
 

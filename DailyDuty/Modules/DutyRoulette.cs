@@ -72,6 +72,8 @@ public unsafe class DutyRoulette : Module
     {
         if (!Service.ConfigurationManager.CharacterDataLoaded) return;
 
+        var anyUpdate = false;
+        
         foreach (var trackedRoulette in Settings.TrackedRoulettes)
         {
             var rouletteStatus = GetRouletteState(trackedRoulette.Roulette);
@@ -79,8 +81,13 @@ public unsafe class DutyRoulette : Module
             if (trackedRoulette.State != rouletteStatus)
             {
                 trackedRoulette.State = rouletteStatus;
-                Service.ConfigurationManager.Save();
+                anyUpdate = true;
             }
+        }
+
+        if (anyUpdate)
+        {
+            Service.ConfigurationManager.Save();
         }
     }
 
