@@ -138,6 +138,7 @@ public class CharacterConfiguration : IPluginConfiguration
         {
             Name = Service.ClientState.LocalPlayer?.Name.TextValue ?? "Unknown",
             LocalContentID = Service.ClientState.LocalContentId,
+            World = Service.ClientState.LocalPlayer?.HomeWorld.GameData?.Name.ToString() ?? "Unknown World"
         },
     };
 }
