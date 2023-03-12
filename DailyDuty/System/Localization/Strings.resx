@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Daily" xml:space="preserve">
+        <value>Daily</value>
+    </data>
+    <data name="Weekly" xml:space="preserve">
+        <value>Special</value>
+    </data>
+    <data name="Special" xml:space="preserve">
+        <value>Weekly</value>
+    </data>
+    <data name="TestModule" xml:space="preserve">
+        <value>Test Module</value>
+    </data>
+    <data name="Unknown" xml:space="preserve">
+        <value>Unknown</value>
+    </data>
+    <data name="Incomplete" xml:space="preserve">
+        <value>Incomplete</value>
+    </data>
+    <data name="Unavailable" xml:space="preserve">
+        <value>Unavailable</value>
+    </data>
+    <data name="Complete" xml:space="preserve">
+        <value>Complete</value>
+    </data>
+    <data name="Suppressed" xml:space="preserve">
+        <value>Suppressed</value>
+    </data>
+</root>

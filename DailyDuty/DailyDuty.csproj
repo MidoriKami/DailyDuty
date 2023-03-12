@@ -1,98 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<Version>1.0</Version>
-		<AssemblyVersion>3.3.0.2</AssemblyVersion>
-		<PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
-	</PropertyGroup>
+    <PropertyGroup>
+        <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
+        <Version>4.0.0.0</Version>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<TargetFramework>net7.0-windows</TargetFramework>
-		<Platforms>x64</Platforms>
-		<Nullable>enable</Nullable>
-		<LangVersion>latest</LangVersion>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-	</PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <Platforms>x64</Platforms>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    </PropertyGroup>
 
-	<Target Name="GetGitHash" BeforeTargets="GetAssemblyVersion" Returns="InformationalVersion">
-		<Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low">
-			<Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
-		</Exec>
+    <Target Name="GetGitHash" BeforeTargets="GetAssemblyVersion" Returns="InformationalVersion">
+        <Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" StandardOutputImportance="low">
+            <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+        </Exec>
 
-		<PropertyGroup>
-			<InformationalVersion>$(GitCommitHash)</InformationalVersion>
-		</PropertyGroup>
-	</Target>
+        <PropertyGroup>
+            <InformationalVersion>$(GitCommitHash)</InformationalVersion>
+        </PropertyGroup>
+    </Target>
 
-	<ItemGroup>
-		<None Remove="DailyDuty.json" />
-		<None Remove="README.md" />
-	</ItemGroup>
+    <ItemGroup>
+        <None Remove="DailyDuty.json" />
+        <None Remove="README.md" />
+        <None Remove="packages.lock.json" />
+    </ItemGroup>
 
-	<PropertyGroup>
-		<DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
-	</PropertyGroup>
-	
-	<ItemGroup>
-		<Content Include="..\images\**" Link="images\%(RecursiveDir)\%(Filename)%(Extension)" CopyToOutputDirectory="Always" />
-	</ItemGroup>
-	
-	<ItemGroup>
-		<EmbeddedResource Update="Localization\Strings.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
-		  <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<Compile Update="Localization\Strings.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Strings.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-	
-	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="2.1.10" />
-	</ItemGroup>
+    <PropertyGroup>
+        <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<Reference Include="FFXIVClientStructs">
-			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="Newtonsoft.Json">
-			<HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="Dalamud">
-			<HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="ImGui.NET">
-			<HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="CheapLoc">
-			<HintPath>$(DalamudLibPath)CheapLoc.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="ImGuiScene">
-			<HintPath>$(DalamudLibPath)ImGuiScene.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="Lumina">
-			<HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="Lumina.Excel">
-			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="DalamudPackager" Version="2.1.10" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <Reference Include="FFXIVClientStructs">
+            <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Dalamud">
+            <HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ImGui.NET">
+            <HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ImGuiScene">
+            <HintPath>$(DalamudLibPath)ImGuiScene.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Lumina">
+            <HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Lumina.Excel">
+            <HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="System\Localization\Strings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="System\Localization\Strings.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Strings.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\Components" />
+    </ItemGroup>
 </Project>
