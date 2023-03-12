@@ -2,7 +2,7 @@
 
 namespace DailyDuty.Abstracts;
 
-public abstract class ModuleDataBase
+public class ModuleDataBase
 {
     public DateTime NextReset { get; set; }
 }

@@ -10,8 +10,8 @@ namespace DailyDuty.Abstracts;
 
 public abstract unsafe class BaseModule
 {
-    public ModuleDataBase Data { get; protected set; }
-    public ModuleConfigBase Config { get; protected set; }
+    public abstract ModuleDataBase ModuleData { get; protected set; }
+    public abstract ModuleConfigBase ModuleConfig { get; protected set; }
     public abstract ModuleName ModuleName { get; }
     public abstract ModuleType ModuleType { get; }
     public abstract DateTime GetNextReset();
@@ -26,6 +26,9 @@ public abstract unsafe class BaseModule
     public virtual void Load()
     {
         PluginLog.Debug($"Loading module: {ModuleName}");
+        ModuleData = LoadData();
+        ModuleConfig = LoadConfig();
+
     }
 
     public virtual void Unload()
@@ -35,7 +38,7 @@ public abstract unsafe class BaseModule
 
     public virtual void Reset()
     {
-        Data.NextReset = GetNextReset();
+        ModuleData.NextReset = GetNextReset();
     }
 
     public virtual void ZoneChange(uint newZone)
@@ -43,7 +46,7 @@ public abstract unsafe class BaseModule
         
     }
 
-    protected T? LoadData<T>() where T : ModuleDataBase
+    protected ModuleDataBase LoadData()
     {
         try
         {
@@ -55,22 +58,21 @@ public abstract unsafe class BaseModule
 
             if (dataFile is { Exists: false })
             {
-                T? newDataFile = default;
-                SaveData(newDataFile);
-                return newDataFile;
+                SaveData(ModuleData);
+                return ModuleData;
             }
             
             var jsonString = File.ReadAllText(dataFile.FullName);
-            return JsonConvert.DeserializeObject<T>(jsonString)!;
+            return JsonConvert.DeserializeObject<ModuleDataBase>(jsonString)!;
         }
         catch (Exception exception)
         {
             PluginLog.Error(exception, $"Failed to load data for module: {ModuleName}");
-            return default;
+            return new ModuleDataBase();
         }
     }
     
-    protected T? LoadConfig<T>() where T : ModuleConfigBase
+    protected ModuleConfigBase LoadConfig()
     {
         try
         {
@@ -82,22 +84,21 @@ public abstract unsafe class BaseModule
 
             if (configFile is { Exists: false })
             {
-                T? newConfigFile = default;
-                SaveConfig(newConfigFile);
-                return newConfigFile;
+                SaveConfig(ModuleConfig);
+                return ModuleConfig;
             }
             
             var jsonString = File.ReadAllText(configFile.FullName);
-            return JsonConvert.DeserializeObject<T>(jsonString)!;
+            return JsonConvert.DeserializeObject<ModuleConfigBase>(jsonString)!;
         }
         catch (Exception exception)
         {
             PluginLog.Error(exception, $"Failed to load data for module: {ModuleName}");
-            return default;
+            return new ModuleConfigBase();
         }
     }
 
-    protected void SaveData<T>(T data) where T : ModuleDataBase?
+    protected void SaveData(ModuleDataBase data)
     {
         try
         {
@@ -107,7 +108,10 @@ public abstract unsafe class BaseModule
             var configDirectory = GetCharacterDirectory(contentId);
             var dataFile = new FileInfo(Path.Combine(configDirectory.FullName, GetDataFileName()));
 
-            var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented);
+            var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
             File.WriteAllText(dataFile.FullName, jsonString);
         }
         catch (Exception exception)
@@ -116,7 +120,7 @@ public abstract unsafe class BaseModule
         }
     }
 
-    protected void SaveConfig<T>(T config) where T : ModuleConfigBase?
+    protected void SaveConfig(ModuleConfigBase config)
     {
         try
         {
@@ -126,7 +130,10 @@ public abstract unsafe class BaseModule
             var configDirectory = GetCharacterDirectory(contentId);
             var configFile = new FileInfo(Path.Combine(configDirectory.FullName, GetConfigFileName()));
 
-            var jsonString = JsonConvert.SerializeObject(config, Formatting.Indented);
+            var jsonString = JsonConvert.SerializeObject(config, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
             File.WriteAllText(configFile.FullName, jsonString);
         }
         catch (Exception exception)
@@ -134,10 +141,17 @@ public abstract unsafe class BaseModule
             PluginLog.Error(exception, $"Failed to load data for module: {ModuleName}");
         }
     }
-    
-    public void Save()
+
+    public void SaveConfig()
     {
-        PluginLog.Debug($"Saving module: {ModuleName}");
+        PluginLog.Debug($"Saving config for module: {ModuleName}");
+        SaveConfig(ModuleConfig);
+    }
+    
+    public void SaveData()
+    {
+        PluginLog.Debug($"Saving data for module: {ModuleName}");
+        SaveData(ModuleData);
     }
 
     private string GetDataFileName() => $"{ModuleName.ToString()}.data.json";

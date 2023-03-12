@@ -54,12 +54,12 @@ public class ModuleController : IDisposable
     {
         foreach (var module in modules)
         {
-            if (DateTime.UtcNow >= module.Data.NextReset)
+            if (DateTime.UtcNow >= module.ModuleData.NextReset)
             {
                 PluginLog.Debug($"Resetting module: {module.ModuleName} Next Reset: {module.GetNextReset().ToLocalTime()}");
                 
                 module.Reset();
-                module.Save();
+                module.SaveData();
             }
         }
     }
