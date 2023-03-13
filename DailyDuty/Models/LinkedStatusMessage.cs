@@ -1,4 +1,6 @@
 ﻿using DailyDuty.Models.Attributes;
+using DailyDuty.Models.Enums;
+using DailyDuty.System;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -7,10 +9,12 @@ namespace DailyDuty.Models;
 
 public class LinkedStatusMessage : StatusMessage
 {
-    public DalamudLinkPayload Payload { get; init; }
+    public PayloadId Payload { get; init; }
     
-    public new void PrintMessage()
+    public override void PrintMessage()
     {
+        var messagePayload = PayloadController.Instance.GetPayload(Payload);
+        
         var message = new XivChatEntry
         {
             Type = XivChatType.Party,
@@ -18,7 +22,7 @@ public class LinkedStatusMessage : StatusMessage
             Message = new SeStringBuilder()
                 .AddUiForeground($"[DailyDuty] ", 45)
                 .AddUiForeground($"[{SourceModule.GetLabel()}] ", 62)
-                .Add(Payload)
+                .Add(messagePayload)
                 .AddText(Message)
                 .Add(RawPayload.LinkTerminator)
                 .Build()

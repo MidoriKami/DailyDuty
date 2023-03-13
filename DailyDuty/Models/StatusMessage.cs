@@ -8,12 +8,11 @@ namespace DailyDuty.Models;
 
 public class StatusMessage : IStatusMessage
 {
-    public ModuleName SourceModule { get; init; } = ModuleName.Unknown;
-    public string Message { get; set; } = string.Empty;
-
+    public ModuleName SourceModule { get; set; }
+    public string Message { get; init; } = string.Empty;
     public XivChatType MessageChannel { get; init; } = Service.PluginInterface.GeneralChatType;
     
-    public void PrintMessage()
+    public virtual void PrintMessage()
     {
         var message = new XivChatEntry
         {

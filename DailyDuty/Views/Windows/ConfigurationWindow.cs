@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using DailyDuty.Views.Tabs;
 using KamiLib.Interfaces;
 using KamiLib.Windows;
 
@@ -7,10 +7,15 @@ namespace DailyDuty.Views;
 
 public class ConfigurationWindow : TabbedSelectionWindow
 {
+    private readonly List<ISelectionWindowTab> tabs;
+    
     public ConfigurationWindow() : base("Configuration Window")
     {
-        
+        tabs = new List<ISelectionWindowTab>
+        {
+            new ModuleConfigurationTab(),
+        };
     }
     
-    protected override IEnumerable<ISelectionWindowTab> GetTabs() => Array.Empty<ISelectionWindowTab>();
+    protected override IEnumerable<ISelectionWindowTab> GetTabs() => tabs;
 }

@@ -60,6 +60,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Challenge Log.
+        /// </summary>
+        internal static string ChallengeLog {
+            get {
+                return ResourceManager.GetString("ChallengeLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complete.
         /// </summary>
         internal static string Complete {
@@ -83,6 +92,24 @@ namespace DailyDuty.System.Localization {
         internal static string Incomplete {
             get {
                 return ResourceManager.GetString("Incomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Notification Message on Login.
+        /// </summary>
+        internal static string LoginMessage {
+            get {
+                return ResourceManager.GetString("LoginMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Configuration.
+        /// </summary>
+        internal static string ModuleConfiguration {
+            get {
+                return ResourceManager.GetString("ModuleConfiguration", resourceCulture);
             }
         }
         

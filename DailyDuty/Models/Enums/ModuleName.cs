@@ -10,5 +10,6 @@ public enum ModuleName
     [Label("TestModule")] 
     TestModule,
     
-    
+    [Label("ChallengeLog")]
+    ChallengeLog
 }

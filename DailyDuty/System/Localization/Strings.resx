@@ -45,4 +45,13 @@
     <data name="Suppressed" xml:space="preserve">
         <value>Suppressed</value>
     </data>
+    <data name="ModuleConfiguration" xml:space="preserve">
+        <value>Module Configuration</value>
+    </data>
+    <data name="LoginMessage" xml:space="preserve">
+        <value>Send Notification Message on Login</value>
+    </data>
+    <data name="ChallengeLog" xml:space="preserve">
+        <value>Challenge Log</value>
+    </data>
 </root>

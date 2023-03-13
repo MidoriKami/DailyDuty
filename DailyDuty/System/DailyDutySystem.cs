@@ -6,22 +6,20 @@ namespace DailyDuty.System;
 public class DailyDutySystem : IDisposable
 {
     public readonly ModuleController ModuleController;
-    public readonly PayloadController PayloadController;
 
     public DailyDutySystem()
     {
         ModuleController = new ModuleController();
-        PayloadController = new PayloadController();
-
-        Service.Framework.Update += OnFrameworkUpdate;
-        Service.ClientState.Login += OnLogin;
-        Service.ClientState.Logout += OnLogout;
-        Service.ClientState.TerritoryChanged += OnZoneChange;
 
         if (Service.ClientState.IsLoggedIn)
         {
             OnLogin(this, EventArgs.Empty);
         }
+        
+        Service.Framework.Update += OnFrameworkUpdate;
+        Service.ClientState.Login += OnLogin;
+        Service.ClientState.Logout += OnLogout;
+        Service.ClientState.TerritoryChanged += OnZoneChange;
     }
 
     public void Dispose()
@@ -32,7 +30,7 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.TerritoryChanged -= OnZoneChange;
 
         ModuleController.Dispose();
-        PayloadController.Dispose();
+        PayloadController.Cleanup();
     }
 
     private void OnFrameworkUpdate(Framework framework)
@@ -57,7 +55,8 @@ public class DailyDutySystem : IDisposable
         ModuleController.UnloadModules();
     }
     
-    private void OnZoneChange(object? sender, ushort e)
+    private void OnZoneChange(object? sender, ushort territoryTypeId)
     {
+        ModuleController.ZoneChange(territoryTypeId);
     }
 }

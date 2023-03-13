@@ -10,14 +10,22 @@ namespace DailyDuty.System;
 
 public unsafe class PayloadController : IDisposable
 {
+    private static PayloadController? _instance;
+    public static PayloadController Instance => _instance ??= new PayloadController();
+    
     private readonly Dictionary<PayloadId, DalamudLinkPayload> payloads = new();
 
-    public PayloadController()
+    private PayloadController()
     {
         foreach (var payload in Enum.GetValues<PayloadId>())
         {
             payloads.Add(payload, RegisterPayload(payload));
         }
+    }
+
+    public static void Cleanup()
+    {
+        _instance?.Dispose();
     }
     
     public void Dispose()

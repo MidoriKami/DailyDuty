@@ -1,4 +1,6 @@
-﻿namespace DailyDuty.Interfaces;
+﻿using DailyDuty.Models.Enums;
+
+namespace DailyDuty.Interfaces;
 
 public interface IStatusMessage
 {

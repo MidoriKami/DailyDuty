@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Abstracts;
-using DailyDuty.Models.Modules;
+using DailyDuty.Models.Enums;
 using Dalamud.Logging;
 
 namespace DailyDuty.System;
@@ -13,10 +13,16 @@ public class ModuleController : IDisposable
 
     public ModuleController()
     {
-        modules = new List<BaseModule>
+        modules = new List<BaseModule>();
+
+        foreach (var t in GetType().Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(BaseModule))))
         {
-            new TestModule(),
-        };
+            if (t.IsAbstract) continue;
+            var module = (BaseModule?) Activator.CreateInstance(t);
+            if (module is null) continue;
+            
+            modules.Add(module);
+        }
     }
     
     public void Dispose()
@@ -26,6 +32,9 @@ public class ModuleController : IDisposable
             module.Dispose();
         }
     }
+
+    public IEnumerable<BaseModule> GetModules(ModuleType? type = null) => 
+        type is null ? modules : modules.Where(module => module.ModuleType == type);
 
     public void UpdateModules()
     {
