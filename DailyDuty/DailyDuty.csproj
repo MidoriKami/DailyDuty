@@ -92,6 +92,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Components" />
+      <Folder Include="Interfaces" />
     </ItemGroup>
 </Project>

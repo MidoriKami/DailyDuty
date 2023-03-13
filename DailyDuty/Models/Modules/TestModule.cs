@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.Abstracts;
-using DailyDuty.Interfaces;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 
@@ -40,11 +39,11 @@ public class TestModule : Module.SpecialModule
     public override ModuleDataBase ModuleData { get; protected set; } = new TestModuleData();
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new TestModuleConfig();
     public override ModuleName ModuleName => ModuleName.TestModule;
-    public override DateTime GetNextReset() => DateTime.UtcNow + TimeSpan.FromMinutes(5);
-    public override ModuleStatus GetModuleStatus() => ModuleStatus.Unknown;
-    public override IStatusMessage GetStatusMessage() => new StatusMessage
+    public override DateTime GetNextReset() => DateTime.UtcNow + TimeSpan.FromMinutes(1);
+    public override TimeSpan GetResetPeriod() => TimeSpan.FromMinutes(1);
+    protected override ModuleStatus GetModuleStatus() => ModuleStatus.Unknown;
+    public override StatusMessage GetStatusMessage() => new()
     {
         Message = "Butts",
-        SourceModule = ModuleName
     };
 }

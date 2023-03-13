@@ -14,6 +14,7 @@ public class ConfigurationWindow : TabbedSelectionWindow
         tabs = new List<ISelectionWindowTab>
         {
             new ModuleConfigurationTab(),
+            new ModuleDataTab(),
         };
     }
     

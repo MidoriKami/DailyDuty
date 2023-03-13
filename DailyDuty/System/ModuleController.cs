@@ -61,12 +61,12 @@ public class ModuleController : IDisposable
 
     public void ResetModules()
     {
+        var now = DateTime.UtcNow;
+        
         foreach (var module in modules)
         {
-            if (DateTime.UtcNow >= module.ModuleData.NextReset)
+            if (now >= module.ModuleData.NextReset)
             {
-                PluginLog.Debug($"Resetting module: {module.ModuleName} Next Reset: {module.GetNextReset().ToLocalTime()}");
-                
                 module.Reset();
                 module.SaveData();
             }

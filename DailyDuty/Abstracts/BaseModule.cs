@@ -2,14 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using DailyDuty.Interfaces;
+using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
-using Dalamud.Interface;
-using Dalamud.Interface.Components;
+using DailyDuty.Views.Components;
+using Dalamud.Game.Text;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using ImGuiNET;
 using Newtonsoft.Json;
 
 namespace DailyDuty.Abstracts;
@@ -20,56 +19,43 @@ public abstract unsafe class BaseModule : IDisposable
     public abstract ModuleConfigBase ModuleConfig { get; protected set; }
     public abstract ModuleName ModuleName { get; }
     public abstract ModuleType ModuleType { get; }
+    public ModuleStatus ModuleStatus => ModuleConfig.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
     public abstract DateTime GetNextReset();
-    public abstract ModuleStatus GetModuleStatus();
-    public abstract IStatusMessage GetStatusMessage();
-    
+    public abstract TimeSpan GetResetPeriod();
+    protected abstract ModuleStatus GetModuleStatus();
+    public abstract StatusMessage GetStatusMessage();
     public virtual void Dispose() { }
-
+    private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
+    public virtual void ExtraConfig() { }
+    
     public void DrawConfig()
     {
         var fields = ModuleConfig
             .GetType()
             .GetFields()
             .Where(field => field.GetCustomAttribute(typeof(ConfigOption)) is not null)
-            .Select(field => (field,  (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
-            ;//.OrderBy(a => a.field.Name);
+            .Select(field => (field, (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
+            .ToList(); //.OrderBy(a => a.field.Name);
         
-        ImGuiHelpers.ScaledIndent(15.0f);
-        
-        foreach (var (field, attribute) in fields)
-        {
-            switch (Type.GetTypeCode(field.FieldType))
-            {
-                case TypeCode.Boolean:
-                    var boolValue = (bool) field.GetValue(ModuleConfig)!;
-                    if (ImGui.Checkbox(attribute.Name, ref boolValue))
-                    {
-                        field.SetValue(ModuleConfig, boolValue);
-                        SaveConfig(ModuleConfig);
-                    }
-                    break;
-                
-                case TypeCode.String:
-                    var stringValue = (string) field.GetValue(ModuleConfig)!;
-                    ImGui.InputText(attribute.Name + $"##{field.Name}", ref stringValue, 2048);
-                    if (ImGui.IsItemDeactivatedAfterEdit())
-                    {
-                        field.SetValue(ModuleConfig, stringValue);
-                        SaveConfig(ModuleConfig);
-                    }
-                    break;
-            }
-
-            if (attribute.HelpText is not null)
-            {
-                ImGuiComponents.HelpMarker(attribute.HelpText);
-            }
-        }
-        
-        ImGuiHelpers.ScaledIndent(-15.0f);
+        ModuleEnableView.Draw(ModuleConfig, SaveConfig);
+        ExtraConfig();
+        ModuleSettingsView.Draw(fields, ModuleConfig, SaveConfig);
+        ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }
-    
+
+    public void DrawData()
+    {
+        var fields = ModuleData
+            .GetType()
+            .GetFields()
+            .Where(field => field.GetCustomAttribute(typeof(DataDisplay)) is not null)
+            .Select(field => (field, (DataDisplay) field.GetCustomAttribute(typeof(DataDisplay))!))
+            .ToList(); //.OrderBy(a => a.field.Name);
+        
+        ModuleStatusView.Draw(this);
+        ModuleSuppressionView.Draw(ModuleConfig, SaveConfig);
+    }
+
     public virtual void Update()
     {
         // PluginLog.Debug($"Updating module: {ModuleName}");
@@ -81,9 +67,10 @@ public abstract unsafe class BaseModule : IDisposable
         ModuleData = LoadData();
         ModuleConfig = LoadConfig();
 
-        if (!ModuleConfig.OnLoginMessage) return;
-        
-        GetStatusMessage().PrintMessage();
+        if (ModuleConfig is { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false })
+        {
+            SendStatusMessage();
+        }
     }
 
     public virtual void Unload()
@@ -93,14 +80,26 @@ public abstract unsafe class BaseModule : IDisposable
 
     public virtual void Reset()
     {
+        PluginLog.Debug($"[{ModuleName}] Resetting Module, Next Reset: {GetNextReset().ToLocalTime()}");
+        
+        if (ModuleConfig is { ResetMessage: true, ModuleEnabled: true, Suppressed: false })
+        {
+            if (DateTime.UtcNow - ModuleData.NextReset < TimeSpan.FromMinutes(5))
+            {
+                SendResetMessage();
+            }
+        }
+        
         ModuleData.NextReset = GetNextReset();
+        ModuleConfig.Suppressed = false;
     }
 
     public virtual void ZoneChange(uint newZone)
     {
-        if (!ModuleConfig.OnZoneChangeMessage) return;
-
-        GetStatusMessage().PrintMessage();
+        if (ModuleConfig is { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false })
+        {
+            SendStatusMessage();
+        }
     }
 
     protected ModuleDataBase LoadData()
@@ -215,5 +214,23 @@ public abstract unsafe class BaseModule : IDisposable
 
         return directoryInfo;
     }
-
+    private void SendStatusMessage()
+    {
+        var statusMessage = GetStatusMessage();
+        if (ModuleConfig.UseCustomStatusMessage)
+        {
+            statusMessage.Message = ModuleConfig.CustomStatusMessage;
+        }
+        statusMessage.SourceModule = ModuleName;
+        statusMessage.MessageChannel = GetChatChannel();
+        statusMessage.PrintMessage();
+    }
+    private void SendResetMessage()
+    {
+        var statusMessage = GetStatusMessage();
+        statusMessage.Message = ModuleConfig.UseCustomResetMessage ? ModuleConfig.CustomResetMessage : "Module Reset";
+        statusMessage.SourceModule = ModuleName;
+        statusMessage.MessageChannel = GetChatChannel();
+        statusMessage.PrintMessage();
+    }
 }

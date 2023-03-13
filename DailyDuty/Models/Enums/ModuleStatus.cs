@@ -22,6 +22,6 @@ public enum ModuleStatus
     Complete,
     
     [Label("Suppressed")]
-    [DisplayColor(KnownColor.Purple)]
+    [DisplayColor(KnownColor.MediumPurple)]
     Suppressed
 }

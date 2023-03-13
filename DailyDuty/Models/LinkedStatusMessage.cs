@@ -17,8 +17,7 @@ public class LinkedStatusMessage : StatusMessage
         
         var message = new XivChatEntry
         {
-            Type = XivChatType.Party,
-
+            Type = MessageChannel,
             Message = new SeStringBuilder()
                 .AddUiForeground($"[DailyDuty] ", 45)
                 .AddUiForeground($"[{SourceModule.GetLabel()}] ", 62)
