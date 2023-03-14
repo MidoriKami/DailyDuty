@@ -5,6 +5,7 @@ using System.Reflection;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
 using Dalamud.Logging;
@@ -26,7 +27,8 @@ public abstract unsafe class BaseModule : IDisposable
     public abstract StatusMessage GetStatusMessage();
     public virtual void Dispose() { }
     private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
-    public virtual void ExtraConfig() { }
+    public virtual void DrawExtraConfig() { }
+    public virtual void DrawExtraData() { }
     
     public void DrawConfig()
     {
@@ -38,7 +40,7 @@ public abstract unsafe class BaseModule : IDisposable
             .ToList(); //.OrderBy(a => a.field.Name);
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
-        ExtraConfig();
+        DrawExtraConfig();
         ModuleSettingsView.Draw(fields, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }
@@ -53,6 +55,9 @@ public abstract unsafe class BaseModule : IDisposable
             .ToList(); //.OrderBy(a => a.field.Name);
         
         ModuleStatusView.Draw(this);
+        ModuleResetView.Draw(ModuleData);
+        DrawExtraData();
+        ModuleDataView.Draw(fields, ModuleData);
         ModuleSuppressionView.Draw(ModuleConfig, SaveConfig);
     }
 
@@ -91,7 +96,10 @@ public abstract unsafe class BaseModule : IDisposable
         }
         
         ModuleData.NextReset = GetNextReset();
+        SaveData();
+        
         ModuleConfig.Suppressed = false;
+        SaveConfig();
     }
 
     public virtual void ZoneChange(uint newZone)
@@ -228,7 +236,7 @@ public abstract unsafe class BaseModule : IDisposable
     private void SendResetMessage()
     {
         var statusMessage = GetStatusMessage();
-        statusMessage.Message = ModuleConfig.UseCustomResetMessage ? ModuleConfig.CustomResetMessage : "Module Reset";
+        statusMessage.Message = ModuleConfig.UseCustomResetMessage ? ModuleConfig.CustomResetMessage : Strings.ModuleReset;
         statusMessage.SourceModule = ModuleName;
         statusMessage.MessageChannel = GetChatChannel();
         statusMessage.PrintMessage();

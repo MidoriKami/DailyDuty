@@ -13,13 +13,17 @@ public static class ModuleSuppressionView
         ImGui.Text("Module Suppression");
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
-        
-        ImGui.Text("Silence notifications until the next module reset");
 
         var region = ImGui.GetContentRegionAvail();
+        var text = "Silence notifications until the next module reset";
+        var textSize = ImGui.CalcTextSize(text);
+        
+        ImGui.SetCursorPos(ImGui.GetCursorPos() with { X = region.X / 2.0f - textSize.X / 2.0f});
+        ImGui.Text(text);
+
         var buttonSize = new Vector2(region.X - 15.0f * ImGuiHelpers.GlobalScale, 23.0f * ImGuiHelpers.GlobalScale);
         
-        var hotkeyPressed = (ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl);
+        var hotkeyPressed = ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl;
         
         if(!hotkeyPressed) ImGui.PushStyleVar(ImGuiStyleVar.Alpha, 0.5f);
         

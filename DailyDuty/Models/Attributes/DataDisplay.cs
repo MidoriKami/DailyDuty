@@ -5,11 +5,9 @@ namespace DailyDuty.Models.Attributes;
 public class DataDisplay : Attribute
 {
     public string Label { get; }
-    public string? HelpText { get; }
 
-    public DataDisplay(string label, string? helpText = null)
+    public DataDisplay(string label)
     {
         Label = label;
-        HelpText = helpText;
     }
 }

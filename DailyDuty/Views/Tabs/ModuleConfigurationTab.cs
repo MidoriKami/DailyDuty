@@ -39,7 +39,7 @@ public class ConfigurationSelectable : ISelectable, IDrawable
         
         var region = ImGui.GetContentRegionAvail();
 
-        var text = Module.ModuleConfig.ModuleEnabled ? "Enabled" : "Disabled";
+        var text = Module.ModuleConfig.ModuleEnabled ? Strings.Enabled : Strings.Disabled;
         var color = Module.ModuleConfig.ModuleEnabled ? KnownColor.ForestGreen : KnownColor.OrangeRed;
 
         var textSize = ImGui.CalcTextSize(text);

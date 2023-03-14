@@ -87,6 +87,24 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disabled.
+        /// </summary>
+        internal static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        internal static string Enabled {
+            get {
+                return ResourceManager.GetString("Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incomplete.
         /// </summary>
         internal static string Incomplete {
@@ -114,6 +132,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module Reset.
+        /// </summary>
+        internal static string ModuleReset {
+            get {
+                return ResourceManager.GetString("ModuleReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weekly.
         /// </summary>
         internal static string Special {
@@ -128,6 +155,15 @@ namespace DailyDuty.System.Localization {
         internal static string Suppressed {
             get {
                 return ResourceManager.GetString("Suppressed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tasks Incomplete.
+        /// </summary>
+        internal static string TasksIncomplete {
+            get {
+                return ResourceManager.GetString("TasksIncomplete", resourceCulture);
             }
         }
         

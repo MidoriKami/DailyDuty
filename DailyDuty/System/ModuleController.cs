@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Enums;
-using Dalamud.Logging;
 
 namespace DailyDuty.System;
 
@@ -68,7 +67,6 @@ public class ModuleController : IDisposable
             if (now >= module.ModuleData.NextReset)
             {
                 module.Reset();
-                module.SaveData();
             }
         }
     }

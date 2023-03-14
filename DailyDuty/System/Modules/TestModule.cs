@@ -1,9 +1,10 @@
 ﻿using System;
 using DailyDuty.Abstracts;
+using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 
-namespace DailyDuty.Models.Modules;
+namespace DailyDuty.System;
 
 public class TestModuleConfig : ModuleConfigBase
 {

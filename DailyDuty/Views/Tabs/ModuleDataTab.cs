@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
+using DailyDuty.System.Localization;
 using ImGuiNET;
 using KamiLib.Interfaces;
 
@@ -43,7 +44,7 @@ public class DataSelectable : ISelectable, IDrawable
         // Override Status if Module is Disabled
         if (!Module.ModuleConfig.ModuleEnabled)
         {
-            text = "Disabled";
+            text = Strings.Disabled;
             color = KnownColor.Gray.AsVector4();
         }
 

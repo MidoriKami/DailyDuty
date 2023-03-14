@@ -21,15 +21,25 @@ public static class ModuleNotificationOptionsView
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGuiHelpers.ScaledIndent(-15.0f);
 
-        if (moduleConfig.OnLoginMessage || moduleConfig.OnZoneChangeMessage || moduleConfig.ResetMessage)
+        var statusMessage = moduleConfig.OnLoginMessage || moduleConfig.OnZoneChangeMessage;
+        var resetMessage = moduleConfig.ResetMessage;
+
+        if (statusMessage || resetMessage)
         {
             ImGui.Text("Notification Customization");
             ImGui.Separator();
             ImGuiHelpers.ScaledIndent(15.0f);
 
-            DrawCustomChatChannel(moduleConfig, saveConfig);
-            DrawCustomStatusMessage(moduleConfig, saveConfig);
-            DrawCustomResetMessage(moduleConfig, saveConfig);
+            if (statusMessage)
+            {
+                DrawCustomChatChannel(moduleConfig, saveConfig);
+                DrawCustomStatusMessage(moduleConfig, saveConfig);
+            }
+
+            if (resetMessage)
+            {
+                DrawCustomResetMessage(moduleConfig, saveConfig);
+            }
 
             ImGuiHelpers.ScaledDummy(10.0f);
             ImGuiHelpers.ScaledIndent(-15.0f);

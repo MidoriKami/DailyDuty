@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using DailyDuty.Abstracts;
+﻿using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -14,9 +13,7 @@ public static class ModuleStatusView
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
 
-        var region = ImGui.GetContentRegionAvail();
-
-        if (ImGui.BeginTable("##StatusTable", 2, ImGuiTableFlags.SizingStretchSame, new Vector2(region.X - 15.0f * ImGuiHelpers.GlobalScale, 0)))
+        if (ImGui.BeginTable("##StatusTable", 2, ImGuiTableFlags.SizingStretchSame))
         {
             ImGui.TableNextColumn();
             ImGui.Text("Current Status");
