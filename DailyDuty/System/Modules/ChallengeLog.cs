@@ -13,13 +13,13 @@ namespace DailyDuty.System;
 
 public class ChallengeLogConfig : ModuleConfigBase
 {
-    [ConfigOption("ChallengeLogTaskConfig")]
+    [SelectableTasks]
     public List<LuminaTaskConfig<ContentsNote>> Tasks = new();
 }
 
 public class ChallengeLogData : ModuleDataBase
 {
-    [DataDisplay("ChallengeLogData")]
+    [SelectableTasks]
     public List<LuminaTaskData<ContentsNote>> Tasks = new();
 }
 

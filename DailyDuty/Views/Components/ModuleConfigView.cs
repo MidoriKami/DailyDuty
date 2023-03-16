@@ -49,39 +49,7 @@ public static class ModuleConfigView
             if(attribute.HelpText is not null) ImGuiComponents.HelpMarker(attribute.HelpText);
             return;
         }
-        // If the type is a List
-        else if (field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(List<>))
-        {
-            // If the type inside the list is generic
-            if (field.FieldType.GetGenericArguments()[0] is {IsGenericType: true} listType )
-            {
-                // If the list contains a LuminaTaskConfig
-                if (listType.IsGenericType && listType.GetGenericTypeDefinition() == typeof(LuminaTaskConfig<>))
-                {
-                    var configType = listType.GetGenericArguments()[0];
-                                
-                    // If the contained type is ContentsNote
-                    if (configType == typeof(ContentsNote))
-                    {
-                        var list = (List<LuminaTaskConfig<ContentsNote>>) field.GetValue(moduleConfig)!;
 
-                        foreach (var option in list)
-                        {
-                            var luminaData = LuminaCache<ContentsNote>.Instance.GetRow(option.RowId)!;
-                            
-                            var enabled = option.Enabled;
-                            if (ImGui.Checkbox(luminaData.Name.ToString(), ref enabled))
-                            {
-                                option.Enabled = enabled;
-                                saveAction.Invoke();
-                            }
-                        }
-                    }
-                }
-            }
-            return;
-        }
-        
         if (ImGui.BeginTable($"##ValueTable{field.Name}", 2, ImGuiTableFlags.SizingStretchSame))
         {
             ImGui.TableNextColumn();

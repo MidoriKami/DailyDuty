@@ -5,4 +5,7 @@ public enum PayloadId : uint
     OpenWondrousTailsBook,
     IdyllshireTeleport,
     DomanEnclaveTeleport,
+    OpenDutyFinderRoulette,
+    OpenDutyFinderRaid,
+    OpenDutyFinderAllianceRaid,
 }

@@ -18,4 +18,7 @@ public enum ModuleName
     
     [Label("DomanEnclave")]
     DomanEnclave,
+    
+    [Label("DutyRoulette")]
+    DutyRoulette,
 }

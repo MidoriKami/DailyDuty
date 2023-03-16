@@ -63,6 +63,14 @@ public unsafe class DomanEnclave : Module.WeeklyModule
         }
     }
 
+    public override void Reset()
+    {
+        Data.RemainingAllowance = Data.WeeklyAllowance;
+        Data.DonatedThisWeek = 0;
+        
+        base.Reset();
+    }
+
     protected override ModuleStatus GetModuleStatus()
     {
         if (Data.WeeklyAllowance is 0) return ModuleStatus.Unknown;
@@ -74,20 +82,6 @@ public unsafe class DomanEnclave : Module.WeeklyModule
     {
         var message = GetModuleStatus() == ModuleStatus.Unknown ? Strings.StatusUnknown : $"{Data.RemainingAllowance} {Strings.GilRemaining}";
 
-        if (Config.ClickableLink)
-        {
-            return new LinkedStatusMessage
-            {
-                Message = message,
-                Payload = PayloadId.DomanEnclaveTeleport,
-            };
-        }
-        else
-        {
-            return new StatusMessage
-            {
-                Message = message
-            };
-        }
+        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.DomanEnclaveTeleport);
     }
 }

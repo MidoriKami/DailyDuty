@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
@@ -69,7 +72,27 @@ public unsafe class PayloadController : IDisposable
             {
                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(127)!); 
             }),
-            
+            PayloadId.OpenDutyFinderRoulette => AddHandler(id, (_, _) =>
+            {
+                AgentContentsFinder.Instance()->OpenRouletteDuty(1);
+            }),
+            PayloadId.OpenDutyFinderRaid => AddHandler(id, (_, _) =>
+            {
+                var currentRaid = LuminaCache<ContentFinderCondition>.Instance
+                    .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 1)
+                    .Last();
+                
+                AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
+            }),
+            PayloadId.OpenDutyFinderAllianceRaid => AddHandler(id, (_, _) =>
+            {
+                var currentAllianceRaid = LuminaCache<ContentFinderCondition>.Instance
+                    .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 0)
+                    .Last();
+
+                AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
+            }),
+
             _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
         };
     }

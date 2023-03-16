@@ -28,8 +28,6 @@ public abstract unsafe class BaseModule : IDisposable
     protected abstract ModuleStatus GetModuleStatus();
     protected abstract StatusMessage GetStatusMessage();
     private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
-    protected virtual void DrawExtraConfig() { }
-    protected virtual void DrawExtraData() { }
     
     public void DrawConfig()
     {
@@ -46,11 +44,15 @@ public abstract unsafe class BaseModule : IDisposable
             .Where(field => field.GetCustomAttribute(typeof(ClickableLink)) is not null)
             .Select(field => (field, (ClickableLink) field.GetCustomAttribute(typeof(ClickableLink))!))
             .ToList();
+
+        var taskSelection = fields
+            .Where(field => field.GetCustomAttribute(typeof(SelectableTasks)) is not null)
+            .FirstOrDefault();
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
-        DrawExtraConfig();
         ModuleClickableLinkConfigView.Draw(clickableLinks, ModuleConfig, SaveConfig);
         ModuleConfigView.Draw(configAttributes, ModuleConfig, SaveConfig);
+        ModuleSelectableTaskView.DrawConfig(taskSelection, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }
 
@@ -58,15 +60,21 @@ public abstract unsafe class BaseModule : IDisposable
     {
         var fields = ModuleData
             .GetType()
-            .GetFields()
+            .GetFields();
+        
+        var dataDisplay = fields
             .Where(field => field.GetCustomAttribute(typeof(DataDisplay)) is not null)
             .Select(field => (field, (DataDisplay) field.GetCustomAttribute(typeof(DataDisplay))!))
             .ToList(); //.OrderBy(a => a.field.Name);
         
+        var taskSelection = fields
+            .Where(field => field.GetCustomAttribute(typeof(SelectableTasks)) is not null)
+            .FirstOrDefault();
+        
         ModuleStatusView.Draw(this);
         ModuleResetView.Draw(ModuleData);
-        DrawExtraData();
-        ModuleDataView.Draw(fields, ModuleData);
+        ModuleDataView.Draw(dataDisplay, ModuleData);
+        ModuleSelectableTaskView.DrawData(taskSelection, ModuleData);
         ModuleSuppressionView.Draw(ModuleConfig, SaveConfig);
     }
 

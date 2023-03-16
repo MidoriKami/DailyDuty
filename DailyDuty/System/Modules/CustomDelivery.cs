@@ -43,6 +43,13 @@ public unsafe class CustomDelivery : Module.WeeklyModule
         }
     }
 
+    public override void Reset()
+    {
+        Data.RemainingAllowances = 0;
+        
+        base.Reset();
+    }
+
     protected override ModuleStatus GetModuleStatus()
     {
         switch (Config.ComparisonMode)

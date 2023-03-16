@@ -41,35 +41,7 @@ public static class ModuleDataView
     
     private static void DrawGenericData(ModuleDataBase moduleData, FieldInfo field, DataDisplay attribute)
     {
-        if (field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(List<>))
-        {
-            if (field.FieldType.GetGenericArguments()[0] is { IsGenericType: true } listType)
-            {
-                // If the list contains a LuminaTaskConfig
-                if (listType.IsGenericType && listType.GetGenericTypeDefinition() == typeof(LuminaTaskData<>))
-                {
-                    var configType = listType.GetGenericArguments()[0];
-
-                    // If the contained type is ContentsNote
-                    if (configType == typeof(ContentsNote))
-                    {
-                        var list = (List<LuminaTaskData<ContentsNote>>) field.GetValue(moduleData)!;
-
-                        foreach (var data in list)
-                        {
-                            ImGui.TableNextColumn();
-                            ImGui.Text(LuminaCache<ContentsNote>.Instance.GetRow(data.RowId)!.Name.ToString());
-
-                            ImGui.TableNextColumn();
-                            var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();
-                            var text = data.Complete ? Strings.Complete : Strings.Incomplete;
-                            ImGui.TextColored(color, text);
-                        }
-                    }
-                }
-            }
-            return;
-        }
+        
         
         ImGui.TableNextColumn();
         ImGui.Text(attribute.Label);
