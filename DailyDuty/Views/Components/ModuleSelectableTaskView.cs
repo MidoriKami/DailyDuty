@@ -63,14 +63,18 @@ public static class ModuleSelectableTaskView
                     {
                         var list = (List<LuminaTaskConfig<ContentRoulette>>) field.GetValue(moduleConfig)!;
 
-                        foreach (var option in list)
-                        {
-                            var luminaData = LuminaCache<ContentRoulette>.Instance.GetRow(option.RowId)!;
+                        var dataRows = LuminaCache<ContentRoulette>.Instance
+                            .Where(cr => cr.DutyType.ToString() != string.Empty)
+                            .OrderBy(cr => cr.SortKey);
 
-                            var enabled = option.Enabled;
-                            if (ImGui.Checkbox(luminaData.Name.ToString(), ref enabled))
+                        foreach (var data in dataRows)
+                        {
+                            var taskInfo = list.First(task => task.RowId == data.RowId);
+                            
+                            var enabled = taskInfo.Enabled;
+                            if (ImGui.Checkbox(data.Name.ToString(), ref enabled))
                             {
-                                option.Enabled = enabled;
+                                taskInfo.Enabled = enabled;
                                 saveAction.Invoke();
                             }
                         }
