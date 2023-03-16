@@ -21,14 +21,14 @@ public abstract unsafe class BaseModule : IDisposable
     public abstract ModuleName ModuleName { get; }
     public abstract ModuleType ModuleType { get; }
     public ModuleStatus ModuleStatus => ModuleConfig.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
-    public abstract DateTime GetNextReset();
+    protected abstract DateTime GetNextReset();
     public abstract TimeSpan GetResetPeriod();
     protected abstract ModuleStatus GetModuleStatus();
-    public abstract StatusMessage GetStatusMessage();
+    protected abstract StatusMessage GetStatusMessage();
     public virtual void Dispose() { }
     private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
-    public virtual void DrawExtraConfig() { }
-    public virtual void DrawExtraData() { }
+    protected virtual void DrawExtraConfig() { }
+    protected virtual void DrawExtraData() { }
     
     public void DrawConfig()
     {
@@ -41,7 +41,7 @@ public abstract unsafe class BaseModule : IDisposable
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
         DrawExtraConfig();
-        ModuleSettingsView.Draw(fields, ModuleConfig, SaveConfig);
+        ModuleConfigView.Draw(fields, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }
 
@@ -72,10 +72,10 @@ public abstract unsafe class BaseModule : IDisposable
         ModuleData = LoadData();
         ModuleConfig = LoadConfig();
 
-        if (ModuleConfig is { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false })
-        {
-            SendStatusMessage();
-        }
+        if (ModuleConfig is not { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) return;
+        if (GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
+            
+        SendStatusMessage();
     }
 
     public virtual void Unload()
@@ -104,10 +104,10 @@ public abstract unsafe class BaseModule : IDisposable
 
     public virtual void ZoneChange(uint newZone)
     {
-        if (ModuleConfig is { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false })
-        {
-            SendStatusMessage();
-        }
+        if (ModuleConfig is not { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) return;
+        if (GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
+        
+        SendStatusMessage();
     }
 
     protected ModuleDataBase LoadData()

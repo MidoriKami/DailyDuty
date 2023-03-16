@@ -2,11 +2,10 @@
 using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
+using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
-using DailyDuty.Views.Components;
-using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 
@@ -14,12 +13,14 @@ namespace DailyDuty.System;
 
 public class ChallengeLogConfig : ModuleConfigBase
 {
-    public List<LuminaTaskConfig> Tasks = new();
+    [ConfigOption("ChallengeLogTaskConfig")]
+    public List<LuminaTaskConfig<ContentsNote>> Tasks = new();
 }
 
 public class ChallengeLogData : ModuleDataBase
 {
-    public List<LuminaTaskData> Tasks = new();
+    [DataDisplay("ChallengeLogData")]
+    public List<LuminaTaskData<ContentsNote>> Tasks = new();
 }
 
 public unsafe class ChallengeLog : Module.WeeklyModule
@@ -42,9 +43,22 @@ public unsafe class ChallengeLog : Module.WeeklyModule
     
     public override void Update()
     {
+        var anyUpdate = false;
+        
         foreach (var task in Data.Tasks)
         {
-            task.Complete = ClientStructs.ContentsNote.Instance()->IsContentNoteComplete((int) task.RowId);
+            var taskStatus = ClientStructs.ContentsNote.Instance()->IsContentNoteComplete((int) task.RowId);
+
+            if (task.Complete != taskStatus)
+            {
+                task.Complete = taskStatus;
+                anyUpdate = true;
+            }
+        }
+
+        if (anyUpdate)
+        {
+            SaveData();
         }
     }
 
@@ -59,30 +73,24 @@ public unsafe class ChallengeLog : Module.WeeklyModule
     }
 
     protected override ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-    
-    public override StatusMessage GetStatusMessage() => new()
+
+    protected override StatusMessage GetStatusMessage() => new()
     {
         Message = $"{GetIncompleteCount()} {Strings.TasksIncomplete}",
     };
     
-    private string GetContentsNoteString(ContentsNote note) => note.Name.ToDalamudString().ToString();
-
-    public override void DrawExtraConfig()
-    {
-        LuminaListConfigView.Draw<ContentsNote>(this, Config.Tasks, GetContentsNoteString);
-    }
-    
-    public override void DrawExtraData()
-    {
-        LuminaListDataView.Draw<ContentsNote>(Data.Tasks, Config.Tasks, GetContentsNoteString);
-    }
-
     private int GetIncompleteCount()
     {
-        var enabledTasks = Config.Tasks.Where(task => task.Enabled);
-        var taskData = Data.Tasks
-            .Where(task => !task.Complete)
-            .Where(task => enabledTasks.Any(config => config.RowId == task.RowId));
+        var taskData = from config in Config.Tasks
+            join data in Data.Tasks on config.RowId equals data.RowId
+            where config.Enabled
+            where !data.Complete
+            select new
+            {
+                config.RowId,
+                config.Enabled,
+                data.Complete
+            };
 
         return taskData.Count();
     }

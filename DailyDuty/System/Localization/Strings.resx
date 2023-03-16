@@ -66,4 +66,7 @@
     <data name="TasksIncomplete" xml:space="preserve">
         <value>Tasks Incomplete</value>
     </data>
+    <data name="AllowancesRemaining" xml:space="preserve">
+        <value>Allowances Remaining</value>
+    </data>
 </root>

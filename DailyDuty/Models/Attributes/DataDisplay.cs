@@ -1,13 +1,24 @@
 ﻿using System;
+using DailyDuty.System.Localization;
 
 namespace DailyDuty.Models.Attributes;
 
 public class DataDisplay : Attribute
 {
-    public string Label { get; }
-
-    public DataDisplay(string label)
+    private readonly string resourceKey;
+    
+    public string Label
     {
-        Label = label;
+        get
+        {
+            var displayName = Strings.ResourceManager.GetString(resourceKey);
+
+            return string.IsNullOrEmpty(displayName) ? $"[[{resourceKey}]]" : displayName;
+        }
+    }
+    
+    public DataDisplay(string resourceKey)
+    {
+        this.resourceKey = resourceKey;
     }
 }

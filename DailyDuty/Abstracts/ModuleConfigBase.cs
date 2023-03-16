@@ -9,8 +9,8 @@ public class ModuleConfigBase
     public XivChatType MessageChatChannel = Service.PluginInterface.GeneralChatType;
     public bool UseCustomChannel = false;
     
-    public bool OnLoginMessage = false;
-    public bool OnZoneChangeMessage = false;
+    public bool OnLoginMessage = true;
+    public bool OnZoneChangeMessage = true;
     public bool ResetMessage = false;
 
     public bool UseCustomStatusMessage = false;

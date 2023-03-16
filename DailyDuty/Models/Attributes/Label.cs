@@ -8,11 +8,9 @@ namespace DailyDuty.Models.Attributes;
 public class Label : DescriptionAttribute
 {
     private readonly string resourceKey;
-    private readonly ResourceManager resource;
     
     public Label(string resourceKey)
     {
-        resource = Strings.ResourceManager;
         this.resourceKey = resourceKey;
     }
 
@@ -20,7 +18,7 @@ public class Label : DescriptionAttribute
     {
         get
         {
-            var displayName = resource.GetString(resourceKey);
+            var displayName = Strings.ResourceManager.GetString(resourceKey);
 
             return string.IsNullOrEmpty(displayName) ? $"[[{resourceKey}]]" : displayName;
         }

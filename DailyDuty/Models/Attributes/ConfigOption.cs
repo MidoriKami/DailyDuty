@@ -1,15 +1,53 @@
 ﻿using System;
+using DailyDuty.System.Localization;
 
 namespace DailyDuty.Models.Attributes;
 
 public class ConfigOption : Attribute
 {
-    public string Name { get; }
-    public string? HelpText { get; }
-
-    public ConfigOption(string name, string? helpText = null)
+    private readonly string resourceKey;
+    private readonly string? helpTextKey;
+    
+    public string Name
     {
-        Name = name;
-        HelpText = helpText;
+        get
+        {
+            var displayName = Strings.ResourceManager.GetString(resourceKey);
+
+            return string.IsNullOrEmpty(displayName) ? $"[[{resourceKey}]]" : displayName;
+        }
+    }
+
+    public string? HelpText 
+    {
+        get
+        {
+            if (helpTextKey is null) return null;
+            
+            var displayName = Strings.ResourceManager.GetString(helpTextKey);
+
+            return string.IsNullOrEmpty(displayName) ? $"[[{helpTextKey}]]" : displayName;
+        }
+    }
+
+    public int IntMin { get; }
+    public int IntMax { get; } = 100;
+
+    public ConfigOption(string resourceKey)
+    {
+        this.resourceKey = resourceKey;
+    }
+    
+    public ConfigOption(string resourceKey, int intMin, int intMax)
+    {
+        this.resourceKey = resourceKey;
+        IntMin = intMin;
+        IntMax = intMax;
+    }
+
+    public ConfigOption(string resourceKey, string helpTextKey)
+    {
+        this.resourceKey = resourceKey;
+        this.helpTextKey = helpTextKey;
     }
 }

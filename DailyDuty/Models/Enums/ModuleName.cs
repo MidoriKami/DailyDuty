@@ -11,5 +11,8 @@ public enum ModuleName
     TestModule,
     
     [Label("ChallengeLog")]
-    ChallengeLog
+    ChallengeLog,
+    
+    [Label("CustomDelivery")]
+    CustomDelivery,
 }

@@ -60,6 +60,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allowances Remaining.
+        /// </summary>
+        internal static string AllowancesRemaining {
+            get {
+                return ResourceManager.GetString("AllowancesRemaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Challenge Log.
         /// </summary>
         internal static string ChallengeLog {
