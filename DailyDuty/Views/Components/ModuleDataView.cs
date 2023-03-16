@@ -7,7 +7,6 @@ using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
-using Dalamud.Utility;
 using ImGuiNET;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;

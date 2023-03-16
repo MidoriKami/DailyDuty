@@ -5,6 +5,8 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using KamiLib.Caching;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
 
@@ -58,6 +60,14 @@ public unsafe class PayloadController : IDisposable
                 {
                     AgentInventoryContext.Instance()->UseItem(wondrousTailsBookItemID);
                 }
+            }),
+            PayloadId.IdyllshireTeleport => AddHandler(id, (_, _) =>
+            {
+                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(75)!);
+            }),
+            PayloadId.DomanEnclaveTeleport => AddHandler(id, (_, _) =>
+            {
+               TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(127)!); 
             }),
             
             _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)

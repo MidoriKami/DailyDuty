@@ -15,4 +15,7 @@ public enum ModuleName
     
     [Label("CustomDelivery")]
     CustomDelivery,
+    
+    [Label("DomanEnclave")]
+    DomanEnclave,
 }

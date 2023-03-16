@@ -69,4 +69,10 @@
     <data name="AllowancesRemaining" xml:space="preserve">
         <value>Allowances Remaining</value>
     </data>
+    <data name="StatusUnknown" xml:space="preserve">
+        <value>Status Unknown</value>
+    </data>
+    <data name="GilRemaining" xml:space="preserve">
+        <value>gil Remaining</value>
+    </data>
 </root>

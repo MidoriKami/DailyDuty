@@ -22,7 +22,7 @@ public class LinkedStatusMessage : StatusMessage
                 .AddUiForeground($"[DailyDuty] ", 45)
                 .AddUiForeground($"[{SourceModule.GetLabel()}] ", 62)
                 .Add(messagePayload)
-                .AddText(Message)
+                .AddUiForeground(Message, 576)
                 .Add(RawPayload.LinkTerminator)
                 .Build()
         };

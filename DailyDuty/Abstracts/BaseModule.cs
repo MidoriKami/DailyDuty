@@ -23,9 +23,10 @@ public abstract unsafe class BaseModule : IDisposable
     public ModuleStatus ModuleStatus => ModuleConfig.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
     protected abstract DateTime GetNextReset();
     public abstract TimeSpan GetResetPeriod();
+    public virtual void Dispose() { }
+    
     protected abstract ModuleStatus GetModuleStatus();
     protected abstract StatusMessage GetStatusMessage();
-    public virtual void Dispose() { }
     private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     protected virtual void DrawExtraConfig() { }
     protected virtual void DrawExtraData() { }
@@ -34,14 +35,22 @@ public abstract unsafe class BaseModule : IDisposable
     {
         var fields = ModuleConfig
             .GetType()
-            .GetFields()
+            .GetFields();
+        
+        var configAttributes = fields
             .Where(field => field.GetCustomAttribute(typeof(ConfigOption)) is not null)
             .Select(field => (field, (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
-            .ToList(); //.OrderBy(a => a.field.Name);
+            .ToList();
+
+        var clickableLinks = fields
+            .Where(field => field.GetCustomAttribute(typeof(ClickableLink)) is not null)
+            .Select(field => (field, (ClickableLink) field.GetCustomAttribute(typeof(ClickableLink))!))
+            .ToList();
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
         DrawExtraConfig();
-        ModuleConfigView.Draw(fields, ModuleConfig, SaveConfig);
+        ModuleClickableLinkConfigView.Draw(clickableLinks, ModuleConfig, SaveConfig);
+        ModuleConfigView.Draw(configAttributes, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }
 
@@ -73,7 +82,7 @@ public abstract unsafe class BaseModule : IDisposable
         ModuleConfig = LoadConfig();
 
         if (ModuleConfig is not { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) return;
-        if (GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
+        if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
             
         SendStatusMessage();
     }
@@ -105,7 +114,7 @@ public abstract unsafe class BaseModule : IDisposable
     public virtual void ZoneChange(uint newZone)
     {
         if (ModuleConfig is not { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) return;
-        if (GetModuleStatus() is not ModuleStatus.Incomplete or ModuleStatus.Unknown) return;
+        if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
         
         SendStatusMessage();
     }
@@ -225,7 +234,7 @@ public abstract unsafe class BaseModule : IDisposable
     private void SendStatusMessage()
     {
         var statusMessage = GetStatusMessage();
-        if (ModuleConfig.UseCustomStatusMessage)
+        if (ModuleConfig.UseCustomStatusMessage && GetModuleStatus() != ModuleStatus.Unknown)
         {
             statusMessage.Message = ModuleConfig.CustomStatusMessage;
         }

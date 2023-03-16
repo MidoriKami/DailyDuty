@@ -3,6 +3,7 @@ using Dalamud.Game.ClientState;
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.DutyState;
 using Dalamud.Game.Gui;
+using Dalamud.Game.Gui.Toast;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 
@@ -17,4 +18,5 @@ public sealed class Service
     [PluginService] public static GameGui GameGui { get; set; } = null!;
     [PluginService] public static TargetManager TargetManager { get; set; } = null!;
     [PluginService] public static DutyState DutyState { get; set; } = null!;
+    [PluginService] public static ToastGui Toast { get; set; } = null!;
 }

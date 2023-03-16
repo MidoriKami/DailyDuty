@@ -114,6 +114,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to gil Remaining.
+        /// </summary>
+        internal static string GilRemaining {
+            get {
+                return ResourceManager.GetString("GilRemaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incomplete.
         /// </summary>
         internal static string Incomplete {
@@ -155,6 +164,15 @@ namespace DailyDuty.System.Localization {
         internal static string Special {
             get {
                 return ResourceManager.GetString("Special", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status Unknown.
+        /// </summary>
+        internal static string StatusUnknown {
+            get {
+                return ResourceManager.GetString("StatusUnknown", resourceCulture);
             }
         }
         
