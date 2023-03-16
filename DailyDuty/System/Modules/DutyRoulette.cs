@@ -27,6 +27,15 @@ public class DutyRouletteData : ModuleDataBase
 {
     [SelectableTasks]
     public List<LuminaTaskData<ContentRoulette>> Tasks = new();
+
+    [DataDisplay("CurrentWeeklyTomestones")] 
+    public int ExpertTomestones;
+
+    [DataDisplay("WeeklyTomestoneLimit")]
+    public int ExpertTomestoneCap;
+
+    [DataDisplay("AtWeeklyTomestoneLimit")]
+    public bool AtTomeCap;
 }
 
 public unsafe class DutyRoulette : Module.DailyModule
@@ -49,6 +58,9 @@ public unsafe class DutyRoulette : Module.DailyModule
     public override void Update()
     {
         var anyUpdate = false;
+        var weeklyAcquiredTomestones = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
+        var weeklyTomestoneLimit = InventoryManager.GetLimitedTomestoneWeeklyLimit();
+        var atWeeklyLimit = weeklyAcquiredTomestones == weeklyTomestoneLimit;
         
         foreach (var task in Data.Tasks)
         {
@@ -59,6 +71,24 @@ public unsafe class DutyRoulette : Module.DailyModule
                 task.Complete = status;
                 anyUpdate = true;
             }
+        }
+
+        if (Data.ExpertTomestones != weeklyAcquiredTomestones)
+        {
+            Data.ExpertTomestones = weeklyAcquiredTomestones;
+            anyUpdate = true;
+        }
+
+        if (Data.ExpertTomestoneCap != weeklyTomestoneLimit)
+        {
+            Data.ExpertTomestoneCap = weeklyTomestoneLimit;
+            anyUpdate = true;
+        }
+
+        if (Data.AtTomeCap != atWeeklyLimit)
+        {
+            Data.AtTomeCap = atWeeklyLimit;
+            anyUpdate = true;
         }
 
         if (anyUpdate) SaveData();
@@ -76,7 +106,7 @@ public unsafe class DutyRoulette : Module.DailyModule
 
     protected override ModuleStatus GetModuleStatus()
     {
-        if (Config.CompleteWhenCapped && HasMaxWeeklyTomestones()) return ModuleStatus.Complete;
+        if (Config.CompleteWhenCapped && Data.AtTomeCap) return ModuleStatus.Complete;
 
         return GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
@@ -103,7 +133,4 @@ public unsafe class DutyRoulette : Module.DailyModule
 
         return taskData.Count();
     }
-    
-    private bool HasMaxWeeklyTomestones() => InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount() == InventoryManager.GetLimitedTomestoneWeeklyLimit();
-
 }
