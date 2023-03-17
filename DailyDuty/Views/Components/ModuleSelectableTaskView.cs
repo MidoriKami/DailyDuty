@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using DailyDuty.Abstracts;
@@ -79,6 +80,23 @@ public static class ModuleSelectableTaskView
                             }
                         }
                     }
+                    else if (configType == typeof(ClassJob))
+                    {
+                        var list = (List<LuminaTaskConfig<ClassJob>>) field.GetValue(moduleConfig)!;
+                        
+                        foreach (var data in list)
+                        {
+                            var luminaData = LuminaCache<ClassJob>.Instance.GetRow(data.RowId)!;
+                            var label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luminaData.Name.ToString());
+                            
+                            var enabled = data.Enabled;
+                            if (ImGui.Checkbox(label, ref enabled))
+                            {
+                                data.Enabled = enabled;
+                                saveAction.Invoke();
+                            }
+                        }
+                    }
                 }
             }
 
@@ -132,6 +150,23 @@ public static class ModuleSelectableTaskView
                             {
                                 ImGui.TableNextColumn();
                                 ImGui.Text(LuminaCache<ContentRoulette>.Instance.GetRow(data.RowId)!.Name.ToString());
+
+                                ImGui.TableNextColumn();
+                                var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();
+                                var text = data.Complete ? Strings.Complete : Strings.Incomplete;
+                                ImGui.TextColored(color, text);
+                            }
+                        }
+                        else if (configType == typeof(ClassJob))
+                        {
+                            var list = (List<LuminaTaskData<ClassJob>>) field.GetValue(moduleData)!;
+
+                            foreach (var data in list)
+                            {
+                                ImGui.TableNextColumn();
+                                var luminaData = LuminaCache<ClassJob>.Instance.GetRow(data.RowId)!;
+                                var label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luminaData.Name.ToString());
+                                ImGui.Text(label);
 
                                 ImGui.TableNextColumn();
                                 var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();

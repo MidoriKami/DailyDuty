@@ -20,13 +20,14 @@ public class FauxHollowsData : ModuleDataBase
     public int FauxHollowsCompletions;
 }
 
-public class FauxHollows : Module.DailyModule
+public class FauxHollows : Module.WeeklyModule
 {
+    public override ModuleName ModuleName => ModuleName.FauxHollows;
+
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new FauxHollowsConfig();
     public override ModuleDataBase ModuleData { get; protected set; } = new FauxHollowsData();
     private FauxHollowsConfig Config => ModuleConfig as FauxHollowsConfig ?? new FauxHollowsConfig();
     private FauxHollowsData Data => ModuleData as FauxHollowsData ?? new FauxHollowsData();
-    public override ModuleName ModuleName => ModuleName.FauxHollows;
 
     public override void AddonSetup(SetupAddonArgs addonInfo)
     {
@@ -43,15 +44,12 @@ public class FauxHollows : Module.DailyModule
         base.Reset();
     }
 
-    protected override ModuleStatus GetModuleStatus()
+    protected override ModuleStatus GetModuleStatus() => Config.IncludeRetelling switch
     {
-        if (Config.IncludeRetelling)
-        {
-            return Data.FauxHollowsCompletions == 2 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-        }
-
-        return Data.FauxHollowsCompletions == 1 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
-    }
+        true when Data.FauxHollowsCompletions is 2 => ModuleStatus.Complete,
+        false when Data.FauxHollowsCompletions is 1 => ModuleStatus.Complete,
+        _ => ModuleStatus.Incomplete,
+    };
 
     protected override StatusMessage GetStatusMessage()
     {

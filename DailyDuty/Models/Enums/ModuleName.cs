@@ -30,4 +30,7 @@ public enum ModuleName
     
     [Label("FauxHollows")]
     FauxHollows,
+    
+    [Label("GrandCompanyProvision")]
+    GrandCompanyProvision
 }
