@@ -17,7 +17,7 @@ public class DutyRouletteConfig : ModuleConfigBase
     public List<LuminaTaskConfig<ContentRoulette>> Tasks = new();
 
     [ClickableLink("DutyRouletteOpenDutyFinder")]
-    public bool ClickableLink = false;
+    public bool ClickableLink = true;
 
     [ConfigOption("CompleteWhenTomeCapped")]
     public bool CompleteWhenCapped = false;
@@ -57,7 +57,6 @@ public unsafe class DutyRoulette : Module.DailyModule
 
     public override void Update()
     {
-        var anyUpdate = false;
         var weeklyAcquiredTomestones = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
         var weeklyTomestoneLimit = InventoryManager.GetLimitedTomestoneWeeklyLimit();
         var atWeeklyLimit = weeklyAcquiredTomestones == weeklyTomestoneLimit;
@@ -69,29 +68,29 @@ public unsafe class DutyRoulette : Module.DailyModule
             if (task.Complete != status)
             {
                 task.Complete = status;
-                anyUpdate = true;
+                DataChanged = true;
             }
         }
 
         if (Data.ExpertTomestones != weeklyAcquiredTomestones)
         {
             Data.ExpertTomestones = weeklyAcquiredTomestones;
-            anyUpdate = true;
+            DataChanged = true;
         }
 
         if (Data.ExpertTomestoneCap != weeklyTomestoneLimit)
         {
             Data.ExpertTomestoneCap = weeklyTomestoneLimit;
-            anyUpdate = true;
+            DataChanged = true;
         }
 
         if (Data.AtTomeCap != atWeeklyLimit)
         {
             Data.AtTomeCap = atWeeklyLimit;
-            anyUpdate = true;
+            DataChanged = true;
         }
-
-        if (anyUpdate) SaveData();
+        
+        base.Update();
     }
 
     public override void Reset()

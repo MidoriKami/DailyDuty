@@ -72,6 +72,10 @@ public unsafe class PayloadController : IDisposable
             {
                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(127)!); 
             }),
+            PayloadId.GoldSaucerTeleport => AddHandler(id, (_, _) =>
+            {
+                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(62)!); 
+            }),
             PayloadId.OpenDutyFinderRoulette => AddHandler(id, (_, _) =>
             {
                 AgentContentsFinder.Instance()->OpenRouletteDuty(1);
@@ -93,6 +97,7 @@ public unsafe class PayloadController : IDisposable
                 AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
             }),
 
+
             _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
         };
     }
@@ -101,5 +106,4 @@ public unsafe class PayloadController : IDisposable
     {
         return Service.PluginInterface.AddChatLinkHandler((uint) payloadId, action);
     }
-
 }

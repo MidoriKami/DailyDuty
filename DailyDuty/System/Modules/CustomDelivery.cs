@@ -39,8 +39,10 @@ public unsafe class CustomDelivery : Module.WeeklyModule
         if (Data.RemainingAllowances != taskState)
         {
             Data.RemainingAllowances = taskState;
-            SaveData();
+            DataChanged = true;
         }
+        
+        base.Update();
     }
 
     public override void Reset()

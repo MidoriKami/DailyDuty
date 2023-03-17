@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Abstracts;
+using DailyDuty.Interfaces;
 using DailyDuty.Models.Enums;
 
 namespace DailyDuty.System;
@@ -9,10 +10,12 @@ namespace DailyDuty.System;
 public class ModuleController : IDisposable
 {
     private readonly List<BaseModule> modules;
+    private readonly GoldSaucerMessageController goldSaucerMessageController;
 
     public ModuleController()
     {
         modules = new List<BaseModule>();
+        goldSaucerMessageController = new GoldSaucerMessageController();
 
         foreach (var t in GetType().Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(BaseModule))))
         {
@@ -22,10 +25,15 @@ public class ModuleController : IDisposable
             
             modules.Add(module);
         }
+
+        goldSaucerMessageController.GoldSaucerUpdate += OnGoldSaucerMessage;
     }
     
     public void Dispose()
     {
+        goldSaucerMessageController.GoldSaucerUpdate -= OnGoldSaucerMessage;
+        goldSaucerMessageController.Dispose();
+
         foreach (var module in modules.OfType<IDisposable>())
         {
             module.Dispose();
@@ -50,6 +58,7 @@ public class ModuleController : IDisposable
             module.Load();
         }
     }
+    
     public void UnloadModules()
     {
         foreach (var module in modules)
@@ -78,4 +87,21 @@ public class ModuleController : IDisposable
             module.ZoneChange(newZone);
         }
     }
+
+    public void AddonSetup(SetupAddonArgs addonInfo)
+    {
+        foreach(var module in modules)
+        {
+            module.AddonSetup(addonInfo);
+        }
+    }
+    
+    private void OnGoldSaucerMessage(object? sender, GoldSaucerEventArgs e)
+    {
+        foreach (var module in modules.OfType<IGoldSaucerMessageReceiver>())
+        {
+            module.GoldSaucerUpdate(sender, e);
+        }
+    }
+
 }

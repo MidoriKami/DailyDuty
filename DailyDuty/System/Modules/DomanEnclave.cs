@@ -10,7 +10,7 @@ namespace DailyDuty.System;
 public class DomanEnclaveConfig : ModuleConfigBase
 {
     [ClickableLink("DomanEnclaveTeleport")] 
-    public bool ClickableLink = false;
+    public bool ClickableLink = true;
 }
 
 public class DomanEnclaveData : ModuleDataBase
@@ -46,21 +46,23 @@ public unsafe class DomanEnclave : Module.WeeklyModule
             if (Data.WeeklyAllowance != weeklyAllowance)
             {
                 Data.WeeklyAllowance = weeklyAllowance;
-                SaveData();
+                DataChanged = true;
             }
 
             if (Data.DonatedThisWeek != donatedThisWeek)
             {
                 Data.DonatedThisWeek = donatedThisWeek;
-                SaveData();
+                DataChanged = true;
             }
 
             if (Data.RemainingAllowance != weeklyAllowance - donatedThisWeek)
             {
                 Data.RemainingAllowance = weeklyAllowance - donatedThisWeek;
-                SaveData();
+                DataChanged = true;
             }
         }
+        
+        base.Update();
     }
 
     public override void Reset()

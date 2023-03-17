@@ -43,8 +43,6 @@ public unsafe class ChallengeLog : Module.WeeklyModule
     
     public override void Update()
     {
-        var anyUpdate = false;
-        
         foreach (var task in Data.Tasks)
         {
             var taskStatus = ClientStructs.ContentsNote.Instance()->IsContentNoteComplete((int) task.RowId);
@@ -52,14 +50,11 @@ public unsafe class ChallengeLog : Module.WeeklyModule
             if (task.Complete != taskStatus)
             {
                 task.Complete = taskStatus;
-                anyUpdate = true;
+                DataChanged = true;
             }
         }
-
-        if (anyUpdate)
-        {
-            SaveData();
-        }
+        
+        base.Update();
     }
 
     public override void Reset()

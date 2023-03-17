@@ -6,11 +6,13 @@ namespace DailyDuty.System;
 public class DailyDutySystem : IDisposable
 {
     public readonly ModuleController ModuleController;
-
+    private readonly AddonController addonController;
+    
     public DailyDutySystem()
     {
         ModuleController = new ModuleController();
-
+        addonController = new AddonController();
+        
         if (Service.ClientState.IsLoggedIn)
         {
             OnLogin(this, EventArgs.Empty);
@@ -20,6 +22,7 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
         Service.ClientState.TerritoryChanged += OnZoneChange;
+        AddonController.AddonSetup += OnAddonSetup;
     }
 
     public void Dispose()
@@ -28,8 +31,10 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
+        AddonController.AddonSetup -= OnAddonSetup;
 
         ModuleController.Dispose();
+        addonController.Dispose();
         PayloadController.Cleanup();
     }
 
@@ -58,5 +63,10 @@ public class DailyDutySystem : IDisposable
     private void OnZoneChange(object? sender, ushort territoryTypeId)
     {
         ModuleController.ZoneChange(territoryTypeId);
+    }
+    
+    private void OnAddonSetup(SetupAddonArgs addonInfo)
+    {
+        ModuleController.AddonSetup(addonInfo);
     }
 }

@@ -21,4 +21,7 @@ public enum ModuleName
     
     [Label("DutyRoulette")]
     DutyRoulette,
+    
+    [Label("MiniCactpot")]
+    MiniCactpot,
 }
