@@ -24,4 +24,7 @@ public enum ModuleName
     
     [Label("MiniCactpot")]
     MiniCactpot,
+    
+    [Label("FashionReport")]
+    FashionReport,
 }

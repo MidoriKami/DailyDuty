@@ -9,7 +9,7 @@ namespace DailyDuty.System;
 
 public class CustomDeliveryConfig : ModuleConfigBase
 {
-    [ConfigOption("NotificationThreshold", 0, 100)]
+    [ConfigOption("NotificationThreshold", 0, 12)]
     public int NotificationThreshold = 12;
 
     [ConfigOption("ComparisonMode", "ComparisonHelp")]
