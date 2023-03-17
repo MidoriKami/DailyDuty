@@ -23,7 +23,7 @@ public class FashionReportData : ModuleDataBase
     public int AllowancesRemaining = 4;
     
     [DataDisplay("HighestWeeklyScore")]
-    public int HighestWeeklyScore = 0;
+    public int HighestWeeklyScore;
 
     [DataDisplay("FashionReportAvailable")]
     public bool FashionReportAvailable;
@@ -44,8 +44,13 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
         var reportClosed = Time.NextWeeklyReset();
         var now = DateTime.UtcNow;
 
-        Data.FashionReportAvailable = now > reportOpen && now < reportClosed;
-        DataChanged = true;
+        var available = now > reportOpen && now < reportClosed;
+
+        if (Data.FashionReportAvailable != available)
+        {
+            Data.FashionReportAvailable = available;
+            DataChanged = true;
+        }
         
         base.Update();
     }

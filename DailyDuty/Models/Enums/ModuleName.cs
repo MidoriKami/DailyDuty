@@ -27,4 +27,7 @@ public enum ModuleName
     
     [Label("FashionReport")]
     FashionReport,
+    
+    [Label("FauxHollows")]
+    FauxHollows,
 }

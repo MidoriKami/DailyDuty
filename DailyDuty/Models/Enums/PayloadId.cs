@@ -9,4 +9,5 @@ public enum PayloadId : uint
     OpenDutyFinderRaid,
     OpenDutyFinderAllianceRaid,
     GoldSaucerTeleport,
+    OpenPartyFinder,
 }

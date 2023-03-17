@@ -7,6 +7,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
@@ -62,6 +63,16 @@ public unsafe class PayloadController : IDisposable
                 if (InventoryManager.Instance()->GetInventoryItemCount(wondrousTailsBookItemID) == 1)
                 {
                     AgentInventoryContext.Instance()->UseItem(wondrousTailsBookItemID);
+                }
+            }),
+            PayloadId.OpenPartyFinder => AddHandler(id, (_, _) =>
+            {
+                var unlockComplete = QuestManager.IsQuestComplete(65781) && QuestManager.IsQuestComplete(66211);
+
+                if (unlockComplete)
+                {
+                    var partyFinderAgent = AgentModule.Instance()->GetAgentByInternalId(AgentId.LookingForGroup);
+                    partyFinderAgent->Show();
                 }
             }),
             PayloadId.IdyllshireTeleport => AddHandler(id, (_, _) =>
