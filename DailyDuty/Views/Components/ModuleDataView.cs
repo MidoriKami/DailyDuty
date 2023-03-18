@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Reflection;
 using DailyDuty.Abstracts;
-using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
-using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
-using KamiLib.Caching;
-using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Views.Components;
 

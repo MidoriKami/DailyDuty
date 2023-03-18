@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.System.Localization;
+using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Interfaces;
 
@@ -13,11 +14,33 @@ public class ModuleDataTab :ISelectionWindowTab
 {
     public string TabName => "Module Data";
     public ISelectable? LastSelection { get; set; }
+    public bool HideDisabledModulesInSelectWindow;
+    
     public IEnumerable<ISelectable> GetTabSelectables()
-    {       
+    {
+        if (HideDisabledModulesInSelectWindow)
+        {
+            return DailyDutyPlugin.System.ModuleController
+                .GetModules()
+                .Where(module => module.ModuleConfig.ModuleEnabled)
+                .Select(module => new DataSelectable(module));
+        }
+        
         return DailyDutyPlugin.System.ModuleController
             .GetModules()
             .Select(module => new DataSelectable(module));
+    }
+
+    public void DrawTabExtras()
+    {
+        var region = ImGui.GetContentRegionAvail();
+
+        var label = HideDisabledModulesInSelectWindow ? "Show Disabled" : "Hide Disabled";
+
+        if (ImGui.Button(label, region with { Y = 23.0f * ImGuiHelpers.GlobalScale }))
+        {
+            HideDisabledModulesInSelectWindow = !HideDisabledModulesInSelectWindow;
+        }
     }
 }
 

@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using DailyDuty.Abstracts;
-using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using Dalamud.Utility;
 using ImGuiNET;
-using KamiLib.Caching;
-using Lumina.Excel.GeneratedSheets;
 using Action = System.Action;
 
 namespace DailyDuty.Views.Components;
@@ -83,18 +78,10 @@ public static class ModuleConfigView
                     {
                         var enumObject = (Enum) field.GetValue(moduleConfig)!;
 
-                        if(ImGui.BeginCombo($"##{field.Name}", enumObject.GetLabel()))
+                        if (GenericEnumView.DrawEnumCombo(ref enumObject))
                         {
-                            foreach (Enum value in Enum.GetValues(field.FieldType))
-                            {
-                                if (ImGui.Selectable(value.GetLabel(), Equals(enumObject, value)))
-                                {
-                                    field.SetValue(moduleConfig, value);
-                                    saveAction.Invoke();
-                                }
-                            }
-                                
-                            ImGui.EndCombo();
+                            saveAction.Invoke();
+
                         }
                     }
                     break;

@@ -23,6 +23,7 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Logout += OnLogout;
         Service.ClientState.TerritoryChanged += OnZoneChange;
         AddonController.AddonSetup += OnAddonSetup;
+        AddonController.AddonFinalize += OnAddonFinalize;
     }
 
     public void Dispose()
@@ -32,6 +33,7 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         AddonController.AddonSetup -= OnAddonSetup;
+        AddonController.AddonFinalize -= OnAddonFinalize;
 
         ModuleController.Dispose();
         addonController.Dispose();
@@ -68,5 +70,10 @@ public class DailyDutySystem : IDisposable
     private void OnAddonSetup(SetupAddonArgs addonInfo)
     {
         ModuleController.AddonSetup(addonInfo);
+    }
+    
+    private void OnAddonFinalize(SetupAddonArgs addonInfo)
+    {
+        ModuleController.AddonFinalize(addonInfo);
     }
 }

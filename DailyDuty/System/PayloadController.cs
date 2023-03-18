@@ -4,13 +4,11 @@ using System.Linq;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
+using Condition = KamiLib.GameState.Condition;
 
 namespace DailyDuty.System;
 
@@ -69,7 +67,7 @@ public unsafe class PayloadController : IDisposable
             {
                 var unlockComplete = QuestManager.IsQuestComplete(65781) && QuestManager.IsQuestComplete(66211);
 
-                if (unlockComplete)
+                if (unlockComplete && !Condition.IsBoundByDuty())
                 {
                     var partyFinderAgent = AgentModule.Instance()->GetAgentByInternalId(AgentId.LookingForGroup);
                     partyFinderAgent->Show();

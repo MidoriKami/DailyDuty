@@ -22,10 +22,10 @@
         <value>Daily</value>
     </data>
     <data name="Weekly" xml:space="preserve">
-        <value>Special</value>
+        <value>Weekly</value>
     </data>
     <data name="Special" xml:space="preserve">
-        <value>Weekly</value>
+        <value>Special</value>
     </data>
     <data name="TestModule" xml:space="preserve">
         <value>Test Module</value>

@@ -31,6 +31,7 @@ public abstract unsafe class BaseModule : IDisposable
     protected bool DataChanged;
     protected bool ConfigChanged;
     public virtual void AddonSetup(SetupAddonArgs addonInfo) { }
+    public virtual void AddonFinalize(SetupAddonArgs addonInfo) { }
     
     private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     
@@ -264,5 +265,4 @@ public abstract unsafe class BaseModule : IDisposable
         statusMessage.MessageChannel = GetChatChannel();
         statusMessage.PrintMessage();
     }
-
 }

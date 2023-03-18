@@ -159,7 +159,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weekly.
+        ///   Looks up a localized string similar to Special.
         /// </summary>
         internal static string Special {
             get {
@@ -222,7 +222,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Special.
+        ///   Looks up a localized string similar to Weekly.
         /// </summary>
         internal static string Weekly {
             get {

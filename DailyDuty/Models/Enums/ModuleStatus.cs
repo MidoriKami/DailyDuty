@@ -17,6 +17,10 @@ public enum ModuleStatus
     [DisplayColor(KnownColor.Orange)]
     Unavailable,
     
+    [Label("InProgress")]
+    [DisplayColor(KnownColor.Aqua)]
+    InProgress,
+    
     [Label("Complete")]
     [DisplayColor(KnownColor.Green)]
     Complete,

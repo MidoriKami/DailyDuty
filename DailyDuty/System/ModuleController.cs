@@ -95,6 +95,14 @@ public class ModuleController : IDisposable
             module.AddonSetup(addonInfo);
         }
     }
+
+    public void AddonFinalize(SetupAddonArgs addonInfo)
+    {
+        foreach (var module in modules)
+        {
+            module.AddonFinalize(addonInfo);
+        }
+    }
     
     private void OnGoldSaucerMessage(object? sender, GoldSaucerEventArgs e)
     {

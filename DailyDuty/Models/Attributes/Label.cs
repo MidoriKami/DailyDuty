@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Resources;
 using DailyDuty.System.Localization;
 
 namespace DailyDuty.Models.Attributes;

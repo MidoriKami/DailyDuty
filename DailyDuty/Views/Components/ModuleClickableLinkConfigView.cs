@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
-using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 

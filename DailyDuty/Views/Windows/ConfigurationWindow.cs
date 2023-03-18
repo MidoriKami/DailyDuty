@@ -2,6 +2,7 @@
 using System.Numerics;
 using DailyDuty.Views.Tabs;
 using KamiLib.Interfaces;
+using KamiLib.Misc;
 using KamiLib.Windows;
 
 namespace DailyDuty.Views;
@@ -10,7 +11,7 @@ public class ConfigurationWindow : TabbedSelectionWindow
 {
     private readonly List<ISelectionWindowTab> tabs;
     
-    public ConfigurationWindow() : base("DailyDuty - Configuration Window")
+    public ConfigurationWindow() : base("DailyDuty - Configuration Window", 55.0f)
     {
         tabs = new List<ISelectionWindowTab>
         {
@@ -26,4 +27,10 @@ public class ConfigurationWindow : TabbedSelectionWindow
     }
     
     protected override IEnumerable<ISelectionWindowTab> GetTabs() => tabs;
+
+    protected override void DrawWindowExtras()
+    {
+        base.DrawWindowExtras();
+        PluginVersion.Instance.DrawVersionText();
+    }
 }

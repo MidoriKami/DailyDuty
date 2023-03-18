@@ -32,5 +32,11 @@ public enum ModuleName
     FauxHollows,
     
     [Label("GrandCompanyProvision")]
-    GrandCompanyProvision
+    GrandCompanyProvision,
+    
+    [Label("GrandCompanySquadron")]
+    GrandCompanySquadron,
+    
+    [Label("GrandCompanySupply")]
+    GrandCompanySupply,
 }
