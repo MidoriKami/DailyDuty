@@ -11,6 +11,7 @@ public class ModuleController : IDisposable
 {
     private readonly List<BaseModule> modules;
     private readonly GoldSaucerMessageController goldSaucerMessageController;
+    private bool modulesLoaded;
 
     public ModuleController()
     {
@@ -45,6 +46,8 @@ public class ModuleController : IDisposable
 
     public void UpdateModules()
     {
+        if (!modulesLoaded) return; 
+        
         foreach (var module in modules)
         {
             module.Update();
@@ -57,6 +60,8 @@ public class ModuleController : IDisposable
         {
             module.Load();
         }
+
+        modulesLoaded = true;
     }
     
     public void UnloadModules()
@@ -65,6 +70,8 @@ public class ModuleController : IDisposable
         {
             module.Unload();
         }
+
+        modulesLoaded = false;
     }
 
     public void ResetModules()

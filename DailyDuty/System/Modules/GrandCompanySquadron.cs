@@ -98,6 +98,11 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     {
         base.Unload();
         
+        onReceiveEventHook?.Disable();
+    }
+
+    public override void Dispose()
+    {
         onReceiveEventHook?.Dispose();
     }
 

@@ -109,7 +109,7 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
         var allowances = Data.AllowancesRemaining;
         var score = Data.HighestWeeklyScore;
 
-        switch (data.EventID)
+        switch (data.EventId)
         {
             case 5:     // When speaking to Masked Rose, gets update information
                 allowances = data.Data[1];

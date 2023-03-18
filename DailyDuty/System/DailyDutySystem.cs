@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using DailyDuty.Models.Attributes;
 using Dalamud.Game;
+using Dalamud.Game.ClientState;
 
 namespace DailyDuty.System;
 
@@ -64,6 +67,8 @@ public class DailyDutySystem : IDisposable
     
     private void OnZoneChange(object? sender, ushort territoryTypeId)
     {
+        if (!Service.ClientState.IsLoggedIn) return;
+        
         ModuleController.ZoneChange(territoryTypeId);
     }
     

@@ -1,19 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Models;
+using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
-using DailyDuty.System;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Misc;
+using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Abstracts;
 
+public class GrandCompanySupplyProvisioningConfig : ModuleConfigBase
+{
+    [SelectableTasks]
+    public List<LuminaTaskConfig<ClassJob>> Tasks = new();
+}
+
+public class GrandCompanySupplyProvisioningData : ModuleDataBase
+{
+    [SelectableTasks] 
+    public List<LuminaTaskData<ClassJob>> Tasks = new();
+}
+
 public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModule
 {
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new GrandCompanySupplyConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new GrandCompanySupplyData();
-    private GrandCompanySupplyConfig Config => ModuleConfig as GrandCompanySupplyConfig ?? new GrandCompanySupplyConfig();
-    private GrandCompanySupplyData Data => ModuleData as GrandCompanySupplyData ?? new GrandCompanySupplyData();
+    public override ModuleConfigBase ModuleConfig { get; protected set; } = new GrandCompanySupplyProvisioningConfig();
+    public override ModuleDataBase ModuleData { get; protected set; } = new GrandCompanySupplyProvisioningData();
+    protected GrandCompanySupplyProvisioningConfig Config => ModuleConfig as GrandCompanySupplyProvisioningConfig ?? new GrandCompanySupplyProvisioningConfig();
+    protected GrandCompanySupplyProvisioningData Data => ModuleData as GrandCompanySupplyProvisioningData ?? new GrandCompanySupplyProvisioningData();
 
     private AgentGrandCompanySupply* SupplyAgent => (AgentGrandCompanySupply*) AgentModule.Instance()->GetAgentByInternalId(AgentId.GrandCompanySupply);
 

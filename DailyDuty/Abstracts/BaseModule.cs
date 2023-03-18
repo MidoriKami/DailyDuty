@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,6 +12,7 @@ using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using KamiLib.GameState;
 using Newtonsoft.Json;
 
 namespace DailyDuty.Abstracts;
@@ -30,10 +32,13 @@ public abstract unsafe class BaseModule : IDisposable
     protected abstract StatusMessage GetStatusMessage();
     protected bool DataChanged;
     protected bool ConfigChanged;
+    
+    private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
+    private readonly Stopwatch statusMessageLockout = new();
+    
     public virtual void AddonSetup(SetupAddonArgs addonInfo) { }
     public virtual void AddonFinalize(SetupAddonArgs addonInfo) { }
     
-    private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     
     public void DrawConfig()
     {
@@ -99,28 +104,22 @@ public abstract unsafe class BaseModule : IDisposable
         ModuleData = LoadData();
         ModuleConfig = LoadConfig();
 
-        if (ModuleConfig is not { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) return;
-        if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
-            
         SendStatusMessage();
     }
 
     public virtual void Unload()
     {
         PluginLog.Debug($"[{ModuleName}] Unloading Module");
+        
+        statusMessageLockout.Stop();
+        statusMessageLockout.Reset();
     }
 
     public virtual void Reset()
     {
         PluginLog.Debug($"[{ModuleName}] Resetting Module, Next Reset: {GetNextReset().ToLocalTime()}");
-        
-        if (ModuleConfig is { ResetMessage: true, ModuleEnabled: true, Suppressed: false })
-        {
-            if (DateTime.UtcNow - ModuleData.NextReset < TimeSpan.FromMinutes(5))
-            {
-                SendResetMessage();
-            }
-        }
+
+        SendResetMessage();
         
         ModuleData.NextReset = GetNextReset();
         SaveData();
@@ -131,9 +130,6 @@ public abstract unsafe class BaseModule : IDisposable
 
     public virtual void ZoneChange(uint newZone)
     {
-        if (ModuleConfig is not { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) return;
-        if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
-        
         SendStatusMessage();
     }
 
@@ -247,6 +243,17 @@ public abstract unsafe class BaseModule : IDisposable
     
     private void SendStatusMessage()
     {
+        if (ModuleConfig is not { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false }) return;
+        if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
+        if (Condition.IsBoundByDuty()) return;
+        if (statusMessageLockout.Elapsed < TimeSpan.FromMinutes(5) && statusMessageLockout.IsRunning)
+        {
+            PluginLog.Debug($"[{ModuleName}] Suppressing Status Message: {TimeSpan.FromMinutes(5) - statusMessageLockout.Elapsed}");
+            return;
+        }
+        
+        PluginLog.Debug($"[{ModuleName}] Sending Status Message");
+        
         var statusMessage = GetStatusMessage();
         if (ModuleConfig.UseCustomStatusMessage && GetModuleStatus() != ModuleStatus.Unknown)
         {
@@ -255,10 +262,15 @@ public abstract unsafe class BaseModule : IDisposable
         statusMessage.SourceModule = ModuleName;
         statusMessage.MessageChannel = GetChatChannel();
         statusMessage.PrintMessage();
+        
+        statusMessageLockout.Restart();
     }
     
     private void SendResetMessage()
     {
+        if (ModuleConfig is not { ResetMessage: true, ModuleEnabled: true, Suppressed: false }) return;
+        if (DateTime.UtcNow - ModuleData.NextReset >= TimeSpan.FromMinutes(5)) return;
+        
         var statusMessage = GetStatusMessage();
         statusMessage.Message = ModuleConfig.UseCustomResetMessage ? ModuleConfig.CustomResetMessage : Strings.ModuleReset;
         statusMessage.SourceModule = ModuleName;

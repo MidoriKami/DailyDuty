@@ -10,11 +10,11 @@ public unsafe class GoldSaucerEventArgs : EventArgs
     public GoldSaucerEventArgs(int* data, byte eventID)
     {
         Data = data;
-        EventID = eventID;
+        EventId = eventID;
     }
     
     public int* Data;
-    public byte EventID;
+    public byte EventId;
 }
 
 public unsafe class GoldSaucerMessageController : IDisposable
