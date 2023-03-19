@@ -25,11 +25,12 @@ public class JumboCactpotData : ModuleDataBase
     public List<int> Tickets = new();
 }
 
-public unsafe class JumboCactpot : Module.DailyModule, IGoldSaucerMessageReceiver
+public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageReceiver
 {
     public override ModuleName ModuleName => ModuleName.JumboCactpot;
     protected override DateTime GetNextReset() => Time.NextJumboCactpotReset();
-
+    public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(7);
+    
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new JumboCactpotConfig();
     public override ModuleDataBase ModuleData { get; protected set; } = new JumboCactpotData();
     private JumboCactpotConfig Config => ModuleConfig as JumboCactpotConfig ?? new JumboCactpotConfig();
@@ -54,6 +55,7 @@ public unsafe class JumboCactpot : Module.DailyModule, IGoldSaucerMessageReceive
         
         onReceiveEventHook?.Disable();
     }
+
 
     public override void Dispose()
     {

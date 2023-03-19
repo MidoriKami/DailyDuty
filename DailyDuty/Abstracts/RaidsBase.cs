@@ -58,6 +58,17 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
         base.Update();
     }
 
+    public override void Reset()
+    {
+        foreach (var task in Data.Tasks)
+        {
+            task.CurrentCount = 0;
+            task.Complete = false;
+        }
+        
+        base.Reset();
+    }
+
     public void OnChatMessage(XivChatType type, uint senderID, ref SeString sender, ref SeString message, ref bool isHandled)
     {
         // If message is a loot message
