@@ -97,14 +97,22 @@ public class ModuleController : IDisposable
         }
     }
 
-    public void AddonSetup(SetupAddonArgs addonInfo)
+    public void AddonPreSetup(SetupAddonArgs addonInfo)
     {
         foreach(var module in modules)
         {
-            module.AddonSetup(addonInfo);
+            module.AddonPreSetup(addonInfo);
         }
     }
-
+    
+    public void AddonPostSetup(SetupAddonArgs addonInfo)
+    {
+        foreach(var module in modules)
+        {
+            module.AddonPostSetup(addonInfo);
+        }
+    }
+    
     public void AddonFinalize(SetupAddonArgs addonInfo)
     {
         foreach (var module in modules)
@@ -128,4 +136,5 @@ public class ModuleController : IDisposable
             module.OnChatMessage(type, senderId, ref sender, ref message, ref isHandled);
         }
     }
+
 }

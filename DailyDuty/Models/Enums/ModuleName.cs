@@ -50,5 +50,11 @@ public enum ModuleName
     TreasureMap,
     
     [Label("JumboCactpot")]
-    JumboCactpot
+    JumboCactpot,
+    
+    [Label("Levequest")]
+    Levequest,
+    
+    [Label("MaskedCarnivale")]
+    MaskedCarnivale
 }

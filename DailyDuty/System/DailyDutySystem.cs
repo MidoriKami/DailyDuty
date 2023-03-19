@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
-using DailyDuty.Models.Attributes;
 using Dalamud.Game;
-using Dalamud.Game.ClientState;
 
 namespace DailyDuty.System;
 
@@ -25,7 +22,8 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
         Service.ClientState.TerritoryChanged += OnZoneChange;
-        AddonController.AddonSetup += OnAddonSetup;
+        AddonController.AddonPreSetup += OnAddonPreSetup;
+        AddonController.AddonPostSetup += OnAddonPostSetup;
         AddonController.AddonFinalize += OnAddonFinalize;
     }
 
@@ -35,7 +33,8 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
-        AddonController.AddonSetup -= OnAddonSetup;
+        AddonController.AddonPreSetup -= OnAddonPreSetup;
+        AddonController.AddonPostSetup -= OnAddonPostSetup;
         AddonController.AddonFinalize -= OnAddonFinalize;
 
         ModuleController.Dispose();
@@ -72,9 +71,15 @@ public class DailyDutySystem : IDisposable
         ModuleController.ZoneChange(territoryTypeId);
     }
     
-    private void OnAddonSetup(SetupAddonArgs addonInfo)
+    private void OnAddonPreSetup(SetupAddonArgs addonInfo)
     {
-        ModuleController.AddonSetup(addonInfo);
+        ModuleController.AddonPreSetup(addonInfo);
+    }
+    
+    private void OnAddonPostSetup(SetupAddonArgs addonInfo)
+    {
+        ModuleController.AddonPostSetup(addonInfo);
+
     }
     
     private void OnAddonFinalize(SetupAddonArgs addonInfo)

@@ -114,6 +114,22 @@ public static class ModuleSelectableTaskView
                             }
                         }
                     }
+                    else if (configType == typeof(Addon))
+                    {
+                        var list = (List<LuminaTaskConfig<Addon>>) field.GetValue(moduleConfig)!;
+                        
+                        foreach (var data in list)
+                        {
+                            var luminaData = LuminaCache<Addon>.Instance.GetRow(data.RowId)!;
+                            
+                            var enabled = data.Enabled;
+                            if (ImGui.Checkbox(luminaData.Text.ToString(), ref enabled))
+                            {
+                                data.Enabled = enabled;
+                                saveAction.Invoke();
+                            }
+                        }
+                    }
                 }
             }
 
@@ -201,6 +217,22 @@ public static class ModuleSelectableTaskView
                                 var luminaData = LuminaCache<MobHuntOrderType>.Instance.GetRow(data.RowId)!;
                                 var label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luminaData.EventItem.Value?.Name.ToString() ?? "Unable to Read Event Item");
                                 ImGui.Text(label);
+
+                                ImGui.TableNextColumn();
+                                var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();
+                                var text = data.Complete ? Strings.Complete : Strings.Incomplete;
+                                ImGui.TextColored(color, text);
+                            }
+                        }
+                        else if (configType == typeof(Addon))
+                        {
+                            var list = (List<LuminaTaskData<Addon>>) field.GetValue(moduleData)!;
+
+                            foreach (var data in list)
+                            {
+                                ImGui.TableNextColumn();
+                                var luminaData = LuminaCache<Addon>.Instance.GetRow(data.RowId)!;
+                                ImGui.Text(luminaData.Text.ToString());
 
                                 ImGui.TableNextColumn();
                                 var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();

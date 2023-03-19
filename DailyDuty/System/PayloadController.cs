@@ -85,6 +85,10 @@ public unsafe class PayloadController : IDisposable
             {
                 TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(62)!); 
             }),
+            PayloadId.UldahTeleport => AddHandler(id, (_, _) =>
+            {
+                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(9)!); 
+            }),
             PayloadId.OpenDutyFinderRoulette => AddHandler(id, (_, _) =>
             {
                 AgentContentsFinder.Instance()->OpenRouletteDuty(1);

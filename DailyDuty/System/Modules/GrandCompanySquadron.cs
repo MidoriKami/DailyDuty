@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
@@ -7,6 +9,7 @@ using DailyDuty.Models.Enums;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Atk;
 using KamiLib.Caching;
 using KamiLib.Hooking;
 using Lumina.Excel.GeneratedSheets;
@@ -25,6 +28,12 @@ public class GrandCompanySquadronData : ModuleDataBase
 
     [DataDisplay("MissionStarted")]
     public bool MissionStarted;
+    
+    [DataDisplay("MissionCompleteTime")]
+    public DateTime MissionCompleteTime = DateTime.MinValue;
+    
+    [DataDisplay("TimeUntilMissionComplete")]
+    public TimeSpan TimeUntilMissionComplete = TimeSpan.MinValue;
 }
 
 public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
@@ -42,7 +51,6 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     private static partial Regex Alphanumeric();
     
     private readonly Dictionary<string, GcArmyExpedition> missionLookup = new();
-    private readonly Addon? missionComplete;
 
     public GrandCompanySquadron()
     {
@@ -50,8 +58,6 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
         {
             missionLookup.TryAdd(Alphanumeric().Replace(mission.Name.RawString.ToLower(), string.Empty), mission);
         }
-
-        missionComplete = LuminaCache<Addon>.Instance.GetRow(10572); // "Mission Complete!"
     }
     
     public override void Load()
@@ -69,28 +75,17 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
 
         Data.MissionStarted = false;
         DataChanged = true;
-        
-        var missionTextNode = addonInfo.Addon->GetTextNodeById(4);
-        var missionResultTextNode = addonInfo.Addon->GetTextNodeById(8);
-        if (missionTextNode is not null && missionResultTextNode is not null)
+
+        var missionText = Alphanumeric().Replace(addonInfo.Addon->AtkValues[4].GetString().ToLower(), string.Empty);
+        var missionSuccessful = addonInfo.Addon->AtkValues[2].Int == 1;
+
+        var missionInfo = LuminaCache<GcArmyExpedition>.Instance
+            .FirstOrDefault(mission => Alphanumeric().Replace(mission.Name.ToString().ToLower(), string.Empty) == missionText);
+
+        if (missionInfo is { GcArmyExpeditionType.Row: 3 } && missionSuccessful)
         {
-            var missionText = Alphanumeric().Replace(missionTextNode->NodeText.ToString(), string.Empty);
-
-            if (missionLookup.TryGetValue(missionText, out var missionInfo))
-            {
-                var resultText = missionResultTextNode->NodeText.ToString();
-                var missionCompleteText = missionComplete?.Text.ToString();
-                var missionCompleted = resultText == missionCompleteText;
-
-                const int weeklyMissionType = 3;
-                var isWeeklyMission = missionInfo.GcArmyExpeditionType.Row == weeklyMissionType;
-                
-                if (isWeeklyMission && missionCompleted)
-                {
-                    Data.MissionCompleted = true;
-                    DataChanged = true;
-                }
-            }
+            Data.MissionCompleted = true;
+            DataChanged = true;
         }
     }
 
@@ -126,6 +121,11 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
                 DataChanged = true;
             }
         }
+
+        if (Data.MissionCompleteTime > DateTime.UtcNow)
+        {
+            Data.TimeUntilMissionComplete = Data.MissionCompleteTime - DateTime.UtcNow;
+        }
         
         base.Update();
     }
@@ -139,6 +139,17 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
             if (sender == 1 && args[0].Int == 0)
             {
                 Data.MissionStarted = true;
+                var missionCompleteDateTime = DateTime.UtcNow + TimeSpan.FromHours(18);
+                Data.MissionCompleteTime = new DateTime(
+                    missionCompleteDateTime.Year,
+                    missionCompleteDateTime.Month,
+                    missionCompleteDateTime.Day,
+                    missionCompleteDateTime.Hour,
+                    missionCompleteDateTime.Minute,
+                    missionCompleteDateTime.Second,
+                    Data.NextReset.Millisecond,
+                    Data.NextReset.Microsecond
+                );
                 DataChanged = true;
             }
         });

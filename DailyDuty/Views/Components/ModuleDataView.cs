@@ -77,6 +77,19 @@ public static class ModuleDataView
                         ImGui.Text(value.ToString());
                     }
                 }
+                else if (field.FieldType == typeof(TimeSpan))
+                {
+                    var value = (TimeSpan) field.GetValue(moduleData)!;
+
+                    if (value > TimeSpan.MinValue)
+                    {
+                        ImGui.Text($"{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}");
+                    }
+                    else
+                    {
+                        ImGui.Text("Time Not Available");
+                    }
+                }
                 break;
 
             default:

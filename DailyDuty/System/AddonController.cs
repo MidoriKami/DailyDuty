@@ -25,7 +25,8 @@ public unsafe class AddonController : IDisposable
     [Signature("E8 ?? ?? ?? ?? 48 8B 7C 24 ?? 41 8B C6", DetourName = nameof(AddonFinalizeDetour))]
     private readonly Hook<AddonFinalizeDelegate>? addonFinalizeHook = null;
     
-    public static event Action<SetupAddonArgs>? AddonSetup; 
+    public static event Action<SetupAddonArgs>? AddonPreSetup;     
+    public static event Action<SetupAddonArgs>? AddonPostSetup; 
     public static event Action<SetupAddonArgs>? AddonFinalize;
 
     public AddonController()
@@ -46,13 +47,23 @@ public unsafe class AddonController : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            AddonSetup?.Invoke(new SetupAddonArgs
+            AddonPreSetup?.Invoke(new SetupAddonArgs
             {
                 Addon = addon
             });
         });
         
-        return addonSetupHook!.Original(addon);
+        var result = addonSetupHook!.Original(addon);
+        
+        Safety.ExecuteSafe(() =>
+        {
+            AddonPostSetup?.Invoke(new SetupAddonArgs
+            {
+                Addon = addon
+            });
+        });
+
+        return result;
     }
     
     private void AddonFinalizeDetour(AtkUnitManager* unitManager, AtkUnitBase** atkUnitBase) 
