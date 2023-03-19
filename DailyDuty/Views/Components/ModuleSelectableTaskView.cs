@@ -97,6 +97,23 @@ public static class ModuleSelectableTaskView
                             }
                         }
                     }
+                    else if (configType == typeof(MobHuntOrderType))
+                    {
+                        var list = (List<LuminaTaskConfig<MobHuntOrderType>>) field.GetValue(moduleConfig)!;
+                        
+                        foreach (var data in list)
+                        {
+                            var luminaData = LuminaCache<MobHuntOrderType>.Instance.GetRow(data.RowId)!;
+                            var label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luminaData.EventItem.Value?.Name.ToString() ?? "Unable to Read Event Item");
+                            
+                            var enabled = data.Enabled;
+                            if (ImGui.Checkbox(label, ref enabled))
+                            {
+                                data.Enabled = enabled;
+                                saveAction.Invoke();
+                            }
+                        }
+                    }
                 }
             }
 
@@ -166,6 +183,23 @@ public static class ModuleSelectableTaskView
                                 ImGui.TableNextColumn();
                                 var luminaData = LuminaCache<ClassJob>.Instance.GetRow(data.RowId)!;
                                 var label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luminaData.Name.ToString());
+                                ImGui.Text(label);
+
+                                ImGui.TableNextColumn();
+                                var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();
+                                var text = data.Complete ? Strings.Complete : Strings.Incomplete;
+                                ImGui.TextColored(color, text);
+                            }
+                        }
+                        else if (configType == typeof(MobHuntOrderType))
+                        {
+                            var list = (List<LuminaTaskData<MobHuntOrderType>>) field.GetValue(moduleData)!;
+
+                            foreach (var data in list)
+                            {
+                                ImGui.TableNextColumn();
+                                var luminaData = LuminaCache<MobHuntOrderType>.Instance.GetRow(data.RowId)!;
+                                var label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(luminaData.EventItem.Value?.Name.ToString() ?? "Unable to Read Event Item");
                                 ImGui.Text(label);
 
                                 ImGui.TableNextColumn();

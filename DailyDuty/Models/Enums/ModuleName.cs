@@ -39,4 +39,10 @@ public enum ModuleName
     
     [Label("GrandCompanySupply")]
     GrandCompanySupply,
+    
+    [Label("HuntMarksDaily")]
+    HuntMarksDaily,
+    
+    [Label("HuntMarksWeekly")]
+    HuntMarksWeekly,
 }

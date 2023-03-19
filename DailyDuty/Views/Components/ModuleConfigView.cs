@@ -81,7 +81,6 @@ public static class ModuleConfigView
                         if (GenericEnumView.DrawEnumCombo(ref enumObject))
                         {
                             saveAction.Invoke();
-
                         }
                     }
                     break;
