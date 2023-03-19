@@ -71,7 +71,7 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         base.Update();
     }
 
-    public override void AddonPostSetup(SetupAddonArgs addonInfo)
+    public override void AddonPostSetup(AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "AOZContentResult") return;
 

@@ -42,7 +42,7 @@ public unsafe class MiniCactpot : Module.DailyModule, IGoldSaucerMessageReceiver
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
     }
 
-    public override void AddonPreSetup(SetupAddonArgs addonInfo)
+    public override void AddonPreSetup(AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "LotteryDaily") return;
 

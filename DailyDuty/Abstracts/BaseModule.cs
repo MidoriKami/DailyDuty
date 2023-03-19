@@ -36,9 +36,9 @@ public abstract unsafe class BaseModule : IDisposable
     private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     private readonly Stopwatch statusMessageLockout = new();
     
-    public virtual void AddonPreSetup(SetupAddonArgs addonInfo) { }
-    public virtual void AddonPostSetup(SetupAddonArgs addonInfo) { }
-    public virtual void AddonFinalize(SetupAddonArgs addonInfo) { }
+    public virtual void AddonPreSetup(AddonArgs addonInfo) { }
+    public virtual void AddonPostSetup(AddonArgs addonInfo) { }
+    public virtual void AddonFinalize(AddonArgs addonInfo) { }
     
     
     public void DrawConfig()

@@ -7,7 +7,7 @@ using KamiLib.Hooking;
 
 namespace DailyDuty.System;
 
-public unsafe class SetupAddonArgs 
+public unsafe class AddonArgs 
 {
     public required AtkUnitBase* Addon { get; init; }
     private string? addonName;
@@ -25,9 +25,9 @@ public unsafe class AddonController : IDisposable
     [Signature("E8 ?? ?? ?? ?? 48 8B 7C 24 ?? 41 8B C6", DetourName = nameof(AddonFinalizeDetour))]
     private readonly Hook<AddonFinalizeDelegate>? addonFinalizeHook = null;
     
-    public static event Action<SetupAddonArgs>? AddonPreSetup;     
-    public static event Action<SetupAddonArgs>? AddonPostSetup; 
-    public static event Action<SetupAddonArgs>? AddonFinalize;
+    public static event Action<AddonArgs>? AddonPreSetup;     
+    public static event Action<AddonArgs>? AddonPostSetup; 
+    public static event Action<AddonArgs>? AddonFinalize;
 
     public AddonController()
     {
@@ -47,7 +47,7 @@ public unsafe class AddonController : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            AddonPreSetup?.Invoke(new SetupAddonArgs
+            AddonPreSetup?.Invoke(new AddonArgs
             {
                 Addon = addon
             });
@@ -57,7 +57,7 @@ public unsafe class AddonController : IDisposable
         
         Safety.ExecuteSafe(() =>
         {
-            AddonPostSetup?.Invoke(new SetupAddonArgs
+            AddonPostSetup?.Invoke(new AddonArgs
             {
                 Addon = addon
             });
@@ -70,7 +70,7 @@ public unsafe class AddonController : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            AddonFinalize?.Invoke(new SetupAddonArgs
+            AddonFinalize?.Invoke(new AddonArgs
             {
                 Addon = atkUnitBase[0]
             });

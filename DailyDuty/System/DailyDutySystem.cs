@@ -71,18 +71,18 @@ public class DailyDutySystem : IDisposable
         ModuleController.ZoneChange(territoryTypeId);
     }
     
-    private void OnAddonPreSetup(SetupAddonArgs addonInfo)
+    private void OnAddonPreSetup(AddonArgs addonInfo)
     {
         ModuleController.AddonPreSetup(addonInfo);
     }
     
-    private void OnAddonPostSetup(SetupAddonArgs addonInfo)
+    private void OnAddonPostSetup(AddonArgs addonInfo)
     {
         ModuleController.AddonPostSetup(addonInfo);
 
     }
     
-    private void OnAddonFinalize(SetupAddonArgs addonInfo)
+    private void OnAddonFinalize(AddonArgs addonInfo)
     {
         ModuleController.AddonFinalize(addonInfo);
     }

@@ -14,22 +14,29 @@ public static class ModuleResetView
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
 
-        if (ImGui.BeginTable("##ResetTable", 2, ImGuiTableFlags.SizingStretchSame))
+        if (data.NextReset != DateTime.MaxValue)
         {
-            ImGui.TableNextColumn();
-            ImGui.Text("Next Reset");
+            if (ImGui.BeginTable("##ResetTable", 2, ImGuiTableFlags.SizingStretchSame))
+            {
+                ImGui.TableNextColumn();
+                ImGui.Text("Next Reset");
             
-            ImGui.TableNextColumn();
-            ImGui.Text(data.NextReset.ToLocalTime().ToString(CultureInfo.CurrentCulture));
+                ImGui.TableNextColumn();
+                ImGui.Text(data.NextReset.ToLocalTime().ToString(CultureInfo.CurrentCulture));
 
-            ImGui.TableNextColumn();
-            ImGui.Text("Remaining Time");
+                ImGui.TableNextColumn();
+                ImGui.Text("Remaining Time");
             
-            ImGui.TableNextColumn();
-            var timeRemaining = data.NextReset - DateTime.UtcNow;
-            ImGui.Text($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
+                ImGui.TableNextColumn();
+                var timeRemaining = data.NextReset - DateTime.UtcNow;
+                ImGui.Text($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
             
-            ImGui.EndTable();
+                ImGui.EndTable();
+            }
+        }
+        else
+        {
+            ImGui.Text("Awaiting User Action");
         }
         
         ImGuiHelpers.ScaledDummy(10.0f);

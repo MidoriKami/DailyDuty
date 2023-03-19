@@ -69,7 +69,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     }
 
     // The mission is no longer in progress when the window closes
-    public override void AddonFinalize(SetupAddonArgs addonInfo)
+    public override void AddonFinalize(AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "GcArmyExpeditionResult") return;
 

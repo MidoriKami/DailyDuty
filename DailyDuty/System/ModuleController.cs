@@ -100,7 +100,7 @@ public class ModuleController : IDisposable
         }
     }
 
-    public void AddonPreSetup(SetupAddonArgs addonInfo)
+    public void AddonPreSetup(AddonArgs addonInfo)
     {
         foreach(var module in modules)
         {
@@ -108,7 +108,7 @@ public class ModuleController : IDisposable
         }
     }
     
-    public void AddonPostSetup(SetupAddonArgs addonInfo)
+    public void AddonPostSetup(AddonArgs addonInfo)
     {
         foreach(var module in modules)
         {
@@ -116,7 +116,7 @@ public class ModuleController : IDisposable
         }
     }
     
-    public void AddonFinalize(SetupAddonArgs addonInfo)
+    public void AddonFinalize(AddonArgs addonInfo)
     {
         foreach (var module in modules)
         {

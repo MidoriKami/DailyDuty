@@ -29,7 +29,7 @@ public class FauxHollows : Module.WeeklyModule
     private FauxHollowsConfig Config => ModuleConfig as FauxHollowsConfig ?? new FauxHollowsConfig();
     private FauxHollowsData Data => ModuleData as FauxHollowsData ?? new FauxHollowsData();
 
-    public override void AddonPreSetup(SetupAddonArgs addonInfo)
+    public override void AddonPreSetup(AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "WeeklyPuzzle") return;
 
