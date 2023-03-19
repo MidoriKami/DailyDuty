@@ -10,7 +10,8 @@ namespace DailyDuty.System;
 public class HuntMarksWeekly : HuntMarksBase
 {
     public override ModuleName ModuleName => ModuleName.HuntMarksWeekly;
-    
+    public override ModuleType ModuleType => ModuleType.Weekly;
+
     public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(7);
     protected override DateTime GetNextReset() => Time.NextWeeklyReset();
     

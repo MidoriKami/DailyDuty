@@ -4,6 +4,8 @@ using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models.Enums;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
 
 namespace DailyDuty.System;
 
@@ -119,4 +121,11 @@ public class ModuleController : IDisposable
         }
     }
 
+    private void OnChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled)
+    {
+        foreach (var module in modules.OfType<IChatMessageReceiver>())
+        {
+            module.OnChatMessage(type, senderId, ref sender, ref message, ref isHandled);
+        }
+    }
 }

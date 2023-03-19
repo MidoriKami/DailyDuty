@@ -45,4 +45,10 @@ public enum ModuleName
     
     [Label("HuntMarksWeekly")]
     HuntMarksWeekly,
+    
+    [Label("TreasureMap")]
+    TreasureMap,
+    
+    [Label("JumboCactpot")]
+    JumboCactpot
 }

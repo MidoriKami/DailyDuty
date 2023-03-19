@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
@@ -36,8 +37,6 @@ public static class ModuleDataView
     
     private static void DrawGenericData(ModuleDataBase moduleData, FieldInfo field, DataDisplay attribute)
     {
-        
-        
         ImGui.TableNextColumn();
         ImGui.Text(attribute.Label);
 
@@ -62,6 +61,24 @@ public static class ModuleDataView
                 ImGui.Text(intValue.ToString());
                 break;
             
+            case TypeCode.DateTime:
+                var dateTime = (DateTime) field.GetValue(moduleData)!;
+                    
+                ImGui.Text(dateTime.ToLocalTime().ToString(CultureInfo.CurrentCulture));
+                break;
+            
+            case TypeCode.Object:
+                if (field.FieldType == typeof(List<int>))
+                {
+                    var list = (List<int>) field.GetValue(moduleData)!;
+
+                    foreach (var value in list)
+                    {
+                        ImGui.Text(value.ToString());
+                    }
+                }
+                break;
+
             default:
                 ImGui.Text("Error: Unable to Read Type");
                 break;
