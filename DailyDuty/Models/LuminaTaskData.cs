@@ -6,4 +6,5 @@ public class LuminaTaskData<T>
 {
     public required uint RowId { get; set; }
     public required bool Complete { get; set; }
+    public required int CurrentCount { get; set; }
 }

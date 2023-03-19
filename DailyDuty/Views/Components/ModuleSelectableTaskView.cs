@@ -130,6 +130,48 @@ public static class ModuleSelectableTaskView
                             }
                         }
                     }
+                    else if (configType == typeof(ContentFinderCondition))
+                    {
+                        var list = (List<LuminaTaskConfig<ContentFinderCondition>>) field.GetValue(moduleConfig)!;
+                        
+                        if (ImGui.BeginTable("##RaidTrackerTable", 2, ImGuiTableFlags.SizingStretchProp))
+                        {
+                            ImGui.TableSetupColumn("##NameColumn", ImGuiTableColumnFlags.None, 4);
+                            ImGui.TableSetupColumn("##CountColumn", ImGuiTableColumnFlags.None, 2);
+                            
+                            if (list.Count > 0)
+                            {
+                                foreach (var data in list)
+                                {
+                                    var luminaData = LuminaCache<ContentFinderCondition>.Instance.GetRow(data.RowId)!;
+
+                                    ImGui.TableNextColumn();
+                                    var enabled = data.Enabled;
+                                    if (ImGui.Checkbox(luminaData.Name.ToString(), ref enabled))
+                                    {
+                                        data.Enabled = enabled;
+                                        saveAction.Invoke();
+                                    }
+                            
+                                    ImGui.TableNextColumn();
+                                    var count = data.TargetCount;
+                                    ImGui.InputInt("##TrackedItemCount", ref count, 0, 0);
+                                    if (ImGui.IsItemDeactivatedAfterEdit())
+                                    {
+                                        data.TargetCount = count;
+                                        saveAction.Invoke();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                ImGui.TableNextColumn();
+                                ImGui.TextColored(KnownColor.Orange.AsVector4(), "Nothing to Track");
+                            }
+                            
+                            ImGui.EndTable();
+                        }
+                    }
                 }
             }
 
@@ -238,6 +280,28 @@ public static class ModuleSelectableTaskView
                                 var color = data.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();
                                 var text = data.Complete ? Strings.Complete : Strings.Incomplete;
                                 ImGui.TextColored(color, text);
+                            }
+                        }
+                        else if (configType == typeof(ContentFinderCondition))
+                        {
+                            var list = (List<LuminaTaskData<ContentFinderCondition>>) field.GetValue(moduleData)!;
+
+                            if (list.Count > 0)
+                            {
+                                foreach (var data in list)
+                                {
+                                    ImGui.TableNextColumn();
+                                    var luminaData = LuminaCache<ContentFinderCondition>.Instance.GetRow(data.RowId)!;
+                                    ImGui.Text(luminaData.Name.ToString());
+
+                                    ImGui.TableNextColumn();
+                                    ImGui.Text(data.CurrentCount.ToString());
+                                }
+                            }
+                            else
+                            {
+                                ImGui.TableNextColumn();
+                                ImGui.TextColored(KnownColor.Orange.AsVector4(), "Nothing to Track");
                             }
                         }
                     }

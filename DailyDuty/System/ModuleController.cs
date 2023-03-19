@@ -30,11 +30,14 @@ public class ModuleController : IDisposable
         }
 
         goldSaucerMessageController.GoldSaucerUpdate += OnGoldSaucerMessage;
+        Service.Chat.ChatMessage += OnChatMessage;
     }
     
     public void Dispose()
     {
         goldSaucerMessageController.GoldSaucerUpdate -= OnGoldSaucerMessage;
+        Service.Chat.ChatMessage -= OnChatMessage;
+
         goldSaucerMessageController.Dispose();
 
         foreach (var module in modules.OfType<IDisposable>())

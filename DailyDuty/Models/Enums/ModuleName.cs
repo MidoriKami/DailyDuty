@@ -56,5 +56,11 @@ public enum ModuleName
     Levequest,
     
     [Label("MaskedCarnivale")]
-    MaskedCarnivale
+    MaskedCarnivale,
+    
+    [Label("RaidsAlliance")]
+    RaidsAlliance,
+    
+    [Label("RaidsNormal")]
+    RaidsNormal,
 }

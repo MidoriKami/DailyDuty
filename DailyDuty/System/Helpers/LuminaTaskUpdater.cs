@@ -32,6 +32,7 @@ public class LuminaTaskUpdater<T> where T : ExcelRow
                     {
                         RowId = luminaEntry.RowId,
                         Enabled = false,
+                        TargetCount = 0
                     });
                 }
             }
@@ -52,6 +53,7 @@ public class LuminaTaskUpdater<T> where T : ExcelRow
                     {
                         RowId = luminaEntry.RowId,
                         Complete = false,
+                        CurrentCount = 0
                     });
                 }
             }

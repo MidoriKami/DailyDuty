@@ -6,4 +6,5 @@ public class LuminaTaskConfig<T>
 {
     public required uint RowId { get; set; }
     public required bool Enabled { get; set; }
+    public required int TargetCount { get; set; }
 }
