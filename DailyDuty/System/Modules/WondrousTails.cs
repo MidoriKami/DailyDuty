@@ -118,7 +118,7 @@ public unsafe class WondrousTails : Module.DailyModule
         {
             case PlayerState.WeeklyBingoTaskStatus.Claimable:
             case PlayerState.WeeklyBingoTaskStatus.Open:
-                PrintMessage("You can claim a stamp for the last duty!", true);
+                PrintMessage("You can claim a stamp for this duty!", true);
                 break;
         }
     }
