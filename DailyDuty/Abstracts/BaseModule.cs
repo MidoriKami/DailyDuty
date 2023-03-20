@@ -278,4 +278,13 @@ public abstract unsafe class BaseModule : IDisposable
         statusMessage.MessageChannel = GetChatChannel();
         statusMessage.PrintMessage();
     }
+
+    protected void TryUpdateData<T>(ref T value, T newValue) where T : IEquatable<T>
+    {
+        if (!value.Equals(newValue))
+        {
+            value = newValue;
+            DataChanged = true;
+        }
+    }
 }

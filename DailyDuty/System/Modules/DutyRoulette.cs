@@ -57,10 +57,6 @@ public unsafe class DutyRoulette : Module.DailyModule
 
     public override void Update()
     {
-        var weeklyAcquiredTomestones = InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
-        var weeklyTomestoneLimit = InventoryManager.GetLimitedTomestoneWeeklyLimit();
-        var atWeeklyLimit = weeklyAcquiredTomestones == weeklyTomestoneLimit;
-        
         foreach (var task in Data.Tasks)
         {
             var status = RouletteController.Instance()->IsRouletteComplete((byte) task.RowId);
@@ -72,23 +68,9 @@ public unsafe class DutyRoulette : Module.DailyModule
             }
         }
 
-        if (Data.ExpertTomestones != weeklyAcquiredTomestones)
-        {
-            Data.ExpertTomestones = weeklyAcquiredTomestones;
-            DataChanged = true;
-        }
-
-        if (Data.ExpertTomestoneCap != weeklyTomestoneLimit)
-        {
-            Data.ExpertTomestoneCap = weeklyTomestoneLimit;
-            DataChanged = true;
-        }
-
-        if (Data.AtTomeCap != atWeeklyLimit)
-        {
-            Data.AtTomeCap = atWeeklyLimit;
-            DataChanged = true;
-        }
+        TryUpdateData(ref Data.ExpertTomestones, InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount());
+        TryUpdateData(ref Data.ExpertTomestoneCap, InventoryManager.GetLimitedTomestoneWeeklyLimit());
+        TryUpdateData(ref Data.AtTomeCap, Data.ExpertTomestones == Data.ExpertTomestoneCap);
         
         base.Update();
     }

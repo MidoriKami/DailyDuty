@@ -38,28 +38,11 @@ public unsafe class DomanEnclave : Module.WeeklyModule
     {
         var reconstructionBoxData = ReconstructionBoxManager.Instance()->ReconstructionBoxData;
 
-        var weeklyAllowance = reconstructionBoxData->Allowance;
-        var donatedThisWeek = reconstructionBoxData->Donated;
-
-        if (weeklyAllowance != 0)
+        if (reconstructionBoxData->Allowance != 0)
         {
-            if (Data.WeeklyAllowance != weeklyAllowance)
-            {
-                Data.WeeklyAllowance = weeklyAllowance;
-                DataChanged = true;
-            }
-
-            if (Data.DonatedThisWeek != donatedThisWeek)
-            {
-                Data.DonatedThisWeek = donatedThisWeek;
-                DataChanged = true;
-            }
-
-            if (Data.RemainingAllowance != weeklyAllowance - donatedThisWeek)
-            {
-                Data.RemainingAllowance = weeklyAllowance - donatedThisWeek;
-                DataChanged = true;
-            }
+            TryUpdateData(ref Data.WeeklyAllowance, reconstructionBoxData->Allowance);
+            TryUpdateData(ref Data.DonatedThisWeek, reconstructionBoxData->Donated);
+            TryUpdateData(ref Data.RemainingAllowance, Data.WeeklyAllowance - Data.DonatedThisWeek);
         }
         
         base.Update();

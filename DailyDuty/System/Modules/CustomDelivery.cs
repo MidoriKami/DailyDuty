@@ -34,13 +34,7 @@ public unsafe class CustomDelivery : Module.WeeklyModule
 
     public override void Update()
     {
-        var taskState = SatisfactionSupplyManager.Instance()->GetRemainingAllowances();
-
-        if (Data.RemainingAllowances != taskState)
-        {
-            Data.RemainingAllowances = taskState;
-            DataChanged = true;
-        }
+        TryUpdateData(ref Data.RemainingAllowances, SatisfactionSupplyManager.Instance()->GetRemainingAllowances());
         
         base.Update();
     }

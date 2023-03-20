@@ -39,20 +39,8 @@ public unsafe class Levequest : Module.SpecialModule
     protected override DateTime GetNextReset() => Time.NextLeveAllowanceReset();
     public override void Update()
     {
-        var leveAllowances = QuestManager.Instance()->NumLeveAllowances;
-        var acceptedLeves = QuestManager.Instance()->NumAcceptedLeveQuests;
-
-        if (Data.NumLevequestAllowances != leveAllowances)
-        {
-            Data.NumLevequestAllowances = leveAllowances;
-            DataChanged = true;
-        }
-
-        if (Data.AcceptedLevequests != acceptedLeves)
-        {
-            Data.AcceptedLevequests = acceptedLeves;
-            DataChanged = true;
-        }
+        TryUpdateData(ref Data.NumLevequestAllowances, QuestManager.Instance()->NumLeveAllowances);
+        TryUpdateData(ref Data.AcceptedLevequests, QuestManager.Instance()->NumAcceptedLeveQuests);
         
         base.Update();
     }

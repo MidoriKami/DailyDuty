@@ -32,13 +32,7 @@ public unsafe class TribalQuests : Module.DailyModule
 
     public override void Update()
     {
-        var allowances = QuestManager.Instance()->GetBeastTribeAllowance();
-
-        if (Data.RemainingAllowances != allowances)
-        {
-            Data.RemainingAllowances = allowances;
-            DataChanged = true;
-        }
+        TryUpdateData(ref Data.RemainingAllowances, QuestManager.Instance()->GetBeastTribeAllowance());
         
         base.Update();
     }

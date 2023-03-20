@@ -70,43 +70,14 @@ public unsafe class WondrousTails : Module.DailyModule
 
     public override void Update()
     {
-        var numStickers = PlayerState.Instance()->WeeklyBingoNumPlacedStickers;
-        var secondChance = PlayerState.Instance()->WeeklyBingoNumSecondChancePoints;
-        var deadline = DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).DateTime;
-        var playerHasBook = PlayerState.Instance()->HasWeeklyBingoJournal;
-        var newBookAvailable = DateTime.UtcNow > deadline - TimeSpan.FromDays(7);
-        Data.TimeRemaining = deadline - DateTime.UtcNow;
+        TryUpdateData(ref Data.PlacedStickers, PlayerState.Instance()->WeeklyBingoNumPlacedStickers);
+        TryUpdateData(ref Data.SecondChance, PlayerState.Instance()->WeeklyBingoNumSecondChancePoints);
+        TryUpdateData(ref Data.Deadline, DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).DateTime);
+        TryUpdateData(ref Data.PlayerHasBook, PlayerState.Instance()->HasWeeklyBingoJournal);
+        TryUpdateData(ref Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
         
-        if (Data.PlacedStickers != numStickers)
-        {
-            Data.PlacedStickers = numStickers;
-            DataChanged = true;
-        }
+        Data.TimeRemaining = Data.Deadline - DateTime.UtcNow;
 
-        if (Data.SecondChance != secondChance)
-        {
-            Data.SecondChance = secondChance;
-            DataChanged = true;
-        }
-
-        if (Data.Deadline != deadline)
-        {
-            Data.Deadline = deadline;
-            DataChanged = true;
-        }
-
-        if (Data.PlayerHasBook != playerHasBook)
-        {
-            Data.PlayerHasBook = playerHasBook;
-            DataChanged = true;
-        }
-
-        if (Data.NewBookAvailable != newBookAvailable)
-        {
-            Data.NewBookAvailable = newBookAvailable;
-            DataChanged = true;
-        }
-        
         base.Update();
     }
 

@@ -44,13 +44,7 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
         var reportClosed = Time.NextWeeklyReset();
         var now = DateTime.UtcNow;
 
-        var available = now > reportOpen && now < reportClosed;
-
-        if (Data.FashionReportAvailable != available)
-        {
-            Data.FashionReportAvailable = available;
-            DataChanged = true;
-        }
+        TryUpdateData(ref Data.FashionReportAvailable, now > reportOpen && now < reportClosed);
         
         base.Update();
     }
@@ -124,17 +118,8 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
                 allowances = data.Data[0];
                 break;
         }
-
-        if (Data.AllowancesRemaining != allowances)
-        {
-            Data.AllowancesRemaining = allowances;
-            DataChanged = true;
-        }
-
-        if (Data.HighestWeeklyScore != score)
-        {
-            Data.HighestWeeklyScore = score;
-            DataChanged = true;
-        }
+        
+        TryUpdateData(ref Data.AllowancesRemaining, allowances);
+        TryUpdateData(ref Data.HighestWeeklyScore, score);
     }
 }

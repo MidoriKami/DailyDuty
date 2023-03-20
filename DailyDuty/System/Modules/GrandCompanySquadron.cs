@@ -113,13 +113,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     {
         if (Agent is not null && Agent->AgentInterface.IsAgentActive() && Agent->SelectedTab == 2)
         {
-            var completed = Agent->ExpeditionData->MissionInfoArraySpan[0].Available == 0;
-        
-            if (Data.MissionCompleted != completed)
-            {
-                Data.MissionCompleted = completed;
-                DataChanged = true;
-            }
+            TryUpdateData(ref Data.MissionCompleted, Agent->ExpeditionData->MissionInfoArraySpan[0].Available == 0);
         }
 
         if (Data.MissionCompleteTime > DateTime.UtcNow)
