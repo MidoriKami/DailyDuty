@@ -113,7 +113,7 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
             join data in Data.Tasks on config.RowId equals data.RowId
             where config.Enabled
             where !data.Complete
-            where config.TargetCount != data.CurrentCount
+            where config.TargetCount > data.CurrentCount
             select new
             {
                 config.RowId,

@@ -33,7 +33,7 @@ public abstract unsafe class BaseModule : IDisposable
     protected bool DataChanged;
     protected bool ConfigChanged;
     
-    private XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
+    protected XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     private readonly Stopwatch statusMessageLockout = new();
     
     public virtual void AddonPreSetup(AddonArgs addonInfo) { }

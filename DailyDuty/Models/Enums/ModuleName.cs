@@ -63,4 +63,10 @@ public enum ModuleName
     
     [Label("RaidsNormal")]
     RaidsNormal,
+    
+    [Label("TribalQuests")]
+    TribalQuests,
+    
+    [Label("WondrousTails")]
+    WondrousTails
 }

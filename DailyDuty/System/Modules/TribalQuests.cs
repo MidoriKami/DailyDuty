@@ -2,12 +2,11 @@
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
-using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.System;
 
-public class CustomDeliveryConfig : ModuleConfigBase
+public class TribalQuestsConfig : ModuleConfigBase
 {
     [ConfigOption("NotificationThreshold", 0, 12)]
     public int NotificationThreshold = 12;
@@ -16,29 +15,28 @@ public class CustomDeliveryConfig : ModuleConfigBase
     public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 }
 
-public class CustomDeliveryData : ModuleDataBase
+public class TribalQuestsData : ModuleDataBase
 {
     [DataDisplay("RemainingAllowances")]
-    public int RemainingAllowances;
+    public uint RemainingAllowances;
 }
 
-public unsafe class CustomDelivery : Module.WeeklyModule
+public unsafe class TribalQuests : Module.DailyModule
 {
-    public override ModuleName ModuleName => ModuleName.CustomDelivery;
+    public override ModuleName ModuleName => ModuleName.TribalQuests;
 
-    public override ModuleDataBase ModuleData { get; protected set; } = new CustomDeliveryData();
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new CustomDeliveryConfig();
-    
-    private CustomDeliveryConfig Config => ModuleConfig as CustomDeliveryConfig ?? new CustomDeliveryConfig();
-    private CustomDeliveryData Data => ModuleData as CustomDeliveryData ?? new CustomDeliveryData();
+    public override ModuleConfigBase ModuleConfig { get; protected set; } = new TribalQuestsConfig();
+    public override ModuleDataBase ModuleData { get; protected set; } = new TribalQuestsData();
+    private TribalQuestsConfig Config => ModuleConfig as TribalQuestsConfig ?? new TribalQuestsConfig();
+    private TribalQuestsData Data => ModuleData as TribalQuestsData ?? new TribalQuestsData();
 
     public override void Update()
     {
-        var taskState = SatisfactionSupplyManager.Instance()->GetRemainingAllowances();
+        var allowances = QuestManager.Instance()->GetBeastTribeAllowance();
 
-        if (Data.RemainingAllowances != taskState)
+        if (Data.RemainingAllowances != allowances)
         {
-            Data.RemainingAllowances = taskState;
+            Data.RemainingAllowances = allowances;
             DataChanged = true;
         }
         
@@ -47,7 +45,7 @@ public unsafe class CustomDelivery : Module.WeeklyModule
 
     public override void Reset()
     {
-        Data.RemainingAllowances = 0;
+        Data.RemainingAllowances = 12;
         
         base.Reset();
     }
@@ -59,9 +57,9 @@ public unsafe class CustomDelivery : Module.WeeklyModule
         ComparisonMode.LessThanOrEqual when Config.NotificationThreshold >= Data.RemainingAllowances => ModuleStatus.Complete,
         _ => ModuleStatus.Incomplete
     };
-
+    
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}",
+        Message = $"{Data.RemainingAllowances} Allowances Remaining",
     };
 }

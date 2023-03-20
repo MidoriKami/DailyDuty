@@ -61,6 +61,12 @@ public static class ModuleDataView
                 ImGui.Text(intValue.ToString());
                 break;
             
+            case TypeCode.UInt32:
+                var uIntValue = (uint) field.GetValue(moduleData)!;
+                
+                ImGui.Text(uIntValue.ToString());
+                break;
+            
             case TypeCode.DateTime:
                 var dateTime = (DateTime) field.GetValue(moduleData)!;
                     
@@ -83,7 +89,7 @@ public static class ModuleDataView
 
                     if (value > TimeSpan.MinValue)
                     {
-                        ImGui.Text($"{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}");
+                        ImGui.Text($"{value.Days:0}.{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}");
                     }
                     else
                     {

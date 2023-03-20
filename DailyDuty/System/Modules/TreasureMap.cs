@@ -28,7 +28,7 @@ public class TreasureMapData : ModuleDataBase
     public bool MapAvailable = true;
 }
 
-public unsafe class TreasureMap : Module.SpecialModule, IChatMessageReceiver
+public class TreasureMap : Module.SpecialModule, IChatMessageReceiver
 {
     public override ModuleName ModuleName => ModuleName.TreasureMap;
 
