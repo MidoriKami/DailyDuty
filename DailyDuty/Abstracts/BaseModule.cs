@@ -298,7 +298,7 @@ public abstract unsafe class BaseModule : IDisposable
     {
         var result = from taskConfig in config
             join taskData in data on taskConfig.RowId equals taskData.RowId
-            where taskConfig.TargetCount != -1 ? taskConfig.Enabled && taskData.CurrentCount < taskConfig.TargetCount : taskConfig.Enabled && !taskData.Complete
+            where taskConfig.TargetCount != 0 ? taskConfig.Enabled && taskData.CurrentCount < taskConfig.TargetCount : taskConfig.Enabled && !taskData.Complete
             select taskData;
 
         return result.Count();

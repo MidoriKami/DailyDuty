@@ -8,20 +8,36 @@ using DailyDuty.Models.Enums;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Interface;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
 using KamiLib.Atk;
+using KamiLib.GameState;
 using Newtonsoft.Json;
 
 namespace DailyDuty.System;
 
 public class TodoConfig
 {
+    public bool Enable = true;
+    
+    public bool DailyTasks = true;
+    public bool WeeklyTasks = true;
+    public bool SpecialTasks = true;
+
+    public bool HideDuringQuests = true;
+    public bool HideInDuties = true;
+
+    public string DailyLabel = "Daily Tasks";
+    public string WeeklyLabel = "Weekly Tasks";
+    public string SpecialLabel = "Special Tasks";
+
+    public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+    public Vector4 TextBorderColor = new(142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f);
+    public ushort HeaderGlowKey = 14;
+
     public Vector2 TextNodePosition = new(750, 512);
     public AlignmentType AlignmentType = AlignmentType.TopLeft;
 }
@@ -31,7 +47,7 @@ public unsafe class TodoController : IDisposable
     private TodoConfig config = new();
     private bool configChanged;
     private static AtkUnitBase* ParentAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("NamePlate");
-    private AtkTextNode* TextNode => GetTextNode();
+    private AtkTextNode* TodoListNode => GetTextNode();
     private const uint TextNodeId = 1000;
     private readonly Stopwatch slowUpdateStopwatch = Stopwatch.StartNew();
     
@@ -45,43 +61,13 @@ public unsafe class TodoController : IDisposable
 
     public void DrawConfig()
     {
-        if (TextNode is null) return;
-        
-        DrawPositionEdit();
-        
-        var enumValue = (Enum) config.AlignmentType;
-        if (GenericEnumView.DrawEnumCombo(ref enumValue))
-        {
-            config.AlignmentType = (AlignmentType) enumValue;
-            if (TextNode is not null) TextNode->AlignmentFontType = (byte) config.AlignmentType;
-            configChanged = true;
-        }
-    }
-    private void DrawPositionEdit()
-    {
-        var position = new Vector2(TextNode->AtkResNode.X, TextNode->AtkResNode.Y);
-        ImGui.PushItemWidth(200.0f * ImGuiHelpers.GlobalScale);
-        if (ImGui.SliderFloat($"##xPos_atkUnitBase#{(ulong) TextNode:X}", ref position.X, position.X - 10, position.X + 10))
-        {
-            TextNode->AtkResNode.SetPositionFloat(position.X, position.Y);
-            config.TextNodePosition = position;
-        }
-        if (ImGui.IsItemDeactivatedAfterEdit())
-        {
-            configChanged = true;
-        }
+        if (TodoListNode is null) return;
 
-        ImGui.SameLine();
-        ImGui.PushItemWidth(200.0f * ImGuiHelpers.GlobalScale);
-        if (ImGui.SliderFloat($"Position##yPos_atkUnitBase#{(ulong) TextNode:X}", ref position.Y, position.Y - 10, position.Y + 10))
-        {
-            TextNode->AtkResNode.SetPositionFloat(position.X, position.Y);
-            config.TextNodePosition = position;
-        }
-        if (ImGui.IsItemDeactivatedAfterEdit())
-        {
-            configChanged = true;
-        }
+        TodoEnableView.Draw(config, SaveConfig);
+        TodoPositionEditView.Draw(TodoListNode, config, SaveConfig);
+        TodoDisplayOptionsView.Draw(TodoListNode, config, SaveConfig);
+        TodoHeaderLabelEditView.Draw(config, SaveConfig);
+        TodoTextColorPickerView.Draw(config, SaveConfig);
     }
 
     public void Update()
@@ -91,22 +77,32 @@ public unsafe class TodoController : IDisposable
             SlowUpdate();
             slowUpdateStopwatch.Restart();
         }
+
+        if (TodoListNode is not null)
+        {
+            TodoListNode->AtkResNode.ToggleVisibility(true);
+            if(config.HideInDuties && Condition.IsBoundByDuty()) TodoListNode->AtkResNode.ToggleVisibility(false);
+            if(config.HideDuringQuests && Condition.IsInCutsceneOrQuestEvent()) TodoListNode->AtkResNode.ToggleVisibility(false);
+            
+            TodoListNode->TextColor = VectorToByteColor(config.TextColor);
+            TodoListNode->EdgeColor = VectorToByteColor(config.TextBorderColor);
+        }
         
-        if(configChanged) SaveConfig(config);
+        if(configChanged) SaveConfig();
         configChanged = false;
     }
 
     private void SlowUpdate()
     {
-        if (TextNode is not null)
+        if (TodoListNode is not null)
         {
             var seString = new SeStringBuilder();
 
-            UpdateDaily(seString);
-            UpdateWeekly(seString);
-            UpdateSpecial(seString);
+            if(config.DailyTasks) UpdateDaily(seString);
+            if(config.WeeklyTasks) UpdateWeekly(seString);
+            if(config.SpecialTasks) UpdateSpecial(seString);
             
-            TextNode->SetText(seString.Encode());
+            TodoListNode->SetText(seString.Encode());
         }
     }
 
@@ -120,10 +116,9 @@ public unsafe class TodoController : IDisposable
 
         if (dailyTasks.Count == 0) return;
         
-        builder.AddText("Daily Tasks");
+        builder.AddUiGlow(config.DailyLabel, config.HeaderGlowKey);
         builder.Add(new NewLinePayload());
         
-        // Daily
         foreach (var dailyModule in dailyTasks)
         {
             if (!dailyModule.ModuleConfig.ModuleEnabled) continue;
@@ -145,10 +140,9 @@ public unsafe class TodoController : IDisposable
         if (weeklyTasks.Count == 0) return;
         
         builder.Add(new NewLinePayload());
-        builder.AddText("Weekly Tasks");
+        builder.AddUiGlow(config.WeeklyLabel, config.HeaderGlowKey);
         builder.Add(new NewLinePayload());
         
-        // Weekly
         foreach (var weeklyModule in weeklyTasks)
         {
             builder.AddText(weeklyModule.ModuleName.GetLabel());
@@ -167,10 +161,9 @@ public unsafe class TodoController : IDisposable
         if (specialTasks.Count == 0) return;
         
         builder.Add(new NewLinePayload());
-        builder.AddText("Special Tasks");
+        builder.AddUiGlow(config.SpecialLabel, config.HeaderGlowKey);
         builder.Add(new NewLinePayload());
         
-        // Special
         foreach (var specialModule in specialTasks)
         {
             builder.AddText(specialModule.ModuleName.GetLabel());
@@ -195,8 +188,8 @@ public unsafe class TodoController : IDisposable
         resNode->NodeID = TextNodeId;
         resNode->Flags = 8243;
 
-        textNode->TextColor = new ByteColor { R = 255, G = 255, B = 255, A = 255 };
-        textNode->EdgeColor = new ByteColor { R = 142, G = 106, B = 12 , A = 255 };
+        textNode->TextColor = VectorToByteColor(config.TextColor);
+        textNode->EdgeColor = VectorToByteColor(config.TextBorderColor);
         textNode->BackgroundColor = new ByteColor { R = 255, G = 255, B = 255, A = 255 };
         textNode->LineSpacing = 16;
         textNode->AlignmentFontType = (byte) AlignmentType.BottomLeft;
@@ -207,26 +200,6 @@ public unsafe class TodoController : IDisposable
         resNode->SetWidth(200);
         resNode->SetHeight(200);
         resNode->SetPositionFloat(config.TextNodePosition.X, config.TextNodePosition.Y);
-
-        var seString = new SeStringBuilder()
-            .AddText("Daily Tasks")
-            .Add(new NewLinePayload())
-            .AddText("That thing you keep not doing")
-            .Add(new NewLinePayload())
-            .AddText("That other thing")
-            .Add(new NewLinePayload())
-            .Add(new NewLinePayload())
-            .AddText("Weekly Tasks")
-            .Add(new NewLinePayload())
-            .AddText("Some Weekly Task")
-            .Add(new NewLinePayload())
-            .Add(new NewLinePayload())
-            .AddText("Special Tasks")
-            .Add(new NewLinePayload())
-            .AddText("Some Special Task")
-            .Build();
-
-        textNode->SetText(seString.Encode());
         
         LinkNodeAtEnd(resNode, ParentAddon);
     }
@@ -271,7 +244,7 @@ public unsafe class TodoController : IDisposable
             
             if (dataFile is { Exists: false })
             {
-                SaveConfig(config);
+                SaveConfig();
                 return config;
             }
             
@@ -285,14 +258,14 @@ public unsafe class TodoController : IDisposable
         }
     }
     
-    private void SaveConfig(TodoConfig data)
+    private void SaveConfig()
     {
         try
         {
             PluginLog.Debug($"[Todo Config] Saving Todo.config.json");
             var dataFile = GetConfigFileInfo();
 
-            var jsonString = JsonConvert.SerializeObject(data, data.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jsonString = JsonConvert.SerializeObject(config, config.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
             File.WriteAllText(dataFile.FullName, jsonString);
         }
         catch (Exception exception)
@@ -319,4 +292,12 @@ public unsafe class TodoController : IDisposable
 
         return directoryInfo;
     }
+
+    private ByteColor VectorToByteColor(Vector4 vector) => new()
+    {
+        R = (byte)(vector.X * 255),
+        G = (byte)(vector.Y * 255),
+        B = (byte)(vector.Z * 255),
+        A = (byte)(vector.W * 255),
+    };
 }
