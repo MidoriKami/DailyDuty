@@ -19,7 +19,7 @@ public class CustomDeliveryConfig : ModuleConfigBase
 public class CustomDeliveryData : ModuleDataBase
 {
     [DataDisplay("RemainingAllowances")]
-    public int RemainingAllowances;
+    public int RemainingAllowances = 12;
 }
 
 public unsafe class CustomDelivery : Module.WeeklyModule
@@ -41,7 +41,7 @@ public unsafe class CustomDelivery : Module.WeeklyModule
 
     public override void Reset()
     {
-        Data.RemainingAllowances = 0;
+        Data.RemainingAllowances = 12;
         
         base.Reset();
     }

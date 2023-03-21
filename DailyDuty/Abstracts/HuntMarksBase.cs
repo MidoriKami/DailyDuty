@@ -95,26 +95,10 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
         base.Reset();
     }
     
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{GetIncompleteCount()} Hunts Available",
+        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Hunts Available",
     };
-    
-    private int GetIncompleteCount()
-    {
-        var taskData = from config in Config.Tasks
-            join data in Data.Tasks on config.RowId equals data.RowId
-            where config.Enabled
-            where !data.Complete
-            select new
-            {
-                config.RowId,
-                config.Enabled,
-                data.Complete
-            };
-
-        return taskData.Count();
-    }
 }

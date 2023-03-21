@@ -24,6 +24,9 @@ public class WondrousTailsConfig : ModuleConfigBase
     
     [ConfigOption("UnclaimedBookWarning")]
     public bool UnclaimedBookWarning = true;
+
+    [ConfigOption("ShuffleAvailableNotice")]
+    public bool ShuffleAvailableNotice = false;
 }
 
 public class WondrousTailsData : ModuleDataBase
@@ -47,7 +50,7 @@ public class WondrousTailsData : ModuleDataBase
     public TimeSpan TimeRemaining;
 }
 
-public unsafe class WondrousTails : Module.DailyModule
+public unsafe class WondrousTails : Module.WeeklyModule
 {
     public override ModuleName ModuleName => ModuleName.WondrousTails;
 
@@ -132,11 +135,13 @@ public unsafe class WondrousTails : Module.DailyModule
     
     protected override StatusMessage GetStatusMessage()
     {
-        if (Config.UnclaimedBookWarning && Data.NewBookAvailable) return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "New Book Available", PayloadId.IdyllshireTeleport);
+        if (Config.UnclaimedBookWarning && Data.NewBookAvailable) 
+            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "New Book Available", PayloadId.IdyllshireTeleport);
         
-        var message = $"{9 - Data.PlacedStickers} Stickers Remaining";
-
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenWondrousTailsBook);
+        if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 2, PlacedStickers: > 3 and < 7 }) 
+            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "Shuffle Available", PayloadId.OpenWondrousTailsBook);
+        
+        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, $"{9 - Data.PlacedStickers} Stickers Remaining", PayloadId.OpenWondrousTailsBook);
     }
 
     private PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory)

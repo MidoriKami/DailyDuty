@@ -89,29 +89,13 @@ public unsafe class DutyRoulette : Module.DailyModule
     {
         if (Config.CompleteWhenCapped && Data.AtTomeCap) return ModuleStatus.Complete;
 
-        return GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        return GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
     
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{GetIncompleteCount()} Roulettes Remaining";
+        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Roulettes Remaining";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderRoulette);
-    }
-    
-    private int GetIncompleteCount()
-    {
-        var taskData = from config in Config.Tasks
-            join data in Data.Tasks on config.RowId equals data.RowId
-            where config.Enabled
-            where !data.Complete
-            select new
-            {
-                config.RowId,
-                config.Enabled,
-                data.Complete
-            };
-
-        return taskData.Count();
     }
 }

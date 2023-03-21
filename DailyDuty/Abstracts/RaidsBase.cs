@@ -37,7 +37,7 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
     protected RaidsBaseConfig Config => ModuleConfig as RaidsBaseConfig ?? new RaidsBaseConfig();
     protected RaidsBaseData Data => ModuleData as RaidsBaseData ?? new RaidsBaseData();
 
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount() == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     private AgentContentsFinder* Agent => (AgentContentsFinder*) AgentModule.Instance()->GetAgentByInternalId(AgentId.ContentsFinder);
     
     public override void Update()
@@ -107,22 +107,6 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
             ).FirstOrDefault();
     }
     
-    protected int GetIncompleteCount()
-    {
-        var taskData = from config in Config.Tasks
-            join data in Data.Tasks on config.RowId equals data.RowId
-            where config.Enabled
-            where !data.Complete
-            where config.TargetCount > data.CurrentCount
-            select new
-            {
-                config.RowId,
-                config.Enabled,
-            };
-
-        return taskData.Count();
-    }
-
     private bool IsDataStale(ICollection<uint> dutyList) => Data.Tasks.Any(task => !dutyList.Contains(
         LuminaCache<ContentFinderCondition>.Instance.GetRow(task.RowId)!.TerritoryType.Row)
     );

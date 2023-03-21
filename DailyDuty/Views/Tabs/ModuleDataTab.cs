@@ -10,7 +10,7 @@ using KamiLib.Interfaces;
 
 namespace DailyDuty.Views.Tabs;
 
-public class ModuleDataTab :ISelectionWindowTab
+public class ModuleDataTab : ISelectionWindowTab
 {
     public string TabName => "Module Data";
     public ISelectable? LastSelection { get; set; }

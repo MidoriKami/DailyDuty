@@ -7,11 +7,13 @@ public class DailyDutySystem : IDisposable
 {
     public readonly ModuleController ModuleController;
     private readonly AddonController addonController;
+    public readonly TodoController TodoController;
     
     public DailyDutySystem()
     {
         ModuleController = new ModuleController();
         addonController = new AddonController();
+        TodoController = new TodoController();
         
         if (Service.ClientState.IsLoggedIn)
         {
@@ -39,6 +41,7 @@ public class DailyDutySystem : IDisposable
 
         ModuleController.Dispose();
         addonController.Dispose();
+        TodoController.Dispose();
         PayloadController.Cleanup();
     }
 
@@ -52,16 +55,23 @@ public class DailyDutySystem : IDisposable
         
         // Update All Modules
         ModuleController.UpdateModules();
+        
+        // Update TodoDisplay
+        TodoController.Update();
     }
     
     private void OnLogin(object? sender, EventArgs e)
     {
         ModuleController.LoadModules();
+        
+        TodoController.Load();
     }
     
     private void OnLogout(object? sender, EventArgs e)
     {
         ModuleController.UnloadModules();
+        
+        TodoController.Unload();
     }
     
     private void OnZoneChange(object? sender, ushort territoryTypeId)

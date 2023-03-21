@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -105,6 +106,11 @@ public abstract unsafe class BaseModule : IDisposable
         ModuleData = LoadData();
         ModuleConfig = LoadConfig();
 
+        if (DateTime.UtcNow > ModuleData.NextReset)
+        {
+            Reset();
+        }
+        
         SendStatusMessage();
     }
 
@@ -286,5 +292,15 @@ public abstract unsafe class BaseModule : IDisposable
             value = newValue;
             DataChanged = true;
         }
+    }
+    
+    protected static int GetIncompleteCount<T>(IEnumerable<LuminaTaskConfig<T>> config, IEnumerable<LuminaTaskData<T>> data)
+    {
+        var result = from taskConfig in config
+            join taskData in data on taskConfig.RowId equals taskData.RowId
+            where taskConfig.TargetCount != -1 ? taskConfig.Enabled && taskData.CurrentCount < taskConfig.TargetCount : taskConfig.Enabled && !taskData.Complete
+            select taskData;
+
+        return result.Count();
     }
 }

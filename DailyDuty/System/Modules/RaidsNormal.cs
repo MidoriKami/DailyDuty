@@ -17,7 +17,7 @@ public class RaidsNormal : RaidsBase
 
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{GetIncompleteCount()} Raids Available";
+        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Raids Available";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderRaid);
     }

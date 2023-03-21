@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 using DailyDuty.System.Localization;
+using Dalamud.Utility;
 
 namespace DailyDuty.Models.Attributes;
 
@@ -28,10 +30,10 @@ public static partial class EnumExtensions
 {
     public static string GetLabel(this Enum enumValue) 
     {
-        var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
+        // var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
 
-        var attributes = fieldInfo?.GetCustomAttributes(typeof(Label), false) as Label[] ?? null;
+        var labelAttribute = enumValue.GetAttribute<Label>();
 
-        return attributes is { Length: > 0 } ? attributes[0].Description : enumValue.ToString();
+        return labelAttribute is not null ? labelAttribute.Description : enumValue.ToString();
     }
 }
