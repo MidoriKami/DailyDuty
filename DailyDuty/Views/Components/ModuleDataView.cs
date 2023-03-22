@@ -11,7 +11,7 @@ namespace DailyDuty.Views.Components;
 
 public static class ModuleDataView
 {
-    public static void Draw(List<(FieldInfo, DataDisplay)> fields, ModuleDataBase moduleData)
+    public static void Draw(List<(FieldInfo, DataDisplay)> fields, object sourceObject)
     {
         if(fields.Count > 0)
         {
@@ -24,7 +24,7 @@ public static class ModuleDataView
             {
                 foreach (var (field, attribute) in fields)
                 {
-                    DrawGenericData(moduleData, field, attribute);
+                    DrawGenericData(sourceObject, field, attribute);
                 }
                 
                 ImGui.EndTable();
@@ -35,7 +35,7 @@ public static class ModuleDataView
         }
     }
     
-    private static void DrawGenericData(ModuleDataBase moduleData, FieldInfo field, DataDisplay attribute)
+    private static void DrawGenericData(object sourceObject, FieldInfo field, DataDisplay attribute)
     {
         ImGui.TableNextColumn();
         ImGui.Text(attribute.Label);
@@ -44,31 +44,31 @@ public static class ModuleDataView
         switch (Type.GetTypeCode(field.FieldType))
         {
             case TypeCode.Boolean:
-                var boolValue = (bool) field.GetValue(moduleData)!;
+                var boolValue = (bool) field.GetValue(sourceObject)!;
                 
                 ImGui.Text(boolValue.ToString());
                 break;
 
             case TypeCode.String:
-                var stringValue = (string) field.GetValue(moduleData)!;
+                var stringValue = (string) field.GetValue(sourceObject)!;
 
                 ImGui.Text(stringValue);
                 break;
             
             case TypeCode.Int32:
-                var intValue = (int) field.GetValue(moduleData)!;
+                var intValue = (int) field.GetValue(sourceObject)!;
                 
                 ImGui.Text(intValue.ToString());
                 break;
             
             case TypeCode.UInt32:
-                var uIntValue = (uint) field.GetValue(moduleData)!;
+                var uIntValue = (uint) field.GetValue(sourceObject)!;
                 
                 ImGui.Text(uIntValue.ToString());
                 break;
             
             case TypeCode.DateTime:
-                var dateTime = (DateTime) field.GetValue(moduleData)!;
+                var dateTime = (DateTime) field.GetValue(sourceObject)!;
                     
                 ImGui.Text(dateTime.ToLocalTime().ToString(CultureInfo.CurrentCulture));
                 break;
@@ -76,7 +76,7 @@ public static class ModuleDataView
             case TypeCode.Object:
                 if (field.FieldType == typeof(List<int>))
                 {
-                    var list = (List<int>) field.GetValue(moduleData)!;
+                    var list = (List<int>) field.GetValue(sourceObject)!;
 
                     foreach (var value in list)
                     {
@@ -85,7 +85,7 @@ public static class ModuleDataView
                 }
                 else if (field.FieldType == typeof(TimeSpan))
                 {
-                    var value = (TimeSpan) field.GetValue(moduleData)!;
+                    var value = (TimeSpan) field.GetValue(sourceObject)!;
 
                     if (value > TimeSpan.MinValue)
                     {

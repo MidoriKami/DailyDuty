@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Commands;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -13,170 +14,177 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib;
 using KamiLib.Atk;
 using KamiLib.GameState;
 using Newtonsoft.Json;
 
 namespace DailyDuty.System;
 
+public class UiColor
+{
+    public required ushort ColorKey { get; set; }
+}
+
 public class TodoConfig
 {
     public bool Enable = true;
     
+    [ConfigOption("EnableDailyTasks")]
     public bool DailyTasks = true;
+    
+    [ConfigOption("EnableWeeklyTasks")]
     public bool WeeklyTasks = true;
+    
+    [ConfigOption("EnableSpecialTasks")]
     public bool SpecialTasks = true;
 
+    [ConfigOption("HideInQuestEvent")]
     public bool HideDuringQuests = true;
+    
+    [ConfigOption("HideInDuties")]
     public bool HideInDuties = true;
 
+    [ConfigOption("DailyTasksLabel")]
     public string DailyLabel = "Daily Tasks";
+    
+    [ConfigOption("WeeklyTasksLabel")]
     public string WeeklyLabel = "Weekly Tasks";
+    
+    [ConfigOption("SpecialTasksLabel")]
     public string SpecialLabel = "Special Tasks";
 
-    public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
-    public Vector4 TextBorderColor = new(142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f);
-    public ushort HeaderGlowKey = 14;
-
+    [ConfigOption("Position")]
     public Vector2 TextNodePosition = new(750, 512);
+    
+    [ConfigOption("TextAlignment")]
     public AlignmentType AlignmentType = AlignmentType.TopLeft;
+    
+    [ConfigOption("LineSpacing", 5, 30)]
+    public int LineSpacing = 20;
+    
+    [ConfigOption("FontSize", 5, 30)]
+    public int FontSize = 14;
+
+    [ConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+    
+    [ConfigOption("TextBorderColor", 142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f)]
+    public Vector4 TextBorderColor = new(142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f);
+    
+    [ConfigOption("HeaderOutlineColor", 14)]
+    public UiColor HeaderGlowKey = new() { ColorKey = 14 };
 }
 
 public unsafe class TodoController : IDisposable
 {
-    private TodoConfig config = new();
+    public TodoConfig Config = new();
     private bool configChanged;
     private static AtkUnitBase* ParentAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("NamePlate");
     private AtkTextNode* TodoListNode => GetTextNode();
     private const uint TextNodeId = 1000;
-    private readonly Stopwatch slowUpdateStopwatch = Stopwatch.StartNew();
-    
+    private readonly TodoCommands todoCommands = new();
+
     public void Load()
     {
-        config = LoadConfig();
+        KamiCommon.CommandManager.AddCommand(todoCommands);
+        Config = LoadConfig();
         
         if(ParentAddon is null) PluginLog.Warning("NamePlate is Null on TodoController.Load");
         if(!IsNodeAlreadyCreated()) CreateTextNode();
     }
-
+    
     public void DrawConfig()
     {
         if (TodoListNode is null) return;
 
-        TodoEnableView.Draw(config, SaveConfig);
-        TodoPositionEditView.Draw(TodoListNode, config, SaveConfig);
-        TodoDisplayOptionsView.Draw(TodoListNode, config, SaveConfig);
-        TodoHeaderLabelEditView.Draw(config, SaveConfig);
-        TodoTextColorPickerView.Draw(config, SaveConfig);
+        var fields = Config
+            .GetType()
+            .GetFields(); 
+        
+        var configOptions = fields
+            .Where(field => field.GetCustomAttribute(typeof(ConfigOption)) is not null)
+            .Select(field => (field, (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
+            .ToList();
+        
+        TodoEnableView.Draw(Config, SaveConfig);
+        GenericConfigView.Draw(configOptions, Config, SaveConfig, "Todo Display Configuration");
     }
 
     public void Update()
     {
-        if (slowUpdateStopwatch.Elapsed > TimeSpan.FromMilliseconds(250))
-        {
-            SlowUpdate();
-            slowUpdateStopwatch.Restart();
-        }
-
         if (TodoListNode is not null)
         {
-            TodoListNode->AtkResNode.ToggleVisibility(true);
-            if(config.HideInDuties && Condition.IsBoundByDuty()) TodoListNode->AtkResNode.ToggleVisibility(false);
-            if(config.HideDuringQuests && Condition.IsInCutsceneOrQuestEvent()) TodoListNode->AtkResNode.ToggleVisibility(false);
+            var seString = new SeStringBuilder();
+
+            if(Config.DailyTasks) UpdateCategory(seString, ModuleType.Daily);
+            if(Config.WeeklyTasks) UpdateCategory(seString, ModuleType.Weekly);
+            if(Config.SpecialTasks) UpdateCategory(seString, ModuleType.Special);
+
+            var encodedString = seString.Encode();
             
-            TodoListNode->TextColor = VectorToByteColor(config.TextColor);
-            TodoListNode->EdgeColor = VectorToByteColor(config.TextBorderColor);
+            TodoListNode->SetText(encodedString);
+            
+            TodoListNode->AtkResNode.ToggleVisibility(encodedString.Length != 0 && Config.Enable);
+            if(Config.HideInDuties && Condition.IsBoundByDuty()) TodoListNode->AtkResNode.ToggleVisibility(false);
+            if(Config.HideDuringQuests && Condition.IsInCutsceneOrQuestEvent()) TodoListNode->AtkResNode.ToggleVisibility(false);
+            
+            TodoListNode->TextColor = VectorToByteColor(Config.TextColor);
+            TodoListNode->EdgeColor = VectorToByteColor(Config.TextBorderColor);
         }
         
         if(configChanged) SaveConfig();
         configChanged = false;
     }
 
-    private void SlowUpdate()
+    private void UpdateCategory(SeStringBuilder builder, ModuleType type)
     {
-        if (TodoListNode is not null)
-        {
-            var seString = new SeStringBuilder();
-
-            if(config.DailyTasks) UpdateDaily(seString);
-            if(config.WeeklyTasks) UpdateWeekly(seString);
-            if(config.SpecialTasks) UpdateSpecial(seString);
-            
-            TodoListNode->SetText(seString.Encode());
-        }
-    }
-
-    private void UpdateDaily(SeStringBuilder builder)
-    {
-        var dailyTasks = DailyDutyPlugin.System.ModuleController
-            .GetModules(ModuleType.Daily)
+        var tasks = DailyDutyPlugin.System.ModuleController
+            .GetModules(type)
             .Where(module => module.ModuleConfig.ModuleEnabled)
             .Where(module => module.ModuleStatus is ModuleStatus.Incomplete)
             .ToList();
 
-        if (dailyTasks.Count == 0) return;
+        if (tasks.Count == 0) return;
+
+        var label = type switch
+        {
+            ModuleType.Daily => Config.DailyLabel,
+            ModuleType.Weekly => Config.WeeklyLabel,
+            ModuleType.Special => Config.SpecialLabel,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
         
-        builder.AddUiGlow(config.DailyLabel, config.HeaderGlowKey);
+        builder.AddUiGlow(label, Config.HeaderGlowKey.ColorKey);
         builder.Add(new NewLinePayload());
         
-        foreach (var dailyModule in dailyTasks)
+        foreach (var module in tasks)
         {
-            if (!dailyModule.ModuleConfig.ModuleEnabled) continue;
-            if (dailyModule.ModuleStatus is not ModuleStatus.Incomplete) continue;
-
-            builder.AddText(dailyModule.ModuleName.GetLabel());
+            builder.AddText(module.ModuleName.GetLabel());
             builder.Add(new NewLinePayload());
         }
     }
-
-    private void UpdateWeekly(SeStringBuilder builder)
-    {
-        var weeklyTasks = DailyDutyPlugin.System.ModuleController
-            .GetModules(ModuleType.Weekly)
-            .Where(module => module.ModuleConfig.ModuleEnabled)
-            .Where(module => module.ModuleStatus is ModuleStatus.Incomplete)
-            .ToList();
-
-        if (weeklyTasks.Count == 0) return;
-        
-        builder.Add(new NewLinePayload());
-        builder.AddUiGlow(config.WeeklyLabel, config.HeaderGlowKey);
-        builder.Add(new NewLinePayload());
-        
-        foreach (var weeklyModule in weeklyTasks)
-        {
-            builder.AddText(weeklyModule.ModuleName.GetLabel());
-            builder.Add(new NewLinePayload());
-        }
-    }
-
-    private void UpdateSpecial(SeStringBuilder builder)
-    {
-        var specialTasks = DailyDutyPlugin.System.ModuleController
-            .GetModules(ModuleType.Special)
-            .Where(module => module.ModuleConfig.ModuleEnabled)
-            .Where(module => module.ModuleStatus is ModuleStatus.Incomplete)
-            .ToList();
-
-        if (specialTasks.Count == 0) return;
-        
-        builder.Add(new NewLinePayload());
-        builder.AddUiGlow(config.SpecialLabel, config.HeaderGlowKey);
-        builder.Add(new NewLinePayload());
-        
-        foreach (var specialModule in specialTasks)
-        {
-            builder.AddText(specialModule.ModuleName.GetLabel());
-            builder.Add(new NewLinePayload());
-        }
-    }
-
+    
     public void Unload()
     {
+        KamiCommon.CommandManager.RemoveCommand(todoCommands);
         if (IsNodeAlreadyCreated()) DestroyTextNode();
     }
     
     public void Dispose() => Unload();
+
+    private void RefreshTextNode()
+    {
+        if (TodoListNode is not null)
+        {
+            TodoListNode->TextColor = VectorToByteColor(Config.TextColor);
+            TodoListNode->EdgeColor = VectorToByteColor(Config.TextBorderColor);
+            TodoListNode->LineSpacing = (byte) Config.LineSpacing;
+            TodoListNode->AlignmentFontType = (byte) Config.AlignmentType;
+            TodoListNode->FontSize = (byte) Config.FontSize;
+            TodoListNode->AtkResNode.SetPositionFloat(Config.TextNodePosition.X, Config.TextNodePosition.Y);
+        }
+    }
 
     private void CreateTextNode()
     {
@@ -188,18 +196,17 @@ public unsafe class TodoController : IDisposable
         resNode->NodeID = TextNodeId;
         resNode->Flags = 8243;
 
-        textNode->TextColor = VectorToByteColor(config.TextColor);
-        textNode->EdgeColor = VectorToByteColor(config.TextBorderColor);
+        textNode->TextColor = VectorToByteColor(Config.TextColor);
+        textNode->EdgeColor = VectorToByteColor(Config.TextBorderColor);
         textNode->BackgroundColor = new ByteColor { R = 255, G = 255, B = 255, A = 255 };
-        textNode->LineSpacing = 16;
-        textNode->AlignmentFontType = (byte) AlignmentType.BottomLeft;
-        textNode->FontSize = 14;
+        textNode->LineSpacing = (byte) Config.LineSpacing;
+        textNode->AlignmentFontType = (byte) Config.AlignmentType;
+        textNode->FontSize = (byte) Config.FontSize;
         textNode->TextFlags = 0x88;
-        textNode->TextFlags2 = 0;
         
         resNode->SetWidth(200);
         resNode->SetHeight(200);
-        resNode->SetPositionFloat(config.TextNodePosition.X, config.TextNodePosition.Y);
+        resNode->SetPositionFloat(Config.TextNodePosition.X, Config.TextNodePosition.Y);
         
         LinkNodeAtEnd(resNode, ParentAddon);
     }
@@ -245,11 +252,11 @@ public unsafe class TodoController : IDisposable
             if (dataFile is { Exists: false })
             {
                 SaveConfig();
-                return config;
+                return Config;
             }
             
             var jsonString = File.ReadAllText(dataFile.FullName);
-            return (TodoConfig) JsonConvert.DeserializeObject(jsonString, config.GetType())!;
+            return (TodoConfig) JsonConvert.DeserializeObject(jsonString, Config.GetType())!;
         }
         catch (Exception exception)
         {
@@ -258,14 +265,16 @@ public unsafe class TodoController : IDisposable
         }
     }
     
-    private void SaveConfig()
+    public void SaveConfig()
     {
+        RefreshTextNode();
+
         try
         {
             PluginLog.Debug($"[Todo Config] Saving Todo.config.json");
             var dataFile = GetConfigFileInfo();
 
-            var jsonString = JsonConvert.SerializeObject(config, config.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
+            var jsonString = JsonConvert.SerializeObject(Config, Config.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
             File.WriteAllText(dataFile.FullName, jsonString);
         }
         catch (Exception exception)

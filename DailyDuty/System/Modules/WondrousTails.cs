@@ -28,7 +28,7 @@ public class WondrousTailsConfig : ModuleConfigBase
     [ConfigOption("UnclaimedBookWarning")]
     public bool UnclaimedBookWarning = true;
 
-    [ConfigOption("ShuffleAvailableNotice")]
+    [ConfigOption("ShuffleAvailableNotice", "ShuffleAvailableNoticeHelp")]
     public bool ShuffleAvailableNotice = false;
 }
 
@@ -141,7 +141,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
         if (Config.StickerAvailableNotice && AnyTaskAvailableForSticker())
             return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "Sticker Available", PayloadId.OpenWondrousTailsBook);
 
-        if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 2, PlacedStickers: > 3 and < 7 }) 
+        if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 7, PlacedStickers: > 3 and < 7 }) 
             return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "Shuffle Available", PayloadId.OpenWondrousTailsBook);
         
         if (Config.UnclaimedBookWarning && Data.NewBookAvailable) 

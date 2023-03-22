@@ -30,8 +30,6 @@ public static partial class EnumExtensions
 {
     public static string GetLabel(this Enum enumValue) 
     {
-        // var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
         var labelAttribute = enumValue.GetAttribute<Label>();
 
         return labelAttribute is not null ? labelAttribute.Description : enumValue.ToString();

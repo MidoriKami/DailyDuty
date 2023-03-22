@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using DailyDuty.System.Localization;
 
 namespace DailyDuty.Models.Attributes;
@@ -32,7 +33,15 @@ public class ConfigOption : Attribute
 
     public int IntMin { get; }
     public int IntMax { get; } = 100;
+    public Vector4 DefaultColor { get; } = Vector4.One;
+    public ushort DefaultUiColor { get; } = 1; 
 
+    public ConfigOption(string resourceKey, float r, float g, float b, float a)
+    {
+        this.resourceKey = resourceKey;
+        DefaultColor = new Vector4(r, g, b, a);
+    }
+    
     public ConfigOption(string resourceKey)
     {
         this.resourceKey = resourceKey;
@@ -49,5 +58,11 @@ public class ConfigOption : Attribute
     {
         this.resourceKey = resourceKey;
         this.helpTextKey = helpTextKey;
+    }
+
+    public ConfigOption(string resourceKey, ushort defaultUiColor)
+    {
+        this.resourceKey = resourceKey;
+        DefaultUiColor = defaultUiColor;
     }
 }

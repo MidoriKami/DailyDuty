@@ -64,7 +64,7 @@ public abstract unsafe class BaseModule : IDisposable
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
         ModuleClickableLinkConfigView.Draw(clickableLinks, ModuleConfig, SaveConfig);
-        ModuleConfigView.Draw(configOptions, ModuleConfig, SaveConfig);
+        GenericConfigView.Draw(configOptions, ModuleConfig, SaveConfig, "Module Configuration");
         ModuleSelectableTaskView.DrawConfig(selectableTasks, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }
@@ -294,13 +294,27 @@ public abstract unsafe class BaseModule : IDisposable
         }
     }
     
-    protected static int GetIncompleteCount<T>(IEnumerable<LuminaTaskConfig<T>> config, IEnumerable<LuminaTaskData<T>> data)
+    protected static int GetIncompleteCount<T>(List<LuminaTaskConfig<T>> config, List<LuminaTaskData<T>> data)
     {
-        var result = from taskConfig in config
-            join taskData in data on taskConfig.RowId equals taskData.RowId
-            where taskConfig.TargetCount != 0 ? taskConfig.Enabled && taskData.CurrentCount < taskConfig.TargetCount : taskConfig.Enabled && !taskData.Complete
-            select taskData;
-
-        return result.Count();
+        if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount");
+        
+        var incompleteCount = 0;
+        
+        foreach (var index in Enumerable.Range(0, config.Count))
+        {
+            var configInfo = config[index];
+            var dataInfo = data[index];
+        
+            if (configInfo.TargetCount != 0 && dataInfo.CurrentCount < configInfo.TargetCount)
+            {
+                incompleteCount++;
+            }
+            else if(configInfo.Enabled && !dataInfo.Complete)
+            {
+                incompleteCount++;
+            }
+        }
+        
+        return incompleteCount;
     }
 }
