@@ -38,9 +38,9 @@ public class ModuleConfigurationTab : ISelectionWindowTab
 
         ImGui.PushItemWidth(region.X - buttonSize.X - ImGui.GetStyle().ItemSpacing.X);
         
-        if (ImGui.BeginCombo("##FilterCombo", filterType?.GetLabel() ?? "Show All"))
+        if (ImGui.BeginCombo("##FilterCombo", filterType?.GetLabel() ?? Strings.Show_All))
         {
-            if (ImGui.Selectable("Show All", filterType == null))
+            if (ImGui.Selectable(Strings.Show_All, filterType == null))
             {
                 filterType = null;
             }

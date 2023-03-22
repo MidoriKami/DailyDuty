@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -14,17 +15,17 @@ public static class ModuleClickableLinkConfigView
     {
         if (fields.Count > 0)
         {
-            ImGui.Text("Clickable Link");
+            ImGui.Text($"{Strings.ClickableLink}");
             ImGui.Separator();
             
             ImGuiHelpers.ScaledIndent(15.0f);
 
             foreach (var field in fields)
             {
-                ImGui.Text(field.Item2.Description);
+                ImGui.TextWrapped(field.Item2.Description);
 
                 var boolValue = (bool) field.Item1.GetValue(moduleConfig)!;
-                if (ImGui.Checkbox($"Enable##{field.Item1.Name}", ref boolValue))
+                if (ImGui.Checkbox($"{Strings.Enable}##{field.Item1.Name}", ref boolValue))
                 {
                     field.Item1.SetValue(moduleConfig, boolValue);
                     saveAction.Invoke();

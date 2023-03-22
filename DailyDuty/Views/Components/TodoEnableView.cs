@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.System;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -9,12 +10,12 @@ public class TodoEnableView
 {
     public static void Draw(TodoConfig config, Action saveAction)
     {
-        ImGui.Text("Todo Display Enable");
+        ImGui.Text(Strings.TodoDisplayEnable);
         ImGui.Separator();
             
         ImGuiHelpers.ScaledIndent(15.0f);
         
-        if (ImGui.Checkbox("Enable##TodoEnable", ref config.Enable))
+        if (ImGui.Checkbox($"{Strings.Enable}##TodoEnable", ref config.Enable))
         {
             saveAction.Invoke();
         }

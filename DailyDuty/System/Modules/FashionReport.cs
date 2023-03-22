@@ -4,13 +4,14 @@ using DailyDuty.Interfaces;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using KamiLib.Misc;
 
 namespace DailyDuty.System;
 
 public class FashionReportConfig : ModuleConfigBase
 {
-    [ConfigOption("CompletionMode", "CompletionModeHelp")]
+    [ConfigOption("CompletionMode")]
     public FashionReportMode CompletionMode = FashionReportMode.Single;
 
     [ClickableLink("GoldSaucerTeleport")]
@@ -86,9 +87,9 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
     {
         var message = Config.CompletionMode switch
         {
-            FashionReportMode.All => $"{Data.AllowancesRemaining} Allowances Available",
-            FashionReportMode.Single when Data.AllowancesRemaining == 4 => $"{Data.AllowancesRemaining} Allowances Available",
-            FashionReportMode.Plus80 when Data.HighestWeeklyScore <= 80 => $"{Data.HighestWeeklyScore} Highest Score",
+            FashionReportMode.All => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
+            FashionReportMode.Single when Data.AllowancesRemaining == 4 => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
+            FashionReportMode.Plus80 when Data.HighestWeeklyScore <= 80 => $"{Data.HighestWeeklyScore} {Strings.HighestScore}",
             _ => throw new ArgumentOutOfRangeException()
         };
 

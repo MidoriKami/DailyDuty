@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.Abstracts;
+using DailyDuty.System.Localization;
 using Dalamud.Game.Text;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
@@ -12,7 +13,7 @@ public static class ModuleNotificationOptionsView
 {
     public static void Draw(ModuleConfigBase moduleConfig, Action saveConfig)
     {
-        ImGui.Text("Notification Options");
+        ImGui.Text(Strings.NotificationOptions);
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
         
@@ -26,7 +27,7 @@ public static class ModuleNotificationOptionsView
 
         if (statusMessage || resetMessage)
         {
-            ImGui.Text("Notification Customization");
+            ImGui.Text(Strings.NotificationCustomization);
             ImGui.Separator();
             ImGuiHelpers.ScaledIndent(15.0f);
 
@@ -48,27 +49,27 @@ public static class ModuleNotificationOptionsView
     
     private static void DrawCustomResetMessage(ModuleConfigBase moduleConfig, Action saveConfig)
     {
-        if (ImGui.Checkbox("Enable Custom Reset Message", ref moduleConfig.UseCustomResetMessage)) saveConfig();
+        if (ImGui.Checkbox(Strings.EnableCustomResetMessage, ref moduleConfig.UseCustomResetMessage)) saveConfig();
         if (moduleConfig.UseCustomResetMessage)
         {
-            ImGui.InputTextWithHint("##CustomResetMessage", "Reset Message", ref moduleConfig.CustomResetMessage, 2048);
+            ImGui.InputTextWithHint("##CustomResetMessage", Strings.ResetMessage, ref moduleConfig.CustomResetMessage, 2048);
             if (ImGui.IsItemDeactivatedAfterEdit()) saveConfig();
         }
     }
     
     private static void DrawCustomStatusMessage(ModuleConfigBase moduleConfig, Action saveConfig)
     {
-        if (ImGui.Checkbox("Enable Custom Status Message", ref moduleConfig.UseCustomStatusMessage)) saveConfig();
+        if (ImGui.Checkbox(Strings.EnableCustomStatusMessage, ref moduleConfig.UseCustomStatusMessage)) saveConfig();
         if (moduleConfig.UseCustomStatusMessage)
         {
-            ImGui.InputTextWithHint("##CustomStatusMessage", "Status Message", ref moduleConfig.CustomStatusMessage, 2048);
+            ImGui.InputTextWithHint("##CustomStatusMessage", Strings.StatusMessage, ref moduleConfig.CustomStatusMessage, 2048);
             if (ImGui.IsItemDeactivatedAfterEdit()) saveConfig();
         }
     }
     
     private static void DrawCustomChatChannel(ModuleConfigBase moduleConfig, Action saveConfig)
     {
-        if (ImGui.Checkbox("Enable Custom Channel", ref moduleConfig.UseCustomChannel)) saveConfig();
+        if (ImGui.Checkbox(Strings.EnableCustomChannel, ref moduleConfig.UseCustomChannel)) saveConfig();
 
         if (moduleConfig.UseCustomChannel)
         {
@@ -92,13 +93,13 @@ public static class ModuleNotificationOptionsView
     
     private static void DrawMessageToggles(ModuleConfigBase moduleConfig, Action saveConfig)
     {
-        if (ImGui.Checkbox("Send Status on Login", ref moduleConfig.OnLoginMessage)) saveConfig();
-        ImGuiComponents.HelpMarker("Sends a status notification to chat when you login");
+        if (ImGui.Checkbox(Strings.SendStatusOnLogin, ref moduleConfig.OnLoginMessage)) saveConfig();
+        ImGuiComponents.HelpMarker(Strings.SendStatusOnLoginHelp);
         
-        if (ImGui.Checkbox("Send Status on Zone Change", ref moduleConfig.OnZoneChangeMessage)) saveConfig();
-        ImGuiComponents.HelpMarker("Sends a status notification to chat when you change zones\nLimited to once per 5 mins");
+        if (ImGui.Checkbox(Strings.SendStatusOnZoneChange, ref moduleConfig.OnZoneChangeMessage)) saveConfig();
+        ImGuiComponents.HelpMarker(Strings.SendStatusOnZoneChangeHelp);
         
-        if (ImGui.Checkbox("Send Message on Reset", ref moduleConfig.ResetMessage)) saveConfig();
-        ImGuiComponents.HelpMarker("Sends a notification to chat if a reset recently occured");
+        if (ImGui.Checkbox(Strings.SendMessageOnReset, ref moduleConfig.ResetMessage)) saveConfig();
+        ImGuiComponents.HelpMarker(Strings.SendMessageOnResetHelp);
     }
 }

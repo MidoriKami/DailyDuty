@@ -1,5 +1,6 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -9,14 +10,14 @@ public static class ModuleStatusView
 {
     public static void Draw(BaseModule module)
     {
-        ImGui.Text("Module Status");
+        ImGui.Text(Strings.ModuleStatus);
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
 
         if (ImGui.BeginTable("##StatusTable", 2, ImGuiTableFlags.SizingStretchSame))
         {
             ImGui.TableNextColumn();
-            ImGui.Text("Current Status");
+            ImGui.Text(Strings.CurrentStatus);
 
             ImGui.TableNextColumn();
             ImGui.TextColored(module.ModuleStatus.GetColor(), module.ModuleStatus.GetLabel());

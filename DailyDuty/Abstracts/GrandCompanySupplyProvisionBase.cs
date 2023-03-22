@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Misc;
 using Lumina.Excel.GeneratedSheets;
@@ -59,6 +60,6 @@ public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModul
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Turn-ins Available",
+        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.AllowancesRemaining}",
     };
 }

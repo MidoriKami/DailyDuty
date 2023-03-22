@@ -5,6 +5,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
+using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.GeneratedSheets;
@@ -19,7 +20,7 @@ public class DutyRouletteConfig : ModuleConfigBase
     [ClickableLink("DutyRouletteOpenDutyFinder")]
     public bool ClickableLink = true;
 
-    [ConfigOption("CompleteWhenTomeCapped")]
+    [ConfigOption("CompleteWhenTomeCapped", "CompleteWhenTomeCappedHelp")]
     public bool CompleteWhenCapped = false;
 }
 
@@ -94,7 +95,7 @@ public unsafe class DutyRoulette : Module.DailyModule
     
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Roulettes Remaining";
+        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.RoulettesRemaining}";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderRoulette);
     }

@@ -1,4 +1,5 @@
-﻿using DailyDuty.Models.Attributes;
+﻿using System;
+using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
@@ -13,11 +14,13 @@ public class StatusMessage
 
     public virtual void PrintMessage()
     {
+        var dailyDutyLabel = DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty"; 
+        
         var message = new XivChatEntry
         {
             Type = MessageChannel,
             Message = new SeStringBuilder()
-                .AddUiForeground($"[DailyDuty] ", 45)
+                .AddUiForeground($"[{dailyDutyLabel}] ", 45)
                 .AddUiForeground($"[{SourceModule.GetLabel()}] ", 62)
                 .AddText(Message)
                 .Build()

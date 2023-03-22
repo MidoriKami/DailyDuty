@@ -2,6 +2,7 @@
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.System;
@@ -54,6 +55,6 @@ public unsafe class TribalQuests : Module.DailyModule
     
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{Data.RemainingAllowances} Allowances Remaining",
+        Message = $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}",
     };
 }

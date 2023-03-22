@@ -3,6 +3,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 
 namespace DailyDuty.System;
 
@@ -37,7 +38,7 @@ public unsafe class MiniCactpot : Module.DailyModule, IGoldSaucerMessageReceiver
 
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{Data.AllowancesRemaining} Tickets Remaining";
+        var message = $"{Data.AllowancesRemaining} {Strings.TicketsRemaining}";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
     }

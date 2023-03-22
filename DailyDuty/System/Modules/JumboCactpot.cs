@@ -5,6 +5,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -71,7 +72,7 @@ public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageRecei
 
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{3 - Data.Tickets.Count} Tickets Available";
+        var message = $"{3 - Data.Tickets.Count} {Strings.TicketsAvailable}";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
     }

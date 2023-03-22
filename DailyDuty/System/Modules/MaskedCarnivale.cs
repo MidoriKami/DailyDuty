@@ -6,6 +6,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
+using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.GeneratedSheets;
 
@@ -99,7 +100,7 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
 
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Challenges Remaining";
+        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.ChallengesRemaining}";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.UldahTeleport);
     }

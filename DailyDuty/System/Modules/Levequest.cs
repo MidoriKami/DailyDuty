@@ -3,6 +3,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiLib.Misc;
 
@@ -13,7 +14,7 @@ public class LevequestConfig : ModuleConfigBase
     [ConfigOption("NotificationThreshold", 0, 100)]
     public int NotificationThreshold = 95;
 
-    [ConfigOption("ComparisonMode", "ComparisonHelp")]
+    [ConfigOption("ComparisonMode")]
     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
 }
 
@@ -55,6 +56,6 @@ public unsafe class Levequest : Module.SpecialModule
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{Data.NumLevequestAllowances} Allowances Remaining",
+        Message = $"{Data.NumLevequestAllowances} {Strings.AllowancesRemaining}",
     };
 }

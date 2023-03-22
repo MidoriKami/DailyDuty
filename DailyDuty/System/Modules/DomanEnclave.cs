@@ -21,7 +21,7 @@ public class DomanEnclaveData : ModuleDataBase
     [DataDisplay("DonatedThisWeek")]
     public int DonatedThisWeek;
     
-    [DataDisplay("RemainingAllowance")]
+    [DataDisplay("BudgetRemaining")]
     public int RemainingAllowance;
 }
 

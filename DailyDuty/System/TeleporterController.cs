@@ -1,4 +1,5 @@
-﻿using Dalamud.Logging;
+﻿using DailyDuty.System.Localization;
+using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
 using KamiLib.ChatCommands;
@@ -29,17 +30,17 @@ public class TeleporterController
 
             if (!didTeleport)
             {
-                UserError("Cannot teleport in this situation");
+                UserError(Strings.CannotTeleportNow);
             }
             else if (showMessage)
             {
-                Chat.Print("[Teleport]", $"Teleporting to '{aetheryte.AethernetName.Value?.Name ?? "Unable to read name"}'");
+                Chat.Print($"[{Strings.Teleport}]", string.Format(Strings.TeleportingTo, aetheryte.AethernetName.Value?.Name ?? "Unable to read name"));
             }
         }
         catch (IpcNotReadyError)
         {
             PluginLog.Error("Teleport IPC not found");
-            UserError("To use the teleport function, you must install the \"Teleporter\" plugin");
+            UserError(Strings.InstallTeleporterError);
         }
     }
 

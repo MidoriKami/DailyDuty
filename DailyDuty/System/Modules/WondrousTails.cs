@@ -5,6 +5,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using Dalamud;
 using Dalamud.Logging;
 using Dalamud.Utility;
@@ -16,13 +17,13 @@ namespace DailyDuty.System;
 
 public class WondrousTailsConfig : ModuleConfigBase
 {
-    [ConfigOption("InstanceNotifications")]
+    [ConfigOption("InstanceNotifications", "InstanceNotificationsHelp")]
     public bool InstanceNotifications = true;
     
     [ClickableLink("WondrousTailsClickableLink")]
     public bool ClickableLink = true;
 
-    [ConfigOption("StickerAvailableNotice")]
+    [ConfigOption("StickerAvailableNotice", "StickerAvailableNoticeHelp")]
     public bool StickerAvailableNotice = true;
     
     [ConfigOption("UnclaimedBookWarning")]
@@ -98,16 +99,16 @@ public unsafe class WondrousTails : Module.WeeklyModule
         switch (taskState)
         {
             case PlayerState.WeeklyBingoTaskStatus.Claimed when Data is {PlacedStickers: > 0, SecondChance: > 0}:
-                PrintMessage("This instance is available for a stamp if you re-roll it");
-                PrintMessage($"You have {Data.SecondChance} re-rolls available", true);
+                PrintMessage(Strings.RerollNotice);
+                PrintMessage(string.Format(Strings.RerollsAvailable, Data.SecondChance), true);
                 break;
             
             case PlayerState.WeeklyBingoTaskStatus.Claimable:
-                PrintMessage("A stamp is already available for this instance", true);
+                PrintMessage(Strings.StampAlreadyAvailable, true);
                 break;
             
             case PlayerState.WeeklyBingoTaskStatus.Open:
-                PrintMessage("Completing this instance will reward you with a stamp");
+                PrintMessage(Strings.CompletionAvailable);
                 break;
         }
     }
@@ -124,7 +125,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
         {
             case PlayerState.WeeklyBingoTaskStatus.Claimable:
             case PlayerState.WeeklyBingoTaskStatus.Open:
-                PrintMessage("You can claim a stamp for this duty!", true);
+                PrintMessage(Strings.StampClaimable, true);
                 break;
         }
     }
@@ -139,15 +140,15 @@ public unsafe class WondrousTails : Module.WeeklyModule
     protected override StatusMessage GetStatusMessage()
     {
         if (Config.StickerAvailableNotice && AnyTaskAvailableForSticker())
-            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "Sticker Available", PayloadId.OpenWondrousTailsBook);
+            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.StickerAvailable, PayloadId.OpenWondrousTailsBook);
 
         if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 7, PlacedStickers: > 3 and < 7 }) 
-            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "Shuffle Available", PayloadId.OpenWondrousTailsBook);
+            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.ShuffleAvailable, PayloadId.OpenWondrousTailsBook);
         
         if (Config.UnclaimedBookWarning && Data.NewBookAvailable) 
-            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, "New Book Available", PayloadId.IdyllshireTeleport);
+            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.NewBookAvailable, PayloadId.IdyllshireTeleport);
 
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, $"{9 - Data.PlacedStickers} Stickers Remaining", PayloadId.OpenWondrousTailsBook);
+        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers), PayloadId.OpenWondrousTailsBook);
     }
 
     private PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory)

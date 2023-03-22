@@ -64,7 +64,7 @@ public abstract unsafe class BaseModule : IDisposable
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
         ModuleClickableLinkConfigView.Draw(clickableLinks, ModuleConfig, SaveConfig);
-        GenericConfigView.Draw(configOptions, ModuleConfig, SaveConfig, "Module Configuration");
+        GenericConfigView.Draw(configOptions, ModuleConfig, SaveConfig, Strings.ModuleConfiguration);
         ModuleSelectableTaskView.DrawConfig(selectableTasks, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
     }

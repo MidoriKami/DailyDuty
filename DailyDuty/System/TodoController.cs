@@ -6,6 +6,7 @@ using System.Reflection;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Commands;
+using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -108,7 +109,7 @@ public unsafe class TodoController : IDisposable
             .ToList();
         
         TodoEnableView.Draw(Config, SaveConfig);
-        GenericConfigView.Draw(configOptions, Config, SaveConfig, "Todo Display Configuration");
+        GenericConfigView.Draw(configOptions, Config, SaveConfig, Strings.TodoDisplayConfiguration);
     }
 
     public void Update()

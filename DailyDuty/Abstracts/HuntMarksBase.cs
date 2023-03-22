@@ -3,6 +3,7 @@ using System.Linq;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
@@ -99,6 +100,6 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} Hunts Available",
+        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.HuntsRemaining}",
     };
 }

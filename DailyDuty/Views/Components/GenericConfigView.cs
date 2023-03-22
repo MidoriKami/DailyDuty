@@ -5,6 +5,7 @@ using System.Reflection;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.System;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -59,7 +60,7 @@ public static class GenericConfigView
                 saveAction.Invoke();
             }
             ImGui.SameLine();
-            if (ImGui.Button($"Default##{field.Name}"))
+            if (ImGui.Button($"{Strings.Default}##{field.Name}"))
             {
                 field.SetValue(sourceObject, attribute.DefaultColor);
                 saveAction.Invoke();
@@ -84,7 +85,7 @@ public static class GenericConfigView
             }
             
             ImGui.SameLine();
-            if (ImGui.Button($"Default##{field.Name}"))
+            if (ImGui.Button($"{Strings.Default}##{field.Name}"))
             {
                 colorValue.ColorKey = attribute.DefaultUiColor;
                 field.SetValue(sourceObject, colorValue);

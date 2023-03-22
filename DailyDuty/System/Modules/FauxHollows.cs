@@ -2,6 +2,7 @@
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 
 namespace DailyDuty.System;
 
@@ -51,10 +52,6 @@ public class FauxHollows : Module.WeeklyModule
         _ => ModuleStatus.Incomplete,
     };
 
-    protected override StatusMessage GetStatusMessage()
-    {
-        var message = "Unreal Trial Available";
-
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenPartyFinder);
-    }
+    protected override StatusMessage GetStatusMessage() => 
+        ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.UnrealTrialAvailable, PayloadId.OpenPartyFinder);
 }

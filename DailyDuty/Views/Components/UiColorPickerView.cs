@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using DailyDuty.System.Localization;
 using ImGuiNET;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
@@ -12,7 +13,7 @@ public class UiColorPickerView
         const ImGuiColorEditFlags paletteButtonFlags = ImGuiColorEditFlags.AlphaPreview | ImGuiColorEditFlags.NoPicker | ImGuiColorEditFlags.NoTooltip;
         
         ImGui.BeginGroup(); // Lock X position
-        ImGui.Text("Current color:");
+        ImGui.Text($"{Strings.CurrentColor}:");
         ImGui.SameLine();
         
         var selectedColor = ConvertToVector4(LuminaCache<UIColor>.Instance.GetRow(index)!.UIGlow);
@@ -39,9 +40,9 @@ public class UiColorPickerView
 
         ImGui.EndGroup();
 
-        shouldClose |= ImGui.Button("Close");
+        shouldClose |= ImGui.Button(Strings.Close);
         ImGui.SameLine();
-        if (ImGui.Button("Default"))
+        if (ImGui.Button(Strings.Default))
         {
             shouldClose = true;
             index = 14;

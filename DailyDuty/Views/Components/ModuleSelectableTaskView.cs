@@ -21,7 +21,7 @@ public static class ModuleSelectableTaskView
     {
         if (field is null) return;
         
-        ImGui.Text("Task Selection");
+        ImGui.Text(Strings.TaskSelection);
         ImGui.Separator();
 
         ImGuiHelpers.ScaledIndent(15.0f);
@@ -166,7 +166,7 @@ public static class ModuleSelectableTaskView
                             else
                             {
                                 ImGui.TableNextColumn();
-                                ImGui.TextColored(KnownColor.Orange.AsVector4(), "Nothing to Track");
+                                ImGui.TextColored(KnownColor.Orange.AsVector4(), Strings.NothingToTrack);
                             }
                             
                             ImGui.EndTable();
@@ -184,7 +184,7 @@ public static class ModuleSelectableTaskView
     {
         if (field is null) return;
         
-        ImGui.Text("Task Data");
+        ImGui.Text(Strings.TaskData);
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
 
@@ -301,7 +301,7 @@ public static class ModuleSelectableTaskView
                             else
                             {
                                 ImGui.TableNextColumn();
-                                ImGui.TextColored(KnownColor.Orange.AsVector4(), "Nothing to Track");
+                                ImGui.TextColored(KnownColor.Orange.AsVector4(), Strings.NothingToTrack);
                             }
                         }
                     }

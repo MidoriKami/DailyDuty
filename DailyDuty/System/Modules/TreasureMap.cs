@@ -5,6 +5,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
@@ -62,6 +63,6 @@ public class TreasureMap : Module.SpecialModule, IChatMessageReceiver
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = "Map Available",
+        Message = Strings.MapAvailable,
     };
 }

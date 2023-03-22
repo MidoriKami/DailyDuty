@@ -6,6 +6,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -160,6 +161,6 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = "Mission Available",
+        Message = Strings.MissionAvailable,
     };
 }

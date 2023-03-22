@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.System.Localization;
 using KamiLib.ChatCommands;
 using KamiLib.Interfaces;
 
@@ -20,7 +21,7 @@ internal class TodoCommands : IPluginCommand
                 DailyDutyPlugin.System.TodoController.Config.Enable = true;
                 DailyDutyPlugin.System.TodoController.SaveConfig();
             },
-            GetHelpText = () => "Enable Todo Display",
+            GetHelpText = () => Strings.TodoEnable,
         },
         new SubCommand
         {
@@ -31,7 +32,7 @@ internal class TodoCommands : IPluginCommand
                 DailyDutyPlugin.System.TodoController.Config.Enable = false;
                 DailyDutyPlugin.System.TodoController.SaveConfig();
             },
-            GetHelpText = () => "Disable Todo Display",
+            GetHelpText = () => Strings.TodoDisable,
         },
         new SubCommand
         {
@@ -42,7 +43,7 @@ internal class TodoCommands : IPluginCommand
                 DailyDutyPlugin.System.TodoController.Config.Enable = !DailyDutyPlugin.System.TodoController.Config.Enable;
                 DailyDutyPlugin.System.TodoController.SaveConfig();
             },
-            GetHelpText = () => "Toggle Todo Display",
+            GetHelpText = () => Strings.TodoToggle,
         }
     };
 }

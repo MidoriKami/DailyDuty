@@ -12,7 +12,7 @@ namespace DailyDuty.Views.Tabs;
 
 public class ModuleDataTab : ISelectionWindowTab
 {
-    public string TabName => "Module Data";
+    public string TabName => Strings.ModuleData;
     public ISelectable? LastSelection { get; set; }
     public bool HideDisabledModulesInSelectWindow;
     
@@ -35,7 +35,7 @@ public class ModuleDataTab : ISelectionWindowTab
     {
         var region = ImGui.GetContentRegionAvail();
 
-        var label = HideDisabledModulesInSelectWindow ? "Show Disabled" : "Hide Disabled";
+        var label = HideDisabledModulesInSelectWindow ? Strings.ShowDisabled : Strings.HideDisabled;
 
         if (ImGui.Button(label, region with { Y = 23.0f * ImGuiHelpers.GlobalScale }))
         {

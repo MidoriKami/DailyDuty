@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Abstracts;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -10,12 +11,12 @@ public static class ModuleSuppressionView
 {
     public static void Draw(ModuleConfigBase config, Action saveAction)
     {
-        ImGui.Text("Module Suppression");
+        ImGui.Text(Strings.ModuleSuppression);
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
 
         var region = ImGui.GetContentRegionAvail();
-        var text = "Silence notifications until the next module reset";
+        var text = Strings.ModuleSuppressionHelp;
         var textSize = ImGui.CalcTextSize(text);
         
         ImGui.SetCursorPos(ImGui.GetCursorPos() with { X = region.X / 2.0f - textSize.X / 2.0f});
@@ -29,7 +30,7 @@ public static class ModuleSuppressionView
         
         if (config.Suppressed)
         {
-            if (ImGui.Button("UnSnooze", buttonSize) && hotkeyPressed)
+            if (ImGui.Button(Strings.UnSnooze, buttonSize) && hotkeyPressed)
             {
                 config.Suppressed = false;
                 saveAction.Invoke();
@@ -37,7 +38,7 @@ public static class ModuleSuppressionView
         }
         else
         {
-            if (ImGui.Button("Snooze", buttonSize) && hotkeyPressed)
+            if (ImGui.Button(Strings.Snooze, buttonSize) && hotkeyPressed)
             {
                 config.Suppressed = true;
                 saveAction.Invoke();

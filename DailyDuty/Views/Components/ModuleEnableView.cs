@@ -1,5 +1,6 @@
 ﻿using System;
 using DailyDuty.Abstracts;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -9,10 +10,10 @@ public static class ModuleEnableView
 {
     public static void Draw(ModuleConfigBase config, Action saveAction)
     {
-        ImGui.Text("Module Enable");
+        ImGui.Text(Strings.ModuleEnable);
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
-        if (ImGui.Checkbox($"Enable##ModuleEnable", ref config.ModuleEnabled))
+        if (ImGui.Checkbox($"{Strings.Enable}##ModuleEnable", ref config.ModuleEnabled))
         {
             saveAction.Invoke();
         }

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Reflection;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -15,7 +16,7 @@ public static class ModuleDataView
     {
         if(fields.Count > 0)
         {
-            ImGui.Text("Module Data");
+            ImGui.Text(Strings.ModuleData);
             ImGui.Separator();
             
             ImGuiHelpers.ScaledIndent(15.0f);
@@ -93,7 +94,7 @@ public static class ModuleDataView
                     }
                     else
                     {
-                        ImGui.Text("Time Not Available");
+                        ImGui.Text(Strings.TimeNotAvailable);
                     }
                 }
                 break;

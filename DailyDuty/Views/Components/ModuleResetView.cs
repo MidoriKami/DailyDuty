@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using DailyDuty.Abstracts;
+using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
 
@@ -10,7 +11,7 @@ public static class ModuleResetView
 {
     public static void Draw(ModuleDataBase data)
     {
-        ImGui.Text("Module Reset");
+        ImGui.Text(Strings.ModuleReset);
         ImGui.Separator();
         ImGuiHelpers.ScaledIndent(15.0f);
 
@@ -19,13 +20,13 @@ public static class ModuleResetView
             if (ImGui.BeginTable("##ResetTable", 2, ImGuiTableFlags.SizingStretchSame))
             {
                 ImGui.TableNextColumn();
-                ImGui.Text("Next Reset");
+                ImGui.Text(Strings.NextReset);
             
                 ImGui.TableNextColumn();
                 ImGui.Text(data.NextReset.ToLocalTime().ToString(CultureInfo.CurrentCulture));
 
                 ImGui.TableNextColumn();
-                ImGui.Text("Remaining Time");
+                ImGui.Text(Strings.RemainingTime);
             
                 ImGui.TableNextColumn();
                 var timeRemaining = data.NextReset - DateTime.UtcNow;
@@ -36,7 +37,7 @@ public static class ModuleResetView
         }
         else
         {
-            ImGui.Text("Awaiting User Action");
+            ImGui.Text(Strings.AwaitingUserAction);
         }
         
         ImGuiHelpers.ScaledDummy(10.0f);

@@ -18,7 +18,7 @@ public class CustomDeliveryConfig : ModuleConfigBase
 
 public class CustomDeliveryData : ModuleDataBase
 {
-    [DataDisplay("RemainingAllowances")]
+    [DataDisplay("AllowancesRemaining")]
     public int RemainingAllowances = 12;
 }
 
