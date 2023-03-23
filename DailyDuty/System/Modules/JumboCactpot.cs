@@ -57,7 +57,6 @@ public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageRecei
         onReceiveEventHook?.Disable();
     }
 
-
     public override void Dispose()
     {
         onReceiveEventHook?.Dispose();

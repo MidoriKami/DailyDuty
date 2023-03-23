@@ -76,6 +76,7 @@ public class DailyDutySystem : IDisposable
     
     private void OnZoneChange(object? sender, ushort territoryTypeId)
     {
+        if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
         
         ModuleController.ZoneChange(territoryTypeId);
@@ -83,17 +84,22 @@ public class DailyDutySystem : IDisposable
     
     private void OnAddonPreSetup(AddonArgs addonInfo)
     {
+        if (Service.ClientState.IsPvP) return;
+        
         ModuleController.AddonPreSetup(addonInfo);
     }
     
     private void OnAddonPostSetup(AddonArgs addonInfo)
     {
+        if (Service.ClientState.IsPvP) return;
+        
         ModuleController.AddonPostSetup(addonInfo);
-
     }
     
     private void OnAddonFinalize(AddonArgs addonInfo)
     {
+        if (Service.ClientState.IsPvP) return;
+        
         ModuleController.AddonFinalize(addonInfo);
     }
 }

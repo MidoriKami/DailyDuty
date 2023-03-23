@@ -8,6 +8,7 @@ using DailyDuty.Models.Enums;
 using DailyDuty.System.Commands;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
+using Dalamud.Game.ClientState;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
@@ -116,6 +117,12 @@ public unsafe class TodoController : IDisposable
     {
         if (TodoListNode is not null)
         {
+            if (Service.ClientState.IsPvP)
+            {
+                TodoListNode->AtkResNode.ToggleVisibility(false);
+                return;
+            }
+            
             var seString = new SeStringBuilder();
 
             if(Config.DailyTasks) UpdateCategory(seString, ModuleType.Daily);
