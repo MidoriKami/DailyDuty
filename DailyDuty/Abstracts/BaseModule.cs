@@ -304,14 +304,20 @@ public abstract unsafe class BaseModule : IDisposable
         {
             var configInfo = config[index];
             var dataInfo = data[index];
-        
-            if (configInfo.TargetCount != 0 && dataInfo.CurrentCount < configInfo.TargetCount)
+
+            if (configInfo.Enabled && configInfo.TargetCount != 0)
             {
-                incompleteCount++;
+                if (dataInfo.CurrentCount < configInfo.TargetCount)
+                {
+                    incompleteCount++;
+                }
             }
-            else if(configInfo.Enabled && !dataInfo.Complete)
+            else if(configInfo.Enabled)
             {
-                incompleteCount++;
+                if (!dataInfo.Complete)
+                {
+                    incompleteCount++;
+                }
             }
         }
         
