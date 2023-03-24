@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
@@ -11,7 +12,6 @@ using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using FFXIVClientStructs.FFXIV.Common.Math;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -107,7 +107,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
                 Data.DistanceToKhloe = Vector3.Distance(playerPosition, khloe.Position);
                 Data.CloseToKhloe = Data.DistanceToKhloe < 10.0f;
 
-                var castingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 };
+                var castingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
                 
                 if (lastNearKhloe && (!Data.CloseToKhloe || castingTeleport) && !Data.PlayerHasBook )
                 {
