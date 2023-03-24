@@ -121,6 +121,10 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
         {
             Data.TimeUntilMissionComplete = Data.MissionCompleteTime - DateTime.UtcNow;
         }
+        else
+        {
+            Data.TimeUntilMissionComplete = TimeSpan.Zero;
+        }
         
         base.Update();
     }
