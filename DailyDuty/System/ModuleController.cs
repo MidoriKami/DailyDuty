@@ -139,5 +139,4 @@ public class ModuleController : IDisposable
             module.OnChatMessage(type, senderId, ref sender, ref message, ref isHandled);
         }
     }
-
 }

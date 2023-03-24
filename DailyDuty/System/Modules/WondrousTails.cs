@@ -10,6 +10,7 @@ using Dalamud;
 using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -52,6 +53,12 @@ public class WondrousTailsData : ModuleDataBase
 
     [DataDisplay("TimeRemaining")]
     public TimeSpan TimeRemaining;
+
+    [DataDisplay("NearKhloe")]
+    public bool CloseToKhloe;
+
+    [DataDisplay("DistanceToKhloe")] 
+    public float DistanceToKhloe;
 }
 
 public unsafe class WondrousTails : Module.WeeklyModule
@@ -84,6 +91,29 @@ public unsafe class WondrousTails : Module.WeeklyModule
         TryUpdateData(ref Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
         
         Data.TimeRemaining = Data.Deadline - DateTime.UtcNow;
+        Data.DistanceToKhloe = 0.0f;
+        var lastNearKhloe = Data.CloseToKhloe;
+        Data.CloseToKhloe = false;
+        
+        const int idyllshireTerritoryType = 478;
+        const uint khloeAliapohDataId = 1017653;
+        if (Service.ClientState.TerritoryType is idyllshireTerritoryType)
+        {
+            var khloe = Service.ObjectTable.FirstOrDefault(obj => obj.DataId is khloeAliapohDataId);
+
+            if (khloe is not null && Service.ClientState.LocalPlayer is { Position: var playerPosition })
+            {
+                var delta = playerPosition - khloe.Position;
+                Data.DistanceToKhloe = MathF.Sqrt(delta.X * delta.X + delta.Y * delta.Y + delta.Z * delta.Z);
+                Data.CloseToKhloe = Data.DistanceToKhloe < 10.0f;
+
+                if (lastNearKhloe && Data is { CloseToKhloe: false, PlayerHasBook: false })
+                {
+                    PrintMessage(Strings.ForgotBookWarning);
+                    UIModule.PlayChatSoundEffect(11);
+                }
+            }
+        }
 
         base.Update();
     }

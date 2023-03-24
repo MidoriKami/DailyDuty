@@ -19,4 +19,5 @@ public sealed class Service
     [PluginService] public static TargetManager TargetManager { get; set; } = null!;
     [PluginService] public static DutyState DutyState { get; set; } = null!;
     [PluginService] public static ToastGui Toast { get; set; } = null!;
+    [PluginService] public static ObjectTable ObjectTable { get; set; } = null!;
 }

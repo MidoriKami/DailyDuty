@@ -312,6 +312,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distance to Khloe.
+        /// </summary>
+        internal static string DistanceToKhloe {
+            get {
+                return ResourceManager.GetString("DistanceToKhloe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Doman Enclave.
         /// </summary>
         internal static string DomanEnclave {
@@ -479,6 +488,15 @@ namespace DailyDuty.System.Localization {
         internal static string FontSize {
             get {
                 return ResourceManager.GetString("FontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait! You forgot your book!.
+        /// </summary>
+        internal static string ForgotBookWarning {
+            get {
+                return ResourceManager.GetString("ForgotBookWarning", resourceCulture);
             }
         }
         
@@ -875,6 +893,15 @@ namespace DailyDuty.System.Localization {
         internal static string ModuleSuppressionHelp {
             get {
                 return ResourceManager.GetString("ModuleSuppressionHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Near Khloe.
+        /// </summary>
+        internal static string NearKhloe {
+            get {
+                return ResourceManager.GetString("NearKhloe", resourceCulture);
             }
         }
         

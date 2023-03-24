@@ -526,4 +526,13 @@ Limited to once per 5 mins</value>
     <data name="TodoConfiguration" xml:space="preserve">
         <value>Todo Configuration</value>
     </data>
+    <data name="ForgotBookWarning" xml:space="preserve">
+        <value>Wait! You forgot your book!</value>
+    </data>
+    <data name="NearKhloe" xml:space="preserve">
+        <value>Near Khloe</value>
+    </data>
+    <data name="DistanceToKhloe" xml:space="preserve">
+        <value>Distance to Khloe</value>
+    </data>
 </root>
