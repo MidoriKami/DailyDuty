@@ -18,7 +18,7 @@ public class TribalQuestsConfig : ModuleConfigBase
 
 public class TribalQuestsData : ModuleDataBase
 {
-    [DataDisplay("RemainingAllowances")]
+    [DataDisplay("AllowancesRemaining")]
     public uint RemainingAllowances;
 }
 
