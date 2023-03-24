@@ -68,6 +68,12 @@ public static class ModuleDataView
                 ImGui.Text(uIntValue.ToString());
                 break;
             
+            case TypeCode.Single:
+                var floatValue = (float) field.GetValue(sourceObject)!;
+                
+                ImGui.Text(floatValue.ToString(CultureInfo.CurrentCulture));
+                break;
+            
             case TypeCode.DateTime:
                 var dateTime = (DateTime) field.GetValue(sourceObject)!;
                     
