@@ -11,6 +11,7 @@ using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Common.Math;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -103,8 +104,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
 
             if (khloe is not null && Service.ClientState.LocalPlayer is { Position: var playerPosition })
             {
-                var delta = playerPosition - khloe.Position;
-                Data.DistanceToKhloe = MathF.Sqrt(delta.X * delta.X + delta.Y * delta.Y + delta.Z * delta.Z);
+                Data.DistanceToKhloe = Vector3.Distance(playerPosition, khloe.Position);
                 Data.CloseToKhloe = Data.DistanceToKhloe < 10.0f;
 
                 var castingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 };
