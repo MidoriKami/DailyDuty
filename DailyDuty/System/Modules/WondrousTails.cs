@@ -107,7 +107,9 @@ public unsafe class WondrousTails : Module.WeeklyModule
                 Data.DistanceToKhloe = MathF.Sqrt(delta.X * delta.X + delta.Y * delta.Y + delta.Z * delta.Z);
                 Data.CloseToKhloe = Data.DistanceToKhloe < 10.0f;
 
-                if (lastNearKhloe && Data is { CloseToKhloe: false, PlayerHasBook: false })
+                var castingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 };
+                
+                if (lastNearKhloe && (!Data.CloseToKhloe || castingTeleport) && !Data.PlayerHasBook )
                 {
                     PrintMessage(Strings.ForgotBookWarning);
                     UIModule.PlayChatSoundEffect(11);
