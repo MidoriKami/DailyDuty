@@ -79,10 +79,13 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         var completionIndex = addonInfo.Addon->AtkValues[109].Int;
         var completionStatus = addonInfo.Addon->AtkValues[111].Byte != 0;
 
-        if (Data.Tasks[completionIndex].Complete != completionStatus)
+        if (completionIndex < Data.Tasks.Count)
         {
-            Data.Tasks[completionIndex].Complete = completionStatus;
-            DataChanged = true;
+            if (Data.Tasks[completionIndex].Complete != completionStatus)
+            {
+                Data.Tasks[completionIndex].Complete = completionStatus;
+                DataChanged = true;
+            }
         }
     }
 
