@@ -177,7 +177,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Compaison Mode.
+        ///   Looks up a localized string similar to Comparison Mode.
         /// </summary>
         internal static string ComparisonMode {
             get {
@@ -1240,7 +1240,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to StatusMessage.
+        ///   Looks up a localized string similar to Status Message.
         /// </summary>
         internal static string StatusMessage {
             get {

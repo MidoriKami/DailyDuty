@@ -136,7 +136,7 @@
         <value>Notification Threshold</value>
     </data>
     <data name="ComparisonMode" xml:space="preserve">
-        <value>Compaison Mode</value>
+        <value>Comparison Mode</value>
     </data>
     <data name="DomanEnclaveTeleport" xml:space="preserve">
         <value>Notifications can be clicked on to teleport to the Doman Enclave</value>
@@ -193,7 +193,7 @@
         <value>Reset Message</value>
     </data>
     <data name="StatusMessage" xml:space="preserve">
-        <value>StatusMessage</value>
+        <value>Status Message</value>
     </data>
     <data name="EnableCustomStatusMessage" xml:space="preserve">
         <value>Enable Custom Status Message</value>
