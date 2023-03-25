@@ -108,12 +108,14 @@ public static class GenericConfigView
                     var stringValue = (string) field.GetValue(sourceObject)!;
 
                     if(attribute.UseAxisFont) ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
-                    ImGui.InputText($"##{field.Name}", ref stringValue, 2048);
+                    if (ImGui.InputText($"##{field.Name}", ref stringValue, 2048))
+                    {
+                        field.SetValue(sourceObject, stringValue);
+                    }
                     if(attribute.UseAxisFont) ImGui.PopFont();
 
                     if (ImGui.IsItemDeactivatedAfterEdit())
                     {
-                        field.SetValue(sourceObject, stringValue);
                         saveAction.Invoke();
                     }
                     break;
