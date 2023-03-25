@@ -44,8 +44,13 @@ public static class ModuleSuppressionView
                 saveAction.Invoke();
             }
         }
-        
+
         if(!hotkeyPressed) ImGui.PopStyleVar();
+        
+        if (ImGui.IsItemHovered() && !hotkeyPressed)
+        {
+            ImGui.SetTooltip("Hold Shift + Control while clicking activate button");
+        }
         
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGuiHelpers.ScaledIndent(-15.0f);
