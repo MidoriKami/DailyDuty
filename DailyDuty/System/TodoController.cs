@@ -47,13 +47,13 @@ public class TodoConfig
     [ConfigOption("HideInDuties")]
     public bool HideInDuties = true;
 
-    [ConfigOption("DailyTasksLabel")]
+    [ConfigOption("DailyTasksLabel", true)]
     public string DailyLabel = "Daily Tasks";
     
-    [ConfigOption("WeeklyTasksLabel")]
+    [ConfigOption("WeeklyTasksLabel", true)]
     public string WeeklyLabel = "Weekly Tasks";
     
-    [ConfigOption("SpecialTasksLabel")]
+    [ConfigOption("SpecialTasksLabel", true)]
     public string SpecialLabel = "Special Tasks";
 
     [ConfigOption("Position")]

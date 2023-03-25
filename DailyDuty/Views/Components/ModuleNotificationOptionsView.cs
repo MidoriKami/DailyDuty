@@ -52,7 +52,9 @@ public static class ModuleNotificationOptionsView
         if (ImGui.Checkbox(Strings.EnableCustomResetMessage, ref moduleConfig.UseCustomResetMessage)) saveConfig();
         if (moduleConfig.UseCustomResetMessage)
         {
+            ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
             ImGui.InputTextWithHint("##CustomResetMessage", Strings.ResetMessage, ref moduleConfig.CustomResetMessage, 2048);
+            ImGui.PopFont();
             if (ImGui.IsItemDeactivatedAfterEdit()) saveConfig();
         }
     }
@@ -62,7 +64,9 @@ public static class ModuleNotificationOptionsView
         if (ImGui.Checkbox(Strings.EnableCustomStatusMessage, ref moduleConfig.UseCustomStatusMessage)) saveConfig();
         if (moduleConfig.UseCustomStatusMessage)
         {
+            ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
             ImGui.InputTextWithHint("##CustomStatusMessage", Strings.StatusMessage, ref moduleConfig.CustomStatusMessage, 2048);
+            ImGui.PopFont();
             if (ImGui.IsItemDeactivatedAfterEdit()) saveConfig();
         }
     }

@@ -8,9 +8,11 @@ public class DailyDutySystem : IDisposable
     public readonly ModuleController ModuleController;
     private readonly AddonController addonController;
     public readonly TodoController TodoController;
+    public readonly FontController FontController;
     
     public DailyDutySystem()
     {
+        FontController = new FontController();
         ModuleController = new ModuleController();
         addonController = new AddonController();
         TodoController = new TodoController();
@@ -39,6 +41,7 @@ public class DailyDutySystem : IDisposable
         AddonController.AddonPostSetup -= OnAddonPostSetup;
         AddonController.AddonFinalize -= OnAddonFinalize;
 
+        FontController.Dispose();
         ModuleController.Dispose();
         addonController.Dispose();
         TodoController.Dispose();

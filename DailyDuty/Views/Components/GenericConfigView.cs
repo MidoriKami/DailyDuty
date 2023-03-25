@@ -107,7 +107,10 @@ public static class GenericConfigView
                 case TypeCode.String:
                     var stringValue = (string) field.GetValue(sourceObject)!;
 
+                    if(attribute.UseAxisFont) ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
                     ImGui.InputText($"##{field.Name}", ref stringValue, 2048);
+                    if(attribute.UseAxisFont) ImGui.PopFont();
+
                     if (ImGui.IsItemDeactivatedAfterEdit())
                     {
                         field.SetValue(sourceObject, stringValue);
