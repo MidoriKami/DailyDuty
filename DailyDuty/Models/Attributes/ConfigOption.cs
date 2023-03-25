@@ -34,12 +34,19 @@ public class ConfigOption : Attribute
     public int IntMin { get; }
     public int IntMax { get; } = 100;
     public Vector4 DefaultColor { get; } = Vector4.One;
-    public ushort DefaultUiColor { get; } = 1; 
+    public ushort DefaultUiColor { get; } = 1;
+    public bool UseAxisFont { get; }
 
     public ConfigOption(string resourceKey, float r, float g, float b, float a)
     {
         this.resourceKey = resourceKey;
         DefaultColor = new Vector4(r, g, b, a);
+    }
+
+    public ConfigOption(string resourceKey, bool useAxisFont)
+    {
+        this.resourceKey = resourceKey;
+        UseAxisFont = useAxisFont;
     }
     
     public ConfigOption(string resourceKey)
