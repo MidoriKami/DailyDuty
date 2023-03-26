@@ -60,6 +60,9 @@ public class WondrousTailsData : ModuleDataBase
 
     [DataDisplay("DistanceToKhloe")] 
     public float DistanceToKhloe;
+
+    [DataDisplay("CastingTeleport")] 
+    public bool CastingTeleport;
 }
 
 public unsafe class WondrousTails : Module.WeeklyModule
@@ -94,7 +97,9 @@ public unsafe class WondrousTails : Module.WeeklyModule
         Data.TimeRemaining = Data.Deadline - DateTime.UtcNow;
         Data.DistanceToKhloe = 0.0f;
         var lastNearKhloe = Data.CloseToKhloe;
+        var lastCastingTeleport = Data.CastingTeleport;
         Data.CloseToKhloe = false;
+        Data.CastingTeleport = false;
         
         const int idyllshireTerritoryType = 478;
         const uint khloeAliapohDataId = 1017653;
@@ -106,10 +111,12 @@ public unsafe class WondrousTails : Module.WeeklyModule
             {
                 Data.DistanceToKhloe = Vector3.Distance(playerPosition, khloe.Position);
                 Data.CloseToKhloe = Data.DistanceToKhloe < 10.0f;
+                Data.CastingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
 
-                var castingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
+                var noLongerNearKhloe = lastNearKhloe && !Data.CloseToKhloe;
+                var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && Data.CastingTeleport;
                 
-                if (lastNearKhloe && (!Data.CloseToKhloe || castingTeleport) && !Data.PlayerHasBook )
+                if ((noLongerNearKhloe || startedTeleportingAway) && !Data.PlayerHasBook )
                 {
                     PrintMessage(Strings.ForgotBookWarning);
                     UIModule.PlayChatSoundEffect(11);

@@ -550,4 +550,7 @@ Limited to once per 5 mins</value>
     <data name="CurrentNumDrops" xml:space="preserve">
         <value>Current Drop Count</value>
     </data>
+    <data name="CastingTeleport" xml:space="preserve">
+        <value>Casting Teleport</value>
+    </data>
 </root>

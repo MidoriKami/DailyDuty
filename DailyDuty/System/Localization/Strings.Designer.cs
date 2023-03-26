@@ -132,6 +132,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Casting Teleport.
+        /// </summary>
+        internal static string CastingTeleport {
+            get {
+                return ResourceManager.GetString("CastingTeleport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Challenge Log.
         /// </summary>
         internal static string ChallengeLog {
@@ -1645,7 +1654,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notifications can be clicked on to oepn the Wondrous Tails Book or teleport to Idlyshire.
+        ///   Looks up a localized string similar to Notifications can be clicked on to open the Wondrous Tails Book or teleport to Idlyshire.
         /// </summary>
         internal static string WondrousTailsClickableLink {
             get {
