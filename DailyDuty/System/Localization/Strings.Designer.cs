@@ -177,6 +177,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module is considered &apos;Complete&apos; when the condition is met.
+        /// </summary>
+        internal static string ComparisonHelp {
+            get {
+                return ResourceManager.GetString("ComparisonHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comparison Mode.
         /// </summary>
         internal static string ComparisonMode {
@@ -717,7 +726,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Less Than Or Equal.
+        ///   Looks up a localized string similar to Less Than or Equal.
         /// </summary>
         internal static string LessThanOrEqual {
             get {

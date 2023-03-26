@@ -154,7 +154,7 @@
         <value>Equal To</value>
     </data>
     <data name="LessThanOrEqual" xml:space="preserve">
-        <value>Less Than Or Equal</value>
+        <value>Less Than or Equal</value>
     </data>
     <data name="All" xml:space="preserve">
         <value>All Allowances Used</value>
@@ -534,5 +534,8 @@ Limited to once per 5 mins</value>
     </data>
     <data name="DistanceToKhloe" xml:space="preserve">
         <value>Distance to Khloe</value>
+    </data>
+    <data name="ComparisonHelp" xml:space="preserve">
+        <value>Module is considered 'Complete' when the condition is met</value>
     </data>
 </root>

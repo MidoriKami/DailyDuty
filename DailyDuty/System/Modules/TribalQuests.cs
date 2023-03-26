@@ -12,7 +12,7 @@ public class TribalQuestsConfig : ModuleConfigBase
     [ConfigOption("NotificationThreshold", 0, 12)]
     public int NotificationThreshold = 12;
 
-    [ConfigOption("ComparisonMode")]
+    [ConfigOption("ComparisonMode", "ComparisonHelp")]
     public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 }
 

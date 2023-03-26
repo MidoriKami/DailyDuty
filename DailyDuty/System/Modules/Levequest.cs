@@ -14,7 +14,7 @@ public class LevequestConfig : ModuleConfigBase
     [ConfigOption("NotificationThreshold", 0, 100)]
     public int NotificationThreshold = 95;
 
-    [ConfigOption("ComparisonMode")]
+    [ConfigOption("ComparisonMode", "ComparisonHelp")]
     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
 }
 
