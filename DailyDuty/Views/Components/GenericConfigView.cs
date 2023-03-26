@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
-using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.System;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
-using Lumina.Data.Parsing;
 using Action = System.Action;
 
 namespace DailyDuty.Views.Components;

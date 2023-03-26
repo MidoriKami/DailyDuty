@@ -249,6 +249,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Drop Count.
+        /// </summary>
+        internal static string CurrentNumDrops {
+            get {
+                return ResourceManager.GetString("CurrentNumDrops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Status.
         /// </summary>
         internal static string CurrentStatus {
@@ -353,6 +362,15 @@ namespace DailyDuty.System.Localization {
         internal static string DonatedThisWeek {
             get {
                 return ResourceManager.GetString("DonatedThisWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duty Name.
+        /// </summary>
+        internal static string DutyName {
+            get {
+                return ResourceManager.GetString("DutyName", resourceCulture);
             }
         }
         
@@ -969,6 +987,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target Drop Count.
+        /// </summary>
+        internal static string NumDrops {
+            get {
+                return ResourceManager.GetString("NumDrops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notifications can be clicked on to open the Duty Finder to the Raid category.
         /// </summary>
         internal static string OpenDutyFinderToRaid {
@@ -1028,6 +1055,15 @@ namespace DailyDuty.System.Localization {
         internal static string RaidsAvailable {
             get {
                 return ResourceManager.GetString("RaidsAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of drops required from this duty to be considered complete.
+        /// </summary>
+        internal static string RaidsModuleHelp {
+            get {
+                return ResourceManager.GetString("RaidsModuleHelp", resourceCulture);
             }
         }
         

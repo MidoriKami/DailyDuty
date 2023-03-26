@@ -8,6 +8,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
@@ -136,8 +137,15 @@ public static class ModuleSelectableTaskView
                         
                         if (ImGui.BeginTable("##RaidTrackerTable", 2, ImGuiTableFlags.SizingStretchProp))
                         {
-                            ImGui.TableSetupColumn("##NameColumn", ImGuiTableColumnFlags.None, 4);
+                            ImGui.TableSetupColumn("##NameColumn", ImGuiTableColumnFlags.None, 3);
                             ImGui.TableSetupColumn("##CountColumn", ImGuiTableColumnFlags.None, 2);
+
+                            ImGui.TableNextColumn();
+                            ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.DutyName);
+
+                            ImGui.TableNextColumn();
+                            ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.NumDrops);
+                            ImGuiComponents.HelpMarker(Strings.RaidsModuleHelp);
                             
                             if (list.Count > 0)
                             {
@@ -286,6 +294,12 @@ public static class ModuleSelectableTaskView
                         {
                             var list = (List<LuminaTaskData<ContentFinderCondition>>) field.GetValue(moduleData)!;
 
+                            ImGui.TableNextColumn();
+                            ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.DutyName);
+
+                            ImGui.TableNextColumn();
+                            ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.CurrentNumDrops);
+                            
                             if (list.Count > 0)
                             {
                                 foreach (var data in list)

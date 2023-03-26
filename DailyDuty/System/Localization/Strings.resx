@@ -538,4 +538,16 @@ Limited to once per 5 mins</value>
     <data name="ComparisonHelp" xml:space="preserve">
         <value>Module is considered 'Complete' when the condition is met</value>
     </data>
+    <data name="DutyName" xml:space="preserve">
+        <value>Duty Name</value>
+    </data>
+    <data name="NumDrops" xml:space="preserve">
+        <value>Target Drop Count</value>
+    </data>
+    <data name="RaidsModuleHelp" xml:space="preserve">
+        <value>Number of drops required from this duty to be considered complete</value>
+    </data>
+    <data name="CurrentNumDrops" xml:space="preserve">
+        <value>Current Drop Count</value>
+    </data>
 </root>
