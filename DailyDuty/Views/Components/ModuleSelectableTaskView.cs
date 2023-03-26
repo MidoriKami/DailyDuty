@@ -137,9 +137,6 @@ public static class ModuleSelectableTaskView
                         
                         if (ImGui.BeginTable("##RaidTrackerTable", 2, ImGuiTableFlags.SizingStretchProp))
                         {
-                            ImGui.TableSetupColumn("##NameColumn", ImGuiTableColumnFlags.None, 3);
-                            ImGui.TableSetupColumn("##CountColumn", ImGuiTableColumnFlags.None, 2);
-
                             ImGui.TableNextColumn();
                             ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.DutyName);
 
