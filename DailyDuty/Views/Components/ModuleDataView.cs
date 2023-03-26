@@ -87,7 +87,7 @@ public static class ModuleDataView
 
                     foreach (var value in list)
                     {
-                        ImGui.Text(value.ToString());
+                        ImGui.Text($"{value:0000}");
                     }
                 }
                 else if (field.FieldType == typeof(TimeSpan))
