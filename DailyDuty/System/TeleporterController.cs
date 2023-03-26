@@ -34,7 +34,7 @@ public class TeleporterController
             }
             else if (showMessage)
             {
-                Chat.Print($"[{Strings.Teleport}]", string.Format(Strings.TeleportingTo, aetheryte.AethernetName.Value?.Name ?? "Unable to read name"));
+                Chat.Print(Strings.Teleport, string.Format(Strings.TeleportingTo, aetheryte.AethernetName.Value?.Name ?? "Unable to read name"));
             }
         }
         catch (IpcNotReadyError)
