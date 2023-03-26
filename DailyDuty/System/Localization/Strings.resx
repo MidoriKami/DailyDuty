@@ -377,7 +377,7 @@ Limited to once per 5 mins</value>
         <value>When entering a duty, display if the duty needs to be rerolled, or is already available</value>
     </data>
     <data name="WondrousTailsClickableLink" xml:space="preserve">
-        <value>Notifications can be clicked on to oepn the Wondrous Tails Book or teleport to Idlyshire</value>
+        <value>Notifications can be clicked on to open the Wondrous Tails Book or teleport to Idlyshire</value>
     </data>
     <data name="StickerAvailableNotice" xml:space="preserve">
         <value>Sticker Available Notice</value>
