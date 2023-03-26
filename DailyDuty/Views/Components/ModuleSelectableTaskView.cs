@@ -135,7 +135,7 @@ public static class ModuleSelectableTaskView
                     {
                         var list = (List<LuminaTaskConfig<ContentFinderCondition>>) field.GetValue(moduleConfig)!;
                         
-                        if (ImGui.BeginTable("##RaidTrackerTable", 2, ImGuiTableFlags.SizingStretchProp))
+                        if (ImGui.BeginTable("##RaidTrackerTable", 2, ImGuiTableFlags.SizingStretchSame))
                         {
                             ImGui.TableNextColumn();
                             ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.DutyName);
