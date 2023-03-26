@@ -111,7 +111,10 @@ public abstract unsafe class BaseModule : IDisposable
             Reset();
         }
         
-        SendStatusMessage();
+        if (ModuleConfig is { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false })
+        {
+            SendStatusMessage();
+        }
     }
 
     public virtual void Unload()
@@ -137,7 +140,10 @@ public abstract unsafe class BaseModule : IDisposable
 
     public virtual void ZoneChange(uint newZone)
     {
-        SendStatusMessage();
+        if (ModuleConfig is { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false })
+        {
+            SendStatusMessage();
+        }
     }
 
     private ModuleDataBase LoadData()
@@ -250,7 +256,6 @@ public abstract unsafe class BaseModule : IDisposable
     
     private void SendStatusMessage()
     {
-        if (ModuleConfig is not { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false }) return;
         if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
         if (Condition.IsBoundByDuty()) return;
         if (statusMessageLockout.Elapsed < TimeSpan.FromMinutes(5) && statusMessageLockout.IsRunning)
