@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
@@ -33,7 +32,17 @@ public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModul
     private AgentGrandCompanySupply* SupplyAgent => (AgentGrandCompanySupply*) AgentModule.Instance()->GetAgentByInternalId(AgentId.GrandCompanySupply);
 
     protected override DateTime GetNextReset() => Time.NextGrandCompanyReset();
-    
+
+    public override void Reset()
+    {
+        foreach (var data in Data.Tasks)
+        {
+            data.Complete = false;
+        }
+        
+        base.Reset();
+    }
+
     public override void Update()
     {
         if (SupplyAgent is not null && SupplyAgent->AgentInterface.IsAgentActive())
