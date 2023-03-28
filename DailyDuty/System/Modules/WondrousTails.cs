@@ -116,7 +116,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
                 var noLongerNearKhloe = lastNearKhloe && !Data.CloseToKhloe;
                 var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && Data.CastingTeleport;
                 
-                if ((noLongerNearKhloe || startedTeleportingAway) && !Data.PlayerHasBook )
+                if ((noLongerNearKhloe || startedTeleportingAway) && Data is { PlayerHasBook: false, NewBookAvailable: true })
                 {
                     PrintMessage(Strings.ForgotBookWarning);
                     UIModule.PlayChatSoundEffect(11);
