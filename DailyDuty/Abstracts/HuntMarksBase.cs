@@ -39,7 +39,7 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
             if (HuntData->unkArray[task.RowId] == HuntData->MarkID[task.RowId] && !task.Complete)
             {
                 var orderData = LuminaCache<MobHuntOrderType>.Instance.GetRow(task.RowId)!;
-                var targetRow = orderData.OrderStart.Row + task.RowId - 1;
+                var targetRow = orderData.OrderStart.Row + HuntData->MarkID[task.RowId] - 1;
                 
                 // Elite
                 if (orderData.Type is 2 && IsEliteMarkComplete(targetRow, task.RowId))
