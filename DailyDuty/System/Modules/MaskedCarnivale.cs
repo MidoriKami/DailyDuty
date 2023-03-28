@@ -79,13 +79,21 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         var completionIndex = addonInfo.Addon->AtkValues[109].Int;
         var completionStatus = addonInfo.Addon->AtkValues[111].Byte != 0;
 
-        if (completionIndex < Data.Tasks.Count)
+        var addonId = completionIndex switch
         {
-            if (Data.Tasks[completionIndex].Complete != completionStatus)
-            {
-                Data.Tasks[completionIndex].Complete = completionStatus;
-                DataChanged = true;
-            }
+            0 => 12449,
+            1 => 12448,
+            2 => 12447,
+
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        var task = Data.Tasks.FirstOrDefault(task => task.RowId == addonId);
+
+        if (task is not null && task.Complete != completionStatus)
+        {
+            task.Complete = completionStatus;
+            DataChanged = true;
         }
     }
 
