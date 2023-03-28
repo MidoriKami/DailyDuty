@@ -29,61 +29,53 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
     protected HuntMarksConfig Config => ModuleConfig as HuntMarksConfig ?? new HuntMarksConfig();
     protected HuntMarksData Data => ModuleData as HuntMarksData ?? new HuntMarksData();
 
-    private readonly Dictionary<uint, bool> lastObtainedStatus = new();
-
     private static MobHunt* HuntData => MobHunt.Instance();
     
     public override void Update()
     {
         foreach (var task in Data.Tasks)
         {
-            var huntObtained = HuntData->IsMarkBillObtained((int)task.RowId);
-
-            if (!lastObtainedStatus.ContainsKey(task.RowId))
-            {
-                lastObtainedStatus.Add(task.RowId, huntObtained);
-            }
-
-            // If the status changed from obtained to not obtained
-            if (lastObtainedStatus[task.RowId] && huntObtained == false)
+            // If we have the active mark bill
+            if (HuntData->unkArray[task.RowId] == HuntData->MarkID[task.RowId] && !task.Complete)
             {
                 var orderData = LuminaCache<MobHuntOrderType>.Instance.GetRow(task.RowId)!;
                 var targetRow = orderData.OrderStart.Row + task.RowId - 1;
                 
                 // Elite
-                if (orderData.Type is 2)
+                if (orderData.Type is 2 && IsEliteMarkComplete(targetRow, task.RowId))
                 {
-                    var eliteTargetInfo = LuminaCache<MobHuntOrder>.Instance.GetRow(targetRow, 0)!;
-
-                    if (HuntData->CurrentKillsSpan[(int) task.RowId][0] == eliteTargetInfo.NeededKills)
-                    {
-                        task.Complete = true;
-                        DataChanged = true;
-                    }
+                    task.Complete = true;
+                    DataChanged = true;
                 }
                 // Regular Hunt
-                else if (orderData.Type is 1)
+                else if (orderData.Type is 1 && IsNormalMarkComplete(targetRow, task.RowId))
                 {
-                    var allTargetsKilled = Enumerable.Range(0, 5)
-                        .All(index =>
-                        {
-                            var huntData = LuminaCache<MobHuntOrder>.Instance.GetRow(targetRow, (uint) index)!;
-
-                            return HuntData->CurrentKillsSpan[(int) task.RowId][index] == huntData.NeededKills;
-                        });
-
-                    if (task.Complete != allTargetsKilled)
-                    {
-                        task.Complete = allTargetsKilled;
-                        DataChanged = true;
-                    }
+                    task.Complete = true;
+                    DataChanged = true;
                 }
             }
-
-            lastObtainedStatus[task.RowId] = huntObtained;
         }
         
         base.Update();
+    }
+
+    private bool IsEliteMarkComplete(uint targetRow, uint markId)
+    {
+        var eliteTargetInfo = LuminaCache<MobHuntOrder>.Instance.GetRow(targetRow, 0)!;
+
+        return HuntData->CurrentKillsSpan[(int) markId][0] == eliteTargetInfo.NeededKills;
+    }
+
+    private bool IsNormalMarkComplete(uint targetRow, uint markId)
+    {
+        var allTargetsKilled = Enumerable.Range(0, 5).All(index => 
+        {
+            var huntData = LuminaCache<MobHuntOrder>.Instance.GetRow(targetRow, (uint) index)!;
+
+            return HuntData->CurrentKillsSpan[(int) markId][index] == huntData.NeededKills;
+        });
+
+        return allTargetsKilled;
     }
 
     public override void Reset()
