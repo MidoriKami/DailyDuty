@@ -65,36 +65,26 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
     {
         if (Data.FashionReportAvailable == false) return ModuleStatus.Unavailable;
 
-        // Zero is always "Complete"
-        // Four is always "Incomplete"
-        if (Data.AllowancesRemaining == 0) return ModuleStatus.Complete;
-        if (Data.AllowancesRemaining == 4) return ModuleStatus.Incomplete;
-
-        // If this line is reached, then we have between 1 and 3 remaining allowances (inclusive)
-        switch (Config.CompletionMode)
+        return Config.CompletionMode switch
         {
-            case FashionReportMode.Single:
-            case FashionReportMode.All when Data.AllowancesRemaining == 0:
-            case FashionReportMode.Plus80 when Data.HighestWeeklyScore >= 80:
-                return ModuleStatus.Complete;
-
-            default:
-                return ModuleStatus.Incomplete;
-        }
+            FashionReportMode.Single when Data.AllowancesRemaining < 4 => ModuleStatus.Complete,
+            FashionReportMode.All when Data.AllowancesRemaining is 0 => ModuleStatus.Complete,
+            FashionReportMode.Plus80 when Data.HighestWeeklyScore >= 80 => ModuleStatus.Complete,
+            _ => ModuleStatus.Incomplete
+        };
     }
-    
-    protected override StatusMessage GetStatusMessage()
-    {
-        var message = Config.CompletionMode switch
+
+    protected override StatusMessage GetStatusMessage() => ConditionalStatusMessage.GetMessage(
+        Config.ClickableLink,
+        Config.CompletionMode switch
         {
             FashionReportMode.All => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
             FashionReportMode.Single when Data.AllowancesRemaining == 4 => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
             FashionReportMode.Plus80 when Data.HighestWeeklyScore <= 80 => $"{Data.HighestWeeklyScore} {Strings.HighestScore}",
             _ => throw new ArgumentOutOfRangeException()
-        };
-
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
-    }
+        },
+        PayloadId.GoldSaucerTeleport
+    );
     
     public void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs data)
     {

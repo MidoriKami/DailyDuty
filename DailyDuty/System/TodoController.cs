@@ -89,6 +89,8 @@ public unsafe class TodoController : IDisposable
 
     public void Load()
     {
+        PluginLog.Debug($"[TodoConfig] Loading Todo System");
+        
         KamiCommon.CommandManager.AddCommand(todoCommands);
         Config = LoadConfig();
         
@@ -254,7 +256,6 @@ public unsafe class TodoController : IDisposable
     {
         try
         {
-            PluginLog.Debug($"[Todo Config] Loading Todo.config.json");
             var dataFile = GetConfigFileInfo();
             
             if (dataFile is { Exists: false })
@@ -279,7 +280,7 @@ public unsafe class TodoController : IDisposable
 
         try
         {
-            PluginLog.Debug($"[Todo Config] Saving Todo.config.json");
+            PluginLog.Debug($"[TodoConfig] Saving Todo.config.json");
             var dataFile = GetConfigFileInfo();
 
             var jsonString = JsonConvert.SerializeObject(Config, Config.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });

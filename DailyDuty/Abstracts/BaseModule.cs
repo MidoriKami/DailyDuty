@@ -111,6 +111,8 @@ public abstract unsafe class BaseModule : IDisposable
             Reset();
         }
         
+        Update();
+        
         if (ModuleConfig is { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false })
         {
             SendStatusMessage();
@@ -150,7 +152,7 @@ public abstract unsafe class BaseModule : IDisposable
     {
         try
         {
-            PluginLog.Debug($"[{ModuleName}] Loading {ModuleName}.data.json");
+            // PluginLog.Debug($"[{ModuleName}] Loading {ModuleName}.data.json");
             var dataFile = GetDataFileInfo();
             
             if (dataFile is { Exists: false })
@@ -173,7 +175,7 @@ public abstract unsafe class BaseModule : IDisposable
     {
         try
         {
-            PluginLog.Debug($"[{ModuleName}] Loading {ModuleName}.config.json");
+            // PluginLog.Debug($"[{ModuleName}] Loading {ModuleName}.config.json");
             var configFile = GetConfigFileInfo();
 
             if (configFile is { Exists: false })
