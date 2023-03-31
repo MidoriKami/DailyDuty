@@ -181,7 +181,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
         if (Config.StickerAvailableNotice && AnyTaskAvailableForSticker())
             return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.StickerAvailable, PayloadId.OpenWondrousTailsBook);
 
-        if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 7, PlacedStickers: > 3 and < 7 }) 
+        if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 7, PlacedStickers: >= 3 and <= 7 }) 
             return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.ShuffleAvailable, PayloadId.OpenWondrousTailsBook);
         
         if (Config.UnclaimedBookWarning && Data.NewBookAvailable) 
