@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Numerics;
+using Dalamud.Utility;
 
 namespace DailyDuty.Models.Attributes;
 
@@ -19,11 +20,7 @@ public static partial class EnumExtensions
 {
     public static Vector4 GetColor(this Enum enumValue) 
     {
-        var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-        var attributes = fieldInfo?.GetCustomAttributes(typeof(DisplayColor), false) as DisplayColor[] ?? null;
-
-        return attributes is { Length: > 0 } ? attributes[0].Color.AsVector4() : KnownColor.White.AsVector4();
+        return enumValue.GetAttribute<DisplayColor>()?.Color.AsVector4() ?? KnownColor.White.AsVector4();
     }
 
     public static Vector4 AsVector4(this KnownColor enumValue)
