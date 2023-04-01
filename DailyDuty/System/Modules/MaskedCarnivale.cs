@@ -9,6 +9,7 @@ using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.GeneratedSheets;
+using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.System;
 
@@ -76,8 +77,13 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
     {
         if (addonInfo.AddonName != "AOZContentResult") return;
 
-        var completionIndex = addonInfo.Addon->AtkValues[109].Int;
-        var completionStatus = addonInfo.Addon->AtkValues[111].Byte != 0;
+        var atkValues = addonInfo.Addon->AtkValues;
+        
+        if(atkValues[109].Type != ValueType.UInt) throw new Exception("Type Mismatch Exception");
+        if(atkValues[111].Type != ValueType.Bool) throw new Exception("Type Mismatch Exception");
+        
+        var completionIndex = atkValues[109].UInt;
+        var completionStatus = atkValues[111].Byte != 0;
 
         var addonId = completionIndex switch
         {
