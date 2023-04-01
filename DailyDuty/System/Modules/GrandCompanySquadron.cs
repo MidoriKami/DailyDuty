@@ -14,6 +14,7 @@ using KamiLib.Atk;
 using KamiLib.Caching;
 using KamiLib.Hooking;
 using Lumina.Excel.GeneratedSheets;
+using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.System;
 
@@ -77,6 +78,9 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
         Data.MissionStarted = false;
         DataChanged = true;
 
+        if (addonInfo.Addon->AtkValues[4].Type is not ValueType.String) throw new Exception("Type Mismatch Exception");
+        if (addonInfo.Addon->AtkValues[2].Type is not ValueType.Int) throw new Exception("Type Mismatch Exception");
+        
         var missionText = Alphanumeric().Replace(addonInfo.Addon->AtkValues[4].GetString().ToLower(), string.Empty);
         var missionSuccessful = addonInfo.Addon->AtkValues[2].Int == 1;
 
