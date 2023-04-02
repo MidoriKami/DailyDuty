@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
@@ -14,13 +13,13 @@ namespace DailyDuty.System;
 public class ChallengeLogConfig : ModuleConfigBase
 {
     [SelectableTasks]
-    public List<LuminaTaskConfig<ContentsNote>> Tasks = new();
+    public LuminaTaskConfigList<ContentsNote> TaskConfig = new();
 }
 
 public class ChallengeLogData : ModuleDataBase
 {
-    [SelectableTasks]
-    public List<LuminaTaskData<ContentsNote>> Tasks = new();
+    [SelectableTasks] 
+    public LuminaTaskDataList<ContentsNote> TaskData = new();
 }
 
 public unsafe class ChallengeLog : Module.WeeklyModule
@@ -31,46 +30,32 @@ public unsafe class ChallengeLog : Module.WeeklyModule
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new ChallengeLogConfig();
     private ChallengeLogData Data => ModuleData as ChallengeLogData ?? new ChallengeLogData();
     private ChallengeLogConfig Config => ModuleConfig as ChallengeLogConfig ?? new ChallengeLogConfig();
-
-    public override void Load()
-    {
-        base.Load();
-
-        var luminaUpdater = new LuminaTaskUpdater<ContentsNote>(this, (row) => row.RequiredAmount is not 0);
-        luminaUpdater.UpdateConfig(Config.Tasks);
-        luminaUpdater.UpdateData(Data.Tasks);
-    }
     
+    protected override void UpdateTaskLists()
+    {
+        var luminaUpdater = new LuminaTaskUpdater<ContentsNote>(this, (row) => row.RequiredAmount is not 0);
+        luminaUpdater.UpdateConfig(Config.TaskConfig);
+        luminaUpdater.UpdateData(Data.TaskData);
+    }
+
     public override void Update()
     {
-        foreach (var task in Data.Tasks)
-        {
-            var taskStatus = ClientStructs.ContentsNote.Instance()->IsContentNoteComplete((int) task.RowId);
+        Data.TaskData.Update(ref DataChanged, rowId => ClientStructs.ContentsNote.Instance()->IsContentNoteComplete((int) rowId));
 
-            if (task.Complete != taskStatus)
-            {
-                task.Complete = taskStatus;
-                DataChanged = true;
-            }
-        }
-        
         base.Update();
     }
 
     public override void Reset()
     {
-        foreach (var task in Data.Tasks)
-        {
-            task.Complete = false;
-        }
+        Data.TaskData.Reset();
         
         base.Reset();
     }
 
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.TasksIncomplete}",
+        Message = $"{GetIncompleteCount(Config.TaskConfig, Data.TaskData)} {Strings.TasksIncomplete}",
     };
 }

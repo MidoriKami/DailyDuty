@@ -114,6 +114,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Book Expired.
+        /// </summary>
+        internal static string BookExpired {
+            get {
+                return ResourceManager.GetString("BookExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Budget Remaining.
         /// </summary>
         internal static string BudgetRemaining {

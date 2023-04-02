@@ -14,13 +14,11 @@ public class HuntMarksDaily : HuntMarksBase
 
     public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(1);
     protected override DateTime GetNextReset() => Time.NextDailyReset();
-
-    public override void Load()
+    
+    protected override void UpdateTaskLists()
     {
-        base.Load();
-
         var luminaUpdater = new LuminaTaskUpdater<MobHuntOrderType>(this, order => order.Type is 1);
-        luminaUpdater.UpdateConfig(Config.Tasks);
-        luminaUpdater.UpdateData(Data.Tasks);
+        luminaUpdater.UpdateConfig(Config.TaskConfig);
+        luminaUpdater.UpdateData(Data.TaskData);
     }
 }

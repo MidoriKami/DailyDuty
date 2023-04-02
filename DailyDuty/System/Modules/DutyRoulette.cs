@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using DailyDuty.Abstracts;
+﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
@@ -15,7 +13,7 @@ namespace DailyDuty.System;
 public class DutyRouletteConfig : ModuleConfigBase
 {
     [SelectableTasks]
-    public List<LuminaTaskConfig<ContentRoulette>> Tasks = new();
+    public LuminaTaskConfigList<ContentRoulette> TaskConfig = new();
 
     [ClickableLink("DutyRouletteOpenDutyFinder")]
     public bool ClickableLink = true;
@@ -27,7 +25,7 @@ public class DutyRouletteConfig : ModuleConfigBase
 public class DutyRouletteData : ModuleDataBase
 {
     [SelectableTasks]
-    public List<LuminaTaskData<ContentRoulette>> Tasks = new();
+    public LuminaTaskDataList<ContentRoulette> TaskData = new();
 
     [DataDisplay("CurrentWeeklyTomestones")] 
     public int ExpertTomestones;
@@ -47,27 +45,17 @@ public unsafe class DutyRoulette : Module.DailyModule
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new DutyRouletteConfig();
     private DutyRouletteData Data => ModuleData as DutyRouletteData ?? new DutyRouletteData();
     private DutyRouletteConfig Config => ModuleConfig as DutyRouletteConfig ?? new DutyRouletteConfig();
-    public override void Load()
-    {
-        base.Load();
 
+    protected override void UpdateTaskLists()
+    {
         var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.RawString != string.Empty);
-        luminaUpdater.UpdateConfig(Config.Tasks);
-        luminaUpdater.UpdateData(Data.Tasks);
+        luminaUpdater.UpdateConfig(Config.TaskConfig);
+        luminaUpdater.UpdateData(Data.TaskData);
     }
 
     public override void Update()
     {
-        foreach (var task in Data.Tasks)
-        {
-            var status = RouletteController.Instance()->IsRouletteComplete((byte) task.RowId);
-
-            if (task.Complete != status)
-            {
-                task.Complete = status;
-                DataChanged = true;
-            }
-        }
+        Data.TaskData.Update(ref DataChanged, rowId => RouletteController.Instance()->IsRouletteComplete((byte) rowId));
 
         TryUpdateData(ref Data.ExpertTomestones, InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount());
         TryUpdateData(ref Data.ExpertTomestoneCap, InventoryManager.GetLimitedTomestoneWeeklyLimit());
@@ -78,10 +66,7 @@ public unsafe class DutyRoulette : Module.DailyModule
 
     public override void Reset()
     {
-        foreach (var task in Data.Tasks)
-        {
-            task.Complete = false;
-        }
+        Data.TaskData.Reset();
         
         base.Reset();
     }
@@ -90,12 +75,12 @@ public unsafe class DutyRoulette : Module.DailyModule
     {
         if (Config.CompleteWhenCapped && Data.AtTomeCap) return ModuleStatus.Complete;
 
-        return GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+        return GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
     
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.RoulettesRemaining}";
+        var message = $"{GetIncompleteCount(Config.TaskConfig, Data.TaskData)} {Strings.RoulettesRemaining}";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderRoulette);
     }

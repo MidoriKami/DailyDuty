@@ -17,7 +17,7 @@ namespace DailyDuty.System;
 public class RaidsBaseConfig : ModuleConfigBase
 {
     [SelectableTasks]
-    public List<LuminaTaskConfig<ContentFinderCondition>> Tasks = new();
+    public LuminaTaskConfigList<ContentFinderCondition> TaskConfig = new();
 
     [ClickableLink("OpenDutyFinderToRaid")]
     public bool ClickableLink = true;
@@ -26,7 +26,7 @@ public class RaidsBaseConfig : ModuleConfigBase
 public class RaidsBaseData : ModuleDataBase
 {
     [SelectableTasks] 
-    public List<LuminaTaskData<ContentFinderCondition>> Tasks = new();
+    public LuminaTaskDataList<ContentFinderCondition> TaskData = new();
 }
 
 public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiver
@@ -37,7 +37,7 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
     protected RaidsBaseConfig Config => ModuleConfig as RaidsBaseConfig ?? new RaidsBaseConfig();
     protected RaidsBaseData Data => ModuleData as RaidsBaseData ?? new RaidsBaseData();
 
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     private AgentContentsFinder* Agent => (AgentContentsFinder*) AgentModule.Instance()->GetAgentByInternalId(AgentId.ContentsFinder);
     
     public override void Update()
@@ -45,7 +45,7 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
         if (Agent is not null && Agent->AgentInterface.IsAgentActive())
         {
             var selectedDuty = Agent->SelectedDutyId;
-            var task = Data.Tasks.FirstOrDefault(task => task.RowId == selectedDuty);
+            var task = Data.TaskData.FirstOrDefault(task => task.RowId == selectedDuty);
             var numRewards = Agent->NumCollectedRewards;
             
             if (task is not null && task.CurrentCount != numRewards)
@@ -60,11 +60,7 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
 
     public override void Reset()
     {
-        foreach (var task in Data.Tasks)
-        {
-            task.CurrentCount = 0;
-            task.Complete = false;
-        }
+        Data.TaskData.Reset();
         
         base.Reset();
     }
@@ -100,36 +96,36 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
     private LuminaTaskData<ContentFinderCondition>? GetDataForCurrentZone()
     {
         return (
-            from task in Data.Tasks 
+            from task in Data.TaskData 
             let cfcData = LuminaCache<ContentFinderCondition>.Instance.GetRow(task.RowId)! 
             where cfcData.TerritoryType.Row == Service.ClientState.TerritoryType 
             select task
             ).FirstOrDefault();
     }
     
-    private bool IsDataStale(ICollection<uint> dutyList) => Data.Tasks.Any(task => !dutyList.Contains(
+    private bool IsDataStale(ICollection<uint> dutyList) => Data.TaskData.Any(task => !dutyList.Contains(
         LuminaCache<ContentFinderCondition>.Instance.GetRow(task.RowId)!.TerritoryType.Row)
     );
     
     protected void CheckForDutyListUpdate(List<uint> dutyList)
     {
-        if (IsDataStale(dutyList) || !Config.Tasks.Any() || !Data.Tasks.Any())
+        if (IsDataStale(dutyList) || !Config.TaskConfig.Any() || !Data.TaskData.Any())
         {
-            Config.Tasks.Clear();
-            Data.Tasks.Clear();
+            Config.TaskConfig.Clear();
+            Data.TaskData.Clear();
 
             foreach (var duty in dutyList)
             {
                 var cfc = LuminaCache<ContentFinderCondition>.Instance.First(entry => entry.TerritoryType.Row == duty);
                 
-                Config.Tasks.Add(new LuminaTaskConfig<ContentFinderCondition>
+                Config.TaskConfig.Add(new LuminaTaskConfig<ContentFinderCondition>
                 {
                     RowId = cfc.RowId,
                     Enabled = false,
                     TargetCount = 0
                 });
                 
-                Data.Tasks.Add(new LuminaTaskData<ContentFinderCondition>
+                Data.TaskData.Add(new LuminaTaskData<ContentFinderCondition>
                 {
                     RowId = cfc.RowId,
                     Complete = false,

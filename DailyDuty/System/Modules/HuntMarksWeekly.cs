@@ -15,12 +15,10 @@ public class HuntMarksWeekly : HuntMarksBase
     public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(7);
     protected override DateTime GetNextReset() => Time.NextWeeklyReset();
     
-    public override void Load()
+    protected override void UpdateTaskLists()
     {
-        base.Load();
-
         var luminaUpdater = new LuminaTaskUpdater<MobHuntOrderType>(this, order => order.Type is 2);
-        luminaUpdater.UpdateConfig(Config.Tasks);
-        luminaUpdater.UpdateData(Data.Tasks);
+        luminaUpdater.UpdateConfig(Config.TaskConfig);
+        luminaUpdater.UpdateData(Data.TaskData);
     }
 }

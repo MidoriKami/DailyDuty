@@ -553,4 +553,7 @@ Limited to once per 5 mins</value>
     <data name="CastingTeleport" xml:space="preserve">
         <value>Casting Teleport</value>
     </data>
+    <data name="BookExpired" xml:space="preserve">
+        <value>Book Expired</value>
+    </data>
 </root>

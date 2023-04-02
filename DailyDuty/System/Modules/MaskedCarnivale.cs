@@ -16,7 +16,7 @@ namespace DailyDuty.System;
 public class MaskedCarnivaleConfig : ModuleConfigBase
 {
     [SelectableTasks] 
-    public List<LuminaTaskConfig<Addon>> Tasks = new();
+    public LuminaTaskConfigList<Addon> TaskConfig = new();
 
     [ClickableLink("UldahTeleport")]
     public bool ClickableLink = true;
@@ -25,7 +25,7 @@ public class MaskedCarnivaleConfig : ModuleConfigBase
 public class MaskedCarnivaleData : ModuleDataBase
 {
     [SelectableTasks] 
-    public List<LuminaTaskData<Addon>> Tasks = new();
+    public LuminaTaskDataList<Addon> TaskData = new();
 }
 
 public unsafe class MaskedCarnivale : Module.WeeklyModule
@@ -38,21 +38,20 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
     private MaskedCarnivaleData Data => ModuleData as MaskedCarnivaleData ?? new MaskedCarnivaleData();
 
     private readonly AgentAozContentBriefing* agent = (AgentAozContentBriefing*) AgentModule.Instance()->GetAgentByInternalId(AgentId.AozContentBriefing);
-
-    public override void Load()
+    
+    protected override void UpdateTaskLists()
     {
-        base.Load();
-
         var luminaTaskUpdater = new LuminaTaskUpdater<Addon>(this, addon => addon.RowId is 12449 or 12448 or 12447);
-        luminaTaskUpdater.UpdateConfig(Config.Tasks);
-        luminaTaskUpdater.UpdateData(Data.Tasks);
+        luminaTaskUpdater.UpdateConfig(Config.TaskConfig);
+        luminaTaskUpdater.UpdateData(Data.TaskData);
+        
     }
 
     public override void Update()
     {
         if (agent is not null && agent->AgentInterface.IsAgentActive())
         {
-            foreach (var task in Data.Tasks)
+            foreach (var task in Data.TaskData)
             {
                 var status = task.RowId switch
                 {
@@ -94,7 +93,7 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        var task = Data.Tasks.FirstOrDefault(task => task.RowId == addonId);
+        var task = Data.TaskData.FirstOrDefault(task => task.RowId == addonId);
 
         if (task is not null && task.Complete != completionStatus)
         {
@@ -105,7 +104,7 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
 
     public override void Reset()
     {
-        foreach (var task in Data.Tasks)
+        foreach (var task in Data.TaskData)
         {
             task.Complete = false;
         }
@@ -113,11 +112,11 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         base.Reset();
     }
 
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage()
     {
-        var message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.ChallengesRemaining}";
+        var message = $"{GetIncompleteCount(Config.TaskConfig, Data.TaskData)} {Strings.ChallengesRemaining}";
 
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.UldahTeleport);
     }

@@ -8,13 +8,11 @@ namespace DailyDuty.System;
 public class GrandCompanySupply : GrandCompanySupplyProvisionBase
 {
     public override ModuleName ModuleName => ModuleName.GrandCompanySupply;
-
-    public override void Load()
+    
+    protected override void UpdateTaskLists()
     {
-        base.Load();
-
         var luminaUpdater = new LuminaTaskUpdater<ClassJob>(this, job => job.RowId is  >= 8 and <= 15);
-        luminaUpdater.UpdateConfig(Config.Tasks);
-        luminaUpdater.UpdateData(Data.Tasks);
+        luminaUpdater.UpdateConfig(Config.TaskConfig);
+        luminaUpdater.UpdateData(Data.TaskData);
     }
 }

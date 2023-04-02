@@ -19,16 +19,16 @@ public class LuminaTaskUpdater<T> where T : ExcelRow
 
         luminaRows = LuminaCache<T>.Instance.Where(filter);
     }
-
-    public void UpdateConfig(List<LuminaTaskConfig<T>> configValues)
+    
+    public void UpdateConfig(LuminaTaskConfigList<T> configValues)
     {
-        if (configValues.Count != luminaRows.Count())
+        if (configValues.ConfigList.Count != luminaRows.Count())
         {
             foreach (var luminaEntry in luminaRows)
             {
-                if (!configValues.Any(task => task.RowId == luminaEntry.RowId))
+                if (!configValues.ConfigList.Any(task => task.RowId == luminaEntry.RowId))
                 {
-                    configValues.Add(new LuminaTaskConfig<T>
+                    configValues.ConfigList.Add(new LuminaTaskConfig<T>
                     {
                         RowId = luminaEntry.RowId,
                         Enabled = false,
@@ -40,16 +40,16 @@ public class LuminaTaskUpdater<T> where T : ExcelRow
             module.SaveConfig();
         }
     }
-
-    public void UpdateData(List<LuminaTaskData<T>> dataValues)
+    
+    public void UpdateData(LuminaTaskDataList<T> dataList)
     {
-        if (dataValues.Count != luminaRows.Count())
+        if (dataList.DataList.Count != luminaRows.Count())
         {
             foreach (var luminaEntry in luminaRows)
             {
-                if (!dataValues.Any(task => task.RowId == luminaEntry.RowId))
+                if (!dataList.DataList.Any(task => task.RowId == luminaEntry.RowId))
                 {
-                    dataValues.Add(new LuminaTaskData<T>
+                    dataList.DataList.Add(new LuminaTaskData<T>
                     {
                         RowId = luminaEntry.RowId,
                         Complete = false,

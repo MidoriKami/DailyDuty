@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
@@ -13,13 +12,13 @@ namespace DailyDuty.Abstracts;
 public class GrandCompanySupplyProvisioningConfig : ModuleConfigBase
 {
     [SelectableTasks]
-    public List<LuminaTaskConfig<ClassJob>> Tasks = new();
+    public LuminaTaskConfigList<ClassJob> TaskConfig = new();
 }
 
 public class GrandCompanySupplyProvisioningData : ModuleDataBase
 {
     [SelectableTasks] 
-    public List<LuminaTaskData<ClassJob>> Tasks = new();
+    public LuminaTaskDataList<ClassJob> TaskData = new();
 }
 
 public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModule
@@ -35,10 +34,7 @@ public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModul
 
     public override void Reset()
     {
-        foreach (var data in Data.Tasks)
-        {
-            data.Complete = false;
-        }
+        Data.TaskData.Reset();
         
         base.Reset();
     }
@@ -47,28 +43,23 @@ public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModul
     {
         if (SupplyAgent is not null && SupplyAgent->AgentInterface.IsAgentActive())
         {
-            var itemSpan = new Span<GrandCompanyItem>(SupplyAgent->ItemArray, SupplyAgent->NumItems);
-        
-            foreach (var data in Data.Tasks)
+            Data.TaskData.Update(ref DataChanged, rowId =>
             {
-                var adjustedIndex = (int)(data.RowId - 8);
+                var itemSpan = new Span<GrandCompanyItem>(SupplyAgent->ItemArray, SupplyAgent->NumItems);
+                var adjustedIndex = (int)(rowId - 8);
                 var agentData = itemSpan[adjustedIndex];
 
-                if (data.Complete != !agentData.IsTurnInAvailable)
-                {
-                    data.Complete = !agentData.IsTurnInAvailable;
-                    DataChanged = true;
-                }
-            }
+                return !agentData.IsTurnInAvailable;
+            });
         }
         
         base.Update();
     }
     
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.AllowancesRemaining}",
+        Message = $"{GetIncompleteCount(Config.TaskConfig, Data.TaskData)} {Strings.AllowancesRemaining}",
     };
 }

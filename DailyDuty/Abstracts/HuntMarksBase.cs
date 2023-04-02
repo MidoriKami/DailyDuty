@@ -13,13 +13,13 @@ namespace DailyDuty.Abstracts;
 public class HuntMarksConfig : ModuleConfigBase
 {
     [SelectableTasks]
-    public List<LuminaTaskConfig<MobHuntOrderType>> Tasks = new();
+    public LuminaTaskConfigList<MobHuntOrderType> TaskConfig = new();
 }
 
 public class HuntMarksData : ModuleDataBase
 {
     [SelectableTasks] 
-    public List<LuminaTaskData<MobHuntOrderType>> Tasks = new();
+    public LuminaTaskDataList<MobHuntOrderType> TaskData = new();
 }
 
 public abstract unsafe class HuntMarksBase : Module.SpecialModule
@@ -33,7 +33,7 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
     
     public override void Update()
     {
-        foreach (var task in Data.Tasks)
+        foreach (var task in Data.TaskData)
         {
             // If we have the active mark bill
             if (HuntData->unkArray[task.RowId] == HuntData->MarkID[task.RowId] && !task.Complete)
@@ -80,18 +80,15 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
 
     public override void Reset()
     {
-        foreach (var data in Data.Tasks)
-        {
-            data.Complete = false;
-        }
+        Data.TaskData.Reset();
         
         base.Reset();
     }
     
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.Tasks, Data.Tasks) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = $"{GetIncompleteCount(Config.Tasks, Data.Tasks)} {Strings.HuntsRemaining}",
+        Message = $"{GetIncompleteCount(Config.TaskConfig, Data.TaskData)} {Strings.HuntsRemaining}",
     };
 }

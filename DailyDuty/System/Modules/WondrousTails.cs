@@ -55,6 +55,9 @@ public class WondrousTailsData : ModuleDataBase
     [DataDisplay("TimeRemaining")]
     public TimeSpan TimeRemaining;
 
+    [DataDisplay("BookExpired")] 
+    public bool BookExpired;
+    
     [DataDisplay("NearKhloe")]
     public bool CloseToKhloe;
 
@@ -93,6 +96,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
         TryUpdateData(ref Data.Deadline, DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).DateTime);
         TryUpdateData(ref Data.PlayerHasBook, PlayerState.Instance()->HasWeeklyBingoJournal);
         TryUpdateData(ref Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
+        TryUpdateData(ref Data.BookExpired, PlayerState.Instance()->IsWeeklyBingoExpired());
         
         Data.TimeRemaining = Data.Deadline - DateTime.UtcNow;
         Data.DistanceToKhloe = 0.0f;
@@ -176,19 +180,19 @@ public unsafe class WondrousTails : Module.WeeklyModule
         return Data.PlacedStickers == 9 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
     
-    protected override StatusMessage GetStatusMessage()
+    protected override StatusMessage GetStatusMessage() => Data switch
     {
-        if (Config.StickerAvailableNotice && AnyTaskAvailableForSticker())
-            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.StickerAvailable, PayloadId.OpenWondrousTailsBook);
-
-        if (Config.ShuffleAvailableNotice && Data is { SecondChance: > 7, PlacedStickers: >= 3 and <= 7 }) 
-            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.ShuffleAvailable, PayloadId.OpenWondrousTailsBook);
-        
-        if (Config.UnclaimedBookWarning && Data.NewBookAvailable) 
-            return ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.NewBookAvailable, PayloadId.IdyllshireTeleport);
-
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers), PayloadId.OpenWondrousTailsBook);
-    }
+        { PlayerHasBook: true, BookExpired: false } when Config.StickerAvailableNotice && AnyTaskAvailableForSticker() => 
+            ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.StickerAvailable, PayloadId.OpenWondrousTailsBook),
+            
+        { SecondChance: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, BookExpired: false } when Config.ShuffleAvailableNotice => 
+            ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.ShuffleAvailable, PayloadId.OpenWondrousTailsBook),
+            
+        { NewBookAvailable: true } when Config.UnclaimedBookWarning => 
+            ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.NewBookAvailable, PayloadId.IdyllshireTeleport),
+            
+        _ => ConditionalStatusMessage.GetMessage(Config.ClickableLink, string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers), PayloadId.OpenWondrousTailsBook)
+    };
 
     private PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory)
     {

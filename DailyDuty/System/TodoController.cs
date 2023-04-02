@@ -250,8 +250,8 @@ public unsafe class TodoController : IDisposable
     }
 
     private bool IsNodeAlreadyCreated() => GetTextNode() is not null;
-    private AtkTextNode* GetTextNode() => Node.GetNodeByID<AtkTextNode>(ParentAddon->UldManager, TextNodeId);
-    
+    private AtkTextNode* GetTextNode() => ParentAddon is null ? null : Node.GetNodeByID<AtkTextNode>(ParentAddon->UldManager, TextNodeId);
+
     private TodoConfig LoadConfig()
     {
         try
