@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using DailyDuty.Models;
@@ -12,21 +10,18 @@ using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
 using Dalamud.Logging;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.GameState;
 using Lumina.Excel;
-using Newtonsoft.Json;
 
 namespace DailyDuty.Abstracts;
 
-public abstract unsafe class BaseModule : IDisposable
+public abstract class BaseModule : IDisposable
 {
     public abstract ModuleDataBase ModuleData { get; protected set; }
     public abstract ModuleConfigBase ModuleConfig { get; protected set; }
     public abstract ModuleName ModuleName { get; }
     public abstract ModuleType ModuleType { get; }
     public ModuleStatus ModuleStatus => ModuleConfig.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
-    public abstract TimeSpan GetResetPeriod();
     public virtual void Dispose() { }
     
     protected abstract DateTime GetNextReset();
@@ -79,7 +74,7 @@ public abstract unsafe class BaseModule : IDisposable
         var dataDisplay = fields
             .Where(field => field.GetCustomAttribute(typeof(DataDisplay)) is not null)
             .Select(field => (field, (DataDisplay) field.GetCustomAttribute(typeof(DataDisplay))!))
-            .ToList(); //.OrderBy(a => a.field.Name);
+            .ToList();
         
         var taskSelection = fields
             .Where(field => field.GetCustomAttribute(typeof(SelectableTasks)) is not null)
@@ -150,114 +145,11 @@ public abstract unsafe class BaseModule : IDisposable
             SendStatusMessage();
         }
     }
-
-    private ModuleDataBase LoadData()
-    {
-        try
-        {
-            // PluginLog.Debug($"[{ModuleName}] Loading {ModuleName}.data.json");
-            var dataFile = GetDataFileInfo();
-            
-            if (dataFile is { Exists: false })
-            {
-                SaveData(ModuleData);
-                return ModuleData;
-            }
-            
-            var jsonString = File.ReadAllText(dataFile.FullName);
-            return (ModuleDataBase) JsonConvert.DeserializeObject(jsonString, ModuleData.GetType())!;
-        }
-        catch (Exception exception)
-        {
-            PluginLog.Error(exception, $"Failed to load data for module: {ModuleName}");
-            return new ModuleDataBase();
-        }
-    }
     
-    private ModuleConfigBase LoadConfig()
-    {
-        try
-        {
-            // PluginLog.Debug($"[{ModuleName}] Loading {ModuleName}.config.json");
-            var configFile = GetConfigFileInfo();
-
-            if (configFile is { Exists: false })
-            {
-                SaveConfig(ModuleConfig);
-                return ModuleConfig;
-            }
-            
-            var jsonString = File.ReadAllText(configFile.FullName);
-            return (ModuleConfigBase) JsonConvert.DeserializeObject(jsonString, ModuleConfig.GetType())!;
-        }
-        catch (Exception exception)
-        {
-            PluginLog.Error(exception, $"Failed to load config for module: {ModuleName}");
-            return new ModuleConfigBase();
-        }
-    }
-
-    private void SaveData(ModuleDataBase data)
-    {
-        try
-        {
-            PluginLog.Debug($"[{ModuleName}] Saving {ModuleName}.data.json");
-            var dataFile = GetDataFileInfo();
-
-            var jsonString = JsonConvert.SerializeObject(data, data.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
-            File.WriteAllText(dataFile.FullName, jsonString);
-        }
-        catch (Exception exception)
-        {
-            PluginLog.Error(exception, $"Failed to save data for module: {ModuleName}");
-        }
-    }
-
-    private void SaveConfig(ModuleConfigBase config)
-    {
-        try
-        {
-            PluginLog.Debug($"[{ModuleName}] Saving {ModuleName}.config.json");
-            var configFile = GetConfigFileInfo();
-
-            var jsonString = JsonConvert.SerializeObject(config, config.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
-            File.WriteAllText(configFile.FullName, jsonString);
-        }
-        catch (Exception exception)
-        {
-            PluginLog.Error(exception, $"Failed to save config for module: {ModuleName}");
-        }
-    }
-
-    private FileInfo GetConfigFileInfo()
-    {
-        var contentId = PlayerState.Instance()->ContentId;
-        var configDirectory = GetCharacterDirectory(contentId);
-        return new FileInfo(Path.Combine(configDirectory.FullName, GetConfigFileName()));
-    }
-
-    private FileInfo GetDataFileInfo()
-    {
-        var contentId = PlayerState.Instance()->ContentId;
-        var configDirectory = GetCharacterDirectory(contentId);
-        return new FileInfo(Path.Combine(configDirectory.FullName, GetDataFileName()));
-    }
-
-    public void SaveConfig() => SaveConfig(ModuleConfig);
-    public void SaveData() => SaveData(ModuleData);
-    private string GetDataFileName() => $"{ModuleName.ToString()}.data.json";
-    private string GetConfigFileName() => $"{ModuleName.ToString()}.config.json";
-    private DirectoryInfo GetCharacterDirectory(ulong contentId)
-    {
-        var directoryInfo = new DirectoryInfo(Path.Combine(Service.PluginInterface.ConfigDirectory.FullName, contentId.ToString()));
-
-        if (directoryInfo is { Exists: false })
-        {
-            directoryInfo.Create();
-        }
-
-        return directoryInfo;
-    }
+    private ModuleConfigBase LoadConfig() => (ModuleConfigBase) FileController.LoadFile($"{ModuleName}.config.json", ModuleConfig);
+    private ModuleDataBase LoadData() => (ModuleDataBase) FileController.LoadFile($"{ModuleName}.data.json", ModuleData);
+    public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
+    public void SaveData() => FileController.SaveFile($"{ModuleName}.data.json", ModuleData.GetType(), ModuleData);
     
     private void SendStatusMessage()
     {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;

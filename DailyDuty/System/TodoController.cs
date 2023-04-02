@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -8,18 +7,15 @@ using DailyDuty.Models.Enums;
 using DailyDuty.System.Commands;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
-using Dalamud.Game.ClientState;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.Graphics;
 using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib;
 using KamiLib.Atk;
 using KamiLib.GameState;
-using Newtonsoft.Json;
 
 namespace DailyDuty.System;
 
@@ -252,63 +248,13 @@ public unsafe class TodoController : IDisposable
     private bool IsNodeAlreadyCreated() => GetTextNode() is not null;
     private AtkTextNode* GetTextNode() => ParentAddon is null ? null : Node.GetNodeByID<AtkTextNode>(ParentAddon->UldManager, TextNodeId);
 
-    private TodoConfig LoadConfig()
-    {
-        try
-        {
-            var dataFile = GetConfigFileInfo();
-            
-            if (dataFile is { Exists: false })
-            {
-                SaveConfig();
-                return Config;
-            }
-            
-            var jsonString = File.ReadAllText(dataFile.FullName);
-            return (TodoConfig) JsonConvert.DeserializeObject(jsonString, Config.GetType())!;
-        }
-        catch (Exception exception)
-        {
-            PluginLog.Error(exception, $"Failed to load data for TodoController");
-            return new TodoConfig();
-        }
-    }
+    private TodoConfig LoadConfig() => (TodoConfig) FileController.LoadFile("Todo.config.json", Config);
     
     public void SaveConfig()
     {
         RefreshTextNode();
 
-        try
-        {
-            PluginLog.Debug($"[TodoConfig] Saving Todo.config.json");
-            var dataFile = GetConfigFileInfo();
-
-            var jsonString = JsonConvert.SerializeObject(Config, Config.GetType(), new JsonSerializerSettings { Formatting = Formatting.Indented });
-            File.WriteAllText(dataFile.FullName, jsonString);
-        }
-        catch (Exception exception)
-        {
-            PluginLog.Error(exception, $"Failed to save data for TodoController");
-        }
-    }
-    
-    private FileInfo GetConfigFileInfo()
-    {
-        var contentId = PlayerState.Instance()->ContentId;
-        var configDirectory = GetCharacterDirectory(contentId);
-        return new FileInfo(Path.Combine(configDirectory.FullName, "Todo.config.json"));
-    }
-    
-    private static DirectoryInfo GetCharacterDirectory(ulong contentId)
-    {
-        var directoryInfo = new DirectoryInfo(Path.Combine(Service.PluginInterface.ConfigDirectory.FullName, contentId.ToString()));
-
-        if (directoryInfo is { Exists: false })
-        {
-            directoryInfo.Create();
-        }
-
-        return directoryInfo;
+        FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
     }
 
     private ByteColor VectorToByteColor(Vector4 vector) => new()

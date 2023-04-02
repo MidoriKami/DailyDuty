@@ -37,7 +37,6 @@ public class TreasureMap : Module.SpecialModule, IChatMessageReceiver
     public override ModuleDataBase ModuleData { get; protected set; } = new TreasureMapData();
     private TreasureMapData Data => ModuleData as TreasureMapData ?? new TreasureMapData();
 
-    public override TimeSpan GetResetPeriod() => TimeSpan.FromHours(18);
     protected override DateTime GetNextReset() => DateTime.MaxValue;
 
     public override void Reset()

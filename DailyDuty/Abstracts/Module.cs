@@ -9,14 +9,12 @@ public static class Module
     public abstract class DailyModule : BaseModule
     {
         public override ModuleType ModuleType => ModuleType.Daily;
-        public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(1);
         protected override DateTime GetNextReset() => Time.NextDailyReset();
     }
 
     public abstract class WeeklyModule : BaseModule
     {
         public override ModuleType ModuleType => ModuleType.Weekly;
-        public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(1);
         protected override DateTime GetNextReset() => Time.NextWeeklyReset();
     }
 

@@ -59,7 +59,6 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
         base.Reset();
     }
 
-    public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(4);
     protected override DateTime GetNextReset() => Time.NextFashionReportReset();
     protected override ModuleStatus GetModuleStatus()
     {

@@ -30,7 +30,6 @@ public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageRecei
 {
     public override ModuleName ModuleName => ModuleName.JumboCactpot;
     protected override DateTime GetNextReset() => Time.NextJumboCactpotReset();
-    public override TimeSpan GetResetPeriod() => TimeSpan.FromDays(7);
     
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new JumboCactpotConfig();
     public override ModuleDataBase ModuleData { get; protected set; } = new JumboCactpotData();

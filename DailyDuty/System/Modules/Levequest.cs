@@ -36,7 +36,6 @@ public unsafe class Levequest : Module.SpecialModule
     private LevequestConfig Config => ModuleConfig as LevequestConfig ?? new LevequestConfig();
     private LevequestData Data => ModuleData as LevequestData ?? new LevequestData();
     
-    public override TimeSpan GetResetPeriod() => TimeSpan.FromHours(12);
     protected override DateTime GetNextReset() => Time.NextLeveAllowanceReset();
     public override void Update()
     {
