@@ -11,15 +11,15 @@ namespace DailyDuty.System.Helpers;
 public class LuminaTaskUpdater<T> where T : ExcelRow
 {
     private readonly IEnumerable<T> luminaRows;
-    private readonly BaseModule module;
-    
+    private readonly BaseModule module; 
+
     public LuminaTaskUpdater(BaseModule module, Func<T, bool> filter)
     {
         this.module = module;
 
         luminaRows = LuminaCache<T>.Instance.Where(filter);
     }
-    
+
     public void UpdateConfig(LuminaTaskConfigList<T> configValues)
     {
         if (configValues.ConfigList.Count != luminaRows.Count())

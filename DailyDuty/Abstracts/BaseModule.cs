@@ -42,7 +42,6 @@ public abstract unsafe class BaseModule : IDisposable
     public virtual void AddonPostSetup(AddonArgs addonInfo) { }
     public virtual void AddonFinalize(AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
-
     
     public void DrawConfig()
     {
@@ -122,7 +121,7 @@ public abstract unsafe class BaseModule : IDisposable
             SendStatusMessage();
         }
     }
-    
+
     public virtual void Unload()
     {
         PluginLog.Debug($"[{ModuleName}] Unloading Module");
@@ -307,11 +306,11 @@ public abstract unsafe class BaseModule : IDisposable
     
     protected static int GetIncompleteCount<T>(LuminaTaskConfigList<T> config, LuminaTaskDataList<T> data) where T : ExcelRow
     {
-        if (config.ConfigList.Count != data.DataList.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount");
+        if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount");
         
         var incompleteCount = 0;
         
-        foreach (var index in Enumerable.Range(0, config.ConfigList.Count))
+        foreach (var index in Enumerable.Range(0, config.Count))
         {
             var configInfo = config.ConfigList[index];
             var dataInfo = data.DataList[index];

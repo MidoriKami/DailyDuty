@@ -30,7 +30,7 @@ public unsafe class ChallengeLog : Module.WeeklyModule
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new ChallengeLogConfig();
     private ChallengeLogData Data => ModuleData as ChallengeLogData ?? new ChallengeLogData();
     private ChallengeLogConfig Config => ModuleConfig as ChallengeLogConfig ?? new ChallengeLogConfig();
-    
+
     protected override void UpdateTaskLists()
     {
         var luminaUpdater = new LuminaTaskUpdater<ContentsNote>(this, (row) => row.RequiredAmount is not 0);

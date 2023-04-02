@@ -38,7 +38,7 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
     private MaskedCarnivaleData Data => ModuleData as MaskedCarnivaleData ?? new MaskedCarnivaleData();
 
     private readonly AgentAozContentBriefing* agent = (AgentAozContentBriefing*) AgentModule.Instance()->GetAgentByInternalId(AgentId.AozContentBriefing);
-    
+
     protected override void UpdateTaskLists()
     {
         var luminaTaskUpdater = new LuminaTaskUpdater<Addon>(this, addon => addon.RowId is 12449 or 12448 or 12447);
