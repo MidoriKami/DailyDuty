@@ -18,8 +18,8 @@ public unsafe class PayloadController : IDisposable
     public static PayloadController Instance => _instance ??= new PayloadController();
     
     private readonly Dictionary<PayloadId, DalamudLinkPayload> payloads = new();
-
-    private PayloadController()
+    
+    public void Initialize()
     {
         foreach (var payload in Enum.GetValues<PayloadId>())
         {

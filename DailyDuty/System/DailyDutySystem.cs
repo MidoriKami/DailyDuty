@@ -12,6 +12,8 @@ public class DailyDutySystem : IDisposable
     
     public DailyDutySystem()
     {
+        LocalizationController.Instance.Initialize();
+        PayloadController.Instance.Initialize();
         FontController = new FontController();
         ModuleController = new ModuleController();
         addonController = new AddonController();
@@ -45,6 +47,7 @@ public class DailyDutySystem : IDisposable
         ModuleController.Dispose();
         addonController.Dispose();
         TodoController.Dispose();
+        LocalizationController.Cleanup();
         PayloadController.Cleanup();
     }
 
