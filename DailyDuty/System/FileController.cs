@@ -11,11 +11,15 @@ public static unsafe class FileController
 {
     public static object LoadFile(string filePath, object targetObject)
     {
+        DebugPrint($"[FileController] Loading {filePath}");
+        
         if (LoadFile(filePath, targetObject.GetType(), out var loadedData))
         {
             return loadedData;
         }
-
+        
+        DebugPrint($"[FileController] File Doesn't Exist, creating: {filePath}");
+        
         SaveFile(filePath, targetObject.GetType(), targetObject);
         return targetObject;
     }
@@ -38,7 +42,7 @@ public static unsafe class FileController
         }
         catch (Exception exception)
         {
-            PluginLog.Error(exception, $"Failed to load file: {fileName}");
+            PluginLog.Error(exception, $"[FileController] Failed to load file: {fileName}");
             
             loadedData = null;
             return false;
@@ -47,6 +51,8 @@ public static unsafe class FileController
 
     public static void SaveFile(string fileName, Type fileType, object objectData)
     {
+        DebugPrint($"[FileController] Saving {fileName}");
+        
         try
         {
             var fileInfo = GetFileInfo(fileName);
@@ -56,7 +62,7 @@ public static unsafe class FileController
         }
         catch (Exception exception)
         {
-            PluginLog.Error(exception, $"Failed to save file: {fileName}");
+            PluginLog.Error(exception, $"[FileController] Failed to save file: {fileName}");
         }
     }
 
@@ -78,5 +84,12 @@ public static unsafe class FileController
         }
 
         return directoryInfo;
+    }
+
+    private static void DebugPrint(string message)
+    {
+        #if DEBUG
+        PluginLog.Debug(message);
+        #endif
     }
 }
