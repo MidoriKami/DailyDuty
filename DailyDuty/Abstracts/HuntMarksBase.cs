@@ -35,10 +35,10 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
         foreach (var task in Data.TaskData)
         {
             // If we have the active mark bill
-            if (HuntData->unkArray[task.RowId] == HuntData->MarkID[task.RowId] && !task.Complete)
+            if (HuntData->AvailableMarkId[task.RowId] == HuntData->ObtainedMarkId[task.RowId] && !task.Complete)
             {
                 var orderData = LuminaCache<MobHuntOrderType>.Instance.GetRow(task.RowId)!;
-                var targetRow = orderData.OrderStart.Row + HuntData->MarkID[task.RowId] - 1;
+                var targetRow = orderData.OrderStart.Row + HuntData->ObtainedMarkId[task.RowId] - 1;
                 
                 // Elite
                 if (orderData.Type is 2 && IsEliteMarkComplete(targetRow, task.RowId))
