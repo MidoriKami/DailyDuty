@@ -133,6 +133,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
 
     private void OnDutyStarted(object? sender, ushort e)
     {
+        if (!Config.ModuleEnabled) return;
         if (!Config.InstanceNotifications) return;
         if (GetModuleStatus() == ModuleStatus.Complete) return;
         if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
@@ -158,6 +159,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
     
     private void OnDutyCompleted(object? sender, ushort e)
     {
+        if (!Config.ModuleEnabled) return;
         if (!Config.InstanceNotifications) return;
         if (GetModuleStatus() == ModuleStatus.Complete) return;
         if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
