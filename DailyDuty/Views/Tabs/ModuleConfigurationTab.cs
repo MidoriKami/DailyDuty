@@ -93,7 +93,7 @@ public class ConfigurationSelectable : ISelectable, IDrawable
         if (ImGui.BeginTable($"##ModuleNameTable{Module.ModuleName}", 2, ImGuiTableFlags.None, labelRegion with { Y = genericTextSize.Y + itemSpacing.Y } ))
         {
             ImGui.TableSetupColumn("##ModuleName", ImGuiTableColumnFlags.WidthStretch, 4);
-            ImGui.TableSetupColumn("##ModuleStatus", ImGuiTableColumnFlags.WidthFixed, GetLongestModuleEnableDisableLength());
+            ImGui.TableSetupColumn("##ModuleStatus", ImGuiTableColumnFlags.WidthFixed, GetLongestModuleStatusLength());
 
             ImGui.TableNextColumn();
             ImGui.Text(Module.ModuleName.GetLabel());
@@ -120,11 +120,15 @@ public class ConfigurationSelectable : ISelectable, IDrawable
         Module.DrawConfig();
     }
     
-    private float GetLongestModuleEnableDisableLength()
+    private float GetLongestModuleStatusLength()
     {
+        var longestStatus = Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.GetLabel())).Select(size => size.X).Prepend(0.0f).Max();
+        
         var enabledLength = ImGui.CalcTextSize(Strings.Enabled);
         var disabledLength = ImGui.CalcTextSize(Strings.Disabled);
 
-        return enabledLength.X > disabledLength.X ? enabledLength.X : disabledLength.X;
+        var longestEnabledDisabled = MathF.Max(enabledLength.X, disabledLength.X);
+
+        return MathF.Max(longestStatus, longestEnabledDisabled);
     }
 }

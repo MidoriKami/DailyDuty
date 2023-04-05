@@ -104,5 +104,15 @@ public class DataSelectable : ISelectable, IDrawable
         Module.DrawData();
     }
 
-    private float GetLongestModuleStatusLength() => Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.GetLabel())).Select(size => size.X).Prepend(0.0f).Max();
+    private float GetLongestModuleStatusLength()
+    {
+        var longestStatus = Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.GetLabel())).Select(size => size.X).Prepend(0.0f).Max();
+        
+        var enabledLength = ImGui.CalcTextSize(Strings.Enabled);
+        var disabledLength = ImGui.CalcTextSize(Strings.Disabled);
+
+        var longestEnabledDisabled = MathF.Max(enabledLength.X, disabledLength.X);
+
+        return MathF.Max(longestStatus, longestEnabledDisabled);
+    }
 }
