@@ -135,6 +135,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
     {
         if (!Config.ModuleEnabled) return;
         if (!Config.InstanceNotifications) return;
+        if (Data is not { PlayerHasBook: true, BookExpired: false }) return;
         if (GetModuleStatus() == ModuleStatus.Complete) return;
         if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
 
@@ -142,7 +143,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
 
         switch (taskState)
         {
-            case PlayerState.WeeklyBingoTaskStatus.Claimed when Data is {PlacedStickers: > 0, SecondChance: > 0}:
+            case PlayerState.WeeklyBingoTaskStatus.Claimed when Data is { PlacedStickers: > 0, SecondChance: > 0}:
                 PrintMessage(Strings.RerollNotice);
                 PrintMessage(string.Format(Strings.RerollsAvailable, Data.SecondChance), true);
                 break;
@@ -161,6 +162,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
     {
         if (!Config.ModuleEnabled) return;
         if (!Config.InstanceNotifications) return;
+        if (Data is not { PlayerHasBook: true, BookExpired: false }) return;
         if (GetModuleStatus() == ModuleStatus.Complete) return;
         if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
 
