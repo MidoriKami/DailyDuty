@@ -13,7 +13,7 @@ public class ConfigOption : Attribute
     {
         get
         {
-            var displayName = Strings.ResourceManager.GetString(resourceKey);
+            var displayName = Strings.ResourceManager.GetString(resourceKey, Strings.Culture);
 
             return string.IsNullOrEmpty(displayName) ? $"[[{resourceKey}]]" : displayName;
         }
@@ -25,7 +25,7 @@ public class ConfigOption : Attribute
         {
             if (helpTextKey is null) return null;
             
-            var displayName = Strings.ResourceManager.GetString(helpTextKey);
+            var displayName = Strings.ResourceManager.GetString(helpTextKey, Strings.Culture);
 
             return string.IsNullOrEmpty(displayName) ? $"[[{helpTextKey}]]" : displayName;
         }

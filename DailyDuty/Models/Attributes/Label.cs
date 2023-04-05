@@ -18,7 +18,7 @@ public class Label : DescriptionAttribute
     {
         get
         {
-            var displayName = Strings.ResourceManager.GetString(resourceKey);
+            var displayName = Strings.ResourceManager.GetString(resourceKey, Strings.Culture);
 
             return string.IsNullOrEmpty(displayName) ? $"[[{resourceKey}]]" : displayName;
         }

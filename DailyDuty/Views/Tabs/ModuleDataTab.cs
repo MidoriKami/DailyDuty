@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
+using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -23,12 +26,14 @@ public class ModuleDataTab : ISelectionWindowTab
             return DailyDutyPlugin.System.ModuleController
                 .GetModules()
                 .Where(module => module.ModuleConfig.ModuleEnabled)
-                .Select(module => new DataSelectable(module));
+                .Select(module => new DataSelectable(module))
+                .OrderBy(module => module.Module.ModuleName.GetLabel());
         }
         
         return DailyDutyPlugin.System.ModuleController
             .GetModules()
-            .Select(module => new DataSelectable(module));
+            .Select(module => new DataSelectable(module))
+            .OrderBy(module => module.Module.ModuleName.GetLabel());
     }
 
     public void DrawTabExtras()
@@ -46,7 +51,7 @@ public class ModuleDataTab : ISelectionWindowTab
 
 public class DataSelectable : ISelectable, IDrawable
 {
-    private BaseModule Module;
+    public BaseModule Module;
     public IDrawable Contents => this;
     public string ID => Module.ModuleName.ToString();
 
@@ -57,28 +62,47 @@ public class DataSelectable : ISelectable, IDrawable
     
     public void DrawLabel()
     {
-        ImGui.Text(Module.ModuleName.GetLabel());
-
-        var region = ImGui.GetContentRegionAvail();
-
-        var color = Module.ModuleStatus.GetColor();
-        var text = Module.ModuleStatus.GetLabel();
-
-        // Override Status if Module is Disabled
-        if (!Module.ModuleConfig.ModuleEnabled)
+        var labelRegion = ImGui.GetContentRegionAvail();
+        var genericTextSize = ImGui.CalcTextSize("SizingText");
+        var itemSpacing = ImGui.GetStyle().ItemSpacing;
+        
+        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, Vector2.Zero);
+        
+        if (ImGui.BeginTable($"##ModuleNameTable{Module.ModuleName}", 2, ImGuiTableFlags.None, labelRegion with { Y = genericTextSize.Y + itemSpacing.Y } ))
         {
-            text = Strings.Disabled;
-            color = KnownColor.Gray.AsVector4();
+            ImGui.TableSetupColumn("##ModuleName", ImGuiTableColumnFlags.WidthStretch, 4);
+            ImGui.TableSetupColumn("##ModuleStatus", ImGuiTableColumnFlags.WidthFixed, GetLongestModuleStatusLength());
+
+            ImGui.TableNextColumn();
+            ImGui.Text(Module.ModuleName.GetLabel());
+
+            ImGui.TableNextColumn();
+            var region = ImGui.GetContentRegionAvail();
+
+            var color = Module.ModuleStatus.GetColor();
+            var text = Module.ModuleStatus.GetLabel();
+
+            // Override Status if Module is Disabled
+            if (!Module.ModuleConfig.ModuleEnabled)
+            {
+                text = Strings.Disabled;
+                color = KnownColor.Gray.AsVector4();
+            }
+
+            var textSize = ImGui.CalcTextSize(text);
+            ImGui.SetCursorPosX(ImGui.GetCursorPosX() + region.X - textSize.X);
+            ImGui.TextColored(color, text);
+            
+            ImGui.EndTable();
         }
-
-        var textSize = ImGui.CalcTextSize(text);
-
-        ImGui.SameLine(region.X - textSize.X + 3.0f);
-        ImGui.TextColored(color, text);
+        
+        ImGui.PopStyleVar();
     }
     
     public void Draw()
     {
         Module.DrawData();
     }
+
+    private float GetLongestModuleStatusLength() => Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.GetLabel())).Select(size => size.X).Prepend(0.0f).Max();
 }

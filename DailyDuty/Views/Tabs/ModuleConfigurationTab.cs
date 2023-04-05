@@ -9,6 +9,7 @@ using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
+using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 using KamiLib.Interfaces;
 
@@ -25,7 +26,8 @@ public class ModuleConfigurationTab : ISelectionWindowTab
     {
         return DailyDutyPlugin.System.ModuleController
             .GetModules(filterType)
-            .Select(module => new ConfigurationSelectable(module));
+            .Select(module => new ConfigurationSelectable(module))
+            .OrderBy(module => module.Module.ModuleName.GetLabel());
     }
 
     public void DrawTabExtras()
@@ -82,21 +84,47 @@ public class ConfigurationSelectable : ISelectable, IDrawable
     
     public void DrawLabel()
     {
-        ImGui.Text(Module.ModuleName.GetLabel());
+        var labelRegion = ImGui.GetContentRegionAvail();
+        var genericTextSize = ImGui.CalcTextSize("SizingText");
+        var itemSpacing = ImGui.GetStyle().ItemSpacing;
         
-        var region = ImGui.GetContentRegionAvail();
+        ImGui.PushStyleVar(ImGuiStyleVar.ItemSpacing, Vector2.Zero);
+        
+        if (ImGui.BeginTable($"##ModuleNameTable{Module.ModuleName}", 2, ImGuiTableFlags.None, labelRegion with { Y = genericTextSize.Y + itemSpacing.Y } ))
+        {
+            ImGui.TableSetupColumn("##ModuleName", ImGuiTableColumnFlags.WidthStretch, 4);
+            ImGui.TableSetupColumn("##ModuleStatus", ImGuiTableColumnFlags.WidthFixed, GetLongestModuleEnableDisableLength());
 
-        var text = Module.ModuleConfig.ModuleEnabled ? Strings.Enabled : Strings.Disabled;
-        var color = Module.ModuleConfig.ModuleEnabled ? KnownColor.ForestGreen : KnownColor.OrangeRed;
+            ImGui.TableNextColumn();
+            ImGui.Text(Module.ModuleName.GetLabel());
 
-        var textSize = ImGui.CalcTextSize(text);
+            ImGui.TableNextColumn();
+            var region = ImGui.GetContentRegionAvail();
 
-        ImGui.SameLine(region.X - textSize.X + 3.0f);
-        ImGui.TextColored(color.AsVector4(), text);
+            var text = Module.ModuleConfig.ModuleEnabled ? Strings.Enabled : Strings.Disabled;
+            var color = Module.ModuleConfig.ModuleEnabled ? KnownColor.ForestGreen : KnownColor.OrangeRed;
+
+            var textSize = ImGui.CalcTextSize(text);
+            ImGui.SetCursorPosX(ImGui.GetCursorPosX() + region.X - textSize.X);
+            ImGui.TextColored(color.AsVector4(), text);
+            
+            ImGui.EndTable();
+        }
+        
+        ImGui.PopStyleVar();
+        
     }
     
     public void Draw()
     {
         Module.DrawConfig();
+    }
+    
+    private float GetLongestModuleEnableDisableLength()
+    {
+        var enabledLength = ImGui.CalcTextSize(Strings.Enabled);
+        var disabledLength = ImGui.CalcTextSize(Strings.Disabled);
+
+        return enabledLength.X > disabledLength.X ? enabledLength.X : disabledLength.X;
     }
 }

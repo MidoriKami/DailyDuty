@@ -11,7 +11,7 @@ public class ClickableLink : Attribute
     {
         get
         {
-            var displayName = Strings.ResourceManager.GetString(descriptionKey);
+            var displayName = Strings.ResourceManager.GetString(descriptionKey, Strings.Culture);
 
             return string.IsNullOrEmpty(displayName) ? $"[[{descriptionKey}]]" : displayName;
         }
