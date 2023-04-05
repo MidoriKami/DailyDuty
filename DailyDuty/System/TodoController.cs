@@ -166,8 +166,16 @@ public unsafe class TodoController : IDisposable
         
         foreach (var module in tasks)
         {
-            builder.AddText(module.ModuleName.GetLabel());
-            builder.Add(new NewLinePayload());
+            if (module.ModuleConfig.UseCustomTodoLabel && module.ModuleConfig.CustomTodoLabel != string.Empty)
+            {
+                builder.AddText(module.ModuleConfig.CustomTodoLabel);
+                builder.Add(new NewLinePayload());
+            }
+            else
+            {
+                builder.AddText(module.ModuleName.GetLabel());
+                builder.Add(new NewLinePayload());
+            }
         }
     }
     

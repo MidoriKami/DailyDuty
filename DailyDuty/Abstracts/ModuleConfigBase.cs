@@ -19,5 +19,8 @@ public class ModuleConfigBase
     public bool UseCustomResetMessage = false;
     public string CustomResetMessage = string.Empty;
 
+    public bool UseCustomTodoLabel = false;
+    public string CustomTodoLabel = string.Empty;
+
     public bool Suppressed = false;
 }

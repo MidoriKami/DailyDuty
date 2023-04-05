@@ -556,4 +556,10 @@ Limited to once per 5 mins</value>
     <data name="BookExpired" xml:space="preserve">
         <value>Book Expired</value>
     </data>
+    <data name="TodoDisplayOptions" xml:space="preserve">
+        <value>Todo Display Options</value>
+    </data>
+    <data name="TaskLabel" xml:space="preserve">
+        <value>Task Label</value>
+    </data>
 </root>

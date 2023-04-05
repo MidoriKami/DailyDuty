@@ -63,6 +63,7 @@ public abstract class BaseModule : IDisposable
         GenericConfigView.Draw(configOptions, ModuleConfig, SaveConfig, Strings.ModuleConfiguration);
         ModuleSelectableTaskView.DrawConfig(selectableTasks, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
+        ModuleTodoSettings.Draw(ModuleConfig, SaveConfig);
     }
 
     public void DrawData()

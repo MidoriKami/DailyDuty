@@ -1375,6 +1375,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Task Label.
+        /// </summary>
+        internal static string TaskLabel {
+            get {
+                return ResourceManager.GetString("TaskLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task Selection.
         /// </summary>
         internal static string TaskSelection {
@@ -1524,6 +1533,15 @@ namespace DailyDuty.System.Localization {
         internal static string TodoDisplayEnable {
             get {
                 return ResourceManager.GetString("TodoDisplayEnable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Todo Display Options.
+        /// </summary>
+        internal static string TodoDisplayOptions {
+            get {
+                return ResourceManager.GetString("TodoDisplayOptions", resourceCulture);
             }
         }
         
