@@ -11,5 +11,6 @@
     "Other"
   ],
   "InternalName": "dailyduty",
-  "RepoUrl": "https://github.com/MidoriKami/DailyDuty"
+  "RepoUrl": "https://github.com/MidoriKami/DailyDuty",
+  "AcceptsFeedback": false
 }
