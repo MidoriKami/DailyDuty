@@ -74,9 +74,12 @@ public class DataSelectable : ISelectable, IDrawable
             ImGui.TableSetupColumn("##ModuleStatus", ImGuiTableColumnFlags.WidthFixed, GetLongestModuleStatusLength());
 
             ImGui.TableNextColumn();
-            ImGui.Text(Module.ModuleName.GetLabel());
+            var currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
+            ImGui.SetCursorPos(currentPosition);ImGui.Text(Module.ModuleName.GetLabel());
 
             ImGui.TableNextColumn();
+            currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
+            ImGui.SetCursorPos(currentPosition);
             var region = ImGui.GetContentRegionAvail();
 
             var color = Module.ModuleStatus.GetColor();

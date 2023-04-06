@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using FFXIVClientStructs.FFXIV.Common.Math;
 using ImGuiNET;
 using KamiLib.Interfaces;
 
@@ -96,9 +96,13 @@ public class ConfigurationSelectable : ISelectable, IDrawable
             ImGui.TableSetupColumn("##ModuleStatus", ImGuiTableColumnFlags.WidthFixed, GetLongestModuleStatusLength());
 
             ImGui.TableNextColumn();
+            var currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
+            ImGui.SetCursorPos(currentPosition);
             ImGui.Text(Module.ModuleName.GetLabel());
 
             ImGui.TableNextColumn();
+            currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
+            ImGui.SetCursorPos(currentPosition);
             var region = ImGui.GetContentRegionAvail();
 
             var text = Module.ModuleConfig.ModuleEnabled ? Strings.Enabled : Strings.Disabled;
