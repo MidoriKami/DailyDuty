@@ -107,7 +107,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
         
         const int idyllshireTerritoryType = 478;
         const uint khloeAliapohDataId = 1017653;
-        if (Service.ClientState.TerritoryType is idyllshireTerritoryType)
+        if (Service.ClientState.TerritoryType is idyllshireTerritoryType && Config.ModuleEnabled)
         {
             var khloe = Service.ObjectTable.FirstOrDefault(obj => obj.DataId is khloeAliapohDataId);
 
