@@ -22,14 +22,6 @@ You can open the status window with the chat command `/dd status`
 
 ![image](https://user-images.githubusercontent.com/9083275/220256604-0c4ac28a-6733-43f7-b0c3-ef449617f967.png)
 
-## Overlays
-
-DailyDuty includes two configurable overlays, **Todo Overlay** and **Timers Overlay**, these overlays let you display the remaining tasks in an easy to use way.
-
-| Todo Overlay      | Timers Overlay |
-| ----------- | ----------- |
-| ![image](https://user-images.githubusercontent.com/9083275/220256852-39eb2691-06b5-4a8f-aecb-77affe161190.png)      | ![image](https://user-images.githubusercontent.com/9083275/220257271-a231157b-b7e2-4468-8899-6cbcc1928f15.png)       |
-
 ## Notifications
 
 DailyDuty uses chat messages to notify you of tasks that are able to be completed.
