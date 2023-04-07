@@ -200,30 +200,15 @@ public abstract class BaseModule : IDisposable
     protected static int GetIncompleteCount<T>(LuminaTaskConfigList<T> config, LuminaTaskDataList<T> data) where T : ExcelRow
     {
         if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount");
-        
-        var incompleteCount = 0;
-        
-        foreach (var index in Enumerable.Range(0, config.Count))
-        {
-            var configInfo = config.ConfigList[index];
-            var dataInfo = data.DataList[index];
 
-            if (configInfo.Enabled && configInfo.TargetCount != 0)
-            {
-                if (dataInfo.CurrentCount < configInfo.TargetCount)
-                {
-                    incompleteCount++;
-                }
-            }
-            else if(configInfo.Enabled)
-            {
-                if (!dataInfo.Complete)
-                {
-                    incompleteCount++;
-                }
-            }
-        }
-        
-        return incompleteCount;
+        var queryResult = 
+            from configTask in config
+            join dataTask in data on configTask.RowId equals dataTask.RowId
+            where 
+                (configTask.Enabled && configTask.TargetCount is not 0 && dataTask.CurrentCount < configTask.TargetCount) ||
+                (configTask.Enabled && configTask.TargetCount is 0 && !dataTask.Complete)
+            select configTask;
+
+        return queryResult.Count();
     }
 }
