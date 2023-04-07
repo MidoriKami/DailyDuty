@@ -111,16 +111,26 @@ public unsafe class TodoController : IDisposable
         GenericConfigView.Draw(configOptions, Config, SaveConfig, Strings.TodoDisplayConfiguration);
     }
 
+    public void Show()
+    {
+        if (Config.Enable && TodoListNode is not null)
+        {
+            TodoListNode->AtkResNode.ToggleVisibility(true);
+        }
+    }
+
+    public void Hide()
+    {
+        if (TodoListNode is not null)
+        {
+            TodoListNode->AtkResNode.ToggleVisibility(false);
+        }
+    }
+    
     public void Update()
     {
         if (TodoListNode is not null)
         {
-            if (Service.ClientState.IsPvP)
-            {
-                TodoListNode->AtkResNode.ToggleVisibility(false);
-                return;
-            }
-            
             var seString = new SeStringBuilder();
 
             if(Config.DailyTasks) UpdateCategory(seString, ModuleType.Daily);

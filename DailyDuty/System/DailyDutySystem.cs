@@ -28,6 +28,8 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
         Service.ClientState.TerritoryChanged += OnZoneChange;
+        Service.ClientState.EnterPvP += OnEnterPvP;
+        Service.ClientState.LeavePvP += OnLeavePvP;
         AddonController.AddonPreSetup += OnAddonPreSetup;
         AddonController.AddonPostSetup += OnAddonPostSetup;
         AddonController.AddonFinalize += OnAddonFinalize;
@@ -39,6 +41,8 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
+        Service.ClientState.EnterPvP -= OnEnterPvP;
+        Service.ClientState.LeavePvP -= OnLeavePvP;
         AddonController.AddonPreSetup -= OnAddonPreSetup;
         AddonController.AddonPostSetup -= OnAddonPostSetup;
         AddonController.AddonFinalize -= OnAddonFinalize;
@@ -108,4 +112,8 @@ public class DailyDutySystem : IDisposable
         
         ModuleController.AddonFinalize(addonInfo);
     }
+    
+    private void OnLeavePvP() => TodoController.Show();
+
+    private void OnEnterPvP() => TodoController.Hide();
 }
