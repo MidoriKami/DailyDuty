@@ -14,13 +14,15 @@ DailyDuty will **not** track anything to do with Retainers or Free Companies, fo
 
 You can open the configuration window with the chat command `/dd`
 
-![image](https://user-images.githubusercontent.com/9083275/220256522-2224378b-0065-423d-b7f3-c9b2f68bd8f5.png)
+This window has all the available configuration options for each module within DailyDuty
 
-## Status Window
+![image](https://user-images.githubusercontent.com/9083275/230686601-7271614d-1c16-4fe4-8d19-7b625e9bd0ae.png)
 
-You can open the status window with the chat command `/dd status`
+## Data Window
 
-![image](https://user-images.githubusercontent.com/9083275/220256604-0c4ac28a-6733-43f7-b0c3-ef449617f967.png)
+This window displays all the currently stored data for each module
+
+![image](https://user-images.githubusercontent.com/9083275/230686693-32aaed0b-8116-40b6-8593-31f99bcf3d6d.png)
 
 ## Notifications
 
