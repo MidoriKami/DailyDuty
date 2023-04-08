@@ -17,11 +17,10 @@ public class ModuleDataTab : ISelectionWindowTab
 {
     public string TabName => Strings.ModuleData;
     public ISelectable? LastSelection { get; set; }
-    public bool HideDisabledModulesInSelectWindow;
     
     public IEnumerable<ISelectable> GetTabSelectables()
     {
-        if (HideDisabledModulesInSelectWindow)
+        if (DailyDutyPlugin.System.SystemConfig.HideDisabledModules)
         {
             return DailyDutyPlugin.System.ModuleController
                 .GetModules()
@@ -40,11 +39,12 @@ public class ModuleDataTab : ISelectionWindowTab
     {
         var region = ImGui.GetContentRegionAvail();
 
-        var label = HideDisabledModulesInSelectWindow ? Strings.ShowDisabled : Strings.HideDisabled;
+        var label = DailyDutyPlugin.System.SystemConfig.HideDisabledModules ? Strings.ShowDisabled : Strings.HideDisabled;
 
         if (ImGui.Button(label, region with { Y = 23.0f * ImGuiHelpers.GlobalScale }))
         {
-            HideDisabledModulesInSelectWindow = !HideDisabledModulesInSelectWindow;
+            DailyDutyPlugin.System.SystemConfig.HideDisabledModules = !DailyDutyPlugin.System.SystemConfig.HideDisabledModules;
+            DailyDutyPlugin.System.SaveSystemConfig();
         }
     }
 }
