@@ -162,13 +162,13 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
 
     protected override ModuleStatus GetModuleStatus()
     {
-        if (Data.MissionStarted) return ModuleStatus.InProgress;
+        if (Data.MissionStarted && Data.TimeUntilMissionComplete != TimeSpan.Zero) return ModuleStatus.InProgress;
         
         return Data.MissionCompleted ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = Strings.MissionAvailable,
+        Message = Data.MissionStarted && Data.TimeUntilMissionComplete == TimeSpan.Zero ? Strings.MissionCompleted : Strings.MissionAvailable
     };
 }
