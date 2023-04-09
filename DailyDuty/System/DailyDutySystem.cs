@@ -86,8 +86,6 @@ public class DailyDutySystem : IDisposable
     
     private void OnLogout(object? sender, EventArgs e)
     {
-        SaveSystemConfig();
-        
         ModuleController.UnloadModules();
         
         TodoController.Unload();
