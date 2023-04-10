@@ -35,6 +35,7 @@ public unsafe class TreasureMap : Module.SpecialModule
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new TreasureMapConfig();
     public override ModuleDataBase ModuleData { get; protected set; } = new TreasureMapData();
     private TreasureMapData Data => ModuleData as TreasureMapData ?? new TreasureMapData();
+    private TreasureMapConfig Config => ModuleConfig as TreasureMapConfig ?? new TreasureMapConfig();
 
     protected override DateTime GetNextReset() => DateTime.MaxValue;
 
@@ -60,6 +61,12 @@ public unsafe class TreasureMap : Module.SpecialModule
 
     public override void Update()
     {
+        if (Data.NextReset == DateTime.MaxValue && Config.Suppressed)
+        {
+            Config.Suppressed = false;
+            ConfigChanged = true;
+        }
+        
         if (Condition.CheckFlag(ConditionFlag.Gathering42) && !gatheringStarted)
         {
             gatheringStarted = true;
