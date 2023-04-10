@@ -82,7 +82,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
             };
             
             var enabled = configEntry.Enabled;
-            if (ImGui.Checkbox(entryLabel, ref enabled))
+            if (ImGui.Checkbox($"{entryLabel}##{configEntry.RowId}", ref enabled))
             {
                 configEntry.Enabled = enabled;
                 saveAction.Invoke();
