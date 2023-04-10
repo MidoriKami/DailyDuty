@@ -76,7 +76,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
             {
                 LuminaTaskConfigList<ContentRoulette> => LuminaCache<ContentRoulette>.Instance.GetRow(configEntry.RowId)!.Name.ToString(),
                 LuminaTaskConfigList<ClassJob> => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<ClassJob>.Instance.GetRow(configEntry.RowId)!.Name.ToString()),
-                LuminaTaskConfigList<MobHuntOrderType> => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<MobHuntOrderType>.Instance.GetRow(configEntry.RowId)!.EventItem.Value?.Name.ToString() ?? "Unable to Read Event Item Name"),
+                LuminaTaskConfigList<MobHuntOrderType> => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<MobHuntOrderType>.Instance.GetRow(configEntry.RowId)!.EventItem.Value?.Singular.ToString() ?? "Unable to Read Event Item Name"),
                 LuminaTaskConfigList<Addon> => LuminaCache<Addon>.Instance.GetRow(configEntry.RowId)!.Text.ToString(),
                 _ => throw new Exception($"Data Type Not Registered")
             };
