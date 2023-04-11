@@ -76,7 +76,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
             {
                 LuminaTaskConfigList<ContentRoulette> => LuminaCache<ContentRoulette>.Instance.GetRow(configEntry.RowId)!.Name.ToString(),
                 LuminaTaskConfigList<ClassJob> => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<ClassJob>.Instance.GetRow(configEntry.RowId)!.Name.ToString()),
-                LuminaTaskConfigList<MobHuntOrderType> => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<MobHuntOrderType>.Instance.GetRow(configEntry.RowId)!.EventItem.Value?.Singular.ToString() ?? "Unable to Read Event Item Name"),
+                LuminaTaskConfigList<MobHuntOrderType> => GetMobHuntOrderTypeString(configEntry.RowId),
                 LuminaTaskConfigList<Addon> => LuminaCache<Addon>.Instance.GetRow(configEntry.RowId)!.Text.ToString(),
                 _ => throw new Exception($"Data Type Not Registered")
             };
@@ -155,5 +155,15 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
                             
             ImGui.EndTable();
         }
+    }
+
+    private string GetMobHuntOrderTypeString(uint row)
+    {
+        var itemInfo = LuminaCache<MobHuntOrderType>.Instance.GetRow(row)!;
+        
+        var eventItem = itemInfo.EventItem.Value?.Name.ToString();
+        if(eventItem == string.Empty) eventItem = itemInfo.EventItem.Value?.Singular.ToString();
+
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItem ?? "Unable to Read Event Item Name");
     }
 }
