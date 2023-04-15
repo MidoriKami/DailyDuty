@@ -7,12 +7,12 @@ namespace DailyDuty.System;
 
 public class DailyDutySystem : IDisposable
 {
-    public readonly ModuleController ModuleController;
+    public static ModuleController ModuleController = null!;
     private readonly AddonController addonController;
     public readonly TodoController TodoController;
     public readonly FontController FontController;
     public SystemConfig SystemConfig;
-    
+
     public DailyDutySystem()
     {
         SystemConfig = new SystemConfig();

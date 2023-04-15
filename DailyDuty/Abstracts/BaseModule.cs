@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
+using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
@@ -37,54 +37,34 @@ public abstract class BaseModule : IDisposable
     public virtual void AddonPostSetup(AddonArgs addonInfo) { }
     public virtual void AddonFinalize(AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
-    
+
     public void DrawConfig()
     {
-        var fields = ModuleConfig
-            .GetType()
-            .GetFields();
-        
-        var configOptions = fields
-            .Where(field => field.GetCustomAttribute(typeof(ConfigOption)) is not null)
-            .Select(field => (field, (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
-            .ToList();
-
-        var clickableLinks = fields
-            .Where(field => field.GetCustomAttribute(typeof(ClickableLink)) is not null)
-            .Select(field => (field, (ClickableLink) field.GetCustomAttribute(typeof(ClickableLink))!))
-            .ToList();
-
-        var selectableTasks = fields
-            .Where(field => field.GetCustomAttribute(typeof(SelectableTasks)) is not null)
-            .FirstOrDefault();
+        var configOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(ModuleConfig);
+        var clickableLinks = AttributeHelper.GetFieldAttributes<ClickableLink>(ModuleConfig);
+        var selectableTasks = AttributeHelper.GetFieldAttributes<SelectableTasks>(ModuleConfig);
+        var todoOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(ModuleConfig.TodoOptions);
         
         ModuleEnableView.Draw(ModuleConfig, SaveConfig);
         ModuleClickableLinkConfigView.Draw(clickableLinks, ModuleConfig, SaveConfig);
         GenericConfigView.Draw(configOptions, ModuleConfig, SaveConfig, Strings.ModuleConfiguration);
-        ModuleSelectableTaskView.DrawConfig(selectableTasks, ModuleConfig, SaveConfig);
+        ModuleSelectableTaskView.DrawConfig(selectableTasks.FirstOrDefault().Item1, ModuleConfig, SaveConfig);
         ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
-        ModuleTodoSettings.Draw(ModuleConfig, SaveConfig);
+        GenericConfigView.Draw(todoOptions, ModuleConfig.TodoOptions, () => {
+            SaveConfig();
+            ModuleConfig.TodoOptions.StyleChanged = true;
+        }, Strings.TodoConfiguration);
     }
 
     public void DrawData()
     {
-        var fields = ModuleData
-            .GetType()
-            .GetFields();
-        
-        var dataDisplay = fields
-            .Where(field => field.GetCustomAttribute(typeof(DataDisplay)) is not null)
-            .Select(field => (field, (DataDisplay) field.GetCustomAttribute(typeof(DataDisplay))!))
-            .ToList();
-        
-        var taskSelection = fields
-            .Where(field => field.GetCustomAttribute(typeof(SelectableTasks)) is not null)
-            .FirstOrDefault();
-        
+        var dataDisplay = AttributeHelper.GetFieldAttributes<DataDisplay>(ModuleData);
+        var taskSelection = AttributeHelper.GetFieldAttributes<SelectableTasks>(ModuleData);
+
         ModuleStatusView.Draw(this);
         ModuleResetView.Draw(ModuleData);
         ModuleDataView.Draw(dataDisplay, ModuleData);
-        ModuleSelectableTaskView.DrawData(taskSelection, ModuleData);
+        ModuleSelectableTaskView.DrawData(taskSelection.FirstOrDefault().Item1, ModuleData);
         ModuleSuppressionView.Draw(ModuleConfig, SaveConfig);
     }
 
@@ -151,7 +131,7 @@ public abstract class BaseModule : IDisposable
     private ModuleDataBase LoadData() => (ModuleDataBase) FileController.LoadFile($"{ModuleName}.data.json", ModuleData);
     public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
     public void SaveData() => FileController.SaveFile($"{ModuleName}.data.json", ModuleData.GetType(), ModuleData);
-    
+
     private void SendStatusMessage()
     {
         if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;

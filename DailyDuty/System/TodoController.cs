@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
+using System.Drawing;
 using System.Numerics;
-using System.Reflection;
+using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Commands;
+using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
-using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib;
@@ -25,7 +24,10 @@ public class UiColor
 public class TodoConfig
 {
     public bool Enable = true;
-    
+
+    [ConfigOption("RightAlign")]
+    public bool RightAlign = false;
+
     [ConfigOption("EnableDailyTasks")]
     public bool DailyTasks = true;
     
@@ -34,6 +36,9 @@ public class TodoConfig
     
     [ConfigOption("EnableSpecialTasks")]
     public bool SpecialTasks = true;
+
+    [ConfigOption("ShowHeaders")]
+    public bool ShowHeaders = true;
 
     [ConfigOption("HideInQuestEvent")]
     public bool HideDuringQuests = true;
@@ -51,35 +56,39 @@ public class TodoConfig
     public string SpecialLabel = "Special Tasks";
 
     [ConfigOption("Position")]
-    public Vector2 TextNodePosition = new(750, 512);
-    
-    [ConfigOption("TextAlignment")]
-    public AlignmentType AlignmentType = AlignmentType.TopLeft;
-    
-    [ConfigOption("LineSpacing", 5, 30)]
-    public int LineSpacing = 20;
-    
-    [ConfigOption("FontSize", 5, 30)]
-    public int FontSize = 14;
+    public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
-    [ConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
-    public Vector4 TextColor = Vector4.One;
+    [ConfigOption("FontSize", 5, 36)]
+    public int FontSize = 20;
+
+    [ConfigOption("HeaderSize", 5, 36)] 
+    public int HeaderFontSize = 24;
+
+    [ConfigOption("CategorySpacing", 0, 100)]
+    public int CategorySpacing = 12;
     
-    [ConfigOption("TextBorderColor", 142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f)]
-    public Vector4 TextBorderColor = new(142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f);
+    [ConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+
+    [ConfigOption("HeaderOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
+    public Vector4 HeaderTextOutline = new(0.0f, 0.0f, 0.0f, 1.0f);
     
-    [ConfigOption("HeaderOutlineColor", 14)]
-    public UiColor HeaderGlowKey = new() { ColorKey = 14 };
+    [ConfigOption("ModuleTextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    public Vector4 ModuleTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+
+    [ConfigOption("ModuleOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
+    public Vector4 ModuleOutlineColor = new(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-public unsafe class TodoController : IDisposable
+public class TodoController : IDisposable
 {
     public TodoConfig Config = new();
     private bool configChanged;
-    private static AtkUnitBase* ParentAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("NamePlate");
     private readonly TodoCommands todoCommands = new();
-    private TextNode? todoListNode;
+    private TodoUiController? uiController;
 
+    public void Dispose() => Unload();
+    
     public void Load()
     {
         PluginLog.Debug($"[TodoConfig] Loading Todo System");
@@ -87,115 +96,127 @@ public unsafe class TodoController : IDisposable
         KamiCommon.CommandManager.AddCommand(todoCommands);
         Config = LoadConfig();
         
-        if(ParentAddon is null) PluginLog.Warning("NamePlate is Null on TodoController.Load");
-        todoListNode ??= new TextNode(GetTextNodeOptions(), ParentAddon);
-    }
-    
-    public void DrawConfig()
-    {
-        var fields = Config
-            .GetType()
-            .GetFields(); 
-        
-        var configOptions = fields
-            .Where(field => field.GetCustomAttribute(typeof(ConfigOption)) is not null)
-            .Select(field => (field, (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
-            .ToList();
-        
-        TodoEnableView.Draw(Config, SaveConfig);
-        GenericConfigView.Draw(configOptions, Config, SaveConfig, Strings.TodoDisplayConfiguration);
-    }
-
-    public void Show() => todoListNode?.ToggleVisibility(Config.Enable);
-    public void Hide() => todoListNode?.ToggleVisibility(false);
-
-    public void Update()
-    {
-        var seString = new SeStringBuilder();
-
-        if(Config.DailyTasks) UpdateCategory(seString, ModuleType.Daily);
-        if(Config.WeeklyTasks) UpdateCategory(seString, ModuleType.Weekly);
-        if(Config.SpecialTasks) UpdateCategory(seString, ModuleType.Special);
-
-        var encodedString = seString.Encode();
-            
-        todoListNode?.SetText(encodedString);
-            
-        todoListNode?.ToggleVisibility(encodedString.Length != 0 && Config.Enable);
-         if(Config.HideInDuties && Condition.IsBoundByDuty()) todoListNode?.ToggleVisibility(false);
-         if(Config.HideDuringQuests && Condition.IsInCutsceneOrQuestEvent()) todoListNode?.ToggleVisibility(false);
-            
-        todoListNode?.UpdateOptions(GetTextNodeOptions());
-        
-        if(configChanged) SaveConfig();
-        configChanged = false;
-    }
-
-    private void UpdateCategory(SeStringBuilder builder, ModuleType type)
-    {
-        var tasks = DailyDutyPlugin.System.ModuleController
-            .GetModules(type)
-            .Where(module => module.ModuleConfig.ModuleEnabled)
-            .Where(module => module.ModuleStatus is ModuleStatus.Incomplete)
-            .ToList();
-
-        if (tasks.Count == 0) return;
-
-        var label = type switch
-        {
-            ModuleType.Daily => Config.DailyLabel,
-            ModuleType.Weekly => Config.WeeklyLabel,
-            ModuleType.Special => Config.SpecialLabel,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-        };
-        
-        builder.AddUiGlow(label, Config.HeaderGlowKey.ColorKey);
-        builder.Add(new NewLinePayload());
-        
-        foreach (var module in tasks)
-        {
-            if (module.ModuleConfig.UseCustomTodoLabel && module.ModuleConfig.CustomTodoLabel != string.Empty)
-            {
-                builder.AddText(module.ModuleConfig.CustomTodoLabel);
-                builder.Add(new NewLinePayload());
-            }
-            else
-            {
-                builder.AddText(module.ModuleName.GetLabel());
-                builder.Add(new NewLinePayload());
-            }
-        }
+        uiController ??= new TodoUiController();
     }
     
     public void Unload()
     {
         KamiCommon.CommandManager.RemoveCommand(todoCommands);
-        
-        todoListNode?.Dispose();
-        todoListNode = null;
+
+        uiController?.Dispose();
+        uiController = null;
     }
     
-    public void Dispose() => Unload();
-
-    private TextNodeOptions GetTextNodeOptions() => new()
+    public void DrawConfig()
     {
-        Alignment = Config.AlignmentType,
-        Id = 1000,
-        Position = Config.TextNodePosition,
-        Size = new Vector2(200.0f, 200.0f),
-        BackgroundColor = Vector4.One,
-        EdgeColor = Config.TextBorderColor,
-        FontSize = (byte) Config.FontSize,
-        LineSpacing = (byte) Config.LineSpacing,
-        TextColor = Config.TextColor
+        var configOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(Config);
+        
+        TodoEnableView.Draw(Config, SaveConfig);
+        GenericConfigView.Draw(configOptions, Config, () =>
+        {
+            SaveConfig();
+            foreach (var module in DailyDutySystem.ModuleController.GetModules())
+            {
+                module.ModuleConfig.TodoOptions.StyleChanged = true;
+            }
+            
+        }, Strings.TodoDisplayConfiguration);
+    }
+
+    public void Show() => uiController?.Show(Config.Enable);
+
+    public void Hide() => uiController?.Hide();
+
+    public void Update()
+    {
+        UpdateCategory(ModuleType.Daily, Config.DailyTasks);
+        UpdateCategory(ModuleType.Weekly, Config.WeeklyTasks);
+        UpdateCategory(ModuleType.Special, Config.SpecialTasks);
+        
+        uiController?.Show(Config.Enable);
+        if(Config.HideDuringQuests && Condition.IsInQuestEvent()) uiController?.Show(false);
+        if(Config.HideInDuties && Condition.IsBoundByDuty()) uiController?.Show(false);
+        
+        uiController?.Update(Config);
+        
+        if(configChanged) SaveConfig();
+        configChanged = false;
+    }
+
+    private void UpdateCategory(ModuleType type, bool enabled)
+    {
+        foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
+        {
+            if (enabled)
+            {
+                if (module.ModuleConfig.TodoOptions.StyleChanged)
+                {
+                    uiController?.UpdateModuleStyle(type, module.ModuleName, GetModuleTextStyleOptions(module));
+                    uiController?.UpdateHeaderStyle(type, HeaderOptions);
+                    
+                    module.ModuleConfig.TodoOptions.StyleChanged = false;
+                }
+            }
+            
+            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), GetModuleActiveState(module) && enabled);
+            uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), Config.ShowHeaders);
+            uiController?.UpdateCategory(type, enabled);
+        }
+    }
+    
+    private string GetModuleTodoLabel(BaseModule module)
+    {
+        var todoOptions = module.ModuleConfig.TodoOptions;
+
+        if (todoOptions.UseCustomTodoLabel && todoOptions.CustomTodoLabel != string.Empty)
+        {
+            return todoOptions.CustomTodoLabel;
+        }
+
+        return module.ModuleName.GetLabel();
+    }
+
+    private bool GetModuleActiveState(BaseModule module)
+    {
+        if (!module.ModuleConfig.ModuleEnabled) return false;
+        if (!module.ModuleConfig.TodoOptions.Enabled) return false;
+        if (module.ModuleStatus is not ModuleStatus.Incomplete) return false;
+
+        return true;
+    }
+
+    private string GetCategoryLabel(ModuleType type) => type switch
+    {
+        ModuleType.Daily => Config.DailyLabel,
+        ModuleType.Weekly => Config.WeeklyLabel,
+        ModuleType.Special => Config.SpecialLabel,
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
     };
+    
+    private TextNodeOptions HeaderOptions => new()
+    {
+        Alignment = AlignmentType.Left,
+        TextColor = Config.HeaderTextColor,
+        EdgeColor = Config.HeaderTextOutline,
+        BackgroundColor = KnownColor.White.AsVector4(),
+        FontSize = (byte) Config.HeaderFontSize,
+        Flags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge | TextFlags.Glare,
+        Type = NodeType.Text,
+    };
+
+    private TextNodeOptions GetModuleTextStyleOptions(BaseModule module) => new()
+    {
+        Alignment = AlignmentType.Left,
+        TextColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextColor : Config.ModuleTextColor,
+        EdgeColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextOutline : Config.ModuleOutlineColor,
+        BackgroundColor = KnownColor.White.AsVector4(),
+        FontSize = (byte) Config.FontSize,
+        Flags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge | TextFlags.Glare,
+        Type = NodeType.Text,
+    };
+
 
     private TodoConfig LoadConfig() => (TodoConfig) FileController.LoadFile("Todo.config.json", Config);
     
-    public void SaveConfig()
-    {
-        todoListNode?.UpdateOptions(GetTextNodeOptions());
-
-        FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
-    }
+    public void SaveConfig() => FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
 }

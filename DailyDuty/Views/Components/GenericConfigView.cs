@@ -106,7 +106,7 @@ public static class GenericConfigView
                     var stringValue = (string) field.GetValue(sourceObject)!;
 
                     if(attribute.UseAxisFont) ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
-                    if (ImGui.InputText($"##{field.Name}", ref stringValue, 2048))
+                    if (ImGui.InputTextWithHint($"##{field.Name}", attribute.Name,ref stringValue, 2048))
                     {
                         field.SetValue(sourceObject, stringValue);
                     }
@@ -153,7 +153,7 @@ public static class GenericConfigView
             }
             
             ImGui.TableNextColumn();
-            ImGui.Text(attribute.Name);
+            if(attribute.ShowLabel) ImGui.Text(attribute.Name);
             if(attribute.HelpText is not null) ImGuiComponents.HelpMarker(attribute.HelpText);
 
             ImGui.EndTable();
