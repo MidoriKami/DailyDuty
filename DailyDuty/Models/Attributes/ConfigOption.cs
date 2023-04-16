@@ -33,6 +33,8 @@ public class ConfigOption : Attribute
 
     public int IntMin { get; }
     public int IntMax { get; } = 100;
+    public float FloatMin { get; }
+    public float FloatMax { get; } = 1.0f;
     public Vector4 DefaultColor { get; } = Vector4.One;
     public ushort DefaultUiColor { get; } = 1;
     public bool UseAxisFont { get; }
@@ -49,6 +51,13 @@ public class ConfigOption : Attribute
         this.resourceKey = resourceKey;
         UseAxisFont = useAxisFont;
         ShowLabel = showLabel;
+    }
+
+    public ConfigOption(string resourceKey, float floatMin, float floatMax)
+    {
+        this.resourceKey = resourceKey;
+        FloatMin = floatMin;
+        FloatMax = floatMax;
     }
     
     public ConfigOption(string resourceKey)

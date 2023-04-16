@@ -1059,6 +1059,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Preview Mode.
+        /// </summary>
+        internal static string PreviewMode {
+            get {
+                return ResourceManager.GetString("PreviewMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Raids (Alliance).
         /// </summary>
         internal static string RaidsAlliance {

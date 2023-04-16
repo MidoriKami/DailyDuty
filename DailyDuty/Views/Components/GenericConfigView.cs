@@ -52,9 +52,6 @@ public static class GenericConfigView
             if (ImGui.ColorEdit4($"##{field.Name}", ref vectorValue, ImGuiColorEditFlags.NoInputs | ImGuiColorEditFlags.AlphaPreviewHalf))
             {
                 field.SetValue(sourceObject, vectorValue);
-            }
-            if (ImGui.IsItemDeactivatedAfterEdit())
-            {
                 saveAction.Invoke();
             }
             ImGui.SameLine();
@@ -68,66 +65,50 @@ public static class GenericConfigView
             if(attribute.HelpText is not null) ImGuiComponents.HelpMarker(attribute.HelpText);
             return;
         }
-        else if (field.FieldType == typeof(UiColor))
-        {
-            var colorValue = (UiColor) field.GetValue(sourceObject)!;
-
-            var color = colorValue.ColorKey;
-            UiColorPickerView.SelectorButton(ref color);
-
-            if (color != colorValue.ColorKey)
-            {
-                colorValue.ColorKey = color;
-                field.SetValue(sourceObject, colorValue);
-                saveAction.Invoke();
-            }
-            
-            ImGui.SameLine();
-            if (ImGui.Button($"{Strings.Default}##{field.Name}"))
-            {
-                colorValue.ColorKey = attribute.DefaultUiColor;
-                field.SetValue(sourceObject, colorValue);
-                saveAction.Invoke();
-            }
-            ImGui.SameLine();
-            ImGui.Text(attribute.Name);
-            if(attribute.HelpText is not null) ImGuiComponents.HelpMarker(attribute.HelpText);
-            return;
-        }
 
         if (ImGui.BeginTable($"##ValueTable{field.Name}", 2, ImGuiTableFlags.SizingStretchSame))
         {
             ImGui.TableNextColumn();
             ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X);
-            
+
             switch (Type.GetTypeCode(field.FieldType))
             {
                 case TypeCode.String:
                     var stringValue = (string) field.GetValue(sourceObject)!;
 
-                    if(attribute.UseAxisFont) ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
-                    if (ImGui.InputTextWithHint($"##{field.Name}", attribute.Name,ref stringValue, 2048))
+                    if (attribute.UseAxisFont) ImGui.PushFont(DailyDutyPlugin.System.FontController.Axis12.ImFont);
+                    if (ImGui.InputTextWithHint($"##{field.Name}", attribute.Name, ref stringValue, 2048))
                     {
                         field.SetValue(sourceObject, stringValue);
                     }
-                    if(attribute.UseAxisFont) ImGui.PopFont();
+                    if (attribute.UseAxisFont) ImGui.PopFont();
 
                     if (ImGui.IsItemDeactivatedAfterEdit())
                     {
                         saveAction.Invoke();
                     }
                     break;
-                
+
                 case TypeCode.Int32 when !field.FieldType.IsSubclassOf(typeof(Enum)):
                     var intValue = (int) field.GetValue(sourceObject)!;
 
-                    if(ImGui.SliderInt($"##{field.Name}", ref intValue, attribute.IntMin, attribute.IntMax))
+                    if (ImGui.SliderInt($"##{field.Name}", ref intValue, attribute.IntMin, attribute.IntMax))
                     {
                         field.SetValue(sourceObject, intValue);
                         saveAction.Invoke();
                     }
                     break;
-                
+
+                case TypeCode.Single:
+                    var floatValue = (float) field.GetValue(sourceObject)!;
+
+                    if (ImGui.SliderFloat($"##{field.Name}", ref floatValue, attribute.FloatMin, attribute.FloatMax))
+                    {
+                        field.SetValue(sourceObject, floatValue);
+                        saveAction.Invoke();
+                    }
+                    break;
+
                 default:
                     if (field.FieldType.IsSubclassOf(typeof(Enum)))
                     {
@@ -147,7 +128,6 @@ public static class GenericConfigView
                             field.SetValue(sourceObject, vectorValue);
                             saveAction.Invoke();
                         }
-                        if (ImGui.IsItemDeactivatedAfterEdit()) saveAction.Invoke();
                     }
                     break;
             }

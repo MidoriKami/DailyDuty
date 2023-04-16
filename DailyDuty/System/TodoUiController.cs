@@ -15,8 +15,10 @@ public unsafe class TodoUiController : IDisposable
     private readonly ResNode rootNode;
 
     private const uint ContainerNodeId = 1000;
+    private const uint BackgroundImageBaseId = 5000;
 
     private readonly Dictionary<ModuleType, TodoListCategory> categories = new();
+    private readonly ImageNode backgroundImageNode;
 
     public TodoUiController()
     {
@@ -28,6 +30,14 @@ public unsafe class TodoUiController : IDisposable
         });
         
         Node.LinkNodeAtStart(rootNode.GetResourceNode(), AddonNamePlate);
+        
+        backgroundImageNode = new ImageNode(new ImageNodeOptions
+        {
+            Id = BackgroundImageBaseId,
+            Color = new Vector4(1.0f, 1.0f, 1.0f, 0.25f),
+        });
+        backgroundImageNode.GetResourceNode()->SetScale(1.1f, 1.1f);
+        rootNode.AddResourceNode(backgroundImageNode, AddonNamePlate);
 
         foreach (var category in Enum.GetValues<ModuleType>())
         {
@@ -40,6 +50,7 @@ public unsafe class TodoUiController : IDisposable
     {
         Node.UnlinkNodeAtStart(rootNode.GetResourceNode(), AddonNamePlate);
         rootNode.Dispose();
+        backgroundImageNode.Dispose();
 
         foreach (var category in categories)
         {
@@ -58,13 +69,7 @@ public unsafe class TodoUiController : IDisposable
 
         UpdatePositions(config);
     }
-
-    public void UpdateModule(ModuleType type, ModuleName module, string label, bool visible) => categories[type].UpdateModule(module, label, visible);
-    public void UpdateModuleStyle(ModuleType type, ModuleName module, TextNodeOptions options) => categories[type].UpdateModuleStyle(module, options);
-    public void UpdateCategoryHeader(ModuleType type, string label, bool show) => categories[type].UpdateCategoryHeader(label, show);
-    public void UpdateHeaderStyle(ModuleType type, TextNodeOptions options) => categories[type].UpdateHeaderStyle(options);
-    public void UpdateCategory(ModuleType type, bool enabled) => categories[type].SetVisible(enabled);
-
+    
     private void UpdatePositions(TodoConfig config)
     {
         rootNode.GetResourceNode()->SetPositionFloat(config.Position.X, config.Position.Y);
@@ -88,12 +93,29 @@ public unsafe class TodoUiController : IDisposable
                 cumulativeSize += resNode->GetHeight() + padding;
             }
         }
+
+        var finalHeight = (ushort) (cumulativeSize - config.CategorySpacing);
         
-        rootNode.GetResourceNode()->SetHeight((ushort) cumulativeSize);
+        rootNode.GetResourceNode()->SetHeight(finalHeight);
         rootNode.GetResourceNode()->SetWidth(largestWidth);
+        
+        backgroundImageNode.GetResourceNode()->ToggleVisibility(config.BackgroundImage);
+        backgroundImageNode.GetResourceNode()->SetPositionFloat(-largestWidth * 0.05f, -finalHeight * 0.05f);
+        backgroundImageNode.GetResourceNode()->SetHeight(finalHeight);
+        backgroundImageNode.GetResourceNode()->SetWidth(largestWidth);
     }
     
-    public void Show(bool visible) => rootNode.SetVisibility(visible);
+    public void UpdateCategoryStyle(ModuleType type, ImageNodeOptions options)
+    {
+        options.Id = BackgroundImageBaseId;
+        backgroundImageNode.UpdateOptions(options);
+    }
 
+    public void UpdateModule(ModuleType type, ModuleName module, string label, bool visible) => categories[type].UpdateModule(module, label, visible);
+    public void UpdateModuleStyle(ModuleType type, ModuleName module, TextNodeOptions options) => categories[type].UpdateModuleStyle(module, options);
+    public void UpdateCategoryHeader(ModuleType type, string label, bool show) => categories[type].UpdateCategoryHeader(label, show);
+    public void UpdateHeaderStyle(ModuleType type, TextNodeOptions options) => categories[type].UpdateHeaderStyle(options);
+    public void UpdateCategory(ModuleType type, bool enabled) => categories[type].SetVisible(enabled);
+    public void Show(bool visible) => rootNode.SetVisibility(visible);
     public void Hide() => rootNode.SetVisibility(false);
 }

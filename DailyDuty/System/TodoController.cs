@@ -16,17 +16,16 @@ using KamiLib.GameState;
 
 namespace DailyDuty.System;
 
-public class UiColor
-{
-    public required ushort ColorKey { get; set; }
-}
-
 public class TodoConfig
 {
     public bool Enable = true;
+    public bool PreviewMode = true;
 
     [ConfigOption("RightAlign")]
     public bool RightAlign = false;
+
+    [ConfigOption("Background")] 
+    public bool BackgroundImage = true;
 
     [ConfigOption("EnableDailyTasks")]
     public bool DailyTasks = true;
@@ -58,14 +57,17 @@ public class TodoConfig
     [ConfigOption("Position")]
     public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
-    [ConfigOption("FontSize", 5, 36)]
+    [ConfigOption("FontSize", 5, 48)]
     public int FontSize = 20;
 
-    [ConfigOption("HeaderSize", 5, 36)] 
+    [ConfigOption("HeaderSize", 5, 48)] 
     public int HeaderFontSize = 24;
 
     [ConfigOption("CategorySpacing", 0, 100)]
     public int CategorySpacing = 12;
+    
+    [ConfigOption("CategoryBackgroundOpacity", 0.05f, 1.00f)]
+    public float CategoryBackgroundOpacity = 0.40f;
     
     [ConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
@@ -123,21 +125,21 @@ public class TodoController : IDisposable
         }, Strings.TodoDisplayConfiguration);
     }
 
-    public void Show() => uiController?.Show(Config.Enable);
-
-    public void Hide() => uiController?.Hide();
-
     public void Update()
     {
-        UpdateCategory(ModuleType.Daily, Config.DailyTasks);
-        UpdateCategory(ModuleType.Weekly, Config.WeeklyTasks);
-        UpdateCategory(ModuleType.Special, Config.SpecialTasks);
-        
         uiController?.Show(Config.Enable);
-        if(Config.HideDuringQuests && Condition.IsInQuestEvent()) uiController?.Show(false);
-        if(Config.HideInDuties && Condition.IsBoundByDuty()) uiController?.Show(false);
         
-        uiController?.Update(Config);
+        if (Config.Enable)
+        {
+            UpdateCategory(ModuleType.Daily, Config.DailyTasks);
+            UpdateCategory(ModuleType.Weekly, Config.WeeklyTasks);
+            UpdateCategory(ModuleType.Special, Config.SpecialTasks);
+        
+            if(Config.HideDuringQuests && Condition.IsInQuestEvent()) uiController?.Show(false);
+            if(Config.HideInDuties && Condition.IsBoundByDuty()) uiController?.Show(false);
+        
+            uiController?.Update(Config);
+        }
         
         if(configChanged) SaveConfig();
         configChanged = false;
@@ -147,18 +149,16 @@ public class TodoController : IDisposable
     {
         foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
         {
-            if (enabled)
+            if (enabled && module.ModuleConfig.TodoOptions.StyleChanged)
             {
-                if (module.ModuleConfig.TodoOptions.StyleChanged)
-                {
-                    uiController?.UpdateModuleStyle(type, module.ModuleName, GetModuleTextStyleOptions(module));
-                    uiController?.UpdateHeaderStyle(type, HeaderOptions);
+                uiController?.UpdateModuleStyle(type, module.ModuleName, GetModuleTextStyleOptions(module));
+                uiController?.UpdateHeaderStyle(type, HeaderOptions);
+                uiController?.UpdateCategoryStyle(type, BackgroundImageOptions);
                     
-                    module.ModuleConfig.TodoOptions.StyleChanged = false;
-                }
+                module.ModuleConfig.TodoOptions.StyleChanged = false;
             }
             
-            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), GetModuleActiveState(module) && enabled);
+            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), GetModuleActiveState(module) && enabled || Config.PreviewMode);
             uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), Config.ShowHeaders);
             uiController?.UpdateCategory(type, enabled);
         }
@@ -215,8 +215,13 @@ public class TodoController : IDisposable
         Type = NodeType.Text,
     };
 
-
-    private TodoConfig LoadConfig() => (TodoConfig) FileController.LoadFile("Todo.config.json", Config);
+    private ImageNodeOptions BackgroundImageOptions => new()
+    {
+        Color = new Vector4(1.0f, 1.0f, 1.0f, Config.CategoryBackgroundOpacity),
+    };
     
+    public void Show() => uiController?.Show(Config.Enable);
+    public void Hide() => uiController?.Hide();
+    private TodoConfig LoadConfig() => (TodoConfig) FileController.LoadFile("Todo.config.json", Config);
     public void SaveConfig() => FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
 }

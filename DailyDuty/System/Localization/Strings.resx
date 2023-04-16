@@ -562,4 +562,7 @@ Limited to once per 5 mins</value>
     <data name="TaskLabel" xml:space="preserve">
         <value>Task Label</value>
     </data>
+    <data name="PreviewMode" xml:space="preserve">
+        <value>Preview Mode</value>
+    </data>
 </root>

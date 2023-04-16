@@ -33,7 +33,7 @@ public unsafe class TodoListCategory : IDisposable
             Size = new Vector2(200.0f, 500.0f)
         });
         parent.AddResourceNode(categoryResNode, AddonNamePlate);
-        
+
         headerNode = new TextNode(new TextNodeOptions
         {
             Id = HeaderNodeBaseId + (uint) type,
@@ -81,9 +81,8 @@ public unsafe class TodoListCategory : IDisposable
         foreach (var module in moduleNodes)
         {
             var moduleResNode = module.Value.GetResourceNode();
-
             if (moduleResNode->Width > largestWidth) largestWidth = moduleResNode->Width;
-            
+
             if (moduleResNode->IsVisible)
             {
                 var xPos = config.RightAlign ? categoryResNode.GetResourceNode()->Width - moduleResNode->Width : 0.0f;
@@ -95,6 +94,7 @@ public unsafe class TodoListCategory : IDisposable
         
         categoryResNode.GetResourceNode()->SetHeight(startPosition);
         categoryResNode.GetResourceNode()->SetWidth(largestWidth);
+
     }
     
     public void UpdateModule(ModuleName module, string label, bool visible)
@@ -124,4 +124,5 @@ public unsafe class TodoListCategory : IDisposable
     
     public ResNode GetCategoryContainer() => categoryResNode;
     public void SetVisible(bool show) => categoryResNode.SetVisibility(show);
+
 }
