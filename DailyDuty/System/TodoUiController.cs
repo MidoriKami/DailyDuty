@@ -71,19 +71,26 @@ public unsafe class TodoUiController : IDisposable
         
         var cumulativeSize = 0;
         var padding = config.CategorySpacing;
+
+        ushort largestWidth = 0;
         
         foreach (var category in categories)
         {
             var resNode = category.Value.GetCategoryContainer().GetResourceNode();
 
+            if (resNode->Width > largestWidth) largestWidth = resNode->Width;
+            
             if (resNode->IsVisible)
             {
-                resNode->SetPositionFloat(0.0f, cumulativeSize);
+                var xPos = config.RightAlign ? rootNode.GetResourceNode()->Width - resNode->Width : 0.0f;
+                
+                resNode->SetPositionFloat(xPos, cumulativeSize);
                 cumulativeSize += resNode->GetHeight() + padding;
             }
         }
         
         rootNode.GetResourceNode()->SetHeight((ushort) cumulativeSize);
+        rootNode.GetResourceNode()->SetWidth(largestWidth);
     }
     
     public void Show(bool visible) => rootNode.SetVisibility(visible);

@@ -73,16 +73,20 @@ public unsafe class TodoListCategory : IDisposable
         var startPosition = headerNode.GetResourceNode()->IsVisible ? headerNode.GetResourceNode()->Height : (ushort)0;
         
         var headerResNode = headerNode.GetResourceNode();
-        var headerPositionX = config.RightAlign ? 200.0f - headerResNode->Width : 0.0f;
+        var headerPositionX = config.RightAlign ? categoryResNode.GetResourceNode()->Width - headerResNode->Width : 0.0f;
         headerResNode->SetPositionFloat(headerPositionX, 0.0f);
+
+        ushort largestWidth = 0; 
         
         foreach (var module in moduleNodes)
         {
             var moduleResNode = module.Value.GetResourceNode();
 
+            if (moduleResNode->Width > largestWidth) largestWidth = moduleResNode->Width;
+            
             if (moduleResNode->IsVisible)
             {
-                var xPos = config.RightAlign ? 200 - moduleResNode->Width : 0.0f;
+                var xPos = config.RightAlign ? categoryResNode.GetResourceNode()->Width - moduleResNode->Width : 0.0f;
                 
                 moduleResNode->SetPositionFloat(xPos, startPosition);
                 startPosition += moduleResNode->GetHeight();
@@ -90,6 +94,7 @@ public unsafe class TodoListCategory : IDisposable
         }
         
         categoryResNode.GetResourceNode()->SetHeight(startPosition);
+        categoryResNode.GetResourceNode()->SetWidth(largestWidth);
     }
     
     public void UpdateModule(ModuleName module, string label, bool visible)
