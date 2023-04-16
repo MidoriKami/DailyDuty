@@ -9,19 +9,19 @@ public class ModuleTodoOptions
     [ConfigOption("Enable")]
     public bool Enabled = true;
     
-    [ConfigOption("Use Custom Label")]
+    [ConfigOption("UseCustomLabel")]
     public bool UseCustomTodoLabel = false;
     
-    [ConfigOption("CustomLabel", true, false)]
+    [ConfigOption("UseCustomLabel", true, false)]
     public string CustomTodoLabel = string.Empty;
 
     [ConfigOption("OverrideTodoListColor")]
     public bool OverrideTextColor = false;
     
-    [ConfigOption("Text Color", 1.0f, 1.0f, 1.0f, 1.0f)]
+    [ConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
     
-    [ConfigOption("Text Outline Color", 0.0f, 0.0f, 0.0f, 1.0f)]
+    [ConfigOption("TextOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
     public Vector4 TextOutline = new(0.0f, 0.0f, 0.0f, 1.0f);
 
     [NonSerialized]

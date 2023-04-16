@@ -565,4 +565,40 @@ Limited to once per 5 mins</value>
     <data name="PreviewMode" xml:space="preserve">
         <value>Preview Mode</value>
     </data>
+    <data name="RightAlign" xml:space="preserve">
+        <value>Right Align</value>
+    </data>
+    <data name="Background" xml:space="preserve">
+        <value>Background</value>
+    </data>
+    <data name="ShowHeaders" xml:space="preserve">
+        <value>Show Category Labels</value>
+    </data>
+    <data name="HeaderSize" xml:space="preserve">
+        <value>Category Label Font Size</value>
+    </data>
+    <data name="CategorySpacing" xml:space="preserve">
+        <value>Category Spacing</value>
+    </data>
+    <data name="CategoryBackgroundOpacity" xml:space="preserve">
+        <value>Background Opacity</value>
+    </data>
+    <data name="HeaderColor" xml:space="preserve">
+        <value>Header Text Color</value>
+    </data>
+    <data name="ModuleTextColor" xml:space="preserve">
+        <value>Module Text Color</value>
+    </data>
+    <data name="ModuleOutlineColor" xml:space="preserve">
+        <value>Module Text Outline Color</value>
+    </data>
+    <data name="UseCustomLabel" xml:space="preserve">
+        <value>Custom Label</value>
+    </data>
+    <data name="OverrideTodoListColor" xml:space="preserve">
+        <value>Override Color</value>
+    </data>
+    <data name="TextOutlineColor" xml:space="preserve">
+        <value>Text Outline Color</value>
+    </data>
 </root>
