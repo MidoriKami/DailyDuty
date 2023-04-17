@@ -78,6 +78,7 @@ public unsafe class TodoUiController : IDisposable
         var padding = config.CategorySpacing;
 
         ushort largestWidth = 0;
+        var anyVisible = false;
         
         foreach (var category in categories)
         {
@@ -87,6 +88,7 @@ public unsafe class TodoUiController : IDisposable
             
             if (resNode->IsVisible)
             {
+                anyVisible = true;
                 var xPos = config.RightAlign ? rootNode.GetResourceNode()->Width - resNode->Width : 0.0f;
                 
                 resNode->SetPositionFloat(xPos, cumulativeSize);
@@ -99,7 +101,7 @@ public unsafe class TodoUiController : IDisposable
         rootNode.GetResourceNode()->SetHeight(finalHeight);
         rootNode.GetResourceNode()->SetWidth(largestWidth);
         
-        backgroundImageNode.GetResourceNode()->ToggleVisibility(config.BackgroundImage);
+        backgroundImageNode.GetResourceNode()->ToggleVisibility(config.BackgroundImage && anyVisible);
         backgroundImageNode.GetResourceNode()->SetPositionFloat(-largestWidth * 0.05f, -finalHeight * 0.05f);
         backgroundImageNode.GetResourceNode()->SetHeight(finalHeight);
         backgroundImageNode.GetResourceNode()->SetWidth(largestWidth);
