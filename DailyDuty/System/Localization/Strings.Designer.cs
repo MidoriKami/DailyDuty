@@ -168,7 +168,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category Spacing.
+        ///   Looks up a localized string similar to Spacing Below Categories.
         /// </summary>
         internal static string CategorySpacing {
             get {
@@ -492,6 +492,24 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Glowing Outline.
+        /// </summary>
+        internal static string EnableGlowingOutline {
+            get {
+                return ResourceManager.GetString("EnableGlowingOutline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Outline.
+        /// </summary>
+        internal static string EnableOutline {
+            get {
+                return ResourceManager.GetString("EnableOutline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Special.
         /// </summary>
         internal static string EnableSpecialTasks {
@@ -627,6 +645,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Header Italic.
+        /// </summary>
+        internal static string HeaderItalic {
+            get {
+                return ResourceManager.GetString("HeaderItalic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Header Outline Color.
         /// </summary>
         internal static string HeaderOutlineColor {
@@ -641,6 +668,15 @@ namespace DailyDuty.System.Localization {
         internal static string HeaderSize {
             get {
                 return ResourceManager.GetString("HeaderSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spacing Below Headers.
+        /// </summary>
+        internal static string HeaderSpacing {
+            get {
+                return ResourceManager.GetString("HeaderSpacing", resourceCulture);
             }
         }
         
@@ -951,6 +987,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Module Italic.
+        /// </summary>
+        internal static string ModuleItalic {
+            get {
+                return ResourceManager.GetString("ModuleItalic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Module Text Outline Color.
         /// </summary>
         internal static string ModuleOutlineColor {
@@ -965,6 +1010,15 @@ namespace DailyDuty.System.Localization {
         internal static string ModuleReset {
             get {
                 return ResourceManager.GetString("ModuleReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spacing Below Modules.
+        /// </summary>
+        internal static string ModuleSpacing {
+            get {
+                return ResourceManager.GetString("ModuleSpacing", resourceCulture);
             }
         }
         

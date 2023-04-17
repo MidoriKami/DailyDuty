@@ -45,6 +45,18 @@ public class TodoConfig
     [ConfigOption("HideInDuties")]
     public bool HideInDuties = true;
 
+    [ConfigOption("HeaderItalic")]
+    public bool HeaderItalic = false;
+    
+    [ConfigOption("ModuleItalic")]
+    public bool ModuleItalic = false;
+
+    [ConfigOption("EnableOutline")]
+    public bool Edge = true;
+
+    [ConfigOption("EnableGlowingOutline")]
+    public bool Glare = true;
+    
     [ConfigOption("DailyTasksLabel", true)]
     public string DailyLabel = "Daily Tasks";
     
@@ -65,6 +77,12 @@ public class TodoConfig
 
     [ConfigOption("CategorySpacing", 0, 100)]
     public int CategorySpacing = 12;
+
+    [ConfigOption("HeaderSpacing", 0, 100)]
+    public int HeaderSpacing = 0;
+    
+    [ConfigOption("ModuleSpacing", 0, 100)]
+    public int ModuleSpacing = 0;
     
     [ConfigOption("CategoryBackgroundOpacity", 0.05f, 1.00f)]
     public float CategoryBackgroundOpacity = 0.40f;
@@ -200,7 +218,7 @@ public class TodoController : IDisposable
         EdgeColor = Config.HeaderTextOutline,
         BackgroundColor = KnownColor.White.AsVector4(),
         FontSize = (byte) Config.HeaderFontSize,
-        Flags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge | TextFlags.Glare,
+        Flags = GetHeaderFlags(),
         Type = NodeType.Text,
     };
 
@@ -211,7 +229,7 @@ public class TodoController : IDisposable
         EdgeColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextOutline : Config.ModuleOutlineColor,
         BackgroundColor = KnownColor.White.AsVector4(),
         FontSize = (byte) Config.FontSize,
-        Flags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge | TextFlags.Glare,
+        Flags = GetModuleFlags(),
         Type = NodeType.Text,
     };
 
@@ -219,6 +237,28 @@ public class TodoController : IDisposable
     {
         Color = new Vector4(1.0f, 1.0f, 1.0f, Config.CategoryBackgroundOpacity),
     };
+
+    private TextFlags GetHeaderFlags()
+    {
+        var flags = TextFlags.AutoAdjustNodeSize;
+
+        if (Config.HeaderItalic) flags |= TextFlags.Italic;
+        if (Config.Edge) flags |= TextFlags.Edge;
+        if (Config.Glare) flags |= TextFlags.Glare;
+
+        return flags;
+    }
+    
+    private TextFlags GetModuleFlags()
+    {
+        var flags = TextFlags.AutoAdjustNodeSize;
+
+        if (Config.ModuleItalic) flags |= TextFlags.Italic;
+        if (Config.Edge) flags |= TextFlags.Edge;
+        if (Config.Glare) flags |= TextFlags.Glare;
+
+        return flags;
+    }
     
     public void Show() => uiController?.Show(Config.Enable);
     public void Hide() => uiController?.Hide();

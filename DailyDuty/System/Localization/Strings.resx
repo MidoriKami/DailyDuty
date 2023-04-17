@@ -578,7 +578,7 @@ Limited to once per 5 mins</value>
         <value>Category Label Font Size</value>
     </data>
     <data name="CategorySpacing" xml:space="preserve">
-        <value>Category Spacing</value>
+        <value>Spacing Below Categories</value>
     </data>
     <data name="CategoryBackgroundOpacity" xml:space="preserve">
         <value>Background Opacity</value>
@@ -600,5 +600,23 @@ Limited to once per 5 mins</value>
     </data>
     <data name="TextOutlineColor" xml:space="preserve">
         <value>Text Outline Color</value>
+    </data>
+    <data name="HeaderSpacing" xml:space="preserve">
+        <value>Spacing Below Headers</value>
+    </data>
+    <data name="ModuleSpacing" xml:space="preserve">
+        <value>Spacing Below Modules</value>
+    </data>
+    <data name="EnableGlowingOutline" xml:space="preserve">
+        <value>Enable Glowing Outline</value>
+    </data>
+    <data name="EnableOutline" xml:space="preserve">
+        <value>Enable Outline</value>
+    </data>
+    <data name="ModuleItalic" xml:space="preserve">
+        <value>Enable Module Italic</value>
+    </data>
+    <data name="HeaderItalic" xml:space="preserve">
+        <value>Enable Header Italic</value>
     </data>
 </root>
