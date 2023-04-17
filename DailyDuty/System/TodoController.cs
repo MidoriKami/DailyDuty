@@ -72,14 +72,14 @@ public class TodoConfig
     [ConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
 
-    [ConfigOption("HeaderOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
-    public Vector4 HeaderTextOutline = new(0.0f, 0.0f, 0.0f, 1.0f);
+    [ConfigOption("HeaderOutlineColor", 0.5568f, 0.4117f, 0.0470f, 1.0f)]
+    public Vector4 HeaderTextOutline = new(0.5568f, 0.4117f, 0.0470f, 1.0f);
     
     [ConfigOption("ModuleTextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 ModuleTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
 
-    [ConfigOption("ModuleOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
-    public Vector4 ModuleOutlineColor = new(0.0f, 0.0f, 0.0f, 1.0f);
+    [ConfigOption("ModuleOutlineColor", 0.0392f, 0.4117f, 0.5725f, 1.0f)]
+    public Vector4 ModuleOutlineColor = new(0.0392f, 0.4117f, 0.5725f, 1.0f);
 }
 
 public class TodoController : IDisposable
