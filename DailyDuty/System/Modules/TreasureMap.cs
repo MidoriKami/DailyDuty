@@ -61,12 +61,6 @@ public unsafe class TreasureMap : Module.SpecialModule
 
     public override void Update()
     {
-        if (Data.NextReset == DateTime.MaxValue && Config.Suppressed)
-        {
-            Config.Suppressed = false;
-            ConfigChanged = true;
-        }
-        
         if (Condition.CheckFlag(ConditionFlag.Gathering42) && !gatheringStarted)
         {
             gatheringStarted = true;
@@ -94,7 +88,9 @@ public unsafe class TreasureMap : Module.SpecialModule
             Data.MapAvailable = false;
             Data.LastMapGatheredTime = DateTime.UtcNow;
             Data.NextReset = Data.LastMapGatheredTime + TimeSpan.FromHours(18);
+            Config.Suppressed = false;
             DataChanged = true;
+            ConfigChanged = true;
         }
     }
 
