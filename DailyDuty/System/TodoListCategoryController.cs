@@ -9,7 +9,7 @@ using KamiLib.Atk;
 
 namespace DailyDuty.Models;
 
-public unsafe class TodoListCategory : IDisposable
+public unsafe class TodoListCategoryController : IDisposable
 {
     private const uint HeaderNodeBaseId = 2000;
     private const uint ModuleNodeBaseId = 3000;
@@ -22,7 +22,7 @@ public unsafe class TodoListCategory : IDisposable
     private readonly TextNode headerNode;
     private readonly ResNode categoryResNode;
 
-    public TodoListCategory(ResNode parent, ModuleType type)
+    public TodoListCategoryController(ResNode parent, ModuleType type)
     {
         moduleType = type;
         

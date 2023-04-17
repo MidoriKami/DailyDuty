@@ -17,7 +17,7 @@ public unsafe class TodoUiController : IDisposable
     private const uint ContainerNodeId = 1000;
     private const uint BackgroundImageBaseId = 5000;
 
-    private readonly Dictionary<ModuleType, TodoListCategory> categories = new();
+    private readonly Dictionary<ModuleType, TodoListCategoryController> categories = new();
     private readonly ImageNode backgroundImageNode;
 
     public TodoUiController()
@@ -41,7 +41,7 @@ public unsafe class TodoUiController : IDisposable
 
         foreach (var category in Enum.GetValues<ModuleType>())
         {
-            var newCategory = new TodoListCategory(rootNode, category);
+            var newCategory = new TodoListCategoryController(rootNode, category);
             categories.Add(category, newCategory);
         }
     }
