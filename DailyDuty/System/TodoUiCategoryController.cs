@@ -9,7 +9,7 @@ using KamiLib.Atk;
 
 namespace DailyDuty.Models;
 
-public unsafe class TodoListCategoryController : IDisposable
+public unsafe class TodoUiCategoryController : IDisposable
 {
     private const uint HeaderNodeBaseId = 2000;
     private const uint ModuleNodeBaseId = 3000;
@@ -22,7 +22,7 @@ public unsafe class TodoListCategoryController : IDisposable
     private readonly TextNode headerNode;
     private readonly ResNode categoryResNode;
 
-    public TodoListCategoryController(ResNode parent, ModuleType type)
+    public TodoUiCategoryController(ResNode parent, ModuleType type)
     {
         moduleType = type;
         
@@ -70,7 +70,7 @@ public unsafe class TodoListCategoryController : IDisposable
 
     public void UpdatePositions(TodoConfig config)
     {
-        var startPosition = headerNode.GetResourceNode()->IsVisible ? headerNode.GetResourceNode()->Height : (ushort)0;
+        ushort startPosition = (ushort) (headerNode.GetResourceNode()->IsVisible ? headerNode.GetResourceNode()->Height + config.HeaderSpacing : config.HeaderSpacing);
         
         var headerResNode = headerNode.GetResourceNode();
         var headerPositionX = config.RightAlign ? categoryResNode.GetResourceNode()->Width - headerResNode->Width : 0.0f;
@@ -89,7 +89,7 @@ public unsafe class TodoListCategoryController : IDisposable
                 var xPos = config.RightAlign ? categoryResNode.GetResourceNode()->Width - moduleResNode->Width : 0.0f;
                 
                 moduleResNode->SetPositionFloat(xPos, startPosition);
-                startPosition += moduleResNode->GetHeight();
+                startPosition += (ushort) (moduleResNode->GetHeight() + config.ModuleSpacing);
                 anyVisible = true;
             }
         }
