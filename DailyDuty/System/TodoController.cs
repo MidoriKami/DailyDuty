@@ -55,7 +55,7 @@ public class TodoConfig
     public bool Edge = true;
 
     [ConfigOption("EnableGlowingOutline")]
-    public bool Glare = true;
+    public bool Glare = false;
     
     [ConfigOption("DailyTasksLabel", true)]
     public string DailyLabel = "Daily Tasks";
