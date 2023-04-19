@@ -71,6 +71,8 @@ public unsafe class TreasureMap : Module.SpecialModule
             gatheringStarted = false;
             OnGatheringStop();
         }
+        
+        base.Update();
     }
 
     private void OnGatheringStart()
