@@ -12,7 +12,7 @@ public class HuntMarksDaily : HuntMarksBase
     public override ModuleName ModuleName => ModuleName.HuntMarksDaily;
     public override ModuleType ModuleType => ModuleType.Daily;
 
-    protected override DateTime GetNextReset() => Time.NextDailyReset();
+    protected override DateTime GetNextReset() => Time.NextDailyReset() + TimeSpan.FromMinutes(1);
 
     protected override void UpdateTaskLists()
     {

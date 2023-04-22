@@ -36,7 +36,7 @@ public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageRecei
     private JumboCactpotConfig Config => ModuleConfig as JumboCactpotConfig ?? new JumboCactpotConfig();
     private JumboCactpotData Data => ModuleData as JumboCactpotData ?? new JumboCactpotData();
 
-    private Hook<Delegates.Agent.ReceiveEvent>? onReceiveEventHook;
+    private Hook<Delegates.AgentReceiveEvent>? onReceiveEventHook;
     private int ticketData = -1;
     
     protected override ModuleStatus GetModuleStatus() => Data.Tickets.Count == 3 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
@@ -45,7 +45,7 @@ public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageRecei
     {
         base.Load();
 
-        onReceiveEventHook ??= Hook<Delegates.Agent.ReceiveEvent>.FromAddress(new nint(AgentModule.Instance()->GetAgentByInternalId(AgentId.LotteryWeekly)->VTable->ReceiveEvent), OnReceiveEvent);
+        onReceiveEventHook ??= Hook<Delegates.AgentReceiveEvent>.FromAddress(new nint(AgentModule.Instance()->GetAgentByInternalId(AgentId.LotteryWeekly)->VTable->ReceiveEvent), OnReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 

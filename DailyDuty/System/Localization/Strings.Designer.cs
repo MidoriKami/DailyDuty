@@ -114,6 +114,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Background.
+        /// </summary>
+        internal static string Background {
+            get {
+                return ResourceManager.GetString("Background", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Book Expired.
         /// </summary>
         internal static string BookExpired {
@@ -146,6 +155,24 @@ namespace DailyDuty.System.Localization {
         internal static string CastingTeleport {
             get {
                 return ResourceManager.GetString("CastingTeleport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Background Opacity.
+        /// </summary>
+        internal static string CategoryBackgroundOpacity {
+            get {
+                return ResourceManager.GetString("CategoryBackgroundOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spacing Below Categories.
+        /// </summary>
+        internal static string CategorySpacing {
+            get {
+                return ResourceManager.GetString("CategorySpacing", resourceCulture);
             }
         }
         
@@ -465,6 +492,24 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Glowing Outline.
+        /// </summary>
+        internal static string EnableGlowingOutline {
+            get {
+                return ResourceManager.GetString("EnableGlowingOutline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Outline.
+        /// </summary>
+        internal static string EnableOutline {
+            get {
+                return ResourceManager.GetString("EnableOutline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Special.
         /// </summary>
         internal static string EnableSpecialTasks {
@@ -591,11 +636,47 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Header Text Color.
+        /// </summary>
+        internal static string HeaderColor {
+            get {
+                return ResourceManager.GetString("HeaderColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Header Italic.
+        /// </summary>
+        internal static string HeaderItalic {
+            get {
+                return ResourceManager.GetString("HeaderItalic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Header Outline Color.
         /// </summary>
         internal static string HeaderOutlineColor {
             get {
                 return ResourceManager.GetString("HeaderOutlineColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category Label Font Size.
+        /// </summary>
+        internal static string HeaderSize {
+            get {
+                return ResourceManager.GetString("HeaderSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spacing Below Headers.
+        /// </summary>
+        internal static string HeaderSpacing {
+            get {
+                return ResourceManager.GetString("HeaderSpacing", resourceCulture);
             }
         }
         
@@ -906,11 +987,38 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Module Italic.
+        /// </summary>
+        internal static string ModuleItalic {
+            get {
+                return ResourceManager.GetString("ModuleItalic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Text Outline Color.
+        /// </summary>
+        internal static string ModuleOutlineColor {
+            get {
+                return ResourceManager.GetString("ModuleOutlineColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Module Reset.
         /// </summary>
         internal static string ModuleReset {
             get {
                 return ResourceManager.GetString("ModuleReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spacing Below Modules.
+        /// </summary>
+        internal static string ModuleSpacing {
+            get {
+                return ResourceManager.GetString("ModuleSpacing", resourceCulture);
             }
         }
         
@@ -938,6 +1046,15 @@ namespace DailyDuty.System.Localization {
         internal static string ModuleSuppressionHelp {
             get {
                 return ResourceManager.GetString("ModuleSuppressionHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Text Color.
+        /// </summary>
+        internal static string ModuleTextColor {
+            get {
+                return ResourceManager.GetString("ModuleTextColor", resourceCulture);
             }
         }
         
@@ -1023,6 +1140,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Override Color.
+        /// </summary>
+        internal static string OverrideTodoListColor {
+            get {
+                return ResourceManager.GetString("OverrideTodoListColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Placed Stickets.
         /// </summary>
         internal static string PlacedStickers {
@@ -1055,6 +1181,15 @@ namespace DailyDuty.System.Localization {
         internal static string Position {
             get {
                 return ResourceManager.GetString("Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview Mode.
+        /// </summary>
+        internal static string PreviewMode {
+            get {
+                return ResourceManager.GetString("PreviewMode", resourceCulture);
             }
         }
         
@@ -1127,6 +1262,15 @@ namespace DailyDuty.System.Localization {
         internal static string ResetMessage {
             get {
                 return ResourceManager.GetString("ResetMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right Align.
+        /// </summary>
+        internal static string RightAlign {
+            get {
+                return ResourceManager.GetString("RightAlign", resourceCulture);
             }
         }
         
@@ -1218,6 +1362,15 @@ namespace DailyDuty.System.Localization {
         internal static string ShowDisabled {
             get {
                 return ResourceManager.GetString("ShowDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Category Labels.
+        /// </summary>
+        internal static string ShowHeaders {
+            get {
+                return ResourceManager.GetString("ShowHeaders", resourceCulture);
             }
         }
         
@@ -1456,6 +1609,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Text Outline Color.
+        /// </summary>
+        internal static string TextOutlineColor {
+            get {
+                return ResourceManager.GetString("TextOutlineColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tickets Available.
         /// </summary>
         internal static string TicketsAvailable {
@@ -1632,6 +1794,15 @@ namespace DailyDuty.System.Localization {
         internal static string UnSnooze {
             get {
                 return ResourceManager.GetString("UnSnooze", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom Label.
+        /// </summary>
+        internal static string UseCustomLabel {
+            get {
+                return ResourceManager.GetString("UseCustomLabel", resourceCulture);
             }
         }
         

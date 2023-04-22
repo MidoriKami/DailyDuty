@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.Text;
+﻿using DailyDuty.Models;
+using Dalamud.Game.Text;
 
 namespace DailyDuty.Abstracts;
 
@@ -19,8 +20,7 @@ public class ModuleConfigBase
     public bool UseCustomResetMessage = false;
     public string CustomResetMessage = string.Empty;
 
-    public bool UseCustomTodoLabel = false;
-    public string CustomTodoLabel = string.Empty;
+    public ModuleTodoOptions TodoOptions = new();
 
     public bool Suppressed = false;
 }

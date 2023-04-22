@@ -33,9 +33,12 @@ public class ConfigOption : Attribute
 
     public int IntMin { get; }
     public int IntMax { get; } = 100;
+    public float FloatMin { get; }
+    public float FloatMax { get; } = 1.0f;
     public Vector4 DefaultColor { get; } = Vector4.One;
     public ushort DefaultUiColor { get; } = 1;
     public bool UseAxisFont { get; }
+    public bool ShowLabel { get; } = true;
 
     public ConfigOption(string resourceKey, float r, float g, float b, float a)
     {
@@ -43,10 +46,18 @@ public class ConfigOption : Attribute
         DefaultColor = new Vector4(r, g, b, a);
     }
 
-    public ConfigOption(string resourceKey, bool useAxisFont)
+    public ConfigOption(string resourceKey, bool useAxisFont, bool showLabel = true)
     {
         this.resourceKey = resourceKey;
         UseAxisFont = useAxisFont;
+        ShowLabel = showLabel;
+    }
+
+    public ConfigOption(string resourceKey, float floatMin, float floatMax)
+    {
+        this.resourceKey = resourceKey;
+        FloatMin = floatMin;
+        FloatMax = floatMax;
     }
     
     public ConfigOption(string resourceKey)

@@ -6,6 +6,7 @@ using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
@@ -22,14 +23,14 @@ public class ModuleDataTab : ISelectionWindowTab
     {
         if (DailyDutyPlugin.System.SystemConfig.HideDisabledModules)
         {
-            return DailyDutyPlugin.System.ModuleController
+            return DailyDutySystem.ModuleController
                 .GetModules()
                 .Where(module => module.ModuleConfig.ModuleEnabled)
                 .Select(module => new DataSelectable(module))
                 .OrderBy(module => module.Module.ModuleName.GetLabel());
         }
         
-        return DailyDutyPlugin.System.ModuleController
+        return DailyDutySystem.ModuleController
             .GetModules()
             .Select(module => new DataSelectable(module))
             .OrderBy(module => module.Module.ModuleName.GetLabel());

@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Linq;
+using System.Drawing;
 using System.Numerics;
-using System.Reflection;
+using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Commands;
+using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
-using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Logging;
-using FFXIVClientStructs.FFXIV.Client.Graphics;
-using FFXIVClientStructs.FFXIV.Client.System.Memory;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib;
 using KamiLib.Atk;
@@ -19,15 +16,17 @@ using KamiLib.GameState;
 
 namespace DailyDuty.System;
 
-public class UiColor
-{
-    public required ushort ColorKey { get; set; }
-}
-
 public class TodoConfig
 {
     public bool Enable = true;
-    
+    public bool PreviewMode = true;
+
+    [ConfigOption("RightAlign")]
+    public bool RightAlign = false;
+
+    [ConfigOption("Background")] 
+    public bool BackgroundImage = true;
+
     [ConfigOption("EnableDailyTasks")]
     public bool DailyTasks = true;
     
@@ -37,12 +36,27 @@ public class TodoConfig
     [ConfigOption("EnableSpecialTasks")]
     public bool SpecialTasks = true;
 
+    [ConfigOption("ShowHeaders")]
+    public bool ShowHeaders = true;
+
     [ConfigOption("HideInQuestEvent")]
     public bool HideDuringQuests = true;
     
     [ConfigOption("HideInDuties")]
     public bool HideInDuties = true;
 
+    [ConfigOption("HeaderItalic")]
+    public bool HeaderItalic = false;
+    
+    [ConfigOption("ModuleItalic")]
+    public bool ModuleItalic = false;
+
+    [ConfigOption("EnableOutline")]
+    public bool Edge = true;
+
+    [ConfigOption("EnableGlowingOutline")]
+    public bool Glare = false;
+    
     [ConfigOption("DailyTasksLabel", true)]
     public string DailyLabel = "Daily Tasks";
     
@@ -53,36 +67,48 @@ public class TodoConfig
     public string SpecialLabel = "Special Tasks";
 
     [ConfigOption("Position")]
-    public Vector2 TextNodePosition = new(750, 512);
-    
-    [ConfigOption("TextAlignment")]
-    public AlignmentType AlignmentType = AlignmentType.TopLeft;
-    
-    [ConfigOption("LineSpacing", 5, 30)]
-    public int LineSpacing = 20;
-    
-    [ConfigOption("FontSize", 5, 30)]
-    public int FontSize = 14;
+    public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
-    [ConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
-    public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+    [ConfigOption("FontSize", 5, 48)]
+    public int FontSize = 20;
+
+    [ConfigOption("HeaderSize", 5, 48)] 
+    public int HeaderFontSize = 24;
+
+    [ConfigOption("CategorySpacing", 0, 100)]
+    public int CategorySpacing = 12;
+
+    [ConfigOption("HeaderSpacing", 0, 100)]
+    public int HeaderSpacing = 0;
     
-    [ConfigOption("TextBorderColor", 142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f)]
-    public Vector4 TextBorderColor = new(142 / 255.0f, 106 / 255.0f, 12 / 255.0f, 1.0f);
+    [ConfigOption("ModuleSpacing", 0, 100)]
+    public int ModuleSpacing = 0;
     
-    [ConfigOption("HeaderOutlineColor", 14)]
-    public UiColor HeaderGlowKey = new() { ColorKey = 14 };
+    [ConfigOption("CategoryBackgroundOpacity", 0.05f, 1.00f)]
+    public float CategoryBackgroundOpacity = 0.40f;
+    
+    [ConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+
+    [ConfigOption("HeaderOutlineColor", 0.5568f, 0.4117f, 0.0470f, 1.0f)]
+    public Vector4 HeaderTextOutline = new(0.5568f, 0.4117f, 0.0470f, 1.0f);
+    
+    [ConfigOption("ModuleTextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    public Vector4 ModuleTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+
+    [ConfigOption("ModuleOutlineColor", 0.0392f, 0.4117f, 0.5725f, 1.0f)]
+    public Vector4 ModuleOutlineColor = new(0.0392f, 0.4117f, 0.5725f, 1.0f);
 }
 
-public unsafe class TodoController : IDisposable
+public class TodoController : IDisposable
 {
     public TodoConfig Config = new();
     private bool configChanged;
-    private static AtkUnitBase* ParentAddon => (AtkUnitBase*) Service.GameGui.GetAddonByName("NamePlate");
-    private AtkTextNode* TodoListNode => GetTextNode();
-    private const uint TextNodeId = 1000;
     private readonly TodoCommands todoCommands = new();
+    private TodoUiController? uiController;
 
+    public void Dispose() => Unload();
+    
     public void Load()
     {
         PluginLog.Debug($"[TodoConfig] Loading Todo System");
@@ -90,196 +116,152 @@ public unsafe class TodoController : IDisposable
         KamiCommon.CommandManager.AddCommand(todoCommands);
         Config = LoadConfig();
         
-        if(ParentAddon is null) PluginLog.Warning("NamePlate is Null on TodoController.Load");
-        if(!IsNodeAlreadyCreated()) CreateTextNode();
+        uiController ??= new TodoUiController();
+    }
+    
+    public void Unload()
+    {
+        KamiCommon.CommandManager.RemoveCommand(todoCommands);
+
+        uiController?.Dispose();
+        uiController = null;
     }
     
     public void DrawConfig()
     {
-        if (TodoListNode is null) return;
-
-        var fields = Config
-            .GetType()
-            .GetFields(); 
-        
-        var configOptions = fields
-            .Where(field => field.GetCustomAttribute(typeof(ConfigOption)) is not null)
-            .Select(field => (field, (ConfigOption) field.GetCustomAttribute(typeof(ConfigOption))!))
-            .ToList();
+        var configOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(Config);
         
         TodoEnableView.Draw(Config, SaveConfig);
-        GenericConfigView.Draw(configOptions, Config, SaveConfig, Strings.TodoDisplayConfiguration);
+        GenericConfigView.Draw(configOptions, Config, () =>
+        {
+            SaveConfig();
+            foreach (var module in DailyDutySystem.ModuleController.GetModules())
+            {
+                module.ModuleConfig.TodoOptions.StyleChanged = true;
+            }
+            
+        }, Strings.TodoDisplayConfiguration);
     }
 
-    public void Show()
-    {
-        if (Config.Enable && TodoListNode is not null)
-        {
-            TodoListNode->AtkResNode.ToggleVisibility(true);
-        }
-    }
-
-    public void Hide()
-    {
-        if (TodoListNode is not null)
-        {
-            TodoListNode->AtkResNode.ToggleVisibility(false);
-        }
-    }
-    
     public void Update()
     {
-        if (TodoListNode is not null)
+        uiController?.Show(Config.Enable);
+        
+        if (Config.Enable)
         {
-            var seString = new SeStringBuilder();
-
-            if(Config.DailyTasks) UpdateCategory(seString, ModuleType.Daily);
-            if(Config.WeeklyTasks) UpdateCategory(seString, ModuleType.Weekly);
-            if(Config.SpecialTasks) UpdateCategory(seString, ModuleType.Special);
-
-            var encodedString = seString.Encode();
-            
-            TodoListNode->SetText(encodedString);
-            
-            TodoListNode->AtkResNode.ToggleVisibility(encodedString.Length != 0 && Config.Enable);
-            if(Config.HideInDuties && Condition.IsBoundByDuty()) TodoListNode->AtkResNode.ToggleVisibility(false);
-            if(Config.HideDuringQuests && Condition.IsInCutsceneOrQuestEvent()) TodoListNode->AtkResNode.ToggleVisibility(false);
-            
-            TodoListNode->TextColor = VectorToByteColor(Config.TextColor);
-            TodoListNode->EdgeColor = VectorToByteColor(Config.TextBorderColor);
+            UpdateCategory(ModuleType.Daily, Config.DailyTasks);
+            UpdateCategory(ModuleType.Weekly, Config.WeeklyTasks);
+            UpdateCategory(ModuleType.Special, Config.SpecialTasks);
+        
+            if(Config.HideDuringQuests && Condition.IsInQuestEvent()) uiController?.Show(false);
+            if(Config.HideInDuties && Condition.IsBoundByDuty()) uiController?.Show(false);
+        
+            uiController?.Update(Config);
         }
         
         if(configChanged) SaveConfig();
         configChanged = false;
     }
 
-    private void UpdateCategory(SeStringBuilder builder, ModuleType type)
+    private void UpdateCategory(ModuleType type, bool enabled)
     {
-        var tasks = DailyDutyPlugin.System.ModuleController
-            .GetModules(type)
-            .Where(module => module.ModuleConfig.ModuleEnabled)
-            .Where(module => module.ModuleStatus is ModuleStatus.Incomplete)
-            .ToList();
-
-        if (tasks.Count == 0) return;
-
-        var label = type switch
+        foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
         {
-            ModuleType.Daily => Config.DailyLabel,
-            ModuleType.Weekly => Config.WeeklyLabel,
-            ModuleType.Special => Config.SpecialLabel,
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-        };
-        
-        builder.AddUiGlow(label, Config.HeaderGlowKey.ColorKey);
-        builder.Add(new NewLinePayload());
-        
-        foreach (var module in tasks)
-        {
-            if (module.ModuleConfig.UseCustomTodoLabel && module.ModuleConfig.CustomTodoLabel != string.Empty)
+            if (enabled && module.ModuleConfig.TodoOptions.StyleChanged)
             {
-                builder.AddText(module.ModuleConfig.CustomTodoLabel);
-                builder.Add(new NewLinePayload());
+                uiController?.UpdateModuleStyle(type, module.ModuleName, GetModuleTextStyleOptions(module));
+                uiController?.UpdateHeaderStyle(type, HeaderOptions);
+                uiController?.UpdateCategoryStyle(type, BackgroundImageOptions);
+                    
+                module.ModuleConfig.TodoOptions.StyleChanged = false;
             }
-            else
-            {
-                builder.AddText(module.ModuleName.GetLabel());
-                builder.Add(new NewLinePayload());
-            }
+            
+            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), GetModuleActiveState(module) && enabled || Config.PreviewMode);
+            uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), Config.ShowHeaders);
+            uiController?.UpdateCategory(type, enabled);
         }
     }
     
-    public void Unload()
+    private string GetModuleTodoLabel(BaseModule module)
     {
-        KamiCommon.CommandManager.RemoveCommand(todoCommands);
-        if (IsNodeAlreadyCreated()) DestroyTextNode();
-    }
-    
-    public void Dispose() => Unload();
+        var todoOptions = module.ModuleConfig.TodoOptions;
 
-    private void RefreshTextNode()
-    {
-        if (TodoListNode is not null)
+        if (todoOptions.UseCustomTodoLabel && todoOptions.CustomTodoLabel != string.Empty)
         {
-            TodoListNode->TextColor = VectorToByteColor(Config.TextColor);
-            TodoListNode->EdgeColor = VectorToByteColor(Config.TextBorderColor);
-            TodoListNode->LineSpacing = (byte) Config.LineSpacing;
-            TodoListNode->AlignmentFontType = (byte) Config.AlignmentType;
-            TodoListNode->FontSize = (byte) Config.FontSize;
-            TodoListNode->AtkResNode.SetPositionFloat(Config.TextNodePosition.X, Config.TextNodePosition.Y);
+            return todoOptions.CustomTodoLabel;
         }
+
+        return module.ModuleName.GetLabel();
     }
 
-    private void CreateTextNode()
+    private bool GetModuleActiveState(BaseModule module)
     {
-        var textNode = IMemorySpace.GetUISpace()->Create<AtkTextNode>();
+        if (!module.ModuleConfig.ModuleEnabled) return false;
+        if (!module.ModuleConfig.TodoOptions.Enabled) return false;
+        if (module.ModuleStatus is not ModuleStatus.Incomplete) return false;
 
-        var resNode = &textNode->AtkResNode;
-
-        resNode->Type = NodeType.Text;
-        resNode->NodeID = TextNodeId;
-        resNode->Flags = 8243;
-
-        textNode->TextColor = VectorToByteColor(Config.TextColor);
-        textNode->EdgeColor = VectorToByteColor(Config.TextBorderColor);
-        textNode->BackgroundColor = new ByteColor { R = 255, G = 255, B = 255, A = 255 };
-        textNode->LineSpacing = (byte) Config.LineSpacing;
-        textNode->AlignmentFontType = (byte) Config.AlignmentType;
-        textNode->FontSize = (byte) Config.FontSize;
-        textNode->TextFlags = 0x88;
-        
-        resNode->SetWidth(200);
-        resNode->SetHeight(200);
-        resNode->SetPositionFloat(Config.TextNodePosition.X, Config.TextNodePosition.Y);
-        
-        LinkNodeAtEnd(resNode, ParentAddon);
+        return true;
     }
 
-    private void DestroyTextNode()
+    private string GetCategoryLabel(ModuleType type) => type switch
     {
-        var node = GetTextNode();
-        
-        if (node->AtkResNode.PrevSiblingNode is not null)
-            node->AtkResNode.PrevSiblingNode->NextSiblingNode = node->AtkResNode.NextSiblingNode;
-            
-        if (node->AtkResNode.NextSiblingNode is not null)
-            node->AtkResNode.NextSiblingNode->PrevSiblingNode = node->AtkResNode.PrevSiblingNode;
-            
-        ParentAddon->UldManager.UpdateDrawNodeList();
-        
-        node->AtkResNode.Destroy(false);
-        IMemorySpace.Free(node, (ulong)sizeof(AtkTextNode));
-    }
-
-    private static void LinkNodeAtEnd(AtkResNode* resNode, AtkUnitBase* parent)
-    {
-        var node = parent->RootNode->ChildNode;
-        while (node->PrevSiblingNode != null) node = node->PrevSiblingNode;
-
-        node->PrevSiblingNode = resNode;
-        resNode->NextSiblingNode = node;
-        resNode->ParentNode = node->ParentNode;
-        
-        parent->UldManager.UpdateDrawNodeList();
-    }
-
-    private bool IsNodeAlreadyCreated() => GetTextNode() is not null;
-    private AtkTextNode* GetTextNode() => ParentAddon is null ? null : Node.GetNodeByID<AtkTextNode>(ParentAddon->UldManager, TextNodeId);
-
-    private TodoConfig LoadConfig() => (TodoConfig) FileController.LoadFile("Todo.config.json", Config);
-    
-    public void SaveConfig()
-    {
-        RefreshTextNode();
-
-        FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
-    }
-
-    private ByteColor VectorToByteColor(Vector4 vector) => new()
-    {
-        R = (byte)(vector.X * 255),
-        G = (byte)(vector.Y * 255),
-        B = (byte)(vector.Z * 255),
-        A = (byte)(vector.W * 255),
+        ModuleType.Daily => Config.DailyLabel,
+        ModuleType.Weekly => Config.WeeklyLabel,
+        ModuleType.Special => Config.SpecialLabel,
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
     };
+    
+    private TextNodeOptions HeaderOptions => new()
+    {
+        Alignment = AlignmentType.Left,
+        TextColor = Config.HeaderTextColor,
+        EdgeColor = Config.HeaderTextOutline,
+        BackgroundColor = KnownColor.White.AsVector4(),
+        FontSize = (byte) Config.HeaderFontSize,
+        Flags = GetHeaderFlags(),
+        Type = NodeType.Text,
+    };
+
+    private TextNodeOptions GetModuleTextStyleOptions(BaseModule module) => new()
+    {
+        Alignment = AlignmentType.Left,
+        TextColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextColor : Config.ModuleTextColor,
+        EdgeColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextOutline : Config.ModuleOutlineColor,
+        BackgroundColor = KnownColor.White.AsVector4(),
+        FontSize = (byte) Config.FontSize,
+        Flags = GetModuleFlags(),
+        Type = NodeType.Text,
+    };
+
+    private ImageNodeOptions BackgroundImageOptions => new()
+    {
+        Color = new Vector4(1.0f, 1.0f, 1.0f, Config.CategoryBackgroundOpacity),
+    };
+
+    private TextFlags GetHeaderFlags()
+    {
+        var flags = TextFlags.AutoAdjustNodeSize;
+
+        if (Config.HeaderItalic) flags |= TextFlags.Italic;
+        if (Config.Edge) flags |= TextFlags.Edge;
+        if (Config.Glare) flags |= TextFlags.Glare;
+
+        return flags;
+    }
+    
+    private TextFlags GetModuleFlags()
+    {
+        var flags = TextFlags.AutoAdjustNodeSize;
+
+        if (Config.ModuleItalic) flags |= TextFlags.Italic;
+        if (Config.Edge) flags |= TextFlags.Edge;
+        if (Config.Glare) flags |= TextFlags.Glare;
+
+        return flags;
+    }
+    
+    public void Show() => uiController?.Show(Config.Enable);
+    public void Hide() => uiController?.Hide();
+    private TodoConfig LoadConfig() => (TodoConfig) FileController.LoadFile("Todo.config.json", Config);
+    public void SaveConfig() => FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
 }

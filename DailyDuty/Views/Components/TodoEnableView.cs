@@ -19,6 +19,11 @@ public class TodoEnableView
         {
             saveAction.Invoke();
         }
+
+        if (ImGui.Checkbox($"{Strings.PreviewMode}##TodoEnable", ref config.PreviewMode))
+        {
+            saveAction.Invoke();
+        }
             
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGuiHelpers.ScaledIndent(-15.0f);

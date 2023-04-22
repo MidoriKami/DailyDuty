@@ -89,7 +89,10 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
                 
                 case LuminaTaskDataList<MobHuntOrderType>:
                     var mobHuntOrderType = LuminaCache<MobHuntOrderType>.Instance.GetRow(dataEntry.RowId)!;
-                    var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mobHuntOrderType.EventItem.Value?.Name.ToString() ?? "Unable to Read Event Item");
+                    var eventItemName = mobHuntOrderType.EventItem.Value?.Name.ToString();
+                    if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value?.Singular.ToString();
+
+                    var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName ?? "Unable to Read Event Item");
                     ImGui.Text(mobHuntLabel);
                     break;
                 

@@ -7,6 +7,7 @@ using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
+using DailyDuty.System;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
@@ -24,7 +25,7 @@ public class ModuleConfigurationTab : ISelectionWindowTab
     
     public IEnumerable<ISelectable> GetTabSelectables()
     {
-        return DailyDutyPlugin.System.ModuleController
+        return DailyDutySystem.ModuleController
             .GetModules(filterType)
             .Select(module => new ConfigurationSelectable(module))
             .OrderBy(module => module.Module.ModuleName.GetLabel());

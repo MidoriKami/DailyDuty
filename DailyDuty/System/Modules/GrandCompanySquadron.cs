@@ -46,7 +46,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     public override ModuleDataBase ModuleData { get; protected set; } = new GrandCompanySquadronData();
     private GrandCompanySquadronData Data => ModuleData as GrandCompanySquadronData ?? new GrandCompanySquadronData();
     
-    private Hook<Delegates.Agent.ReceiveEvent>? onReceiveEventHook;
+    private Hook<Delegates.AgentReceiveEvent>? onReceiveEventHook;
     private AgentGcArmyExpedition* Agent => (AgentGcArmyExpedition*) AgentModule.Instance()->GetAgentByInternalId(AgentId.GcArmyExpedition);
 
     [GeneratedRegex("[^\\p{L}\\p{N}]")]
@@ -66,7 +66,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     {
         base.Load();
 
-        onReceiveEventHook ??= Hook<Delegates.Agent.ReceiveEvent>.FromAddress(new nint(Agent->AgentInterface.VTable->ReceiveEvent), OnReceiveEvent);
+        onReceiveEventHook ??= Hook<Delegates.AgentReceiveEvent>.FromAddress(new nint(Agent->AgentInterface.VTable->ReceiveEvent), OnReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 
@@ -162,13 +162,13 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
 
     protected override ModuleStatus GetModuleStatus()
     {
-        if (Data.MissionStarted) return ModuleStatus.InProgress;
+        if (Data.MissionStarted && Data.TimeUntilMissionComplete != TimeSpan.Zero) return ModuleStatus.InProgress;
         
         return Data.MissionCompleted ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
 
     protected override StatusMessage GetStatusMessage() => new()
     {
-        Message = Strings.MissionAvailable,
+        Message = Data.MissionStarted && Data.TimeUntilMissionComplete == TimeSpan.Zero ? Strings.MissionCompleted : Strings.MissionAvailable
     };
 }

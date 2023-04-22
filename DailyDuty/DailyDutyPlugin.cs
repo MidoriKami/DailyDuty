@@ -15,13 +15,12 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     {
         pluginInterface.Create<Service>();
         
-        KamiCommon.Initialize(pluginInterface, Name, () => {});
+        KamiCommon.Initialize(pluginInterface, Name);
                 
         System = new DailyDutySystem();
         
         KamiCommon.CommandManager.AddHandler("/dd", "Shorthand Command Handler");
         KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
-
     }
 
     public void Dispose()

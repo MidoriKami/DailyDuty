@@ -12,7 +12,7 @@ public class HuntMarksWeekly : HuntMarksBase
     public override ModuleName ModuleName => ModuleName.HuntMarksWeekly;
     public override ModuleType ModuleType => ModuleType.Weekly;
 
-    protected override DateTime GetNextReset() => Time.NextWeeklyReset();
+    protected override DateTime GetNextReset() => Time.NextWeeklyReset() + TimeSpan.FromMinutes(1);
     
     protected override void UpdateTaskLists()
     {
