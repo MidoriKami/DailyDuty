@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 using DailyDuty.Models;
+using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
@@ -16,9 +18,11 @@ public unsafe class TodoUiController : IDisposable
 
     private const uint ContainerNodeId = 1000;
     private const uint BackgroundImageBaseId = 5000;
+    private const uint ExtrasBaseId = 6000;
 
     private readonly Dictionary<ModuleType, TodoUiCategoryController> categories = new();
     private readonly ImageNode backgroundImageNode;
+    private readonly TextNode previewModeTextNode;
 
     public TodoUiController()
     {
@@ -39,6 +43,20 @@ public unsafe class TodoUiController : IDisposable
         backgroundImageNode.GetResourceNode()->SetScale(1.1f, 1.1f);
         rootNode.AddResourceNode(backgroundImageNode, AddonNamePlate);
 
+        previewModeTextNode = new TextNode(new TextNodeOptions
+        {
+            Id = ExtrasBaseId,
+            Alignment = AlignmentType.Center,
+            Flags = TextFlags.Edge,
+            Type = NodeType.Text,
+            BackgroundColor = KnownColor.Black.AsVector4(),
+            EdgeColor = KnownColor.Black.AsVector4(),
+            TextColor = KnownColor.OrangeRed.AsVector4(),
+            FontSize = 16
+        });
+        previewModeTextNode.SetText("Preview Mode is Enabled");
+        rootNode.AddResourceNode(previewModeTextNode, AddonNamePlate);
+
         foreach (var category in Enum.GetValues<ModuleType>())
         {
             var newCategory = new TodoUiCategoryController(rootNode, category);
@@ -51,6 +69,7 @@ public unsafe class TodoUiController : IDisposable
         Node.UnlinkNodeAtStart(rootNode.GetResourceNode(), AddonNamePlate);
         rootNode.Dispose();
         backgroundImageNode.Dispose();
+        previewModeTextNode.Dispose();
 
         foreach (var category in categories)
         {
@@ -105,6 +124,10 @@ public unsafe class TodoUiController : IDisposable
         backgroundImageNode.GetResourceNode()->SetPositionFloat(-largestWidth * 0.05f, -finalHeight * 0.05f);
         backgroundImageNode.GetResourceNode()->SetHeight(finalHeight);
         backgroundImageNode.GetResourceNode()->SetWidth(largestWidth);
+        
+        previewModeTextNode.SetVisible(config.PreviewMode);
+        previewModeTextNode.GetResourceNode()->SetWidth(largestWidth);
+        previewModeTextNode.GetResourceNode()->SetPositionFloat(0.0f, -24.0f);
     }
     
     public void UpdateCategoryStyle(ModuleType type, ImageNodeOptions options)
