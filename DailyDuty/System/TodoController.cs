@@ -84,8 +84,8 @@ public class TodoConfig
     [ConfigOption("ModuleSpacing", 0, 100)]
     public int ModuleSpacing = 0;
     
-    [ConfigOption("CategoryBackgroundOpacity", 0.05f, 1.00f)]
-    public float CategoryBackgroundOpacity = 0.40f;
+    [ConfigOption("CategoryBackgroundColor", 0.0f, 0.0f, 0.0f, 0.40f)]
+    public Vector4 CategoryBackgroundColor = new(0.0f, 0.0f, 0.0f, 0.4f);
     
     [ConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
@@ -235,7 +235,7 @@ public class TodoController : IDisposable
 
     private ImageNodeOptions BackgroundImageOptions => new()
     {
-        Color = new Vector4(1.0f, 1.0f, 1.0f, Config.CategoryBackgroundOpacity),
+        Color = Config.CategoryBackgroundColor
     };
 
     private TextFlags GetHeaderFlags()

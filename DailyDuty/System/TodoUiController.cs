@@ -134,6 +134,11 @@ public unsafe class TodoUiController : IDisposable
     {
         options.Id = BackgroundImageBaseId;
         backgroundImageNode.UpdateOptions(options);
+
+        backgroundImageNode.GetResourceNode()->Color.A = (byte) (options.Color.W * 255);
+        backgroundImageNode.GetResourceNode()->AddRed = (byte) (options.Color.X * 255);
+        backgroundImageNode.GetResourceNode()->AddGreen = (byte) (options.Color.Y * 255);
+        backgroundImageNode.GetResourceNode()->AddBlue = (byte) (options.Color.Z * 255);
     }
 
     public void UpdateModule(ModuleType type, ModuleName module, string label, bool visible) => categories[type].UpdateModule(module, label, visible);

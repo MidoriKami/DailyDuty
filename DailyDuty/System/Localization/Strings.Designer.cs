@@ -159,11 +159,11 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Background Opacity.
+        ///   Looks up a localized string similar to Background Color.
         /// </summary>
-        internal static string CategoryBackgroundOpacity {
+        internal static string CategoryBackgroundColor {
             get {
-                return ResourceManager.GetString("CategoryBackgroundOpacity", resourceCulture);
+                return ResourceManager.GetString("CategoryBackgroundColor", resourceCulture);
             }
         }
         

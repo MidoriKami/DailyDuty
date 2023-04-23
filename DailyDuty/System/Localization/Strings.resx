@@ -580,8 +580,8 @@ Limited to once per 5 mins</value>
     <data name="CategorySpacing" xml:space="preserve">
         <value>Spacing Below Categories</value>
     </data>
-    <data name="CategoryBackgroundOpacity" xml:space="preserve">
-        <value>Background Opacity</value>
+    <data name="CategoryBackgroundColor" xml:space="preserve">
+        <value>Background Color</value>
     </data>
     <data name="HeaderColor" xml:space="preserve">
         <value>Header Text Color</value>
