@@ -184,7 +184,7 @@ public class TodoController : IDisposable
                 module.ModuleConfig.TodoOptions.StyleChanged = false;
             }
             
-            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), GetModuleActiveState(module) && enabled || Config.PreviewMode);
+            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), module.GetTooltip(), GetModuleActiveState(module) && enabled || Config.PreviewMode);
             uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), Config.ShowHeaders);
             uiController?.UpdateCategory(type, enabled);
         }
