@@ -113,6 +113,7 @@ public class TodoController : IDisposable
     {
         PluginLog.Debug($"[TodoConfig] Loading Todo System");
         
+        KamiCommon.CommandManager.RemoveCommand(todoCommands);
         KamiCommon.CommandManager.AddCommand(todoCommands);
         Config = LoadConfig();
         
