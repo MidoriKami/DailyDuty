@@ -117,6 +117,11 @@ public class TodoController : IDisposable
         Config = LoadConfig();
         
         uiController ??= new TodoUiController();
+
+        foreach (var module in DailyDutySystem.ModuleController.GetModules())
+        {
+            module.ModuleConfig.TodoOptions.StyleChanged = true;
+        }
     }
     
     public void Unload()
