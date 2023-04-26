@@ -23,9 +23,15 @@ public class TodoConfig
 
     [ConfigOption("RightAlign")]
     public bool RightAlign = false;
+    
+    [ConfigOption("Dragable")]
+    public bool CanDrag = false;
 
     [ConfigOption("AnchorLocation")]
     public WindowAnchor Anchor = WindowAnchor.TopRight;
+    
+    [ConfigOption("Position")]
+    public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
     [ConfigOption("Background")] 
     public bool BackgroundImage = true;
@@ -68,12 +74,6 @@ public class TodoConfig
     
     [ConfigOption("SpecialTasksLabel", true)]
     public string SpecialLabel = "Special Tasks";
-
-    [ConfigOption("Dragable")]
-    public bool CanDrag = false;
-
-    [ConfigOption("Position")]
-    public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
     [ConfigOption("FontSize", 5, 48)]
     public int FontSize = 20;
@@ -179,19 +179,21 @@ public class TodoController : IDisposable
             var size = uiController.GetSize();
             ImGuiNET.ImGui.SetNextWindowPos(Config.Position - new Vector2(Config.Anchor.HasFlag(WindowAnchor.TopRight) ? size.X : 0, Config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? size.Y : 0));
             ImGuiNET.ImGui.SetNextWindowSize(size);
-            ImGuiNET.ImGui.Begin("##tododrag", ImGuiNET.ImGuiWindowFlags.NoTitleBar | ImGuiNET.ImGuiWindowFlags.NoDocking | ImGuiNET.ImGuiWindowFlags.NoResize);
+            ImGuiNET.ImGui.Begin("##todoDrag", ImGuiNET.ImGuiWindowFlags.NoTitleBar | ImGuiNET.ImGuiWindowFlags.NoDocking | ImGuiNET.ImGuiWindowFlags.NoResize);
             
             var pos = ImGuiNET.ImGui.GetMousePos();
-            if (ImGuiNET.ImGui.IsMouseDown(ImGuiNET.ImGuiMouseButton.Left) && ImGuiNET.ImGui.IsWindowFocused()) {
-                if (holdOffset == null)
-                    holdOffset = Config.Position - pos;
+            if (ImGuiNET.ImGui.IsMouseDown(ImGuiNET.ImGuiMouseButton.Left) && ImGuiNET.ImGui.IsWindowFocused()) 
+            {
+                holdOffset ??= Config.Position - pos;
                 
                 var old = Config.Position;
-                Config.Position = (Vector2)(pos + holdOffset);
+                Config.Position = (Vector2)(pos + holdOffset)!;
                 
                 if (old != Config.Position)
                     configChanged = true;
-            } else {
+            } 
+            else 
+            {
                 holdOffset = null;
             }
             

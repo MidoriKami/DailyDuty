@@ -104,7 +104,7 @@ public unsafe class TodoUiController : IDisposable
         
         foreach (var category in categories)
         {
-            if (category.Value.GetHeaderNode().GetResourceNode()->Width > largestWidth) largestWidth = category.Value.GetHeaderNode().GetResourceNode()->Width;
+            if (category.Value.GetHeaderNode().ResourceNode->Width > largestWidth) largestWidth = category.Value.GetHeaderNode().ResourceNode->Width;
 
             var resNode = category.Value.GetCategoryContainer().ResourceNode;
 
@@ -156,5 +156,5 @@ public unsafe class TodoUiController : IDisposable
     public void UpdateCategory(ModuleType type, bool enabled) => categories[type].SetVisible(enabled);
     public void Show(bool visible) => rootNode.SetVisibility(visible);
     public void Hide() => rootNode.SetVisibility(false);
-    public Vector2 GetSize() => new(rootNode.GetResourceNode()->Width, rootNode.GetResourceNode()->Height);
+    public Vector2 GetSize() => new(rootNode.ResourceNode->Width, rootNode.ResourceNode->Height);
 }
