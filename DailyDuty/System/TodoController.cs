@@ -24,6 +24,9 @@ public class TodoConfig
     [ConfigOption("RightAlign")]
     public bool RightAlign = false;
 
+    [ConfigOption("AnchorLocation")]
+    public WindowAnchor Anchor = WindowAnchor.TopRight;
+
     [ConfigOption("Background")] 
     public bool BackgroundImage = true;
 
@@ -66,6 +69,9 @@ public class TodoConfig
     [ConfigOption("SpecialTasksLabel", true)]
     public string SpecialLabel = "Special Tasks";
 
+    [ConfigOption("Dragable")]
+    public bool CanDrag = false;
+
     [ConfigOption("Position")]
     public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
@@ -106,6 +112,7 @@ public class TodoController : IDisposable
     private bool configChanged;
     private readonly TodoCommands todoCommands = new();
     private TodoUiController? uiController;
+    private Vector2? holdOffset;
 
     public void Dispose() => Unload();
     
@@ -165,6 +172,30 @@ public class TodoController : IDisposable
             if(Config.HideInDuties && Condition.IsBoundByDuty()) uiController?.Show(false);
         
             uiController?.Update(Config);
+        }
+        
+        if (Config.CanDrag && uiController != null)
+        {
+            var size = uiController.GetSize();
+            ImGuiNET.ImGui.SetNextWindowPos(Config.Position - new Vector2(Config.Anchor.HasFlag(WindowAnchor.TopRight) ? size.X : 0, Config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? size.Y : 0));
+            ImGuiNET.ImGui.SetNextWindowSize(size);
+            ImGuiNET.ImGui.Begin("##tododrag", ImGuiNET.ImGuiWindowFlags.NoTitleBar | ImGuiNET.ImGuiWindowFlags.NoDocking | ImGuiNET.ImGuiWindowFlags.NoResize);
+            
+            var pos = ImGuiNET.ImGui.GetMousePos();
+            if (ImGuiNET.ImGui.IsMouseDown(ImGuiNET.ImGuiMouseButton.Left) && ImGuiNET.ImGui.IsWindowFocused()) {
+                if (holdOffset == null)
+                    holdOffset = Config.Position - pos;
+                
+                var old = Config.Position;
+                Config.Position = (Vector2)(pos + holdOffset);
+                
+                if (old != Config.Position)
+                    configChanged = true;
+            } else {
+                holdOffset = null;
+            }
+            
+            ImGuiNET.ImGui.End();
         }
         
         if(configChanged) SaveConfig();

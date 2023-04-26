@@ -619,4 +619,22 @@ Limited to once per 5 mins</value>
     <data name="HeaderItalic" xml:space="preserve">
         <value>Enable Header Italic</value>
     </data>
+	<data name="AnchorLocation" xml:space="preserve">
+        <value>Anchor Location</value>
+    </data>
+    <data name="TopLeft" xml:space="preserve">
+        <value>Top Left</value>
+    </data>
+    <data name="TopRight" xml:space="preserve">
+        <value>Top Right</value>
+    </data>
+    <data name="BottomLeft" xml:space="preserve">
+        <value>Bottom Left</value>
+    </data>
+    <data name="BottomRight" xml:space="preserve">
+        <value>Bottom Right</value>
+    </data>
+    <data name="Dragable" xml:space="preserve">
+        <value>Enable Window Dragging</value>
+    </data>
 </root>

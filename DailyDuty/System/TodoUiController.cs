@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -19,6 +19,7 @@ public unsafe class TodoUiController : IDisposable
     private const uint ContainerNodeId = 1000;
     private const uint BackgroundImageBaseId = 5000;
     private const uint ExtrasBaseId = 6000;
+    private const float edgeSize = 10f;
 
     private readonly Dictionary<ModuleType, TodoUiCategoryController> categories = new();
     private readonly ImageNode backgroundImageNode;
@@ -40,7 +41,7 @@ public unsafe class TodoUiController : IDisposable
             Id = BackgroundImageBaseId,
             Color = new Vector4(1.0f, 1.0f, 1.0f, 0.25f),
         });
-        backgroundImageNode.ResourceNode->SetScale(1.1f, 1.1f);
+
         rootNode.AddResourceNode(backgroundImageNode, AddonNamePlate);
 
         previewModeTextNode = new TextNode(new TextNodeOptions
@@ -103,10 +104,10 @@ public unsafe class TodoUiController : IDisposable
         
         foreach (var category in categories)
         {
+            if (category.Value.GetHeaderNode().GetResourceNode()->Width > largestWidth) largestWidth = category.Value.GetHeaderNode().GetResourceNode()->Width;
+
             var resNode = category.Value.GetCategoryContainer().ResourceNode;
 
-            if (resNode->Width > largestWidth) largestWidth = resNode->Width;
-            
             if (resNode->IsVisible)
             {
                 anyVisible = true;
@@ -114,18 +115,23 @@ public unsafe class TodoUiController : IDisposable
                 
                 resNode->SetPositionFloat(xPos, cumulativeSize);
                 cumulativeSize += resNode->GetHeight() + padding;
+                if (resNode->Width > largestWidth) largestWidth = resNode->Width;
             }
         }
 
         var finalHeight = (ushort) (cumulativeSize - config.CategorySpacing);
         
+        rootNode.ResourceNode->SetPositionFloat(
+            config.Position.X - (config.Anchor.HasFlag(WindowAnchor.TopRight) ? largestWidth : 0),
+            config.Position.Y - (config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? finalHeight : 0)
+        );
         rootNode.ResourceNode->SetHeight(finalHeight);
         rootNode.ResourceNode->SetWidth(largestWidth);
         
         backgroundImageNode.ResourceNode->ToggleVisibility(config.BackgroundImage && anyVisible);
-        backgroundImageNode.ResourceNode->SetPositionFloat(-largestWidth * 0.05f, -finalHeight * 0.05f);
-        backgroundImageNode.ResourceNode->SetHeight(finalHeight);
-        backgroundImageNode.ResourceNode->SetWidth(largestWidth);
+        backgroundImageNode.ResourceNode->SetPositionFloat(-edgeSize, -edgeSize);
+        backgroundImageNode.ResourceNode->SetHeight((ushort)(finalHeight + edgeSize * 2));
+        backgroundImageNode.ResourceNode->SetWidth((ushort)(largestWidth + edgeSize * 2));
         
         previewModeTextNode.SetVisible(config.PreviewMode);
         previewModeTextNode.ResourceNode->SetWidth(largestWidth);
@@ -150,4 +156,5 @@ public unsafe class TodoUiController : IDisposable
     public void UpdateCategory(ModuleType type, bool enabled) => categories[type].SetVisible(enabled);
     public void Show(bool visible) => rootNode.SetVisibility(visible);
     public void Hide() => rootNode.SetVisibility(false);
+    public Vector2 GetSize() => new(rootNode.GetResourceNode()->Width, rootNode.GetResourceNode()->Height);
 }

@@ -49,7 +49,7 @@ public static class GenericConfigView
         else if (field.FieldType == typeof(Vector4))
         {
             var vectorValue = (Vector4) field.GetValue(sourceObject)!;
-            if (ImGui.ColorEdit4($"##{field.Name}", ref vectorValue, ImGuiColorEditFlags.NoInputs | ImGuiColorEditFlags.AlphaPreviewHalf))
+            if (ImGui.ColorEdit4($"##{field.Name}", ref vectorValue, ImGuiColorEditFlags.NoInputs | ImGuiColorEditFlags.AlphaPreviewHalf | ImGuiColorEditFlags.AlphaBar))
             {
                 field.SetValue(sourceObject, vectorValue);
                 saveAction.Invoke();

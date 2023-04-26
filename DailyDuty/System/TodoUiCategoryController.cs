@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Abstracts;
@@ -88,7 +88,6 @@ public unsafe class TodoUiCategoryController : IDisposable
         foreach (var module in moduleNodes)
         {
             var moduleResNode = module.Value.ResourceNode;
-            if (moduleResNode->Width > largestWidth) largestWidth = moduleResNode->Width;
 
             if (moduleResNode->IsVisible)
             {
@@ -97,6 +96,7 @@ public unsafe class TodoUiCategoryController : IDisposable
                 moduleResNode->SetPositionFloat(xPos, startPosition);
                 startPosition += (ushort) (moduleResNode->GetHeight() + config.ModuleSpacing);
                 anyVisible = true;
+                if (moduleResNode->Width > largestWidth) largestWidth = moduleResNode->Width;
             }
         }
         
@@ -132,6 +132,7 @@ public unsafe class TodoUiCategoryController : IDisposable
         headerNode.UpdateOptions(options);
     }
     
+    public TextNode GetHeaderNode() => headerNode;
     public ResNode GetCategoryContainer() => categoryResNode;
     public void SetVisible(bool show) => categoryResNode.SetVisibility(show);
 
