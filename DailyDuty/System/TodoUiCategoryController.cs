@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
+using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
 
@@ -48,6 +50,11 @@ public unsafe class TodoUiCategoryController : IDisposable
             {
                 Id = ModuleNodeBaseId + (uint) module.ModuleName,
             });
+
+            if (module.HasTooltip)
+            {
+                textNode.EnableTooltip(AddonNamePlate, module.ModuleName.GetLabel());
+            }
             
             moduleNodes.Add(module.ModuleName, textNode);
             textNode.SetText(module.ModuleName.GetLabel());
@@ -64,16 +71,15 @@ public unsafe class TodoUiCategoryController : IDisposable
             moduleNode.Value.Dispose();
         }
         
-        moduleNodes.Clear();
         categoryResNode.Dispose();
     }
 
     public void UpdatePositions(TodoConfig config)
     {
-        ushort startPosition = (ushort) (headerNode.GetResourceNode()->IsVisible ? headerNode.GetResourceNode()->Height + config.HeaderSpacing : config.HeaderSpacing);
+        ushort startPosition = (ushort) (headerNode.ResourceNode->IsVisible ? headerNode.ResourceNode->Height + config.HeaderSpacing : config.HeaderSpacing);
         
-        var headerResNode = headerNode.GetResourceNode();
-        var headerPositionX = config.RightAlign ? categoryResNode.GetResourceNode()->Width - headerResNode->Width : 0.0f;
+        var headerResNode = headerNode.ResourceNode;
+        var headerPositionX = config.RightAlign ? categoryResNode.ResourceNode->Width - headerResNode->Width : 0.0f;
         headerResNode->SetPositionFloat(headerPositionX, 0.0f);
 
         ushort largestWidth = 0;
@@ -81,11 +87,11 @@ public unsafe class TodoUiCategoryController : IDisposable
         
         foreach (var module in moduleNodes)
         {
-            var moduleResNode = module.Value.GetResourceNode();
+            var moduleResNode = module.Value.ResourceNode;
 
             if (moduleResNode->IsVisible)
             {
-                var xPos = config.RightAlign ? categoryResNode.GetResourceNode()->Width - moduleResNode->Width : 0.0f;
+                var xPos = config.RightAlign ? categoryResNode.ResourceNode->Width - moduleResNode->Width : 0.0f;
                 
                 moduleResNode->SetPositionFloat(xPos, startPosition);
                 startPosition += (ushort) (moduleResNode->GetHeight() + config.ModuleSpacing);
@@ -94,18 +100,19 @@ public unsafe class TodoUiCategoryController : IDisposable
             }
         }
         
-        categoryResNode.GetResourceNode()->SetHeight(startPosition);
-        categoryResNode.GetResourceNode()->SetWidth(largestWidth);
+        categoryResNode.ResourceNode->SetHeight(startPosition);
+        categoryResNode.ResourceNode->SetWidth(largestWidth);
 
         if(!anyVisible) categoryResNode.SetVisibility(false);
     }
     
-    public void UpdateModule(ModuleName module, string label, bool visible)
+    public void UpdateModule(ModuleName module, string label, string tooltip, bool visible)
     {
         moduleNodes[module].SetText(label);
         moduleNodes[module].SetVisible(visible);
+        moduleNodes[module].UpdateTooltip(visible ? tooltip : string.Empty);
     }
-
+    
     public void UpdateCategoryHeader(string label, bool visible)
     {
         headerNode.SetText(label);
@@ -128,5 +135,6 @@ public unsafe class TodoUiCategoryController : IDisposable
     public TextNode GetHeaderNode() => headerNode;
     public ResNode GetCategoryContainer() => categoryResNode;
     public void SetVisible(bool show) => categoryResNode.SetVisibility(show);
+
 
 }

@@ -23,7 +23,7 @@ public class DailyDutySystem : IDisposable
         ModuleController = new ModuleController();
         addonController = new AddonController();
         TodoController = new TodoController();
-        
+
         if (Service.ClientState.IsLoggedIn)
         {
             OnLogin(this, EventArgs.Empty);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -34,13 +34,14 @@ public unsafe class TodoUiController : IDisposable
             Size = new Vector2(200.0f, 200.0f),
         });
         
-        Node.LinkNodeAtStart(rootNode.GetResourceNode(), AddonNamePlate);
+        Node.LinkNodeAtStart(rootNode.ResourceNode, AddonNamePlate);
         
         backgroundImageNode = new ImageNode(new ImageNodeOptions
         {
             Id = BackgroundImageBaseId,
             Color = new Vector4(1.0f, 1.0f, 1.0f, 0.25f),
         });
+
         rootNode.AddResourceNode(backgroundImageNode, AddonNamePlate);
 
         previewModeTextNode = new TextNode(new TextNodeOptions
@@ -62,11 +63,13 @@ public unsafe class TodoUiController : IDisposable
             var newCategory = new TodoUiCategoryController(rootNode, category);
             categories.Add(category, newCategory);
         }
+        
+        AddonNamePlate->UpdateCollisionNodeList(false);
     }
     
     public void Dispose()
     {
-        Node.UnlinkNodeAtStart(rootNode.GetResourceNode(), AddonNamePlate);
+        Node.UnlinkNodeAtStart(rootNode.ResourceNode, AddonNamePlate);
         rootNode.Dispose();
         backgroundImageNode.Dispose();
         previewModeTextNode.Dispose();
@@ -91,7 +94,7 @@ public unsafe class TodoUiController : IDisposable
     
     private void UpdatePositions(TodoConfig config)
     {
-        rootNode.GetResourceNode()->SetPositionFloat(config.Position.X, config.Position.Y);
+        rootNode.ResourceNode->SetPositionFloat(config.Position.X, config.Position.Y);
         
         var cumulativeSize = 0;
         var padding = config.CategorySpacing;
@@ -103,12 +106,12 @@ public unsafe class TodoUiController : IDisposable
         {
             if (category.Value.GetHeaderNode().GetResourceNode()->Width > largestWidth) largestWidth = category.Value.GetHeaderNode().GetResourceNode()->Width;
 
-            var resNode = category.Value.GetCategoryContainer().GetResourceNode();
+            var resNode = category.Value.GetCategoryContainer().ResourceNode;
 
             if (resNode->IsVisible)
             {
                 anyVisible = true;
-                var xPos = config.RightAlign ? rootNode.GetResourceNode()->Width - resNode->Width : 0.0f;
+                var xPos = config.RightAlign ? rootNode.ResourceNode->Width - resNode->Width : 0.0f;
                 
                 resNode->SetPositionFloat(xPos, cumulativeSize);
                 cumulativeSize += resNode->GetHeight() + padding;
@@ -118,21 +121,21 @@ public unsafe class TodoUiController : IDisposable
 
         var finalHeight = (ushort) (cumulativeSize - config.CategorySpacing);
         
-        rootNode.GetResourceNode()->SetPositionFloat(
+        rootNode.ResourceNode->SetPositionFloat(
             config.Position.X - (config.Anchor.HasFlag(WindowAnchor.TopRight) ? largestWidth : 0),
             config.Position.Y - (config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? finalHeight : 0)
         );
-        rootNode.GetResourceNode()->SetHeight(finalHeight);
-        rootNode.GetResourceNode()->SetWidth(largestWidth);
+        rootNode.ResourceNode->SetHeight(finalHeight);
+        rootNode.ResourceNode->SetWidth(largestWidth);
         
-        backgroundImageNode.GetResourceNode()->ToggleVisibility(config.BackgroundImage && anyVisible);
-        backgroundImageNode.GetResourceNode()->SetPositionFloat(-edgeSize, -edgeSize);
-        backgroundImageNode.GetResourceNode()->SetHeight((ushort)(finalHeight + edgeSize * 2));
-        backgroundImageNode.GetResourceNode()->SetWidth((ushort)(largestWidth + edgeSize * 2));
+        backgroundImageNode.ResourceNode->ToggleVisibility(config.BackgroundImage && anyVisible);
+        backgroundImageNode.ResourceNode->SetPositionFloat(-edgeSize, -edgeSize);
+        backgroundImageNode.ResourceNode->SetHeight((ushort)(finalHeight + edgeSize * 2));
+        backgroundImageNode.ResourceNode->SetWidth((ushort)(largestWidth + edgeSize * 2));
         
         previewModeTextNode.SetVisible(config.PreviewMode);
-        previewModeTextNode.GetResourceNode()->SetWidth(largestWidth);
-        previewModeTextNode.GetResourceNode()->SetPositionFloat(0.0f, -24.0f);
+        previewModeTextNode.ResourceNode->SetWidth(largestWidth);
+        previewModeTextNode.ResourceNode->SetPositionFloat(0.0f, -24.0f);
     }
     
     public void UpdateCategoryStyle(ModuleType type, ImageNodeOptions options)
@@ -140,13 +143,13 @@ public unsafe class TodoUiController : IDisposable
         options.Id = BackgroundImageBaseId;
         backgroundImageNode.UpdateOptions(options);
 
-        backgroundImageNode.GetResourceNode()->Color.A = (byte) (options.Color.W * 255);
-        backgroundImageNode.GetResourceNode()->AddRed = (byte) (options.Color.X * 255);
-        backgroundImageNode.GetResourceNode()->AddGreen = (byte) (options.Color.Y * 255);
-        backgroundImageNode.GetResourceNode()->AddBlue = (byte) (options.Color.Z * 255);
+        backgroundImageNode.ResourceNode->Color.A = (byte) (options.Color.W * 255);
+        backgroundImageNode.ResourceNode->AddRed = (byte) (options.Color.X * 255);
+        backgroundImageNode.ResourceNode->AddGreen = (byte) (options.Color.Y * 255);
+        backgroundImageNode.ResourceNode->AddBlue = (byte) (options.Color.Z * 255);
     }
 
-    public void UpdateModule(ModuleType type, ModuleName module, string label, bool visible) => categories[type].UpdateModule(module, label, visible);
+    public void UpdateModule(ModuleType type, ModuleName module, string label, string tooltip, bool visible) => categories[type].UpdateModule(module, label, tooltip, visible);
     public void UpdateModuleStyle(ModuleType type, ModuleName module, TextNodeOptions options) => categories[type].UpdateModuleStyle(module, options);
     public void UpdateCategoryHeader(ModuleType type, string label, bool show) => categories[type].UpdateCategoryHeader(label, show);
     public void UpdateHeaderStyle(ModuleType type, TextNodeOptions options) => categories[type].UpdateHeaderStyle(options);

@@ -1,9 +1,13 @@
-﻿using DailyDuty.Abstracts;
+﻿using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Linq;
+using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
+using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 
@@ -24,7 +28,6 @@ public class ChallengeLogData : ModuleDataBase
 public unsafe class ChallengeLog : Module.WeeklyModule
 {
     public override ModuleName ModuleName => ModuleName.ChallengeLog;
-    
     public override ModuleDataBase ModuleData { get; protected set; } = new ChallengeLogData();
     public override ModuleConfigBase ModuleConfig { get; protected set; } = new ChallengeLogConfig();
     private ChallengeLogData Data => ModuleData as ChallengeLogData ?? new ChallengeLogData();
@@ -50,6 +53,9 @@ public unsafe class ChallengeLog : Module.WeeklyModule
         
         base.Reset();
     }
+
+    public override bool HasTooltip { get; protected set; } = true;
+    public override string GetTooltip() => GetTaskListTooltip(Config.TaskConfig, Data.TaskData, row => LuminaCache<ContentsNote>.Instance.GetRow(row)!.Name.ToString());
 
     protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 

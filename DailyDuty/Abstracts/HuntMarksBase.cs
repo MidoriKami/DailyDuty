@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
@@ -83,6 +84,16 @@ public abstract unsafe class HuntMarksBase : Module.SpecialModule
         
         base.Reset();
     }
+    
+    public override bool HasTooltip { get; protected set; } = true;
+    public override string GetTooltip() => GetTaskListTooltip(Config.TaskConfig, Data.TaskData, row =>
+    {
+        var mobHuntOrderType = LuminaCache<MobHuntOrderType>.Instance.GetRow(row)!;
+        var eventItemName = mobHuntOrderType.EventItem.Value?.Name.ToString();
+        if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value?.Singular.ToString();
+
+        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName ?? "Unable to Read Event Item");
+    });
     
     protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
