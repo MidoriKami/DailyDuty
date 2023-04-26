@@ -111,6 +111,8 @@ public class DailyDutySystem : IDisposable
         if (Service.ClientState.IsPvP) return;
         
         ModuleController.AddonPostSetup(addonInfo);
+
+        if (addonInfo.AddonName == "NamePlate") TodoController.Load();
     }
     
     private void OnAddonFinalize(AddonArgs addonInfo)
@@ -118,6 +120,8 @@ public class DailyDutySystem : IDisposable
         if (Service.ClientState.IsPvP) return;
         
         ModuleController.AddonFinalize(addonInfo);
+        
+        if (addonInfo.AddonName == "NamePlate") TodoController.Unload();
     }
     
     private void OnLeavePvP() => TodoController.Show();
