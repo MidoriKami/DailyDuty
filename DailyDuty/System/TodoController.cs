@@ -121,6 +121,8 @@ public class TodoController : IDisposable
     
     public void Unload()
     {
+        PluginLog.Debug("[TodoConfig] Unloading Todo System");
+        
         KamiCommon.CommandManager.RemoveCommand(todoCommands);
 
         uiController?.Dispose();
