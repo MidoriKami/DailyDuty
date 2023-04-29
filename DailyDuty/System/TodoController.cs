@@ -10,6 +10,7 @@ using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using ImGuiNET;
 using KamiLib;
 using KamiLib.Atk;
 using KamiLib.GameState;
@@ -158,6 +159,40 @@ public class TodoController : IDisposable
         }, Strings.TodoDisplayConfiguration);
     }
 
+    public void DrawExtras()
+    {
+        if (Config.CanDrag && uiController != null)
+        {
+            var size = uiController.GetSize();
+            var position = Config.Position - new Vector2(Config.Anchor.HasFlag(WindowAnchor.TopRight) ? size.X : 0, Config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? size.Y : 0);
+
+            ImGui.SetNextWindowPos(position);
+            ImGui.SetNextWindowSize(size);
+            if (ImGui.Begin("##todoDrag", ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoBackground))
+            {
+                ImGui.GetBackgroundDrawList().AddRect(position, position + size, ImGui.GetColorU32(new Vector4(1.0f, 0.0f, 0.0f, 1.0f)), 0.0f, ImDrawFlags.RoundCornersNone, 2.0f);
+                
+                var pos = ImGui.GetMousePos();
+                if (ImGui.IsMouseDown(ImGuiMouseButton.Left) && ImGui.IsWindowFocused()) 
+                {
+                    holdOffset ??= Config.Position - pos;
+                
+                    var old = Config.Position;
+                    Config.Position = (Vector2)(pos + holdOffset)!;
+                
+                    if (old != Config.Position)
+                        configChanged = true;
+                } 
+                else 
+                {
+                    holdOffset = null;
+                }
+            }
+            
+            ImGui.End();
+        }
+    }
+
     public void Update()
     {
         uiController?.Show(Config.Enable);
@@ -172,32 +207,6 @@ public class TodoController : IDisposable
             if(Config.HideInDuties && Condition.IsBoundByDuty()) uiController?.Show(false);
         
             uiController?.Update(Config);
-        }
-        
-        if (Config.CanDrag && uiController != null)
-        {
-            var size = uiController.GetSize();
-            ImGuiNET.ImGui.SetNextWindowPos(Config.Position - new Vector2(Config.Anchor.HasFlag(WindowAnchor.TopRight) ? size.X : 0, Config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? size.Y : 0));
-            ImGuiNET.ImGui.SetNextWindowSize(size);
-            ImGuiNET.ImGui.Begin("##todoDrag", ImGuiNET.ImGuiWindowFlags.NoTitleBar | ImGuiNET.ImGuiWindowFlags.NoDocking | ImGuiNET.ImGuiWindowFlags.NoResize);
-            
-            var pos = ImGuiNET.ImGui.GetMousePos();
-            if (ImGuiNET.ImGui.IsMouseDown(ImGuiNET.ImGuiMouseButton.Left) && ImGuiNET.ImGui.IsWindowFocused()) 
-            {
-                holdOffset ??= Config.Position - pos;
-                
-                var old = Config.Position;
-                Config.Position = (Vector2)(pos + holdOffset)!;
-                
-                if (old != Config.Position)
-                    configChanged = true;
-            } 
-            else 
-            {
-                holdOffset = null;
-            }
-            
-            ImGuiNET.ImGui.End();
         }
         
         if(configChanged) SaveConfig();
