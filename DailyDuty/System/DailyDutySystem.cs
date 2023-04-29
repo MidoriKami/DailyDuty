@@ -38,6 +38,7 @@ public class DailyDutySystem : IDisposable
         AddonController.AddonPreSetup += OnAddonPreSetup;
         AddonController.AddonPostSetup += OnAddonPostSetup;
         AddonController.AddonFinalize += OnAddonFinalize;
+        Service.PluginInterface.UiBuilder.Draw += OnDraw;
     }
 
     public void Dispose()
@@ -51,6 +52,7 @@ public class DailyDutySystem : IDisposable
         AddonController.AddonPreSetup -= OnAddonPreSetup;
         AddonController.AddonPostSetup -= OnAddonPostSetup;
         AddonController.AddonFinalize -= OnAddonFinalize;
+        Service.PluginInterface.UiBuilder.Draw -= OnDraw;
 
         FontController.Dispose();
         ModuleController.Dispose();
@@ -89,6 +91,14 @@ public class DailyDutySystem : IDisposable
         ModuleController.UnloadModules();
         
         TodoController.Unload();
+    }
+    
+    private void OnDraw()
+    {
+        if (Service.ClientState.IsPvP) return;
+        if (!Service.ClientState.IsLoggedIn) return;
+        
+        TodoController.DrawExtras();
     }
     
     private void OnZoneChange(object? sender, ushort territoryTypeId)
