@@ -69,8 +69,11 @@ public unsafe class TodoUiController : IDisposable
     
     public void Dispose()
     {
-        Node.UnlinkNodeAtStart(rootNode.ResourceNode, AddonNamePlate);        
-        AddonNamePlate->UpdateCollisionNodeList(false);
+        if (AddonNamePlate is not null)
+        {
+            Node.UnlinkNodeAtStart(rootNode.ResourceNode, AddonNamePlate);        
+            AddonNamePlate->UpdateCollisionNodeList(false);
+        }
 
         rootNode.Dispose();
         backgroundImageNode.Dispose();
