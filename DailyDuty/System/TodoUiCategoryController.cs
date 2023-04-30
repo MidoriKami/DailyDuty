@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using DailyDuty.Abstracts;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
 

@@ -19,7 +19,7 @@ public unsafe class TodoUiController : IDisposable
     private const uint ContainerNodeId = 1000;
     private const uint BackgroundImageBaseId = 5000;
     private const uint ExtrasBaseId = 6000;
-    private const float EdgeSize = 10f;
+    public const float EdgeSize = 10f;
 
     private readonly Dictionary<ModuleType, TodoUiCategoryController> categories = new();
     private readonly ImageNode backgroundImageNode;

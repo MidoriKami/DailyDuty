@@ -163,8 +163,8 @@ public class TodoController : IDisposable
     {
         if (Config.CanDrag && uiController != null)
         {
-            var size = uiController.GetSize();
-            var position = Config.Position - new Vector2(Config.Anchor.HasFlag(WindowAnchor.TopRight) ? size.X : 0, Config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? size.Y : 0);
+            var size = uiController.GetSize() + Vector2.One * TodoUiController.EdgeSize * 2.0f;
+            var position = Config.Position - new Vector2(Config.Anchor.HasFlag(WindowAnchor.TopRight) ? size.X - TodoUiController.EdgeSize : 0, Config.Anchor.HasFlag(WindowAnchor.BottomLeft) ? size.Y - TodoUiController.EdgeSize : 0);
 
             ImGui.SetNextWindowPos(position);
             ImGui.SetNextWindowSize(size);
