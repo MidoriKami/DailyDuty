@@ -19,7 +19,7 @@ public unsafe class TodoUiController : IDisposable
     private const uint ContainerNodeId = 1000;
     private const uint BackgroundImageBaseId = 5000;
     private const uint ExtrasBaseId = 6000;
-    private const float edgeSize = 10f;
+    public const float EdgeSize = 10f;
 
     private readonly Dictionary<ModuleType, TodoUiCategoryController> categories = new();
     private readonly ImageNode backgroundImageNode;
@@ -131,9 +131,9 @@ public unsafe class TodoUiController : IDisposable
         rootNode.ResourceNode->SetWidth(largestWidth);
         
         backgroundImageNode.ResourceNode->ToggleVisibility(config.BackgroundImage && anyVisible);
-        backgroundImageNode.ResourceNode->SetPositionFloat(-edgeSize, -edgeSize);
-        backgroundImageNode.ResourceNode->SetHeight((ushort)(finalHeight + edgeSize * 2));
-        backgroundImageNode.ResourceNode->SetWidth((ushort)(largestWidth + edgeSize * 2));
+        backgroundImageNode.ResourceNode->SetPositionFloat(-EdgeSize, -EdgeSize);
+        backgroundImageNode.ResourceNode->SetHeight((ushort)(finalHeight + EdgeSize * 2));
+        backgroundImageNode.ResourceNode->SetWidth((ushort)(largestWidth + EdgeSize * 2));
         
         previewModeTextNode.SetVisible(config.PreviewMode);
         previewModeTextNode.ResourceNode->SetWidth(largestWidth);
