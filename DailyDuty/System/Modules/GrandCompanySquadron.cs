@@ -109,7 +109,6 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     public override void Reset()
     {
         Data.MissionCompleted = false;
-        Data.MissionStarted = false;
         
         base.Reset();
     }
