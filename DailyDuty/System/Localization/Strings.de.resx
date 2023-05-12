@@ -554,4 +554,85 @@ Auf einmal pro 5 Minuten limitiert</value>
   <data name="BookExpired" xml:space="preserve">
         <value>Buch abgelaufen</value>
     </data>
+  <data name="TodoDisplayOptions" xml:space="preserve">
+        <value>To-do Anzeigeoptionen</value>
+    </data>
+  <data name="TaskLabel" xml:space="preserve">
+        <value>Aufgaben-Label</value>
+    </data>
+  <data name="PreviewMode" xml:space="preserve">
+        <value>Vorschaumodus</value>
+    </data>
+  <data name="RightAlign" xml:space="preserve">
+        <value>Rechtsbündig</value>
+    </data>
+  <data name="Background" xml:space="preserve">
+        <value>Hintergrund</value>
+    </data>
+  <data name="ShowHeaders" xml:space="preserve">
+        <value>Kategorie-Labels anzeigen</value>
+    </data>
+  <data name="HeaderSize" xml:space="preserve">
+        <value>Kategorie-Label Schriftgröße</value>
+    </data>
+  <data name="CategorySpacing" xml:space="preserve">
+        <value>Abstand unter Kategorien</value>
+    </data>
+  <data name="CategoryBackgroundColor" xml:space="preserve">
+        <value>Hintergrundfarbe</value>
+    </data>
+  <data name="HeaderColor" xml:space="preserve">
+        <value>Textfarbe der Überschrift</value>
+    </data>
+  <data name="ModuleTextColor" xml:space="preserve">
+        <value>Modultext Farbe</value>
+    </data>
+  <data name="ModuleOutlineColor" xml:space="preserve">
+        <value>Modultext Umrissfarbe</value>
+    </data>
+  <data name="UseCustomLabel" xml:space="preserve">
+        <value>Benutzerdefiniertes Label</value>
+    </data>
+  <data name="OverrideTodoListColor" xml:space="preserve">
+        <value>Farbe überschreiben</value>
+    </data>
+  <data name="TextOutlineColor" xml:space="preserve">
+        <value>Text Umrissfarbe</value>
+    </data>
+  <data name="HeaderSpacing" xml:space="preserve">
+        <value>Abstand unter Überschriften</value>
+    </data>
+  <data name="ModuleSpacing" xml:space="preserve">
+        <value>Abstand unter Modulen</value>
+    </data>
+  <data name="EnableGlowingOutline" xml:space="preserve">
+        <value>Leuchtenden Umriss aktivieren</value>
+    </data>
+  <data name="EnableOutline" xml:space="preserve">
+        <value>Umriss aktivieren</value>
+    </data>
+  <data name="ModuleItalic" xml:space="preserve">
+        <value>Modul kursiv aktivieren</value>
+    </data>
+  <data name="HeaderItalic" xml:space="preserve">
+        <value>Kopfzeile kursiv aktivieren</value>
+    </data>
+  <data name="AnchorLocation" xml:space="preserve">
+        <value>Ankerposition</value>
+    </data>
+  <data name="TopLeft" xml:space="preserve">
+        <value>Oben links</value>
+    </data>
+  <data name="TopRight" xml:space="preserve">
+        <value>Oben rechts</value>
+    </data>
+  <data name="BottomLeft" xml:space="preserve">
+        <value>Unten links</value>
+    </data>
+  <data name="BottomRight" xml:space="preserve">
+        <value>Unten rechts</value>
+    </data>
+  <data name="Dragable" xml:space="preserve">
+        <value>Ziehen des Fensters aktivieren</value>
+    </data>
 </root>

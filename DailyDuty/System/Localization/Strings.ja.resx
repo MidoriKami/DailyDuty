@@ -113,7 +113,7 @@
         <value>ジャンボ・くじテンダー</value>
     </data>
   <data name="Levequest" xml:space="preserve">
-        <value>リーヴクエスト</value>
+        <value>ギルドリーヴ</value>
     </data>
   <data name="MaskedCarnivale" xml:space="preserve">
         <value>マスクカーニバル</value>
@@ -164,7 +164,7 @@
         <value>80点以上</value>
     </data>
   <data name="Default" xml:space="preserve">
-        <value>デフォルト</value>
+        <value>既定値に戻す</value>
     </data>
   <data name="ClickableLink" xml:space="preserve">
         <value>クリッカブルリンク</value>
@@ -270,7 +270,7 @@
         <value>トームストーンが上限に達したときにコンプリートとする</value>
     </data>
   <data name="CompleteWhenTomeCappedHelp" xml:space="preserve">
-        <value>週制限に達したときにタスクをコンプリートと見なす</value>
+        <value>週制限に達したときにタスクをコンプリートとみなす</value>
     </data>
   <data name="CurrentWeeklyTomestones" xml:space="preserve">
         <value>今週の取得数</value>
@@ -345,7 +345,7 @@
         <value>リーヴ受注権</value>
     </data>
   <data name="AcceptedLevequests" xml:space="preserve">
-        <value>受注したリーヴクエスト</value>
+        <value>受注したリーヴ</value>
     </data>
   <data name="UldahTeleport" xml:space="preserve">
         <value>通知をクリックするとウルダハにテレポできます</value>
@@ -366,7 +366,7 @@
         <value>地図取得可能</value>
     </data>
   <data name="OpenDutyFinderToRaid" xml:space="preserve">
-        <value>通知をクリックするとレイドファインダーを開けます</value>
+        <value>通知をクリックするとコンテンツファインダーの「レイド」カテゴリーを開けます</value>
     </data>
   <data name="InstanceNotifications" xml:space="preserve">
         <value>インスタンス通知</value>
@@ -375,7 +375,7 @@
         <value>コンテンツ突入時、「リトライ」する必要があるか、または印を獲得可能であるかを表示します</value>
     </data>
   <data name="WondrousTailsClickableLink" xml:space="preserve">
-        <value>通知をクリックすると、クロの空想帳を開くか、イディルシャイアにテレポートできます</value>
+        <value>通知をクリックすると、クロの空想帳を開くか、イディルシャイアにテレポできます</value>
     </data>
   <data name="StickerAvailableNotice" xml:space="preserve">
         <value>印を貼付可能なときに通知する</value>
@@ -390,7 +390,7 @@
         <value>シャッフル可能なときに通知する</value>
     </data>
   <data name="ShuffleAvailableNoticeHelp" xml:space="preserve">
-        <value>チャンスポイントが上限に近いときに警告し、「シャッフル」を実行できます</value>
+        <value>チャンスポイントが上限に近く、かつ「シャッフル」可能なときに警告します</value>
     </data>
   <data name="PlacedStickers" xml:space="preserve">
         <value>マスに付けた印の数</value>
@@ -483,7 +483,7 @@
         <value>その他のタスクのラベル</value>
     </data>
   <data name="Position" xml:space="preserve">
-        <value>表示位置</value>
+        <value>位置</value>
     </data>
   <data name="TextAlignment" xml:space="preserve">
         <value>テキストの配置</value>
@@ -534,7 +534,7 @@
         <value>クロまでの距離</value>
     </data>
   <data name="ComparisonHelp" xml:space="preserve">
-        <value>条件が満たされるとモジュールは「コンプリート」と見なされます</value>
+        <value>条件が満たされるとモジュールは「コンプリート」とみなされます</value>
     </data>
   <data name="DutyName" xml:space="preserve">
         <value>コンテンツ</value>
@@ -543,7 +543,7 @@
         <value>目標報酬数</value>
     </data>
   <data name="RaidsModuleHelp" xml:space="preserve">
-        <value>このコンテンツで報酬をいくつ受領したらコンプリートと見なすか</value>
+        <value>ここで設定した数の報酬を受領するとコンプリートとみなします</value>
     </data>
   <data name="CurrentNumDrops" xml:space="preserve">
         <value>報酬受領済み</value>
@@ -553,5 +553,86 @@
     </data>
   <data name="BookExpired" xml:space="preserve">
         <value>有効期限切れ</value>
+    </data>
+  <data name="TodoDisplayOptions" xml:space="preserve">
+        <value>Todo表示オプション</value>
+    </data>
+  <data name="TaskLabel" xml:space="preserve">
+        <value>タスクラベル</value>
+    </data>
+  <data name="PreviewMode" xml:space="preserve">
+        <value>プレビューモード</value>
+    </data>
+  <data name="RightAlign" xml:space="preserve">
+        <value>右揃え</value>
+    </data>
+  <data name="Background" xml:space="preserve">
+        <value>背景を表示する</value>
+    </data>
+  <data name="ShowHeaders" xml:space="preserve">
+        <value>カテゴリーラベルを表示する</value>
+    </data>
+  <data name="HeaderSize" xml:space="preserve">
+        <value>カテゴリーラベルのフォントサイズ</value>
+    </data>
+  <data name="CategorySpacing" xml:space="preserve">
+        <value>カテゴリーの下の間隔</value>
+    </data>
+  <data name="CategoryBackgroundColor" xml:space="preserve">
+        <value>背景色</value>
+    </data>
+  <data name="HeaderColor" xml:space="preserve">
+        <value>ヘッダーのテキストの色</value>
+    </data>
+  <data name="ModuleTextColor" xml:space="preserve">
+        <value>モジュールのテキストの色</value>
+    </data>
+  <data name="ModuleOutlineColor" xml:space="preserve">
+        <value>モジュールの輪郭の色</value>
+    </data>
+  <data name="UseCustomLabel" xml:space="preserve">
+        <value>カスタムラベル</value>
+    </data>
+  <data name="OverrideTodoListColor" xml:space="preserve">
+        <value>色を変更する</value>
+    </data>
+  <data name="TextOutlineColor" xml:space="preserve">
+        <value>テキストの輪郭の色</value>
+    </data>
+  <data name="HeaderSpacing" xml:space="preserve">
+        <value>ヘッダーの下の間隔</value>
+    </data>
+  <data name="ModuleSpacing" xml:space="preserve">
+        <value>モジュールの下の間隔</value>
+    </data>
+  <data name="EnableGlowingOutline" xml:space="preserve">
+        <value>テキストに光彩のある輪郭を表示する</value>
+    </data>
+  <data name="EnableOutline" xml:space="preserve">
+        <value>テキストに輪郭を表示する</value>
+    </data>
+  <data name="ModuleItalic" xml:space="preserve">
+        <value>モジュールを斜体にする</value>
+    </data>
+  <data name="HeaderItalic" xml:space="preserve">
+        <value>ヘッダーを斜体にする</value>
+    </data>
+  <data name="AnchorLocation" xml:space="preserve">
+        <value>固定する場所</value>
+    </data>
+  <data name="TopLeft" xml:space="preserve">
+        <value>左上</value>
+    </data>
+  <data name="TopRight" xml:space="preserve">
+        <value>右上</value>
+    </data>
+  <data name="BottomLeft" xml:space="preserve">
+        <value>左下</value>
+    </data>
+  <data name="BottomRight" xml:space="preserve">
+        <value>右下</value>
+    </data>
+  <data name="Dragable" xml:space="preserve">
+        <value>ウィンドウのドラッグ移動を有効にする</value>
     </data>
 </root>

@@ -40,7 +40,7 @@
   <data name="Complete" xml:space="preserve">
         <value>Complété</value>
     </data>
-    <data name="Suppressed" xml:space="preserve">
+  <data name="Suppressed" xml:space="preserve">
         <value>Muet</value>
     </data>
   <data name="LoginMessage" xml:space="preserve">
@@ -110,7 +110,7 @@
         <value>Carte au trésor</value>
     </data>
   <data name="JumboCactpot" xml:space="preserve">
-        <value>Méga cactpot</value>
+        <value>Méga Cactpot</value>
     </data>
   <data name="Levequest" xml:space="preserve">
         <value>Mandats</value>
@@ -353,7 +353,7 @@
         <value>Objectifs restants</value>
     </data>
   <data name="TicketsRemaining" xml:space="preserve">
-        <value>Billet(s) restant(s)</value>
+        <value>Billets restants</value>
     </data>
   <data name="RaidsAvailable" xml:space="preserve">
         <value>Raids disponibles</value>
@@ -552,5 +552,86 @@
     </data>
   <data name="BookExpired" xml:space="preserve">
         <value>Livre expiré</value>
+    </data>
+  <data name="TodoDisplayOptions" xml:space="preserve">
+        <value>Options d’affichage des tâches</value>
+    </data>
+  <data name="TaskLabel" xml:space="preserve">
+        <value>Étiquette de tâche</value>
+    </data>
+  <data name="PreviewMode" xml:space="preserve">
+        <value>Mode "Apercu"</value>
+    </data>
+  <data name="RightAlign" xml:space="preserve">
+        <value>Aligner à droite</value>
+    </data>
+  <data name="Background" xml:space="preserve">
+        <value>Arrière-plan</value>
+    </data>
+  <data name="ShowHeaders" xml:space="preserve">
+        <value>Afficher les étiquettes de catégories</value>
+    </data>
+  <data name="HeaderSize" xml:space="preserve">
+        <value>Taille de police des étiquettes de catégories</value>
+    </data>
+  <data name="CategorySpacing" xml:space="preserve">
+        <value>Espacement sous les catégories</value>
+    </data>
+  <data name="CategoryBackgroundColor" xml:space="preserve">
+        <value>Couleur de l'arrière-plan</value>
+    </data>
+  <data name="HeaderColor" xml:space="preserve">
+        <value>Couleur du texte de l'entête</value>
+    </data>
+  <data name="ModuleTextColor" xml:space="preserve">
+        <value>Couleur du texte du module</value>
+    </data>
+  <data name="ModuleOutlineColor" xml:space="preserve">
+        <value>Couleur du contour du texte du module</value>
+    </data>
+  <data name="UseCustomLabel" xml:space="preserve">
+        <value>Étiquette personnalisée</value>
+    </data>
+  <data name="OverrideTodoListColor" xml:space="preserve">
+        <value>Remplacer la couleur</value>
+    </data>
+  <data name="TextOutlineColor" xml:space="preserve">
+        <value>Couleur du contour du texte</value>
+    </data>
+  <data name="HeaderSpacing" xml:space="preserve">
+        <value>Espacement sous les en-têtes</value>
+    </data>
+  <data name="ModuleSpacing" xml:space="preserve">
+        <value>Espacement sous les modules</value>
+    </data>
+  <data name="EnableGlowingOutline" xml:space="preserve">
+        <value>Activer le contour lumineux</value>
+    </data>
+  <data name="EnableOutline" xml:space="preserve">
+        <value>Activer le contour</value>
+    </data>
+  <data name="ModuleItalic" xml:space="preserve">
+        <value>Activer l'italique sur les modules</value>
+    </data>
+  <data name="HeaderItalic" xml:space="preserve">
+        <value>Activer l'italique sur les en-têtes</value>
+    </data>
+  <data name="AnchorLocation" xml:space="preserve">
+        <value>Position de l'ancre</value>
+    </data>
+  <data name="TopLeft" xml:space="preserve">
+        <value>En haut à gauche</value>
+    </data>
+  <data name="TopRight" xml:space="preserve">
+        <value>En haut à droite</value>
+    </data>
+  <data name="BottomLeft" xml:space="preserve">
+        <value>En bas à gauche</value>
+    </data>
+  <data name="BottomRight" xml:space="preserve">
+        <value>En bas à droite</value>
+    </data>
+  <data name="Dragable" xml:space="preserve">
+        <value>Activer le déplacement des fenêtres par glissement</value>
     </data>
 </root>
