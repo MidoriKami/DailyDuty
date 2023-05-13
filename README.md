@@ -16,7 +16,7 @@ You can open the configuration window with the chat command `/dd`
 
 This window has all the available configuration options for each module within DailyDuty
 
-![image](https://user-images.githubusercontent.com/9083275/230686601-7271614d-1c16-4fe4-8d19-7b625e9bd0ae.png)
+![image](https://github.com/MidoriKami/DailyDuty/assets/9083275/f693e331-7ce7-4137-8e9a-03c0ff9c1526)
 
 ## Data Window
 
