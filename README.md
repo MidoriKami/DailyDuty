@@ -22,7 +22,7 @@ This window has all the available configuration options for each module within D
 
 This window displays all the currently stored data for each module
 
-![image](https://user-images.githubusercontent.com/9083275/230686693-32aaed0b-8116-40b6-8593-31f99bcf3d6d.png)
+![image](https://github.com/MidoriKami/DailyDuty/assets/9083275/8a029924-4b92-4ca5-aced-3f3da0c26644)
 
 ## Notifications
 
