@@ -96,6 +96,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Anchor Location.
+        /// </summary>
+        internal static string AnchorLocation {
+            get {
+                return ResourceManager.GetString("AnchorLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weekly Limit Reached.
         /// </summary>
         internal static string AtWeeklyTomestoneLimit {
@@ -128,6 +137,24 @@ namespace DailyDuty.System.Localization {
         internal static string BookExpired {
             get {
                 return ResourceManager.GetString("BookExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom Left.
+        /// </summary>
+        internal static string BottomLeft {
+            get {
+                return ResourceManager.GetString("BottomLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bottom Right.
+        /// </summary>
+        internal static string BottomRight {
+            get {
+                return ResourceManager.GetString("BottomRight", resourceCulture);
             }
         }
         
@@ -407,6 +434,15 @@ namespace DailyDuty.System.Localization {
         internal static string DonatedThisWeek {
             get {
                 return ResourceManager.GetString("DonatedThisWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Window Dragging.
+        /// </summary>
+        internal static string Dragable {
+            get {
+                return ResourceManager.GetString("Dragable", resourceCulture);
             }
         }
         
@@ -1149,7 +1185,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Placed Stickets.
+        ///   Looks up a localized string similar to Placed Stickers.
         /// </summary>
         internal static string PlacedStickers {
             get {
@@ -1722,6 +1758,24 @@ namespace DailyDuty.System.Localization {
         internal static string TodoToggle {
             get {
                 return ResourceManager.GetString("TodoToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top Left.
+        /// </summary>
+        internal static string TopLeft {
+            get {
+                return ResourceManager.GetString("TopLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top Right.
+        /// </summary>
+        internal static string TopRight {
+            get {
+                return ResourceManager.GetString("TopRight", resourceCulture);
             }
         }
         
