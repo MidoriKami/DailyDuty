@@ -98,7 +98,8 @@ public unsafe class WondrousTails : Module.WeeklyModule
         TryUpdateData(ref Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
         TryUpdateData(ref Data.BookExpired, PlayerState.Instance()->IsWeeklyBingoExpired());
         
-        Data.TimeRemaining = Data.Deadline - DateTime.UtcNow;
+        var timeRemaining = Data.Deadline - DateTime.UtcNow;
+        Data.TimeRemaining = timeRemaining > TimeSpan.Zero ? timeRemaining : TimeSpan.Zero;
         Data.DistanceToKhloe = 0.0f;
         var lastNearKhloe = Data.CloseToKhloe;
         var lastCastingTeleport = Data.CastingTeleport;
