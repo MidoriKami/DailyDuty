@@ -395,7 +395,7 @@ Limited to once per 5 mins</value>
         <value>Warns when you are near the second chance limit and can shuffle your stickers</value>
     </data>
     <data name="PlacedStickers" xml:space="preserve">
-        <value>Placed Stickets</value>
+        <value>Placed Stickers</value>
     </data>
     <data name="SecondChancePoints" xml:space="preserve">
         <value>Second Chance Points</value>
