@@ -139,7 +139,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
                             
                     ImGui.TableNextColumn();
                     var count = data.TargetCount;
-                    ImGui.InputInt("##TrackedItemCount", ref count, 0, 0);
+                    ImGui.InputInt($"##TrackedItemCount{luminaData.Name}", ref count, 0, 0);
                     if (ImGui.IsItemDeactivatedAfterEdit())
                     {
                         data.TargetCount = count;
