@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Reflection;
 using DailyDuty.Models.Attributes;
@@ -84,9 +85,16 @@ public static class ModuleDataView
                 {
                     var list = (List<int>) field.GetValue(sourceObject)!;
 
-                    foreach (var value in list)
+                    if (list.Count > 0)
                     {
-                        ImGui.Text($"{value:0000}");
+                        foreach (var value in list)
+                        {
+                            ImGui.Text($"{value:0000}");
+                        }
+                    }
+                    else
+                    {
+                        ImGui.TextColored(KnownColor.Orange.AsVector4(), Strings.NothingToTrack);
                     }
                 }
                 else if (field.FieldType == typeof(TimeSpan))
