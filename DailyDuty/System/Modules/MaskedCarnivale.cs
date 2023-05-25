@@ -78,11 +78,11 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
 
         var atkValues = addonInfo.Addon->AtkValues;
         
-        if(atkValues[109].Type != ValueType.UInt) throw new Exception("Type Mismatch Exception");
-        if(atkValues[111].Type != ValueType.Bool) throw new Exception("Type Mismatch Exception");
+        if(atkValues[112].Type != ValueType.UInt) throw new Exception("Type Mismatch Exception");
+        if(atkValues[114].Type != ValueType.Bool) throw new Exception("Type Mismatch Exception");
         
-        var completionIndex = atkValues[109].UInt;
-        var completionStatus = atkValues[111].Byte != 0;
+        var completionIndex = atkValues[112].UInt;
+        var completionStatus = atkValues[114].Byte != 0;
 
         var addonId = completionIndex switch
         {
