@@ -307,7 +307,7 @@ internal static class TaskLookup
                     
                     // Gordias, Midas, The Creator
                     5 => new List<uint> { 442, 443, 444, 445 },
-                    6 => new List<uint> {520, 521, 522, 523},
+                    6 => new List<uint> { 520, 521, 522, 523},
                     7 => new List<uint> { 580, 581, 582, 583 },
                     
                     // Deltascape, Sigmascape, Alphascape
