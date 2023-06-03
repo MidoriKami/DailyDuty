@@ -39,7 +39,7 @@ public unsafe class TodoUiCategoryController : IDisposable
             Id = HeaderNodeBaseId + (uint) type,
         });
         
-        headerNode.SetText(type.GetLabel());
+        headerNode.Node->SetText(type.GetLabel());
         categoryResNode.AddResourceNode(headerNode, AddonNamePlate);
 
         foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
@@ -55,7 +55,7 @@ public unsafe class TodoUiCategoryController : IDisposable
             }
             
             moduleNodes.Add(module.ModuleName, textNode);
-            textNode.SetText(module.ModuleName.GetLabel());
+            textNode.Node->SetText(module.ModuleName.GetLabel());
             categoryResNode.AddResourceNode(textNode, AddonNamePlate);
         }
     }
@@ -101,20 +101,20 @@ public unsafe class TodoUiCategoryController : IDisposable
         categoryResNode.ResourceNode->SetHeight(startPosition);
         categoryResNode.ResourceNode->SetWidth(largestWidth);
 
-        if(!anyVisible) categoryResNode.SetVisibility(false);
+        if(!anyVisible) categoryResNode.ResourceNode->ToggleVisibility(false);
     }
     
     public void UpdateModule(ModuleName module, string label, string tooltip, bool visible)
     {
-        moduleNodes[module].SetText(label);
-        moduleNodes[module].SetVisible(visible);
+        moduleNodes[module].Node->SetText(label);
+        moduleNodes[module].Node->AtkResNode.ToggleVisibility(visible);
         moduleNodes[module].UpdateTooltip(visible ? tooltip : string.Empty);
     }
     
     public void UpdateCategoryHeader(string label, bool visible)
     {
-        headerNode.SetText(label);
-        headerNode.SetVisible(visible);
+        headerNode.Node->SetText(label);
+        headerNode.Node->AtkResNode.ToggleVisibility(visible);
     }
 
     public void UpdateModuleStyle(ModuleName module, TextNodeOptions options)
@@ -132,7 +132,7 @@ public unsafe class TodoUiCategoryController : IDisposable
     
     public TextNode GetHeaderNode() => headerNode;
     public ResNode GetCategoryContainer() => categoryResNode;
-    public void SetVisible(bool show) => categoryResNode.SetVisibility(show);
+    public void SetVisible(bool show) => categoryResNode.ResourceNode->ToggleVisibility(show);
 
 
 }

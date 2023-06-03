@@ -55,7 +55,7 @@ public unsafe class TodoUiController : IDisposable
             TextColor = KnownColor.OrangeRed.AsVector4(),
             FontSize = 16
         });
-        previewModeTextNode.SetText("Preview Mode is Enabled");
+        previewModeTextNode.Node->SetText("Preview Mode is Enabled");
         rootNode.AddResourceNode(previewModeTextNode, AddonNamePlate);
 
         foreach (var category in Enum.GetValues<ModuleType>())
@@ -138,7 +138,7 @@ public unsafe class TodoUiController : IDisposable
         backgroundImageNode.ResourceNode->SetHeight((ushort)(finalHeight + EdgeSize * 2));
         backgroundImageNode.ResourceNode->SetWidth((ushort)(largestWidth + EdgeSize * 2));
         
-        previewModeTextNode.SetVisible(config.PreviewMode);
+        previewModeTextNode.Node->AtkResNode.ToggleVisibility(config.PreviewMode);
         previewModeTextNode.ResourceNode->SetWidth(largestWidth);
         previewModeTextNode.ResourceNode->SetPositionFloat(0.0f, -24.0f);
     }
@@ -159,7 +159,7 @@ public unsafe class TodoUiController : IDisposable
     public void UpdateCategoryHeader(ModuleType type, string label, bool show) => categories[type].UpdateCategoryHeader(label, show);
     public void UpdateHeaderStyle(ModuleType type, TextNodeOptions options) => categories[type].UpdateHeaderStyle(options);
     public void UpdateCategory(ModuleType type, bool enabled) => categories[type].SetVisible(enabled);
-    public void Show(bool visible) => rootNode.SetVisibility(visible);
-    public void Hide() => rootNode.SetVisibility(false);
+    public void Show(bool visible) => rootNode.ResourceNode->ToggleVisibility(visible);
+    public void Hide() => rootNode.ResourceNode->ToggleVisibility(false);
     public Vector2 GetSize() => new(rootNode.ResourceNode->Width, rootNode.ResourceNode->Height);
 }
