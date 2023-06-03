@@ -51,7 +51,7 @@ public static unsafe class FileController
 
     public static void SaveFile(string fileName, Type fileType, object objectData)
     {
-        if (Service.ClientState.LocalContentId == 0) return;
+        if (Service.ClientState.LocalContentId is not 0) return;
 
         DebugPrint($"[FileController] Saving {fileName}");
 
@@ -80,7 +80,7 @@ public static unsafe class FileController
     {
         var directoryInfo = new DirectoryInfo(Path.Combine(Service.PluginInterface.ConfigDirectory.FullName, contentId.ToString()));
 
-        if (directoryInfo is { Exists: false })
+        if (directoryInfo is { Exists: false } && Service.ClientState.LocalContentId is not 0)
         {
             directoryInfo.Create();
         }
