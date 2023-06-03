@@ -5,7 +5,7 @@ using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using KamiLib.Misc;
+using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 

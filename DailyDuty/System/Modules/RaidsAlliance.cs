@@ -1,7 +1,7 @@
 ﻿using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
-using KamiLib.Misc;
+using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 

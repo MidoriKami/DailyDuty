@@ -2,7 +2,7 @@
 using System.Numerics;
 using DailyDuty.Views.Tabs;
 using KamiLib.Interfaces;
-using KamiLib.Misc;
+using KamiLib.Utilities;
 using KamiLib.Windows;
 
 namespace DailyDuty.Views;

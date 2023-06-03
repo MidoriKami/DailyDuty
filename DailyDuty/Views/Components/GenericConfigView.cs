@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
 using DailyDuty.Models.Attributes;
-using DailyDuty.System;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;

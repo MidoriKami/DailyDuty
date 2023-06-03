@@ -10,7 +10,7 @@ using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Hooking;
-using KamiLib.Misc;
+using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 
