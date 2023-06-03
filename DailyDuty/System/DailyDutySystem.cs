@@ -119,6 +119,8 @@ public class DailyDutySystem : IDisposable
     private void OnAddonPostSetup(AddonArgs addonInfo)
     {
         if (Service.ClientState.IsPvP) return;
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.LocalContentId is 0) return;
         
         ModuleController.AddonPostSetup(addonInfo);
 
@@ -128,6 +130,8 @@ public class DailyDutySystem : IDisposable
     private void OnAddonFinalize(AddonArgs addonInfo)
     {
         if (Service.ClientState.IsPvP) return;
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.LocalContentId is 0) return;
         
         ModuleController.AddonFinalize(addonInfo);
         
