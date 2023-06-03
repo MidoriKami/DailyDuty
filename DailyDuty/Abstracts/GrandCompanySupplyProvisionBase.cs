@@ -1,35 +1,17 @@
 ﻿using System;
 using System.Globalization;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Caching;
-using KamiLib.Misc;
+using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Abstracts;
 
-public class GrandCompanySupplyProvisioningConfig : ModuleConfigBase
+public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyTaskModule<ClassJob>
 {
-    [SelectableTasks]
-    public LuminaTaskConfigList<ClassJob> TaskConfig = new();
-}
-
-public class GrandCompanySupplyProvisioningData : ModuleDataBase
-{
-    [SelectableTasks] 
-    public LuminaTaskDataList<ClassJob> TaskData = new();
-}
-
-public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyModule
-{
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new GrandCompanySupplyProvisioningConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new GrandCompanySupplyProvisioningData();
-    protected GrandCompanySupplyProvisioningConfig Config => ModuleConfig as GrandCompanySupplyProvisioningConfig ?? new GrandCompanySupplyProvisioningConfig();
-    protected GrandCompanySupplyProvisioningData Data => ModuleData as GrandCompanySupplyProvisioningData ?? new GrandCompanySupplyProvisioningData();
-
     private AgentGrandCompanySupply* SupplyAgent => (AgentGrandCompanySupply*) AgentModule.Instance()->GetAgentByInternalId(AgentId.GrandCompanySupply);
 
     protected override DateTime GetNextReset() => Time.NextGrandCompanyReset();

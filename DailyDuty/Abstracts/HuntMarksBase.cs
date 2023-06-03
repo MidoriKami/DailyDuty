@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -10,25 +9,9 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Abstracts;
 
-public class HuntMarksConfig : ModuleConfigBase
-{
-    [SelectableTasks]
-    public LuminaTaskConfigList<MobHuntOrderType> TaskConfig = new();
-}
 
-public class HuntMarksData : ModuleDataBase
+public abstract unsafe class HuntMarksBase : Module.SpecialTaskModule<MobHuntOrderType>
 {
-    [SelectableTasks] 
-    public LuminaTaskDataList<MobHuntOrderType> TaskData = new();
-}
-
-public abstract unsafe class HuntMarksBase : Module.SpecialModule
-{
-    public override ModuleDataBase ModuleData { get; protected set; } = new HuntMarksData();
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new HuntMarksConfig();
-    protected HuntMarksConfig Config => ModuleConfig as HuntMarksConfig ?? new HuntMarksConfig();
-    protected HuntMarksData Data => ModuleData as HuntMarksData ?? new HuntMarksData();
-
     private static MobHunt* HuntData => MobHunt.Instance();
     
     public override void Update()

@@ -13,19 +13,15 @@ using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.System;
 
-public class MaskedCarnivaleConfig : ModuleConfigBase
+public class MaskedCarnivaleConfig : ModuleTaskConfigBase<Addon>
 {
-    [SelectableTasks] 
-    public LuminaTaskConfigList<Addon> TaskConfig = new();
-
     [ClickableLink("UldahTeleport")]
     public bool ClickableLink = true;
 }
 
-public class MaskedCarnivaleData : ModuleDataBase
+public class MaskedCarnivaleData : ModuleTaskDataBase<Addon>
 {
-    [SelectableTasks] 
-    public LuminaTaskDataList<Addon> TaskData = new();
+    // Handled by interhited class
 }
 
 public unsafe class MaskedCarnivale : Module.WeeklyModule
@@ -44,7 +40,6 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         var luminaTaskUpdater = new LuminaTaskUpdater<Addon>(this, addon => addon.RowId is 12449 or 12448 or 12447);
         luminaTaskUpdater.UpdateConfig(Config.TaskConfig);
         luminaTaskUpdater.UpdateData(Data.TaskData);
-        
     }
 
     public override void Update()

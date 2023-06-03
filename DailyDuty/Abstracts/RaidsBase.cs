@@ -14,19 +14,15 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
 
-public class RaidsBaseConfig : ModuleConfigBase
+public class RaidsBaseConfig : ModuleTaskConfigBase<ContentFinderCondition>
 {
-    [SelectableTasks]
-    public LuminaTaskConfigList<ContentFinderCondition> TaskConfig = new();
-
     [ClickableLink("OpenDutyFinderToRaid")]
     public bool ClickableLink = true;
 }
 
-public class RaidsBaseData : ModuleDataBase
+public class RaidsBaseData : ModuleTaskDataBase<ContentFinderCondition>
 {
-    [SelectableTasks] 
-    public LuminaTaskDataList<ContentFinderCondition> TaskData = new();
+    // Handled by inherited class
 }
 
 public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiver

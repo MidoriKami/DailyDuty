@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using DailyDuty.Abstracts;
+﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
@@ -13,25 +9,9 @@ using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.System;
 
-public class ChallengeLogConfig : ModuleConfigBase
-{
-    [SelectableTasks]
-    public LuminaTaskConfigList<ContentsNote> TaskConfig = new();
-}
-
-public class ChallengeLogData : ModuleDataBase
-{
-    [SelectableTasks] 
-    public LuminaTaskDataList<ContentsNote> TaskData = new();
-}
-
-public unsafe class ChallengeLog : Module.WeeklyModule
+public unsafe class ChallengeLog : Module.WeeklyTaskModule<ContentsNote>
 {
     public override ModuleName ModuleName => ModuleName.ChallengeLog;
-    public override ModuleDataBase ModuleData { get; protected set; } = new ChallengeLogData();
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new ChallengeLogConfig();
-    private ChallengeLogData Data => ModuleData as ChallengeLogData ?? new ChallengeLogData();
-    private ChallengeLogConfig Config => ModuleConfig as ChallengeLogConfig ?? new ChallengeLogConfig();
 
     protected override void UpdateTaskLists()
     {

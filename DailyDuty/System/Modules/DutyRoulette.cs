@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using DailyDuty.Abstracts;
+﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
@@ -12,11 +11,8 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
 
-public class DutyRouletteConfig : ModuleConfigBase
+public class DutyRouletteConfig : ModuleTaskConfigBase<ContentRoulette>
 {
-    [SelectableTasks]
-    public LuminaTaskConfigList<ContentRoulette> TaskConfig = new();
-
     [ClickableLink("DutyRouletteOpenDutyFinder")]
     public bool ClickableLink = true;
 
@@ -24,11 +20,8 @@ public class DutyRouletteConfig : ModuleConfigBase
     public bool CompleteWhenCapped = false;
 }
 
-public class DutyRouletteData : ModuleDataBase
+public class DutyRouletteData : ModuleTaskDataBase<ContentRoulette>
 {
-    [SelectableTasks]
-    public LuminaTaskDataList<ContentRoulette> TaskData = new();
-
     [DataDisplay("CurrentWeeklyTomestones")] 
     public int ExpertTomestones;
 
