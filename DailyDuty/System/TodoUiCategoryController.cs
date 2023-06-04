@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Models;
 

@@ -1,10 +1,10 @@
 ﻿using System;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Models;
 

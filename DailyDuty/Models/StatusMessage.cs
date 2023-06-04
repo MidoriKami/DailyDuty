@@ -1,8 +1,8 @@
 ﻿using System;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Models;
 

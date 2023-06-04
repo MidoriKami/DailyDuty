@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
+using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 

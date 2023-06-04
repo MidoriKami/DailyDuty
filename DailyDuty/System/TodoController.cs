@@ -14,6 +14,7 @@ using ImGuiNET;
 using KamiLib;
 using KamiLib.Atk;
 using KamiLib.GameState;
+using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 

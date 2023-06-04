@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Abstracts;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
 using DailyDuty.System.Localization;
@@ -13,6 +12,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using KamiLib.Interfaces;
+using KamiLib.Utilities;
 
 namespace DailyDuty.Views.Tabs;
 
