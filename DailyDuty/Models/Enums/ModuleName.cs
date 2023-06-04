@@ -1,72 +1,72 @@
-﻿using DailyDuty.Models.Attributes;
+﻿using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Enums;
 
 public enum ModuleName
 {
-    [Label("Unknown")]
+    [EnumLabel("Unknown")]
     Unknown,
     
-    [Label("TestModule")] 
+    [EnumLabel("TestModule")] 
     TestModule,
     
-    [Label("ChallengeLog")]
+    [EnumLabel("ChallengeLog")]
     ChallengeLog,
     
-    [Label("CustomDelivery")]
+    [EnumLabel("CustomDelivery")]
     CustomDelivery,
     
-    [Label("DomanEnclave")]
+    [EnumLabel("DomanEnclave")]
     DomanEnclave,
     
-    [Label("DutyRoulette")]
+    [EnumLabel("DutyRoulette")]
     DutyRoulette,
     
-    [Label("MiniCactpot")]
+    [EnumLabel("MiniCactpot")]
     MiniCactpot,
     
-    [Label("FashionReport")]
+    [EnumLabel("FashionReport")]
     FashionReport,
     
-    [Label("FauxHollows")]
+    [EnumLabel("FauxHollows")]
     FauxHollows,
     
-    [Label("GrandCompanyProvision")]
+    [EnumLabel("GrandCompanyProvision")]
     GrandCompanyProvision,
     
-    [Label("GrandCompanySquadron")]
+    [EnumLabel("GrandCompanySquadron")]
     GrandCompanySquadron,
     
-    [Label("GrandCompanySupply")]
+    [EnumLabel("GrandCompanySupply")]
     GrandCompanySupply,
     
-    [Label("HuntMarksDaily")]
+    [EnumLabel("HuntMarksDaily")]
     HuntMarksDaily,
     
-    [Label("HuntMarksWeekly")]
+    [EnumLabel("HuntMarksWeekly")]
     HuntMarksWeekly,
     
-    [Label("TreasureMap")]
+    [EnumLabel("TreasureMap")]
     TreasureMap,
     
-    [Label("JumboCactpot")]
+    [EnumLabel("JumboCactpot")]
     JumboCactpot,
     
-    [Label("Levequest")]
+    [EnumLabel("Levequest")]
     Levequest,
     
-    [Label("MaskedCarnivale")]
+    [EnumLabel("MaskedCarnivale")]
     MaskedCarnivale,
     
-    [Label("RaidsAlliance")]
+    [EnumLabel("RaidsAlliance")]
     RaidsAlliance,
     
-    [Label("RaidsNormal")]
+    [EnumLabel("RaidsNormal")]
     RaidsNormal,
     
-    [Label("TribalQuests")]
+    [EnumLabel("TribalQuests")]
     TribalQuests,
     
-    [Label("WondrousTails")]
+    [EnumLabel("WondrousTails")]
     WondrousTails
 }

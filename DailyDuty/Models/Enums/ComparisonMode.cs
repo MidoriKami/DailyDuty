@@ -1,15 +1,15 @@
-﻿using DailyDuty.Models.Attributes;
+﻿using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Enums;
 
 public enum ComparisonMode
 {
-    [Label("LessThan")]
+    [EnumLabel("LessThan")]
     LessThan,
     
-    [Label("EqualTo")]
+    [EnumLabel("EqualTo")]
     EqualTo,
     
-    [Label("LessThanOrEqual")]
+    [EnumLabel("LessThanOrEqual")]
     LessThanOrEqual
 }

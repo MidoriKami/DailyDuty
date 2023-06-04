@@ -1,15 +1,15 @@
-﻿using DailyDuty.Models.Attributes;
+﻿using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Enums;
 
 public enum FashionReportMode
 {
-    [Label("All")]
+    [EnumLabel("All")]
     All,
     
-    [Label("Single")]
+    [EnumLabel("Single")]
     Single,
     
-    [Label("Plus80")]
+    [EnumLabel("Plus80")]
     Plus80,
 }

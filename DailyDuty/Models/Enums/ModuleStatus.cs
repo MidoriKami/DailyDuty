@@ -1,31 +1,31 @@
 ﻿using System.Drawing;
-using DailyDuty.Models.Attributes;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Enums;
 
 public enum ModuleStatus
 {
-    [Label("Unknown")]
+    [EnumLabel("Unknown")]
     [DisplayColor(KnownColor.Gray)] 
     Unknown,
     
-    [Label("Incomplete")]
+    [EnumLabel("Incomplete")]
     [DisplayColor(KnownColor.Red)]  
     Incomplete,
     
-    [Label("Unavailable")]
+    [EnumLabel("Unavailable")]
     [DisplayColor(KnownColor.Orange)]
     Unavailable,
     
-    [Label("InProgress")]
+    [EnumLabel("InProgress")]
     [DisplayColor(KnownColor.Aqua)]
     InProgress,
     
-    [Label("Complete")]
+    [EnumLabel("Complete")]
     [DisplayColor(KnownColor.Green)]
     Complete,
     
-    [Label("Suppressed")]
+    [EnumLabel("Suppressed")]
     [DisplayColor(KnownColor.MediumPurple)]
     Suppressed
 }

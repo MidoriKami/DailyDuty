@@ -1,15 +1,15 @@
-﻿using DailyDuty.Models.Attributes;
+﻿using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Enums;
 
 public enum ModuleType
 {
-    [Label("Daily")]
+    [EnumLabel("Daily")]
     Daily,
     
-    [Label("Weekly")]
+    [EnumLabel("Weekly")]
     Weekly,
     
-    [Label("Special")]
+    [EnumLabel("Special")]
     Special
 }

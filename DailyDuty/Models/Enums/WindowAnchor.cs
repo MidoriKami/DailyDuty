@@ -1,18 +1,18 @@
-using DailyDuty.Models.Attributes;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Enums;
 
 public enum WindowAnchor
 {
-	[Label("TopLeft")]
+	[EnumLabel("TopLeft")]
 	TopLeft = 0,
 
-	[Label("TopRight")]
+	[EnumLabel("TopRight")]
 	TopRight = 2,
 
-	[Label("BottomLeft")]
+	[EnumLabel("BottomLeft")]
 	BottomLeft = 1,
 
-	[Label("BottomRight")]
+	[EnumLabel("BottomRight")]
 	BottomRight = TopRight | BottomLeft
 }
