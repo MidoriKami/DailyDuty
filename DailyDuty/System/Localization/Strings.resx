@@ -184,7 +184,7 @@
         <value>Notification Options</value>
     </data>
     <data name="NotificationCustomization" xml:space="preserve">
-        <value>NotificationCustomization</value>
+        <value>Notification Customization</value>
     </data>
     <data name="EnableCustomResetMessage" xml:space="preserve">
         <value>Enable Custom Reset Message</value>

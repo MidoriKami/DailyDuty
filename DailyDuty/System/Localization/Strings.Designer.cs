@@ -1131,7 +1131,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NotificationCustomization.
+        ///   Looks up a localized string similar to Notification Customization.
         /// </summary>
         internal static string NotificationCustomization {
             get {
