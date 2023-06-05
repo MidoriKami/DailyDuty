@@ -6,7 +6,7 @@ namespace DailyDuty.Abstracts;
 
 public class ModuleDataBase
 {
-    [DrawCategory("ModuleReset", 0)]
+    [DrawCategory("ModuleReset", 0)] 
     [ModuleResetTime]
-    public DateTime NextReset { get; set; }
+    public DateTime NextReset = DateTime.MinValue;
 }

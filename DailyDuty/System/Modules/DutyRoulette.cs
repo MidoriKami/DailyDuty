@@ -17,7 +17,7 @@ public class DutyRouletteConfig : ModuleTaskConfigBase<ContentRoulette>
     [BoolConfigOption("CompleteWhenTomeCapped", "CompleteWhenTomeCappedHelp")]
     public bool CompleteWhenCapped = false;
     
-    [DrawCategory("ClickableLink", 2)]
+    [DrawCategory("ClickableLink", 4)]
     [BoolDescriptionConfigOption("Enable", "DutyRouletteOpenDutyFinder")]
     public bool ClickableLink = true;
 }

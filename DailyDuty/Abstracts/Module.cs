@@ -29,7 +29,8 @@ public static class Module
         public override ModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
         public override ModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
         protected ModuleTaskDataBase<T> Data => ModuleData as ModuleTaskDataBase<T> ?? new  ModuleTaskDataBase<T>();
-        protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();}
+        protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();
+    }
 
     public abstract class WeeklyTaskModule<T> : WeeklyModule where T : ExcelRow
     {
@@ -44,6 +45,7 @@ public static class Module
         public override ModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
         public override ModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
         protected ModuleTaskDataBase<T> Data => ModuleData as ModuleTaskDataBase<T> ?? new  ModuleTaskDataBase<T>();
-        protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();}
+        protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();
+    }
 }
 

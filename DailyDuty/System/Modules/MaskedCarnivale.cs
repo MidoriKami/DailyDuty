@@ -15,7 +15,7 @@ namespace DailyDuty.System;
 
 public class MaskedCarnivaleConfig : ModuleTaskConfigBase<Addon>
 {
-    [DrawCategory("ClickableLink", 1)]
+    [DrawCategory("ClickableLink", 4)]
     [BoolDescriptionConfigOption("Enable", "UldahTeleport")] 
     public bool ClickableLink = true;
 }
