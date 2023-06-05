@@ -51,7 +51,7 @@ public static unsafe class FileController
 
     public static void SaveFile(string fileName, Type fileType, object objectData)
     {
-        if (Service.ClientState.LocalContentId is not 0) return;
+        if (Service.ClientState.LocalContentId is 0) return;
 
         DebugPrint($"[FileController] Saving {fileName}");
 
