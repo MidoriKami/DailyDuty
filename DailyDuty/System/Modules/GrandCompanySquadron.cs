@@ -34,7 +34,7 @@ public class GrandCompanySquadronData : ModuleDataBase
     public bool MissionStarted;
     
     [DrawCategory("ModuleData", 1)]
-    [DateTimeDisplay("MissionCompleteTime")]
+    [LocalDateTimeDisplay("MissionCompleteTime")]
     public DateTime MissionCompleteTime = DateTime.MinValue;
     
     [DrawCategory("ModuleData", 1)]

@@ -7,7 +7,7 @@ using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Attributes;
 
-public class ModuleResetTime : DateTimeDisplay
+public class ModuleResetTime : LocalDateTimeDisplay
 {
     public ModuleResetTime() : base(null) { }
 

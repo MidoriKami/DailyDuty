@@ -59,7 +59,7 @@ public class WondrousTailsData : ModuleDataBase
     public bool PlayerHasBook;
     
     [DrawCategory("ModuleData", 1)]
-    [DateTimeDisplay("Deadline")]
+    [LocalDateTimeDisplay("Deadline")]
     public DateTime Deadline;
 
     [DrawCategory("ModuleData", 1)]

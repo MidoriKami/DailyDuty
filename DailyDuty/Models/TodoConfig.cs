@@ -75,15 +75,15 @@ public class TodoConfig
     public bool Glare = false;
     
     [DrawCategory("LabelText", 4)]
-    [StringConfigOption("DailyTasksLabel", true)]
+    [ShortStringConfigOption("DailyTasksLabel", true)]
     public string DailyLabel = "Daily Tasks";
     
     [DrawCategory("LabelText", 4)]
-    [StringConfigOption("WeeklyTasksLabel", true)]
+    [ShortStringConfigOption("WeeklyTasksLabel", true)]
     public string WeeklyLabel = "Weekly Tasks";
     
     [DrawCategory("LabelText", 4)]
-    [StringConfigOption("SpecialTasksLabel", true)]
+    [ShortStringConfigOption("SpecialTasksLabel", true)]
     public string SpecialLabel = "Special Tasks";
 
     [DrawCategory("DisplayStyle", 5)]

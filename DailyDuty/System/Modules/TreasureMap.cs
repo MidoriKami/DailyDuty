@@ -22,7 +22,7 @@ public class TreasureMapConfig : ModuleConfigBase
 public class TreasureMapData : ModuleDataBase
 {
     [DrawCategory("ModuleData", 1)]
-    [DateTimeDisplay("LastMapGathered")]
+    [LocalDateTimeDisplay("LastMapGathered")]
     public DateTime LastMapGatheredTime = DateTime.MinValue;
     
     [DrawCategory("ModuleData", 1)]
