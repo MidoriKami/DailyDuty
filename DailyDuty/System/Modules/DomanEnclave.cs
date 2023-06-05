@@ -1,27 +1,31 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.System;
 
 public class DomanEnclaveConfig : ModuleConfigBase
 {
-    [ClickableLink("DomanEnclaveTeleport")] 
+    [DrawCategory("ClickableLink", 1)]
+    [BoolDescriptionConfigOption("Enable", "DomanEnclaveTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class DomanEnclaveData : ModuleDataBase
 {
-    [DataDisplay("WeeklyAllowance")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("WeeklyAllowance")]
     public int WeeklyAllowance;
     
-    [DataDisplay("DonatedThisWeek")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("DonatedThisWeek")]
     public int DonatedThisWeek;
     
-    [DataDisplay("BudgetRemaining")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("BudgetRemaining")]
     public int RemainingAllowance;
 }
 

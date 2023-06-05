@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud;
@@ -12,6 +11,7 @@ using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -19,52 +19,67 @@ namespace DailyDuty.System;
 
 public class WondrousTailsConfig : ModuleConfigBase
 {
-    [ConfigOption("InstanceNotifications", "InstanceNotificationsHelp")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [BoolConfigOption("InstanceNotifications", "InstanceNotificationsHelp")]
     public bool InstanceNotifications = true;
-    
-    [ClickableLink("WondrousTailsClickableLink")]
-    public bool ClickableLink = true;
 
-    [ConfigOption("StickerAvailableNotice", "StickerAvailableNoticeHelp")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [BoolConfigOption("StickerAvailableNotice", "StickerAvailableNoticeHelp")]
     public bool StickerAvailableNotice = true;
     
-    [ConfigOption("UnclaimedBookWarning")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [BoolConfigOption("UnclaimedBookWarning")]
     public bool UnclaimedBookWarning = true;
 
-    [ConfigOption("ShuffleAvailableNotice", "ShuffleAvailableNoticeHelp")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [BoolConfigOption("ShuffleAvailableNotice", "ShuffleAvailableNoticeHelp")]
     public bool ShuffleAvailableNotice = false;
+    
+    [DrawCategory("ClickableLink", 2)]
+    [BoolDescriptionConfigOption("Enable", "WondrousTailsClickableLink")] 
+    public bool ClickableLink = true;
 }
 
 public class WondrousTailsData : ModuleDataBase
 {
-    [DataDisplay("PlacedStickers")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("PlacedStickers")]
     public int PlacedStickers;
 
-    [DataDisplay("SecondChancePoints")] 
+    [DrawCategory("ModuleData", 1)]
+    [UintDisplay("SecondChancePoints")] 
     public uint SecondChance;
 
-    [DataDisplay("NewBookAvailable")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("NewBookAvailable")]
     public bool NewBookAvailable;
 
-    [DataDisplay("PlayerHasBook")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("PlayerHasBook")]
     public bool PlayerHasBook;
     
-    [DataDisplay("Deadline")]
+    [DrawCategory("ModuleData", 1)]
+    [DateTimeDisplay("Deadline")]
     public DateTime Deadline;
 
-    [DataDisplay("TimeRemaining")]
+    [DrawCategory("ModuleData", 1)]
+    [TimeSpanDisplay("TimeRemaining")]
     public TimeSpan TimeRemaining;
 
-    [DataDisplay("BookExpired")] 
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("BookExpired")] 
     public bool BookExpired;
     
-    [DataDisplay("NearKhloe")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("NearKhloe")]
     public bool CloseToKhloe;
 
-    [DataDisplay("DistanceToKhloe")] 
+    [DrawCategory("ModuleData", 1)]
+    [FloatDisplay("DistanceToKhloe")] 
     public float DistanceToKhloe;
 
-    [DataDisplay("CastingTeleport")] 
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("CastingTeleport")] 
     public bool CastingTeleport;
 }
 

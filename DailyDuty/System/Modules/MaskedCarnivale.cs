@@ -2,11 +2,11 @@
 using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
@@ -15,7 +15,8 @@ namespace DailyDuty.System;
 
 public class MaskedCarnivaleConfig : ModuleTaskConfigBase<Addon>
 {
-    [ClickableLink("UldahTeleport")]
+    [DrawCategory("ClickableLink", 1)]
+    [BoolDescriptionConfigOption("Enable", "UldahTeleport")] 
     public bool ClickableLink = true;
 }
 

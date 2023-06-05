@@ -2,31 +2,36 @@
 using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 
 public class FashionReportConfig : ModuleConfigBase
 {
-    [ConfigOption("CompletionMode")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [EnumConfigOption("CompletionMode")]
     public FashionReportMode CompletionMode = FashionReportMode.Single;
-
-    [ClickableLink("GoldSaucerTeleport")]
+    
+    [DrawCategory("ClickableLink", 2)]
+    [BoolDescriptionConfigOption("Enable", "GoldSaucerTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class FashionReportData : ModuleDataBase
 {
-    [DataDisplay("AllowancesRemaining")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("AllowancesRemaining")]
     public int AllowancesRemaining = 4;
     
-    [DataDisplay("HighestWeeklyScore")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("HighestWeeklyScore")]
     public int HighestWeeklyScore;
 
-    [DataDisplay("FashionReportAvailable")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("FashionReportAvailable")]
     public bool FashionReportAvailable;
 }
 

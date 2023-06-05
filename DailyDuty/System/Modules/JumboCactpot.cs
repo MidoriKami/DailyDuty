@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Hooking;
 using KamiLib.Utilities;
 
@@ -16,13 +16,15 @@ namespace DailyDuty.System;
 
 public class JumboCactpotConfig : ModuleConfigBase
 {
-    [ClickableLink("GoldSaucerTeleport")] 
+    [DrawCategory("ClickableLink", 1)]
+    [BoolDescriptionConfigOption("Enable", "GoldSaucerTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class JumboCactpotData : ModuleDataBase
 {
-    [DataDisplay("ClaimedTickets")]
+    [DrawCategory("ModuleData", 1)]
+    [IntListDisplay("ClaimedTickets")]
     public List<int> Tickets = new();
 }
 

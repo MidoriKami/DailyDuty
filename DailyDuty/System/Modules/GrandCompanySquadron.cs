@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.Hooking;
 using Lumina.Excel.GeneratedSheets;
@@ -25,16 +25,20 @@ public class GrandCompanySquadronConfig : ModuleConfigBase
 
 public class GrandCompanySquadronData : ModuleDataBase
 {
-    [DataDisplay("MissionCompleted")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("MissionCompleted")]
     public bool MissionCompleted;
 
-    [DataDisplay("MissionStarted")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("MissionStarted")]
     public bool MissionStarted;
     
-    [DataDisplay("MissionCompleteTime")]
+    [DrawCategory("ModuleData", 1)]
+    [DateTimeDisplay("MissionCompleteTime")]
     public DateTime MissionCompleteTime = DateTime.MinValue;
     
-    [DataDisplay("TimeUntilMissionComplete")]
+    [DrawCategory("ModuleData", 1)]
+    [TimeSpanDisplay("TimeUntilMissionComplete")]
     public TimeSpan TimeUntilMissionComplete = TimeSpan.MinValue;
 }
 

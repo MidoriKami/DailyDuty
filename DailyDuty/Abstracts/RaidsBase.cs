@@ -3,12 +3,12 @@ using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -16,7 +16,8 @@ namespace DailyDuty.System;
 
 public class RaidsBaseConfig : ModuleTaskConfigBase<ContentFinderCondition>
 {
-    [ClickableLink("OpenDutyFinderToRaid")]
+    [DrawCategory("ClickableLink", 2)]
+    [BoolDescriptionConfigOption("Enable", "OpenDutyFinderToRaid")]
     public bool ClickableLink = true;
 }
 

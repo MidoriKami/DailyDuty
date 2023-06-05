@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
-using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
 using Dalamud.Logging;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
 using Lumina.Excel;
 
@@ -43,31 +42,17 @@ public abstract class BaseModule : IDisposable
 
     public void DrawConfig()
     {
-        var configOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(ModuleConfig);
-        var clickableLinks = AttributeHelper.GetFieldAttributes<ClickableLink>(ModuleConfig);
-        var selectableTasks = AttributeHelper.GetFieldAttributes<SelectableTasks>(ModuleConfig);
-        var todoOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(ModuleConfig.TodoOptions);
-        
-        ModuleEnableView.Draw(ModuleConfig, SaveConfig);
-        ModuleClickableLinkConfigView.Draw(clickableLinks, ModuleConfig, SaveConfig);
-        GenericConfigView.Draw(configOptions, ModuleConfig, SaveConfig, Strings.ModuleConfiguration);
-        ModuleSelectableTaskView.DrawConfig(selectableTasks.FirstOrDefault().Item1, ModuleConfig, SaveConfig);
-        ModuleNotificationOptionsView.Draw(ModuleConfig, SaveConfig);
-        GenericConfigView.Draw(todoOptions, ModuleConfig.TodoOptions, () => {
+        DrawableAttribute.DrawAttributes(ModuleConfig, SaveConfig);
+        DrawableAttribute.DrawAttributes(ModuleConfig.TodoOptions, () => {
             SaveConfig();
             ModuleConfig.TodoOptions.StyleChanged = true;
-        }, Strings.TodoConfiguration);
+        });
     }
 
     public void DrawData()
     {
-        var dataDisplay = AttributeHelper.GetFieldAttributes<DataDisplay>(ModuleData);
-        var taskSelection = AttributeHelper.GetFieldAttributes<SelectableTasks>(ModuleData);
-
         ModuleStatusView.Draw(this);
-        ModuleResetView.Draw(ModuleData);
-        ModuleDataView.Draw(dataDisplay, ModuleData);
-        ModuleSelectableTaskView.DrawData(taskSelection.FirstOrDefault().Item1, ModuleData);
+        DrawableAttribute.DrawAttributes(ModuleData);
         ModuleSuppressionView.Draw(ModuleConfig, SaveConfig);
     }
 

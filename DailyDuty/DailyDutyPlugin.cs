@@ -1,4 +1,5 @@
 ﻿using DailyDuty.System;
+using DailyDuty.System.Localization;
 using DailyDuty.Views;
 using Dalamud.Plugin;
 using KamiLib;
@@ -14,8 +15,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
     public DailyDutyPlugin(DalamudPluginInterface pluginInterface)
     {
         pluginInterface.Create<Service>();
-        
+
         KamiCommon.Initialize(pluginInterface, Name);
+        KamiCommon.RegisterLocalizationHandler(key => Strings.ResourceManager.GetString(key, Strings.Culture));
                 
         System = new DailyDutySystem();
         

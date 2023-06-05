@@ -1,29 +1,33 @@
 ﻿using System;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 
 public class LevequestConfig : ModuleConfigBase
 {
-    [ConfigOption("NotificationThreshold", 0, 100)]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [IntConfigOption("NotificationThreshold", 0, 100)]
     public int NotificationThreshold = 95;
 
-    [ConfigOption("ComparisonMode", "ComparisonHelp")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [EnumConfigOption("ComparisonMode", "ComparisonHelp")]
     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
 }
 
 public class LevequestData : ModuleDataBase
 {
-    [DataDisplay("LevequestAllowances")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("LevequestAllowances")]
     public int NumLevequestAllowances;
 
-    [DataDisplay("AcceptedLevequests")] 
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("AcceptedLevequests")] 
     public int AcceptedLevequests;
 }
 

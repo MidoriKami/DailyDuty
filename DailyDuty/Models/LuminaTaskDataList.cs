@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using DailyDuty.System.Localization;
-using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Caching;
 using KamiLib.Interfaces;
@@ -16,27 +15,22 @@ namespace DailyDuty.Models;
 
 public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> where T : ExcelRow
 {
-    public List<LuminaTaskData<T>> DataList = new();
+    private readonly List<LuminaTaskData<T>> dataList = new();
 
     // Implement ICollection
-    public IEnumerator<LuminaTaskData<T>> GetEnumerator() => DataList.GetEnumerator();
+    public IEnumerator<LuminaTaskData<T>> GetEnumerator() => dataList.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    public void Add(LuminaTaskData<T> item) => DataList.Add(item);
-    public void Clear() => DataList.Clear();
-    public bool Contains(LuminaTaskData<T> item) => DataList.Contains(item);
-    public void CopyTo(LuminaTaskData<T>[] array, int arrayIndex) => DataList.CopyTo(array, arrayIndex);
-    public bool Remove(LuminaTaskData<T> item) => DataList.Remove(item);
-
-    public int Count => DataList.Count;
+    public void Add(LuminaTaskData<T> item) => dataList.Add(item);
+    public void Clear() => dataList.Clear();
+    public bool Contains(LuminaTaskData<T> item) => dataList.Contains(item);
+    public void CopyTo(LuminaTaskData<T>[] array, int arrayIndex) => dataList.CopyTo(array, arrayIndex);
+    public bool Remove(LuminaTaskData<T> item) => dataList.Remove(item);
+    public int Count => dataList.Count;
     public bool IsReadOnly => false;
     // End ICollection
     
     public void Draw()
     {
-        ImGui.Text(Strings.TaskData);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledIndent(15.0f);
-
         if (ImGui.BeginTable("##TaskDataTable", 2, ImGuiTableFlags.SizingStretchSame))
         {
             switch (this)
@@ -61,14 +55,11 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
             
             ImGui.EndTable();
         }
-        
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGuiHelpers.ScaledIndent(-15.0f);
     }
     
     private void DrawStandardDataList()
     {
-        foreach (var dataEntry in DataList)
+        foreach (var dataEntry in dataList)
         {
             ImGui.TableNextColumn();
             switch (this)
@@ -116,9 +107,9 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
         ImGui.TableNextColumn();
         ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.CurrentNumDrops);
                             
-        if (DataList.Count > 0)
+        if (dataList.Count > 0)
         {
-            foreach (var data in DataList)
+            foreach (var data in dataList)
             {
                 ImGui.TableNextColumn();
                 var luminaData = LuminaCache<ContentFinderCondition>.Instance.GetRow(data.RowId)!;
@@ -137,7 +128,7 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
 
     public void Update(ref bool dataChanged, Func<uint, bool> getTaskStatusFunction)
     {
-        foreach (var task in DataList)
+        foreach (var task in dataList)
         {
             var status = getTaskStatusFunction(task.RowId);
 
@@ -151,12 +142,10 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
 
     public void Reset()
     {
-        foreach (var task in DataList)
+        foreach (var task in dataList)
         {
             task.Complete = false;
             task.CurrentCount = 0;
         }
     }
-    
-
 }

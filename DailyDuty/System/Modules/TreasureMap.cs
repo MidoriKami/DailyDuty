@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using Condition = KamiLib.GameState.Condition;
@@ -21,10 +21,12 @@ public class TreasureMapConfig : ModuleConfigBase
 
 public class TreasureMapData : ModuleDataBase
 {
-    [DataDisplay("LastMapGathered")]
+    [DrawCategory("ModuleData", 1)]
+    [DateTimeDisplay("LastMapGathered")]
     public DateTime LastMapGatheredTime = DateTime.MinValue;
     
-    [DataDisplay("MapAvailable")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("MapAvailable")]
     public bool MapAvailable = true;
 }
 

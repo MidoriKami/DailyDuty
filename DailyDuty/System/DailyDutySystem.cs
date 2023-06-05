@@ -10,7 +10,6 @@ public class DailyDutySystem : IDisposable
     public static ModuleController ModuleController = null!;
     private readonly AddonController addonController;
     public readonly TodoController TodoController;
-    public readonly FontController FontController;
     public SystemConfig SystemConfig;
 
     public DailyDutySystem()
@@ -19,7 +18,6 @@ public class DailyDutySystem : IDisposable
         
         LocalizationController.Instance.Initialize();
         PayloadController.Instance.Initialize();
-        FontController = new FontController();
         ModuleController = new ModuleController();
         addonController = new AddonController();
         TodoController = new TodoController();
@@ -54,7 +52,6 @@ public class DailyDutySystem : IDisposable
         AddonController.AddonFinalize -= OnAddonFinalize;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
 
-        FontController.Dispose();
         ModuleController.Dispose();
         addonController.Dispose();
         TodoController.Dispose();

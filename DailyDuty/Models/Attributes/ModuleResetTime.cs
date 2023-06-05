@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Globalization;
-using DailyDuty.Abstracts;
+using System.Reflection;
 using DailyDuty.System.Localization;
-using Dalamud.Interface;
 using ImGuiNET;
+using KamiLib.AutomaticUserInterface;
 
-namespace DailyDuty.Views.Components;
+namespace DailyDuty.Models.Attributes;
 
-public static class ModuleResetView
+public class ModuleResetTime : DateTimeDisplay
 {
-    public static void Draw(ModuleDataBase data)
-    {
-        ImGui.Text(Strings.ModuleReset);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledIndent(15.0f);
+    public ModuleResetTime() : base(null) { }
 
-        if (data.NextReset != DateTime.MaxValue)
+    protected override void Draw(object obj, FieldInfo field, Action? saveAction = null)
+    {
+        var dateTime = GetValue<DateTime>(obj, field);
+        
+        if (dateTime != DateTime.MaxValue)
         {
             if (ImGui.BeginTable("##ResetTable", 2, ImGuiTableFlags.SizingStretchSame))
             {
@@ -23,13 +23,13 @@ public static class ModuleResetView
                 ImGui.Text(Strings.NextReset);
             
                 ImGui.TableNextColumn();
-                ImGui.Text(data.NextReset.ToLocalTime().ToString(CultureInfo.CurrentCulture));
+                ImGui.Text(dateTime.ToLocalTime().ToString(CultureInfo.CurrentCulture));
 
                 ImGui.TableNextColumn();
                 ImGui.Text(Strings.RemainingTime);
             
                 ImGui.TableNextColumn();
-                var timeRemaining = data.NextReset - DateTime.UtcNow;
+                var timeRemaining = dateTime - DateTime.UtcNow;
                 ImGui.Text($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
             
                 ImGui.EndTable();
@@ -39,8 +39,5 @@ public static class ModuleResetView
         {
             ImGui.Text(Strings.AwaitingUserAction);
         }
-        
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGuiHelpers.ScaledIndent(-15.0f);
     }
 }

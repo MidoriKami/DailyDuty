@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.System.Localization;
-using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using KamiLib.Caching;
@@ -29,18 +28,12 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
     public bool Contains(LuminaTaskConfig<T> item) => ConfigList.Contains(item);
     public void CopyTo(LuminaTaskConfig<T>[] array, int arrayIndex) => ConfigList.CopyTo(array, arrayIndex);
     public bool Remove(LuminaTaskConfig<T> item) => ConfigList.Remove(item);
-
     public int Count => ConfigList.Count;
     public bool IsReadOnly => false;
     // End ICollection
     
     public void Draw(Action saveAction)
     {
-        ImGui.Text(Strings.TaskSelection);
-        ImGui.Separator();
-
-        ImGuiHelpers.ScaledIndent(15.0f);
-        
         switch (this)
         {
             case LuminaTaskConfigList<ContentsNote>:
@@ -63,9 +56,6 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
                 ImGui.Text("Invalid Config Data Type");
                 break;
         }
-        
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGuiHelpers.ScaledIndent(-15.0f);
     }
 
     private void DrawStandardConfigList(Action saveAction)

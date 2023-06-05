@@ -1,23 +1,26 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.System;
 
 public class FauxHollowsConfig : ModuleConfigBase
 {
-    [ClickableLink("IdyllshireTeleport")]
-    public bool ClickableLink = true;
-
-    [ConfigOption("IncludeRetelling")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [BoolConfigOption("IncludeRetelling")]
     public bool IncludeRetelling = true;
+    
+    [DrawCategory("ClickableLink", 2)]
+    [BoolDescriptionConfigOption("Enable", "IdyllshireTeleport")] 
+    public bool ClickableLink = true;
 }
 
 public class FauxHollowsData : ModuleDataBase
 {
-    [DataDisplay("FauxHollowsCompletions")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("FauxHollowsCompletions")]
     public int FauxHollowsCompletions;
 }
 

@@ -1,24 +1,27 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.System;
 
 public class CustomDeliveryConfig : ModuleConfigBase
 {
-    [ConfigOption("NotificationThreshold", 0, 12)]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [IntConfigOption("NotificationThreshold", 0, 12)]
     public int NotificationThreshold = 12;
 
-    [ConfigOption("ComparisonMode", "ComparisonHelp")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [EnumConfigOption("ComparisonMode","ComparisonHelp")]
     public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 }
 
 public class CustomDeliveryData : ModuleDataBase
 {
-    [DataDisplay("AllowancesRemaining")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("AllowancesRemaining")]
     public int RemainingAllowances = 12;
 }
 

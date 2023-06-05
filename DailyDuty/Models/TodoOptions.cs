@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.Models.Attributes;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models;
 
 public class ModuleTodoOptions
 {
-    [ConfigOption("Enable")]
+    [DrawCategory("TodoConfiguration", 1)]
+    [BoolConfigOption("Enable")]
     public bool Enabled = true;
     
-    [ConfigOption("UseCustomLabel")]
+    [DrawCategory("TodoConfiguration", 1)]
+    [BoolConfigOption("UseCustomLabel")]
     public bool UseCustomTodoLabel = false;
     
-    [ConfigOption("UseCustomLabel", true, false)]
+    [DrawCategory("TodoConfiguration", 1)]
+    [StringConfigOption("UseCustomLabel", true)]
     public string CustomTodoLabel = string.Empty;
 
-    [ConfigOption("OverrideTodoListColor")]
+    [DrawCategory("TodoConfiguration", 1)]
+    [BoolConfigOption("OverrideTodoListColor")]
     public bool OverrideTextColor = false;
     
-    [ConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    [DrawCategory("TodoConfiguration", 1)]
+    [ColorConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
     
-    [ConfigOption("TextOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
+    [DrawCategory("TodoConfiguration", 1)]
+    [ColorConfigOption("TextOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
     public Vector4 TextOutline = new(0.0f, 0.0f, 0.0f, 1.0f);
 
     [NonSerialized]

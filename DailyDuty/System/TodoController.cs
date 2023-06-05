@@ -2,111 +2,19 @@
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Abstracts;
-using DailyDuty.Models.Attributes;
+using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Commands;
-using DailyDuty.System.Helpers;
-using DailyDuty.System.Localization;
-using DailyDuty.Views.Components;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib;
 using KamiLib.Atk;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
 using KamiLib.Utilities;
 
 namespace DailyDuty.System;
-
-public class TodoConfig
-{
-    public bool Enable = true;
-    public bool PreviewMode = true;
-
-    [ConfigOption("RightAlign")]
-    public bool RightAlign = false;
-    
-    [ConfigOption("Dragable")]
-    public bool CanDrag = false;
-
-    [ConfigOption("AnchorLocation")]
-    public WindowAnchor Anchor = WindowAnchor.TopRight;
-    
-    [ConfigOption("Position")]
-    public Vector2 Position = new Vector2(1024, 720) / 2.0f;
-
-    [ConfigOption("Background")] 
-    public bool BackgroundImage = true;
-
-    [ConfigOption("EnableDailyTasks")]
-    public bool DailyTasks = true;
-    
-    [ConfigOption("EnableWeeklyTasks")]
-    public bool WeeklyTasks = true;
-    
-    [ConfigOption("EnableSpecialTasks")]
-    public bool SpecialTasks = true;
-
-    [ConfigOption("ShowHeaders")]
-    public bool ShowHeaders = true;
-
-    [ConfigOption("HideInQuestEvent")]
-    public bool HideDuringQuests = true;
-    
-    [ConfigOption("HideInDuties")]
-    public bool HideInDuties = true;
-
-    [ConfigOption("HeaderItalic")]
-    public bool HeaderItalic = false;
-    
-    [ConfigOption("ModuleItalic")]
-    public bool ModuleItalic = false;
-
-    [ConfigOption("EnableOutline")]
-    public bool Edge = true;
-
-    [ConfigOption("EnableGlowingOutline")]
-    public bool Glare = false;
-    
-    [ConfigOption("DailyTasksLabel", true)]
-    public string DailyLabel = "Daily Tasks";
-    
-    [ConfigOption("WeeklyTasksLabel", true)]
-    public string WeeklyLabel = "Weekly Tasks";
-    
-    [ConfigOption("SpecialTasksLabel", true)]
-    public string SpecialLabel = "Special Tasks";
-
-    [ConfigOption("FontSize", 5, 48)]
-    public int FontSize = 20;
-
-    [ConfigOption("HeaderSize", 5, 48)] 
-    public int HeaderFontSize = 24;
-
-    [ConfigOption("CategorySpacing", 0, 100)]
-    public int CategorySpacing = 12;
-
-    [ConfigOption("HeaderSpacing", 0, 100)]
-    public int HeaderSpacing = 0;
-    
-    [ConfigOption("ModuleSpacing", 0, 100)]
-    public int ModuleSpacing = 0;
-    
-    [ConfigOption("CategoryBackgroundColor", 0.0f, 0.0f, 0.0f, 0.40f)]
-    public Vector4 CategoryBackgroundColor = new(0.0f, 0.0f, 0.0f, 0.4f);
-    
-    [ConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
-    public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
-
-    [ConfigOption("HeaderOutlineColor", 0.5568f, 0.4117f, 0.0470f, 1.0f)]
-    public Vector4 HeaderTextOutline = new(0.5568f, 0.4117f, 0.0470f, 1.0f);
-    
-    [ConfigOption("ModuleTextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
-    public Vector4 ModuleTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
-
-    [ConfigOption("ModuleOutlineColor", 0.0392f, 0.4117f, 0.5725f, 1.0f)]
-    public Vector4 ModuleOutlineColor = new(0.0392f, 0.4117f, 0.5725f, 1.0f);
-}
 
 public class TodoController : IDisposable
 {
@@ -146,18 +54,14 @@ public class TodoController : IDisposable
     
     public void DrawConfig()
     {
-        var configOptions = AttributeHelper.GetFieldAttributes<ConfigOption>(Config);
-        
-        TodoEnableView.Draw(Config, SaveConfig);
-        GenericConfigView.Draw(configOptions, Config, () =>
+        DrawableAttribute.DrawAttributes(Config, () =>
         {
             SaveConfig();
             foreach (var module in DailyDutySystem.ModuleController.GetModules())
             {
                 module.ModuleConfig.TodoOptions.StyleChanged = true;
             }
-            
-        }, Strings.TodoDisplayConfiguration);
+        });
     }
 
     public void DrawExtras()

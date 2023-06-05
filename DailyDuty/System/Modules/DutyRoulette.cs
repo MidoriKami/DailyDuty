@@ -1,11 +1,11 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
@@ -13,22 +13,27 @@ namespace DailyDuty.System;
 
 public class DutyRouletteConfig : ModuleTaskConfigBase<ContentRoulette>
 {
-    [ClickableLink("DutyRouletteOpenDutyFinder")]
-    public bool ClickableLink = true;
-
-    [ConfigOption("CompleteWhenTomeCapped", "CompleteWhenTomeCappedHelp")]
+    [DrawCategory("ModuleConfiguration", 1)]
+    [BoolConfigOption("CompleteWhenTomeCapped", "CompleteWhenTomeCappedHelp")]
     public bool CompleteWhenCapped = false;
+    
+    [DrawCategory("ClickableLink", 2)]
+    [BoolDescriptionConfigOption("Enable", "DutyRouletteOpenDutyFinder")]
+    public bool ClickableLink = true;
 }
 
 public class DutyRouletteData : ModuleTaskDataBase<ContentRoulette>
 {
-    [DataDisplay("CurrentWeeklyTomestones")] 
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("CurrentWeeklyTomestones")] 
     public int ExpertTomestones;
 
-    [DataDisplay("WeeklyTomestoneLimit")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("WeeklyTomestoneLimit")]
     public int ExpertTomestoneCap;
 
-    [DataDisplay("AtWeeklyTomestoneLimit")]
+    [DrawCategory("ModuleData", 1)]
+    [BoolDisplay("AtWeeklyTomestoneLimit")]
     public bool AtTomeCap;
 }
 

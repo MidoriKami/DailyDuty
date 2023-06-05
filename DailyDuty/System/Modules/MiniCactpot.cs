@@ -1,21 +1,23 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
-using DailyDuty.Models.Attributes;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
+using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.System;
 
 public class MiniCactpotConfig : ModuleConfigBase
 {
-    [ClickableLink("GoldSaucerTeleport")]
+    [DrawCategory("ClickableLink", 1)]
+    [BoolDescriptionConfigOption("Enable", "GoldSaucerTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class MiniCactpotData : ModuleDataBase
 {
-    [DataDisplay("TicketsRemaining")]
+    [DrawCategory("ModuleData", 1)]
+    [IntDisplay("TicketsRemaining")]
     public int AllowancesRemaining = 3;
 }
 
