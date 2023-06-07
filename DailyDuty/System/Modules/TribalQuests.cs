@@ -9,19 +9,16 @@ namespace DailyDuty.System;
 
 public class TribalQuestsConfig : ModuleConfigBase
 {
-    [DrawCategory("ModuleConfiguration", 1)]
-    [IntConfigOption("NotificationThreshold", 0, 12)]
+    [IntConfigOption("NotificationThreshold", "ModuleConfiguration", 1, 0, 12)]
     public int NotificationThreshold = 12;
 
-    [DrawCategory("ModuleConfiguration", 1)]
-    [EnumConfigOption("ComparisonMode", "ComparisonHelp")]
+    [EnumConfigOption("ComparisonMode", "ModuleConfiguration", 1, "ComparisonHelp")]
     public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 }
 
 public class TribalQuestsData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [UintDisplay("AllowancesRemaining")]
+    [UintDisplay("AllowancesRemaining", "ModuleData", 1)]
     public uint RemainingAllowances;
 }
 

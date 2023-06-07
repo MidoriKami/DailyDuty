@@ -21,12 +21,10 @@ public class TreasureMapConfig : ModuleConfigBase
 
 public class TreasureMapData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [LocalDateTimeDisplay("LastMapGathered")]
+    [LocalDateTimeDisplay("LastMapGathered", "ModuleData", 1)]
     public DateTime LastMapGatheredTime = DateTime.MinValue;
     
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("MapAvailable")]
+    [BoolDisplay("MapAvailable", "ModuleData", 1)]
     public bool MapAvailable = true;
 }
 

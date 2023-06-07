@@ -11,27 +11,22 @@ namespace DailyDuty.System;
 
 public class FashionReportConfig : ModuleConfigBase
 {
-    [DrawCategory("ModuleConfiguration", 1)]
-    [EnumConfigOption("CompletionMode")]
+    [EnumConfigOption("CompletionMode", "ModuleConfiguration", 1)]
     public FashionReportMode CompletionMode = FashionReportMode.Single;
     
-    [DrawCategory("ClickableLink", 2)]
-    [BoolDescriptionConfigOption("Enable", "GoldSaucerTeleport")] 
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 2, "GoldSaucerTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class FashionReportData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("AllowancesRemaining")]
+    [IntDisplay("AllowancesRemaining", "ModuleData", 1)]
     public int AllowancesRemaining = 4;
     
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("HighestWeeklyScore")]
+    [IntDisplay("HighestWeeklyScore", "ModuleData", 1)]
     public int HighestWeeklyScore;
-
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("FashionReportAvailable")]
+    
+    [BoolDisplay("FashionReportAvailable", "ModuleData", 1)]
     public bool FashionReportAvailable;
 }
 

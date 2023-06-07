@@ -1,12 +1,10 @@
 ﻿using System;
 using DailyDuty.Models.Attributes;
-using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Abstracts;
 
 public class ModuleDataBase
 {
-    [DrawCategory("ModuleReset", 0)] 
-    [ModuleResetTime]
+    [ModuleResetTime("ModuleReset", 0)]
     public DateTime NextReset = DateTime.MinValue;
 }

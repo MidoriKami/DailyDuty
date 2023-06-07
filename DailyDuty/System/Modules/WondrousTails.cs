@@ -19,67 +19,52 @@ namespace DailyDuty.System;
 
 public class WondrousTailsConfig : ModuleConfigBase
 {
-    [DrawCategory("ModuleConfiguration", 1)]
-    [BoolConfigOption("InstanceNotifications", "InstanceNotificationsHelp")]
+    [BoolConfigOption("InstanceNotifications", "ModuleConfiguration", 1, "InstanceNotificationsHelp")]
     public bool InstanceNotifications = true;
 
-    [DrawCategory("ModuleConfiguration", 1)]
-    [BoolConfigOption("StickerAvailableNotice", "StickerAvailableNoticeHelp")]
+    [BoolConfigOption("StickerAvailableNotice", "ModuleConfiguration", 1, "StickerAvailableNoticeHelp")]
     public bool StickerAvailableNotice = true;
     
-    [DrawCategory("ModuleConfiguration", 1)]
-    [BoolConfigOption("UnclaimedBookWarning")]
+    [BoolConfigOption("UnclaimedBookWarning", "ModuleConfiguration", 1)]
     public bool UnclaimedBookWarning = true;
 
-    [DrawCategory("ModuleConfiguration", 1)]
-    [BoolConfigOption("ShuffleAvailableNotice", "ShuffleAvailableNoticeHelp")]
+    [BoolConfigOption("ShuffleAvailableNotice", "ModuleConfiguration", 1, "ShuffleAvailableNoticeHelp")]
     public bool ShuffleAvailableNotice = false;
     
-    [DrawCategory("ClickableLink", 2)]
-    [BoolDescriptionConfigOption("Enable", "WondrousTailsClickableLink")] 
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 2, "WondrousTailsClickableLink")] 
     public bool ClickableLink = true;
 }
 
 public class WondrousTailsData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("PlacedStickers")]
+    [IntDisplay("PlacedStickers", "ModuleData", 1)]
     public int PlacedStickers;
 
-    [DrawCategory("ModuleData", 1)]
-    [UintDisplay("SecondChancePoints")] 
+    [UintDisplay("SecondChancePoints", "ModuleData", 1)] 
     public uint SecondChance;
 
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("NewBookAvailable")]
+    [BoolDisplay("NewBookAvailable", "ModuleData", 1)]
     public bool NewBookAvailable;
 
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("PlayerHasBook")]
+    [BoolDisplay("PlayerHasBook", "ModuleData", 1)]
     public bool PlayerHasBook;
     
-    [DrawCategory("ModuleData", 1)]
-    [LocalDateTimeDisplay("Deadline")]
+    [LocalDateTimeDisplay("Deadline", "ModuleData", 1)]
     public DateTime Deadline;
 
-    [DrawCategory("ModuleData", 1)]
-    [TimeSpanDisplay("TimeRemaining")]
+    [TimeSpanDisplay("TimeRemaining", "ModuleData", 1)]
     public TimeSpan TimeRemaining;
 
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("BookExpired")] 
+    [BoolDisplay("BookExpired", "ModuleData", 1)] 
     public bool BookExpired;
     
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("NearKhloe")]
+    [BoolDisplay("NearKhloe", "ModuleData", 1)]
     public bool CloseToKhloe;
 
-    [DrawCategory("ModuleData", 1)]
-    [FloatDisplay("DistanceToKhloe")] 
+    [FloatDisplay("DistanceToKhloe", "ModuleData", 1)] 
     public float DistanceToKhloe;
 
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("CastingTeleport")] 
+    [BoolDisplay("CastingTeleport", "ModuleData", 1)] 
     public bool CastingTeleport;
 }
 

@@ -7,7 +7,6 @@ namespace DailyDuty.Abstracts;
 
 public class ModuleTaskDataBase<T> : ModuleDataBase where T : ExcelRow
 {
-    [DrawCategory("TaskData", 3)]
-    [DataList] 
+    [DataList("TaskData", 3)] 
     public LuminaTaskDataList<T> TaskData = new();
 }

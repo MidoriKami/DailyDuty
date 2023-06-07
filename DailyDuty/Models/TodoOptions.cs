@@ -6,28 +6,22 @@ namespace DailyDuty.Models;
 
 public class ModuleTodoOptions
 {
-    [DrawCategory("TodoConfiguration", 1)]
-    [BoolConfigOption("Enable")]
+    [BoolConfigOption("Enable", "TodoConfiguration", 1)]
     public bool Enabled = true;
     
-    [DrawCategory("TodoConfiguration", 1)]
-    [BoolConfigOption("UseCustomLabel")]
+    [BoolConfigOption("UseCustomLabel", "TodoConfiguration", 1)]
     public bool UseCustomTodoLabel = false;
     
-    [DrawCategory("TodoConfiguration", 1)]
-    [StringConfigOption("UseCustomLabel", true)]
+    [StringConfigOption("UseCustomLabel", "TodoConfiguration", 1, true)]
     public string CustomTodoLabel = string.Empty;
 
-    [DrawCategory("TodoConfiguration", 1)]
-    [BoolConfigOption("OverrideTodoListColor")]
+    [BoolConfigOption("OverrideTodoListColor", "TodoConfiguration", 1)]
     public bool OverrideTextColor = false;
     
-    [DrawCategory("TodoConfiguration", 1)]
-    [ColorConfigOption("TextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    [ColorConfigOption("TextColor", "TodoConfiguration", 1, 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 TextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
     
-    [DrawCategory("TodoConfiguration", 1)]
-    [ColorConfigOption("TextOutlineColor", 0.0f, 0.0f, 0.0f, 1.0f)]
+    [ColorConfigOption("TextOutlineColor", "TodoConfiguration", 1, 0.0f, 0.0f, 0.0f, 1.0f)]
     public Vector4 TextOutline = new(0.0f, 0.0f, 0.0f, 1.0f);
 
     [NonSerialized]

@@ -11,23 +11,19 @@ namespace DailyDuty.System;
 
 public class LevequestConfig : ModuleConfigBase
 {
-    [DrawCategory("ModuleConfiguration", 1)]
-    [IntConfigOption("NotificationThreshold", 0, 100)]
+    [IntConfigOption("NotificationThreshold", "ModuleConfiguration", 1, 0, 100)]
     public int NotificationThreshold = 95;
 
-    [DrawCategory("ModuleConfiguration", 1)]
-    [EnumConfigOption("ComparisonMode", "ComparisonHelp")]
+    [EnumConfigOption("ComparisonMode", "ModuleConfiguration", 1, "ComparisonHelp")]
     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
 }
 
 public class LevequestData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("LevequestAllowances")]
+    [IntDisplay("LevequestAllowances", "ModuleData", 1)]
     public int NumLevequestAllowances;
 
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("AcceptedLevequests")] 
+    [IntDisplay("AcceptedLevequests", "ModuleData", 1)] 
     public int AcceptedLevequests;
 }
 

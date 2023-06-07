@@ -9,7 +9,7 @@ namespace DailyDuty.Models.Attributes;
 
 public class ModuleResetTime : LocalDateTimeDisplay
 {
-    public ModuleResetTime() : base(null) { }
+    public ModuleResetTime(string category, int group) : base(null, category, group) { }
 
     protected override void Draw(object obj, FieldInfo field, Action? saveAction = null)
     {

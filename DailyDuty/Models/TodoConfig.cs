@@ -6,123 +6,93 @@ namespace DailyDuty.Models;
 
 public class TodoConfig
 {
-    [DrawCategory("TodoDisplayEnable", -1)]
-    [BoolConfigOption("Enable")]
+    [BoolConfigOption("Enable", "TodoDisplayEnable", -1)]
     public bool Enable = true;
     
-    [DrawCategory("TodoDisplayEnable", -1)]
-    [BoolConfigOption("PreviewMode")]
+    [BoolConfigOption("PreviewMode", "TodoDisplayEnable", -1)]
     public bool PreviewMode = true;
 
-    [DrawCategory("Positioning", 0)]
-    [BoolConfigOption("RightAlign")]
+    [BoolConfigOption("RightAlign", "Positioning", 0)]
     public bool RightAlign = false;
     
-    [DrawCategory("Positioning", 0)]
-    [BoolConfigOption("Dragable")]
+    [BoolConfigOption("Dragable", "Positioning", 0)]
     public bool CanDrag = false;
 
-    [DrawCategory("Positioning", 0)]
-    [EnumConfigOption("AnchorLocation")]
+    [EnumConfigOption("AnchorLocation", "Positioning", 0)]
     public WindowAnchor Anchor = WindowAnchor.TopRight;
     
-    [DrawCategory("Positioning", 0)]
-    [PositionConfigOption("Position")]
+    [PositionConfigOption("Position", "Positioning", 0)]
     public Vector2 Position = new Vector2(1024, 720) / 2.0f;
 
-    [DrawCategory("DisplayOptions", 2)]
-    [BoolConfigOption("Background")] 
+    [BoolConfigOption("Background", "DisplayOptions", 2)] 
     public bool BackgroundImage = true;
 
-    [DrawCategory("Categories", 1)]
-    [BoolConfigOption("EnableDailyTasks")]
+    [BoolConfigOption("EnableDailyTasks", "Categories", 1)]
     public bool DailyTasks = true;
     
-    [DrawCategory("Categories", 1)]
-    [BoolConfigOption("EnableWeeklyTasks")]
+    [BoolConfigOption("EnableWeeklyTasks", "Categories", 1)]
     public bool WeeklyTasks = true;
     
-    [DrawCategory("Categories", 1)]
-    [BoolConfigOption("EnableSpecialTasks")]
+    [BoolConfigOption("EnableSpecialTasks", "Categories", 1)]
     public bool SpecialTasks = true;
 
-    [DrawCategory("DisplayOptions", 2)]
-    [BoolConfigOption("ShowHeaders")]
+    [BoolConfigOption("ShowHeaders", "DisplayOptions", 2)]
     public bool ShowHeaders = true;
 
-    [DrawCategory("DisplayOptions", 2)]
-    [BoolConfigOption("HideInQuestEvent")]
+    [BoolConfigOption("HideInQuestEvent", "DisplayOptions", 2)]
     public bool HideDuringQuests = true;
     
-    [DrawCategory("DisplayOptions", 2)]
-    [BoolConfigOption("HideInDuties")]
+    [BoolConfigOption("HideInDuties", "DisplayOptions", 2)]
     public bool HideInDuties = true;
 
-    [DrawCategory("TextStyle", 3)]
-    [BoolConfigOption("HeaderItalic")]
+    [BoolConfigOption("HeaderItalic", "TextStyle", 3)]
     public bool HeaderItalic = false;
     
-    [DrawCategory("TextStyle", 3)]
-    [BoolConfigOption("ModuleItalic")]
+    [BoolConfigOption("ModuleItalic", "TextStyle", 3)]
     public bool ModuleItalic = false;
 
-    [DrawCategory("TextStyle", 3)]
-    [BoolConfigOption("EnableOutline")]
+    [BoolConfigOption("EnableOutline", "TextStyle", 3)]
     public bool Edge = true;
 
-    [DrawCategory("TextStyle", 3)]
-    [BoolConfigOption("EnableGlowingOutline")]
+    [BoolConfigOption("EnableGlowingOutline", "TextStyle", 3)]
     public bool Glare = false;
     
-    [DrawCategory("LabelText", 4)]
-    [ShortStringConfigOption("DailyTasksLabel", true)]
+    [ShortStringConfigOption("DailyTasksLabel", "LabelText", 4, true)]
     public string DailyLabel = "Daily Tasks";
     
-    [DrawCategory("LabelText", 4)]
-    [ShortStringConfigOption("WeeklyTasksLabel", true)]
+    [ShortStringConfigOption("WeeklyTasksLabel", "LabelText", 4, true)]
     public string WeeklyLabel = "Weekly Tasks";
     
-    [DrawCategory("LabelText", 4)]
-    [ShortStringConfigOption("SpecialTasksLabel", true)]
+    [ShortStringConfigOption("SpecialTasksLabel", "LabelText", 4, true)]
     public string SpecialLabel = "Special Tasks";
 
-    [DrawCategory("DisplayStyle", 5)]
-    [IntConfigOption("FontSize", 5, 48)]
+    [IntConfigOption("FontSize", "DisplayStyle", 5, 5, 48)]
     public int FontSize = 20;
 
-    [DrawCategory("DisplayStyle", 5)]
-    [IntConfigOption("HeaderSize", 5, 48)] 
+    [IntConfigOption("HeaderSize", "DisplayStyle", 5, 5, 48)] 
     public int HeaderFontSize = 24;
 
-    [DrawCategory("DisplayStyle", 5)]
-    [IntConfigOption("CategorySpacing", 0, 100)]
+    [IntConfigOption("CategorySpacing", "DisplayStyle", 5, 0, 100)]
     public int CategorySpacing = 12;
 
-    [DrawCategory("DisplayStyle", 5)]
-    [IntConfigOption("HeaderSpacing", 0, 100)]
+    [IntConfigOption("HeaderSpacing", "DisplayStyle", 5, 0, 100)]
     public int HeaderSpacing = 0;
     
-    [DrawCategory("DisplayStyle", 5)]
-    [IntConfigOption("ModuleSpacing", 0, 100)]
+    [IntConfigOption("ModuleSpacing", "DisplayStyle", 5, 0, 100)]
     public int ModuleSpacing = 0;
     
-    [DrawCategory("ColorOptions", 6)]
-    [ColorConfigOption("CategoryBackgroundColor", 0.0f, 0.0f, 0.0f, 0.40f)]
+    [ColorConfigOption("CategoryBackgroundColor", "ColorOptions", 6, 0.0f, 0.0f, 0.0f, 0.40f)]
     public Vector4 CategoryBackgroundColor = new(0.0f, 0.0f, 0.0f, 0.4f);
     
-    [DrawCategory("ColorOptions", 6)]
-    [ColorConfigOption("HeaderColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    [ColorConfigOption("HeaderColor", "ColorOptions", 6, 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
 
-    [DrawCategory("ColorOptions", 6)]
-    [ColorConfigOption("HeaderOutlineColor", 0.5568f, 0.4117f, 0.0470f, 1.0f)]
+    [ColorConfigOption("HeaderOutlineColor", "ColorOptions", 6, 0.5568f, 0.4117f, 0.0470f, 1.0f)]
     public Vector4 HeaderTextOutline = new(0.5568f, 0.4117f, 0.0470f, 1.0f);
     
-    [DrawCategory("ColorOptions", 6)]
-    [ColorConfigOption("ModuleTextColor", 1.0f, 1.0f, 1.0f, 1.0f)]
+    [ColorConfigOption("ModuleTextColor", "ColorOptions", 6, 1.0f, 1.0f, 1.0f, 1.0f)]
     public Vector4 ModuleTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
 
-    [DrawCategory("ColorOptions", 6)]
-    [ColorConfigOption("ModuleOutlineColor", 0.0392f, 0.4117f, 0.5725f, 1.0f)]
+    [ColorConfigOption("ModuleOutlineColor", "ColorOptions", 6, 0.0392f, 0.4117f, 0.5725f, 1.0f)]
     public Vector4 ModuleOutlineColor = new(0.0392f, 0.4117f, 0.5725f, 1.0f);
 }

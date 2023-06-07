@@ -16,8 +16,7 @@ namespace DailyDuty.System;
 
 public class RaidsBaseConfig : ModuleTaskConfigBase<ContentFinderCondition>
 {
-    [DrawCategory("ClickableLink", 4)]
-    [BoolDescriptionConfigOption("Enable", "OpenDutyFinderToRaid")]
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 4, "OpenDutyFinderToRaid")]
     public bool ClickableLink = true;
 }
 

@@ -25,20 +25,16 @@ public class GrandCompanySquadronConfig : ModuleConfigBase
 
 public class GrandCompanySquadronData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("MissionCompleted")]
+    [BoolDisplay("MissionCompleted", "ModuleData", 1)]
     public bool MissionCompleted;
 
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("MissionStarted")]
+    [BoolDisplay("MissionStarted", "ModuleData", 1)]
     public bool MissionStarted;
     
-    [DrawCategory("ModuleData", 1)]
-    [LocalDateTimeDisplay("MissionCompleteTime")]
+    [LocalDateTimeDisplay("MissionCompleteTime", "ModuleData", 1)]
     public DateTime MissionCompleteTime = DateTime.MinValue;
     
-    [DrawCategory("ModuleData", 1)]
-    [TimeSpanDisplay("TimeUntilMissionComplete")]
+    [TimeSpanDisplay("TimeUntilMissionComplete", "ModuleData", 1)]
     public TimeSpan TimeUntilMissionComplete = TimeSpan.MinValue;
 }
 

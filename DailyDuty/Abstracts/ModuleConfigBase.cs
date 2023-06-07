@@ -6,44 +6,34 @@ namespace DailyDuty.Abstracts;
 
 public class ModuleConfigBase
 {
-    [DrawCategory("ModuleEnable", 0)]
-    [BoolConfigOption("Enable")]
+    [BoolConfigOption("Enable", "ModuleEnable", 0)]
     public bool ModuleEnabled = false;
     
-    [DrawCategory("NotificationOptions", 9)]
-    [BoolConfigOption("SendStatusOnLogin", "SendStatusOnLoginHelp")]
+    [BoolConfigOption("SendStatusOnLogin", "NotificationOptions", 9, "SendStatusOnLoginHelp")]
     public bool OnLoginMessage = true;
     
-    [DrawCategory("NotificationOptions", 9)]
-    [BoolConfigOption("SendStatusOnZoneChange", "SendStatusOnZoneChangeHelp")]
+    [BoolConfigOption("SendStatusOnZoneChange", "NotificationOptions", 9, "SendStatusOnZoneChangeHelp")]
     public bool OnZoneChangeMessage = true;
     
-    [DrawCategory("NotificationOptions", 9)]
-    [BoolConfigOption("SendMessageOnReset", "SendMessageOnResetHelp")]
+    [BoolConfigOption("SendMessageOnReset", "NotificationOptions", 9, "SendMessageOnResetHelp")]
     public bool ResetMessage = false;
     
-    [DrawCategory("NotificationCustomization", 10)]
-    [BoolConfigOption("EnableCustomChannel")]
+    [BoolConfigOption("EnableCustomChannel", "NotificationCustomization", 10)]
     public bool UseCustomChannel = false;
     
-    [DrawCategory("NotificationCustomization", 10)]
-    [EnumConfigOption]
+    [EnumConfigOption("NotificationCustomization", 10)]
     public XivChatType MessageChatChannel = Service.PluginInterface.GeneralChatType;
     
-    [DrawCategory("NotificationCustomization", 10)]
-    [BoolConfigOption("EnableCustomStatusMessage")]
+    [BoolConfigOption("EnableCustomStatusMessage", "NotificationCustomization", 10)]
     public bool UseCustomStatusMessage = false;
 
-    [DrawCategory("NotificationCustomization", 10)]
-    [StringConfigOption("StatusMessage")]
+    [StringConfigOption("StatusMessage", "NotificationCustomization", 10)]
     public string CustomStatusMessage = string.Empty;
     
-    [DrawCategory("NotificationCustomization", 10)]
-    [BoolConfigOption("EnableCustomResetMessage")]
+    [BoolConfigOption("EnableCustomResetMessage", "NotificationCustomization", 10)]
     public bool UseCustomResetMessage = false;
 
-    [DrawCategory("NotificationCustomization", 10)]
-    [StringConfigOption("ResetMessage")]
+    [StringConfigOption("ResetMessage", "NotificationCustomization", 10)]
     public string CustomResetMessage = string.Empty;
 
     public ModuleTodoOptions TodoOptions = new();

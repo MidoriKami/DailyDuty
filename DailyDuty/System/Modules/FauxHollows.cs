@@ -8,19 +8,16 @@ namespace DailyDuty.System;
 
 public class FauxHollowsConfig : ModuleConfigBase
 {
-    [DrawCategory("ModuleConfiguration", 1)]
-    [BoolConfigOption("IncludeRetelling")]
+    [BoolConfigOption("IncludeRetelling", "ModuleConfiguration", 1)]
     public bool IncludeRetelling = true;
     
-    [DrawCategory("ClickableLink", 2)]
-    [BoolDescriptionConfigOption("Enable", "IdyllshireTeleport")] 
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 2, "IdyllshireTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class FauxHollowsData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("FauxHollowsCompletions")]
+    [IntDisplay("FauxHollowsCompletions", "ModuleData", 1)]
     public int FauxHollowsCompletions;
 }
 

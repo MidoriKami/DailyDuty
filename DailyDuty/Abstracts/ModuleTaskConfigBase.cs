@@ -7,7 +7,6 @@ namespace DailyDuty.Abstracts;
 
 public class ModuleTaskConfigBase<T> : ModuleConfigBase where T : ExcelRow
 {
-    [DrawCategory("TaskSelection", 3)]
-    [ConfigList]
+    [ConfigList("TaskSelection", 3)]
     public LuminaTaskConfigList<T> TaskConfig = new();
 }

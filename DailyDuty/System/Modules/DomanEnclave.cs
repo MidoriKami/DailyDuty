@@ -9,23 +9,19 @@ namespace DailyDuty.System;
 
 public class DomanEnclaveConfig : ModuleConfigBase
 {
-    [DrawCategory("ClickableLink", 1)]
-    [BoolDescriptionConfigOption("Enable", "DomanEnclaveTeleport")] 
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 1, "DomanEnclaveTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class DomanEnclaveData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("WeeklyAllowance")]
+    [IntDisplay("WeeklyAllowance", "ModuleData", 1)]
     public int WeeklyAllowance;
     
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("DonatedThisWeek")]
+    [IntDisplay("DonatedThisWeek", "ModuleData", 1)]
     public int DonatedThisWeek;
     
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("BudgetRemaining")]
+    [IntDisplay("BudgetRemaining", "ModuleData", 1)]
     public int RemainingAllowance;
 }
 

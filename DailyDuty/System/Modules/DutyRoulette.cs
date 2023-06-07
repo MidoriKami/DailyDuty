@@ -12,27 +12,22 @@ namespace DailyDuty.System;
 
 public class DutyRouletteConfig : ModuleTaskConfigBase<ContentRoulette>
 {
-    [DrawCategory("ModuleConfiguration", 1)]
-    [BoolConfigOption("CompleteWhenTomeCapped", "CompleteWhenTomeCappedHelp")]
+    [BoolConfigOption("CompleteWhenTomeCapped", "ModuleConfiguration", 1, "CompleteWhenTomeCappedHelp")]
     public bool CompleteWhenCapped = false;
     
-    [DrawCategory("ClickableLink", 4)]
-    [BoolDescriptionConfigOption("Enable", "DutyRouletteOpenDutyFinder")]
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 4, "DutyRouletteOpenDutyFinder")]
     public bool ClickableLink = true;
 }
 
 public class DutyRouletteData : ModuleTaskDataBase<ContentRoulette>
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("CurrentWeeklyTomestones")] 
+    [IntDisplay("CurrentWeeklyTomestones", "ModuleData", 1)] 
     public int ExpertTomestones;
-
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("WeeklyTomestoneLimit")]
+    
+    [IntDisplay("WeeklyTomestoneLimit", "ModuleData", 1)]
     public int ExpertTomestoneCap;
-
-    [DrawCategory("ModuleData", 1)]
-    [BoolDisplay("AtWeeklyTomestoneLimit")]
+    
+    [BoolDisplay("AtWeeklyTomestoneLimit", "ModuleData", 1)]
     public bool AtTomeCap;
 }
 

@@ -16,15 +16,13 @@ namespace DailyDuty.System;
 
 public class JumboCactpotConfig : ModuleConfigBase
 {
-    [DrawCategory("ClickableLink", 1)]
-    [BoolDescriptionConfigOption("Enable", "GoldSaucerTeleport")] 
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 1, "GoldSaucerTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class JumboCactpotData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntListDisplay("ClaimedTickets")]
+    [IntListDisplay("ClaimedTickets", "ModuleData", 1)]
     public List<int> Tickets = new();
 }
 

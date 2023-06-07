@@ -9,15 +9,13 @@ namespace DailyDuty.System;
 
 public class MiniCactpotConfig : ModuleConfigBase
 {
-    [DrawCategory("ClickableLink", 1)]
-    [BoolDescriptionConfigOption("Enable", "GoldSaucerTeleport")] 
+    [BoolDescriptionConfigOption("Enable", "ClickableLink", 1, "GoldSaucerTeleport")] 
     public bool ClickableLink = true;
 }
 
 public class MiniCactpotData : ModuleDataBase
 {
-    [DrawCategory("ModuleData", 1)]
-    [IntDisplay("TicketsRemaining")]
+    [IntDisplay("TicketsRemaining", "ModuleData", 1)]
     public int AllowancesRemaining = 3;
 }
 
