@@ -134,7 +134,4 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
             }
         }
     }
-    
-    public override bool HasTooltip { get; protected set; } = true;
-    public override string GetTooltip() => GetTaskListTooltip(Config.TaskConfig, Data.TaskData, row => LuminaCache<ContentFinderCondition>.Instance.GetRow(row)!.Name.ToString());
 }

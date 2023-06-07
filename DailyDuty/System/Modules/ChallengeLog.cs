@@ -3,7 +3,6 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
-using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 
@@ -33,9 +32,6 @@ public unsafe class ChallengeLog : Module.WeeklyTaskModule<ContentsNote>
         
         base.Reset();
     }
-
-    public override bool HasTooltip { get; protected set; } = true;
-    public override string GetTooltip() => GetTaskListTooltip(Config.TaskConfig, Data.TaskData, row => LuminaCache<ContentsNote>.Instance.GetRow(row)!.Name.ToString());
 
     protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 

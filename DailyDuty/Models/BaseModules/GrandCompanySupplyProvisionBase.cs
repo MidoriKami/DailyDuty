@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Globalization;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using KamiLib.Caching;
 using KamiLib.Utilities;
 using Lumina.Excel.GeneratedSheets;
 
@@ -40,9 +38,6 @@ public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyTaskM
         base.Update();
     }
 
-    public override bool HasTooltip { get; protected set; } = true;
-    public override string GetTooltip() => GetTaskListTooltip(Config.TaskConfig, Data.TaskData, row => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<ClassJob>.Instance.GetRow(row)!.Name.ToString()));
-    
     protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new()

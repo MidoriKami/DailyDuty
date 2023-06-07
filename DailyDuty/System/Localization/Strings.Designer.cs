@@ -186,6 +186,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Categories.
+        /// </summary>
+        internal static string Categories {
+            get {
+                return ResourceManager.GetString("Categories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Background Color.
         /// </summary>
         internal static string CategoryBackgroundColor {
@@ -245,6 +254,15 @@ namespace DailyDuty.System.Localization {
         internal static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Color Options.
+        /// </summary>
+        internal static string ColorOptions {
+            get {
+                return ResourceManager.GetString("ColorOptions", resourceCulture);
             }
         }
         
@@ -398,6 +416,24 @@ namespace DailyDuty.System.Localization {
         internal static string Disabled {
             get {
                 return ResourceManager.GetString("Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Options.
+        /// </summary>
+        internal static string DisplayOptions {
+            get {
+                return ResourceManager.GetString("DisplayOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Style.
+        /// </summary>
+        internal static string DisplayStyle {
+            get {
+                return ResourceManager.GetString("DisplayStyle", resourceCulture);
             }
         }
         
@@ -861,6 +897,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Label Text.
+        /// </summary>
+        internal static string LabelText {
+            get {
+                return ResourceManager.GetString("LabelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Map Gathered.
         /// </summary>
         internal static string LastMapGathered {
@@ -1059,7 +1104,7 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ModuleStatus.
+        ///   Looks up a localized string similar to Module Status.
         /// </summary>
         internal static string ModuleStatus {
             get {
@@ -1217,6 +1262,15 @@ namespace DailyDuty.System.Localization {
         internal static string Position {
             get {
                 return ResourceManager.GetString("Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positioning.
+        /// </summary>
+        internal static string Positioning {
+            get {
+                return ResourceManager.GetString("Positioning", resourceCulture);
             }
         }
         
@@ -1650,6 +1704,15 @@ namespace DailyDuty.System.Localization {
         internal static string TextOutlineColor {
             get {
                 return ResourceManager.GetString("TextOutlineColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text Style.
+        /// </summary>
+        internal static string TextStyle {
+            get {
+                return ResourceManager.GetString("TextStyle", resourceCulture);
             }
         }
         

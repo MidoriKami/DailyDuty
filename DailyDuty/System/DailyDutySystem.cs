@@ -131,8 +131,6 @@ public class DailyDutySystem : IDisposable
         if (Service.ClientState.LocalContentId is 0) return;
         
         ModuleController.AddonFinalize(addonInfo);
-        
-        if (addonInfo.AddonName == "NamePlate") TodoController.Unload();
     }
     
     private void OnLeavePvP() => TodoController.Show();

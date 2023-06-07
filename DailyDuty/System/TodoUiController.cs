@@ -154,7 +154,7 @@ public unsafe class TodoUiController : IDisposable
         backgroundImageNode.ResourceNode->AddBlue = (byte) (options.Color.Z * 255);
     }
 
-    public void UpdateModule(ModuleType type, ModuleName module, string label, string tooltip, bool visible) => categories[type].UpdateModule(module, label, tooltip, visible);
+    public void UpdateModule(ModuleType type, ModuleName module, string label, bool visible) => categories[type].UpdateModule(module, label, visible);
     public void UpdateModuleStyle(ModuleType type, ModuleName module, TextNodeOptions options) => categories[type].UpdateModuleStyle(module, options);
     public void UpdateCategoryHeader(ModuleType type, string label, bool show) => categories[type].UpdateCategoryHeader(label, show);
     public void UpdateHeaderStyle(ModuleType type, TextNodeOptions options) => categories[type].UpdateHeaderStyle(options);

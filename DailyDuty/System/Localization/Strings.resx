@@ -239,7 +239,7 @@ Limited to once per 5 mins</value>
         <value>Task Data</value>
     </data>
     <data name="ModuleStatus" xml:space="preserve">
-        <value>ModuleStatus</value>
+        <value>Module Status</value>
     </data>
     <data name="CurrentStatus" xml:space="preserve">
         <value>Current Status</value>
@@ -636,5 +636,26 @@ Limited to once per 5 mins</value>
     </data>
     <data name="Dragable" xml:space="preserve">
         <value>Enable Window Dragging</value>
+    </data>
+    <data name="Positioning" xml:space="preserve">
+        <value>Positioning</value>
+    </data>
+    <data name="Categories" xml:space="preserve">
+        <value>Categories</value>
+    </data>
+    <data name="DisplayOptions" xml:space="preserve">
+        <value>Display Options</value>
+    </data>
+    <data name="TextStyle" xml:space="preserve">
+        <value>Text Style</value>
+    </data>
+    <data name="LabelText" xml:space="preserve">
+        <value>Label Text</value>
+    </data>
+    <data name="DisplayStyle" xml:space="preserve">
+        <value>Display Style</value>
+    </data>
+    <data name="ColorOptions" xml:space="preserve">
+        <value>Color Options</value>
     </data>
 </root>

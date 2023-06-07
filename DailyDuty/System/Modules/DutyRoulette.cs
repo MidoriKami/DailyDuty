@@ -6,7 +6,6 @@ using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
@@ -71,9 +70,6 @@ public unsafe class DutyRoulette : Module.DailyModule
         base.Reset();
     }
     
-    public override bool HasTooltip { get; protected set; } = true;
-    public override string GetTooltip() => GetTaskListTooltip(Config.TaskConfig, Data.TaskData, row => LuminaCache<ContentRoulette>.Instance.GetRow(row)!.Name.ToString());
-
     protected override ModuleStatus GetModuleStatus()
     {
         if (Config.CompleteWhenCapped && Data.AtTomeCap) return ModuleStatus.Complete;

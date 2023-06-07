@@ -37,8 +37,6 @@ public abstract class BaseModule : IDisposable
     public virtual void AddonPostSetup(AddonArgs addonInfo) { }
     public virtual void AddonFinalize(AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
-    public virtual string GetTooltip() => string.Empty;
-    public virtual bool HasTooltip { get; protected set; }
 
     public void DrawConfig()
     {
@@ -193,13 +191,5 @@ public abstract class BaseModule : IDisposable
             select configTask.RowId;
 
         return queryResult;
-    }
-
-    protected static string GetTaskListTooltip<T>(LuminaTaskConfigList<T> config, LuminaTaskDataList<T> data, Func<uint, string> getLuminaString) where T : ExcelRow
-    {
-        var strings = GetIncompleteRows(config, data)
-            .Select(getLuminaString).ToList();
-
-        return string.Join("\n", strings);
     }
 }

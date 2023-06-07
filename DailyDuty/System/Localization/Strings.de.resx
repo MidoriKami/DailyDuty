@@ -635,4 +635,25 @@ Auf einmal pro 5 Minuten limitiert</value>
   <data name="Dragable" xml:space="preserve">
         <value>Ziehen des Fensters aktivieren</value>
     </data>
+    <data name="Positioning" xml:space="preserve">
+        <value>Positioning</value>
+    </data>
+    <data name="Categories" xml:space="preserve">
+        <value>Categories</value>
+    </data>
+    <data name="DisplayOptions" xml:space="preserve">
+        <value>Display Options</value>
+    </data>
+    <data name="TextStyle" xml:space="preserve">
+        <value>Text Style</value>
+    </data>
+    <data name="LabelText" xml:space="preserve">
+        <value>Label Text</value>
+    </data>
+    <data name="DisplayStyle" xml:space="preserve">
+        <value>Display Style</value>
+    </data>
+    <data name="ColorOptions" xml:space="preserve">
+        <value>Color Options</value>
+    </data>
 </root>
