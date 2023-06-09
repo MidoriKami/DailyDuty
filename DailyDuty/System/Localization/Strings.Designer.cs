@@ -753,6 +753,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show This Message.
+        /// </summary>
+        internal static string HelpText {
+            get {
+                return ResourceManager.GetString("HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide Disabled.
         /// </summary>
         internal static string HideDisabled {
@@ -1208,6 +1217,15 @@ namespace DailyDuty.System.Localization {
         internal static string NumDrops {
             get {
                 return ResourceManager.GetString("NumDrops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Configuration Window.
+        /// </summary>
+        internal static string OpenConfigWindow {
+            get {
+                return ResourceManager.GetString("OpenConfigWindow", resourceCulture);
             }
         }
         

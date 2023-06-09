@@ -655,4 +655,10 @@
     <data name="ColorOptions" xml:space="preserve">
         <value>Color Options</value>
     </data>
+    <data name="OpenConfigWindow" xml:space="preserve">
+        <value>Open Configuration Window</value>
+    </data>
+    <data name="HelpText" xml:space="preserve">
+        <value>Show This Message</value>
+    </data>
 </root>
