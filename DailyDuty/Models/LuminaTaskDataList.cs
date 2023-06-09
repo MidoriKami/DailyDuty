@@ -15,7 +15,7 @@ namespace DailyDuty.Models;
 
 public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> where T : ExcelRow
 {
-    private readonly List<LuminaTaskData<T>> DataList = new();
+    public List<LuminaTaskData<T>> DataList = new();
 
     // Implement ICollection
     public IEnumerator<LuminaTaskData<T>> GetEnumerator() => DataList.GetEnumerator();
