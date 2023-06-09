@@ -23,7 +23,8 @@ public class TodoController : IDisposable
     private bool configChanged;
     private TodoUiController? uiController;
     private Vector2? holdOffset;
-    private readonly Dictionary<ModuleName, (bool, bool, bool)> displayDataCache = new();
+    private readonly Dictionary<ModuleName, DisplayData> displayDataCache = new();
+    private record DisplayData(bool ShowModule, bool ShowHeader, bool ShowCategory);
 
     public void Dispose() => Unload();
     
@@ -136,17 +137,16 @@ public class TodoController : IDisposable
             }
 
             var name = module.ModuleName;
-            var display = (
+            var display = new DisplayData(
                 GetModuleActiveState(module) && enabled || Config.PreviewMode,
                 Config.ShowHeaders,
                 enabled);
 
             if (!displayDataCache.TryGetValue(name, out var cached) || !cached.Equals(display) || wasStyleChanged)
             {
-                PluginLog.Debug($"cache miss ({type}/{name}) cachedChanged={!cached.Equals(display)} wasStyleChanged={wasStyleChanged}");
-                uiController?.UpdateModule(type, name, GetModuleTodoLabel(module), display.Item1);
-                uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), display.Item2);
-                uiController?.UpdateCategory(type, display.Item3);
+                uiController?.UpdateModule(type, name, GetModuleTodoLabel(module), display.ShowModule);
+                uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), display.ShowHeader);
+                uiController?.UpdateCategory(type, display.ShowCategory);
                 displayDataCache[name] = display;
             }
         }
