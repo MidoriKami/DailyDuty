@@ -166,14 +166,49 @@ public abstract class BaseModule : IDisposable
     {
         if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount");
 
-        var queryResult = 
-            from configTask in config
-            join dataTask in data on configTask.RowId equals dataTask.RowId
-            where 
-                (configTask.Enabled && configTask.TargetCount is not 0 && dataTask.CurrentCount < configTask.TargetCount) ||
-                (configTask.Enabled && configTask.TargetCount is 0 && !dataTask.Complete)
-            select configTask;
+        var count = 0;
+        var len = config.Count;
+        for (var i = 0; i < len; i++)
+        {
+            var configTask = config.ConfigList[i];
+            var dataTask = data.DataList[i];
 
-        return queryResult.Count();
+            if (configTask.RowId != dataTask.RowId)
+            {
+                throw new Exception($"Task and Data rows are mismatched. Unable to calculate IncompleteCount (task={configTask.RowId} data={dataTask.RowId}).");
+            }
+
+            if (configTask.Enabled)
+            {
+                if ((configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount)
+                    || (configTask.TargetCount == 0 && !dataTask.Complete))
+                {
+                    count += 1;
+                }
+            }
+        }
+
+        return count;
+
+        // var queryResult =
+        //     from configTask in config
+        //     join dataTask in data on configTask.RowId equals dataTask.RowId
+        //     where
+        //         (configTask.Enabled && configTask.TargetCount is not 0 && dataTask.CurrentCount < configTask.TargetCount) ||
+        //         (configTask.Enabled && configTask.TargetCount is 0 && !dataTask.Complete)
+        //     select configTask;
+        //
+        // var queryCount = queryResult.Count();
+        //
+        // if (count != queryCount)
+        // {
+        //     PluginLog.Error($"GetIncompleteCount ERR [{typeof(T).FullName}]: (count={count} queryCount={queryCount} total={config.Count})");
+        // }
+        // else
+        // {
+        //     // PluginLog.Information($"GetIncompleteCount OK  [{typeof(T).FullName}]: (count={count} queryCount={queryCount} total={config.Count})");
+        // }
+        //
+        // return queryCount;
     }
 }
