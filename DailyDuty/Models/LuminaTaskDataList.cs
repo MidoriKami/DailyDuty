@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 using DailyDuty.System.Localization;
 using ImGuiNET;
 using KamiLib.Caching;
@@ -56,7 +57,12 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
             ImGui.EndTable();
         }
     }
-    
+
+    public void Sort()
+    {
+        DataList = DataList.OrderBy(e => e.RowId).ToList();
+    }
+
     private void DrawStandardDataList()
     {
         foreach (var dataEntry in DataList)
