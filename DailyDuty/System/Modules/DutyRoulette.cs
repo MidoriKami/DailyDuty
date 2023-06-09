@@ -23,10 +23,10 @@ public class DutyRouletteData : ModuleTaskDataBase<ContentRoulette>
 {
     [IntDisplay("CurrentWeeklyTomestones", "ModuleData", 1)] 
     public int ExpertTomestones;
-    
+
     [IntDisplay("WeeklyTomestoneLimit", "ModuleData", 1)]
     public int ExpertTomestoneCap;
-    
+
     [BoolDisplay("AtWeeklyTomestoneLimit", "ModuleData", 1)]
     public bool AtTomeCap;
 }

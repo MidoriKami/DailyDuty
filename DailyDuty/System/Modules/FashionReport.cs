@@ -25,7 +25,7 @@ public class FashionReportData : ModuleDataBase
     
     [IntDisplay("HighestWeeklyScore", "ModuleData", 1)]
     public int HighestWeeklyScore;
-    
+
     [BoolDisplay("FashionReportAvailable", "ModuleData", 1)]
     public bool FashionReportAvailable;
 }
