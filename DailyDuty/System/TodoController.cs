@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Abstracts;
@@ -22,6 +23,8 @@ public class TodoController : IDisposable
     private bool configChanged;
     private TodoUiController? uiController;
     private Vector2? holdOffset;
+    private readonly Dictionary<ModuleName, DisplayData> displayDataCache = new();
+    private record DisplayData(bool ShowModule, bool ShowHeader, bool ShowCategory);
 
     public void Dispose() => Unload();
     
@@ -122,7 +125,9 @@ public class TodoController : IDisposable
     {
         foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
         {
-            if (enabled && module.ModuleConfig.TodoOptions.StyleChanged)
+            var wasStyleChanged = module.ModuleConfig.TodoOptions.StyleChanged;
+
+            if (enabled && wasStyleChanged)
             {
                 uiController?.UpdateModuleStyle(type, module.ModuleName, GetModuleTextStyleOptions(module));
                 uiController?.UpdateHeaderStyle(type, HeaderOptions);
@@ -130,10 +135,20 @@ public class TodoController : IDisposable
                     
                 module.ModuleConfig.TodoOptions.StyleChanged = false;
             }
-            
-            uiController?.UpdateModule(type, module.ModuleName, GetModuleTodoLabel(module), GetModuleActiveState(module) && enabled || Config.PreviewMode);
-            uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), Config.ShowHeaders);
-            uiController?.UpdateCategory(type, enabled);
+
+            var name = module.ModuleName;
+            var display = new DisplayData(
+                GetModuleActiveState(module) && enabled || Config.PreviewMode,
+                Config.ShowHeaders,
+                enabled);
+
+            if (!displayDataCache.TryGetValue(name, out var cached) || !cached.Equals(display) || wasStyleChanged)
+            {
+                uiController?.UpdateModule(type, name, GetModuleTodoLabel(module), display.ShowModule);
+                uiController?.UpdateCategoryHeader(type, GetCategoryLabel(type), display.ShowHeader);
+                uiController?.UpdateCategory(type, display.ShowCategory);
+                displayDataCache[name] = display;
+            }
         }
     }
     
