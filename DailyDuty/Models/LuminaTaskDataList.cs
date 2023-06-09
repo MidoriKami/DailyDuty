@@ -58,10 +58,7 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
         }
     }
 
-    public void Sort()
-    {
-        DataList = DataList.OrderBy(e => e.RowId).ToList();
-    }
+    public void Sort() => DataList = DataList.OrderBy(e => e.RowId).ToList();
 
     private void DrawStandardDataList()
     {

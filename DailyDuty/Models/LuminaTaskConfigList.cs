@@ -58,10 +58,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
         }
     }
 
-    public void Sort()
-    {
-        ConfigList = ConfigList.OrderBy(e => e.RowId).ToList();
-    }
+    public void Sort() => ConfigList = ConfigList.OrderBy(e => e.RowId).ToList();
 
     private void DrawStandardConfigList(Action saveAction)
     {
