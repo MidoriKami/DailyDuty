@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
-using KamiLib.AutomaticUserInterface;
 using Lumina.Excel;
 
 namespace DailyDuty.Abstracts;
