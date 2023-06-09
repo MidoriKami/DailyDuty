@@ -4,13 +4,13 @@ using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
-using DailyDuty.System.Commands;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
-using KamiLib;
 using KamiLib.Atk;
 using KamiLib.AutomaticUserInterface;
+using KamiLib.Commands;
+using KamiLib.Commands.temp;
 using KamiLib.GameState;
 using KamiLib.Utilities;
 
@@ -20,7 +20,6 @@ public class TodoController : IDisposable
 {
     public TodoConfig Config = new();
     private bool configChanged;
-    private readonly TodoCommands todoCommands = new();
     private TodoUiController? uiController;
     private Vector2? holdOffset;
 
@@ -30,8 +29,7 @@ public class TodoController : IDisposable
     {
         PluginLog.Debug($"[TodoConfig] Loading Todo System");
         
-        KamiCommon.CommandManager.RemoveCommand(todoCommands);
-        KamiCommon.CommandManager.AddCommand(todoCommands);
+        CommandController.RegisterCommands(this);
         Config = LoadConfig();
         
         uiController ??= new TodoUiController();
@@ -46,8 +44,6 @@ public class TodoController : IDisposable
     {
         PluginLog.Debug("[TodoConfig] Unloading Todo System");
         
-        KamiCommon.CommandManager.RemoveCommand(todoCommands);
-
         uiController?.Dispose();
         uiController = null;
     }
@@ -160,6 +156,42 @@ public class TodoController : IDisposable
         if (module.ModuleStatus is not ModuleStatus.Incomplete) return false;
 
         return true;
+    }
+
+    [DoubleTierCommandHandler("TodoEnable", "todo", "show", "enable")]
+    // ReSharper disable once UnusedMember.Local
+    // ReSharper disable once UnusedParameter.Local
+    private void ShowTodoCommand(params string[]? _)
+    {
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.IsPvP) return;
+
+        Config.Enable = true;
+        SaveConfig();
+    }
+    
+    [DoubleTierCommandHandler("TodoDisable", "todo", "hide", "disable")]
+    // ReSharper disable once UnusedMember.Local
+    // ReSharper disable once UnusedParameter.Local
+    private void HideTodoCommand(params string[]? _)
+    {
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.IsPvP) return;
+
+        Config.Enable = false;
+        SaveConfig();
+    }
+    
+    [DoubleTierCommandHandler("TodoToggle", "todo", "toggle", "t")]
+    // ReSharper disable once UnusedMember.Local
+    // ReSharper disable once UnusedParameter.Local
+    private void ToggleTodoCommand(params string[]? _)
+    {
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.IsPvP) return;
+
+        Config.Enable = !Config.Enable;
+        SaveConfig();
     }
 
     private string GetCategoryLabel(ModuleType type) => type switch

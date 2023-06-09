@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Views.Tabs;
+using KamiLib.Commands;
+using KamiLib.Commands.temp;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
 using KamiLib.Windows;
@@ -30,6 +32,8 @@ public class ConfigurationWindow : TabbedSelectionWindow
             MinimumSize = new Vector2(650, 400),
             MaximumSize = new Vector2(9999,9999)
         };
+        
+        CommandController.RegisterCommands(this);
     }
     
     protected override IEnumerable<ISelectionWindowTab> GetTabs() => tabs;
@@ -47,5 +51,15 @@ public class ConfigurationWindow : TabbedSelectionWindow
     {
         base.DrawWindowExtras();
         PluginVersion.Instance.DrawVersionText();
+    }
+
+    [BaseCommandHandler("OpenConfigWindow")]
+    // ReSharper disable once UnusedMember.Local
+    private void OpenConfigWindow()
+    {
+        if (!Service.ClientState.IsLoggedIn) return;
+        if (Service.ClientState.IsPvP) return;
+            
+        Toggle();
     }
 }

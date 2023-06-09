@@ -3,6 +3,7 @@ using DailyDuty.System.Localization;
 using DailyDuty.Views;
 using Dalamud.Plugin;
 using KamiLib;
+using KamiLib.Commands;
 
 namespace DailyDuty;
 
@@ -21,7 +22,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
                 
         System = new DailyDutySystem();
         
-        KamiCommon.CommandManager.AddHandler("/dd", "Shorthand Command Handler");
+        CommandController.RegisterMainCommand("/dd", "/dailyduty");
+        CommandController.RegisterCommands(this);
+        
         KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
     }
 
