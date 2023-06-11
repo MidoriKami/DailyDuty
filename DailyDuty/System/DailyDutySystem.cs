@@ -139,7 +139,7 @@ public class DailyDutySystem : IDisposable
 
     private void LoadSystemConfig()
     {
-        SystemConfig = (SystemConfig) FileController.LoadFile("System.config.json", SystemConfig);
+        SystemConfig = FileController.LoadFile<SystemConfig>("System.config.json", SystemConfig);
         
         PluginLog.Debug($"[DailyDutySystem] Logging into character: {Service.ClientState.LocalPlayer?.Name}, updating System.config.json");
 

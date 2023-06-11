@@ -9,19 +9,19 @@ namespace DailyDuty.System;
 
 public static unsafe class FileController
 {
-    public static object LoadFile(string filePath, object targetObject)
+    public static T LoadFile<T>(string filePath, object targetObject)
     {
         DebugPrint($"[FileController] Loading {filePath}");
         
         if (LoadFile(filePath, targetObject.GetType(), out var loadedData))
         {
-            return loadedData;
+            return (T) loadedData;
         }
         
         DebugPrint($"[FileController] File Doesn't Exist, creating: {filePath}");
         
         SaveFile(filePath, targetObject.GetType(), targetObject);
-        return targetObject;
+        return (T) targetObject;
     }
     
     private static bool LoadFile(string fileName, Type fileType, [NotNullWhen(true)] out object? loadedData)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
@@ -112,8 +111,8 @@ public abstract class BaseModule : IDisposable
         }
     }
     
-    private ModuleConfigBase LoadConfig() => (ModuleConfigBase) FileController.LoadFile($"{ModuleName}.config.json", ModuleConfig);
-    private ModuleDataBase LoadData() => (ModuleDataBase) FileController.LoadFile($"{ModuleName}.data.json", ModuleData);
+    private ModuleConfigBase LoadConfig() => FileController.LoadFile<ModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
+    private ModuleDataBase LoadData() => FileController.LoadFile<ModuleDataBase>($"{ModuleName}.data.json", ModuleData);
     public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
     public void SaveData() => FileController.SaveFile($"{ModuleName}.data.json", ModuleData.GetType(), ModuleData);
 
