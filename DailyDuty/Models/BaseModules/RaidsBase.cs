@@ -35,7 +35,10 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
 
     protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     private AgentContentsFinder* Agent => (AgentContentsFinder*) AgentModule.Instance()->GetAgentByInternalId(AgentId.ContentsFinder);
-    
+
+    public override bool HasTooltip => true;
+    public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+
     public override void Update()
     {
         if (Agent is not null && Agent->AgentInterface.IsAgentActive())

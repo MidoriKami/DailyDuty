@@ -40,6 +40,9 @@ public unsafe class DutyRoulette : Module.DailyModule
     private DutyRouletteData Data => ModuleData as DutyRouletteData ?? new DutyRouletteData();
     private DutyRouletteConfig Config => ModuleConfig as DutyRouletteConfig ?? new DutyRouletteConfig();
 
+    public override bool HasTooltip => true;
+    public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+
     protected override void UpdateTaskLists()
     {
         var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.RawString != string.Empty);

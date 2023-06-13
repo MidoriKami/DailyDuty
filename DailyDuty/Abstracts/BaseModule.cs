@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
@@ -35,6 +36,8 @@ public abstract class BaseModule : IDisposable
     public virtual void AddonPostSetup(AddonArgs addonInfo) { }
     public virtual void AddonFinalize(AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
+    public virtual bool HasTooltip { get; protected set; }
+    public virtual string GetTooltip() => string.Empty;
 
     public void DrawConfig()
     {
@@ -182,5 +185,30 @@ public abstract class BaseModule : IDisposable
         }
 
         return count;
+    }
+
+    protected static IEnumerable<string> GetIncompleteRows<T>(LuminaTaskConfigList<T> config, LuminaTaskDataList<T> data) where T : ExcelRow
+    {
+        if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount.");
+
+        var incompleteTasks = new List<string>();
+        
+        for (var i = 0; i < config.Count; i++)
+        {
+            var configTask = config.ConfigList[i];
+            var dataTask = data.DataList[i];
+
+            if (configTask.RowId != dataTask.RowId) throw new Exception($"Task and Data rows are mismatched. Unable to calculate IncompleteCount.\nConfig RowId: {configTask.RowId} Data RowId: {dataTask.RowId}.");
+
+            if (configTask.Enabled)
+            {
+                var isCountableTaskIncomplete = configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount;
+                var isNonCountableTaskIncomplete = configTask.TargetCount == 0 && !dataTask.Complete;
+                
+                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) incompleteTasks.Add(configTask.GetLabel());
+            }
+        }
+
+        return incompleteTasks;
     }
 }

@@ -49,6 +49,12 @@ public unsafe class TodoUiCategoryController : IDisposable
                 Id = ModuleNodeBaseId + (uint) module.ModuleName,
             });
 
+            if (module.HasTooltip)
+            {
+                textNode.AddTooltip(AddonNamePlate);
+                textNode.SetTooltipStringFunction(module.GetTooltip);
+            }
+
             moduleNodes.Add(module.ModuleName, textNode);
             textNode.Node->SetText(module.ModuleName.GetLabel());
             categoryResNode.AddResourceNode(textNode, AddonNamePlate);
@@ -127,6 +133,4 @@ public unsafe class TodoUiCategoryController : IDisposable
     public TextNode GetHeaderNode() => headerNode;
     public ResNode GetCategoryContainer() => categoryResNode;
     public void SetVisible(bool show) => categoryResNode.ResourceNode->ToggleVisibility(show);
-
-
 }
