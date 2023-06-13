@@ -59,19 +59,12 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
     }
 
     public void Sort() => ConfigList = ConfigList.OrderBy(e => e.RowId).ToList();
-
+    
     private void DrawStandardConfigList(Action saveAction)
     {
         foreach (var configEntry in ConfigList)
         {
-            var entryLabel = this switch
-            {
-                LuminaTaskConfigList<ContentRoulette> => LuminaCache<ContentRoulette>.Instance.GetRow(configEntry.RowId)!.Name.ToString(),
-                LuminaTaskConfigList<ClassJob> => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(LuminaCache<ClassJob>.Instance.GetRow(configEntry.RowId)!.Name.ToString()),
-                LuminaTaskConfigList<MobHuntOrderType> => GetMobHuntOrderTypeString(configEntry.RowId),
-                LuminaTaskConfigList<Addon> => LuminaCache<Addon>.Instance.GetRow(configEntry.RowId)!.Text.ToString(),
-                _ => throw new Exception($"Data Type Not Registered")
-            };
+            var entryLabel = configEntry.GetLabel();
             
             var enabled = configEntry.Enabled;
             if (ImGui.Checkbox($"{entryLabel}##{configEntry.RowId}", ref enabled))
@@ -147,15 +140,5 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
                             
             ImGui.EndTable();
         }
-    }
-
-    private string GetMobHuntOrderTypeString(uint row)
-    {
-        var itemInfo = LuminaCache<MobHuntOrderType>.Instance.GetRow(row)!;
-        
-        var eventItem = itemInfo.EventItem.Value?.Name.ToString();
-        if(eventItem == string.Empty) eventItem = itemInfo.EventItem.Value?.Singular.ToString();
-
-        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItem ?? "Unable to Read Event Item Name");
     }
 }
