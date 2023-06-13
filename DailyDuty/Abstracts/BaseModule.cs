@@ -38,8 +38,7 @@ public abstract class BaseModule : IDisposable
 
     public void DrawConfig()
     {
-        DrawableAttribute.DrawAttributes(ModuleConfig, SaveConfig);
-        DrawableAttribute.DrawAttributes(ModuleConfig.TodoOptions, () => {
+        DrawableAttribute.DrawAttributes(ModuleConfig, () => {
             SaveConfig();
             ModuleConfig.TodoOptions.StyleChanged = true;
         });
