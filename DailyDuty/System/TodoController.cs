@@ -174,7 +174,7 @@ public class TodoController : IDisposable
         return true;
     }
 
-    [DoubleTierCommandHandler("TodoEnable", "todo", "enable")]
+    [DoubleTierCommandHandler("TodoEnable", "todo", "show", "enable")]
     // ReSharper disable once UnusedMember.Local
     // ReSharper disable once UnusedParameter.Local
     private void ShowTodoCommand(params string[]? _)
@@ -186,7 +186,7 @@ public class TodoController : IDisposable
         SaveConfig();
     }
     
-    [DoubleTierCommandHandler("TodoDisable", "todo", "disable")]
+    [DoubleTierCommandHandler("TodoDisable", "todo", "hide", "disable")]
     // ReSharper disable once UnusedMember.Local
     // ReSharper disable once UnusedParameter.Local
     private void HideTodoCommand(params string[]? _)
@@ -198,7 +198,7 @@ public class TodoController : IDisposable
         SaveConfig();
     }
     
-    [DoubleTierCommandHandler("TodoToggle", "todo", "toggle")]
+    [DoubleTierCommandHandler("TodoToggle", "todo", "toggle", "t")]
     // ReSharper disable once UnusedMember.Local
     // ReSharper disable once UnusedParameter.Local
     private void ToggleTodoCommand(params string[]? _)
