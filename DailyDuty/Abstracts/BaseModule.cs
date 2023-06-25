@@ -191,8 +191,6 @@ public abstract class BaseModule : IDisposable
     {
         if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount.");
 
-        var incompleteTasks = new List<string>();
-        
         for (var i = 0; i < config.Count; i++)
         {
             var configTask = config.ConfigList[i];
@@ -205,10 +203,8 @@ public abstract class BaseModule : IDisposable
                 var isCountableTaskIncomplete = configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount;
                 var isNonCountableTaskIncomplete = configTask.TargetCount == 0 && !dataTask.Complete;
                 
-                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) incompleteTasks.Add(configTask.GetLabel());
+                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) yield return configTask.GetLabel();
             }
         }
-
-        return incompleteTasks;
     }
 }
