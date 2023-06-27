@@ -23,7 +23,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin
         System = new DailyDutySystem();
         
         CommandController.RegisterMainCommand("/dd", "/dailyduty");
-        CommandController.RegisterCommands(this);
         
         KamiCommon.WindowManager.AddConfigurationWindow(new ConfigurationWindow());
     }
