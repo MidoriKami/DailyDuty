@@ -97,12 +97,14 @@ public unsafe class TodoUiCategoryController : IDisposable
                 anyVisible = true;
                 if (moduleResNode->Width > largestWidth) largestWidth = moduleResNode->Width;
             }
+            
+            module.Value.ToggleTooltip(moduleResNode->IsVisible);
         }
         
         categoryResNode.ResourceNode->SetHeight(startPosition);
         categoryResNode.ResourceNode->SetWidth(largestWidth);
 
-        if(!anyVisible) categoryResNode.ResourceNode->ToggleVisibility(false);
+        if(!anyVisible) {categoryResNode.ResourceNode->ToggleVisibility(false);}
     }
     
     public void UpdateModule(ModuleName module, string label, bool visible)
