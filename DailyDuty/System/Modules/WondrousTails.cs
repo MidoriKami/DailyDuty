@@ -5,6 +5,7 @@ using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud;
 using Dalamud.Logging;
@@ -17,65 +18,17 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
 
-public class WondrousTailsConfig : ModuleConfigBase
-{
-    [BoolConfigOption("InstanceNotifications", "ModuleConfiguration", 1, "InstanceNotificationsHelp")]
-    public bool InstanceNotifications = true;
-
-    [BoolConfigOption("StickerAvailableNotice", "ModuleConfiguration", 1, "StickerAvailableNoticeHelp")]
-    public bool StickerAvailableNotice = true;
-    
-    [BoolConfigOption("UnclaimedBookWarning", "ModuleConfiguration", 1)]
-    public bool UnclaimedBookWarning = true;
-
-    [BoolConfigOption("ShuffleAvailableNotice", "ModuleConfiguration", 1, "ShuffleAvailableNoticeHelp")]
-    public bool ShuffleAvailableNotice = false;
-    
-    [BoolDescriptionConfigOption("Enable", "ClickableLink", 2, "WondrousTailsClickableLink")] 
-    public bool ClickableLink = true;
-}
-
-public class WondrousTailsData : ModuleDataBase
-{
-    [IntDisplay("PlacedStickers", "ModuleData", 1)]
-    public int PlacedStickers;
-
-    [UintDisplay("SecondChancePoints", "ModuleData", 1)] 
-    public uint SecondChance;
-
-    [BoolDisplay("NewBookAvailable", "ModuleData", 1)]
-    public bool NewBookAvailable;
-
-    [BoolDisplay("PlayerHasBook", "ModuleData", 1)]
-    public bool PlayerHasBook;
-    
-    [LocalDateTimeDisplay("Deadline", "ModuleData", 1)]
-    public DateTime Deadline;
-
-    [TimeSpanDisplay("TimeRemaining", "ModuleData", 1)]
-    public TimeSpan TimeRemaining;
-
-    [BoolDisplay("BookExpired", "ModuleData", 1)] 
-    public bool BookExpired;
-    
-    [BoolDisplay("NearKhloe", "ModuleData", 1)]
-    public bool CloseToKhloe;
-
-    [FloatDisplay("DistanceToKhloe", "ModuleData", 1)] 
-    public float DistanceToKhloe;
-
-    [BoolDisplay("CastingTeleport", "ModuleData", 1)] 
-    public bool CastingTeleport;
-}
-
 public unsafe class WondrousTails : Module.WeeklyModule
 {
     public override ModuleName ModuleName => ModuleName.WondrousTails;
 
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new WondrousTailsConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new WondrousTailsData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new WondrousTailsConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new WondrousTailsData();
     private WondrousTailsConfig Config => ModuleConfig as WondrousTailsConfig ?? new WondrousTailsConfig();
     private WondrousTailsData Data => ModuleData as WondrousTailsData ?? new WondrousTailsData();
+    
+    public override bool HasClickableLink => true;
+    public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.OpenWondrousTailsBook : PayloadId.IdyllshireTeleport;
 
     public WondrousTails()
     {
@@ -91,12 +44,12 @@ public unsafe class WondrousTails : Module.WeeklyModule
 
     public override void Update()
     {
-        TryUpdateData(ref Data.PlacedStickers, PlayerState.Instance()->WeeklyBingoNumPlacedStickers);
-        TryUpdateData(ref Data.SecondChance, PlayerState.Instance()->WeeklyBingoNumSecondChancePoints);
-        TryUpdateData(ref Data.Deadline, DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).DateTime);
-        TryUpdateData(ref Data.PlayerHasBook, PlayerState.Instance()->HasWeeklyBingoJournal);
-        TryUpdateData(ref Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
-        TryUpdateData(ref Data.BookExpired, PlayerState.Instance()->IsWeeklyBingoExpired());
+        Data.PlacedStickers = TryUpdateData(Data.PlacedStickers, PlayerState.Instance()->WeeklyBingoNumPlacedStickers);
+        Data.SecondChance = TryUpdateData(Data.SecondChance, PlayerState.Instance()->WeeklyBingoNumSecondChancePoints);
+        Data.Deadline = TryUpdateData(Data.Deadline, DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).DateTime);
+        Data.PlayerHasBook = TryUpdateData(Data.PlayerHasBook, PlayerState.Instance()->HasWeeklyBingoJournal);
+        Data.NewBookAvailable = TryUpdateData(Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
+        Data.BookExpired = TryUpdateData(Data.BookExpired, PlayerState.Instance()->IsWeeklyBingoExpired());
         
         var timeRemaining = Data.Deadline - DateTime.UtcNow;
         Data.TimeRemaining = timeRemaining > TimeSpan.Zero ? timeRemaining : TimeSpan.Zero;

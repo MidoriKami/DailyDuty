@@ -1,40 +1,25 @@
 ﻿using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.System;
-
-public class CustomDeliveryConfig : ModuleConfigBase
-{
-    [IntConfigOption("NotificationThreshold", "ModuleConfiguration", 1, 0, 12)]
-    public int NotificationThreshold = 12;
-
-    [EnumConfigOption("ComparisonMode", "ModuleConfiguration", 1, "ComparisonHelp")]
-    public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
-}
-
-public class CustomDeliveryData : ModuleDataBase
-{
-    [IntDisplay("AllowancesRemaining", "ModuleData", 1)]
-    public int RemainingAllowances = 12;
-}
 
 public unsafe class CustomDelivery : Module.WeeklyModule
 {
     public override ModuleName ModuleName => ModuleName.CustomDelivery;
 
-    public override ModuleDataBase ModuleData { get; protected set; } = new CustomDeliveryData();
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new CustomDeliveryConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new CustomDeliveryData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new CustomDeliveryConfig();
     
     private CustomDeliveryConfig Config => ModuleConfig as CustomDeliveryConfig ?? new CustomDeliveryConfig();
     private CustomDeliveryData Data => ModuleData as CustomDeliveryData ?? new CustomDeliveryData();
 
     public override void Update()
     {
-        TryUpdateData(ref Data.RemainingAllowances, SatisfactionSupplyManager.Instance()->GetRemainingAllowances());
+        Data.RemainingAllowances = TryUpdateData(Data.RemainingAllowances, SatisfactionSupplyManager.Instance()->GetRemainingAllowances());
         
         base.Update();
     }

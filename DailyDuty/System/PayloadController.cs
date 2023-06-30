@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -50,64 +51,70 @@ public unsafe class PayloadController : IDisposable
         throw new Exception("Tried to get payload that isn't registered.");
     }
 
-    private DalamudLinkPayload RegisterPayload(PayloadId id)
+    private DalamudLinkPayload RegisterPayload(PayloadId id) => AddHandler(id, GetDelegateForPayload(id));
+
+    public Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch
     {
-        return id switch
+        PayloadId.OpenWondrousTailsBook => (_, _) =>
         {
-            PayloadId.OpenWondrousTailsBook => AddHandler(id, (_, _) =>
-            {
-                const uint wondrousTailsBookItemID = 2002023;
+            const uint wondrousTailsBookItemID = 2002023;
                 
-                if (InventoryManager.Instance()->GetInventoryItemCount(wondrousTailsBookItemID) == 1)
-                {
-                    AgentInventoryContext.Instance()->UseItem(wondrousTailsBookItemID);
-                }
-            }),
-            PayloadId.OpenPartyFinder => AddHandler(id, (_, _) =>
+            if (InventoryManager.Instance()->GetInventoryItemCount(wondrousTailsBookItemID) == 1)
             {
-                Framework.Instance()->GetUiModule()->ExecuteMainCommand(57);
-            }),
-            PayloadId.IdyllshireTeleport => AddHandler(id, (_, _) =>
-            {
-                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(75)!);
-            }),
-            PayloadId.DomanEnclaveTeleport => AddHandler(id, (_, _) =>
-            {
-               TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(127)!); 
-            }),
-            PayloadId.GoldSaucerTeleport => AddHandler(id, (_, _) =>
-            {
-                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(62)!); 
-            }),
-            PayloadId.UldahTeleport => AddHandler(id, (_, _) =>
-            {
-                TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(9)!); 
-            }),
-            PayloadId.OpenDutyFinderRoulette => AddHandler(id, (_, _) =>
-            {
-                AgentContentsFinder.Instance()->OpenRouletteDuty(1);
-            }),
-            PayloadId.OpenDutyFinderRaid => AddHandler(id, (_, _) =>
-            {
-                var currentRaid = LuminaCache<ContentFinderCondition>.Instance
-                    .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 1)
-                    .Last();
+                AgentInventoryContext.Instance()->UseItem(wondrousTailsBookItemID);
+            }
+        },
+        PayloadId.IdyllshireTeleport => (_, _) =>
+        {
+            TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(75)!);
+        },
+        PayloadId.DomanEnclaveTeleport => (_, _) =>
+        {
+            TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(127)!);
+        },
+        PayloadId.OpenDutyFinderRoulette => (_, _) =>
+        {
+            AgentContentsFinder.Instance()->OpenRouletteDuty(1);
+        },
+        PayloadId.OpenDutyFinderRaid => (_, _) =>
+        {
+            var currentRaid = LuminaCache<ContentFinderCondition>.Instance
+                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 1)
+                .Last();
                 
-                AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
-            }),
-            PayloadId.OpenDutyFinderAllianceRaid => AddHandler(id, (_, _) =>
-            {
-                var currentAllianceRaid = LuminaCache<ContentFinderCondition>.Instance
-                    .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 0)
-                    .Last();
+            AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
+        },
+        PayloadId.OpenDutyFinderAllianceRaid => (_, _) =>
+        {
+            var currentAllianceRaid = LuminaCache<ContentFinderCondition>.Instance
+                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 0)
+                .Last();
 
-                AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
-            }),
-
-
-            _ => throw new ArgumentOutOfRangeException(nameof(id), id, null)
-        };
-    }
+            AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
+        },
+        PayloadId.GoldSaucerTeleport => (_, _) =>
+        {
+            TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(62)!);
+        },
+        PayloadId.OpenPartyFinder => (_, _) =>
+        {
+            Framework.Instance()->GetUiModule()->ExecuteMainCommand(57);
+        },
+        PayloadId.UldahTeleport => (_, _) =>
+        {
+            TeleporterController.Instance.Teleport(LuminaCache<Aetheryte>.Instance.GetRow(9)!);
+        },
+        PayloadId.Unknown => (_, _) =>
+        {
+            PluginLog.Debug("Executed Unknown Payload.");
+        },
+        PayloadId.OpenChallengeLog => (_, _) =>
+        {
+            Framework.Instance()->GetUiModule()->ExecuteMainCommand(60);
+        },
+        _ => throw new ArgumentOutOfRangeException(nameof(payload), payload, null)
+    };
+    
 
     private DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
     {

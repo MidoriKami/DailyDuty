@@ -4,6 +4,7 @@ using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -14,26 +15,12 @@ using Condition = KamiLib.GameState.Condition;
 
 namespace DailyDuty.System;
 
-public class TreasureMapConfig : ModuleConfigBase
-{
-    // No Config Options
-}
-
-public class TreasureMapData : ModuleDataBase
-{
-    [LocalDateTimeDisplay("LastMapGathered", "ModuleData", 1)]
-    public DateTime LastMapGatheredTime = DateTime.MinValue;
-    
-    [BoolDisplay("MapAvailable", "ModuleData", 1)]
-    public bool MapAvailable = true;
-}
-
 public unsafe class TreasureMap : Module.SpecialModule
 {
     public override ModuleName ModuleName => ModuleName.TreasureMap;
 
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new TreasureMapConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new TreasureMapData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new TreasureMapConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new TreasureMapData();
     private TreasureMapData Data => ModuleData as TreasureMapData ?? new TreasureMapData();
     private TreasureMapConfig Config => ModuleConfig as TreasureMapConfig ?? new TreasureMapConfig();
 

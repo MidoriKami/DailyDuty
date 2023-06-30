@@ -1,11 +1,16 @@
-﻿using DailyDuty.Models;
+﻿using System;
+using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
+using KamiLib.AutomaticUserInterface;
 using Lumina.Excel;
 
 namespace DailyDuty.Abstracts;
 
-public class ModuleTaskDataBase<T> : ModuleDataBase where T : ExcelRow
+[Category("TaskData", 3)]
+public class ModuleTaskDataBase<T> : IModuleDataBase where T : ExcelRow
 {
-    [DataList("TaskData", 3)] 
+    [DataList] 
     public LuminaTaskDataList<T> TaskData = new();
+
+    public DateTime NextReset { get; set; } = DateTime.MinValue;
 }

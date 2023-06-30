@@ -7,11 +7,11 @@ using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.Models.Attributes;
 
-public class ModuleResetTime : LocalDateTimeDisplay
+public class ModuleResetTime : LocalDateTimeDisplayAttribute
 {
-    public ModuleResetTime(string category, int group) : base(null, category, group) { }
+    public ModuleResetTime() : base(null) { }
 
-    protected override void Draw(object obj, FieldInfo field, Action? saveAction = null)
+    protected override void Draw(object obj, MemberInfo field, Action? saveAction = null)
     {
         var dateTime = GetValue<DateTime>(obj, field);
         

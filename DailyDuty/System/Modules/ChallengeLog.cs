@@ -12,6 +12,9 @@ public unsafe class ChallengeLog : Module.WeeklyTaskModule<ContentsNote>
 {
     public override ModuleName ModuleName => ModuleName.ChallengeLog;
 
+    public override bool HasClickableLink => true;
+    public override PayloadId ClickableLinkPayloadId => PayloadId.OpenChallengeLog;
+
     protected override void UpdateTaskLists()
     {
         var luminaUpdater = new LuminaTaskUpdater<ContentsNote>(this, (row) => row.RequiredAmount is not 0);
@@ -33,7 +36,7 @@ public unsafe class ChallengeLog : Module.WeeklyTaskModule<ContentsNote>
         base.Reset();
     }
 
-    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
+    protected override ModuleStatus GetModuleStatus() => GetIncompleteCount(Config.TaskConfig, Data.TaskData) is 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new()
     {

@@ -4,6 +4,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -14,27 +15,18 @@ using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 
-public class JumboCactpotConfig : ModuleConfigBase
-{
-    [BoolDescriptionConfigOption("Enable", "ClickableLink", 1, "GoldSaucerTeleport")] 
-    public bool ClickableLink = true;
-}
-
-public class JumboCactpotData : ModuleDataBase
-{
-    [IntListDisplay("ClaimedTickets", "ModuleData", 1)]
-    public List<int> Tickets = new();
-}
-
 public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageReceiver
 {
     public override ModuleName ModuleName => ModuleName.JumboCactpot;
     protected override DateTime GetNextReset() => Time.NextJumboCactpotReset();
     
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new JumboCactpotConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new JumboCactpotData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new JumboCactpotConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new JumboCactpotData();
     private JumboCactpotConfig Config => ModuleConfig as JumboCactpotConfig ?? new JumboCactpotConfig();
     private JumboCactpotData Data => ModuleData as JumboCactpotData ?? new JumboCactpotData();
+    
+    public override bool HasClickableLink => true;
+    public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
 
     private Hook<Delegates.AgentReceiveEvent>? onReceiveEventHook;
     private int ticketData = -1;

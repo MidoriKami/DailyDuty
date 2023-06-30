@@ -7,9 +7,9 @@ namespace DailyDuty.Models.Attributes;
 
 public class ConfigList : DrawableAttribute
 {
-    public ConfigList(string category, int group) : base(null, category, group) { }
+    public ConfigList() : base(null) { }
     
-    protected override void Draw(object obj, FieldInfo field, Action? saveAction = null)
+    protected override void Draw(object obj, MemberInfo field, Action? saveAction = null)
     {
         var configList = GetValue<IConfigDrawable>(obj, field);
 

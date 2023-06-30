@@ -1,4 +1,6 @@
-﻿using System;
+﻿// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -11,7 +13,6 @@ using ImGuiNET;
 using KamiLib.Atk;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.Commands;
-using KamiLib.Commands.temp;
 using KamiLib.GameState;
 using KamiLib.Utilities;
 
@@ -39,7 +40,7 @@ public class TodoController : IDisposable
 
         foreach (var module in DailyDutySystem.ModuleController.GetModules())
         {
-            module.ModuleConfig.TodoOptions.StyleChanged = true;
+            module.ModuleConfig.StyleChanged = true;
         }
     }
     
@@ -58,7 +59,7 @@ public class TodoController : IDisposable
             SaveConfig();
             foreach (var module in DailyDutySystem.ModuleController.GetModules())
             {
-                module.ModuleConfig.TodoOptions.StyleChanged = true;
+                module.ModuleConfig.StyleChanged = true;
             }
         });
     }
@@ -126,7 +127,7 @@ public class TodoController : IDisposable
     {
         foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
         {
-            var wasStyleChanged = module.ModuleConfig.TodoOptions.StyleChanged;
+            var wasStyleChanged = module.ModuleConfig.StyleChanged;
 
             if (enabled && wasStyleChanged)
             {
@@ -134,7 +135,7 @@ public class TodoController : IDisposable
                 uiController?.UpdateHeaderStyle(type, HeaderOptions);
                 uiController?.UpdateCategoryStyle(type, BackgroundImageOptions);
                     
-                module.ModuleConfig.TodoOptions.StyleChanged = false;
+                module.ModuleConfig.StyleChanged = false;
             }
 
             var name = module.ModuleName;
@@ -155,7 +156,7 @@ public class TodoController : IDisposable
     
     private string GetModuleTodoLabel(BaseModule module)
     {
-        var todoOptions = module.ModuleConfig.TodoOptions;
+        var todoOptions = module.ModuleConfig;
 
         if (todoOptions.UseCustomTodoLabel && todoOptions.CustomTodoLabel != string.Empty)
         {
@@ -168,15 +169,13 @@ public class TodoController : IDisposable
     private bool GetModuleActiveState(BaseModule module)
     {
         if (!module.ModuleConfig.ModuleEnabled) return false;
-        if (!module.ModuleConfig.TodoOptions.Enabled) return false;
+        if (!module.ModuleConfig.TodoEnabled) return false;
         if (module.ModuleStatus is not ModuleStatus.Incomplete) return false;
 
         return true;
     }
 
     [DoubleTierCommandHandler("TodoEnable", "todo", "show", "enable")]
-    // ReSharper disable once UnusedMember.Local
-    // ReSharper disable once UnusedParameter.Local
     private void ShowTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
@@ -187,8 +186,6 @@ public class TodoController : IDisposable
     }
     
     [DoubleTierCommandHandler("TodoDisable", "todo", "hide", "disable")]
-    // ReSharper disable once UnusedMember.Local
-    // ReSharper disable once UnusedParameter.Local
     private void HideTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
@@ -199,8 +196,6 @@ public class TodoController : IDisposable
     }
     
     [DoubleTierCommandHandler("TodoToggle", "todo", "toggle", "t")]
-    // ReSharper disable once UnusedMember.Local
-    // ReSharper disable once UnusedParameter.Local
     private void ToggleTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
@@ -232,8 +227,8 @@ public class TodoController : IDisposable
     private TextNodeOptions GetModuleTextStyleOptions(BaseModule module) => new()
     {
         Alignment = AlignmentType.Left,
-        TextColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextColor : Config.ModuleTextColor,
-        EdgeColor = module.ModuleConfig.TodoOptions.OverrideTextColor ? module.ModuleConfig.TodoOptions.TextOutline : Config.ModuleOutlineColor,
+        TextColor = module.ModuleConfig.OverrideTextColor ? module.ModuleConfig.TodoTextColor : Config.ModuleTextColor,
+        EdgeColor = module.ModuleConfig.OverrideTextColor ? module.ModuleConfig.TodoTextOutline : Config.ModuleOutlineColor,
         BackgroundColor = KnownColor.White.AsVector4(),
         FontSize = (byte) Config.FontSize,
         Flags = GetModuleFlags(),

@@ -5,12 +5,12 @@ using System.Text.RegularExpressions;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using KamiLib.Hooking;
 using Lumina.Excel.GeneratedSheets;
@@ -18,32 +18,12 @@ using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.System;
 
-public class GrandCompanySquadronConfig : ModuleConfigBase
-{
-    // No Config Options for this Module
-}
-
-public class GrandCompanySquadronData : ModuleDataBase
-{
-    [BoolDisplay("MissionCompleted", "ModuleData", 1)]
-    public bool MissionCompleted;
-
-    [BoolDisplay("MissionStarted", "ModuleData", 1)]
-    public bool MissionStarted;
-    
-    [LocalDateTimeDisplay("MissionCompleteTime", "ModuleData", 1)]
-    public DateTime MissionCompleteTime = DateTime.MinValue;
-    
-    [TimeSpanDisplay("TimeUntilMissionComplete", "ModuleData", 1)]
-    public TimeSpan TimeUntilMissionComplete = TimeSpan.MinValue;
-}
-
 public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
 {
     public override ModuleName ModuleName => ModuleName.GrandCompanySquadron;
 
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new GrandCompanySquadronConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new GrandCompanySquadronData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new GrandCompanySquadronConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new GrandCompanySquadronData();
     private GrandCompanySquadronData Data => ModuleData as GrandCompanySquadronData ?? new GrandCompanySquadronData();
     
     private Hook<Delegates.AgentReceiveEvent>? onReceiveEventHook;
@@ -117,7 +97,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     {
         if (Agent is not null && Agent->AgentInterface.IsAgentActive() && Agent->SelectedTab == 2)
         {
-            TryUpdateData(ref Data.MissionCompleted, Agent->ExpeditionData->MissionInfoArraySpan[0].Available == 0);
+            Data.MissionCompleted = TryUpdateData(Data.MissionCompleted, Agent->ExpeditionData->MissionInfoArraySpan[0].Available == 0);
         }
 
         if (Data.MissionCompleteTime > DateTime.UtcNow)

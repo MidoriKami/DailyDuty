@@ -26,35 +26,35 @@ public static class Module
 
     public abstract class DailyTaskModule<T> : DailyModule where T : ExcelRow
     {
-        public override ModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
-        public override ModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
+        public override IModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
+        public override IModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
         protected ModuleTaskDataBase<T> Data => ModuleData as ModuleTaskDataBase<T> ?? new  ModuleTaskDataBase<T>();
         protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();
 
         public override bool HasTooltip => true;
-        public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+        public override string TooltipText => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
     }
 
     public abstract class WeeklyTaskModule<T> : WeeklyModule where T : ExcelRow
     {
-        public override ModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
-        public override ModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
+        public override IModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
+        public override IModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
         protected ModuleTaskDataBase<T> Data => ModuleData as ModuleTaskDataBase<T> ?? new  ModuleTaskDataBase<T>();
         protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();
         
         public override bool HasTooltip => true;
-        public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+        public override string TooltipText => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
     }
 
     public abstract class SpecialTaskModule<T> : SpecialModule where T : ExcelRow
     {
-        public override ModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
-        public override ModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
+        public override IModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<T>();
+        public override IModuleConfigBase ModuleConfig { get; protected set; } = new ModuleTaskConfigBase<T>();
         protected ModuleTaskDataBase<T> Data => ModuleData as ModuleTaskDataBase<T> ?? new  ModuleTaskDataBase<T>();
         protected ModuleTaskConfigBase<T> Config => ModuleConfig as ModuleTaskConfigBase<T> ?? new ModuleTaskConfigBase<T>();
         
         public override bool HasTooltip => true;
-        public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+        public override string TooltipText => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
     }
 }
 

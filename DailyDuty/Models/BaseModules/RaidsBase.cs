@@ -14,9 +14,10 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;
 
+// [Category("ClickableLink", 4)]
 public class RaidsBaseConfig : ModuleTaskConfigBase<ContentFinderCondition>
 {
-    [BoolDescriptionConfigOption("Enable", "ClickableLink", 4, "OpenDutyFinderToRaid")]
+    [BoolDescriptionConfig("Enable", "OpenDutyFinderToRaid")]
     public bool ClickableLink = true;
 }
 
@@ -27,8 +28,8 @@ public class RaidsBaseData : ModuleTaskDataBase<ContentFinderCondition>
 
 public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiver
 {
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new RaidsBaseConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new RaidsBaseData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new RaidsBaseConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new RaidsBaseData();
     
     protected RaidsBaseConfig Config => ModuleConfig as RaidsBaseConfig ?? new RaidsBaseConfig();
     protected RaidsBaseData Data => ModuleData as RaidsBaseData ?? new RaidsBaseData();
@@ -37,7 +38,7 @@ public abstract unsafe class RaidsBase : Module.WeeklyModule, IChatMessageReceiv
     private AgentContentsFinder* Agent => (AgentContentsFinder*) AgentModule.Instance()->GetAgentByInternalId(AgentId.ContentsFinder);
 
     public override bool HasTooltip => true;
-    public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+    public override string TooltipText => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
 
     public override void Update()
     {

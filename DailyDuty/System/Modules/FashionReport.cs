@@ -3,41 +3,23 @@ using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Utilities;
 
 namespace DailyDuty.System;
-
-public class FashionReportConfig : ModuleConfigBase
-{
-    [EnumConfigOption("CompletionMode", "ModuleConfiguration", 1)]
-    public FashionReportMode CompletionMode = FashionReportMode.Single;
-    
-    [BoolDescriptionConfigOption("Enable", "ClickableLink", 2, "GoldSaucerTeleport")] 
-    public bool ClickableLink = true;
-}
-
-public class FashionReportData : ModuleDataBase
-{
-    [IntDisplay("AllowancesRemaining", "ModuleData", 1)]
-    public int AllowancesRemaining = 4;
-    
-    [IntDisplay("HighestWeeklyScore", "ModuleData", 1)]
-    public int HighestWeeklyScore;
-
-    [BoolDisplay("FashionReportAvailable", "ModuleData", 1)]
-    public bool FashionReportAvailable;
-}
 
 public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageReceiver
 {
     public override ModuleName ModuleName => ModuleName.FashionReport;
 
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new FashionReportConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new FashionReportData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new FashionReportConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new FashionReportData();
     private FashionReportConfig Config => ModuleConfig as FashionReportConfig ?? new FashionReportConfig();
     private FashionReportData Data => ModuleData as FashionReportData ?? new FashionReportData();
+
+    public override bool HasClickableLink => true;
+    public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
 
     public override void Update()
     {
@@ -45,7 +27,7 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
         var reportClosed = Time.NextWeeklyReset();
         var now = DateTime.UtcNow;
 
-        TryUpdateData(ref Data.FashionReportAvailable, now > reportOpen && now < reportClosed);
+        Data.FashionReportAvailable = TryUpdateData(Data.FashionReportAvailable, now > reportOpen && now < reportClosed);
         
         base.Update();
     }
@@ -109,7 +91,7 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
                 break;
         }
         
-        TryUpdateData(ref Data.AllowancesRemaining, allowances);
-        TryUpdateData(ref Data.HighestWeeklyScore, score);
+        Data.AllowancesRemaining = TryUpdateData(Data.AllowancesRemaining, allowances);
+        Data.HighestWeeklyScore = TryUpdateData(Data.HighestWeeklyScore, score);
     }
 }

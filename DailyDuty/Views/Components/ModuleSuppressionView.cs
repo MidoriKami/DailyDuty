@@ -9,7 +9,7 @@ namespace DailyDuty.Views.Components;
 
 public static class ModuleSuppressionView
 {
-    public static void Draw(ModuleConfigBase config, Action saveAction)
+    public static void Draw(IModuleConfigBase config, Action saveAction)
     {
         ImGui.Text(Strings.ModuleSuppression);
         ImGui.Separator();

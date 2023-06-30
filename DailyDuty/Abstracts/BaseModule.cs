@@ -16,8 +16,8 @@ namespace DailyDuty.Abstracts;
 
 public abstract class BaseModule : IDisposable
 {
-    public abstract ModuleDataBase ModuleData { get; protected set; }
-    public abstract ModuleConfigBase ModuleConfig { get; protected set; }
+    public abstract IModuleDataBase ModuleData { get; protected set; }
+    public abstract IModuleConfigBase ModuleConfig { get; protected set; }
     public abstract ModuleName ModuleName { get; }
     public abstract ModuleType ModuleType { get; }
     public ModuleStatus ModuleStatus => ModuleConfig.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
@@ -36,14 +36,16 @@ public abstract class BaseModule : IDisposable
     public virtual void AddonPostSetup(AddonArgs addonInfo) { }
     public virtual void AddonFinalize(AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
-    public virtual bool HasTooltip { get; protected set; }
-    public virtual string GetTooltip() => string.Empty;
+    public virtual bool HasTooltip { get; protected set; } = false;
+    public virtual string TooltipText { get; protected set; } = string.Empty;
+    public virtual bool HasClickableLink { get; protected set; } = false;
+    public virtual PayloadId ClickableLinkPayloadId { get; protected set; } = PayloadId.Unknown;
 
     public void DrawConfig()
     {
         DrawableAttribute.DrawAttributes(ModuleConfig, () => {
             SaveConfig();
-            ModuleConfig.TodoOptions.StyleChanged = true;
+            ModuleConfig.StyleChanged = true;
         });
     }
 
@@ -113,8 +115,8 @@ public abstract class BaseModule : IDisposable
         }
     }
     
-    private ModuleConfigBase LoadConfig() => FileController.LoadFile<ModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
-    private ModuleDataBase LoadData() => FileController.LoadFile<ModuleDataBase>($"{ModuleName}.data.json", ModuleData);
+    private IModuleConfigBase LoadConfig() => FileController.LoadFile<IModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
+    private IModuleDataBase LoadData() => FileController.LoadFile<IModuleDataBase>($"{ModuleName}.data.json", ModuleData);
     public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
     public void SaveData() => FileController.SaveFile($"{ModuleName}.data.json", ModuleData.GetType(), ModuleData);
 
@@ -154,13 +156,15 @@ public abstract class BaseModule : IDisposable
         statusMessage.PrintMessage();
     }
 
-    protected void TryUpdateData<T>(ref T value, T newValue) where T : IEquatable<T>
+    protected T TryUpdateData<T>(T value,  T newValue) where T : IEquatable<T>
     {
         if (!value.Equals(newValue))
         {
-            value = newValue;
             DataChanged = true;
+            return newValue;
         }
+
+        return value;
     }
     
     protected static int GetIncompleteCount<T>(LuminaTaskConfigList<T> config, LuminaTaskDataList<T> data) where T : ExcelRow

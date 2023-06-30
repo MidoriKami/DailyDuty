@@ -12,30 +12,22 @@ using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.System;
 
-public class MaskedCarnivaleConfig : ModuleTaskConfigBase<Addon>
-{
-    [BoolDescriptionConfigOption("Enable", "ClickableLink", 4, "UldahTeleport")] 
-    public bool ClickableLink = true;
-}
-
-public class MaskedCarnivaleData : ModuleTaskDataBase<Addon>
-{
-    // Handled by interhited class
-}
-
 public unsafe class MaskedCarnivale : Module.WeeklyModule
 {
     public override ModuleName ModuleName => ModuleName.MaskedCarnivale;
 
-    public override ModuleConfigBase ModuleConfig { get; protected set; } = new MaskedCarnivaleConfig();
-    public override ModuleDataBase ModuleData { get; protected set; } = new MaskedCarnivaleData();
+    public override IModuleConfigBase ModuleConfig { get; protected set; } = new MaskedCarnivaleConfig();
+    public override IModuleDataBase ModuleData { get; protected set; } = new ModuleTaskDataBase<Addon>();
     private MaskedCarnivaleConfig Config => ModuleConfig as MaskedCarnivaleConfig ?? new MaskedCarnivaleConfig();
-    private MaskedCarnivaleData Data => ModuleData as MaskedCarnivaleData ?? new MaskedCarnivaleData();
+    private ModuleTaskDataBase<Addon> Data => ModuleData as ModuleTaskDataBase<Addon> ?? new ModuleTaskDataBase<Addon>();
 
     private readonly AgentAozContentBriefing* agent = (AgentAozContentBriefing*) AgentModule.Instance()->GetAgentByInternalId(AgentId.AozContentBriefing);
 
+    public override bool HasClickableLink => true;
+    public override PayloadId ClickableLinkPayloadId => PayloadId.UldahTeleport;
+    
     public override bool HasTooltip => true;
-    public override string GetTooltip() => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+    public override string TooltipText => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
 
     protected override void UpdateTaskLists()
     {
