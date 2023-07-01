@@ -156,7 +156,7 @@ public abstract class BaseModule : IDisposable
         statusMessage.PrintMessage();
     }
 
-    protected T TryUpdateData<T>(T value,  T newValue) where T : IEquatable<T>
+    protected T TryUpdateData<T>(T value, T newValue) where T : IEquatable<T>
     {
         if (!value.Equals(newValue))
         {
