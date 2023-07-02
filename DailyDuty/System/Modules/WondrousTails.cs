@@ -28,7 +28,7 @@ public unsafe class WondrousTails : Module.WeeklyModule
     private WondrousTailsData Data => ModuleData as WondrousTailsData ?? new WondrousTailsData();
     
     public override bool HasClickableLink => true;
-    public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.OpenWondrousTailsBook : PayloadId.IdyllshireTeleport;
+    public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.IdyllshireTeleport : PayloadId.OpenWondrousTailsBook;
 
     public WondrousTails()
     {
