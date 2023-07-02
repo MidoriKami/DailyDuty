@@ -8,7 +8,6 @@ using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Caching;
 using Lumina.Excel.GeneratedSheets;
 using Condition = KamiLib.GameState.Condition;

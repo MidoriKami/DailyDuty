@@ -4,7 +4,6 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
-using KamiLib.AutomaticUserInterface;
 
 namespace DailyDuty.System;
 

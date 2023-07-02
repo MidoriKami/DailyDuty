@@ -6,7 +6,6 @@ using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using KamiLib.AutomaticUserInterface;
 using Lumina.Excel.GeneratedSheets;
 using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 

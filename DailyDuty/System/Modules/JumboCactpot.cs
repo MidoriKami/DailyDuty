@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using DailyDuty.Abstracts;
 using DailyDuty.Interfaces;
 using DailyDuty.Models;
@@ -9,7 +8,6 @@ using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.AutomaticUserInterface;
 using KamiLib.Hooking;
 using KamiLib.Utilities;
 

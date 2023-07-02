@@ -1,6 +1,4 @@
 ﻿using System.Numerics;
-using DailyDuty;
-using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Attributes;
 using Dalamud.Game.Text;
