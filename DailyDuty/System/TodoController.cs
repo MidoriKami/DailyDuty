@@ -48,6 +48,8 @@ public class TodoController : IDisposable
     {
         PluginLog.Debug("[TodoConfig] Unloading Todo System");
         
+        CommandController.UnregisterCommands(this);
+        
         uiController?.Dispose();
         uiController = null;
     }
@@ -175,7 +177,7 @@ public class TodoController : IDisposable
         return true;
     }
 
-    [DoubleTierCommandHandler("TodoEnable", "todo", "show", "enable")]
+    [DoubleTierCommandHandler("TodoEnable", "todo", "enable")]
     private void ShowTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
@@ -185,7 +187,7 @@ public class TodoController : IDisposable
         SaveConfig();
     }
     
-    [DoubleTierCommandHandler("TodoDisable", "todo", "hide", "disable")]
+    [DoubleTierCommandHandler("TodoDisable", "todo", "disable")]
     private void HideTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
@@ -195,7 +197,7 @@ public class TodoController : IDisposable
         SaveConfig();
     }
     
-    [DoubleTierCommandHandler("TodoToggle", "todo", "toggle", "t")]
+    [DoubleTierCommandHandler("TodoToggle", "todo", "toggle")]
     private void ToggleTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
