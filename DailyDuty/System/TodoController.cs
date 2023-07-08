@@ -184,7 +184,7 @@ public class TodoController : IDisposable
         if (!Service.ClientState.IsLoggedIn) return;
         if (Service.ClientState.IsPvP)
         {
-            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            Chat.PrintError("This command cannot be used while in a PvP area");
             return;
         }
 
@@ -198,7 +198,7 @@ public class TodoController : IDisposable
         if (!Service.ClientState.IsLoggedIn) return;
         if (Service.ClientState.IsPvP)
         {
-            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            Chat.PrintError("This command cannot be used while in a PvP area");
             return;
         }
 
@@ -212,7 +212,7 @@ public class TodoController : IDisposable
         if (!Service.ClientState.IsLoggedIn) return;
         if (Service.ClientState.IsPvP)
         {
-            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            Chat.PrintError("This command cannot be used while in a PvP area");
             return;
         }
 
