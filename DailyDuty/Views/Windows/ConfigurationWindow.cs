@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Views.Tabs;
-using Dalamud.Game.ClientState;
 using KamiLib.ChatCommands;
 using KamiLib.Commands;
 using KamiLib.Interfaces;
