@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Views.Tabs;
+using Dalamud.Game.ClientState;
+using KamiLib.ChatCommands;
 using KamiLib.Commands;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
@@ -57,7 +59,11 @@ public class ConfigurationWindow : TabbedSelectionWindow
     private void OpenConfigWindow()
     {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
+        if (Service.ClientState.IsPvP)
+        {
+            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            return;
+        }
             
         Toggle();
     }

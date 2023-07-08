@@ -12,6 +12,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib.Atk;
 using KamiLib.AutomaticUserInterface;
+using KamiLib.ChatCommands;
 using KamiLib.Commands;
 using KamiLib.GameState;
 using KamiLib.Utilities;
@@ -181,7 +182,11 @@ public class TodoController : IDisposable
     private void ShowTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
+        if (Service.ClientState.IsPvP)
+        {
+            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            return;
+        }
 
         Config.Enable = true;
         SaveConfig();
@@ -191,7 +196,11 @@ public class TodoController : IDisposable
     private void HideTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
+        if (Service.ClientState.IsPvP)
+        {
+            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            return;
+        }
 
         Config.Enable = false;
         SaveConfig();
@@ -201,7 +210,11 @@ public class TodoController : IDisposable
     private void ToggleTodoCommand(params string[]? _)
     {
         if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.IsPvP) return;
+        if (Service.ClientState.IsPvP)
+        {
+            Chat.PrintError("The configuration menu cannot be opened while in a PvP area");
+            return;
+        }
 
         Config.Enable = !Config.Enable;
         SaveConfig();
