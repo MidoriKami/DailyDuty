@@ -83,7 +83,7 @@ public unsafe class FashionReport : Module.SpecialModule, IGoldSaucerMessageRece
                 break;
 
             case 3:     // During turn in, gets new score
-                score = data.Data[0];
+                score = Math.Max(data.Data[0], score);
                 break;
                     
             case 1:     // During turn in, gets new allowances
