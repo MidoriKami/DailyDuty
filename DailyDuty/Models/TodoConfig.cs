@@ -3,8 +3,7 @@ using DailyDuty.Models.Enums;
 
 namespace DailyDuty.Models;
 
-public class TodoConfig : 
-    ITodoDisplayEnable, ITodoPositioning, ITodoCategories, ITodoDisplayOptions, ITodoTextStyle, ITodoLabelText, ITodoDisplayStyle, ITodoColorOptions
+public class TodoConfig : ITodoDisplayEnable, ITodoPositioning, ITodoCategories, ITodoDisplayOptions, ITodoTextStyle, ITodoLabelText, ITodoDisplayStyle, ITodoColorOptions
 {
     // ITodoDisplayEnable
     public bool Enable { get; set; } = true;
