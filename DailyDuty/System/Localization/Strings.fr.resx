@@ -661,4 +661,7 @@
     <data name="HelpText" xml:space="preserve">
         <value>Show This Message</value>
     </data>
+    <data name="WindowDraggingEnabled" xml:space="preserve">
+        <value>Window Dragging Enabled</value>
+    </data>
 </root>

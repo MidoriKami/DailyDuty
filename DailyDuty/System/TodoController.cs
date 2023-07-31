@@ -7,9 +7,11 @@ using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
+using DailyDuty.System.Localization;
 using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
+using KamiLib;
 using KamiLib.Atk;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.ChatCommands;
@@ -99,6 +101,14 @@ public class TodoController : IDisposable
                 {
                     holdOffset = null;
                 }
+                
+                var textPosition = position with { Y = position.Y + size.Y };
+                
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition - new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition - new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition + new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition + new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition, ImGui.GetColorU32(KnownColor.OrangeRed.AsVector4()), Strings.WindowDraggingEnabled);
             }
             
             ImGui.End();

@@ -662,4 +662,7 @@ Auf einmal pro 5 Minuten limitiert</value>
     <data name="HelpText" xml:space="preserve">
         <value>Show This Message</value>
     </data>
+    <data name="WindowDraggingEnabled" xml:space="preserve">
+        <value>Window Dragging Enabled</value>
+    </data>
 </root>

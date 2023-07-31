@@ -1978,6 +1978,15 @@ namespace DailyDuty.System.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Window Dragging Enabled.
+        /// </summary>
+        internal static string WindowDraggingEnabled {
+            get {
+                return ResourceManager.GetString("WindowDraggingEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wondrous Tails.
         /// </summary>
         internal static string WondrousTails {
