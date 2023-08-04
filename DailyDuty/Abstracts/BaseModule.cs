@@ -10,6 +10,7 @@ using Dalamud.Game.Text;
 using Dalamud.Logging;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
+using KamiLib.Utilities;
 using Lumina.Excel;
 
 namespace DailyDuty.Abstracts;
@@ -115,10 +116,10 @@ public abstract class BaseModule : IDisposable
         }
     }
     
-    private IModuleConfigBase LoadConfig() => FileController.LoadFile<IModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
-    private IModuleDataBase LoadData() => FileController.LoadFile<IModuleDataBase>($"{ModuleName}.data.json", ModuleData);
-    public void SaveConfig() => FileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
-    public void SaveData() => FileController.SaveFile($"{ModuleName}.data.json", ModuleData.GetType(), ModuleData);
+    private IModuleConfigBase LoadConfig() => CharacterFileController.LoadFile<IModuleConfigBase>($"{ModuleName}.config.json", ModuleConfig);
+    private IModuleDataBase LoadData() => CharacterFileController.LoadFile<IModuleDataBase>($"{ModuleName}.data.json", ModuleData);
+    public void SaveConfig() => CharacterFileController.SaveFile($"{ModuleName}.config.json", ModuleConfig.GetType(), ModuleConfig);
+    public void SaveData() => CharacterFileController.SaveFile($"{ModuleName}.data.json", ModuleData.GetType(), ModuleData);
 
     private void SendStatusMessage()
     {

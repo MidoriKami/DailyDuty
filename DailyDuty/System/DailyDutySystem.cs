@@ -2,6 +2,7 @@
 using DailyDuty.Models;
 using Dalamud.Game;
 using Dalamud.Logging;
+using KamiLib.Utilities;
 
 namespace DailyDuty.System;
 
@@ -141,7 +142,7 @@ public class DailyDutySystem : IDisposable
 
     private void LoadSystemConfig()
     {
-        SystemConfig = FileController.LoadFile<SystemConfig>("System.config.json", SystemConfig);
+        SystemConfig = CharacterFileController.LoadFile<SystemConfig>("System.config.json", SystemConfig);
         
         PluginLog.Debug($"[DailyDutySystem] Logging into character: {Service.ClientState.LocalPlayer?.Name}, updating System.config.json");
 
@@ -150,5 +151,5 @@ public class DailyDutySystem : IDisposable
         SaveSystemConfig();
     }
 
-    public void SaveSystemConfig() => FileController.SaveFile("System.config.json", SystemConfig.GetType(), SystemConfig);
+    public void SaveSystemConfig() => CharacterFileController.SaveFile("System.config.json", SystemConfig.GetType(), SystemConfig);
 }

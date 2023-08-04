@@ -289,6 +289,6 @@ public class TodoController : IDisposable
     
     public void Show() => uiController?.Show(Config.Enable);
     public void Hide() => uiController?.Hide();
-    private TodoConfig LoadConfig() => FileController.LoadFile<TodoConfig>("Todo.config.json", Config);
-    public void SaveConfig() => FileController.SaveFile("Todo.config.json", Config.GetType(), Config);
+    private TodoConfig LoadConfig() => CharacterFileController.LoadFile<TodoConfig>("Todo.config.json", Config);
+    public void SaveConfig() => CharacterFileController.SaveFile("Todo.config.json", Config.GetType(), Config);
 }
