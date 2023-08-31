@@ -4,6 +4,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
+using Dalamud.Plugin.Services;
 
 namespace DailyDuty.System;
 
@@ -34,7 +35,7 @@ public unsafe class MiniCactpot : Module.DailyModule, IGoldSaucerMessageReceiver
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
     }
 
-    public override void AddonPreSetup(AddonArgs addonInfo)
+    public override void AddonPreSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "LotteryDaily") return;
 

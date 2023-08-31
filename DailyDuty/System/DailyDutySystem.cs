@@ -2,6 +2,7 @@
 using DailyDuty.Models;
 using Dalamud.Game;
 using Dalamud.Logging;
+using Dalamud.Plugin.Services;
 using KamiLib.Utilities;
 
 namespace DailyDuty.System;
@@ -9,7 +10,6 @@ namespace DailyDuty.System;
 public class DailyDutySystem : IDisposable
 {
     public static ModuleController ModuleController = null!;
-    private readonly AddonController addonController;
     public readonly TodoController TodoController;
     public SystemConfig SystemConfig;
 
@@ -20,7 +20,6 @@ public class DailyDutySystem : IDisposable
         LocalizationController.Instance.Initialize();
         PayloadController.Instance.Initialize();
         ModuleController = new ModuleController();
-        addonController = new AddonController();
         TodoController = new TodoController();
 
         if (Service.ClientState.IsLoggedIn)
@@ -34,9 +33,9 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.TerritoryChanged += OnZoneChange;
         Service.ClientState.EnterPvP += OnEnterPvP;
         Service.ClientState.LeavePvP += OnLeavePvP;
-        AddonController.AddonPreSetup += OnAddonPreSetup;
-        AddonController.AddonPostSetup += OnAddonPostSetup;
-        AddonController.AddonFinalize += OnAddonFinalize;
+        Service.AddonLifecycle.AddonPreSetup += OnAddonPreSetup;
+        Service.AddonLifecycle.AddonPostSetup += OnAddonPostSetup;
+        Service.AddonLifecycle.AddonPreFinalize += OnAddonFinalize;
         Service.PluginInterface.UiBuilder.Draw += OnDraw;
     }
 
@@ -48,13 +47,12 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         Service.ClientState.EnterPvP -= OnEnterPvP;
         Service.ClientState.LeavePvP -= OnLeavePvP;
-        AddonController.AddonPreSetup -= OnAddonPreSetup;
-        AddonController.AddonPostSetup -= OnAddonPostSetup;
-        AddonController.AddonFinalize -= OnAddonFinalize;
+        Service.AddonLifecycle.AddonPreSetup -= OnAddonPreSetup;
+        Service.AddonLifecycle.AddonPostSetup -= OnAddonPostSetup;
+        Service.AddonLifecycle.AddonPreFinalize -= OnAddonFinalize;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
 
         ModuleController.Dispose();
-        addonController.Dispose();
         TodoController.Dispose();
         LocalizationController.Cleanup();
         PayloadController.Cleanup();
@@ -107,14 +105,14 @@ public class DailyDutySystem : IDisposable
         ModuleController.ZoneChange(territoryTypeId);
     }
     
-    private void OnAddonPreSetup(AddonArgs addonInfo)
+    private void OnAddonPreSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (Service.ClientState.IsPvP) return;
         
         ModuleController.AddonPreSetup(addonInfo);
     }
     
-    private void OnAddonPostSetup(AddonArgs addonInfo)
+    private void OnAddonPostSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
@@ -125,7 +123,7 @@ public class DailyDutySystem : IDisposable
         if (addonInfo.AddonName == "NamePlate") TodoController.Load();
     }
     
-    private void OnAddonFinalize(AddonArgs addonInfo)
+    private void OnAddonFinalize(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;

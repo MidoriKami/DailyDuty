@@ -6,6 +6,8 @@ using DailyDuty.Interfaces;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Logging;
+using Dalamud.Plugin.Services;
 
 namespace DailyDuty.System;
 
@@ -100,7 +102,7 @@ public class ModuleController : IDisposable
         }
     }
 
-    public void AddonPreSetup(AddonArgs addonInfo)
+    public void AddonPreSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         foreach(var module in modules)
         {
@@ -108,7 +110,7 @@ public class ModuleController : IDisposable
         }
     }
     
-    public void AddonPostSetup(AddonArgs addonInfo)
+    public void AddonPostSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         foreach(var module in modules)
         {
@@ -116,7 +118,7 @@ public class ModuleController : IDisposable
         }
     }
     
-    public void AddonFinalize(AddonArgs addonInfo)
+    public void AddonFinalize(IAddonLifecycle.AddonArgs addonInfo)
     {
         foreach (var module in modules)
         {

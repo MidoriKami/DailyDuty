@@ -3,6 +3,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
+using Dalamud.Plugin.Services;
 
 namespace DailyDuty.System;
 
@@ -18,7 +19,7 @@ public class FauxHollows : Module.WeeklyModule
     public override bool HasClickableLink => true;
     public override PayloadId ClickableLinkPayloadId => PayloadId.IdyllshireTeleport;
     
-    public override void AddonPreSetup(AddonArgs addonInfo)
+    public override void AddonPreSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "WeeklyPuzzle") return;
 

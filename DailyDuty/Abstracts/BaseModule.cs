@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
-using DailyDuty.System;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
 using Dalamud.Logging;
+using Dalamud.Plugin.Services;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
 using KamiLib.Utilities;
@@ -33,9 +33,9 @@ public abstract class BaseModule : IDisposable
     protected XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     private readonly Stopwatch statusMessageLockout = new();
     
-    public virtual void AddonPreSetup(AddonArgs addonInfo) { }
-    public virtual void AddonPostSetup(AddonArgs addonInfo) { }
-    public virtual void AddonFinalize(AddonArgs addonInfo) { }
+    public virtual void AddonPreSetup(IAddonLifecycle.AddonArgs addonInfo) { }
+    public virtual void AddonPostSetup(IAddonLifecycle.AddonArgs addonInfo) { }
+    public virtual void AddonFinalize(IAddonLifecycle.AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
     public virtual bool HasTooltip { get; protected set; } = false;
     public virtual string TooltipText { get; protected set; } = string.Empty;

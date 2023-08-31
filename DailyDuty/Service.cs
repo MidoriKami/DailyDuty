@@ -19,4 +19,5 @@ public sealed class Service
     [PluginService] public static IDutyState DutyState { get; set; } = null!;
     [PluginService] public static ToastGui Toast { get; set; } = null!;
     [PluginService] public static IObjectTable ObjectTable { get; set; } = null!;
+    [PluginService] public static IAddonLifecycle AddonLifecycle { get; set; } = null!;
 }

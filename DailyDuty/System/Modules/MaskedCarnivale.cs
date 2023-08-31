@@ -5,7 +5,9 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
 using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
@@ -60,11 +62,11 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         base.Update();
     }
 
-    public override void AddonPostSetup(AddonArgs addonInfo)
+    public override void AddonPostSetup(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "AOZContentResult") return;
 
-        var atkValues = addonInfo.Addon->AtkValues;
+        var atkValues = ((AtkUnitBase*)addonInfo.Addon)->AtkValues;
         
         if(atkValues[112].Type != ValueType.UInt) throw new Exception("Type Mismatch Exception");
         if(atkValues[114].Type != ValueType.Bool) throw new Exception("Type Mismatch Exception");

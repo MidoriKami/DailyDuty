@@ -8,6 +8,7 @@ using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud.Hooking;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
@@ -51,18 +52,20 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     }
 
     // The mission is no longer in progress when the window closes
-    public override void AddonFinalize(AddonArgs addonInfo)
+    public override void AddonFinalize(IAddonLifecycle.AddonArgs addonInfo)
     {
         if (addonInfo.AddonName != "GcArmyExpeditionResult") return;
 
+        var addon = (AtkUnitBase*) addonInfo.Addon;
+        
         Data.MissionStarted = false;
         DataChanged = true;
 
-        if (addonInfo.Addon->AtkValues[4].Type is not ValueType.String) throw new Exception("Type Mismatch Exception");
-        if (addonInfo.Addon->AtkValues[2].Type is not ValueType.Int) throw new Exception("Type Mismatch Exception");
+        if (addon->AtkValues[4].Type is not ValueType.String) throw new Exception("Type Mismatch Exception");
+        if (addon->AtkValues[2].Type is not ValueType.Int) throw new Exception("Type Mismatch Exception");
         
-        var missionText = Alphanumeric().Replace(addonInfo.Addon->AtkValues[4].GetString().ToLower(), string.Empty);
-        var missionSuccessful = addonInfo.Addon->AtkValues[2].Int == 1;
+        var missionText = Alphanumeric().Replace(addon->AtkValues[4].GetString().ToLower(), string.Empty);
+        var missionSuccessful = addon->AtkValues[2].Int == 1;
 
         var missionInfo = LuminaCache<GcArmyExpedition>.Instance
             .FirstOrDefault(mission => Alphanumeric().Replace(mission.Name.ToString().ToLower(), string.Empty) == missionText);
