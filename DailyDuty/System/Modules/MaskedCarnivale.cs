@@ -5,7 +5,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
 using DailyDuty.System.Localization;
-using Dalamud.Plugin.Services;
+using Dalamud.Game.Addon;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using Lumina.Excel.GeneratedSheets;
@@ -29,6 +29,20 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
     
     public override bool HasTooltip => true;
     public override string TooltipText => string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+
+    public override void Load()
+    {
+        base.Load();
+        
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AOZContentResultPostSetup);
+    }
+
+    public override void Unload()
+    {
+        base.Unload();
+        
+        Service.AddonLifecycle.UnregisterListener(AOZContentResultPostSetup);
+    }
 
     protected override void UpdateTaskLists()
     {
@@ -62,18 +76,13 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
         base.Update();
     }
 
-    public override void AddonPostSetup(IAddonLifecycle.AddonArgs addonInfo)
+    public void AOZContentResultPostSetup(AddonEvent eventType, AddonArgs addonInfo)
     {
-        if (addonInfo.AddonName != "AOZContentResult") return;
-
-        var atkValues = ((AtkUnitBase*)addonInfo.Addon)->AtkValues;
+        var addon = (AtkUnitBase*) addonInfo.Addon;
         
-        if(atkValues[112].Type != ValueType.UInt) throw new Exception("Type Mismatch Exception");
-        if(atkValues[114].Type != ValueType.Bool) throw new Exception("Type Mismatch Exception");
+        if (addon->AtkValues[112] is not { Type: ValueType.UInt, UInt: var completionIndex }) throw new Exception("Type Mismatch Exception");
+        if (addon->AtkValues[114] is not { Type: ValueType.Bool, Byte: var completionStatus }) throw new Exception("Type Mismatch Exception");
         
-        var completionIndex = atkValues[112].UInt;
-        var completionStatus = atkValues[114].Byte != 0;
-
         var addonId = completionIndex switch
         {
             0 => 12449,
@@ -85,9 +94,9 @@ public unsafe class MaskedCarnivale : Module.WeeklyModule
 
         var task = Data.TaskData.FirstOrDefault(task => task.RowId == addonId);
 
-        if (task is not null && task.Complete != completionStatus)
+        if (task is not null && task.Complete != (completionStatus != 0))
         {
-            task.Complete = completionStatus;
+            task.Complete = (completionStatus != 0);
             DataChanged = true;
         }
     }

@@ -41,7 +41,7 @@ public unsafe class GoldSaucerMessageController : IDisposable
     {
         Safety.ExecuteSafe(() =>
         {
-            // PluginLog.Debug("[GoldSaucerMessage]\n" +
+            // Service.Log.Debug("[GoldSaucerMessage]\n" +
             //                 $"A1: {new nint(a1):X8}\n" +
             //                 $"A2: {new nint(a2):X8}\n" +
             //                 $"A3: {a3}\n" +

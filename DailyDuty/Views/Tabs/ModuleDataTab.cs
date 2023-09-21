@@ -7,7 +7,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
 using DailyDuty.System.Localization;
-using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;

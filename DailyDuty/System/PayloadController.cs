@@ -4,7 +4,6 @@ using System.Linq;
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using Dalamud.Logging;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -51,9 +50,9 @@ public unsafe class PayloadController : IDisposable
         throw new Exception("Tried to get payload that isn't registered.");
     }
 
-    private DalamudLinkPayload RegisterPayload(PayloadId id) => AddHandler(id, GetDelegateForPayload(id));
+    private static DalamudLinkPayload RegisterPayload(PayloadId id) => AddHandler(id, GetDelegateForPayload(id));
 
-    public Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch
+    public static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch
     {
         PayloadId.OpenWondrousTailsBook => (_, _) =>
         {
@@ -106,7 +105,7 @@ public unsafe class PayloadController : IDisposable
         },
         PayloadId.Unknown => (_, _) =>
         {
-            PluginLog.Debug("Executed Unknown Payload.");
+            Service.Log.Debug("Executed Unknown Payload.");
         },
         PayloadId.OpenChallengeLog => (_, _) =>
         {
@@ -116,7 +115,7 @@ public unsafe class PayloadController : IDisposable
     };
     
 
-    private DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
+    private static DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
     {
         return Service.PluginInterface.AddChatLinkHandler((uint) payloadId, action);
     }

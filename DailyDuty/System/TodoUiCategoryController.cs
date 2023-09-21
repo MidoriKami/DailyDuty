@@ -57,7 +57,7 @@ public unsafe class TodoUiCategoryController : IDisposable
 
             if (module.HasClickableLink)
             {
-                var moduleClickAction = PayloadController.Instance.GetDelegateForPayload(module.ClickableLinkPayloadId);
+                var moduleClickAction = PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId);
                 
                 textNode.AddClickEvent(AddonNamePlate,() => moduleClickAction.Invoke(0, null!));
             }

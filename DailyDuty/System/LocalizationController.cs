@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using DailyDuty.System.Localization;
-using Dalamud.Logging;
 
 namespace DailyDuty.System;
 
@@ -31,12 +30,12 @@ internal class LocalizationController : IDisposable
     {
         try
         {
-            PluginLog.Information($"Loading Localization for {languageCode}");
+            Service.Log.Information($"Loading Localization for {languageCode}");
             Strings.Culture = new CultureInfo(languageCode);
         }
         catch (Exception ex)
         {
-            PluginLog.Error(ex, "Unable to Load Localization");
+            Service.Log.Error(ex, "Unable to Load Localization");
         }
     }
 }

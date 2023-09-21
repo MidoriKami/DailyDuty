@@ -26,6 +26,6 @@ public class StatusMessage
                 .Build()
         };
         
-        Service.Chat.PrintChat(message);
+        Service.Chat.Print(message);
     }
 }

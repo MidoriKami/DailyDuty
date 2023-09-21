@@ -8,7 +8,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
-using Dalamud.Logging;
+using Dalamud.Game.Addon;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib;
@@ -30,11 +30,23 @@ public class TodoController : IDisposable
     private readonly Dictionary<ModuleName, DisplayData> displayDataCache = new();
     private record DisplayData(bool ShowModule, bool ShowHeader, bool ShowCategory);
 
-    public void Dispose() => Unload();
+    public TodoController()
+    {
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", (_, _) => Load());
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", (_, _) => Unload());
+    }
     
+    public void Dispose()
+    { 
+        Service.AddonLifecycle.UnregisterListener(AddonEvent.PostSetup, "NamePlate");
+        Service.AddonLifecycle.UnregisterListener(AddonEvent.PreFinalize, "NamePlate");
+        
+        Unload();
+    }
+
     public void Load()
     {
-        PluginLog.Debug($"[TodoConfig] Loading Todo System");
+        Service.Log.Debug($"[TodoConfig] Loading Todo System");
         
         CommandController.RegisterCommands(this);
         Config = LoadConfig();
@@ -49,7 +61,7 @@ public class TodoController : IDisposable
     
     public void Unload()
     {
-        PluginLog.Debug("[TodoConfig] Unloading Todo System");
+        Service.Log.Debug("[TodoConfig] Unloading Todo System");
         
         CommandController.UnregisterCommands(this);
         

@@ -4,7 +4,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
-using Dalamud.Plugin.Services;
+using Dalamud.Game.Addon;
 
 namespace DailyDuty.System;
 
@@ -18,6 +18,20 @@ public unsafe class MiniCactpot : Module.DailyModule, IGoldSaucerMessageReceiver
     
     public override bool HasClickableLink => true;
     public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
+
+    public override void Load()
+    {
+        base.Load();
+        
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
+    }
+
+    public override void Unload()
+    {
+        base.Unload();
+        
+        Service.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
+    }
 
     public override void Reset()
     {
@@ -35,10 +49,8 @@ public unsafe class MiniCactpot : Module.DailyModule, IGoldSaucerMessageReceiver
         return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
     }
 
-    public override void AddonPreSetup(IAddonLifecycle.AddonArgs addonInfo)
+    public void LotteryDailyPreSetup(AddonEvent eventType, AddonArgs addonInfo)
     {
-        if (addonInfo.AddonName != "LotteryDaily") return;
-
         Data.AllowancesRemaining -= 1;
         DataChanged = true;
     }

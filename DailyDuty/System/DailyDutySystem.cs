@@ -1,7 +1,5 @@
 ﻿using System;
 using DailyDuty.Models;
-using Dalamud.Game;
-using Dalamud.Logging;
 using Dalamud.Plugin.Services;
 using KamiLib.Utilities;
 
@@ -24,7 +22,7 @@ public class DailyDutySystem : IDisposable
 
         if (Service.ClientState.IsLoggedIn)
         {
-            OnLogin(this, EventArgs.Empty);
+            OnLogin();
         }
         
         Service.Framework.Update += OnFrameworkUpdate;
@@ -33,9 +31,6 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.TerritoryChanged += OnZoneChange;
         Service.ClientState.EnterPvP += OnEnterPvP;
         Service.ClientState.LeavePvP += OnLeavePvP;
-        Service.AddonLifecycle.AddonPreSetup += OnAddonPreSetup;
-        Service.AddonLifecycle.AddonPostSetup += OnAddonPostSetup;
-        Service.AddonLifecycle.AddonPreFinalize += OnAddonFinalize;
         Service.PluginInterface.UiBuilder.Draw += OnDraw;
     }
 
@@ -47,9 +42,6 @@ public class DailyDutySystem : IDisposable
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         Service.ClientState.EnterPvP -= OnEnterPvP;
         Service.ClientState.LeavePvP -= OnLeavePvP;
-        Service.AddonLifecycle.AddonPreSetup -= OnAddonPreSetup;
-        Service.AddonLifecycle.AddonPostSetup -= OnAddonPostSetup;
-        Service.AddonLifecycle.AddonPreFinalize -= OnAddonFinalize;
         Service.PluginInterface.UiBuilder.Draw -= OnDraw;
 
         ModuleController.Dispose();
@@ -58,7 +50,7 @@ public class DailyDutySystem : IDisposable
         PayloadController.Cleanup();
     }
 
-    private void OnFrameworkUpdate(Framework framework)
+    private void OnFrameworkUpdate(IFramework framework)
     {
         if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
@@ -73,7 +65,7 @@ public class DailyDutySystem : IDisposable
         TodoController.Update();
     }
     
-    private void OnLogin(object? sender, EventArgs e)
+    private void OnLogin()
     {
         LoadSystemConfig();
         
@@ -82,7 +74,7 @@ public class DailyDutySystem : IDisposable
         TodoController.Load();
     }
     
-    private void OnLogout(object? sender, EventArgs e)
+    private void OnLogout()
     {
         ModuleController.UnloadModules();
         
@@ -97,41 +89,12 @@ public class DailyDutySystem : IDisposable
         TodoController.DrawExtras();
     }
     
-    private void OnZoneChange(object? sender, ushort territoryTypeId)
+    private void OnZoneChange(ushort territoryTypeId)
     {
         if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
         
         ModuleController.ZoneChange(territoryTypeId);
-    }
-    
-    private void OnAddonPreSetup(IAddonLifecycle.AddonArgs addonInfo)
-    {
-        if (Service.ClientState.IsPvP) return;
-        
-        ModuleController.AddonPreSetup(addonInfo);
-    }
-    
-    private void OnAddonPostSetup(IAddonLifecycle.AddonArgs addonInfo)
-    {
-        if (Service.ClientState.IsPvP) return;
-        if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.LocalContentId is 0) return;
-        
-        ModuleController.AddonPostSetup(addonInfo);
-
-        if (addonInfo.AddonName == "NamePlate") TodoController.Load();
-    }
-    
-    private void OnAddonFinalize(IAddonLifecycle.AddonArgs addonInfo)
-    {
-        if (Service.ClientState.IsPvP) return;
-        if (!Service.ClientState.IsLoggedIn) return;
-        if (Service.ClientState.LocalContentId is 0) return;
-        
-        ModuleController.AddonFinalize(addonInfo);
-        
-        if (addonInfo.AddonName == "NamePlate") TodoController.Unload();
     }
     
     private void OnLeavePvP() => TodoController.Show();
@@ -142,7 +105,7 @@ public class DailyDutySystem : IDisposable
     {
         SystemConfig = CharacterFileController.LoadFile<SystemConfig>("System.config.json", SystemConfig);
         
-        PluginLog.Debug($"[DailyDutySystem] Logging into character: {Service.ClientState.LocalPlayer?.Name}, updating System.config.json");
+        Service.Log.Debug($"[DailyDutySystem] Logging into character: {Service.ClientState.LocalPlayer?.Name}, updating System.config.json");
 
         SystemConfig.CharacterName = Service.ClientState.LocalPlayer?.Name.ToString() ?? "Unable to Read Name";
         SystemConfig.CharacterWorld = Service.ClientState.LocalPlayer?.HomeWorld.GameData?.Name.ToString() ?? "Unable to Read World";
