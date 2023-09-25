@@ -18,4 +18,6 @@ public sealed class Service
     [PluginService] public static IObjectTable ObjectTable { get; set; } = null!;
     [PluginService] public static IAddonLifecycle AddonLifecycle { get; set; } = null!;
     [PluginService] public static IPluginLog Log { get; set; } = null!;
+    [PluginService] public static ICondition Condition { get; set; } = null!;
+    [PluginService] public static IGameInteropProvider Hooker { get; set; } = null!;
 }

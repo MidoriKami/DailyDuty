@@ -28,7 +28,7 @@ public unsafe class GoldSaucerMessageController : IDisposable
     
     public GoldSaucerMessageController()
     {
-        SignatureHelper.Initialise(this);
+        Service.Hooker.InitializeFromAttributes(this);
         goldSaucerUpdateHook?.Enable();
     }
 

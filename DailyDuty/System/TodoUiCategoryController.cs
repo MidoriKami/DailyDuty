@@ -39,7 +39,7 @@ public unsafe class TodoUiCategoryController : IDisposable
             Id = HeaderNodeBaseId + (uint) type,
         });
         
-        headerNode.Node->SetText(type.GetLabel());
+        headerNode.Node->SetText(type.Label());
         categoryResNode.AddResourceNode(headerNode, AddonNamePlate);
 
         foreach (var module in DailyDutySystem.ModuleController.GetModules(type))
@@ -63,7 +63,7 @@ public unsafe class TodoUiCategoryController : IDisposable
             }
 
             moduleNodes.Add(module.ModuleName, textNode);
-            textNode.Node->SetText(module.ModuleName.GetLabel());
+            textNode.Node->SetText(module.ModuleName.Label());
             categoryResNode.AddResourceNode(textNode, AddonNamePlate);
         }
     }

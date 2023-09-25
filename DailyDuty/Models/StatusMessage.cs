@@ -21,7 +21,7 @@ public class StatusMessage
             Type = MessageChannel,
             Message = new SeStringBuilder()
                 .AddUiForeground($"[{dailyDutyLabel}] ", 45)
-                .AddUiForeground($"[{SourceModule.GetLabel()}] ", 62)
+                .AddUiForeground($"[{SourceModule.Label()}] ", 62)
                 .AddText(Message)
                 .Build()
         };

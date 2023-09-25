@@ -23,7 +23,7 @@ public class LinkedStatusMessage : StatusMessage
             Type = MessageChannel,
             Message = new SeStringBuilder()
                 .AddUiForeground($"[{dailyDutyLabel}] ", 45)
-                .AddUiForeground($"[{SourceModule.GetLabel()}] ", 62)
+                .AddUiForeground($"[{SourceModule.Label()}] ", 62)
                 .Add(messagePayload)
                 .AddUiForeground(Message, 576)
                 .Add(RawPayload.LinkTerminator)

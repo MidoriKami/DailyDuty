@@ -20,7 +20,7 @@ public static class ModuleStatusView
             ImGui.Text(Strings.CurrentStatus);
 
             ImGui.TableNextColumn();
-            ImGui.TextColored(module.ModuleStatus.GetColor(), module.ModuleStatus.GetLabel());
+            ImGui.TextColored(module.ModuleStatus.Color(), module.ModuleStatus.Label());
             
             ImGui.EndTable();
         }

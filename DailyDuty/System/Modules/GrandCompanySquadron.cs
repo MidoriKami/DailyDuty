@@ -8,6 +8,8 @@ using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud.Game.Addon;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -49,7 +51,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
 
         Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
         
-        onReceiveEventHook ??= Hook<Delegates.AgentReceiveEvent>.FromAddress(new nint(Agent->AgentInterface.VTable->ReceiveEvent), OnReceiveEvent);
+        onReceiveEventHook ??= Service.Hooker.HookFromAddress<Delegates.AgentReceiveEvent>(new nint(Agent->AgentInterface.VTable->ReceiveEvent), OnReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 

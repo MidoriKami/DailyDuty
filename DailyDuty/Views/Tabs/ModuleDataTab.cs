@@ -7,6 +7,7 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
 using DailyDuty.System.Localization;
+using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.Interfaces;
@@ -27,13 +28,13 @@ public class ModuleDataTab : ISelectionWindowTab
                 .GetModules()
                 .Where(module => module.ModuleConfig.ModuleEnabled)
                 .Select(module => new DataSelectable(module))
-                .OrderBy(module => module.Module.ModuleName.GetLabel());
+                .OrderBy(module => module.Module.ModuleName.Label());
         }
         
         return DailyDutySystem.ModuleController
             .GetModules()
             .Select(module => new DataSelectable(module))
-            .OrderBy(module => module.Module.ModuleName.GetLabel());
+            .OrderBy(module => module.Module.ModuleName.Label());
     }
 
     public void DrawTabExtras()
@@ -76,21 +77,21 @@ public class DataSelectable : ISelectable, IDrawable
 
             ImGui.TableNextColumn();
             var currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
-            ImGui.SetCursorPos(currentPosition);ImGui.Text(Module.ModuleName.GetLabel());
+            ImGui.SetCursorPos(currentPosition);ImGui.Text(Module.ModuleName.Label());
 
             ImGui.TableNextColumn();
             currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
             ImGui.SetCursorPos(currentPosition);
             var region = ImGui.GetContentRegionAvail();
 
-            var color = Module.ModuleStatus.GetColor();
-            var text = Module.ModuleStatus.GetLabel();
+            var color = Module.ModuleStatus.Color();
+            var text = Module.ModuleStatus.Label();
 
             // Override Status if Module is Disabled
             if (!Module.ModuleConfig.ModuleEnabled)
             {
                 text = Strings.Disabled;
-                color = KnownColor.Gray.AsVector4();
+                color = KnownColor.Gray.Vector();
             }
 
             var textSize = ImGui.CalcTextSize(text);
@@ -110,7 +111,7 @@ public class DataSelectable : ISelectable, IDrawable
 
     private float GetLongestModuleStatusLength()
     {
-        var longestStatus = Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.GetLabel())).Select(size => size.X).Prepend(0.0f).Max();
+        var longestStatus = Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.Label())).Select(size => size.X).Prepend(0.0f).Max();
         
         var enabledLength = ImGui.CalcTextSize(Strings.Enabled);
         var disabledLength = ImGui.CalcTextSize(Strings.Disabled);

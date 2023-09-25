@@ -203,7 +203,7 @@ public abstract class BaseModule : IDisposable
                 var isCountableTaskIncomplete = configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount;
                 var isNonCountableTaskIncomplete = configTask.TargetCount == 0 && !dataTask.Complete;
                 
-                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) yield return configTask.GetLabel();
+                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) yield return configTask.Label();
             }
         }
     }

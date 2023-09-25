@@ -9,6 +9,8 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using Dalamud.Game.Addon;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib;
@@ -116,11 +118,11 @@ public class TodoController : IDisposable
                 
                 var textPosition = position with { Y = position.Y + size.Y };
                 
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition - new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition - new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition + new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition + new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.AsVector4()), Strings.WindowDraggingEnabled);
-                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition, ImGui.GetColorU32(KnownColor.OrangeRed.AsVector4()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition - new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition - new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition + new Vector2(0, 1), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition + new Vector2(1, 0), ImGui.GetColorU32(KnownColor.Black.Vector()), Strings.WindowDraggingEnabled);
+                ImGui.GetBackgroundDrawList().AddText(KamiCommon.FontManager.Axis12.ImFont, 21, textPosition, ImGui.GetColorU32(KnownColor.OrangeRed.Vector()), Strings.WindowDraggingEnabled);
             }
             
             ImGui.End();
@@ -188,7 +190,7 @@ public class TodoController : IDisposable
             return todoOptions.CustomTodoLabel;
         }
 
-        return module.ModuleName.GetLabel();
+        return module.ModuleName.Label();
     }
 
     private bool GetModuleActiveState(BaseModule module)
@@ -255,7 +257,7 @@ public class TodoController : IDisposable
         Alignment = AlignmentType.Left,
         TextColor = Config.HeaderTextColor,
         EdgeColor = Config.HeaderTextOutline,
-        BackgroundColor = KnownColor.White.AsVector4(),
+        BackgroundColor = KnownColor.White.Vector(),
         FontSize = (byte) Config.HeaderFontSize,
         Flags = GetHeaderFlags(),
         Type = NodeType.Text,
@@ -266,7 +268,7 @@ public class TodoController : IDisposable
         Alignment = AlignmentType.Left,
         TextColor = module.ModuleConfig.OverrideTextColor ? module.ModuleConfig.TodoTextColor : Config.ModuleTextColor,
         EdgeColor = module.ModuleConfig.OverrideTextColor ? module.ModuleConfig.TodoTextOutline : Config.ModuleOutlineColor,
-        BackgroundColor = KnownColor.White.AsVector4(),
+        BackgroundColor = KnownColor.White.Vector(),
         FontSize = (byte) Config.FontSize,
         Flags = GetModuleFlags(),
         Type = NodeType.Text,
