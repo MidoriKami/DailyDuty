@@ -1,5 +1,6 @@
 # DailyDuty
-[![Download count](https://img.shields.io/endpoint?url=https://vz32sgcoal.execute-api.us-east-1.amazonaws.com/DailyDuty)](https://github.com/MidoriKami/DailyDuty) [![Crowdin](https://badges.crowdin.net/dailyduty/localized.svg)](https://crowdin.com/project/dailyduty)
+[![Download count](https://img.shields.io/endpoint?url=https://qzysathwfhebdai6xgauhz4q7m0mzmrf.lambda-url.us-east-1.on.aws/DailyDuty)](https://github.com/MidoriKami/DailyDuty)
+[![Crowdin](https://badges.crowdin.net/dailyduty/localized.svg)](https://crowdin.com/project/dailyduty)
 
 DailyDuty is a XivLauncher/Dalamud plugin.
 
