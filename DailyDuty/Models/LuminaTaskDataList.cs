@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using DailyDuty.System.Localization;
+using Dalamud.Interface;
 using ImGuiNET;
 using KamiLib.Caching;
 using KamiLib.Interfaces;
@@ -96,7 +97,7 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
             }
             
             ImGui.TableNextColumn();
-            var color = dataEntry.Complete ? KnownColor.Green.AsVector4() : KnownColor.Orange.AsVector4();
+            var color = dataEntry.Complete ? KnownColor.Green.Vector() : KnownColor.Orange.Vector();
             var text = dataEntry.Complete ? Strings.Complete : Strings.Incomplete;
             ImGui.TextColored(color, text);
         }
@@ -105,10 +106,10 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
     private void DrawContentFinderCondition()
     {
         ImGui.TableNextColumn();
-        ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.DutyName);
+        ImGui.TextColored(KnownColor.Gray.Vector(), Strings.DutyName);
 
         ImGui.TableNextColumn();
-        ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.CurrentNumDrops);
+        ImGui.TextColored(KnownColor.Gray.Vector(), Strings.CurrentNumDrops);
                             
         if (DataList.Count > 0)
         {
@@ -125,7 +126,7 @@ public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> w
         else
         {
             ImGui.TableNextColumn();
-            ImGui.TextColored(KnownColor.Orange.AsVector4(), Strings.NothingToTrack);
+            ImGui.TextColored(KnownColor.Orange.Vector(), Strings.NothingToTrack);
         }
     }
 

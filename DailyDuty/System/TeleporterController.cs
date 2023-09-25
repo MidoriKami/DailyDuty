@@ -1,5 +1,4 @@
 ﻿using DailyDuty.System.Localization;
-using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
 using KamiLib.ChatCommands;
@@ -39,7 +38,7 @@ public class TeleporterController
         }
         catch (IpcNotReadyError)
         {
-            PluginLog.Error("Teleport IPC not found");
+            Service.Log.Error("Teleport IPC not found");
             UserError(Strings.InstallTeleporterError);
         }
     }

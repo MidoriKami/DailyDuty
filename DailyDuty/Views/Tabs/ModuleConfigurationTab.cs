@@ -10,6 +10,7 @@ using DailyDuty.System;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using KamiLib.Interfaces;
 using KamiLib.Utilities;
@@ -28,7 +29,7 @@ public class ModuleConfigurationTab : ISelectionWindowTab
         return DailyDutySystem.ModuleController
             .GetModules(filterType)
             .Select(module => new ConfigurationSelectable(module))
-            .OrderBy(module => module.Module.ModuleName.GetLabel());
+            .OrderBy(module => module.Module.ModuleName.Label());
     }
 
     public void DrawTabExtras()
@@ -41,7 +42,7 @@ public class ModuleConfigurationTab : ISelectionWindowTab
 
         ImGui.PushItemWidth(region.X - buttonSize.X - ImGui.GetStyle().ItemSpacing.X);
         
-        if (ImGui.BeginCombo("##FilterCombo", filterType?.GetLabel() ?? Strings.Show_All))
+        if (ImGui.BeginCombo("##FilterCombo", filterType?.Label() ?? Strings.Show_All))
         {
             if (ImGui.Selectable(Strings.Show_All, filterType == null))
             {
@@ -50,7 +51,7 @@ public class ModuleConfigurationTab : ISelectionWindowTab
             
             foreach (var value in Enum.GetValues<ModuleType>())
             {
-                if (ImGui.Selectable(value.GetLabel(), filterType == value))
+                if (ImGui.Selectable(value.Label(), filterType == value))
                 {
                     filterType = value;
                 }
@@ -99,7 +100,7 @@ public class ConfigurationSelectable : ISelectable, IDrawable
             ImGui.TableNextColumn();
             var currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
             ImGui.SetCursorPos(currentPosition);
-            ImGui.Text(Module.ModuleName.GetLabel());
+            ImGui.Text(Module.ModuleName.Label());
 
             ImGui.TableNextColumn();
             currentPosition = ImGui.GetCursorPos() + new Vector2(0.0f, - itemSpacing.Y + 1.0f);
@@ -111,7 +112,7 @@ public class ConfigurationSelectable : ISelectable, IDrawable
 
             var textSize = ImGui.CalcTextSize(text);
             ImGui.SetCursorPosX(ImGui.GetCursorPosX() + region.X - textSize.X);
-            ImGui.TextColored(color.AsVector4(), text);
+            ImGui.TextColored(color.Vector(), text);
             
             ImGui.EndTable();
         }
@@ -127,7 +128,7 @@ public class ConfigurationSelectable : ISelectable, IDrawable
     
     private float GetLongestModuleStatusLength()
     {
-        var longestStatus = Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.GetLabel())).Select(size => size.X).Prepend(0.0f).Max();
+        var longestStatus = Enum.GetValues<ModuleStatus>().Select(value => ImGui.CalcTextSize(value.Label())).Select(size => size.X).Prepend(0.0f).Max();
         
         var enabledLength = ImGui.CalcTextSize(Strings.Enabled);
         var disabledLength = ImGui.CalcTextSize(Strings.Disabled);

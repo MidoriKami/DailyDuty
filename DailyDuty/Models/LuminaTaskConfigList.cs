@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.System.Localization;
+using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using KamiLib.Caching;
@@ -62,7 +63,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
     {
         foreach (var configEntry in ConfigList)
         {
-            var entryLabel = configEntry.GetLabel();
+            var entryLabel = configEntry.Label();
             
             var enabled = configEntry.Enabled;
             if (ImGui.Checkbox($"{entryLabel}##{configEntry.RowId}", ref enabled))
@@ -100,10 +101,10 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
         if (ImGui.BeginTable("##RaidTrackerTable", 2, ImGuiTableFlags.SizingStretchSame))
         {
             ImGui.TableNextColumn();
-            ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.DutyName);
+            ImGui.TextColored(KnownColor.Gray.Vector(), Strings.DutyName);
 
             ImGui.TableNextColumn();
-            ImGui.TextColored(KnownColor.Gray.AsVector4(), Strings.NumDrops);
+            ImGui.TextColored(KnownColor.Gray.Vector(), Strings.NumDrops);
             ImGuiComponents.HelpMarker(Strings.RaidsModuleHelp);
                             
             if (ConfigList.Count > 0)
@@ -133,7 +134,7 @@ public class LuminaTaskConfigList<T> : IConfigDrawable, ICollection<LuminaTaskCo
             else
             {
                 ImGui.TableNextColumn();
-                ImGui.TextColored(KnownColor.Orange.AsVector4(), Strings.NothingToTrack);
+                ImGui.TextColored(KnownColor.Orange.Vector(), Strings.NothingToTrack);
             }
                             
             ImGui.EndTable();

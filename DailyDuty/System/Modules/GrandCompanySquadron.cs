@@ -7,8 +7,10 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
+using Dalamud.Game.Addon;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Hooking;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Atk;
@@ -34,7 +36,7 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     private static partial Regex Alphanumeric();
     
     private readonly Dictionary<string, GcArmyExpedition> missionLookup = new();
-
+    
     public GrandCompanySquadron()
     {
         foreach (var mission in LuminaCache<GcArmyExpedition>.Instance)
@@ -47,15 +49,15 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     {
         base.Load();
 
-        onReceiveEventHook ??= Hook<Delegates.AgentReceiveEvent>.FromAddress(new nint(Agent->AgentInterface.VTable->ReceiveEvent), OnReceiveEvent);
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
+        
+        onReceiveEventHook ??= Service.Hooker.HookFromAddress<Delegates.AgentReceiveEvent>(new nint(Agent->AgentInterface.VTable->ReceiveEvent), OnReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 
     // The mission is no longer in progress when the window closes
-    public override void AddonFinalize(IAddonLifecycle.AddonArgs addonInfo)
+    public void GcArmyExpeditionResultPreFinalize(AddonEvent eventType, AddonArgs addonInfo)
     {
-        if (addonInfo.AddonName != "GcArmyExpeditionResult") return;
-
         var addon = (AtkUnitBase*) addonInfo.Addon;
         
         Data.MissionStarted = false;
@@ -80,6 +82,8 @@ public unsafe partial class GrandCompanySquadron : Module.WeeklyModule
     public override void Unload()
     {
         base.Unload();
+        
+        Service.AddonLifecycle.UnregisterListener(GcArmyExpeditionResultPreFinalize);
         
         onReceiveEventHook?.Disable();
     }

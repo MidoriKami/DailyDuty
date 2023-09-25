@@ -8,7 +8,6 @@ using DailyDuty.Models.Enums;
 using DailyDuty.Models.ModuleData;
 using DailyDuty.System.Localization;
 using Dalamud;
-using Dalamud.Logging;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -282,7 +281,7 @@ internal static class TaskLookup
                 };
         }
         
-        PluginLog.Information($"[WondrousTails] Unrecognized ID: {orderDataId}");
+        Service.Log.Information($"[WondrousTails] Unrecognized ID: {orderDataId}");
         return new List<uint>();
     }
 }

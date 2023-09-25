@@ -2,7 +2,7 @@
 using System.Numerics;
 using DailyDuty.Abstracts;
 using DailyDuty.System.Localization;
-using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 
 namespace DailyDuty.Views.Components;

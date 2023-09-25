@@ -35,7 +35,7 @@ public unsafe class JumboCactpot : Module.SpecialModule, IGoldSaucerMessageRecei
     {
         base.Load();
 
-        onReceiveEventHook ??= Hook<Delegates.AgentReceiveEvent>.FromAddress(new nint(AgentModule.Instance()->GetAgentByInternalId(AgentId.LotteryWeekly)->VTable->ReceiveEvent), OnReceiveEvent);
+        onReceiveEventHook ??= Service.Hooker.HookFromAddress<Delegates.AgentReceiveEvent>(new nint(AgentModule.Instance()->GetAgentByInternalId(AgentId.LotteryWeekly)->VTable->ReceiveEvent), OnReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 

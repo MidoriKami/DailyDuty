@@ -6,8 +6,6 @@ using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
-using Dalamud.Logging;
-using Dalamud.Plugin.Services;
 using KamiLib.AutomaticUserInterface;
 using KamiLib.GameState;
 using KamiLib.Utilities;
@@ -33,9 +31,6 @@ public abstract class BaseModule : IDisposable
     protected XivChatType GetChatChannel() => ModuleConfig.UseCustomChannel ? ModuleConfig.MessageChatChannel : Service.PluginInterface.GeneralChatType;
     private readonly Stopwatch statusMessageLockout = new();
     
-    public virtual void AddonPreSetup(IAddonLifecycle.AddonArgs addonInfo) { }
-    public virtual void AddonPostSetup(IAddonLifecycle.AddonArgs addonInfo) { }
-    public virtual void AddonFinalize(IAddonLifecycle.AddonArgs addonInfo) { }
     protected virtual void UpdateTaskLists() { }
     public virtual bool HasTooltip { get; protected set; } = false;
     public virtual string TooltipText { get; protected set; } = string.Empty;
@@ -68,7 +63,7 @@ public abstract class BaseModule : IDisposable
 
     public virtual void Load()
     {
-        PluginLog.Debug($"[{ModuleName}] Loading Module");
+        Service.Log.Debug($"[{ModuleName}] Loading Module");
         ModuleData = LoadData();
         ModuleConfig = LoadConfig();
 
@@ -89,7 +84,7 @@ public abstract class BaseModule : IDisposable
 
     public virtual void Unload()
     {
-        PluginLog.Debug($"[{ModuleName}] Unloading Module");
+        Service.Log.Debug($"[{ModuleName}] Unloading Module");
         
         statusMessageLockout.Stop();
         statusMessageLockout.Reset();
@@ -97,7 +92,7 @@ public abstract class BaseModule : IDisposable
 
     public virtual void Reset()
     {
-        PluginLog.Debug($"[{ModuleName}] Resetting Module, Next Reset: {GetNextReset().ToLocalTime()}");
+        Service.Log.Debug($"[{ModuleName}] Resetting Module, Next Reset: {GetNextReset().ToLocalTime()}");
 
         SendResetMessage();
         
@@ -127,11 +122,11 @@ public abstract class BaseModule : IDisposable
         if (Condition.IsBoundByDuty()) return;
         if (statusMessageLockout.Elapsed < TimeSpan.FromMinutes(5) && statusMessageLockout.IsRunning)
         {
-            PluginLog.Debug($"[{ModuleName}] Suppressing Status Message: {TimeSpan.FromMinutes(5) - statusMessageLockout.Elapsed}");
+            Service.Log.Debug($"[{ModuleName}] Suppressing Status Message: {TimeSpan.FromMinutes(5) - statusMessageLockout.Elapsed}");
             return;
         }
         
-        PluginLog.Debug($"[{ModuleName}] Sending Status Message");
+        Service.Log.Debug($"[{ModuleName}] Sending Status Message");
         
         var statusMessage = GetStatusMessage();
         if (ModuleConfig.UseCustomStatusMessage && GetModuleStatus() != ModuleStatus.Unknown)
@@ -208,7 +203,7 @@ public abstract class BaseModule : IDisposable
                 var isCountableTaskIncomplete = configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount;
                 var isNonCountableTaskIncomplete = configTask.TargetCount == 0 && !dataTask.Complete;
                 
-                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) yield return configTask.GetLabel();
+                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) yield return configTask.Label();
             }
         }
     }
