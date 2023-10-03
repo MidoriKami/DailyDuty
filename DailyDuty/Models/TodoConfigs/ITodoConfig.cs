@@ -12,7 +12,7 @@ public interface ITodoConfig
     [BoolConfig("UseCustomLabel")]
     public bool UseCustomTodoLabel { get; set; }
     
-    [StringConfig("UseCustomLabel",  true)]
+    [StringConfig("UseCustomLabel")]
     public string CustomTodoLabel { get; set; }
 
     [BoolConfig("OverrideTodoListColor")]

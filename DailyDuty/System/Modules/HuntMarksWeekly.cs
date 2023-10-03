@@ -2,7 +2,7 @@
 using DailyDuty.Abstracts;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Helpers;
-using KamiLib.Utilities;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;

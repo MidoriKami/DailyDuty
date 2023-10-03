@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Models.Enums;
-using KamiLib.Utilities;
+using KamiLib.Game;
 using Lumina.Excel;
 
 namespace DailyDuty.Abstracts;

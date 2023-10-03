@@ -2,7 +2,7 @@
 using DailyDuty.Models.Enums;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using KamiLib.Utilities;
+using KamiLib.Utility;
 
 namespace DailyDuty.Models;
 

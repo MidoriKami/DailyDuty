@@ -6,8 +6,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Atk;
-using KamiLib.Utilities;
+using KamiLib.NativeUi;
 
 namespace DailyDuty.System;
 

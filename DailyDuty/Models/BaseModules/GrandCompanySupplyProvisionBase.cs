@@ -3,7 +3,7 @@ using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using KamiLib.Utilities;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Abstracts;

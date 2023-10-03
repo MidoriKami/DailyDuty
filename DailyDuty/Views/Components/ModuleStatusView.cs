@@ -2,7 +2,7 @@
 using DailyDuty.System.Localization;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
-using KamiLib.Utilities;
+using KamiLib.Utility;
 
 namespace DailyDuty.Views.Components;
 

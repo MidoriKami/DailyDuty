@@ -1,7 +1,7 @@
 ﻿using System;
 using DailyDuty.Models;
 using Dalamud.Plugin.Services;
-using KamiLib.Utilities;
+using KamiLib.FileIO;
 
 namespace DailyDuty.System;
 

@@ -8,18 +8,18 @@ using DailyDuty.Abstracts;
 using DailyDuty.Models;
 using DailyDuty.Models.Enums;
 using DailyDuty.System.Localization;
-using Dalamud.Game.Addon;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib;
-using KamiLib.Atk;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.ChatCommands;
-using KamiLib.Commands;
-using KamiLib.GameState;
-using KamiLib.Utilities;
+using KamiLib.Command;
+using KamiLib.FileIO;
+using KamiLib.Game;
+using KamiLib.NativeUi;
+using KamiLib.System;
+using KamiLib.Utility;
 
 namespace DailyDuty.System;
 

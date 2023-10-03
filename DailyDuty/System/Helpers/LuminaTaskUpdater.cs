@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Abstracts;
 using DailyDuty.Models;
-using KamiLib.Caching;
+using KamiLib.Game;
 using Lumina.Excel;
 
 namespace DailyDuty.System.Helpers;

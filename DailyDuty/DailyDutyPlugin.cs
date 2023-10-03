@@ -3,7 +3,7 @@ using DailyDuty.System.Localization;
 using DailyDuty.Views;
 using Dalamud.Plugin;
 using KamiLib;
-using KamiLib.Commands;
+using KamiLib.System;
 
 namespace DailyDuty;
 

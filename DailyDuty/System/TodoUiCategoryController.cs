@@ -4,8 +4,8 @@ using System.Numerics;
 using DailyDuty.Models.Enums;
 using DailyDuty.System;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Atk;
-using KamiLib.Utilities;
+using KamiLib.NativeUi;
+using KamiLib.Utility;
 
 namespace DailyDuty.Models;
 

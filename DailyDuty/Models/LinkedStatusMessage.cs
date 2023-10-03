@@ -4,7 +4,7 @@ using DailyDuty.System;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
-using KamiLib.Utilities;
+using KamiLib.Utility;
 
 namespace DailyDuty.Models;
 

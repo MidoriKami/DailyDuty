@@ -8,8 +8,8 @@ using DailyDuty.System.Localization;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiLib.Hooking;
-using KamiLib.Utilities;
+using KamiLib.Game;
+using KamiLib.NativeUi;
 
 namespace DailyDuty.System;
 

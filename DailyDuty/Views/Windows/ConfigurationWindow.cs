@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Views.Tabs;
-using KamiLib.ChatCommands;
-using KamiLib.Commands;
+using KamiLib.Command;
+using KamiLib.Game;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
-using KamiLib.Windows;
+using KamiLib.System;
+using KamiLib.UserInterface;
+using KamiLib.Utility;
 
 namespace DailyDuty.Views;
 

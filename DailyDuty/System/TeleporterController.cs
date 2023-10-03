@@ -1,7 +1,7 @@
 ﻿using DailyDuty.System.Localization;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
-using KamiLib.ChatCommands;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.System;

@@ -7,9 +7,8 @@ using System.Linq;
 using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
-using KamiLib.Caching;
+using KamiLib.Game;
 using KamiLib.Interfaces;
-using KamiLib.Utilities;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 

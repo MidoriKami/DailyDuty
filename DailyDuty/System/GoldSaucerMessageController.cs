@@ -1,7 +1,7 @@
 ﻿using System;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
-using KamiLib.Hooking;
+using KamiLib.NativeUi;
 
 namespace DailyDuty.System;
 

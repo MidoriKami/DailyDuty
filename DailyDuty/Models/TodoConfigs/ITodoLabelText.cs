@@ -5,12 +5,12 @@ namespace DailyDuty.Models;
 [Category("LabelText", 4)]
 public interface ITodoLabelText
 {
-    [StringShortConfig("DailyTasksLabel", true)]
+    [StringShortConfig("DailyTasksLabel")]
     public string DailyLabel { get; set; }
     
-    [StringShortConfig("WeeklyTasksLabel", true)]
+    [StringShortConfig("WeeklyTasksLabel")]
     public string WeeklyLabel { get; set; }
     
-    [StringShortConfig("SpecialTasksLabel", true)]
+    [StringShortConfig("SpecialTasksLabel")]
     public string SpecialLabel { get; set; }
 }

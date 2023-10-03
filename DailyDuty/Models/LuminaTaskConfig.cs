@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using KamiLib.Caching;
+using KamiLib.Game;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Models;

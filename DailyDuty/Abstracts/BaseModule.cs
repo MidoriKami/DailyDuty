@@ -7,8 +7,8 @@ using DailyDuty.System.Localization;
 using DailyDuty.Views.Components;
 using Dalamud.Game.Text;
 using KamiLib.AutomaticUserInterface;
-using KamiLib.GameState;
-using KamiLib.Utilities;
+using KamiLib.FileIO;
+using KamiLib.Game;
 using Lumina.Excel;
 
 namespace DailyDuty.Abstracts;
