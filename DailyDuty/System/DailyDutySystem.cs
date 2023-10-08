@@ -71,14 +71,14 @@ public class DailyDutySystem : IDisposable
         
         ModuleController.LoadModules();
         
-        TodoController.Load();
+        TodoController.OnLogin();
     }
     
     private void OnLogout()
     {
         ModuleController.UnloadModules();
         
-        TodoController.Unload();
+        TodoController.OnLogout();
     }
     
     private void OnDraw()

@@ -32,28 +32,40 @@ public class TodoController : IDisposable
     private readonly Dictionary<ModuleName, DisplayData> displayDataCache = new();
     private record DisplayData(bool ShowModule, bool ShowHeader, bool ShowCategory);
 
-    public TodoController()
-    {
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", (_, _) => Load());
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", (_, _) => Unload());
-    }
-    
     public void Dispose()
     { 
+        UnloadUi();
+    }
+
+    public void OnLogin()
+    {
+        // Once we are logged in, we need to listen for nameplate setups and destroys to unload and reload the ui if they do verminion/aestetician
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", (_, _) => LoadUi());
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", (_, _) => UnloadUi());
+        
+        CommandController.RegisterCommands(this);
+        
+        LoadUi();
+    }
+
+    public void OnLogout()
+    {
         Service.AddonLifecycle.UnregisterListener(AddonEvent.PostSetup, "NamePlate");
         Service.AddonLifecycle.UnregisterListener(AddonEvent.PreFinalize, "NamePlate");
         
-        Unload();
+        CommandController.UnregisterCommands(this);
+        
+        UnloadUi();
     }
-
-    public void Load()
+    
+    public void LoadUi()
     {
-        Service.Log.Debug($"[TodoConfig] Loading Todo System");
+        if (uiController is not null) return;
         
-        CommandController.RegisterCommands(this);
+        Service.Log.Debug("[TodoConfig] Loading Todo Ui System");
+        
         Config = LoadConfig();
-        
-        uiController ??= new TodoUiController();
+        uiController = new TodoUiController();
 
         foreach (var module in DailyDutySystem.ModuleController.GetModules())
         {
@@ -61,13 +73,14 @@ public class TodoController : IDisposable
         }
     }
     
-    public void Unload()
+    public void UnloadUi()
     {
-        Service.Log.Debug("[TodoConfig] Unloading Todo System");
+        if (uiController is null) return;
         
+        Service.Log.Debug("[TodoConfig] Unloading Todo Ui System");
         CommandController.UnregisterCommands(this);
         
-        uiController?.Dispose();
+        uiController.Dispose();
         uiController = null;
     }
     
