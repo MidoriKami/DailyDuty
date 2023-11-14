@@ -34,13 +34,7 @@ public class ModuleConfigurationTab : ISelectionWindowTab
 
     public void DrawTabExtras()
     {
-        var buttonSize = ImGuiHelpers.ScaledVector2(30.0f);
-        var region = ImGui.GetContentRegionAvail();
-        
-        var cursorStart = ImGui.GetCursorPos();
-        cursorStart.X += region.X / 2.0f - buttonSize.X / 2.0f;
-
-        ImGui.PushItemWidth(region.X - buttonSize.X - ImGui.GetStyle().ItemSpacing.X);
+        ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X);
         
         if (ImGui.BeginCombo("##FilterCombo", filterType?.Label() ?? Strings.Show_All))
         {
@@ -59,17 +53,6 @@ public class ModuleConfigurationTab : ISelectionWindowTab
 
             ImGui.EndCombo();
         }
-        
-        ImGui.SameLine();
-        
-        ImGui.PushStyleColor(ImGuiCol.Button, 0xFF000000 | 0x005E5BFF);
-        ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0xDD000000 | 0x005E5BFFC);
-        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0xAA000000 | 0x005E5BFF);
-
-        if (ImGuiComponents.IconButton("KoFiButton", FontAwesomeIcon.Coffee)) Process.Start(new ProcessStartInfo { FileName = "https://ko-fi.com/midorikami", UseShellExecute = true });
-        if (ImGui.IsItemHovered()) ImGui.SetTooltip("Support Me on Ko-Fi");
-        
-        ImGui.PopStyleColor(3);
     }
 }
 
