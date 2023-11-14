@@ -3,7 +3,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
-        <Version>4.0.5.3</Version>
+        <Version>4.0.6.0</Version>
     </PropertyGroup>
 
     <PropertyGroup>
