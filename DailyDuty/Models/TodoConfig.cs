@@ -1,53 +1,51 @@
 ﻿using System.Numerics;
-using DailyDuty.Models.Enums;
 
 namespace DailyDuty.Models;
 
-public class TodoConfig : ITodoDisplayEnable, ITodoPositioning, ITodoCategories, ITodoDisplayOptions, ITodoTextStyle, ITodoLabelText, ITodoDisplayStyle, ITodoColorOptions
-{
+public class TodoConfig {
     // ITodoDisplayEnable
-    public bool Enable { get; set; } = true;
-    public bool PreviewMode { get; set; } = true;
+    public bool Enable = true;
+    public bool PreviewMode = true;
 
     // ITodoPositioning
-    public bool RightAlign { get; set; } = false;
-    public bool CanDrag { get; set; } = false;
-    public WindowAnchor Anchor { get; set; } = WindowAnchor.TopRight;
-    public Vector2 Position { get; set; } = new Vector2(1024, 720) / 2.0f;
+    public bool RightAlign = false;
+    public bool CanDrag = false;
+    // public WindowAnchor Anchor = WindowAnchor.TopRight;
+    public Vector2 Position = new Vector2(1024, 720) / 2.0f;
     
     // ITodoCategories
-    public bool DailyTasks { get; set; } = true;
-    public bool WeeklyTasks { get; set; } = true;
-    public bool SpecialTasks { get; set; } = true;
+    public bool DailyTasks = true;
+    public bool WeeklyTasks = true;
+    public bool SpecialTasks = true;
     
     // ITodoDisplayOptions
-    public bool BackgroundImage { get; set; } = true;
-    public bool ShowHeaders { get; set; } = true;
-    public bool HideDuringQuests { get; set; } = true;
-    public bool HideInDuties { get; set; } = true;
+    public bool BackgroundImage = true;
+    public bool ShowHeaders = true;
+    public bool HideDuringQuests = true;
+    public bool HideInDuties = true;
     
     // ITodoTextStyle
-    public bool HeaderItalic { get; set; } = false;
-    public bool ModuleItalic { get; set; } = false;
-    public bool Edge { get; set; } = true;
-    public bool Glare { get; set; } = false;
+    public bool HeaderItalic = false;
+    public bool ModuleItalic = false;
+    public bool Edge = true;
+    public bool Glare = false;
     
     // ITodoLabelText
-    public string DailyLabel { get; set; } = "Daily Tasks";
-    public string WeeklyLabel { get; set; } = "Weekly Tasks";
-    public string SpecialLabel { get; set; } = "Special Tasks";
+    public string DailyLabel = "Daily Tasks";
+    public string WeeklyLabel = "Weekly Tasks";
+    public string SpecialLabel = "Special Tasks";
     
     // ITodoDisplayStyle
-    public int FontSize { get; set; } = 20;
-    public int HeaderFontSize { get; set; } = 24;
-    public int CategorySpacing { get; set; } = 12;
-    public int HeaderSpacing { get; set; } = 0;
-    public int ModuleSpacing { get; set; } = 0;
+    public int FontSize = 20;
+    public int HeaderFontSize = 24;
+    public int CategorySpacing = 12;
+    public int HeaderSpacing = 0;
+    public int ModuleSpacing = 0;
 
     // ITodoColorOptions
-    public Vector4 CategoryBackgroundColor { get; set; } = new(0.0f, 0.0f, 0.0f, 0.4f);
-    public Vector4 HeaderTextColor { get; set; } = new(1.0f, 1.0f, 1.0f, 1.0f);
-    public Vector4 HeaderTextOutline { get; set; } = new(0.5568f, 0.4117f, 0.0470f, 1.0f);
-    public Vector4 ModuleTextColor { get; set; } = new(1.0f, 1.0f, 1.0f, 1.0f);
-    public Vector4 ModuleOutlineColor { get; set; } = new(0.0392f, 0.4117f, 0.5725f, 1.0f);
+    public Vector4 CategoryBackgroundColor = new(0.0f, 0.0f, 0.0f, 0.4f);
+    public Vector4 HeaderTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+    public Vector4 HeaderTextOutline = new(0.5568f, 0.4117f, 0.0470f, 1.0f);
+    public Vector4 ModuleTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
+    public Vector4 ModuleOutlineColor = new(0.0392f, 0.4117f, 0.5725f, 1.0f);
 }
