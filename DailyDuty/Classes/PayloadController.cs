@@ -10,6 +10,20 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Classes;
 
+public enum PayloadId : uint {
+    OpenWondrousTailsBook,
+    IdyllshireTeleport,
+    DomanEnclaveTeleport,
+    OpenDutyFinderRoulette,
+    OpenDutyFinderRaid,
+    OpenDutyFinderAllianceRaid,
+    GoldSaucerTeleport,
+    OpenPartyFinder,
+    UldahTeleport,
+    Unknown,
+    OpenChallengeLog,
+}
+
 public unsafe class PayloadController : IDisposable {
     private readonly Dictionary<PayloadId, DalamudLinkPayload> payloads = new();
     

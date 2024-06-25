@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using DailyDuty.Classes;
 using DailyDuty.Interfaces;
 using DailyDuty.Localization;
@@ -8,6 +9,18 @@ using ImGuiNET;
 using KamiLib.Components;
 
 namespace DailyDuty.Modules;
+
+public enum FashionReportMode {
+    [Description("All")]
+    All,
+    
+    [Description("Single")]
+    Single,
+    
+    [Description("Plus80")]
+    Plus80,
+}
+
 public class FashionReportData : ModuleDataBase {
     public int AllowancesRemaining = 4;
     public int HighestWeeklyScore;

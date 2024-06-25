@@ -1,10 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using DailyDuty.Classes;
 using DailyDuty.Models;
 using Lumina.Excel;
 
 namespace DailyDuty.Modules.BaseModules;
+
+public enum ModuleType {
+    [Description("Daily")]
+    Daily,
+    
+    [Description("Weekly")]
+    Weekly,
+    
+    [Description("Special")]
+    Special,
+}
 
 public class ModuleTaskDataBase<T> : ModuleDataBase where T : ExcelRow {
     public LuminaTaskDataList<T> TaskData = [];
