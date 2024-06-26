@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using Dalamud.Game.Text;

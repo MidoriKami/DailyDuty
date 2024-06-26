@@ -11,7 +11,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
-using KamiLib.Components;
+using KamiLib.Classes;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 
@@ -45,26 +45,24 @@ public abstract class ModuleDataBase {
 }
 
 public abstract class ModuleConfigBase {
-    public bool ModuleEnabled = false;
+    public bool ModuleEnabled;
     
     public bool OnLoginMessage = true;
     public bool OnZoneChangeMessage = true;
-    public bool ResetMessage = false;
+    public bool ResetMessage;
     
-    // todo: do todo stuff
-    // public bool TodoEnabled = true;
-    // public bool UseCustomTodoLabel= false;
-    // public string CustomTodoLabel = string.Empty;
-    // public bool OverrideTextColor = false;
-    // public Vector4 TodoTextColor = new(1.0f, 1.0f, 1.0f, 1.0f);
-    // public Vector4 TodoTextOutline = new(0.0f, 0.0f, 0.0f, 1.0f);
-    // public bool StyleChanged = true;
+    public bool TodoEnabled = true;
+    public bool UseCustomTodoLabel;
+    public string CustomTodoLabel = string.Empty;
+    public bool OverrideTextColor;
+    public Vector4 TodoTextColor = KnownColor.White.Vector();
+    public Vector4 TodoTextOutline = KnownColor.Black.Vector();
 
-    public bool UseCustomChannel = false;
+    public bool UseCustomChannel;
     public XivChatType MessageChatChannel = Service.PluginInterface.GeneralChatType;
-    public bool UseCustomStatusMessage = false;
+    public bool UseCustomStatusMessage;
     public string CustomStatusMessage = string.Empty;
-    public bool UseCustomResetMessage  = false;
+    public bool UseCustomResetMessage;
     public string CustomResetMessage = string.Empty;
 
     public bool Suppressed;
@@ -81,7 +79,7 @@ public abstract class ModuleConfigBase {
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
         
-        using (var indent = ImRaii.PushIndent()) {
+        using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref ModuleEnabled);
         }
         
@@ -89,7 +87,7 @@ public abstract class ModuleConfigBase {
         ImGui.TextUnformatted(Strings.ModuleConfiguration);
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
-        using (var indent = ImRaii.PushIndent()) {
+        using (ImRaii.PushIndent()) {
             configChanged |= DrawModuleConfig();
         }
         
@@ -97,7 +95,7 @@ public abstract class ModuleConfigBase {
         ImGui.TextUnformatted(Strings.NotificationOptions);
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
-        using (var indent = ImRaii.PushIndent()) {
+        using (ImRaii.PushIndent()) {
             configChanged |= ImGuiTweaks.Checkbox(Strings.SendStatusOnLogin, ref OnLoginMessage, Strings.SendStatusOnLoginHelp);
             configChanged |= ImGuiTweaks.Checkbox(Strings.SendStatusOnZoneChange, ref OnZoneChangeMessage, Strings.SendStatusOnZoneChangeHelp);
             configChanged |= ImGuiTweaks.Checkbox(Strings.SendMessageOnReset, ref ResetMessage, Strings.SendMessageOnResetHelp);
@@ -107,7 +105,7 @@ public abstract class ModuleConfigBase {
         ImGui.TextUnformatted(Strings.NotificationCustomization);
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
-        using (var indent = ImRaii.PushIndent()) {
+        using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.EnableCustomChannel, ref UseCustomChannel);
             
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
@@ -130,6 +128,26 @@ public abstract class ModuleConfigBase {
             }
         }
         
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted(Strings.TodoConfiguration);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.TodoEnable, ref TodoEnabled);
+
+            ImGuiHelpers.ScaledDummy(5.0f);
+
+            configChanged |= ImGui.Checkbox(Strings.UseCustomLabel, ref UseCustomTodoLabel);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.InputTextWithHint("##CustomTodoLabel", "Custom Todo Label...", ref CustomTodoLabel, 1024);
+
+            ImGuiHelpers.ScaledDummy(5.0f);
+            
+            configChanged |= ImGui.Checkbox(Strings.OverrideTodoListColor, ref OverrideTextColor);
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextColor, ref TodoTextColor, KnownColor.White.Vector());
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextOutlineColor, ref TodoTextOutline, KnownColor.Black.Vector());
+        }
+        
         return configChanged;
     }
 }
@@ -138,6 +156,8 @@ public abstract class BaseModule : IDisposable {
     public abstract ModuleName ModuleName { get; }
     
     public abstract ModuleType ModuleType { get; }
+
+    public abstract ModuleConfigBase GetConfig();
     
     public virtual void Dispose() { }
 
@@ -165,14 +185,14 @@ public abstract class BaseModule : IDisposable {
 
     public abstract void Reset();
 
-    public abstract void ZoneChange(uint newZone);
+    public abstract void ZoneChange();
 
     public abstract void SaveConfig();
 
     public abstract void SaveData();
     
     public abstract DateTime GetNextReset();
-
+    
     protected abstract ModuleStatus GetModuleStatus();
     
     protected abstract StatusMessage GetStatusMessage();
@@ -181,16 +201,18 @@ public abstract class BaseModule : IDisposable {
 }
 
 public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, new() where TU : ModuleConfigBase, new() {
-    protected T Data { get; set; } = new();
+    protected T Data { get; private set; } = new();
 
-    protected TU Config { get; set; } = new();
+    protected TU Config { get; private set; } = new();
 
     public override bool IsEnabled => Config.ModuleEnabled;
 
     public override ModuleStatus ModuleStatus => Config.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
     
     protected XivChatType GetChatChannel() => Config.UseCustomChannel ? Config.MessageChatChannel : Service.PluginInterface.GeneralChatType;
-    
+
+    public override ModuleConfigBase GetConfig() => Config;
+
     private readonly Stopwatch statusMessageLockout = new();
 
     protected virtual void UpdateTaskData() { }
@@ -230,12 +252,12 @@ public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, n
         ImGuiHelpers.ScaledDummy(5.0f);
         ImGuiHelpers.CenteredText(Strings.ModuleSuppressionHelp);
 
-        using (var disabled = ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
+        using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
             if (ImGui.Button(Strings.Snooze, new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
                 Config.Suppressed = true;
             }
 
-            using (var alphaStyle = ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
+            using (ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
                 if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled)) {
                     ImGui.SetTooltip("Hold Shift + Control while clicking activate button");
                 }
@@ -283,7 +305,11 @@ public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, n
     }
     
     public override void Update() {
-        if (DataChanged || ConfigChanged) UpdateTaskData();
+        if (DataChanged || ConfigChanged) {
+            UpdateTaskData();
+            UpdateTodoList();
+        }
+        
         if (DataChanged) SaveData();
         if (ConfigChanged) SaveConfig();
         
@@ -301,6 +327,8 @@ public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, n
         }
         
         UpdateTaskLists();
+        UpdateTaskData();
+        UpdateTodoList();
         
         Update();
         
@@ -328,7 +356,7 @@ public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, n
         SaveConfig();
     }
 
-    public override void ZoneChange(uint newZone) {
+    public override void ZoneChange() {
         if (Config is { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) {
             SendStatusMessage();
         }
@@ -345,6 +373,9 @@ public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, n
     
     public override void SaveData() 
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.data.json", Data);
+
+    private void UpdateTodoList()
+        => System.TodoListController.Refresh();
 
     private void SendStatusMessage() {
         if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;

@@ -6,7 +6,7 @@ using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using ImGuiNET;
-using KamiLib.Components;
+using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
@@ -114,7 +114,7 @@ public unsafe class FashionReport : Module.SpecialModule<FashionReportData, Fash
                     break;
 
                 case 3:     // During turn in, gets new score
-                    score = Math.Max((int) data.Data[0], score);
+                    score = Math.Max(data.Data[0], score);
                     break;
                     
                 case 1:     // During turn in, gets new allowances

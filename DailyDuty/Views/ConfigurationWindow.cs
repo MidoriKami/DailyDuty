@@ -8,8 +8,8 @@ using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
+using KamiLib.Classes;
 using KamiLib.CommandManager;
-using KamiLib.Components;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.Window;
@@ -21,7 +21,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<BaseModule> {
     protected override string SelectionListTabName => "Modules";
     
     protected override List<ITabItem> Tabs { get; } = [
-        new SystemConfigTab(),
+        new TodoConfigTab(),
     ];
     
     protected override List<BaseModule> Options => System.ModuleController.Modules;
@@ -74,7 +74,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<BaseModule> {
     }
 
     protected override void DrawSelectedOption(BaseModule option) {
-        using var table = ImRaii.Table($"module_table_{option.ModuleName}", 2, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.BordersInnerV, ImGui.GetContentRegionAvail());
+        using var table = ImRaii.Table($"module_table", 2, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.Resizable, ImGui.GetContentRegionAvail());
         if (!table) return;
 
         ImGui.TableNextColumn();
@@ -98,22 +98,173 @@ public class ConfigurationWindow : TabbedSelectionWindow<BaseModule> {
     }
 }
 
-public class SystemConfigTab : ITabItem {
-    public string Name => "System Config";
+public class TodoConfigTab : ITabItem {
+    public string Name => "Todo List";
+    
     public bool Disabled => false;
+
+    
     public void Draw() {
         var configChanged = false;
         
+        using var table = ImRaii.Table("todo_config_table", 4, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.Resizable);
+        if (!table) return;
+
+        ImGui.TableNextColumn();
+        using (ImRaii.Child("main_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
+            configChanged |= DrawMainConfig();
+        }
+
+        ImGui.TableNextColumn();
+        using (ImRaii.Child("daily_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
+            configChanged |= DrawCategory(ModuleType.Daily);
+        }
+        
+        ImGui.TableNextColumn();
+        using (ImRaii.Child("weekly_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
+            configChanged |= DrawCategory(ModuleType.Weekly);
+        }
+        
+        ImGui.TableNextColumn();
+        using (ImRaii.Child("special_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
+            configChanged |= DrawCategory(ModuleType.Special);
+        }
+        
+        if (configChanged) {
+            System.TodoConfig.Save();
+            System.TodoListController.Refresh();
+        }
+    }
+
+    private bool DrawMainConfig() {
+        using var id = ImRaii.PushId("main_config");
+        var configChanged = false;
+  
         ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted("System Options");
+        ImGui.TextUnformatted("Todo List Config");
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
-
-        using var _ = ImRaii.PushIndent();
-        configChanged |= ImGui.Checkbox(Strings.HideDisabled, ref System.SystemConfig.HideDisabledModules);
-
-        if (configChanged) {
-            System.SystemConfig.Save();
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
         }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted("Display Options");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            ImGui.Text("Position");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            configChanged |= ImGui.DragFloat2(Strings.Position, ref System.TodoConfig.Position, 5.0f);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            
+            ImGui.Text("Size");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            configChanged |= ImGui.DragFloat2("Size", ref System.TodoConfig.Size, 5.0f);
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted("Style Options");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
+            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref System.TodoConfig.Anchor, Strings.ResourceManager);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.Checkbox("Single Line", ref System.TodoConfig.SingleLine);
+            configChanged |= ImGui.Checkbox("Show Background", ref System.TodoConfig.ShowListBackground);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref System.TodoConfig.ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.40f });
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted($"Functional Options");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TodoConfig.HideDuringQuests);
+            configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TodoConfig.HideInDuties);
+        }
+
+        return configChanged;
+    }
+    
+    private bool DrawCategory(ModuleType type) {
+        using var id = ImRaii.PushId(type.ToString());
+        
+        var config = System.TodoConfig.CategoryConfigs[(uint)type];
+        var configChanged = false;
+
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted($"{type.GetDescription(Strings.ResourceManager)} Config");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.Enable, ref config.Enabled);
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted($"Style Options");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
+            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref config.LayoutAnchor, Strings.ResourceManager);
+            ImGuiHelpers.ScaledDummy(5.0f);
+
+            configChanged |= ImGui.Checkbox(Strings.EnableOutline, ref config.Edge);
+            configChanged |= ImGui.Checkbox(Strings.EnableGlowingOutline, ref config.Glare);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            ImGui.Text("Category Spacing");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            configChanged |= ImGui.DragFloat4("Category Spacing", ref config.CategoryMargin, 0.05f);
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted($"Header Options");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox("Show Header", ref config.ShowHeader);
+            configChanged |= ImGui.Checkbox(Strings.HeaderItalic, ref config.HeaderItalic);
+
+            ImGuiHelpers.ScaledDummy(5.0f);
+            ImGui.Text("Header Font Size");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            configChanged |= ImGuiTweaks.SliderUint(Strings.HeaderSize, ref config.HeaderFontSize, 1, 64);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderColor, ref config.HeaderTextColor, KnownColor.White.Vector());
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderOutlineColor, ref config.HeaderTextOutline, KnownColor.Orange.Vector());
+        }
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted("Module Options");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.ModuleItalic, ref config.ModuleItalic);
+
+            ImGuiHelpers.ScaledDummy(5.0f);
+            ImGui.Text("Module Font Size");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            configChanged |= ImGuiTweaks.SliderUint(Strings.FontSize, ref config.ModuleFontSize, 1, 64);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            ImGui.Text("Module Spacing");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            configChanged |= ImGui.DragFloat4("Module Spacing", ref config.ModuleMargin, 0.05f);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleTextColor, ref config.ModuleTextColor, KnownColor.White.Vector());
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleOutlineColor, ref config.ModuleOutlineColor, KnownColor.Orange.Vector());
+        }
+        
+        return configChanged;
     }
 }

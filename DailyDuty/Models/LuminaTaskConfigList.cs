@@ -43,7 +43,7 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
 
 			default:
 				ImGui.TableNextColumn();
-				ImGui.Text("Invalid Config Data Type");
+				ImGui.Text("Invalid ModuleConfig Data Type");
 				break;
 		}
 

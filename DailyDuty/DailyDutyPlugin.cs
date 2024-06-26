@@ -1,10 +1,12 @@
 ﻿using DailyDuty.Classes;
+using DailyDuty.Classes.TodoList;
 using Dalamud.Plugin;
 using DailyDuty.Models;
 using DailyDuty.Views;
 using Dalamud.Plugin.Services;
 using KamiLib.CommandManager;
 using KamiLib.Window;
+using KamiToolKit;
 
 namespace DailyDuty;
 
@@ -14,17 +16,18 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
         System.SystemConfig = new SystemConfig();
+        System.NativeController = new NativeController(Service.PluginInterface);
 
         System.TeleporterController = new TeleporterController();
         
         System.CommandManager = new CommandManager(Service.PluginInterface, "dd", "dailyduty");
-
         System.LocalizationController = new LocalizationController();
         System.PayloadController = new PayloadController();
-        System.ModuleController = new ModuleController();
         
-        System.ConfigurationWindow = new ConfigurationWindow();
+        System.ModuleController = new ModuleController();
+        System.TodoListController = new TodoListController();
 
+        System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn | WindowFlags.OpenImmediately);
         
@@ -53,6 +56,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.Dispose();
         System.WindowManager.Dispose();
         System.CommandManager.Dispose();
+        System.TodoListController.Dispose();
+        
+        System.NativeController.Dispose();
     }
     
     private void OnFrameworkUpdate(IFramework framework) {
@@ -64,9 +70,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         // Update All Modules
         System.ModuleController.UpdateModules();
-        
-        // Update TodoDisplay
-        // TodoController.Update(); // todo: this
     }
     
     private void OnLogin() {
@@ -74,13 +77,13 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         System.ModuleController.LoadModules();
         
-        // TodoController.OnLogin(); // todo: this
+        System.TodoListController.Load();
     }
     
     private void OnLogout() {
         System.ModuleController.UnloadModules();
         
-        // TodoController.OnLogout();  // todo: this
+        System.TodoListController.Unload();
     }
     
     private void OnZoneChange(ushort territoryTypeId)
@@ -91,12 +94,9 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.ZoneChange(territoryTypeId);
     }
     
-    private void OnLeavePvP() {
-        // TodoController.Show(); // todo: this
-    }
+    private void OnLeavePvP()
+        => System.TodoListController.Refresh();
 
-    private void OnEnterPvP() {
-        // TodoController.Hide(); // todo: this
-    }
-
+    private void OnEnterPvP()
+        => System.TodoListController.Refresh();
 }

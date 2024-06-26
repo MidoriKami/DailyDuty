@@ -5,6 +5,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using KamiLib.Classes;
 
 namespace DailyDuty.Classes;
 
@@ -14,17 +15,8 @@ public class ModuleController : IDisposable {
     private bool modulesLoaded;
 
     public ModuleController() {
-        Modules = new List<BaseModule>();
+        Modules = Reflection.ActivateOfType<BaseModule>().ToList();
         goldSaucerMessageController = new GoldSaucerMessageController();
-
-        foreach (var t in GetType().Assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(BaseModule))))
-        {
-            if (t.IsAbstract) continue;
-            var module = (BaseModule?) Activator.CreateInstance(t);
-            if (module is null) continue;
-            
-            Modules.Add(module);
-        }
 
         goldSaucerMessageController.GoldSaucerUpdate += OnGoldSaucerMessage;
         Service.Chat.ChatMessage += OnChatMessage;
@@ -80,7 +72,7 @@ public class ModuleController : IDisposable {
 
     public void ZoneChange(uint newZone) {
         foreach (var module in Modules) {
-            module.ZoneChange(newZone);
+            module.ZoneChange();
         }
     }
     

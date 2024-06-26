@@ -4,7 +4,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using DailyDuty.Localization;
 using DailyDuty.Modules.BaseModules;
 using ImGuiNET;
-using KamiLib.Components;
+using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 

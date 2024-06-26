@@ -50,7 +50,7 @@ public unsafe class PayloadController : IDisposable {
     private static DalamudLinkPayload RegisterPayload(PayloadId id) 
         => AddHandler(id, GetDelegateForPayload(id));
 
-    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch {
+    public static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch {
         PayloadId.OpenWondrousTailsBook => (_, _) => {
             const uint wondrousTailsBookItemId = 2002023;
                 
