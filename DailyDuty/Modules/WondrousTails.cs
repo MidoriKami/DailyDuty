@@ -182,13 +182,11 @@ public unsafe class WondrousTails : Module.WeeklyModule<WondrousTailsData, Wondr
 		_ => ConditionalStatusMessage.GetMessage(Config.ClickableLink, string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers), PayloadId.OpenWondrousTailsBook),
 	};
 
-	private PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory) {
-		foreach (var index in Enumerable.Range(0, 16))
-		{
+	private static PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory) {
+		foreach (var index in Enumerable.Range(0, 16)) {
 			var dutyListForSlot = TaskLookup.GetInstanceListFromId(PlayerState.Instance()->WeeklyBingoOrderData[index]);
 
-			if (dutyListForSlot.Contains(territory))
-			{
+			if (dutyListForSlot.Contains(territory)) {
 				return PlayerState.Instance()->GetWeeklyBingoTaskStatus(index);
 			}
 		}
