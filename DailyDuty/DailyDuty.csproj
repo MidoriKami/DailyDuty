@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Dalamud.NET.Sdk/9.0.1">
+<Project Sdk="Dalamud.NET.Sdk/9.0.2">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
         <Version>4.0.6.1</Version>
