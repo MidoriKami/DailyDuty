@@ -13,7 +13,7 @@ public unsafe class GoldSaucerEventArgs(int* data, byte eventId) : EventArgs {
 public unsafe class GoldSaucerMessageController : IDisposable {
     private delegate void* GoldSaucerUpdateDelegate(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventId);
 
-    [Signature("E8 ?? ?? ?? ?? 80 A7 ?? ?? ?? ?? ?? 48 8D 8F ?? ?? ?? ?? 44 89 AF", DetourName = nameof(ProcessNetworkPacket))]
+    [Signature("E8 ?? ?? ?? ?? EB 07 48 8D 9F", DetourName = nameof(ProcessNetworkPacket))]
     private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
     
     public event EventHandler<GoldSaucerEventArgs>? GoldSaucerUpdate;
