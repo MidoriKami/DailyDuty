@@ -9,7 +9,7 @@ using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
-public class LevequestData : ModuleDataBase {
+public class LevequestData : ModuleData {
     public int NumLevequestAllowances;
     public int AcceptedLevequests;
     
@@ -21,7 +21,7 @@ public class LevequestData : ModuleDataBase {
     }
 }
 
-public class LevequestConfig : ModuleConfigBase { 
+public class LevequestConfig : ModuleConfig { 
     public int NotificationThreshold = 95;
     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
 

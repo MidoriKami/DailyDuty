@@ -18,9 +18,9 @@ using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Modules;
 
-public class GrandCompanySquadronConfig : ModuleConfigBase;
+public class GrandCompanySquadronConfig : ModuleConfig;
 
-public class GrandCompanySquadronData : ModuleTaskDataBase<ClassJob> {
+public class GrandCompanySquadronData : ModuleTaskData<ClassJob> {
 	public bool MissionCompleted;
 	public bool MissionStarted;
 	public DateTime MissionCompleteTime = DateTime.MinValue;

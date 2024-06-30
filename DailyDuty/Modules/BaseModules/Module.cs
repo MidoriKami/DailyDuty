@@ -18,14 +18,14 @@ public enum ModuleType {
     Special,
 }
 
-public class ModuleTaskDataBase<T> : ModuleDataBase where T : ExcelRow {
+public class ModuleTaskData<T> : ModuleData where T : ExcelRow {
     public LuminaTaskDataList<T> TaskData = [];
 
     protected override void DrawModuleData()
         => TaskData.Draw();
 }
 
-public class ModuleTaskConfigBase<T> : ModuleConfigBase where T : ExcelRow {
+public class ModuleTaskConfig<T> : ModuleConfig where T : ExcelRow {
     public LuminaTaskConfigList<T> TaskConfig = [];
 
     protected override bool DrawModuleConfig()
@@ -33,25 +33,25 @@ public class ModuleTaskConfigBase<T> : ModuleConfigBase where T : ExcelRow {
 }
 
 public static class Module {
-    public abstract class DailyModule<T, TU> : BaseModule<T, TU> where T : ModuleDataBase, new() where TU : ModuleConfigBase, new() {
+    public abstract class DailyModule<T, TU> : BaseModule<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
         public override ModuleType ModuleType => ModuleType.Daily;
 
         public override DateTime GetNextReset() 
             => Time.NextDailyReset();
     }
 
-    public abstract class WeeklyModule<T, TU> : BaseModule<T, TU> where T : ModuleDataBase, new() where TU : ModuleConfigBase, new() {
+    public abstract class WeeklyModule<T, TU> : BaseModule<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
         public override ModuleType ModuleType => ModuleType.Weekly;
         
         public override DateTime GetNextReset()
             => Time.NextWeeklyReset();
     }
 
-    public abstract class SpecialModule<T, TU> : BaseModule<T, TU> where T : ModuleDataBase, new() where TU : ModuleConfigBase, new() {
+    public abstract class SpecialModule<T, TU> : BaseModule<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
         public override ModuleType ModuleType => ModuleType.Special;
     }
 
-    public abstract class DailyTaskModule<T, TU, TV> : DailyModule<T, TU> where T : ModuleTaskDataBase<TV>, new() where TU : ModuleTaskConfigBase<TV>, new() where TV : ExcelRow {
+    public abstract class DailyTaskModule<T, TU, TV> : DailyModule<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
         public override bool HasTooltip => true;
         
         public override string TooltipText { get; protected set; } = string.Empty;
@@ -64,7 +64,7 @@ public static class Module {
         }
     }
 
-    public abstract class WeeklyTaskModule<T, TU, TV> : WeeklyModule<T, TU> where T : ModuleTaskDataBase<TV>, new() where TU : ModuleTaskConfigBase<TV>, new() where TV : ExcelRow {
+    public abstract class WeeklyTaskModule<T, TU, TV> : WeeklyModule<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
         public override bool HasTooltip => true;
         
         public override string TooltipText { get; protected set; } = string.Empty;
@@ -77,7 +77,7 @@ public static class Module {
         }
     }
 
-    public abstract class SpecialTaskModule<T, TU, TV> : SpecialModule<T, TU> where T : ModuleTaskDataBase<TV>, new() where TU : ModuleTaskConfigBase<TV>, new() where TV : ExcelRow {
+    public abstract class SpecialTaskModule<T, TU, TV> : SpecialModule<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
         public override bool HasTooltip => true;
 
         public override string TooltipText { get; protected set; } = string.Empty;

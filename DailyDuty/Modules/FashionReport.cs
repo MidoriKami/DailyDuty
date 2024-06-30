@@ -21,7 +21,7 @@ public enum FashionReportMode {
     Plus80,
 }
 
-public class FashionReportData : ModuleDataBase {
+public class FashionReportData : ModuleData {
     public int AllowancesRemaining = 4;
     public int HighestWeeklyScore;
     public bool FashionReportAvailable;
@@ -35,7 +35,7 @@ public class FashionReportData : ModuleDataBase {
     }
 }
 
-public class FashionReportConfig : ModuleConfigBase {
+public class FashionReportConfig : ModuleConfig {
     public FashionReportMode CompletionMode = FashionReportMode.Single;
     public bool ClickableLink = true;
 

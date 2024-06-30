@@ -16,7 +16,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules;
 
-public class WondrousTailsData : ModuleDataBase {
+public class WondrousTailsData : ModuleData {
 	public int PlacedStickers;
 	public uint SecondChance;
 	public bool NewBookAvailable;
@@ -44,7 +44,7 @@ public class WondrousTailsData : ModuleDataBase {
 	}
 }
 
-public class WondrousTailsConfig : ModuleConfigBase {
+public class WondrousTailsConfig : ModuleConfig {
 	public bool InstanceNotifications = true;
 	public bool StickerAvailableNotice = true;
 	public bool UnclaimedBookWarning = true;

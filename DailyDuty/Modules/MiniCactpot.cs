@@ -9,7 +9,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Modules;
 
-public class MiniCactpotData : ModuleDataBase {
+public class MiniCactpotData : ModuleData {
     public int AllowancesRemaining = 3;
     
     protected override void DrawModuleData() {
@@ -19,7 +19,7 @@ public class MiniCactpotData : ModuleDataBase {
     }
 }
 
-public class MiniCactpotConfig : ModuleConfigBase {
+public class MiniCactpotConfig : ModuleConfig {
     public bool ClickableLink = true;
     
     protected override bool DrawModuleConfig() {

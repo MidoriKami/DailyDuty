@@ -14,7 +14,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules.BaseModules;
 
-public class RaidsBaseConfig : ModuleTaskConfigBase<ContentFinderCondition> {
+public class RaidsConfig : ModuleTaskConfig<ContentFinderCondition> {
 	public bool ClickableLink = true;
 	
 	protected override bool DrawModuleConfig() {
@@ -29,7 +29,7 @@ public interface IChatMessageReceiver {
 	void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled);
 }
 
-public abstract unsafe class RaidsBase : Module.WeeklyTaskModule<ModuleTaskDataBase<ContentFinderCondition>, RaidsBaseConfig, ContentFinderCondition>, IChatMessageReceiver {
+public abstract unsafe class RaidsBase : Module.WeeklyTaskModule<ModuleTaskData<ContentFinderCondition>, RaidsConfig, ContentFinderCondition>, IChatMessageReceiver {
 	protected override ModuleStatus GetModuleStatus() => IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 	private static AgentContentsFinder* Agent => AgentContentsFinder.Instance();
 	

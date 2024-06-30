@@ -10,7 +10,7 @@ using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 
 namespace DailyDuty.Modules;
 
-public class DutyRouletteData : ModuleTaskDataBase<ContentRoulette> {
+public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
     public int ExpertTomestones;
     public int ExpertTomestoneCap;
     public bool AtTomeCap;
@@ -24,7 +24,7 @@ public class DutyRouletteData : ModuleTaskDataBase<ContentRoulette> {
     }
 }
 
-public class DutyRouletteConfig : ModuleTaskConfigBase<ContentRoulette> {
+public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public bool CompleteWhenCapped = false;
     public bool ClickableLink = true;
     

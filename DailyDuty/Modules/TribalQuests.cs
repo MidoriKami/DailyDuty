@@ -8,7 +8,7 @@ using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
-public class TribalQuestsData : ModuleDataBase {
+public class TribalQuestsData : ModuleData {
 	public uint RemainingAllowances;
 	
 	protected override void DrawModuleData() {
@@ -18,7 +18,7 @@ public class TribalQuestsData : ModuleDataBase {
 	}
 }
 
-public class TribalQuestsConfig : ModuleConfigBase {
+public class TribalQuestsConfig : ModuleConfig {
 	public int NotificationThreshold = 12;
 	public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 	

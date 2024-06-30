@@ -8,7 +8,7 @@ using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
-public class CustomDeliveryData : ModuleDataBase {
+public class CustomDeliveryData : ModuleData {
     public int RemainingAllowances = 12;
 
     protected override void DrawModuleData() {
@@ -18,7 +18,7 @@ public class CustomDeliveryData : ModuleDataBase {
     }
 }
 
-public class CustomDeliveryConfig : ModuleConfigBase {
+public class CustomDeliveryConfig : ModuleConfig {
     public int NotificationThreshold = 12;
     public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 

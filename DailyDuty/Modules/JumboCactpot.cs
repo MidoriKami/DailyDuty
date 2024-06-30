@@ -17,7 +17,7 @@ using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
-public class JumboCactpotData : ModuleDataBase {
+public class JumboCactpotData : ModuleData {
 	public List<int> Tickets = [];
 
 	protected override void DrawModuleData() {
@@ -37,7 +37,7 @@ public class JumboCactpotData : ModuleDataBase {
 	}
 }
 
-public class JumboCactpotConfig : ModuleConfigBase {
+public class JumboCactpotConfig : ModuleConfig {
 	public bool ClickableLink = true;
 	
 	protected override bool DrawModuleConfig() {

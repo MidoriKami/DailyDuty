@@ -12,9 +12,9 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules;
 
-public class TreasureMapConfig : ModuleConfigBase;
+public class TreasureMapConfig : ModuleConfig;
 
-public class TreasureMapData : ModuleDataBase {
+public class TreasureMapData : ModuleData {
 	public DateTime LastMapGatheredTime = DateTime.MinValue;
 	public bool MapAvailable = true;
 	

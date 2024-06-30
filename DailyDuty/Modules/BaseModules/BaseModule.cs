@@ -17,7 +17,7 @@ using KamiLib.Extensions;
 
 namespace DailyDuty.Modules.BaseModules;
 
-public abstract class ModuleDataBase {
+public abstract class ModuleData {
     public DateTime NextReset;
 
     protected virtual void DrawModuleData() {
@@ -44,7 +44,7 @@ public abstract class ModuleDataBase {
     }
 }
 
-public abstract class ModuleConfigBase {
+public abstract class ModuleConfig {
     public bool ModuleEnabled;
     
     public bool OnLoginMessage = true;
@@ -157,7 +157,7 @@ public abstract class BaseModule : IDisposable {
     
     public abstract ModuleType ModuleType { get; }
 
-    public abstract ModuleConfigBase GetConfig();
+    public abstract ModuleConfig GetConfig();
     
     public virtual void Dispose() { }
 
@@ -200,7 +200,7 @@ public abstract class BaseModule : IDisposable {
     protected virtual void UpdateTaskLists() { }
 }
 
-public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, new() where TU : ModuleConfigBase, new() {
+public abstract class BaseModule<T, TU> : BaseModule where T : ModuleData, new() where TU : ModuleConfig, new() {
     protected T Data { get; private set; } = new();
 
     protected TU Config { get; private set; } = new();
@@ -211,7 +211,7 @@ public abstract class BaseModule<T, TU> : BaseModule where T : ModuleDataBase, n
     
     protected XivChatType GetChatChannel() => Config.UseCustomChannel ? Config.MessageChatChannel : Service.PluginInterface.GeneralChatType;
 
-    public override ModuleConfigBase GetConfig() => Config;
+    public override ModuleConfig GetConfig() => Config;
 
     private readonly Stopwatch statusMessageLockout = new();
 

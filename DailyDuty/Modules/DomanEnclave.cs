@@ -10,7 +10,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Modules;
 
-public class DomanEnclaveData : ModuleDataBase {
+public class DomanEnclaveData : ModuleData {
     public int WeeklyAllowance;
     public int DonatedThisWeek;
     public int RemainingAllowance;
@@ -30,7 +30,7 @@ public class DomanEnclaveData : ModuleDataBase {
     }
 }
 
-public class DomanEnclaveConfig : ModuleConfigBase {
+public class DomanEnclaveConfig : ModuleConfig {
     public bool ClickableLink = true;
 
     protected override bool DrawModuleConfig() {

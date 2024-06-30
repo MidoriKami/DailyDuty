@@ -8,7 +8,7 @@ using ImGuiNET;
 
 namespace DailyDuty.Modules;
 
-public class FauxHollowsData : ModuleDataBase {
+public class FauxHollowsData : ModuleData {
 	public int FauxHollowsCompletions;
 	
 	protected override void DrawModuleData() {
@@ -18,7 +18,7 @@ public class FauxHollowsData : ModuleDataBase {
 	}
 }
 
-public class FauxHollowsConfig : ModuleConfigBase {
+public class FauxHollowsConfig : ModuleConfig {
 	public bool IncludeRetelling = true;
 	public bool ClickableLink = true;
 

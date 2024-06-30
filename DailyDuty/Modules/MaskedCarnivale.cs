@@ -15,7 +15,7 @@ using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Modules;
 
-public class MaskedCarnivaleConfig : ModuleTaskConfigBase<Addon> {
+public class MaskedCarnivaleConfig : ModuleTaskConfig<Addon> {
 	public bool ClickableLink = true;
 	
 	protected override bool DrawModuleConfig() {
@@ -26,7 +26,7 @@ public class MaskedCarnivaleConfig : ModuleTaskConfigBase<Addon> {
 	}
 }
 
-public unsafe class MaskedCarnivale : Module.WeeklyTaskModule<ModuleTaskDataBase<Addon>, MaskedCarnivaleConfig, Addon> {
+public unsafe class MaskedCarnivale : Module.WeeklyTaskModule<ModuleTaskData<Addon>, MaskedCarnivaleConfig, Addon> {
 	public override ModuleName ModuleName => ModuleName.MaskedCarnivale;
 
 	public override bool HasClickableLink => true;

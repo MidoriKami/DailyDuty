@@ -10,7 +10,7 @@ namespace DailyDuty.Classes.TodoList;
 public class TodoTaskNode : TextNode {
 	public required BaseModule Module { get; init; }
 	
-	private ModuleConfigBase ModuleConfig => Module.GetConfig();
+	private ModuleConfig ModuleConfig => Module.GetConfig();
 	private CategoryConfig CategoryConfig => System.TodoConfig.CategoryConfigs[(uint) Module.ModuleType];
 
 	public void Refresh() {

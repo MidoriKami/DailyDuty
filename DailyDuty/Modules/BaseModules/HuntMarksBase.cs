@@ -7,7 +7,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules.BaseModules;
 
-public abstract unsafe class HuntMarksBase : Module.SpecialTaskModule<ModuleTaskDataBase<MobHuntOrderType>, ModuleTaskConfigBase<MobHuntOrderType>, MobHuntOrderType> {
+public abstract unsafe class HuntMarksBase : Module.SpecialTaskModule<ModuleTaskData<MobHuntOrderType>, ModuleTaskConfig<MobHuntOrderType>, MobHuntOrderType> {
 	private static MobHunt* HuntData => MobHunt.Instance();
     
 	public override void Update() {
