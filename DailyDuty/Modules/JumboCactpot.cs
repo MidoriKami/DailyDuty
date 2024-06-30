@@ -45,7 +45,7 @@ public class JumboCactpotConfig : ModuleConfig {
 	}
 }
 
-public unsafe class JumboCactpot : Module.SpecialModule<JumboCactpotData, JumboCactpotConfig>, IGoldSaucerMessageReceiver {
+public unsafe class JumboCactpot : BaseModules.Modules.Special<JumboCactpotData, JumboCactpotConfig>, IGoldSaucerMessageReceiver {
 	public override ModuleName ModuleName => ModuleName.JumboCactpot;
 	
 	public override DateTime GetNextReset() {

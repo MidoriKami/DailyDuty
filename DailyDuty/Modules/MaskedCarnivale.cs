@@ -26,7 +26,7 @@ public class MaskedCarnivaleConfig : ModuleTaskConfig<Addon> {
 	}
 }
 
-public unsafe class MaskedCarnivale : Module.WeeklyTaskModule<ModuleTaskData<Addon>, MaskedCarnivaleConfig, Addon> {
+public unsafe class MaskedCarnivale : BaseModules.Modules.WeeklyTask<ModuleTaskData<Addon>, MaskedCarnivaleConfig, Addon> {
 	public override ModuleName ModuleName => ModuleName.MaskedCarnivale;
 
 	public override bool HasClickableLink => true;

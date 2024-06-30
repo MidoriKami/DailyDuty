@@ -38,7 +38,7 @@ public class LevequestConfig : ModuleConfig {
     }
 }
 
-public unsafe class Levequest : Module.SpecialModule<LevequestData, LevequestConfig> {
+public unsafe class Levequest : BaseModules.Modules.Special<LevequestData, LevequestConfig> {
     public override ModuleName ModuleName => ModuleName.Levequest;
     
     public override DateTime GetNextReset() => Time.NextLeveAllowanceReset();

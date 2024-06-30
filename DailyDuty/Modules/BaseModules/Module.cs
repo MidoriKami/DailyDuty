@@ -1,131 +1,282 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.Numerics;
 using DailyDuty.Classes;
+using DailyDuty.Localization;
 using DailyDuty.Models;
-using Lumina.Excel;
+using Dalamud.Game.Text;
+using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
+using ImGuiNET;
+using KamiLib.Configuration;
+using KamiLib.Extensions;
 
 namespace DailyDuty.Modules.BaseModules;
 
-public enum ModuleType {
-    [Description("Daily")]
-    Daily,
+public abstract class Module : IDisposable {
+    public abstract ModuleName ModuleName { get; }
     
-    [Description("Weekly")]
-    Weekly,
+    public abstract ModuleType ModuleType { get; }
+
+    public abstract ModuleConfig GetConfig();
     
-    [Description("Special")]
-    Special,
+    public virtual void Dispose() { }
+
+    public virtual bool HasTooltip { get; protected set; } = false;
+    
+    public virtual string TooltipText { get; protected set; } = string.Empty;
+    
+    public virtual bool HasClickableLink { get; protected set; } = false;
+    
+    public virtual PayloadId ClickableLinkPayloadId { get; protected set; } = PayloadId.Unknown;
+
+    public virtual ModuleStatus ModuleStatus => ModuleStatus.Unknown;
+    
+    public virtual bool IsEnabled => false;
+
+    public abstract void DrawConfig();
+
+    public abstract void DrawData();
+
+    public abstract void Update();
+
+    public abstract void Load();
+
+    public abstract void Unload();
+
+    public abstract void Reset();
+
+    public abstract void ZoneChange();
+
+    public abstract void SaveConfig();
+
+    public abstract void SaveData();
+    
+    public abstract DateTime GetNextReset();
+    
+    protected abstract ModuleStatus GetModuleStatus();
+    
+    protected abstract StatusMessage GetStatusMessage();
+
+    protected virtual void UpdateTaskLists() { }
 }
 
-public class ModuleTaskData<T> : ModuleData where T : ExcelRow {
-    public LuminaTaskDataList<T> TaskData = [];
+public abstract class Module<T, TU> : Module where T : ModuleData, new() where TU : ModuleConfig, new() {
+    protected T Data { get; private set; } = new();
 
-    protected override void DrawModuleData()
-        => TaskData.Draw();
-}
+    protected TU Config { get; private set; } = new();
 
-public class ModuleTaskConfig<T> : ModuleConfig where T : ExcelRow {
-    public LuminaTaskConfigList<T> TaskConfig = [];
+    public override bool IsEnabled => Config.ModuleEnabled;
 
-    protected override bool DrawModuleConfig()
-        => TaskConfig.Draw();
-}
+    public override ModuleStatus ModuleStatus => Config.Suppressed ? ModuleStatus.Suppressed : GetModuleStatus();
+    
+    protected XivChatType GetChatChannel() => Config.UseCustomChannel ? Config.MessageChatChannel : Service.PluginInterface.GeneralChatType;
 
-public static class Module {
-    public abstract class DailyModule<T, TU> : BaseModule<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
-        public override ModuleType ModuleType => ModuleType.Daily;
+    public override ModuleConfig GetConfig() => Config;
 
-        public override DateTime GetNextReset() 
-            => Time.NextDailyReset();
-    }
+    private readonly Stopwatch statusMessageLockout = new();
 
-    public abstract class WeeklyModule<T, TU> : BaseModule<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
-        public override ModuleType ModuleType => ModuleType.Weekly;
+    protected virtual void UpdateTaskData() { }
         
-        public override DateTime GetNextReset()
-            => Time.NextWeeklyReset();
-    }
+    protected bool DataChanged;
+    protected bool ConfigChanged;
 
-    public abstract class SpecialModule<T, TU> : BaseModule<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
-        public override ModuleType ModuleType => ModuleType.Special;
-    }
-
-    public abstract class DailyTaskModule<T, TU, TV> : DailyModule<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
-        public override bool HasTooltip => true;
-        
-        public override string TooltipText { get; protected set; } = string.Empty;
-
-        protected int IncompleteTaskCount;
-
-        protected override void UpdateTaskData() {
-            IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
-            TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+    public override void DrawConfig() {
+        if (Config.DrawConfigUi()) {
+            ConfigChanged = true;
+            SaveConfig();
         }
     }
 
-    public abstract class WeeklyTaskModule<T, TU, TV> : WeeklyModule<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
-        public override bool HasTooltip => true;
+    public override void DrawData() {
+        ImGui.TextUnformatted(Strings.CurrentStatus);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
         
-        public override string TooltipText { get; protected set; } = string.Empty;
+        using (var _ = ImRaii.PushIndent()) {
+           DrawModuleCurrentStatusUi();
+        } 
 
-        protected int IncompleteTaskCount;
-
-        protected override void UpdateTaskData() {
-            IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
-            TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
-        }
-    }
-
-    public abstract class SpecialTaskModule<T, TU, TV> : SpecialModule<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
-        public override bool HasTooltip => true;
-
-        public override string TooltipText { get; protected set; } = string.Empty;
-        
-        protected int IncompleteTaskCount;
-
-        protected override void UpdateTaskData() {
-            IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
-            TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
-        }
-    }
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted(Strings.ModuleData);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (var _ = ImRaii.PushIndent()) {
+            DrawModuleResetDataUi();
+        } 
     
-    private static int GetIncompleteCount<TV>(LuminaTaskConfigList<TV> config, LuminaTaskDataList<TV> data) where TV : ExcelRow {
-        if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount.");
+        Data.DrawDataUi();
+        
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted(Strings.ModuleSuppression);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiHelpers.CenteredText(Strings.ModuleSuppressionHelp);
 
-        var count = 0;
-        for (var i = 0; i < config.Count; i++) {
-            var configTask = config.ConfigList[i];
-            var dataTask = data.DataList[i];
+        using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
+            if (ImGui.Button(Strings.Snooze, new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
+                Config.Suppressed = true;
+            }
 
-            if (configTask.RowId != dataTask.RowId) throw new Exception($"Task and Data rows are mismatched. Unable to calculate IncompleteCount.\nConfig RowId: {configTask.RowId} Data RowId: {dataTask.RowId}.");
-
-            if (configTask.Enabled) {
-                var isCountableTaskIncomplete = configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount;
-                var isNonCountableTaskIncomplete = configTask.TargetCount == 0 && !dataTask.Complete;
-                
-                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) count++;
+            using (ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
+                if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled)) {
+                    ImGui.SetTooltip("Hold Shift + Control while clicking activate button");
+                }
             }
         }
-
-        return count;
     }
 
-    private static IEnumerable<string> GetIncompleteRows<TV>(LuminaTaskConfigList<TV> config, LuminaTaskDataList<TV> data) where TV : ExcelRow {
-        if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount.");
+    private void DrawModuleCurrentStatusUi() {
+        using var table = ImRaii.Table("module_data_table", 2, ImGuiTableFlags.SizingStretchSame);
+        if (!table) return;
 
-        for (var i = 0; i < config.Count; i++) {
-            var configTask = config.ConfigList[i];
-            var dataTask = data.DataList[i];
+        ImGui.TableNextColumn();
+        ImGui.TextUnformatted(Strings.CurrentStatus);
 
-            if (configTask.RowId != dataTask.RowId) throw new Exception($"Task and Data rows are mismatched. Unable to calculate IncompleteCount.\nConfig RowId: {configTask.RowId} Data RowId: {dataTask.RowId}.");
+        ImGui.TableNextColumn();
+        var message = ModuleStatus switch {
+            ModuleStatus.Suppressed => Strings.Suppressed,
+            ModuleStatus.Incomplete => Strings.Incomplete,
+            ModuleStatus.InProgress => Strings.InProgress,
+            ModuleStatus.Unavailable => Strings.Unavailable,
+            ModuleStatus.Complete => Strings.Complete,
+            ModuleStatus.Unknown => Strings.Unknown,
+            _ => "ERROR, Report this bug.",
+        };
+        
+        ImGui.TextColored(ModuleStatus.GetColor(), message);
+    }
+    
+    private void DrawModuleResetDataUi() {
+        using var table = ImRaii.Table("module_data_table", 2, ImGuiTableFlags.SizingStretchSame);
+        if (!table) return;
 
-            if (configTask.Enabled) {
-                var isCountableTaskIncomplete = configTask.TargetCount != 0 && dataTask.CurrentCount < configTask.TargetCount;
-                var isNonCountableTaskIncomplete = configTask.TargetCount == 0 && !dataTask.Complete;
-                
-                if (isCountableTaskIncomplete || isNonCountableTaskIncomplete) yield return configTask.Label();
-            }
+        ImGui.TableNextColumn();
+        ImGui.TextUnformatted(Strings.NextReset);
+
+        ImGui.TableNextColumn();
+        ImGui.TextUnformatted(GetNextReset().ToLocalTime().ToString(CultureInfo.CurrentCulture));
+
+        ImGui.TableNextColumn();
+        ImGui.TextUnformatted(Strings.TimeRemaining);
+
+        ImGui.TableNextColumn();
+        var timeRemaining = GetNextReset() - DateTime.UtcNow;
+        ImGui.TextUnformatted($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
+    }
+    
+    public override void Update() {
+        if (DataChanged || ConfigChanged) {
+            UpdateTaskData();
+            UpdateTodoList();
         }
+        
+        if (DataChanged) SaveData();
+        if (ConfigChanged) SaveConfig();
+        
+        DataChanged = false;
+        ConfigChanged = false;
+    }
+
+    public override void Load() {
+        Service.Log.Debug($"[{ModuleName}] Loading Module");
+        Data = LoadData();
+        Config = LoadConfig();
+
+        if (DateTime.UtcNow > Data.NextReset) {
+            Reset();
+        }
+        
+        UpdateTaskLists();
+        UpdateTaskData();
+        UpdateTodoList();
+        
+        Update();
+        
+        if (Config is { OnLoginMessage: true, ModuleEnabled: true, Suppressed: false }) {
+            SendStatusMessage();
+        }
+    }
+
+    public override void Unload() {
+        Service.Log.Debug($"[{ModuleName}] Unloading Module");
+        
+        statusMessageLockout.Stop();
+        statusMessageLockout.Reset();
+    }
+
+    public override void Reset() {
+        Service.Log.Debug($"[{ModuleName}] Resetting Module, Next Reset: {GetNextReset().ToLocalTime()}");
+
+        SendResetMessage();
+        
+        Data.NextReset = GetNextReset();
+        SaveData();
+        
+        Config.Suppressed = false;
+        SaveConfig();
+    }
+
+    public override void ZoneChange() {
+        if (Config is { OnZoneChangeMessage: true, ModuleEnabled: true, Suppressed: false }) {
+            SendStatusMessage();
+        }
+    }
+
+    private T LoadData()
+        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.data.json", () => new T());
+    
+    private TU LoadConfig()
+        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.config.json", () => new TU());
+    
+    public override void SaveConfig() 
+        => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.config.json", Config);
+    
+    public override void SaveData() 
+        => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.data.json", Data);
+
+    private void UpdateTodoList()
+        => System.TodoListController.Refresh();
+
+    private void SendStatusMessage() {
+        if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
+        if (Service.Condition.IsBoundByDuty()) return;
+        if (statusMessageLockout.Elapsed < TimeSpan.FromMinutes(5) && statusMessageLockout.IsRunning) {
+            Service.Log.Debug($"[{ModuleName}] Suppressing Status Message: {TimeSpan.FromMinutes(5) - statusMessageLockout.Elapsed}");
+            return;
+        }
+        
+        Service.Log.Debug($"[{ModuleName}] Sending Status Message");
+        
+        var statusMessage = GetStatusMessage();
+        if (Config.UseCustomStatusMessage && GetModuleStatus() != ModuleStatus.Unknown) {
+            statusMessage.Message = Config.CustomStatusMessage;
+        }
+        statusMessage.SourceModule = ModuleName;
+        statusMessage.MessageChannel = GetChatChannel();
+        statusMessage.PrintMessage();
+        
+        statusMessageLockout.Restart();
+    }
+    
+    private void SendResetMessage() {
+        if (Config is not { ResetMessage: true, ModuleEnabled: true, Suppressed: false }) return;
+        if (DateTime.UtcNow - Data.NextReset >= TimeSpan.FromMinutes(5)) return;
+        
+        var statusMessage = GetStatusMessage();
+        statusMessage.Message = Config.UseCustomResetMessage ? Config.CustomResetMessage : Strings.ModuleReset;
+        statusMessage.SourceModule = ModuleName;
+        statusMessage.MessageChannel = GetChatChannel();
+        statusMessage.PrintMessage();
+    }
+
+    protected TV TryUpdateData<TV>(TV value, TV newValue) where TV : IEquatable<TV> {
+        if (!value.Equals(newValue)) {
+            DataChanged = true;
+            return newValue;
+        }
+
+        return value;
     }
 }

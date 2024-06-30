@@ -29,7 +29,7 @@ public interface IChatMessageReceiver {
 	void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled);
 }
 
-public abstract unsafe class RaidsBase : Module.WeeklyTaskModule<ModuleTaskData<ContentFinderCondition>, RaidsConfig, ContentFinderCondition>, IChatMessageReceiver {
+public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<ContentFinderCondition>, RaidsConfig, ContentFinderCondition>, IChatMessageReceiver {
 	protected override ModuleStatus GetModuleStatus() => IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 	private static AgentContentsFinder* Agent => AgentContentsFinder.Instance();
 	

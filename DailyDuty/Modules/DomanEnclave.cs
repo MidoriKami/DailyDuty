@@ -38,7 +38,7 @@ public class DomanEnclaveConfig : ModuleConfig {
     }
 }
 
-public unsafe class DomanEnclave : Module.WeeklyModule<DomanEnclaveData, DomanEnclaveConfig>
+public unsafe class DomanEnclave : BaseModules.Modules.Weekly<DomanEnclaveData, DomanEnclaveConfig>
 {
     public override ModuleName ModuleName => ModuleName.DomanEnclave;
 

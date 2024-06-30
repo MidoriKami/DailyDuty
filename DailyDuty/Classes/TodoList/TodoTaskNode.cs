@@ -8,7 +8,7 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes.TodoList;
 
 public class TodoTaskNode : TextNode {
-	public required BaseModule Module { get; init; }
+	public required ModuleBase Module { get; init; }
 	
 	private ModuleConfig ModuleConfig => Module.GetConfig();
 	private CategoryConfig CategoryConfig => System.TodoConfig.CategoryConfigs[(uint) Module.ModuleType];

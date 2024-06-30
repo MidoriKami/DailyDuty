@@ -7,7 +7,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules.BaseModules;
 
-public abstract unsafe class GrandCompanySupplyProvisionBase : Module.DailyTaskModule<ModuleTaskData<ClassJob>, ModuleTaskConfig<ClassJob>, ClassJob> {
+public abstract unsafe class GrandCompanySupplyProvisionBase : Modules.DailyTask<ModuleTaskData<ClassJob>, ModuleTaskConfig<ClassJob>, ClassJob> {
 	private static AgentGrandCompanySupply* SupplyAgent => AgentGrandCompanySupply.Instance();
 
 	public override DateTime GetNextReset() 

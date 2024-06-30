@@ -32,7 +32,7 @@ public class FauxHollowsConfig : ModuleConfig {
 	}
 }
 
-public class FauxHollows : Module.WeeklyModule<FauxHollowsData, FauxHollowsConfig> {
+public class FauxHollows : BaseModules.Modules.Weekly<FauxHollowsData, FauxHollowsConfig> {
 	public override ModuleName ModuleName => ModuleName.FauxHollows;
     
 	public override bool HasClickableLink => true;

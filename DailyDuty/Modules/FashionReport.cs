@@ -50,7 +50,7 @@ public class FashionReportConfig : ModuleConfig {
     }
 }
 
-public unsafe class FashionReport : Module.SpecialModule<FashionReportData, FashionReportConfig>, IGoldSaucerMessageReceiver {
+public unsafe class FashionReport : BaseModules.Modules.Special<FashionReportData, FashionReportConfig>, IGoldSaucerMessageReceiver {
     public override ModuleName ModuleName => ModuleName.FashionReport;
 
     public override bool HasClickableLink => true;

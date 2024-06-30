@@ -36,7 +36,7 @@ public class GrandCompanySquadronData : ModuleTaskData<ClassJob> {
 	}
 }
 
-public unsafe partial class GrandCompanySquadron : Module.WeeklyModule<GrandCompanySquadronData, GrandCompanySquadronConfig> {
+public unsafe partial class GrandCompanySquadron : BaseModules.Modules.Weekly<GrandCompanySquadronData, GrandCompanySquadronConfig> {
 	public override ModuleName ModuleName => ModuleName.GrandCompanySquadron;
 
 	private Hook<AgentGcArmyExpedition.Delegates.ReceiveEvent>? onReceiveEventHook;

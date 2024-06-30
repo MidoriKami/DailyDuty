@@ -64,7 +64,7 @@ public class WondrousTailsConfig : ModuleConfig {
 	}
 }
 
-public unsafe class WondrousTails : Module.WeeklyModule<WondrousTailsData, WondrousTailsConfig> {
+public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData, WondrousTailsConfig> {
 	public override ModuleName ModuleName => ModuleName.WondrousTails;
     
 	public override bool HasClickableLink => true;
