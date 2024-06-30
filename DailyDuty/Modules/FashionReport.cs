@@ -101,28 +101,28 @@ public unsafe class FashionReport : Module.SpecialModule<FashionReportData, Fash
     );
     
     public void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs data) {
-            const int maskedRoseId = 1025176;
-            if (Service.TargetManager.Target?.DataId != maskedRoseId) return;
+        const int maskedRoseId = 1025176;
+        if (Service.TargetManager.Target?.DataId != maskedRoseId) return;
 
-            var allowances = Data.AllowancesRemaining;
-            var score = Data.HighestWeeklyScore;
+        var allowances = Data.AllowancesRemaining;
+        var score = Data.HighestWeeklyScore;
 
-            switch (data.EventId) {
-                case 5:     // When speaking to Masked Rose, gets update information
-                    allowances = data.Data[1];
-                    score = data.Data[0];
-                    break;
+        switch (data.EventId) {
+            case 5:     // When speaking to Masked Rose, gets update information
+                allowances = data.Data[1];
+                score = data.Data[0];
+                break;
 
-                case 3:     // During turn in, gets new score
-                    score = Math.Max(data.Data[0], score);
-                    break;
+            case 3:     // During turn in, gets new score
+                score = Math.Max(data.Data[0], score);
+                break;
                     
-                case 1:     // During turn in, gets new allowances
-                    allowances = data.Data[0];
-                    break;
-            }
-        
-            Data.AllowancesRemaining = TryUpdateData(Data.AllowancesRemaining, allowances);
-            Data.HighestWeeklyScore = TryUpdateData(Data.HighestWeeklyScore, score);
+            case 1:     // During turn in, gets new allowances
+                allowances = data.Data[0];
+                break;
         }
+        
+        Data.AllowancesRemaining = TryUpdateData(Data.AllowancesRemaining, allowances);
+        Data.HighestWeeklyScore = TryUpdateData(Data.HighestWeeklyScore, score);
+    }
 }
