@@ -1,7 +1,7 @@
 using DailyDuty.Classes;
 using DailyDuty.Classes.TodoList;
 using DailyDuty.Models;
-using DailyDuty.Views;
+using DailyDuty.Windows;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;

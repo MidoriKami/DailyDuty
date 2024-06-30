@@ -14,7 +14,7 @@ using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.Window;
 
-namespace DailyDuty.Views;
+namespace DailyDuty.Windows;
 
 public class ConfigurationWindow : TabbedSelectionWindow<BaseModule> {
 

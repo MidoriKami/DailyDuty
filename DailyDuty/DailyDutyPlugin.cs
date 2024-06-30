@@ -2,7 +2,7 @@
 using DailyDuty.Classes.TodoList;
 using Dalamud.Plugin;
 using DailyDuty.Models;
-using DailyDuty.Views;
+using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
 using KamiLib.CommandManager;
 using KamiLib.Window;
@@ -11,7 +11,7 @@ using KamiToolKit;
 namespace DailyDuty;
 
 public sealed class DailyDutyPlugin : IDalamudPlugin {
-    public DailyDutyPlugin(DalamudPluginInterface pluginInterface) {
+    public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
 
         // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
@@ -30,7 +30,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn | WindowFlags.OpenImmediately);
-        
+
         if (Service.ClientState.IsLoggedIn) {
             OnLogin();
         }
@@ -70,6 +70,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         // Update All Modules
         System.ModuleController.UpdateModules();
+        
+        System.TodoListController.Update();
     }
     
     private void OnLogin() {
