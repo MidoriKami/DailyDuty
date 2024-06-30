@@ -23,7 +23,6 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 	public TodoCategoryNode(ModuleType type) : base(NodeType.Res) {
 		moduleType = type;
 		NodeID = NodeID = 310_000 + (uint) moduleType;
-		
 		Margin = new Spacing(5.0f);
 
 		headerTextNode = new TextNode {
@@ -71,7 +70,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 				TextFlags = TextFlags.AutoAdjustNodeSize,
 				Text = module.ModuleName.GetDescription(Strings.ResourceManager),
 				IsVisible = module is { IsEnabled: true, ModuleStatus: ModuleStatus.Incomplete },
-				
+
 				Module = module,
 			};
 
@@ -112,14 +111,14 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			CategoryConfig.CategoryMargin.Y,
 			CategoryConfig.CategoryMargin.Z,
 			CategoryConfig.CategoryMargin.W);
-		
+
 		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
 		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
-		headerTextNode.IsVisible = CategoryConfig.ShowHeader;
 		headerTextNode.FontSize = CategoryConfig.HeaderFontSize;
 		headerTextNode.Text = CategoryConfig.HeaderLabel;
 		headerTextNode.TextFlags = GetHeaderFlags();
-		
+		headerTextNode.IsVisible = CategoryConfig.ShowHeader;
+
 		foreach (var node in taskListNode) {
 			node.Refresh();
 		}
