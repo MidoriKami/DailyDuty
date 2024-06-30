@@ -7,6 +7,7 @@ using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.Extensions;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
@@ -46,13 +47,21 @@ public unsafe class TodoListController : IDisposable {
 		todoListNode?.Dispose();
 	}
 
+	public void Update() {
+		if (todoListNode is null) return;
+		
+		var passedDutyCheck = System.TodoConfig.HideInDuties && !Service.Condition.IsBoundByDuty() || !System.TodoConfig.HideInDuties;
+		var passedQuestCheck = System.TodoConfig.HideDuringQuests && !Service.Condition.IsInQuestEvent()  || !System.TodoConfig.HideDuringQuests;
+
+		todoListNode.IsVisible = passedDutyCheck && passedQuestCheck && System.TodoConfig.Enabled;
+	}
+
 	private void OnNamePlateSetup(AddonEvent type, AddonArgs args) {
 		AttachToNative((AddonNamePlate*)args.Addon);
 	}
 	
 	private void AttachToNative(AddonNamePlate* addonNamePlate) {
 		Service.Framework.RunOnTick(() => {
-			
 			todoListNode = new ListNode<TodoCategoryNode> {
 				Size = System.TodoConfig.Size,
 				Position = System.TodoConfig.Position,
@@ -74,6 +83,7 @@ public unsafe class TodoListController : IDisposable {
 			}
 			
 			System.NativeController.AttachToAddon(todoListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+			System.TodoListController.Refresh();
 		});
 	}
 
