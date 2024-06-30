@@ -69,14 +69,14 @@ public unsafe class PayloadController : IDisposable {
         },
         PayloadId.OpenDutyFinderRaid => (_, _) => {
             var currentRaid = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
-                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 1)
+                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is false && cfc.Unknown28 is true)
                 .Last();
                 
             AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
         },
         PayloadId.OpenDutyFinderAllianceRaid => (_, _) => {
             var currentAllianceRaid = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
-                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is 0 && cfc.Unknown28 is 0)
+                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is false && cfc.Unknown28 is true)
                 .Last();
 
             AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
