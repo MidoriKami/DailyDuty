@@ -13,7 +13,10 @@ public abstract unsafe class HuntMarksBase : Module.SpecialTaskModule<ModuleTask
     public override void Update() {
             foreach (var task in Data.TaskData) {
                 // If we have the active mark bill
-                if (HuntData->AvailableMarkId[(int) task.RowId] == HuntData->ObtainedMarkId[(int) task.RowId] && !task.Complete) {
+                var availableMarkId = HuntData->GetAvailableHuntOrderRowId((byte) task.RowId);
+                var obtainedMarkId = HuntData->GetObtainedHuntOrderRowId((byte) task.RowId);
+                
+                if (availableMarkId == obtainedMarkId && !task.Complete) {
                     var orderData = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!.GetRow(task.RowId)!;
                     var targetRow = orderData.OrderStart.Row + HuntData->ObtainedMarkId[(int) task.RowId] - 1;
                 
