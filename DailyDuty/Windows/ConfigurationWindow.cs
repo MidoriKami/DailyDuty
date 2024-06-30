@@ -16,7 +16,7 @@ using KamiLib.Window;
 
 namespace DailyDuty.Windows;
 
-public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
+public class ConfigurationWindow : TabbedSelectionWindow<Module> {
 
     protected override string SelectionListTabName => "Modules";
     
@@ -24,7 +24,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         new TodoConfigTab(),
     ];
     
-    protected override List<ModuleBase> Options => System.ModuleController.Modules;
+    protected override List<Module> Options => System.ModuleController.Modules;
     
     protected override float SelectionListWidth { get; set; } = 200.0f;
     
@@ -32,7 +32,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
 
     protected override bool ShowListButton => true;
 
-    protected override bool FilterOptions(ModuleBase option)
+    protected override bool FilterOptions(Module option)
         => !System.SystemConfig.HideDisabledModules || option.IsEnabled;
 
     public ConfigurationWindow() : base("DailyDuty - Configuration Window", new Vector2(1000.0f, 400.0f)) {
@@ -49,7 +49,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         });
     }
 
-    protected override void DrawListOption(ModuleBase option) {
+    protected override void DrawListOption(Module option) {
         ImGui.Text(option.ModuleName.GetDescription(Strings.ResourceManager));
         
         ImGui.SameLine(ImGui.GetContentRegionAvail().X- 10.0f * ImGuiHelpers.GlobalScale);
@@ -73,7 +73,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<ModuleBase> {
         }
     }
 
-    protected override void DrawSelectedOption(ModuleBase option) {
+    protected override void DrawSelectedOption(Module option) {
         using var table = ImRaii.Table($"module_table", 2, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.Resizable, ImGui.GetContentRegionAvail());
         if (!table) return;
 

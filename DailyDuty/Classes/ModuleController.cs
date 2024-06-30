@@ -10,12 +10,12 @@ using KamiLib.Classes;
 namespace DailyDuty.Classes;
 
 public class ModuleController : IDisposable {
-    public List<ModuleBase> Modules { get; }
+    public List<Module> Modules { get; }
     private readonly GoldSaucerMessageController goldSaucerMessageController;
     private bool modulesLoaded;
 
     public ModuleController() {
-        Modules = Reflection.ActivateOfType<ModuleBase>().ToList();
+        Modules = Reflection.ActivateOfType<Module>().ToList();
         goldSaucerMessageController = new GoldSaucerMessageController();
 
         goldSaucerMessageController.GoldSaucerUpdate += OnGoldSaucerMessage;
@@ -33,7 +33,7 @@ public class ModuleController : IDisposable {
         }
     }
 
-    public IEnumerable<ModuleBase> GetModules(ModuleType? type = null) => 
+    public IEnumerable<Module> GetModules(ModuleType? type = null) => 
         type is null ? Modules : Modules.Where(module => module.ModuleType == type);
 
     public void UpdateModules() {
