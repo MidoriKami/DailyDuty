@@ -7,7 +7,7 @@ using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
-using Dalamud;
+using Dalamud.Game;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -35,7 +35,7 @@ public class WondrousTailsData : ModuleDataBase {
 			(Strings.NewBookAvailable, NewBookAvailable.ToString()),
 			(Strings.PlayerHasBook, PlayerHasBook.ToString()),
 			(Strings.Deadline, Deadline.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
-			(Strings.TimeRemaining, TimeRemaining.ToString()),
+			(Strings.TimeRemaining, TimeRemaining.FormatTimespan()),
 			(Strings.BookExpired, BookExpired.ToString()),
 			(Strings.NearKhloe, CloseToKhloe.ToString()),
 			(Strings.DistanceToKhloe, DistanceToKhloe.ToString(CultureInfo.CurrentCulture)),
