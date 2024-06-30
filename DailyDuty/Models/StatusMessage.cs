@@ -25,4 +25,19 @@ public class StatusMessage {
         
         Service.Chat.Print(message);
     }
+
+    public static void PrintTaggedMessage(string message, string tag) {
+        var dailyDutyLabel = DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty"; 
+        
+        var builtMessage = new XivChatEntry {
+            Type = XivChatType.Debug,
+            Message = new SeStringBuilder()
+                .AddUiForeground($"[{dailyDutyLabel}] ", 45)
+                .AddUiForeground($"[{tag}] ", 62)
+                .AddText(message)
+                .Build(),
+        };
+        
+        Service.Chat.Print(builtMessage);
+    }
 }

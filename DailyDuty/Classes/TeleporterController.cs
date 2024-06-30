@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Localization;
+using DailyDuty.Models;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
 using Lumina.Excel.GeneratedSheets;
@@ -18,7 +19,7 @@ public class TeleporterController {
                 UserError(Strings.CannotTeleportNow);
             }
             else if (showMessage) {
-                Service.Chat.Print(Strings.Teleport, string.Format(Strings.TeleportingTo, aetheryte.AethernetName.Value?.Name ?? "Unable to read name"));
+                StatusMessage.PrintTaggedMessage(string.Format(Strings.TeleportingTo, aetheryte.AethernetName.Value?.Name ?? "Unable to read name"), Strings.Teleport);
             }
         }
         catch (IpcNotReadyError) {
