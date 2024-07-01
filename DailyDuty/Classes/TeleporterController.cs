@@ -1,5 +1,6 @@
 ﻿using DailyDuty.Localization;
-using DailyDuty.Models;
+using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
 using Lumina.Excel.GeneratedSheets;
@@ -19,7 +20,14 @@ public class TeleporterController {
                 UserError(Strings.CannotTeleportNow);
             }
             else if (showMessage) {
-                StatusMessage.PrintTaggedMessage(string.Format(Strings.TeleportingTo, aetheryte.AethernetName.Value?.Name ?? "Unable to read name"), Strings.Teleport);
+                Service.Chat.Print(new XivChatEntry {
+                    Message = new SeStringBuilder()
+                        .AddUiForeground("[DailyDuty] ", 45)
+                        .AddUiForeground($"[{Strings.Teleport}] ", 62)
+                        .AddText($"{Strings.TeleportingTo} ")
+                        .AddUiForeground(aetheryte.AethernetName.Value?.Name ?? "Unable to read name", 576)
+                        .Build(),
+                });
             }
         }
         catch (IpcNotReadyError) {

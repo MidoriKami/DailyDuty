@@ -452,7 +452,7 @@ Limited to once per 5 mins</value>
         <value>Cannot teleport in this situation</value>
     </data>
     <data name="TeleportingTo" xml:space="preserve">
-        <value>Teleporting to '{0}'</value>
+        <value>Teleporting to</value>
     </data>
     <data name="InstallTeleporterError" xml:space="preserve">
         <value>To use the teleport function, you must install the "Teleporter" plugin</value>

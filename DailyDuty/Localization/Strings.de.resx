@@ -449,8 +449,8 @@ Auf einmal pro 5 Minuten limitiert</value>
   <data name="CannotTeleportNow" xml:space="preserve">
         <value>In dieser Situation kann nicht teleportiert werden</value>
     </data>
-  <data name="TeleportingTo" xml:space="preserve">
-        <value>Teleportiere zu {0}</value>
+    <data name="TeleportingTo" xml:space="preserve">
+        <value>Teleportiere zu</value>
     </data>
   <data name="InstallTeleporterError" xml:space="preserve">
         <value>Um die Teleport-Funktion nutzen zu können, müssen Sie das "Teleporter"-Plugin installieren</value>

@@ -1672,7 +1672,7 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Teleporting to &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Teleporting to.
         /// </summary>
         internal static string TeleportingTo {
             get {

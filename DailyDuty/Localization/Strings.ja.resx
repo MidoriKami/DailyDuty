@@ -449,8 +449,8 @@
   <data name="CannotTeleportNow" xml:space="preserve">
         <value>この状況ではテレポできません</value>
     </data>
-  <data name="TeleportingTo" xml:space="preserve">
-        <value>{0} へテレポ</value>
+    <data name="TeleportingTo" xml:space="preserve">
+        <value>へテレポ</value>
     </data>
   <data name="InstallTeleporterError" xml:space="preserve">
         <value>テレポ機能を使用するには、"Teleporter" プラグインをインストールする必要があります</value>

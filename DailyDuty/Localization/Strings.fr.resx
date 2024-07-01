@@ -448,8 +448,8 @@
   <data name="CannotTeleportNow" xml:space="preserve">
         <value>La téléportation ne peut pas être effectuée dans cette situation</value>
     </data>
-  <data name="TeleportingTo" xml:space="preserve">
-        <value>Téléportation vers '{0}'</value>
+    <data name="TeleportingTo" xml:space="preserve">
+        <value>Téléportation vers</value>
     </data>
   <data name="InstallTeleporterError" xml:space="preserve">
         <value>Pour utiliser la fonction de téléportation, vous devez installer le plugin "Teleporter"</value>
