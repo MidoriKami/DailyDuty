@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using Dalamud.Interface;
+using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using ImGuiNET;
 using KamiLib.Classes;
@@ -18,6 +21,12 @@ public class LevequestData : ModuleData {
             (Strings.LevequestAllowances, NumLevequestAllowances.ToString()),
             (Strings.AcceptedLevequests, AcceptedLevequests.ToString()),
         ]);
+        
+        ImGuiHelpers.ScaledDummy(5.0f);
+        
+        if (AcceptedLevequests is -1) {
+            ImGui.TextColored(KnownColor.Orange.Vector(), "Accepted Levequests is currently unavailable.\nAn update will be release later to re-enable this feature.");
+        }
     }
 }
 
@@ -45,7 +54,7 @@ public unsafe class Levequest : BaseModules.Modules.Special<LevequestData, Leveq
     
     public override void Update() {
             Data.NumLevequestAllowances = TryUpdateData(Data.NumLevequestAllowances, QuestManager.Instance()->NumLeveAllowances);
-            Data.AcceptedLevequests = TryUpdateData(Data.AcceptedLevequests, QuestManager.Instance()->NumAcceptedLeveQuests);
+            Data.AcceptedLevequests = -1; //TryUpdateData(Data.AcceptedLevequests, QuestManager.Instance()->NumAcceptedLeveQuests);
         
             base.Update();
         }
