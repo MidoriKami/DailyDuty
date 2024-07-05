@@ -1,4 +1,5 @@
 using DailyDuty.Classes;
+using DailyDuty.Classes.Timers;
 using DailyDuty.Classes.TodoList;
 using DailyDuty.Models;
 using DailyDuty.Windows;
@@ -20,5 +21,7 @@ public static class System {
 	public static NativeController NativeController { get; set; }
 	public static ConfigurationWindow ConfigurationWindow { get; set; }
 	public static TodoListController TodoListController { get; set; }
+	public static TimersController TimersController { get; set; }
 	public static TodoConfig TodoConfig { get; set; }
+	public static TimersConfig TimersConfig { get; set; }
 }

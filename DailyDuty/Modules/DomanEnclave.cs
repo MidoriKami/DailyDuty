@@ -38,11 +38,11 @@ public class DomanEnclaveConfig : ModuleConfig {
     }
 }
 
-public unsafe class DomanEnclave : BaseModules.Modules.Weekly<DomanEnclaveData, DomanEnclaveConfig>
+public unsafe class DomanEnclave : Modules.Weekly<DomanEnclaveData, DomanEnclaveConfig>
 {
     public override ModuleName ModuleName => ModuleName.DomanEnclave;
 
-    public override bool HasClickableLink => true;
+    public override bool HasClickableLink => Config.ClickableLink;
     
     public override PayloadId ClickableLinkPayloadId => PayloadId.DomanEnclaveTeleport;
 

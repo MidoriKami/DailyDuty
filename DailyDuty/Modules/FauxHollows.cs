@@ -32,10 +32,10 @@ public class FauxHollowsConfig : ModuleConfig {
 	}
 }
 
-public class FauxHollows : BaseModules.Modules.Weekly<FauxHollowsData, FauxHollowsConfig> {
+public class FauxHollows : Modules.Weekly<FauxHollowsData, FauxHollowsConfig> {
 	public override ModuleName ModuleName => ModuleName.FauxHollows;
     
-	public override bool HasClickableLink => true;
+	public override bool HasClickableLink => Config.ClickableLink;
     
 	public override PayloadId ClickableLinkPayloadId => PayloadId.IdyllshireTeleport;
 

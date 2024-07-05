@@ -45,7 +45,7 @@ public class JumboCactpotConfig : ModuleConfig {
 	}
 }
 
-public unsafe class JumboCactpot : BaseModules.Modules.Special<JumboCactpotData, JumboCactpotConfig>, IGoldSaucerMessageReceiver {
+public unsafe class JumboCactpot : Modules.Special<JumboCactpotData, JumboCactpotConfig>, IGoldSaucerMessageReceiver {
 	public override ModuleName ModuleName => ModuleName.JumboCactpot;
 	
 	public override DateTime GetNextReset() {
@@ -56,8 +56,11 @@ public unsafe class JumboCactpot : BaseModules.Modules.Special<JumboCactpotData,
 			return DateTime.UtcNow + TimeSpan.FromDays(1);
 		}
 	}
-	
-	public override bool HasClickableLink => true;
+
+	public override TimeSpan GetModulePeriod()
+		=> TimeSpan.FromDays(3);
+
+	public override bool HasClickableLink => Config.ClickableLink;
 	
 	public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
 

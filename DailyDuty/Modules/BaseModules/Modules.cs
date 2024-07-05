@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using DailyDuty.Classes;
 using DailyDuty.Models;
+using DailyDuty.Modules.BaseModules;
 using Lumina.Excel;
 
-namespace DailyDuty.Modules.BaseModules;
+namespace DailyDuty.Modules;
 
 public enum ModuleType {
     [Description("Daily")]
@@ -36,12 +37,18 @@ public static class Modules {
     public abstract class Daily<T, TU> : Module<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
         public override ModuleType ModuleType => ModuleType.Daily;
 
+        public override TimeSpan GetModulePeriod()
+            => TimeSpan.FromDays(1);
+
         public override DateTime GetNextReset() 
             => Time.NextDailyReset();
     }
 
     public abstract class Weekly<T, TU> : Module<T, TU> where T : ModuleData, new() where TU : ModuleConfig, new() {
         public override ModuleType ModuleType => ModuleType.Weekly;
+        
+        public override TimeSpan GetModulePeriod()
+            => TimeSpan.FromDays(7);
         
         public override DateTime GetNextReset()
             => Time.NextWeeklyReset();

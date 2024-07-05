@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Classes;
+using DailyDuty.Classes.Timers;
 using DailyDuty.Classes.TodoList;
 using Dalamud.Plugin;
 using DailyDuty.Models;
@@ -26,10 +27,12 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         System.ModuleController = new ModuleController();
         System.TodoListController = new TodoListController();
+        System.TimersController = new TimersController();
 
         System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn | WindowFlags.OpenImmediately);
+        System.WindowManager.AddWindow(new WonderousTailsDebugWindow());
 
         if (Service.ClientState.IsLoggedIn) {
             OnLogin();
@@ -57,6 +60,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.WindowManager.Dispose();
         System.CommandManager.Dispose();
         System.TodoListController.Dispose();
+        System.TimersController.Dispose();
         
         System.NativeController.Dispose();
     }
@@ -72,6 +76,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.UpdateModules();
         
         System.TodoListController.Update();
+        System.TimersController.Update();
     }
     
     private void OnLogin() {
@@ -80,25 +85,28 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.LoadModules();
         
         System.TodoListController.Load();
+        System.TimersController.Load();
     }
     
     private void OnLogout() {
         System.ModuleController.UnloadModules();
         
         System.TodoListController.Unload();
+        System.TimersController.Unload();
     }
     
-    private void OnZoneChange(ushort territoryTypeId)
-    {
+    private void OnZoneChange(ushort territoryTypeId) {
         if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
         
         System.ModuleController.ZoneChange(territoryTypeId);
     }
     
-    private void OnLeavePvP()
-        => System.TodoListController.Refresh();
+    private void OnLeavePvP() {
+        System.TodoListController.Refresh();
+    }
 
-    private void OnEnterPvP()
-        => System.TodoListController.Refresh();
+    private void OnEnterPvP() {
+        System.TodoListController.Refresh();
+    }
 }

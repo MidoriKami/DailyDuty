@@ -14,8 +14,6 @@ public class RaidsNormal : RaidsBase {
 		CheckForDutyListUpdate(Service.DataManager.GetLimitedSavageDuties().ToList());
 	}
 
-	public override bool HasClickableLink => true;
-	
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderRaid;
     
 	protected override StatusMessage GetStatusMessage() {

@@ -47,11 +47,13 @@ public class LevequestConfig : ModuleConfig {
     }
 }
 
-public unsafe class Levequest : BaseModules.Modules.Special<LevequestData, LevequestConfig> {
+public unsafe class Levequest : Modules.Special<LevequestData, LevequestConfig> {
     public override ModuleName ModuleName => ModuleName.Levequest;
     
     public override DateTime GetNextReset() => Time.NextLeveAllowanceReset();
-    
+
+    public override TimeSpan GetModulePeriod() => TimeSpan.FromHours(12);
+
     public override void Update() {
             Data.NumLevequestAllowances = TryUpdateData(Data.NumLevequestAllowances, QuestManager.Instance()->NumLeveAllowances);
             Data.AcceptedLevequests = -1; //TryUpdateData(Data.AcceptedLevequests, QuestManager.Instance()->NumAcceptedLeveQuests);

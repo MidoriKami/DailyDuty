@@ -39,10 +39,10 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     }
 }
 
-public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteData, DutyRouletteConfig, ContentRoulette> {
+public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRouletteConfig, ContentRoulette> {
     public override ModuleName ModuleName => ModuleName.DutyRoulette;
 
-    public override bool HasClickableLink => true;
+    public override bool HasClickableLink => Config.ClickableLink;
     
     public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderRoulette;
 

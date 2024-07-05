@@ -33,6 +33,8 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 	protected override ModuleStatus GetModuleStatus() => IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 	private static AgentContentsFinder* Agent => AgentContentsFinder.Instance();
 	
+	public override bool HasClickableLink => Config.ClickableLink;
+	
 	public override void Update() {
 		if (Agent is not null && Agent->IsAgentActive()) {
 			var selectedDuty = Agent->SelectedDutyId;

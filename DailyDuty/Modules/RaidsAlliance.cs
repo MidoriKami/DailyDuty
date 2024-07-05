@@ -13,9 +13,7 @@ public class RaidsAlliance : RaidsBase {
 	protected override void UpdateTaskLists() {
 		CheckForDutyListUpdate(Service.DataManager.GetLimitedAllianceDuties().ToList());
 	}
-
-	public override bool HasClickableLink => true;
-    
+	
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderAllianceRaid;
 
 	protected override StatusMessage GetStatusMessage() {

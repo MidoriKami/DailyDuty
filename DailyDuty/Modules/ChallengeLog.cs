@@ -7,7 +7,7 @@ using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.Modules;
 
-public unsafe class ChallengeLog : BaseModules.Modules.WeeklyTask<ModuleTaskData<ContentsNote>, ModuleTaskConfig<ContentsNote>, ContentsNote> {
+public unsafe class ChallengeLog : Modules.WeeklyTask<ModuleTaskData<ContentsNote>, ModuleTaskConfig<ContentsNote>, ContentsNote> {
     public override ModuleName ModuleName => ModuleName.ChallengeLog;
     
     public override bool HasClickableLink => true;

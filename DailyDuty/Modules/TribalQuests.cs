@@ -35,7 +35,7 @@ public class TribalQuestsConfig : ModuleConfig {
 	}
 }
 
-public unsafe class TribalQuests : BaseModules.Modules.Daily<TribalQuestsData, TribalQuestsConfig> {
+public unsafe class TribalQuests : Modules.Daily<TribalQuestsData, TribalQuestsConfig> {
 	public override ModuleName ModuleName => ModuleName.TribalQuests;
 
 	public override void Update() {

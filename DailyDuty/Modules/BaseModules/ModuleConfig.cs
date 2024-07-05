@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Numerics;
 using DailyDuty.Localization;
+using DailyDuty.Models;
 using Dalamud.Game.Text;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -30,6 +31,8 @@ public abstract class ModuleConfig {
 	public string CustomStatusMessage = string.Empty;
 	public bool UseCustomResetMessage;
 	public string CustomResetMessage = string.Empty;
+
+	public TimerConfig TimerConfig = new();
 
 	public bool Suppressed;
     
@@ -112,6 +115,43 @@ public abstract class ModuleConfig {
 			configChanged |= ImGui.Checkbox(Strings.OverrideTodoListColor, ref OverrideTextColor);
 			configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextColor, ref TodoTextColor, KnownColor.White.Vector());
 			configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextOutlineColor, ref TodoTextOutline, KnownColor.Black.Vector());
+		}
+		
+		ImGuiHelpers.ScaledDummy(10.0f);
+		ImGui.TextUnformatted("Timers Configuration");
+		ImGui.Separator();
+		ImGuiHelpers.ScaledDummy(5.0f);
+		using (ImRaii.PushIndent()) {
+			configChanged |= ImGui.Checkbox("Enable Timer Display", ref TimerConfig.TimerEnabled);
+			
+			ImGuiHelpers.ScaledDummy(5.0f);
+			
+			ImGui.Text("Position");
+			ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+			configChanged |= ImGui.DragFloat2(Strings.Position, ref TimerConfig.Position, 5.0f);
+
+			ImGuiHelpers.ScaledDummy(5.0f);
+			
+			ImGui.Text("Size");
+			ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+			configChanged |= ImGui.DragFloat2("Size", ref TimerConfig.Size, 5.0f);
+			
+			ImGuiHelpers.ScaledDummy(5.0f);
+
+			configChanged |= ImGui.Checkbox("Hide when complete", ref TimerConfig.HideWhenComplete);
+			configChanged |= ImGui.Checkbox("Hide Label", ref TimerConfig.HideName);
+			configChanged |= ImGui.Checkbox("Hide Time", ref TimerConfig.HideTime);
+			configChanged |= ImGui.Checkbox("Hide Seconds", ref TimerConfig.HideSeconds);
+			
+			ImGuiHelpers.ScaledDummy(5.0f);
+			
+			configChanged |= ImGuiTweaks.ColorEditWithDefault("Progress Color", ref TimerConfig.BarColor, KnownColor.Aqua.Vector());
+			configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref TimerConfig.BarBackgroundColor, KnownColor.Black.Vector());
+			
+			ImGuiHelpers.ScaledDummy(5.0f);
+
+			configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref TimerConfig.HideInDuties);
+			configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref TimerConfig.HideInQuestEvents);
 		}
         
 		return configChanged;

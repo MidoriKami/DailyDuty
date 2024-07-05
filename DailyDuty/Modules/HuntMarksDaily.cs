@@ -5,7 +5,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Modules;
 
-public class HuntMarksDaily : HuntMarksBase {
+public abstract class HuntMarksDaily : HuntMarksBase {
 	public override ModuleName ModuleName => ModuleName.HuntMarksDaily;
 	public override ModuleType ModuleType => ModuleType.Daily;
 

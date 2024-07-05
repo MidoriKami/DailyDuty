@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using DailyDuty.Localization;
 using DailyDuty.Models;
-using DailyDuty.Modules.BaseModules;
+using DailyDuty.Modules;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;

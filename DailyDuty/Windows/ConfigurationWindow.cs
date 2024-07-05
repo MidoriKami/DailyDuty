@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
+using DailyDuty.Modules;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;

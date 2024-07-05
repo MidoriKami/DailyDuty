@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Interfaces;
+using DailyDuty.Modules;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;

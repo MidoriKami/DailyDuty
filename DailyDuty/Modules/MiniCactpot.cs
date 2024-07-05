@@ -27,10 +27,10 @@ public class MiniCactpotConfig : ModuleConfig {
     }
 }
 
-public unsafe class MiniCactpot : BaseModules.Modules.Daily<MiniCactpotData, MiniCactpotConfig>, IGoldSaucerMessageReceiver {
+public unsafe class MiniCactpot : Modules.Daily<MiniCactpotData, MiniCactpotConfig>, IGoldSaucerMessageReceiver {
     public override ModuleName ModuleName => ModuleName.MiniCactpot;
     
-    public override bool HasClickableLink => true;
+    public override bool HasClickableLink => Config.ClickableLink;
     
     public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
 

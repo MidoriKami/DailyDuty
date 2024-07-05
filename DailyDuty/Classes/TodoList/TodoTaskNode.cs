@@ -33,6 +33,13 @@ public class TodoTaskNode : TextNode {
 			TextOutlineColor = CategoryConfig.ModuleOutlineColor;
 		}
 		
+		if (Module.HasClickableLink && MouseClick is null) {
+			MouseClick = () => PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
+		}
+		else if (!Module.HasClickableLink && MouseClick is not null) {
+			MouseClick = null;
+		}
+		
 		Text = ModuleConfig.UseCustomTodoLabel ? ModuleConfig.CustomTodoLabel : Module.ModuleName.GetDescription(Strings.ResourceManager);
 	}
 	

@@ -15,7 +15,7 @@ public static class Time {
         => NextDayOfWeek(DayOfWeek.Tuesday, 8);
 
     public static DateTime NextFashionReportReset()
-        => NextWeeklyReset().AddDays(3);
+        => NextWeeklyReset().AddDays(-7).AddDays(3);
 
     public static DateTime NextGrandCompanyReset()
         => GetNextDateTimeForHour(20);
@@ -76,6 +76,8 @@ public static class Time {
             .FirstOrDefault();
     }
 
-    public static string FormatTimespan(this TimeSpan timeSpan)
-        => $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
+    public static string FormatTimespan(this TimeSpan timeSpan, bool hideSeconds = false)
+        => hideSeconds ? 
+               $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}" : 
+               $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
 }

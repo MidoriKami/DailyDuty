@@ -35,7 +35,7 @@ public class CustomDeliveryConfig : ModuleConfig {
     }
 }
 
-public unsafe class CustomDelivery : BaseModules.Modules.Weekly<CustomDeliveryData, CustomDeliveryConfig> {
+public unsafe class CustomDelivery : Modules.Weekly<CustomDeliveryData, CustomDeliveryConfig> {
     public override ModuleName ModuleName => ModuleName.CustomDelivery;
 
     public override void Update() {

@@ -1,45 +1,57 @@
 ﻿using System;
 using System.Drawing;
 using DailyDuty.Models;
-using DailyDuty.Modules.BaseModules;
-using Dalamud.Game.Addon.Lifecycle;
-using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
+using DailyDuty.Modules;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
+using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes.TodoList;
 
-public unsafe class TodoListController : IDisposable {
+public unsafe class TodoListController() : NativeUiOverlayController(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
 	private ListNode<TodoCategoryNode>? todoListNode;
 
-	private AddonNamePlate* AddonNamePlate => (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-
-	public void Dispose() {
-		Unload();
+	protected override void LoadConfig() {
+		System.TodoConfig = TodoConfig.Load();
 	}
 	
-	public void Load() {
-		System.TodoConfig = TodoConfig.Load();
+	protected override void AttachNodes(AddonNamePlate* addonNamePlate) {
+		todoListNode = new ListNode<TodoCategoryNode> {
+			Size = System.TodoConfig.Size,
+			Position = System.TodoConfig.Position,
+			LayoutAnchor = System.TodoConfig.Anchor,
+			NodeFlags = NodeFlags.Clip,
+			IsVisible = System.TodoConfig.Enabled,
+			LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
+			NodeID = 300_000,
+			Color = KnownColor.White.Vector(),
+			BackgroundVisible = System.TodoConfig.ShowListBackground,
+			BackgroundColor = System.TodoConfig.ListBackgroundColor,
+		};
 
-		Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
-		Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
-
-		if (AddonNamePlate is not null) {
-			AttachToNative(AddonNamePlate);
+		foreach (var moduleType in Enum.GetValues<ModuleType>()) {
+			var categoryNode = new TodoCategoryNode(moduleType);
+			categoryNode.LoadNodes(addonNamePlate);
+				
+			todoListNode.Add(categoryNode);
 		}
+			
+		System.NativeController.AttachToAddon(todoListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		System.TodoListController.Refresh();
 	}
-
-	public void Unload() {
-		Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
-		Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
-
-		if (AddonNamePlate is not null) {
-			DetachFromNative(AddonNamePlate);
+	
+	protected override void DetachNodes(AddonNamePlate* addonNamePlate) {
+		if (todoListNode is not null) {
+			System.NativeController.DetachFromAddon(todoListNode, (AtkUnitBase*)addonNamePlate);
+			todoListNode.Dispose();
+			todoListNode = null;
 		}
+			
+		todoListNode?.Dispose();
 	}
 
 	public void Update() {
@@ -49,53 +61,6 @@ public unsafe class TodoListController : IDisposable {
 		var passedQuestCheck = System.TodoConfig.HideDuringQuests && !Service.Condition.IsInQuestEvent()  || !System.TodoConfig.HideDuringQuests;
 
 		todoListNode.IsVisible = passedDutyCheck && passedQuestCheck && System.TodoConfig.Enabled;
-	}
-
-	private void OnNamePlateSetup(AddonEvent type, AddonArgs args) {
-		AttachToNative((AddonNamePlate*)args.Addon);
-	}
-	
-	private void AttachToNative(AddonNamePlate* addonNamePlate) {
-		Service.Framework.RunOnFrameworkThread(() => {
-			todoListNode = new ListNode<TodoCategoryNode> {
-				Size = System.TodoConfig.Size,
-				Position = System.TodoConfig.Position,
-				LayoutAnchor = System.TodoConfig.Anchor,
-				NodeFlags = NodeFlags.Clip,
-				IsVisible = System.TodoConfig.Enabled,
-				LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
-				NodeID = 300_000,
-				Color = KnownColor.White.Vector(),
-				BackgroundVisible = System.TodoConfig.ShowListBackground,
-				BackgroundColor = System.TodoConfig.ListBackgroundColor,
-			};
-
-			foreach (var moduleType in Enum.GetValues<ModuleType>()) {
-				var categoryNode = new TodoCategoryNode(moduleType);
-				categoryNode.LoadNodes(addonNamePlate);
-				
-				todoListNode.Add(categoryNode);
-			}
-			
-			System.NativeController.AttachToAddon(todoListNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
-			System.TodoListController.Refresh();
-		});
-	}
-
-	private void OnNamePlateFinalize(AddonEvent type, AddonArgs args) {
-		DetachFromNative((AddonNamePlate*)args.Addon);
-	}
-	
-	private void DetachFromNative(AddonNamePlate* addonNamePlate) {
-		Service.Framework.RunOnFrameworkThread(() => {
-			if (todoListNode is not null) {
-				System.NativeController.DetachFromAddon(todoListNode, (AtkUnitBase*)addonNamePlate);
-				todoListNode.Dispose();
-				todoListNode = null;
-			}
-			
-			todoListNode?.Dispose();
-		});
 	}
 
 	public void Refresh() {

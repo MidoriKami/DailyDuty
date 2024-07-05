@@ -64,10 +64,10 @@ public class WondrousTailsConfig : ModuleConfig {
 	}
 }
 
-public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData, WondrousTailsConfig> {
+public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTailsConfig> {
 	public override ModuleName ModuleName => ModuleName.WondrousTails;
     
-	public override bool HasClickableLink => true;
+	public override bool HasClickableLink => Config.ClickableLink;
     
 	public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.IdyllshireTeleport : PayloadId.OpenWondrousTailsBook;
 

@@ -23,13 +23,13 @@ public abstract class Module : IDisposable {
     
     public virtual void Dispose() { }
 
-    public virtual bool HasTooltip { get; protected set; } = false;
-    
+    public virtual bool HasTooltip => false;
+
     public virtual string TooltipText { get; protected set; } = string.Empty;
     
-    public virtual bool HasClickableLink { get; protected set; } = false;
-    
-    public virtual PayloadId ClickableLinkPayloadId { get; protected set; } = PayloadId.Unknown;
+    public virtual bool HasClickableLink => false;
+
+    public virtual PayloadId ClickableLinkPayloadId => PayloadId.Unknown;
 
     public virtual ModuleStatus ModuleStatus => ModuleStatus.Unknown;
     
@@ -54,18 +54,26 @@ public abstract class Module : IDisposable {
     public abstract void SaveData();
     
     public abstract DateTime GetNextReset();
+
+    public abstract TimeSpan GetModulePeriod();
+    
+    public TimeSpan GetTimeRemaining() => GetNextReset() - DateTime.UtcNow;
     
     protected abstract ModuleStatus GetModuleStatus();
     
     protected abstract StatusMessage GetStatusMessage();
 
     protected virtual void UpdateTaskLists() { }
+
+    public abstract TimerConfig GetTimerConfig();
 }
 
 public abstract class Module<T, TU> : Module where T : ModuleData, new() where TU : ModuleConfig, new() {
     protected T Data { get; private set; } = new();
 
     protected TU Config { get; private set; } = new();
+
+    public override TimerConfig GetTimerConfig() => Config.TimerConfig;
 
     public override bool IsEnabled => Config.ModuleEnabled;
 
@@ -162,14 +170,14 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         ImGui.TextUnformatted(Strings.TimeRemaining);
 
         ImGui.TableNextColumn();
-        var timeRemaining = GetNextReset() - DateTime.UtcNow;
+        var timeRemaining = GetTimeRemaining();
         ImGui.TextUnformatted($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
     }
     
     public override void Update() {
         if (DataChanged || ConfigChanged) {
             UpdateTaskData();
-            UpdateTodoList();
+            UpdateOverlays();
         }
         
         if (DataChanged) SaveData();
@@ -190,7 +198,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         
         UpdateTaskLists();
         UpdateTaskData();
-        UpdateTodoList();
+        UpdateOverlays();
         
         Update();
         
@@ -236,8 +244,10 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     public override void SaveData() 
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.data.json", Data);
 
-    private void UpdateTodoList()
-        => System.TodoListController.Refresh();
+    private void UpdateOverlays() {
+        System.TodoListController.Refresh();
+        System.TimersController.Refresh();
+    }
 
     private void SendStatusMessage() {
         if (GetModuleStatus() is not (ModuleStatus.Incomplete or ModuleStatus.Unknown)) return;
