@@ -103,6 +103,13 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 	public void Refresh() {
 		IsVisible = CategoryConfig.Enabled;
 
+		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
+		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
+		headerTextNode.FontSize = CategoryConfig.HeaderFontSize;
+		headerTextNode.Text = CategoryConfig.HeaderLabel;
+		headerTextNode.TextFlags = GetHeaderFlags();
+		headerTextNode.IsVisible = CategoryConfig.ShowHeader;
+		
 		var headerOffset = CategoryConfig.ShowHeader ? headerTextNode.Height : 0.0f;
 		
 		taskListNode.Position = new Vector2(0.0f, headerOffset);
@@ -112,18 +119,15 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			CategoryConfig.CategoryMargin.Z,
 			CategoryConfig.CategoryMargin.W);
 
-		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
-		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
-		headerTextNode.FontSize = CategoryConfig.HeaderFontSize;
-		headerTextNode.Text = CategoryConfig.HeaderLabel;
-		headerTextNode.TextFlags = GetHeaderFlags();
-		headerTextNode.IsVisible = CategoryConfig.ShowHeader;
-
 		foreach (var node in taskListNode) {
 			node.Refresh();
 		}
 		
 		taskListNode.Size = taskListNode.GetMinimumSize();
+		if (CategoryConfig.ShowHeader) {
+			taskListNode.Width = MathF.Max(taskListNode.Width, headerTextNode.Width);
+		}
+		
 		taskListNode.RecalculateLayout();
 
 		var minSize = taskListNode.GetMinimumSize();
