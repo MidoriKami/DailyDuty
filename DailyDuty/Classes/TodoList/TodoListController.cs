@@ -15,36 +15,31 @@ namespace DailyDuty.Classes.TodoList;
 
 public unsafe class TodoListController : IDisposable {
 	private ListNode<TodoCategoryNode>? todoListNode;
-		
-	public TodoListController() {
-		var nameplateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-		if (nameplateAddon is not null) {
-			System.TodoConfig = TodoConfig.Load();
-			AttachToNative(nameplateAddon);
-		}
-        
-		Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
-		Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
-	}
-	
+
+	private AddonNamePlate* AddonNamePlate => (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
+
 	public void Dispose() {
 		Unload();
-        
-		Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
-		Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
 	}
 	
 	public void Load() {
 		System.TodoConfig = TodoConfig.Load();
+
+		Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "NamePlate", OnNamePlateSetup);
+		Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "NamePlate", OnNamePlateFinalize);
+
+		if (AddonNamePlate is not null) {
+			AttachToNative(AddonNamePlate);
+		}
 	}
 
 	public void Unload() {
-		var namePlateAddon = (AddonNamePlate*) Service.GameGui.GetAddonByName("NamePlate");
-		if (namePlateAddon is not null) {
-			DetachFromNative(namePlateAddon);
+		Service.AddonLifecycle.UnregisterListener(OnNamePlateSetup);
+		Service.AddonLifecycle.UnregisterListener(OnNamePlateFinalize);
+
+		if (AddonNamePlate is not null) {
+			DetachFromNative(AddonNamePlate);
 		}
-    
-		todoListNode?.Dispose();
 	}
 
 	public void Update() {
@@ -61,7 +56,7 @@ public unsafe class TodoListController : IDisposable {
 	}
 	
 	private void AttachToNative(AddonNamePlate* addonNamePlate) {
-		Service.Framework.RunOnTick(() => {
+		Service.Framework.RunOnFrameworkThread(() => {
 			todoListNode = new ListNode<TodoCategoryNode> {
 				Size = System.TodoConfig.Size,
 				Position = System.TodoConfig.Position,
@@ -95,10 +90,11 @@ public unsafe class TodoListController : IDisposable {
 		Service.Framework.RunOnFrameworkThread(() => {
 			if (todoListNode is not null) {
 				System.NativeController.DetachFromAddon(todoListNode, (AtkUnitBase*)addonNamePlate);
-				
 				todoListNode.Dispose();
 				todoListNode = null;
 			}
+			
+			todoListNode?.Dispose();
 		});
 	}
 
