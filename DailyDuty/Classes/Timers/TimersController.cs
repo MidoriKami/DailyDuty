@@ -68,24 +68,10 @@ public unsafe class TimersController() : NativeUiOverlayController(Service.Addon
 		}
 
 		foreach (var node in timerNodes) {
-			var module = node.Module;
-			var timerConfig = module.GetTimerConfig();
 			node.IsVisible = ShouldShow(node);
 			if (!node.IsVisible) continue;
-
-			var timeRemaining = node.Module.GetTimeRemaining();
-			var period = node.Module.GetModulePeriod();
-
-			var percent =  1.0f - (float)(timeRemaining / period);
-			if (percent > 1.0f) continue;
 			
-			node.TimeRemainingText = timeRemaining.FormatTimespan(timerConfig.HideSeconds);
-			node.Progress = percent;
-			
-			if (module.GetNextReset() == DateTime.MaxValue) {
-				node.Progress = 1.0f;
-				node.TimeRemainingText = string.Empty;
-			}
+			UpdateTimeNode(node);
 		}
 	}
 
@@ -105,12 +91,32 @@ public unsafe class TimersController() : NativeUiOverlayController(Service.Addon
 			node.LabelVisible = !timerConfig.HideName;
 			node.TimeVisible = !timerConfig.HideTime;
 
+			UpdateTimeNode(node);
+			
 			if (module.HasClickableLink && node.MouseClick is null) {
 				node.MouseClick = () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!);
 			}
 			else if (!module.HasClickableLink && node.MouseClick is not null) {
 				node.MouseClick = null;
 			}
+		}
+	}
+
+	private void UpdateTimeNode(TimerNode node) {
+		var module = node.Module;
+		var timerConfig = module.GetTimerConfig();
+		var timeRemaining = node.Module.GetTimeRemaining();
+		var period = node.Module.GetModulePeriod();
+
+		var percent =  1.0f - (float)(timeRemaining / period);
+		if (percent > 1.0f) return;
+			
+		node.TimeRemainingText = timeRemaining.FormatTimespan(timerConfig.HideSeconds);
+		node.Progress = percent;
+			
+		if (module.GetNextReset() == DateTime.MaxValue) {
+			node.Progress = 1.0f;
+			node.TimeRemainingText = string.Empty;
 		}
 	}
 
