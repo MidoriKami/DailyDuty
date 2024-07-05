@@ -15,7 +15,7 @@ public static class Time {
         => NextDayOfWeek(DayOfWeek.Tuesday, 8);
 
     public static DateTime NextFashionReportReset()
-        => NextWeeklyReset().AddDays(-7).AddDays(3);
+        => NextWeeklyReset().AddDays(3);
 
     public static DateTime NextGrandCompanyReset()
         => GetNextDateTimeForHour(20);
