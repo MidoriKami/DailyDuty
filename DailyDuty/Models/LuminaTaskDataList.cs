@@ -4,151 +4,134 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using DailyDuty.System.Localization;
 using Dalamud.Interface;
 using ImGuiNET;
-using KamiLib.Game;
-using KamiLib.Interfaces;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
+using DailyDuty.Localization;
 
 namespace DailyDuty.Models;
 
-public class LuminaTaskDataList<T> : IDrawable, ICollection<LuminaTaskData<T>> where T : ExcelRow
-{
-    public List<LuminaTaskData<T>> DataList = new();
+public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : ExcelRow {
+	public List<LuminaTaskData<T>> DataList = [];
 
-    // Implement ICollection
-    public IEnumerator<LuminaTaskData<T>> GetEnumerator() => DataList.GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    public void Add(LuminaTaskData<T> item) => DataList.Add(item);
-    public void Clear() => DataList.Clear();
-    public bool Contains(LuminaTaskData<T> item) => DataList.Contains(item);
-    public void CopyTo(LuminaTaskData<T>[] array, int arrayIndex) => DataList.CopyTo(array, arrayIndex);
-    public bool Remove(LuminaTaskData<T> item) => DataList.Remove(item);
-    public int Count => DataList.Count;
-    public bool IsReadOnly => false;
-    // End ICollection
+	// Implement ICollection
+	public IEnumerator<LuminaTaskData<T>> GetEnumerator() => DataList.GetEnumerator();
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+	public void Add(LuminaTaskData<T> item) => DataList.Add(item);
+	public void Clear() => DataList.Clear();
+	public bool Contains(LuminaTaskData<T> item) => DataList.Contains(item);
+	public void CopyTo(LuminaTaskData<T>[] array, int arrayIndex) => DataList.CopyTo(array, arrayIndex);
+	public bool Remove(LuminaTaskData<T> item) => DataList.Remove(item);
+	public int Count => DataList.Count;
+	public bool IsReadOnly => false;
+	// End ICollection
     
-    public void Draw()
-    {
-        if (ImGui.BeginTable("##TaskDataTable", 2, ImGuiTableFlags.SizingStretchSame))
-        {
-            switch (this)
-            {
-                case LuminaTaskDataList<ContentsNote>:
-                case LuminaTaskDataList<ContentRoulette>:
-                case LuminaTaskDataList<ClassJob>:
-                case LuminaTaskDataList<MobHuntOrderType>:
-                case LuminaTaskDataList<Addon>:
-                    DrawStandardDataList();
-                    break;
+	public void Draw() {
+		if (ImGui.BeginTable("##TaskDataTable", 2, ImGuiTableFlags.SizingStretchSame)) {
+			switch (this) {
+				case LuminaTaskDataList<ContentsNote>:
+				case LuminaTaskDataList<ContentRoulette>:
+				case LuminaTaskDataList<ClassJob>:
+				case LuminaTaskDataList<MobHuntOrderType>:
+				case LuminaTaskDataList<Addon>:
+					DrawStandardDataList();
+					break;
                 
-                case LuminaTaskDataList<ContentFinderCondition>:
-                    DrawContentFinderCondition();
-                    break;
+				case LuminaTaskDataList<ContentFinderCondition>:
+					DrawContentFinderCondition();
+					break;
                 
-                default:
-                    ImGui.TableNextColumn();
-                    ImGui.Text("Invalid Data Type");
-                    break;
-            }
+				default:
+					ImGui.TableNextColumn();
+					ImGui.Text("Invalid Data Type");
+					break;
+			}
             
-            ImGui.EndTable();
-        }
-    }
+			ImGui.EndTable();
+		}
+	}
 
-    public void Sort() => DataList = DataList.OrderBy(e => e.RowId).ToList();
+	public void Sort() 
+		=> DataList = DataList.OrderBy(e => e.RowId).ToList();
 
-    private void DrawStandardDataList()
-    {
-        foreach (var dataEntry in DataList)
-        {
-            ImGui.TableNextColumn();
-            switch (this)
-            {
-                case LuminaTaskDataList<ContentsNote>:
-                    ImGui.Text(LuminaCache<ContentsNote>.Instance.GetRow(dataEntry.RowId)!.Name.ToString());
-                    break;
+	private void DrawStandardDataList() {
+		foreach (var dataEntry in DataList) {
+			ImGui.TableNextColumn();
+			switch (this) {
+				case LuminaTaskDataList<ContentsNote>:
+					ImGui.Text(Service.DataManager.GetExcelSheet<ContentsNote>()!.GetRow(dataEntry.RowId)!.Name.ToString());
+					break;
                 
-                case LuminaTaskDataList<ContentRoulette>:
-                    ImGui.Text(LuminaCache<ContentRoulette>.Instance.GetRow(dataEntry.RowId)!.Name.ToString());
-                    break;
+				case LuminaTaskDataList<ContentRoulette>:
+					ImGui.Text(Service.DataManager.GetExcelSheet<ContentRoulette>()!.GetRow(dataEntry.RowId)!.Name.ToString());
+					break;
                 
-                case LuminaTaskDataList<ClassJob>:
-                    var classJob = LuminaCache<ClassJob>.Instance.GetRow(dataEntry.RowId)!;
-                    var classJobLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(classJob.Name.ToString());
-                    ImGui.Text(classJobLabel);
-                    break;
+				case LuminaTaskDataList<ClassJob>:
+					var classJob = Service.DataManager.GetExcelSheet<ClassJob>()!.GetRow(dataEntry.RowId)!;
+					var classJobLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(classJob.Name.ToString());
+					ImGui.Text(classJobLabel);
+					break;
                 
-                case LuminaTaskDataList<MobHuntOrderType>:
-                    var mobHuntOrderType = LuminaCache<MobHuntOrderType>.Instance.GetRow(dataEntry.RowId)!;
-                    var eventItemName = mobHuntOrderType.EventItem.Value?.Name.ToString();
-                    if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value?.Singular.ToString();
+				case LuminaTaskDataList<MobHuntOrderType>:
+					var mobHuntOrderType = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!.GetRow(dataEntry.RowId)!;
+					var eventItemName = mobHuntOrderType.EventItem.Value?.Name.ToString();
+					if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value?.Singular.ToString();
 
-                    var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName ?? "Unable to Read Event Item");
-                    ImGui.Text(mobHuntLabel);
-                    break;
+					var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName ?? "Unable to Read Event Item");
+					ImGui.Text(mobHuntLabel);
+					break;
                 
-                case LuminaTaskDataList<Addon>:
-                    ImGui.Text(LuminaCache<Addon>.Instance.GetRow(dataEntry.RowId)!.Text.ToString());
-                    break;
-            }
+				case LuminaTaskDataList<Addon>:
+					ImGui.Text(Service.DataManager.GetExcelSheet<Addon>()!.GetRow(dataEntry.RowId)!.Text.ToString());
+					break;
+			}
             
-            ImGui.TableNextColumn();
-            var color = dataEntry.Complete ? KnownColor.Green.Vector() : KnownColor.Orange.Vector();
-            var text = dataEntry.Complete ? Strings.Complete : Strings.Incomplete;
-            ImGui.TextColored(color, text);
-        }
-    }
+			ImGui.TableNextColumn();
+			var color = dataEntry.Complete ? KnownColor.Green.Vector() : KnownColor.Orange.Vector();
+			var text = dataEntry.Complete ? Strings.Complete : Strings.Incomplete;
+			ImGui.TextColored(color, text);
+		}
+	}
     
-    private void DrawContentFinderCondition()
-    {
-        ImGui.TableNextColumn();
-        ImGui.TextColored(KnownColor.Gray.Vector(), Strings.DutyName);
+	private void DrawContentFinderCondition() {
+		ImGui.TableNextColumn();
+		ImGui.TextColored(KnownColor.Gray.Vector(), Strings.DutyName);
 
-        ImGui.TableNextColumn();
-        ImGui.TextColored(KnownColor.Gray.Vector(), Strings.CurrentNumDrops);
+		ImGui.TableNextColumn();
+		ImGui.TextColored(KnownColor.Gray.Vector(), Strings.CurrentNumDrops);
                             
-        if (DataList.Count > 0)
-        {
-            foreach (var data in DataList)
-            {
-                ImGui.TableNextColumn();
-                var luminaData = LuminaCache<ContentFinderCondition>.Instance.GetRow(data.RowId)!;
-                ImGui.Text(luminaData.Name.ToString());
+		if (DataList.Count > 0) {
+			foreach (var data in DataList) {
+				ImGui.TableNextColumn();
+				var luminaData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!.GetRow(data.RowId)!;
+				ImGui.Text(luminaData.Name.ToString());
 
-                ImGui.TableNextColumn();
-                ImGui.Text(data.CurrentCount.ToString());
-            }
-        }
-        else
-        {
-            ImGui.TableNextColumn();
-            ImGui.TextColored(KnownColor.Orange.Vector(), Strings.NothingToTrack);
-        }
-    }
+				ImGui.TableNextColumn();
+				ImGui.Text(data.CurrentCount.ToString());
+			}
+		}
+		else {
+			ImGui.TableNextColumn();
+			ImGui.TextColored(KnownColor.Orange.Vector(), Strings.NothingToTrack);
+		}
+	}
 
-    public void Update(ref bool dataChanged, Func<uint, bool> getTaskStatusFunction)
-    {
-        foreach (var task in DataList)
-        {
-            var status = getTaskStatusFunction(task.RowId);
+	public void Update(ref bool dataChanged, Func<uint, bool> getTaskStatusFunction) {
+		foreach (var task in DataList) {
+			var status = getTaskStatusFunction(task.RowId);
 
-            if (task.Complete != status)
-            {
-                task.Complete = status;
-                dataChanged = true;
-            }
-        }
-    }
+			if (task.Complete != status) {
+				task.Complete = status;
+				dataChanged = true;
+			}
+		}
+	}
 
-    public void Reset()
-    {
-        foreach (var task in DataList)
-        {
-            task.Complete = false;
-            task.CurrentCount = 0;
-        }
-    }
+	public void Reset() {
+		foreach (var task in DataList) {
+			task.Complete = false;
+			task.CurrentCount = 0;
+		}
+	}
 }

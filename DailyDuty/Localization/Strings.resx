@@ -1,0 +1,670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Daily" xml:space="preserve">
+        <value>Daily</value>
+    </data>
+    <data name="Weekly" xml:space="preserve">
+        <value>Weekly</value>
+    </data>
+    <data name="Special" xml:space="preserve">
+        <value>Special</value>
+    </data>
+    <data name="TestModule" xml:space="preserve">
+        <value>Test Module</value>
+    </data>
+    <data name="Unknown" xml:space="preserve">
+        <value>Unknown</value>
+    </data>
+    <data name="Incomplete" xml:space="preserve">
+        <value>Incomplete</value>
+    </data>
+    <data name="Unavailable" xml:space="preserve">
+        <value>Unavailable</value>
+    </data>
+    <data name="Complete" xml:space="preserve">
+        <value>Complete</value>
+    </data>
+    <data name="Suppressed" xml:space="preserve">
+        <value>Suppressed</value>
+    </data>
+    <data name="LoginMessage" xml:space="preserve">
+        <value>Send Notification Message on Login</value>
+    </data>
+    <data name="ChallengeLog" xml:space="preserve">
+        <value>Challenge Log</value>
+    </data>
+    <data name="Enabled" xml:space="preserve">
+        <value>Enabled</value>
+    </data>
+    <data name="Disabled" xml:space="preserve">
+        <value>Disabled</value>
+    </data>
+    <data name="ModuleReset" xml:space="preserve">
+        <value>Module Reset</value>
+    </data>
+    <data name="TasksIncomplete" xml:space="preserve">
+        <value>Tasks Incomplete</value>
+    </data>
+    <data name="AllowancesRemaining" xml:space="preserve">
+        <value>Allowances Remaining</value>
+    </data>
+    <data name="StatusUnknown" xml:space="preserve">
+        <value>Status Unknown</value>
+    </data>
+    <data name="GilRemaining" xml:space="preserve">
+        <value>gil Remaining</value>
+    </data>
+    <data name="InProgress" xml:space="preserve">
+        <value>In Progress</value>
+    </data>
+    <data name="CustomDelivery" xml:space="preserve">
+        <value>Custom Delivery</value>
+    </data>
+    <data name="DomanEnclave" xml:space="preserve">
+        <value>Doman Enclave</value>
+    </data>
+    <data name="DutyRoulette" xml:space="preserve">
+        <value>Duty Roulette</value>
+    </data>
+    <data name="MiniCactpot" xml:space="preserve">
+        <value>Mini Cactpot</value>
+    </data>
+    <data name="FashionReport" xml:space="preserve">
+        <value>Fashion Report</value>
+    </data>
+    <data name="FauxHollows" xml:space="preserve">
+        <value>Faux Hollows</value>
+    </data>
+    <data name="GrandCompanyProvision" xml:space="preserve">
+        <value>Grand Company (Provision)</value>
+    </data>
+    <data name="GrandCompanySquadron" xml:space="preserve">
+        <value>Grand Company (Squadron)</value>
+    </data>
+    <data name="GrandCompanySupply" xml:space="preserve">
+        <value>Grand Company (Supply)</value>
+    </data>
+    <data name="HuntMarksDaily" xml:space="preserve">
+        <value>Hunt Marks (Daily)</value>
+    </data>
+    <data name="HuntMarksWeekly" xml:space="preserve">
+        <value>Hunt Marks (Weekly)</value>
+    </data>
+    <data name="TreasureMap" xml:space="preserve">
+        <value>Treasure Map</value>
+    </data>
+    <data name="JumboCactpot" xml:space="preserve">
+        <value>Jumbo Cactpot</value>
+    </data>
+    <data name="Levequest" xml:space="preserve">
+        <value>Levequest</value>
+    </data>
+    <data name="MaskedCarnivale" xml:space="preserve">
+        <value>Masked Carnivale</value>
+    </data>
+    <data name="RaidsAlliance" xml:space="preserve">
+        <value>Raids (Alliance)</value>
+    </data>
+    <data name="RaidsNormal" xml:space="preserve">
+        <value>Raids (Normal)</value>
+    </data>
+    <data name="TribalQuests" xml:space="preserve">
+        <value>Tribal Quests</value>
+    </data>
+    <data name="WondrousTails" xml:space="preserve">
+        <value>Wondrous Tails</value>
+    </data>
+    <data name="NotificationThreshold" xml:space="preserve">
+        <value>Notification Threshold</value>
+    </data>
+    <data name="ComparisonMode" xml:space="preserve">
+        <value>Comparison Mode</value>
+    </data>
+    <data name="DomanEnclaveTeleport" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to the Doman Enclave</value>
+    </data>
+    <data name="WeeklyAllowance" xml:space="preserve">
+        <value>Weekly Allowance</value>
+    </data>
+    <data name="DonatedThisWeek" xml:space="preserve">
+        <value>Donated</value>
+    </data>
+    <data name="LessThan" xml:space="preserve">
+        <value>Less Than</value>
+    </data>
+    <data name="EqualTo" xml:space="preserve">
+        <value>Equal To</value>
+    </data>
+    <data name="LessThanOrEqual" xml:space="preserve">
+        <value>Less Than or Equal</value>
+    </data>
+    <data name="All" xml:space="preserve">
+        <value>All Allowances Used</value>
+    </data>
+    <data name="Single" xml:space="preserve">
+        <value>One Allowance Used</value>
+    </data>
+    <data name="Plus80" xml:space="preserve">
+        <value>Scored 80+</value>
+    </data>
+    <data name="Default" xml:space="preserve">
+        <value>Default</value>
+    </data>
+    <data name="ClickableLink" xml:space="preserve">
+        <value>Clickable Link</value>
+    </data>
+    <data name="Enable" xml:space="preserve">
+        <value>Enable</value>
+    </data>
+    <data name="TimeNotAvailable" xml:space="preserve">
+        <value>Time Not Available</value>
+    </data>
+    <data name="ModuleEnable" xml:space="preserve">
+        <value>Module Enable</value>
+    </data>
+    <data name="NotificationOptions" xml:space="preserve">
+        <value>Notification Options</value>
+    </data>
+    <data name="NotificationCustomization" xml:space="preserve">
+        <value>Notification Customization</value>
+    </data>
+    <data name="EnableCustomResetMessage" xml:space="preserve">
+        <value>Enable Custom Reset Message</value>
+    </data>
+    <data name="ResetMessage" xml:space="preserve">
+        <value>Reset Message</value>
+    </data>
+    <data name="StatusMessage" xml:space="preserve">
+        <value>Status Message</value>
+    </data>
+    <data name="EnableCustomStatusMessage" xml:space="preserve">
+        <value>Enable Custom Status Message</value>
+    </data>
+    <data name="EnableCustomChannel" xml:space="preserve">
+        <value>Enable Custom Channel</value>
+    </data>
+    <data name="SendStatusOnLogin" xml:space="preserve">
+        <value>Send Status on Login</value>
+    </data>
+    <data name="SendStatusOnZoneChange" xml:space="preserve">
+        <value>Send Status on Zone Change</value>
+    </data>
+    <data name="SendMessageOnReset" xml:space="preserve">
+        <value>Send Message on Reset</value>
+    </data>
+    <data name="SendStatusOnLoginHelp" xml:space="preserve">
+        <value>Sends a status notification to chat when you login</value>
+    </data>
+    <data name="SendStatusOnZoneChangeHelp" xml:space="preserve">
+        <value>Sends a status notification to chat when you change zones
+Limited to once per 5 mins</value>
+    </data>
+    <data name="SendMessageOnResetHelp" xml:space="preserve">
+        <value>Sends a notification to chat if a reset recently occured</value>
+    </data>
+    <data name="NextReset" xml:space="preserve">
+        <value>Next Reset</value>
+    </data>
+    <data name="RemainingTime" xml:space="preserve">
+        <value>Remaining Time</value>
+    </data>
+    <data name="AwaitingUserAction" xml:space="preserve">
+        <value>Awaiting User Action</value>
+    </data>
+    <data name="TaskSelection" xml:space="preserve">
+        <value>Task Selection</value>
+    </data>
+    <data name="NothingToTrack" xml:space="preserve">
+        <value>Nothing to Track</value>
+    </data>
+    <data name="TaskData" xml:space="preserve">
+        <value>Task Data</value>
+    </data>
+    <data name="ModuleStatus" xml:space="preserve">
+        <value>Module Status</value>
+    </data>
+    <data name="CurrentStatus" xml:space="preserve">
+        <value>Current Status</value>
+    </data>
+    <data name="ModuleSuppression" xml:space="preserve">
+        <value>Module Suppression</value>
+    </data>
+    <data name="ModuleSuppressionHelp" xml:space="preserve">
+        <value>Silence notifications until the next module reset</value>
+    </data>
+    <data name="Snooze" xml:space="preserve">
+        <value>Snooze</value>
+    </data>
+    <data name="UnSnooze" xml:space="preserve">
+        <value>UnSnooze</value>
+    </data>
+    <data name="TodoDisplayEnable" xml:space="preserve">
+        <value>Todo Display Enable</value>
+    </data>
+    <data name="CurrentColor" xml:space="preserve">
+        <value>Current Color</value>
+    </data>
+    <data name="Close" xml:space="preserve">
+        <value>Close</value>
+    </data>
+    <data name="DutyRouletteOpenDutyFinder" xml:space="preserve">
+        <value>Notifications can be clicked on to open the Duty Finder</value>
+    </data>
+    <data name="CompleteWhenTomeCapped" xml:space="preserve">
+        <value>Complete When Tomecapped</value>
+    </data>
+    <data name="CompleteWhenTomeCappedHelp" xml:space="preserve">
+        <value>Marks task as complete when you are at the tomestone weekly limit</value>
+    </data>
+    <data name="CurrentWeeklyTomestones" xml:space="preserve">
+        <value>Current Weekly Tomestones</value>
+    </data>
+    <data name="WeeklyTomestoneLimit" xml:space="preserve">
+        <value>Weekly Limit</value>
+    </data>
+    <data name="AtWeeklyTomestoneLimit" xml:space="preserve">
+        <value>Weekly Limit Reached</value>
+    </data>
+    <data name="BudgetRemaining" xml:space="preserve">
+        <value>Budget Remaining</value>
+    </data>
+    <data name="RoulettesRemaining" xml:space="preserve">
+        <value>Roulettes Remaining</value>
+    </data>
+    <data name="CompletionMode" xml:space="preserve">
+        <value>Completion Mode</value>
+    </data>
+    <data name="GoldSaucerTeleport" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to the Gold Saucer</value>
+    </data>
+    <data name="HighestWeeklyScore" xml:space="preserve">
+        <value>Highest Score</value>
+    </data>
+    <data name="FashionReportAvailable" xml:space="preserve">
+        <value>Fashion Report Available</value>
+    </data>
+    <data name="AllowancesAvailable" xml:space="preserve">
+        <value>Allowances Available</value>
+    </data>
+    <data name="HighestScore" xml:space="preserve">
+        <value>Highest Score</value>
+    </data>
+    <data name="IncludeRetelling" xml:space="preserve">
+        <value>Include Retelling</value>
+    </data>
+    <data name="IdyllshireTeleport" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to Idyllshire</value>
+    </data>
+    <data name="FauxHollowsCompletions" xml:space="preserve">
+        <value>Faux Hollows Completions</value>
+    </data>
+    <data name="UnrealTrialAvailable" xml:space="preserve">
+        <value>Unreal Trial Available</value>
+    </data>
+    <data name="MissionCompleted" xml:space="preserve">
+        <value>Mission Completed</value>
+    </data>
+    <data name="MissionStarted" xml:space="preserve">
+        <value>Mission Started</value>
+    </data>
+    <data name="MissionCompleteTime" xml:space="preserve">
+        <value>Mission Complete Time</value>
+    </data>
+    <data name="TimeUntilMissionComplete" xml:space="preserve">
+        <value>Time Until Mission Complete</value>
+    </data>
+    <data name="MissionAvailable" xml:space="preserve">
+        <value>Mission Available</value>
+    </data>
+    <data name="HuntsRemaining" xml:space="preserve">
+        <value>Hunts Remaining</value>
+    </data>
+    <data name="ClaimedTickets" xml:space="preserve">
+        <value>Claimed Tickets</value>
+    </data>
+    <data name="TicketsAvailable" xml:space="preserve">
+        <value>Tickets Available</value>
+    </data>
+    <data name="LevequestAllowances" xml:space="preserve">
+        <value>Levequest Allowances</value>
+    </data>
+    <data name="AcceptedLevequests" xml:space="preserve">
+        <value>Accepted Levequests</value>
+    </data>
+    <data name="UldahTeleport" xml:space="preserve">
+        <value>Notifications can be clicked on to teleport to Ul'dah</value>
+    </data>
+    <data name="ChallengesRemaining" xml:space="preserve">
+        <value>Challenges Remaining</value>
+    </data>
+    <data name="TicketsRemaining" xml:space="preserve">
+        <value>Tickets Remaining</value>
+    </data>
+    <data name="RaidsAvailable" xml:space="preserve">
+        <value>Raids Available</value>
+    </data>
+    <data name="LastMapGathered" xml:space="preserve">
+        <value>Last Map Gathered</value>
+    </data>
+    <data name="MapAvailable" xml:space="preserve">
+        <value>Map Available</value>
+    </data>
+    <data name="OpenDutyFinderToRaid" xml:space="preserve">
+        <value>Notifications can be clicked on to open the Duty Finder to the Raid category</value>
+    </data>
+    <data name="InstanceNotifications" xml:space="preserve">
+        <value>Instance Notifications</value>
+    </data>
+    <data name="InstanceNotificationsHelp" xml:space="preserve">
+        <value>When entering a duty, display if the duty needs to be rerolled, or is already available</value>
+    </data>
+    <data name="WondrousTailsClickableLink" xml:space="preserve">
+        <value>Notifications can be clicked on to open the Wondrous Tails Book or teleport to Idlyshire</value>
+    </data>
+    <data name="StickerAvailableNotice" xml:space="preserve">
+        <value>Sticker Available Notice</value>
+    </data>
+    <data name="StickerAvailableNoticeHelp" xml:space="preserve">
+        <value>When changing zones, warn if there are stickers available to claim</value>
+    </data>
+    <data name="UnclaimedBookWarning" xml:space="preserve">
+        <value>Unclaimed Book Warning</value>
+    </data>
+    <data name="ShuffleAvailableNotice" xml:space="preserve">
+        <value>Shuffle Available Notice</value>
+    </data>
+    <data name="ShuffleAvailableNoticeHelp" xml:space="preserve">
+        <value>Warns when you are near the second chance limit and can shuffle your stickers</value>
+    </data>
+    <data name="PlacedStickers" xml:space="preserve">
+        <value>Placed Stickers</value>
+    </data>
+    <data name="SecondChancePoints" xml:space="preserve">
+        <value>Second Chance Points</value>
+    </data>
+    <data name="PlayerHasBook" xml:space="preserve">
+        <value>Player Has Book</value>
+    </data>
+    <data name="Deadline" xml:space="preserve">
+        <value>Deadline</value>
+    </data>
+    <data name="TimeRemaining" xml:space="preserve">
+        <value>Time Remaining</value>
+    </data>
+    <data name="RerollNotice" xml:space="preserve">
+        <value>This instance is available for a stamp if you re-roll it</value>
+    </data>
+    <data name="RerollsAvailable" xml:space="preserve">
+        <value>You have {0} re-rolls available</value>
+    </data>
+    <data name="StampAlreadyAvailable" xml:space="preserve">
+        <value>A stamp is already available for this instance</value>
+    </data>
+    <data name="CompletionAvailable" xml:space="preserve">
+        <value>Completing this instance will reward you with a stamp</value>
+    </data>
+    <data name="StampClaimable" xml:space="preserve">
+        <value>You can claim a stamp for this duty!</value>
+    </data>
+    <data name="StickerAvailable" xml:space="preserve">
+        <value>Sticker Available</value>
+    </data>
+    <data name="ShuffleAvailable" xml:space="preserve">
+        <value>Shuffle Available</value>
+    </data>
+    <data name="NewBookAvailable" xml:space="preserve">
+        <value>New Book Available</value>
+    </data>
+    <data name="StickersRemaining" xml:space="preserve">
+        <value>{0} Stickers Remaining</value>
+    </data>
+    <data name="ModuleConfiguration" xml:space="preserve">
+        <value>Module Configuration</value>
+    </data>
+    <data name="TodoEnable" xml:space="preserve">
+        <value>Enable Todo Display</value>
+    </data>
+    <data name="TodoDisable" xml:space="preserve">
+        <value>Disable Todo Display</value>
+    </data>
+    <data name="TodoToggle" xml:space="preserve">
+        <value>Toggle Todo Display</value>
+    </data>
+    <data name="CannotTeleportNow" xml:space="preserve">
+        <value>Cannot teleport in this situation</value>
+    </data>
+    <data name="TeleportingTo" xml:space="preserve">
+        <value>Teleporting to</value>
+    </data>
+    <data name="InstallTeleporterError" xml:space="preserve">
+        <value>To use the teleport function, you must install the "Teleporter" plugin</value>
+    </data>
+    <data name="Teleport" xml:space="preserve">
+        <value>Teleport</value>
+    </data>
+    <data name="EnableDailyTasks" xml:space="preserve">
+        <value>Enable Daily</value>
+    </data>
+    <data name="EnableWeeklyTasks" xml:space="preserve">
+        <value>Enable Weekly</value>
+    </data>
+    <data name="EnableSpecialTasks" xml:space="preserve">
+        <value>Enable Special</value>
+    </data>
+    <data name="HideInQuestEvent" xml:space="preserve">
+        <value>Hide During Quest Events</value>
+    </data>
+    <data name="HideInDuties" xml:space="preserve">
+        <value>Hide During Duties</value>
+    </data>
+    <data name="DailyTasksLabel" xml:space="preserve">
+        <value>Daily Tasks Label</value>
+    </data>
+    <data name="WeeklyTasksLabel" xml:space="preserve">
+        <value>Weekly Tasks Label</value>
+    </data>
+    <data name="SpecialTasksLabel" xml:space="preserve">
+        <value>Special Tasks Label</value>
+    </data>
+    <data name="Position" xml:space="preserve">
+        <value>Position</value>
+    </data>
+    <data name="TextAlignment" xml:space="preserve">
+        <value>Text Alignment</value>
+    </data>
+    <data name="LineSpacing" xml:space="preserve">
+        <value>Line Spacing</value>
+    </data>
+    <data name="FontSize" xml:space="preserve">
+        <value>Font Size</value>
+    </data>
+    <data name="TextColor" xml:space="preserve">
+        <value>Text Color</value>
+    </data>
+    <data name="TextBorderColor" xml:space="preserve">
+        <value>Text Border Color</value>
+    </data>
+    <data name="HeaderOutlineColor" xml:space="preserve">
+        <value>Header Outline Color</value>
+    </data>
+    <data name="TodoDisplayConfiguration" xml:space="preserve">
+        <value>Todo Display Configuration</value>
+    </data>
+    <data name="Show All" xml:space="preserve">
+        <value>Show All</value>
+    </data>
+    <data name="ModuleDataTab_TabName_Module_Data" xml:space="preserve">
+        <value>Module Data</value>
+    </data>
+    <data name="ModuleData" xml:space="preserve">
+        <value>Module Data</value>
+    </data>
+    <data name="ShowDisabled" xml:space="preserve">
+        <value>Show Disabled</value>
+    </data>
+    <data name="HideDisabled" xml:space="preserve">
+        <value>Hide Disabled</value>
+    </data>
+    <data name="TodoConfiguration" xml:space="preserve">
+        <value>Todo Configuration</value>
+    </data>
+    <data name="ForgotBookWarning" xml:space="preserve">
+        <value>Wait! You forgot your book!</value>
+    </data>
+    <data name="NearKhloe" xml:space="preserve">
+        <value>Near Khloe</value>
+    </data>
+    <data name="DistanceToKhloe" xml:space="preserve">
+        <value>Distance to Khloe</value>
+    </data>
+    <data name="ComparisonHelp" xml:space="preserve">
+        <value>Module is considered 'Complete' when the condition is met</value>
+    </data>
+    <data name="DutyName" xml:space="preserve">
+        <value>Duty Name</value>
+    </data>
+    <data name="NumDrops" xml:space="preserve">
+        <value>Target Drop Count</value>
+    </data>
+    <data name="RaidsModuleHelp" xml:space="preserve">
+        <value>Number of drops required from this duty to be considered complete</value>
+    </data>
+    <data name="CurrentNumDrops" xml:space="preserve">
+        <value>Current Drop Count</value>
+    </data>
+    <data name="CastingTeleport" xml:space="preserve">
+        <value>Casting Teleport</value>
+    </data>
+    <data name="BookExpired" xml:space="preserve">
+        <value>Book Expired</value>
+    </data>
+    <data name="TodoDisplayOptions" xml:space="preserve">
+        <value>Todo Display Options</value>
+    </data>
+    <data name="TaskLabel" xml:space="preserve">
+        <value>Task Label</value>
+    </data>
+    <data name="PreviewMode" xml:space="preserve">
+        <value>Preview Mode</value>
+    </data>
+    <data name="RightAlign" xml:space="preserve">
+        <value>Right Align</value>
+    </data>
+    <data name="Background" xml:space="preserve">
+        <value>Background</value>
+    </data>
+    <data name="ShowHeaders" xml:space="preserve">
+        <value>Show Category Labels</value>
+    </data>
+    <data name="HeaderSize" xml:space="preserve">
+        <value>Category Label Font Size</value>
+    </data>
+    <data name="CategorySpacing" xml:space="preserve">
+        <value>Spacing Below Categories</value>
+    </data>
+    <data name="CategoryBackgroundColor" xml:space="preserve">
+        <value>Background Color</value>
+    </data>
+    <data name="HeaderColor" xml:space="preserve">
+        <value>Header Text Color</value>
+    </data>
+    <data name="ModuleTextColor" xml:space="preserve">
+        <value>Module Text Color</value>
+    </data>
+    <data name="ModuleOutlineColor" xml:space="preserve">
+        <value>Module Text Outline Color</value>
+    </data>
+    <data name="UseCustomLabel" xml:space="preserve">
+        <value>Custom Label</value>
+    </data>
+    <data name="OverrideTodoListColor" xml:space="preserve">
+        <value>Override Color</value>
+    </data>
+    <data name="TextOutlineColor" xml:space="preserve">
+        <value>Text Outline Color</value>
+    </data>
+    <data name="HeaderSpacing" xml:space="preserve">
+        <value>Spacing Below Headers</value>
+    </data>
+    <data name="ModuleSpacing" xml:space="preserve">
+        <value>Spacing Below Modules</value>
+    </data>
+    <data name="EnableGlowingOutline" xml:space="preserve">
+        <value>Enable Glowing Outline</value>
+    </data>
+    <data name="EnableOutline" xml:space="preserve">
+        <value>Enable Outline</value>
+    </data>
+    <data name="ModuleItalic" xml:space="preserve">
+        <value>Enable Module Italic</value>
+    </data>
+    <data name="HeaderItalic" xml:space="preserve">
+        <value>Enable Header Italic</value>
+    </data>
+	<data name="AnchorLocation" xml:space="preserve">
+        <value>Anchor Location</value>
+    </data>
+    <data name="TopLeft" xml:space="preserve">
+        <value>Top Left</value>
+    </data>
+    <data name="TopRight" xml:space="preserve">
+        <value>Top Right</value>
+    </data>
+    <data name="BottomLeft" xml:space="preserve">
+        <value>Bottom Left</value>
+    </data>
+    <data name="BottomRight" xml:space="preserve">
+        <value>Bottom Right</value>
+    </data>
+    <data name="Dragable" xml:space="preserve">
+        <value>Enable Window Dragging</value>
+    </data>
+    <data name="Positioning" xml:space="preserve">
+        <value>Positioning</value>
+    </data>
+    <data name="Categories" xml:space="preserve">
+        <value>Categories</value>
+    </data>
+    <data name="DisplayOptions" xml:space="preserve">
+        <value>Display Options</value>
+    </data>
+    <data name="TextStyle" xml:space="preserve">
+        <value>Text Style</value>
+    </data>
+    <data name="LabelText" xml:space="preserve">
+        <value>Label Text</value>
+    </data>
+    <data name="DisplayStyle" xml:space="preserve">
+        <value>Display Style</value>
+    </data>
+    <data name="ColorOptions" xml:space="preserve">
+        <value>Color Options</value>
+    </data>
+    <data name="OpenConfigWindow" xml:space="preserve">
+        <value>Open Configuration Window</value>
+    </data>
+    <data name="HelpText" xml:space="preserve">
+        <value>Show This Message</value>
+    </data>
+    <data name="WindowDraggingEnabled" xml:space="preserve">
+        <value>Window Dragging Enabled</value>
+    </data>
+</root>
