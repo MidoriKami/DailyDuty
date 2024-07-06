@@ -35,7 +35,7 @@ public class CategoryConfig {
 }
 
 public class TodoConfig {
-    public bool Enabled = true;
+    public bool Enabled = false;
 
     public CategoryConfig[] CategoryConfigs = [
         new CategoryConfig {
