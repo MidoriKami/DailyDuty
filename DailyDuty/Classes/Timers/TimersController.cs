@@ -41,6 +41,7 @@ public unsafe class TimersController() : NativeUiOverlayController(Service.Addon
 			}
 			
 			timerNodes.Add(newTimerNode);
+			UpdateTimeNode(newTimerNode);
 			
 			System.NativeController.AttachToAddon(newTimerNode, (AtkUnitBase*)addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
 			System.TimersController.Refresh();
