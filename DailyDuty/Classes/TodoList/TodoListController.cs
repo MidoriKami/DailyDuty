@@ -36,7 +36,8 @@ public unsafe class TodoListController() : NativeUiOverlayController(Service.Add
 		foreach (var moduleType in Enum.GetValues<ModuleType>()) {
 			var categoryNode = new TodoCategoryNode(moduleType);
 			categoryNode.LoadNodes(addonNamePlate);
-				
+			categoryNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*)addonNamePlate);
+			
 			todoListNode.Add(categoryNode);
 		}
 			

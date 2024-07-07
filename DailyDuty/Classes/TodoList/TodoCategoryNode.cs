@@ -5,6 +5,7 @@ using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules;
 using Dalamud.Interface;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
@@ -29,6 +30,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			NodeID = NodeID + 500,
 			FontType = FontType.Axis, 
 			TextFlags = TextFlags.AutoAdjustNodeSize,
+			MouseClick = () => System.ConfigurationWindow.UnCollapseOrToggle(),
 		};
 		
 		System.NativeController.AttachToNode(headerTextNode, this, NodePosition.AsFirstChild);
@@ -89,7 +91,19 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			taskListNode.Add(newTaskNode);
 		}
 	}
-	
+
+	public override unsafe void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
+		base.EnableEvents(eventManager, addon);
+		
+		headerTextNode.EnableEvents(eventManager, addon);
+	}
+
+	public override void DisableEvents(IAddonEventManager eventManager) {
+		base.DisableEvents(eventManager);
+		
+		headerTextNode.DisableEvents(eventManager);
+	}
+
 	private TextFlags GetHeaderFlags() {
 		var flags = TextFlags.AutoAdjustNodeSize;
 

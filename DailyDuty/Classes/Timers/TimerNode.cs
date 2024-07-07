@@ -3,6 +3,7 @@ using System.Numerics;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
@@ -14,6 +15,7 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 	private readonly ProgressBarNode progressBarNode;
 	private readonly TextNode moduleNameNode;
 	private readonly TextNode timeRemainingNode;
+	private readonly TextNode tooltipNode;
 
 	public required Module Module;
 
@@ -59,6 +61,21 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 		};
 		System.NativeController.AttachToNode(timeRemainingNode, this, NodePosition.AsLastChild);
 
+		tooltipNode = new TextNode {
+			NodeID = 250000 + nodeId,
+			Size = new Vector2(16.0f, 16.0f),
+			TextColor = KnownColor.White.Vector(),
+			TextOutlineColor = KnownColor.Black.Vector(),
+			IsVisible = true,
+			FontSize = 16,
+			FontType = FontType.Axis,
+			TextFlags = TextFlags.Edge,
+			AlignmentType = AlignmentType.BottomRight,
+			Text = "?",
+			Tooltip = "Overlay from DailyDuty plugin",
+		};
+		System.NativeController.AttachToNode(tooltipNode, this, NodePosition.AsLastChild);
+
 		Width = 400.0f;
 		Height = 48.0f;
 	}
@@ -78,6 +95,18 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 		}
 	}
 
+	public override void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
+		base.EnableEvents(eventManager, addon);
+		
+		tooltipNode.EnableEvents(Service.AddonEventManager, addon);
+	}
+
+	public override void DisableEvents(IAddonEventManager eventManager) {
+		base.DisableEvents(eventManager);
+		
+		tooltipNode.DisableEvents(eventManager);
+	}
+
 	public float Progress {
 		get => progressBarNode.Progress;
 		set => progressBarNode.Progress = value;
@@ -89,6 +118,7 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 			InternalNode->SetWidth((ushort)value);
 			progressBarNode.Width = value;
 			timeRemainingNode.X = value - timeRemainingNode.Width - 12.0f;
+			tooltipNode.Position = new Vector2(progressBarNode.Width, 8.0f);
 			actualSize.X = value;
 		}
 	}
