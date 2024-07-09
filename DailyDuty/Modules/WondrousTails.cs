@@ -289,15 +289,16 @@ internal static class TaskLookup {
 					9 => [ 748, 749, 750, 751 ],
 					10 => [ 798, 799, 800, 801 ],
                     
-					> 10 => Service.DataManager.GetExcelSheet<ContentFinderCondition>(ClientLanguage.English)!
-						.Where(row => row.ContentType.Row is 5)
-						.Where(row => row.ContentMemberType.Row is 3)
-						.Where(row => !row.Name.ToDalamudString().TextValue.Contains("Savage"))
-						.Where(row => row.ItemLevelRequired >= 425)
-						.OrderBy(row => row.SortKey)
-						.Select(row => row.TerritoryType.Row)
-						.ToArray()[raidIndex..(raidIndex + 2)]
-						.ToList(),
+					// Temporarily Disabled
+					// > 10 => Service.DataManager.GetExcelSheet<ContentFinderCondition>(ClientLanguage.English)!
+					// 	.Where(row => row.ContentType.Row is 5)
+					// 	.Where(row => row.ContentMemberType.Row is 3)
+					// 	.Where(row => !row.Name.ToDalamudString().TextValue.Contains("Savage"))
+					// 	.Where(row => row.ItemLevelRequired >= 425)
+					// 	.OrderBy(row => row.SortKey)
+					// 	.Select(row => row.TerritoryType.Row)
+					// 	.ToArray()[raidIndex..(raidIndex + 2)]
+					// 	.ToList(),
                     
 					_ => [],
 				};
