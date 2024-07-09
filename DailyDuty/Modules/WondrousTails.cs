@@ -288,18 +288,51 @@ internal static class TaskLookup {
 					8 => [ 691, 692, 693, 694 ],
 					9 => [ 748, 749, 750, 751 ],
 					10 => [ 798, 799, 800, 801 ],
-                    
-					// Temporarily Disabled
-					// > 10 => Service.DataManager.GetExcelSheet<ContentFinderCondition>(ClientLanguage.English)!
-					// 	.Where(row => row.ContentType.Row is 5)
-					// 	.Where(row => row.ContentMemberType.Row is 3)
-					// 	.Where(row => !row.Name.ToDalamudString().TextValue.Contains("Savage"))
-					// 	.Where(row => row.ItemLevelRequired >= 425)
-					// 	.OrderBy(row => row.SortKey)
-					// 	.Select(row => row.TerritoryType.Row)
-					// 	.ToArray()[raidIndex..(raidIndex + 2)]
-					// 	.ToList(),
-                    
+
+					// Eden's Gate: Resurrection or Descent
+					11 => [ 849, 850 ],
+					// Eden's Gate: Inundation or Sepulture
+					12 => [ 851, 852 ],
+					// Eden's Verse: Fulmination or Furor
+					13 => [ 902, 903 ],
+					// Eden's Verse: Iconoclasm or Refulgence
+					14 => [ 904, 905 ],
+					// Eden's Promise: Umbra or Litany
+					15 => [ 942, 943 ],
+					// Eden's Promise: Anamorphosis or Eternity
+					16 => [ 944, 945 ],
+
+					// Asphodelos: First or Second Circles
+					17 => [ 1002, 1004 ],
+					// Asphodelos: Third or Fourth Circles
+					18 => [ 1006, 1008 ],
+					// Abyssos: Fifth or Sixth Circles
+					19 => [ 1081, 1083 ],
+					// Abyssos: Seventh or Eight Circles
+					20 => [ 1085, 1087 ],
+					// Anabaseios: Ninth or Tenth Circles
+					21 => [ 1147, 1149 ],
+					// Anabaseios: Eleventh or Twelwth Circles
+					22 => [ 1151, 1153 ],
+
+					// Eden's Gate
+					23 => [ 849, 850, 851, 852 ],
+					// Eden's Verse
+					24 => [ 902, 903, 904, 905 ],
+					// Eden's Promise
+					25 => [ 942, 943, 944, 945 ],
+
+					// Alliance Raids (A Realm Reborn)
+					26 => [ 174, 372, 151 ],
+					// Alliance Raids (Heavensward)
+					27 => [ 508, 556, 627 ],
+					// Alliance Raids (Stormblood)
+					28 => [ 734, 776, 826 ],
+					// Alliance Raids (Shadowbringers)
+					29 => [ 882, 917, 966 ],
+					// Alliance Raids (Endwalker)
+					30 => [ 1054, 1118, 1178 ],
+
 					_ => [],
 				};
 		}
