@@ -32,8 +32,6 @@ public unsafe class TimersController : NativeUiOverlayController {
 		timerNodes = [];
 		
 		foreach (var module in System.ModuleController.Modules) {
-			Service.Log.Debug($"{module.ModuleName}-{(uint)module.ModuleName}");
-			
 			var newTimerNode = new TimerNode(400000 + (uint) module.ModuleName) {
 				Module = module,
 			};
