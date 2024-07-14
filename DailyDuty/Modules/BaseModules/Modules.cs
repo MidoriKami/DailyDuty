@@ -68,6 +68,8 @@ public static class Modules {
         protected override void UpdateTaskData() {
             IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
             TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+            System.TodoListController.Refresh();
+            System.TimersController.Refresh();
         }
     }
 
@@ -81,6 +83,8 @@ public static class Modules {
         protected override void UpdateTaskData() {
             IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
             TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+            System.TodoListController.Refresh();
+            System.TimersController.Refresh();
         }
     }
 
@@ -94,6 +98,8 @@ public static class Modules {
         protected override void UpdateTaskData() {
             IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
             TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
+            System.TodoListController.Refresh();
+            System.TimersController.Refresh();
         }
     }
     
