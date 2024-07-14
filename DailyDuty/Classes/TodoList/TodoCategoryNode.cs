@@ -116,7 +116,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
     
 	public void Refresh() {
 		IsVisible = CategoryConfig.Enabled;
-
+		
 		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
 		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
 		headerTextNode.FontSize = CategoryConfig.HeaderFontSize;
@@ -152,6 +152,10 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 		}
 		else {
 			Size = minSize;
+		}
+		
+		if (CategoryConfig.LayoutAnchor is LayoutAnchor.BottomRight or LayoutAnchor.TopRight) {
+			headerTextNode.X = Width - headerTextNode.Width;
 		}
 	}
 }
