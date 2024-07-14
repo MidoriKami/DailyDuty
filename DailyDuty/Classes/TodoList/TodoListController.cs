@@ -5,6 +5,7 @@ using DailyDuty.Modules;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit;
 using KamiToolKit.Classes;
@@ -12,8 +13,17 @@ using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes.TodoList;
 
-public unsafe class TodoListController() : NativeUiOverlayController(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
+public unsafe class TodoListController : NativeUiOverlayController {
 	private ListNode<TodoCategoryNode>? todoListNode;
+
+	public TodoListController() : base(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
+		System.CommandManager.RegisterCommand(new ToggleCommandHandler {
+			DisableDelegate = _ => System.TodoConfig.Enabled = false,
+			EnableDelegate = _ => System.TodoConfig.Enabled = true,
+			ToggleDelegate = _ => System.TodoConfig.Enabled = !System.TodoConfig.Enabled,
+			BaseActivationPath = "/todo/",
+		});
+	}
 
 	protected override void LoadConfig() {
 		System.TodoConfig = TodoConfig.Load();

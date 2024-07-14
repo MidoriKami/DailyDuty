@@ -7,7 +7,7 @@ namespace DailyDuty.Models;
 
 public class TimersConfig {
 
-	// Currently no per-player module settings
+	public bool Enabled = false;
 	
 	public static TimersConfig Load() 
 		=> Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "Timers.config.json", () => new TimersConfig());

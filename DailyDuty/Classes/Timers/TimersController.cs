@@ -6,15 +6,25 @@ using DailyDuty.Localization;
 using DailyDuty.Models;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit;
 using KamiToolKit.Classes;
 
 namespace DailyDuty.Classes.Timers;
 
-public unsafe class TimersController() : NativeUiOverlayController(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
+public unsafe class TimersController : NativeUiOverlayController {
 	private List<TimerNode>? timerNodes;
-	
+
+	public TimersController() : base(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
+		System.CommandManager.RegisterCommand(new ToggleCommandHandler {
+			DisableDelegate = _ => System.TimersConfig.Enabled = false,
+			EnableDelegate = _ => System.TimersConfig.Enabled = true,
+			ToggleDelegate = _ => System.TimersConfig.Enabled = !System.TodoConfig.Enabled,
+			BaseActivationPath = "/todo/",
+		});
+	}
+
 	protected override void LoadConfig()
 		=> System.TimersConfig = TimersConfig.Load();
 
@@ -122,6 +132,8 @@ public unsafe class TimersController() : NativeUiOverlayController(Service.Addon
 	}
 
 	private bool ShouldShow(TimerNode timerNode) {
+		if (!System.TimersConfig.Enabled) return false;
+		
 		var module = timerNode.Module;
 		var config = module.GetTimerConfig();
 		
