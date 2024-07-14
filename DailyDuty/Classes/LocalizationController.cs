@@ -6,8 +6,7 @@ namespace DailyDuty.Classes;
 
 public class LocalizationController : IDisposable {
     public LocalizationController() {
-        Strings.Culture = new CultureInfo(Service.PluginInterface.UiLanguage);
-
+        OnLanguageChange(Service.PluginInterface.UiLanguage);
         Service.PluginInterface.LanguageChanged += OnLanguageChange;
     }
     
