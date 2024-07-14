@@ -99,6 +99,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 			node.BarBackgroundColor = timerConfig.BarBackgroundColor;
 			node.LabelVisible = !timerConfig.HideName;
 			node.TimeVisible = !timerConfig.HideTime;
+			node.Tooltip = module.TooltipText;
 
 			UpdateTimeNode(node);
 			
