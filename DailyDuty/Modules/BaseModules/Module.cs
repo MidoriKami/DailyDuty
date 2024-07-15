@@ -125,6 +125,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
             if (ImGui.Button(Strings.Snooze, new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
                 Config.Suppressed = true;
+                ConfigChanged = true;
             }
 
             using (ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
