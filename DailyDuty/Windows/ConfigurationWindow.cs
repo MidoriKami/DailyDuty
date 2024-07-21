@@ -23,6 +23,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     
     protected override List<ITabItem> Tabs { get; } = [
         new TodoConfigTab(),
+        new TimersConfigTab(),
     ];
     
     protected override List<Module> Options => System.ModuleController.Modules;
@@ -36,7 +37,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     protected override bool FilterOptions(Module option)
         => !System.SystemConfig.HideDisabledModules || option.IsEnabled;
 
-    public ConfigurationWindow() : base("DailyDuty - Configuration Window", new Vector2(1000.0f, 400.0f)) {
+    public ConfigurationWindow() : base("DailyDuty - Configuration Window", new Vector2(1000.0f, 500.0f)) {
         TitleBarButtons.Add(new TitleBarButton {
             Click = _ => System.WindowManager.AddWindow(new ConfigurationManagerWindow(), WindowFlags.OpenImmediately),
             Icon = FontAwesomeIcon.Cog,
@@ -103,32 +104,48 @@ public class TodoConfigTab : ITabItem {
     public string Name => "Todo List";
     
     public bool Disabled => false;
-
     
     public void Draw() {
         var configChanged = false;
-        
-        using var table = ImRaii.Table("todo_config_table", 4, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.Resizable);
-        if (!table) return;
 
-        ImGui.TableNextColumn();
-        using (ImRaii.Child("main_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-            configChanged |= DrawMainConfig();
-        }
-
-        ImGui.TableNextColumn();
-        using (ImRaii.Child("daily_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-            configChanged |= DrawCategory(ModuleType.Daily);
-        }
-        
-        ImGui.TableNextColumn();
-        using (ImRaii.Child("weekly_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-            configChanged |= DrawCategory(ModuleType.Weekly);
-        }
-        
-        ImGui.TableNextColumn();
-        using (ImRaii.Child("special_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-            configChanged |= DrawCategory(ModuleType.Special);
+        using (var tabBar = ImRaii.TabBar("todo_tab_bar")) {
+            if (tabBar) {
+                using (var masterTab = ImRaii.TabItem("General")) {
+                    if (masterTab) {
+                        using var tabChild = ImRaii.Child("tab_child");
+                        if (tabChild) {
+                            configChanged |= DrawMainConfig();
+                        }
+                    }
+                }
+                
+                using (var dailyTab = ImRaii.TabItem("Daily")) {
+                    if (dailyTab) {
+                        using var tabChild = ImRaii.Child("tab_child");
+                        if (tabChild) {
+                            configChanged |= DrawCategory(ModuleType.Daily);
+                        }
+                    }
+                }
+                
+                using (var weeklyTab = ImRaii.TabItem("Weekly")) {
+                    if (weeklyTab) {
+                        using var tabChild = ImRaii.Child("tab_child");
+                        if (tabChild) {
+                            configChanged |= DrawCategory(ModuleType.Weekly);
+                        }
+                    }
+                }
+                
+                using (var specialTab = ImRaii.TabItem("Special")) {
+                    if (specialTab) {
+                        using var tabChild = ImRaii.Child("tab_child");
+                        if (tabChild) {
+                            configChanged |= DrawCategory(ModuleType.Special);
+                        }
+                    }
+                }
+            }
         }
         
         if (configChanged) {
@@ -155,13 +172,13 @@ public class TodoConfigTab : ITabItem {
         ImGuiHelpers.ScaledDummy(5.0f);
         using (ImRaii.PushIndent()) {
             ImGui.Text("Position");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGui.DragFloat2(Strings.Position, ref System.TodoConfig.Position, 5.0f);
             
             ImGuiHelpers.ScaledDummy(5.0f);
             
             ImGui.Text("Size");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGui.DragFloat2("Size", ref System.TodoConfig.Size, 5.0f);
         }
         
@@ -222,7 +239,7 @@ public class TodoConfigTab : ITabItem {
             
             ImGuiHelpers.ScaledDummy(5.0f);
             ImGui.Text("Category Spacing");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGui.DragFloat4("Category Spacing", ref config.CategoryMargin, 0.05f);
         }
         
@@ -236,8 +253,13 @@ public class TodoConfigTab : ITabItem {
 
             ImGuiHelpers.ScaledDummy(5.0f);
             ImGui.Text("Header Font Size");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGuiTweaks.SliderUint(Strings.HeaderSize, ref config.HeaderFontSize, 1, 64);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.Checkbox(Strings.EnableCustomStatusMessage, ref config.UseCustomLabel);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
+            configChanged |= ImGui.InputTextWithHint("##CustomStatusMessage", Strings.StatusMessage, ref config.CustomLabel, 1024);
             
             ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderColor, ref config.HeaderTextColor, KnownColor.White.Vector());
@@ -253,12 +275,12 @@ public class TodoConfigTab : ITabItem {
 
             ImGuiHelpers.ScaledDummy(5.0f);
             ImGui.Text("Module Font Size");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGuiTweaks.SliderUint(Strings.FontSize, ref config.ModuleFontSize, 1, 64);
             
             ImGuiHelpers.ScaledDummy(5.0f);
             ImGui.Text("Module Spacing");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGui.DragFloat4("Module Spacing", ref config.ModuleMargin, 0.05f);
             
             ImGuiHelpers.ScaledDummy(5.0f);
@@ -267,5 +289,31 @@ public class TodoConfigTab : ITabItem {
         }
         
         return configChanged;
+    }
+}
+
+public class TimersConfigTab : ITabItem {
+    public string Name => "Timers";
+    public bool Disabled => false;
+    public void Draw() {
+        var configChanged = false;
+
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.TextUnformatted("Timers Config");
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TimersConfig.Enabled);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+
+            configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TimersConfig.HideInDuties);
+            configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TimersConfig.HideInQuestEvents);
+        }
+        
+        if (configChanged) {
+            System.TimersConfig.Save();
+            System.TimersController.Refresh();
+        }
     }
 }

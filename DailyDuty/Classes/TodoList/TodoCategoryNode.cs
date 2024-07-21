@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using DailyDuty.Localization;
 using DailyDuty.Models;
@@ -115,12 +116,12 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 	}
     
 	public void Refresh() {
-		IsVisible = CategoryConfig.Enabled;
+		IsVisible = CategoryConfig.Enabled && taskListNode.Any(nodes => nodes is { Module: {ModuleStatus: not ModuleStatus.Complete, IsEnabled: true }});
 		
 		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
 		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
 		headerTextNode.FontSize = CategoryConfig.HeaderFontSize;
-		headerTextNode.Text = CategoryConfig.HeaderLabel;
+		headerTextNode.Text = CategoryConfig.UseCustomLabel ? CategoryConfig.CustomLabel : CategoryConfig.HeaderLabel;
 		headerTextNode.TextFlags = GetHeaderFlags();
 		headerTextNode.IsVisible = CategoryConfig.ShowHeader;
 		

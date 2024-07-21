@@ -9,6 +9,9 @@ public class TimersConfig {
 
 	public bool Enabled = false;
 	
+	public bool HideInDuties = true;
+	public bool HideInQuestEvents = true;
+	
 	public static TimersConfig Load() 
 		=> Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "Timers.config.json", () => new TimersConfig());
 
@@ -26,6 +29,6 @@ public class TimerConfig {
 	public bool HideName = false;
 	public bool HideTime = false;
 	public bool HideSeconds = false;
-	public bool HideInDuties = true;
-	public bool HideInQuestEvents = true;
+	public bool UseCustomLabel = false;
+	public string CustomLabel = string.Empty;
 }

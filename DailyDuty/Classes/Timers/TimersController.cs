@@ -91,7 +91,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 			var module = node.Module;
 			var timerConfig = module.GetTimerConfig();
 
-			node.ModuleName = module.ModuleName.GetDescription(Strings.ResourceManager);
+			node.ModuleName = timerConfig.UseCustomLabel ? timerConfig.CustomLabel : module.ModuleName.GetDescription(Strings.ResourceManager);
 			node.Size = timerConfig.Size;
 			node.Position = timerConfig.Position;
 			node.Scale = new Vector2(0.80f);
@@ -132,6 +132,8 @@ public unsafe class TimersController : NativeUiOverlayController {
 
 	private bool ShouldShow(TimerNode timerNode) {
 		if (!System.TimersConfig.Enabled) return false;
+		if (System.TimersConfig.HideInDuties && Service.Condition.IsBoundByDuty()) return false;
+		if (System.TimersConfig.HideInQuestEvents && Service.Condition.IsInQuestEvent()) return false;
 		
 		var module = timerNode.Module;
 		var config = module.GetTimerConfig();
@@ -139,8 +141,6 @@ public unsafe class TimersController : NativeUiOverlayController {
 		if (!module.IsEnabled) return false;
 		if (!config.TimerEnabled) return false;
 		if (config.HideWhenComplete && module.ModuleStatus is ModuleStatus.Complete) return false;
-		if (config.HideInDuties && Service.Condition.IsBoundByDuty()) return false;
-		if (config.HideInQuestEvents && Service.Condition.IsInQuestEvent()) return false;
 
 		return true;
 	}

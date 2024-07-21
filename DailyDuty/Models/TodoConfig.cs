@@ -25,6 +25,9 @@ public class CategoryConfig {
     public uint ModuleFontSize = 12;
     public uint HeaderFontSize = 24;
 
+    public bool UseCustomLabel = false;
+    public string CustomLabel = string.Empty;
+
     public Vector4 CategoryMargin = new(5.0f);
     public Vector4 ModuleMargin = new(1.0f);
     
