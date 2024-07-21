@@ -38,7 +38,7 @@ public class LevequestConfig : ModuleConfig {
         var configChanged = false;
 
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        configChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode, Strings.ResourceManager);
+        configChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
 
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
         configChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 0, 100);

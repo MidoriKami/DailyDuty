@@ -1,5 +1,4 @@
-﻿using DailyDuty.Localization;
-using DailyDuty.Models;
+﻿using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
@@ -40,7 +39,7 @@ public class TodoTaskNode : TextNode {
 			MouseClick = null;
 		}
 		
-		Text = ModuleConfig.UseCustomTodoLabel ? ModuleConfig.CustomTodoLabel : Module.ModuleName.GetDescription(Strings.ResourceManager);
+		Text = ModuleConfig.UseCustomTodoLabel ? ModuleConfig.CustomTodoLabel : Module.ModuleName.GetDescription();
 
 		if (Module.HasTooltip) {
 			Tooltip = Module.TooltipText;

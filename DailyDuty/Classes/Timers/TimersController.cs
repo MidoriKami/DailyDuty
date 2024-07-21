@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -21,7 +20,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 			DisableDelegate = _ => System.TimersConfig.Enabled = false,
 			EnableDelegate = _ => System.TimersConfig.Enabled = true,
 			ToggleDelegate = _ => System.TimersConfig.Enabled = !System.TodoConfig.Enabled,
-			BaseActivationPath = "/todo/",
+			BaseActivationPath = "/timers/",
 		});
 	}
 
@@ -91,7 +90,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 			var module = node.Module;
 			var timerConfig = module.GetTimerConfig();
 
-			node.ModuleName = timerConfig.UseCustomLabel ? timerConfig.CustomLabel : module.ModuleName.GetDescription(Strings.ResourceManager);
+			node.ModuleName = timerConfig.UseCustomLabel ? timerConfig.CustomLabel : module.ModuleName.GetDescription();
 			node.Size = timerConfig.Size;
 			node.Position = timerConfig.Position;
 			node.Scale = new Vector2(0.80f);

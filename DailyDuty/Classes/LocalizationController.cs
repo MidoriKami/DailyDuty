@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using DailyDuty.Localization;
+using KamiLib.Extensions;
 
 namespace DailyDuty.Classes;
 
@@ -8,6 +9,9 @@ public class LocalizationController : IDisposable {
     public LocalizationController() {
         OnLanguageChange(Service.PluginInterface.UiLanguage);
         Service.PluginInterface.LanguageChanged += OnLanguageChange;
+
+        EnumExtensions.GetCultureInfoFunc = () => Strings.Culture;
+        EnumExtensions.GetResourceManagerFunc = () => Strings.ResourceManager;
     }
     
     public void Dispose() {

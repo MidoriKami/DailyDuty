@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules;
 using Dalamud.Interface;
@@ -71,7 +70,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 				FontSize = CategoryConfig.ModuleFontSize,
 				FontType = FontType.Axis, 
 				TextFlags = TextFlags.AutoAdjustNodeSize,
-				Text = module.ModuleName.GetDescription(Strings.ResourceManager),
+				Text = module.ModuleName.GetDescription(),
 				IsVisible = module is { IsEnabled: true, ModuleStatus: ModuleStatus.Incomplete },
 
 				Module = module,

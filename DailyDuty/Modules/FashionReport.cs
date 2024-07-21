@@ -43,7 +43,7 @@ public class FashionReportConfig : ModuleConfig {
 		var configChanged = false;
 
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		configChanged |= ImGuiTweaks.EnumCombo(Strings.CompletionMode, ref CompletionMode, Strings.ResourceManager);
+		configChanged |= ImGuiTweaks.EnumCombo(Strings.CompletionMode, ref CompletionMode);
 		configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 
 		return configChanged;

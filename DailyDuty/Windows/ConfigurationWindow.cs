@@ -52,7 +52,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     }
 
     protected override void DrawListOption(Module option) {
-        ImGui.Text(option.ModuleName.GetDescription(Strings.ResourceManager));
+        ImGui.Text(option.ModuleName.GetDescription());
         
         ImGui.SameLine(ImGui.GetContentRegionAvail().X- 10.0f * ImGuiHelpers.GlobalScale);
         using var _ = Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle.Push();
@@ -189,7 +189,7 @@ public class TodoConfigTab : ITabItem {
         using (ImRaii.PushIndent()) {
             
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref System.TodoConfig.Anchor, Strings.ResourceManager);
+            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref System.TodoConfig.Anchor);
             
             ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGui.Checkbox("Single Line", ref System.TodoConfig.SingleLine);
@@ -218,7 +218,7 @@ public class TodoConfigTab : ITabItem {
         var configChanged = false;
 
         ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted($"{type.GetDescription(Strings.ResourceManager)} Config");
+        ImGui.TextUnformatted($"{type.GetDescription()} Config");
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
         using (ImRaii.PushIndent()) {
@@ -231,7 +231,7 @@ public class TodoConfigTab : ITabItem {
         ImGuiHelpers.ScaledDummy(5.0f);
         using (ImRaii.PushIndent()) {
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref config.LayoutAnchor, Strings.ResourceManager);
+            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref config.LayoutAnchor);
             ImGuiHelpers.ScaledDummy(5.0f);
 
             configChanged |= ImGui.Checkbox(Strings.EnableOutline, ref config.Edge);
