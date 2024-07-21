@@ -115,7 +115,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 	}
     
 	public void Refresh() {
-		IsVisible = CategoryConfig.Enabled && taskListNode.Any(nodes => nodes is { Module: {ModuleStatus: not ModuleStatus.Complete, IsEnabled: true }});
+		IsVisible = CategoryConfig.Enabled && taskListNode.Any(nodes => nodes is { Module: {ModuleStatus: not (ModuleStatus.Complete or ModuleStatus.Suppressed), IsEnabled: true }});
 		
 		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
 		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
