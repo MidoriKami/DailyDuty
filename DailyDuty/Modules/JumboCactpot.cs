@@ -58,7 +58,7 @@ public unsafe class JumboCactpot : Modules.Special<JumboCactpotData, JumboCactpo
 	}
 
 	public override TimeSpan GetModulePeriod()
-		=> TimeSpan.FromDays(3);
+		=> TimeSpan.FromDays(7);
 
 	public override bool HasClickableLink => Config.ClickableLink;
 	
