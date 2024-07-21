@@ -3,7 +3,6 @@ using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
-using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface.Utility;

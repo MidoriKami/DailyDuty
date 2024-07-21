@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
 using DailyDuty.Modules;
-using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using KamiLib.Configuration;
 using KamiToolKit.Nodes;

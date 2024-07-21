@@ -2,7 +2,6 @@
 using DailyDuty.Models;
 using Lumina.Excel.GeneratedSheets;
 using DailyDuty.Localization;
-using DailyDuty.Modules.BaseModules;
 using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 
 namespace DailyDuty.Modules;
