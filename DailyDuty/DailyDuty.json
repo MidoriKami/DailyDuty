@@ -1,15 +1,9 @@
 {
   "Author": "MidoriKami",
-  "Name": "Daily Duty",
+  "Name": "DailyDuty",
   "Punchline": "Easily Track Daily and Weekly tasks",
   "Description": "Automatically track and complete many daily and weekly tasks.",
-  "Tags": [
-    "utility"
-  ],
-  "CategoryTags": [
-    "Utility",
-    "Other"
-  ],
+  "Tags": [    "utility", "gil", "tasks", "dailies", "tracking", "todo"   ],
   "InternalName": "dailyduty",
   "RepoUrl": "https://github.com/MidoriKami/DailyDuty",
   "AcceptsFeedback": false
