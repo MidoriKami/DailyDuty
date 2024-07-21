@@ -140,7 +140,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 		
 		if (!module.IsEnabled) return false;
 		if (!config.TimerEnabled) return false;
-		if (config.HideWhenComplete && module.ModuleStatus is ModuleStatus.Complete) return false;
+		if (config.HideWhenComplete && module.ModuleStatus is ModuleStatus.Complete or ModuleStatus.Unavailable) return false;
 
 		return true;
 	}
