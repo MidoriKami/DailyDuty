@@ -177,6 +177,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     
     public override void Update() {
         if (DataChanged || ConfigChanged) {
+            UpdateTaskLists();
             UpdateTaskData();
             UpdateOverlays();
         }

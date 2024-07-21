@@ -41,6 +41,13 @@ public class TodoTaskNode : TextNode {
 		}
 		
 		Text = ModuleConfig.UseCustomTodoLabel ? ModuleConfig.CustomTodoLabel : Module.ModuleName.GetDescription(Strings.ResourceManager);
+
+		if (Module.HasTooltip) {
+			Tooltip = Module.TooltipText;
+		}
+		else {
+			Tooltip = null;
+		}
 	}
 	
 	private TextFlags GetModuleFlags() {
