@@ -268,10 +268,7 @@ internal static class TaskLookup {
             
 			// Multi-instance raids
 			case 4:
-				var raidIndex = (int)(bingoOrderData.Data - 11) * 2;
-                
-				return bingoOrderData.Data switch
-				{
+				return bingoOrderData.Data switch {
 					// Binding Coil, Second Coil, Final Coil
 					2 => [ 241, 242, 243, 244, 245 ],
 					3 => [ 355, 356, 357, 358 ],
