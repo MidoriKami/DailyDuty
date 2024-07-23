@@ -108,6 +108,7 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     
     private void OnContentFinderUpdate(AddonEvent type, AddonArgs args) {
         if (!Config.ColorContentFinder) return;
+        if (!Config.ModuleEnabled) return;
         
         var addon = (AddonContentsFinder*) args.Addon;
 
