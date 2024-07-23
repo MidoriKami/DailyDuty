@@ -7,16 +7,21 @@ using DailyDuty.Localization;
 using DailyDuty.Models;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
+using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
+using Dalamud.Utility;
 using Dalamud.Utility.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib.Classes;
+using KamiToolKit.Classes;
+using KamiToolKit.Nodes;
 using Lumina.Excel.GeneratedSheets;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
+using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
 namespace DailyDuty.Modules;
 
@@ -69,15 +74,38 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
 
     public override bool HasTooltip => true;
 
+    private TextNode? infoTextNode;
+
     public DutyRoulette() {
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "ContentsFinder", OnContentFinderSetup);
         Service.AddonLifecycle.RegisterListener(AddonEvent.PostRequestedUpdate, "ContentsFinder", OnContentFinderUpdate);
         Service.AddonLifecycle.RegisterListener(AddonEvent.PostRefresh, "ContentsFinder", OnContentFinderUpdate);
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "ContentsFinder", OnContentFinderFinalize);
     }
 
     public override void Dispose() {
-        Service.AddonLifecycle.UnregisterListener(OnContentFinderUpdate);
+        Service.AddonLifecycle.UnregisterListener(OnContentFinderSetup, OnContentFinderUpdate, OnContentFinderFinalize);
     }
 
+    private void OnContentFinderSetup(AddonEvent type, AddonArgs args) {
+        var addon = (AddonContentsFinder*) args.Addon;
+
+        var targetResNode = addon->GetNodeById(56);
+        if (targetResNode is null) return;
+
+        infoTextNode = new TextNode {
+            NodeID = 1000,
+            X = 16.0f,
+            Y = targetResNode->GetYFloat() + 2.0f, 
+            TextFlags = TextFlags.AutoAdjustNodeSize,
+            AlignmentType = AlignmentType.TopLeft,
+            Text = GetHintText(),
+            Tooltip = "Feature from DailyDuty Plugin",
+        };
+        
+        System.NativeController.AttachToAddon(infoTextNode, (AtkUnitBase*) addon, targetResNode, NodePosition.AfterTarget);
+    }
+    
     private void OnContentFinderUpdate(AddonEvent type, AddonArgs args) {
         if (!Config.ColorContentFinder) return;
         
@@ -88,6 +116,8 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         
         var treeListComponent = (AtkComponentTreeList*) treeListComponentNode->Component;
         if (treeListComponent is null) return;
+
+        var anyRecolored = false;
 
         foreach (var listItem in treeListComponent->Items) {
             var listItemTextNode = listItem.Value->Renderer->ButtonTextNode;
@@ -106,14 +136,41 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
                     else {
                         listItemTextNode->TextColor = Config.IncompleteColor.ToByteColor();
                     }
+
+                    anyRecolored = true;
                 }
             }
             else {
                 listItemTextNode->TextColor = levelTextNode->TextColor;
             }
         }
+
+        if (infoTextNode is not null) {
+            infoTextNode.IsVisible = anyRecolored;
+            infoTextNode.Text = GetHintText();
+        }
     }
     
+    private void OnContentFinderFinalize(AddonEvent type, AddonArgs args) {
+        if (infoTextNode is null) return;
+        
+        System.NativeController.DetachFromAddon(infoTextNode, (AtkUnitBase*) args.Addon);
+        infoTextNode.Dispose();
+        infoTextNode = null;
+    }
+
+    private SeString GetHintText()
+        => new SeStringBuilder()
+            .PushColorRgba(Config.IncompleteColor)
+            .Append("Incomplete Task")
+            .PopColor()
+            .Append("        ")
+            .PushColorRgba(Config.CompleteColor)
+            .Append("Complete Task")
+            .PopColor()
+            .ToSeString()
+            .ToDalamudString();
+
     protected override void UpdateTaskLists() {
         var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.RawString != string.Empty);
         luminaUpdater.UpdateConfig(Config.TaskConfig);
