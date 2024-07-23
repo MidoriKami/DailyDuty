@@ -51,7 +51,7 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
 
         configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
         configChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
-        configChanged |= ImGui.Checkbox("Color Content Finder", ref ColorContentFinder);
+        configChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
 
         if (ColorContentFinder) {
             ImGuiHelpers.ScaledDummy(5.0f);
