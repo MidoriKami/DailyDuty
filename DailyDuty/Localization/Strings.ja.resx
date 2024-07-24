@@ -125,7 +125,7 @@
         <value>ノーマルレイド</value>
     </data>
   <data name="TribalQuests" xml:space="preserve">
-        <value>友好部族クエスト</value>
+        <value>ソサエティクエスト</value>
     </data>
   <data name="WondrousTails" xml:space="preserve">
         <value>クロの空想帳</value>
