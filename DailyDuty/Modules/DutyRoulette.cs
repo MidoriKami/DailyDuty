@@ -107,6 +107,10 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     }
     
     private void OnContentFinderUpdate(AddonEvent type, AddonArgs args) {
+        if (infoTextNode is not null) {
+            infoTextNode.IsVisible = false;
+        }
+        
         if (!Config.ColorContentFinder) return;
         if (!Config.ModuleEnabled) return;
         
