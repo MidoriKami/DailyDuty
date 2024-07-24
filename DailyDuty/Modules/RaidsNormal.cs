@@ -11,7 +11,7 @@ public class RaidsNormal : RaidsBase {
 	public override ModuleName ModuleName => ModuleName.RaidsNormal;
 
 	protected override void UpdateTaskLists() {
-		CheckForDutyListUpdate(Service.DataManager.GetLimitedSavageDuties().ToList());
+		CheckForDutyListUpdate(Service.DataManager.GetLimitedNormalRaidDuties().ToList());
 	}
 
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderRaid;
