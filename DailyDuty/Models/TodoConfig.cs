@@ -31,9 +31,14 @@ public class CategoryConfig {
     public Vector4 ModuleMargin = new(1.0f);
     
     public Vector4 HeaderTextColor = KnownColor.White.Vector();
-    public Vector4 HeaderTextOutline = KnownColor.Orange.Vector();
+    public Vector4 HeaderTextOutline = DefaultColors.DefaultHeaderOutlineColor;
     public Vector4 ModuleTextColor = KnownColor.White.Vector();
-    public Vector4 ModuleOutlineColor = KnownColor.Orange.Vector();
+    public Vector4 ModuleOutlineColor = DefaultColors.DefaultModuleOutlineColor;
+
+    public static class DefaultColors {
+        public static Vector4 DefaultHeaderOutlineColor = new Vector4(142, 106, 12, 255) / 255;
+        public static Vector4 DefaultModuleOutlineColor = new Vector4(10, 105, 146, 255) / 255;
+    }
 }
 
 public class TodoConfig {

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
+using DailyDuty.Models;
 using DailyDuty.Modules;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
@@ -263,7 +264,7 @@ public class TodoConfigTab : ITabItem {
             
             ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderColor, ref config.HeaderTextColor, KnownColor.White.Vector());
-            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderOutlineColor, ref config.HeaderTextOutline, KnownColor.Orange.Vector());
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderOutlineColor, ref config.HeaderTextOutline, CategoryConfig.DefaultColors.DefaultHeaderOutlineColor);
         }
         
         ImGuiHelpers.ScaledDummy(10.0f);
@@ -285,7 +286,7 @@ public class TodoConfigTab : ITabItem {
             
             ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleTextColor, ref config.ModuleTextColor, KnownColor.White.Vector());
-            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleOutlineColor, ref config.ModuleOutlineColor, KnownColor.Orange.Vector());
+            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleOutlineColor, ref config.ModuleOutlineColor, CategoryConfig.DefaultColors.DefaultModuleOutlineColor);
         }
         
         return configChanged;
