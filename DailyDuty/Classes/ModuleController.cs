@@ -4,8 +4,6 @@ using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.Modules;
 using DailyDuty.Modules.BaseModules;
-using Dalamud.Game.Text;
-using Dalamud.Game.Text.SeStringHandling;
 using KamiLib.Classes;
 
 namespace DailyDuty.Classes;
@@ -18,15 +16,11 @@ public class ModuleController : IDisposable {
     public ModuleController() {
         Modules = Reflection.ActivateOfType<Module>().ToList();
         goldSaucerMessageController = new GoldSaucerMessageController();
-
         goldSaucerMessageController.GoldSaucerUpdate += OnGoldSaucerMessage;
-        Service.Chat.ChatMessage += OnChatMessage;
     }
     
     public void Dispose() {
         goldSaucerMessageController.GoldSaucerUpdate -= OnGoldSaucerMessage;
-        Service.Chat.ChatMessage -= OnChatMessage;
-
         goldSaucerMessageController.Dispose();
 
         foreach (var module in Modules.OfType<IDisposable>()) {
@@ -80,12 +74,6 @@ public class ModuleController : IDisposable {
     private void OnGoldSaucerMessage(object? sender, GoldSaucerEventArgs e) {
         foreach (var module in Modules.OfType<IGoldSaucerMessageReceiver>()) {
             module.GoldSaucerUpdate(sender, e);
-        }
-    }
-
-    private void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled) {
-        foreach (var module in Modules.OfType<IChatMessageReceiver>()) {
-            module.OnChatMessage(type, timestamp, ref sender, ref message, ref isHandled);
         }
     }
 }

@@ -21,4 +21,5 @@ public sealed class Service {
     [PluginService] public static IGameInteropProvider Hooker { get; set; }
     [PluginService] public static IDataManager DataManager { get; set; }
     [PluginService] public static IAddonEventManager AddonEventManager { get; set; }
+    [PluginService] public static IGameInventory GameInventory { get; set; }
 }

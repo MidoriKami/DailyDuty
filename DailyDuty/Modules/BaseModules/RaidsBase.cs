@@ -3,9 +3,7 @@ using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
-using Dalamud.Game.Text;
-using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -25,16 +23,20 @@ public class RaidsConfig : ModuleTaskConfig<ContentFinderCondition> {
 	}
 }
 
-public interface IChatMessageReceiver {
-	void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled);
-}
-
-public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<ContentFinderCondition>, RaidsConfig, ContentFinderCondition>, IChatMessageReceiver {
+public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<ContentFinderCondition>, RaidsConfig, ContentFinderCondition> {
 	protected override ModuleStatus GetModuleStatus() => IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 	private static AgentContentsFinder* Agent => AgentContentsFinder.Instance();
 	
 	public override bool HasClickableLink => Config.ClickableLink;
-	
+
+	protected RaidsBase() {
+		Service.GameInventory.ItemAddedExplicit += OnItemAdded;
+	}
+
+	public override void Dispose() {
+		Service.GameInventory.ItemAddedExplicit -= OnItemAdded;
+	}
+
 	public override void Update() {
 		if (Agent is not null && Agent->IsAgentActive()) {
 			var selectedDuty = Agent->SelectedDutyId;
@@ -56,19 +58,14 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 		base.Reset();
 	}
 
-	public void OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled) {
-		// If message is a loot message
-		if (((int)type & 0x7F) != 0x3E) return;
-
-		// If we are in a zone that we are tracking
+	private void OnItemAdded(InventoryItemAddedArgs inventoryItemAddedArgs) {
+		// If we are not in a tracked zone, return
 		if (GetDataForCurrentZone() is not { } trackedRaid) return;
 
-		// If the message does NOT contain a player payload
-		if (message.Payloads.FirstOrDefault(p => p is PlayerPayload) is PlayerPayload) return;
+		// If we can't get the exd data for this item, return
+		if (Service.DataManager.GetExcelSheet<Item>()?.GetRow(inventoryItemAddedArgs.Item.ItemId) is not { } item) return;
 
-		// If the message DOES contain an item
-		if (message.Payloads.FirstOrDefault(p => p is ItemPayload) is not ItemPayload { Item: { } item } ) return;
-
+		// If the item is a limited type that we care about, increment the current count
 		switch (item.ItemUICategory.Row) {
 			case 34: // Head
 			case 35: // Body
