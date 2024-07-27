@@ -222,9 +222,11 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         SendResetMessage();
         
         Data.NextReset = GetNextReset();
+        DataChanged = true;
         SaveData();
         
         Config.Suppressed = false;
+        ConfigChanged = true;
         SaveConfig();
     }
 
