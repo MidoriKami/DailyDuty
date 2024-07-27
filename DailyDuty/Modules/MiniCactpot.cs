@@ -35,22 +35,22 @@ public unsafe class MiniCactpot : Modules.Daily<MiniCactpotData, MiniCactpotConf
     public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
 
     public override void Load() {
-            base.Load();
+        base.Load();
         
-            Service.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
-        }
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
+    }
 
     public override void Unload() {
-            base.Unload();
+        base.Unload();
         
-            Service.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
-        }
+        Service.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
+    }
 
     public override void Reset() {
-            Data.AllowancesRemaining = 3;
+        Data.AllowancesRemaining = 3;
         
-            base.Reset();
-        }
+        base.Reset();
+    }
 
     protected override ModuleStatus GetModuleStatus() 
         => Data.AllowancesRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
