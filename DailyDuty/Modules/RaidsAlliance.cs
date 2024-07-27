@@ -11,7 +11,7 @@ public class RaidsAlliance : RaidsBase {
 	public override ModuleName ModuleName => ModuleName.RaidsAlliance;
     
 	protected override void UpdateTaskLists() {
-		CheckForDutyListUpdate(Service.DataManager.GetLimitedAllianceDuties().ToList());
+		CheckForDutyListUpdate(Service.DataManager.GetLimitedAllianceRaidDuties().ToList());
 	}
 	
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderAllianceRaid;
