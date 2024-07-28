@@ -66,6 +66,8 @@ public abstract class Module : IDisposable {
     protected virtual void UpdateTaskLists() { }
 
     public abstract TimerConfig GetTimerConfig();
+    
+    public virtual bool ShouldReset() => DateTime.UtcNow >= GetNextReset();
 }
 
 public abstract class Module<T, TU> : Module where T : ModuleData, new() where TU : ModuleConfig, new() {
@@ -101,7 +103,6 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         ImGui.TextUnformatted(Strings.CurrentStatus);
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
-        
         using (var _ = ImRaii.PushIndent()) {
            DrawModuleCurrentStatusUi();
         } 
@@ -167,12 +168,14 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         ImGui.TableNextColumn();
         ImGui.TextUnformatted(GetNextReset().ToLocalTime().ToString(CultureInfo.CurrentCulture));
 
-        ImGui.TableNextColumn();
-        ImGui.TextUnformatted(Strings.TimeRemaining);
-
-        ImGui.TableNextColumn();
         var timeRemaining = GetTimeRemaining();
-        ImGui.TextUnformatted($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
+        if (timeRemaining > TimeSpan.Zero) {
+            ImGui.TableNextColumn();
+            ImGui.TextUnformatted(Strings.TimeRemaining);
+
+            ImGui.TableNextColumn();
+            ImGui.TextUnformatted($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
+        }
     }
     
     public override void Update() {

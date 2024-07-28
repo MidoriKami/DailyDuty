@@ -59,7 +59,7 @@ public class ModuleController : IDisposable {
         var now = DateTime.UtcNow;
         
         foreach (var module in Modules) {
-            if (now >= module.GetNextReset()) {
+            if (module.ShouldReset()) {
                 module.Reset();
             }
         }

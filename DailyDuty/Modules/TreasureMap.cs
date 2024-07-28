@@ -28,7 +28,11 @@ public class TreasureMapData : ModuleData {
 public class TreasureMap : Modules.Special<TreasureMapData, TreasureMapConfig> {
 	public override ModuleName ModuleName => ModuleName.TreasureMap;
 
-	public override DateTime GetNextReset() => DateTime.MaxValue;
+	public override bool ShouldReset()
+		=> DateTime.UtcNow > Data.LastMapGatheredTime + TimeSpan.FromHours(18) && (Data.MapAvailable == false || Config.Suppressed);
+
+	public override DateTime GetNextReset()
+		=> Data.LastMapGatheredTime + TimeSpan.FromHours(18);
 
 	public override TimeSpan GetModulePeriod() => TimeSpan.FromHours(18);
 
