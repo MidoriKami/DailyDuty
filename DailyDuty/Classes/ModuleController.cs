@@ -71,9 +71,9 @@ public class ModuleController : IDisposable {
         }
     }
     
-    private void OnGoldSaucerMessage(object? sender, GoldSaucerEventArgs e) {
+    private void OnGoldSaucerMessage(GoldSaucerEventArgs e) {
         foreach (var module in Modules.OfType<IGoldSaucerMessageReceiver>()) {
-            module.GoldSaucerUpdate(sender, e);
+            module.GoldSaucerUpdate(e);
         }
     }
 }

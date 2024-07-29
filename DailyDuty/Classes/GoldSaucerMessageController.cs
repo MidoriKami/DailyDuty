@@ -17,7 +17,7 @@ public unsafe class GoldSaucerMessageController : IDisposable {
     [Signature("E8 ?? ?? ?? ?? EB 07 48 8D 9F", DetourName = nameof(ProcessNetworkPacket))] 
     private readonly Hook<GoldSaucerUpdateDelegate>? goldSaucerUpdateHook = null;
     
-    public event EventHandler<GoldSaucerEventArgs>? GoldSaucerUpdate;
+    public event Action<GoldSaucerEventArgs>? GoldSaucerUpdate;
     
     public GoldSaucerMessageController() {
         Service.Hooker.InitializeFromAttributes(this);
@@ -40,7 +40,7 @@ public unsafe class GoldSaucerMessageController : IDisposable {
             //                 $"A6: {new nint(data):X8}\n" +
             //                 $"A7: {eventID}");
             
-            GoldSaucerUpdate?.Invoke(this, new GoldSaucerEventArgs(data, eventId));
+            GoldSaucerUpdate?.Invoke(new GoldSaucerEventArgs(data, eventId));
         }, Service.Log);
 
         return goldSaucerUpdateHook!.Original(a1, a2, a3, a4, a5, data, eventId);

@@ -99,7 +99,7 @@ public unsafe class JumboCactpot : Modules.Special<JumboCactpotData, JumboCactpo
 		return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
 	}
     
-	public void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs data) {
+	public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
 		const int jumboCactpotBroker = 1010446;
 		if (Service.TargetManager.Target?.DataId != jumboCactpotBroker) return;
 		Data.Tickets.Clear();

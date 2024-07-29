@@ -101,7 +101,7 @@ public unsafe class FashionReport : Modules.Special<FashionReportData, FashionRe
 		PayloadId.GoldSaucerTeleport
 	);
     
-	public void GoldSaucerUpdate(object? sender, GoldSaucerEventArgs data) {
+	public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
 		const int maskedRoseId = 1025176;
 		if (Service.TargetManager.Target?.DataId != maskedRoseId) return;
 
