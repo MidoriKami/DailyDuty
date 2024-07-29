@@ -92,12 +92,12 @@ public unsafe class TimersController : NativeUiOverlayController {
 			node.ModuleName = timerConfig.UseCustomLabel ? timerConfig.CustomLabel : module.ModuleName.GetDescription();
 			node.Size = timerConfig.Size;
 			node.Position = timerConfig.Position;
-			node.Scale = new Vector2(0.80f);
 			node.BarColor = timerConfig.BarColor;
 			node.BarBackgroundColor = timerConfig.BarBackgroundColor;
 			node.LabelVisible = !timerConfig.HideName;
 			node.TimeVisible = !timerConfig.HideTime;
 			node.Tooltip = module.TooltipText;
+			node.Scale = new Vector2(timerConfig.Scale);
 
 			UpdateTimeNode(node);
 			

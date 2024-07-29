@@ -31,4 +31,5 @@ public class TimerConfig {
 	public bool HideSeconds = false;
 	public bool UseCustomLabel = false;
 	public string CustomLabel = string.Empty;
+	public float Scale = 0.80f;
 }

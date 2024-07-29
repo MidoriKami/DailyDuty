@@ -166,6 +166,12 @@ public abstract class ModuleConfig {
 
                         ImGuiHelpers.ScaledDummy(5.0f);
 
+                        ImGui.Text("Scale");
+                        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+                        configChanged |= ImGui.DragFloat("##Scale", ref TimerConfig.Scale, 0.005f);
+                        
+                        ImGuiHelpers.ScaledDummy(5.0f);
+
                         configChanged |= ImGui.Checkbox(Strings.UseCustomLabel, ref TimerConfig.UseCustomLabel);
                         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
                         configChanged |= ImGui.InputTextWithHint("##CustomTimerLabel", "Custom Timer Label...", ref TimerConfig.CustomLabel, 1024);
