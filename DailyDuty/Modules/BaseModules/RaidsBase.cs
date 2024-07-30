@@ -3,6 +3,7 @@ using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
+using Dalamud.Game.Inventory;
 using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -30,11 +31,13 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 	public override bool HasClickableLink => Config.ClickableLink;
 
 	protected RaidsBase() {
-		Service.GameInventory.ItemAddedExplicit += OnItemAdded;
+		Service.GameInventory.ItemAdded += OnItemEvent;
+		Service.GameInventory.ItemChanged += OnItemEvent;
 	}
 
 	public override void Dispose() {
-		Service.GameInventory.ItemAddedExplicit -= OnItemAdded;
+		Service.GameInventory.ItemAdded -= OnItemEvent;
+		Service.GameInventory.ItemChanged -= OnItemEvent;
 	}
 
 	public override void Update() {
@@ -58,12 +61,17 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 		base.Reset();
 	}
 
-	private void OnItemAdded(InventoryItemAddedArgs inventoryItemAddedArgs) {
+	private void OnItemEvent(GameInventoryEvent type, InventoryEventArgs data) {
+		// If the item event is not for main inventory, we don't care.
+		if (data.Item.ContainerType is not (GameInventoryType.Inventory1 or GameInventoryType.Inventory2 or GameInventoryType.Inventory3 or GameInventoryType.Inventory4)) return;
+		
 		// If we are not in a tracked zone, return
 		if (GetDataForCurrentZone() is not { } trackedRaid) return;
 
 		// If we can't get the exd data for this item, return
-		if (Service.DataManager.GetExcelSheet<Item>()?.GetRow(inventoryItemAddedArgs.Item.ItemId) is not { } item) return;
+		if (Service.DataManager.GetExcelSheet<Item>()?.GetRow(data.Item.ItemId) is not { } item) return;
+		
+		Service.Log.Debug($"InventoryEvent: {type}: {item.Name}");
 
 		// If the item is a limited type that we care about, increment the current count
 		switch (item.ItemUICategory.Row) {
