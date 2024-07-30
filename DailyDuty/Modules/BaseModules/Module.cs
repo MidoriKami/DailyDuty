@@ -20,6 +20,8 @@ public abstract class Module : IDisposable {
     public abstract ModuleType ModuleType { get; }
 
     public abstract ModuleConfig GetConfig();
+
+    public abstract ModuleData GetData();
     
     public virtual void Dispose() { }
 
@@ -67,7 +69,7 @@ public abstract class Module : IDisposable {
 
     public abstract TimerConfig GetTimerConfig();
     
-    public virtual bool ShouldReset() => DateTime.UtcNow >= GetNextReset();
+    public virtual bool ShouldReset() => DateTime.UtcNow >= GetData().NextReset;
 }
 
 public abstract class Module<T, TU> : Module where T : ModuleData, new() where TU : ModuleConfig, new() {
@@ -84,6 +86,8 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     protected XivChatType GetChatChannel() => Config.UseCustomChannel ? Config.MessageChatChannel : Service.PluginInterface.GeneralChatType;
 
     public override ModuleConfig GetConfig() => Config;
+
+    public override ModuleData GetData() => Data;
 
     private readonly Stopwatch statusMessageLockout = new();
 

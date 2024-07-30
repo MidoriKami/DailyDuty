@@ -56,8 +56,6 @@ public class ModuleController : IDisposable {
     }
 
     public void ResetModules() {
-        var now = DateTime.UtcNow;
-        
         foreach (var module in Modules) {
             if (module.ShouldReset()) {
                 module.Reset();
