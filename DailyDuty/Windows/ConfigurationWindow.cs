@@ -195,6 +195,10 @@ public class TodoConfigTab : ITabItem {
             ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGui.Checkbox("Single Line", ref System.TodoConfig.SingleLine);
             configChanged |= ImGui.Checkbox("Show Background", ref System.TodoConfig.ShowListBackground);
+            configChanged |= ImGui.Checkbox("Fit Background", ref System.TodoConfig.FitBackground);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.Checkbox("Show Border", ref System.TodoConfig.ShowListBorder);
             
             ImGuiHelpers.ScaledDummy(5.0f);
             configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref System.TodoConfig.ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.40f });

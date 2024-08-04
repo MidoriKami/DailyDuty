@@ -66,12 +66,14 @@ public class TodoConfig {
     public Vector2 Size = new(600.0f, 400.0f);
     public bool SingleLine = true;
     public bool ShowListBackground = true;
+    public bool ShowListBorder;
+    public bool FitBackground = true;
     
     public bool HideDuringQuests = true;
     public bool HideInDuties = true;
 
     public Vector4 ListBackgroundColor = KnownColor.Aqua.Vector() with { W = 0.40f };
-    
+
     public static TodoConfig Load() 
         => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "TodoList.config.json", () => new TodoConfig());
 

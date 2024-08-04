@@ -41,6 +41,8 @@ public unsafe class TodoListController : NativeUiOverlayController {
 			Color = KnownColor.White.Vector(),
 			BackgroundVisible = System.TodoConfig.ShowListBackground,
 			BackgroundColor = System.TodoConfig.ListBackgroundColor,
+			BorderVisible = System.TodoConfig.ShowListBorder,
+			BackgroundFitsContents = System.TodoConfig.FitBackground,
 		};
 
 		foreach (var moduleType in Enum.GetValues<ModuleType>()) {
@@ -87,6 +89,8 @@ public unsafe class TodoListController : NativeUiOverlayController {
 		todoListNode.Size = System.TodoConfig.Size;
 		todoListNode.BackgroundVisible = System.TodoConfig.ShowListBackground;
 		todoListNode.BackgroundColor = System.TodoConfig.ListBackgroundColor;
+		todoListNode.BorderVisible = System.TodoConfig.ShowListBorder;
+		todoListNode.BackgroundFitsContents = System.TodoConfig.FitBackground;
 		todoListNode.LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical;
 		
 		foreach (var category in todoListNode) {
