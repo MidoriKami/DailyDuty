@@ -318,6 +318,32 @@ public class TimersConfigTab : ITabItem {
             configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TimersConfig.HideInDuties);
             configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TimersConfig.HideInQuestEvents);
         }
+
+        ImGuiHelpers.ScaledDummy(10.0f);
+        ImGui.Separator();
+        ImGuiHelpers.ScaledDummy(5.0f);
+
+        using (var table = ImRaii.Table("special_timers_config", 2)) {
+            if (table) {
+                ImGui.TableNextColumn();
+                using (ImRaii.PushId("Weekly")) {
+                    ImGui.TextUnformatted("Weekly Timer");
+                    ImGuiHelpers.ScaledDummy(5.0f);
+                    using (ImRaii.PushIndent()) {
+                        configChanged |= System.TimersConfig.WeeklyTimerConfig.Draw();
+                    }
+                }
+                
+                ImGui.TableNextColumn();
+                using (ImRaii.PushId("Daily")) {
+                    ImGui.TextUnformatted("Daily Timer");
+                    ImGuiHelpers.ScaledDummy(2.0f);
+                    using (ImRaii.PushIndent()) {
+                        configChanged |= System.TimersConfig.DailyTimerConfig.Draw();
+                    }
+                }
+            }
+        }
         
         if (configChanged) {
             System.TimersConfig.Save();

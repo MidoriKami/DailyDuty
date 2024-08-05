@@ -150,46 +150,7 @@ public abstract class ModuleConfig {
                     ImGui.Separator();
                     ImGuiHelpers.ScaledDummy(5.0f);
                     using (ImRaii.PushIndent()) {
-                        configChanged |= ImGui.Checkbox("Enable Timer Display", ref TimerConfig.TimerEnabled);
-
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        ImGui.Text("Position");
-                        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-                        configChanged |= ImGui.DragFloat2(Strings.Position, ref TimerConfig.Position, 5.0f);
-
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        ImGui.Text("Size");
-                        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-                        configChanged |= ImGui.DragFloat2("Size", ref TimerConfig.Size, 5.0f);
-
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        ImGui.Text("Scale");
-                        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-                        configChanged |= ImGui.DragFloat("##Scale", ref TimerConfig.Scale, 0.005f);
-                        
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        configChanged |= ImGui.Checkbox(Strings.UseCustomLabel, ref TimerConfig.UseCustomLabel);
-                        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-                        configChanged |= ImGui.InputTextWithHint("##CustomTimerLabel", "Custom Timer Label...", ref TimerConfig.CustomLabel, 1024);
-                        
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        configChanged |= ImGui.Checkbox("Hide when complete", ref TimerConfig.HideWhenComplete);
-                       
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        configChanged |= ImGui.Checkbox("Hide Label", ref TimerConfig.HideName);
-                        configChanged |= ImGui.Checkbox("Hide Time", ref TimerConfig.HideTime);
-                        configChanged |= ImGui.Checkbox("Hide Seconds", ref TimerConfig.HideSeconds);
-
-                        ImGuiHelpers.ScaledDummy(5.0f);
-
-                        configChanged |= ImGuiTweaks.ColorEditWithDefault("Progress Color", ref TimerConfig.BarColor, KnownColor.Aqua.Vector());
-                        configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref TimerConfig.BarBackgroundColor, KnownColor.Black.Vector());
+                        configChanged = TimerConfig.Draw();
                     }
                 }
             }

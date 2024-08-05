@@ -17,7 +17,7 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 	private readonly TextNode timeRemainingNode;
 	private readonly TextNode tooltipNode;
 
-	public required Module Module;
+	public Module? Module;
 
 	private Vector2 actualSize;
 
@@ -25,7 +25,7 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 		NodeID = nodeId;
 		Color = KnownColor.White.Vector();
 		IsVisible = true;
-		Position = new Vector2(400.0f, 400.0f + (nodeId - 400000) * 32.0f);
+		Position = new Vector2(400.0f, 400.0f);
 		
 		progressBarNode = new ProgressBarNode(nodeId) {
 			NodeID = nodeId + 10000,
