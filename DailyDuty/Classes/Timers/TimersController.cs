@@ -122,7 +122,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 		node.TimeRemainingText = timeRemaining.FormatTimespan(timerConfig.HideSeconds);
 		node.Progress = percent;
 			
-		if (module.GetNextReset() == DateTime.MaxValue) {
+		if (module.GetData().NextReset == DateTime.MaxValue) {
 			node.Progress = 1.0f;
 			node.TimeRemainingText = string.Empty;
 		}

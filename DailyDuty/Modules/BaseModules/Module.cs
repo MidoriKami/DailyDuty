@@ -59,7 +59,7 @@ public abstract class Module : IDisposable {
 
     public abstract TimeSpan GetModulePeriod();
     
-    public TimeSpan GetTimeRemaining() => GetNextReset() - DateTime.UtcNow;
+    public TimeSpan GetTimeRemaining() => GetData().NextReset - DateTime.UtcNow;
     
     protected abstract ModuleStatus GetModuleStatus();
     
@@ -170,7 +170,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         ImGui.TextUnformatted(Strings.NextReset);
 
         ImGui.TableNextColumn();
-        ImGui.TextUnformatted(GetNextReset().ToLocalTime().ToString(CultureInfo.CurrentCulture));
+        ImGui.TextUnformatted(GetData().NextReset.ToLocalTime().ToString(CultureInfo.CurrentCulture));
 
         var timeRemaining = GetTimeRemaining();
         if (timeRemaining > TimeSpan.Zero) {
