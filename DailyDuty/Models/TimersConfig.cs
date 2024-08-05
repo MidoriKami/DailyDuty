@@ -40,7 +40,7 @@ public class TimerConfig {
     public string CustomLabel = string.Empty;
     public float Scale = 0.80f;
 
-    public bool Draw() {
+    public bool Draw(bool disableHideWhenComplete = false) {
         var configChanged = false;
 		
         configChanged |= ImGui.Checkbox("Enable Timer Display", ref TimerEnabled);
@@ -64,9 +64,11 @@ public class TimerConfig {
         configChanged |= ImGui.Checkbox(Strings.UseCustomLabel, ref UseCustomLabel);
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
         configChanged |= ImGui.InputTextWithHint("##CustomTimerLabel", "Custom Timer Label...", ref CustomLabel, 1024);
-                        
-        ImGuiHelpers.ScaledDummy(5.0f);
-        configChanged |= ImGui.Checkbox("Hide when complete", ref HideWhenComplete);
+
+        if (!disableHideWhenComplete) {
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.Checkbox("Hide when complete", ref HideWhenComplete);
+        }
                        
         ImGuiHelpers.ScaledDummy(5.0f);
         configChanged |= ImGui.Checkbox("Hide Label", ref HideName);

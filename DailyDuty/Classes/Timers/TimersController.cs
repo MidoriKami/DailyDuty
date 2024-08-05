@@ -189,7 +189,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 
 		var timerConfig = System.TimersConfig.WeeklyTimerConfig;
 
-		weeklyTimerNode.IsVisible = !Service.ClientState.IsPvP && timerConfig.TimerEnabled;
+		weeklyTimerNode.IsVisible = timerConfig.TimerEnabled && ShouldShowSpecial();
 		weeklyTimerNode.Size = timerConfig.Size;
 		weeklyTimerNode.Position = timerConfig.Position;
 		weeklyTimerNode.BarColor = timerConfig.BarColor;
@@ -213,7 +213,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 		
 		var timerConfig = System.TimersConfig.DailyTimerConfig;
 
-		dailyTimerNode.IsVisible = !Service.ClientState.IsPvP && timerConfig.TimerEnabled;
+		dailyTimerNode.IsVisible = timerConfig.TimerEnabled && ShouldShowSpecial();
 		dailyTimerNode.Size = timerConfig.Size;
 		dailyTimerNode.Position = timerConfig.Position;
 		dailyTimerNode.BarColor = timerConfig.BarColor;
@@ -230,5 +230,13 @@ public unsafe class TimersController : NativeUiOverlayController {
 			
 		dailyTimerNode.TimeRemainingText = timeRemaining.FormatTimespan(timerConfig.HideSeconds);
 		dailyTimerNode.Progress = percent;
+	}
+
+	private bool ShouldShowSpecial() {
+		if (!System.TimersConfig.Enabled) return false;
+		if (System.TimersConfig.HideInDuties && Service.Condition.IsBoundByDuty()) return false;
+		if (System.TimersConfig.HideInQuestEvents && Service.Condition.IsInQuestEvent()) return false;
+
+		return true;
 	}
 }

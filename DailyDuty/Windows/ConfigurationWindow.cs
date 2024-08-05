@@ -330,7 +330,7 @@ public class TimersConfigTab : ITabItem {
                     ImGui.TextUnformatted("Weekly Timer");
                     ImGuiHelpers.ScaledDummy(5.0f);
                     using (ImRaii.PushIndent()) {
-                        configChanged |= System.TimersConfig.WeeklyTimerConfig.Draw();
+                        configChanged |= System.TimersConfig.WeeklyTimerConfig.Draw(true);
                     }
                 }
                 
@@ -339,7 +339,7 @@ public class TimersConfigTab : ITabItem {
                     ImGui.TextUnformatted("Daily Timer");
                     ImGuiHelpers.ScaledDummy(2.0f);
                     using (ImRaii.PushIndent()) {
-                        configChanged |= System.TimersConfig.DailyTimerConfig.Draw();
+                        configChanged |= System.TimersConfig.DailyTimerConfig.Draw(true);
                     }
                 }
             }
