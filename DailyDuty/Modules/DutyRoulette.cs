@@ -131,7 +131,7 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
             var levelTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(15);
             if (levelTextNode is null) continue;
             
-            if (Service.DataManager.GetExcelSheet<ContentRoulette>()!.FirstOrDefault(rouletteData => string.Equals(listItemText, rouletteData.Category.ToString(), StringComparison.OrdinalIgnoreCase)) is {} contentRoulette){
+            if (Service.DataManager.GetExcelSheet<ContentRoulette>()!.FirstOrDefault(rouletteData => string.Equals(listItemText, rouletteData.Category.ToString(), StringComparison.OrdinalIgnoreCase)) is {} contentRoulette && addon->SelectedRadioButton is 0){
                 if (Config.TaskConfig.Any(task => task.Enabled && task.RowId == contentRoulette.RowId)) {
                     var rouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) contentRoulette.RowId);
 
