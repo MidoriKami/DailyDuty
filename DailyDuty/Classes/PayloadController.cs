@@ -6,6 +6,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using KamiLib.Extensions;
 using Lumina.Excel.GeneratedSheets;
 
 namespace DailyDuty.Classes;
@@ -68,11 +69,11 @@ public unsafe class PayloadController : IDisposable {
             AgentContentsFinder.Instance()->OpenRouletteDuty(1);
         },
         PayloadId.OpenDutyFinderRaid => (_, _) => {
-            var currentRaid = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
-                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is false && cfc.Unknown28)
-                .Last();
-                
-            AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
+            var currentRaid = Service.DataManager.GetLimitedNormalRaidDuties().LastOrDefault();
+
+            if (currentRaid is not null) {
+                AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
+            }
         },
         PayloadId.OpenDutyFinderAllianceRaid => (_, _) => {
             var currentAllianceRaid = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
