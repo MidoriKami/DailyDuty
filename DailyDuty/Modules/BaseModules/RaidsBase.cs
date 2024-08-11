@@ -90,8 +90,8 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 	private LuminaTaskData<ContentFinderCondition>? GetDataForCurrentZone()
 		=> Data.TaskData.FirstOrDefault(task => task.RowId == GameMain.Instance()->CurrentContentFinderConditionId);
 
-	private bool IsDataStale(ICollection<ContentFinderCondition> dutyList) 
-		=> Data.TaskData.Any(task => !dutyList.Any(duty => duty.RowId != task.RowId));
+	private bool IsDataStale(ICollection<ContentFinderCondition> dutyList)
+		=> dutyList.Any(duty => !Data.TaskData.Any(task => task.RowId == duty.RowId));
     
 	protected void CheckForDutyListUpdate(List<ContentFinderCondition> dutyList) { 
 		if (IsDataStale(dutyList) || Config.TaskConfig.Count == 0 || Data.TaskData.Count == 0) {
