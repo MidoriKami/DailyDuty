@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
@@ -11,13 +10,10 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes.Timers;
 
 public unsafe class TimerNode : NodeBase<AtkResNode> {
-
 	private readonly ProgressBarNode progressBarNode;
 	private readonly TextNode moduleNameNode;
 	private readonly TextNode timeRemainingNode;
 	private readonly TextNode tooltipNode;
-
-	public Module? Module;
 
 	private Vector2 actualSize;
 

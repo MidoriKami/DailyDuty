@@ -57,8 +57,6 @@ public unsafe class FashionReport : Modules.Special<FashionReportData, FashionRe
     
 	public override PayloadId ClickableLinkPayloadId => PayloadId.GoldSaucerTeleport;
 
-	public override TimeSpan GetModulePeriod() => TimeSpan.FromDays(7);
-
 	public override void Update() {
 		var reportOpen = Time.NextWeeklyReset().AddDays(-4);
 		var reportClosed = Time.NextWeeklyReset();

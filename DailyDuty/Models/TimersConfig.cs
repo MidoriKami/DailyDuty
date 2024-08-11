@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using DailyDuty.Classes.Timers;
 using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -27,7 +28,7 @@ public class TimersConfig {
 }
 
 public class TimerConfig {
-    public bool TimerEnabled = false;
+    public bool TimerEnabled;
     public Vector2 Position = new(400.0f, 400.0f);
     public Vector2 Size = new(400.0f, 32.0f);
     public Vector4 BarColor = KnownColor.Aqua.Vector();
@@ -80,5 +81,13 @@ public class TimerConfig {
         configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref BarBackgroundColor, KnownColor.Black.Vector());
 
         return configChanged;
+    }
+
+    public void UpdateNodeStyle(TimerNode node) {
+        
+        
+        node.Position = Position;
+        node.Size = Size;
+        node.BarColor = BarColor;
     }
 }

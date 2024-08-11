@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
 using DailyDuty.Localization;
-using DailyDuty.Models;
 using Dalamud.Game.Text;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -32,8 +31,6 @@ public abstract class ModuleConfig {
     public bool UseCustomResetMessage;
     public string CustomResetMessage = string.Empty;
 
-    public TimerConfig TimerConfig = new();
-
     public bool Suppressed;
 	    
     protected virtual bool DrawModuleConfig() {
@@ -51,18 +48,12 @@ public abstract class ModuleConfig {
             if (moduleTab) {
                 using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
                 if (tabChild) {
-                    ImGui.TextUnformatted(Strings.ModuleEnable);
-                    ImGui.Separator();
-                    ImGuiHelpers.ScaledDummy(5.0f);
-
+                    ImGuiTweaks.Header(Strings.ModuleEnable);
                     using (ImRaii.PushIndent()) {
                         configChanged |= ImGui.Checkbox(Strings.Enable, ref ModuleEnabled);
                     }
 
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                    ImGui.TextUnformatted(Strings.ModuleConfiguration);
-                    ImGui.Separator();
-                    ImGuiHelpers.ScaledDummy(5.0f);
+                    ImGuiTweaks.Header(Strings.ModuleConfiguration);
                     using (ImRaii.PushIndent()) {
                         configChanged |= DrawModuleConfig();
                     }
@@ -74,20 +65,14 @@ public abstract class ModuleConfig {
             if (notificationTab) {
                 using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
                 if (tabChild) {
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                    ImGui.TextUnformatted(Strings.NotificationOptions);
-                    ImGui.Separator();
-                    ImGuiHelpers.ScaledDummy(5.0f);
+                    ImGuiTweaks.Header(Strings.NotificationOptions);
                     using (ImRaii.PushIndent()) {
                         configChanged |= ImGuiTweaks.Checkbox(Strings.SendStatusOnLogin, ref OnLoginMessage, Strings.SendStatusOnLoginHelp);
                         configChanged |= ImGuiTweaks.Checkbox(Strings.SendStatusOnZoneChange, ref OnZoneChangeMessage, Strings.SendStatusOnZoneChangeHelp);
                         configChanged |= ImGuiTweaks.Checkbox(Strings.SendMessageOnReset, ref ResetMessage, Strings.SendMessageOnResetHelp);
                     }
 
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                    ImGui.TextUnformatted(Strings.NotificationCustomization);
-                    ImGui.Separator();
-                    ImGuiHelpers.ScaledDummy(5.0f);
+                    ImGuiTweaks.Header(Strings.NotificationCustomization);
                     using (ImRaii.PushIndent()) {
                         configChanged |= ImGui.Checkbox(Strings.EnableCustomChannel, ref UseCustomChannel);
 
@@ -118,10 +103,7 @@ public abstract class ModuleConfig {
             if (todoTab) {
                 using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
                 if (tabChild) {
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                    ImGui.TextUnformatted(Strings.TodoConfiguration);
-                    ImGui.Separator();
-                    ImGuiHelpers.ScaledDummy(5.0f);
+                    ImGuiTweaks.Header(Strings.TodoConfiguration);
                     using (ImRaii.PushIndent()) {
                         configChanged |= ImGui.Checkbox(Strings.TodoEnable, ref TodoEnabled);
 
@@ -136,21 +118,6 @@ public abstract class ModuleConfig {
                         configChanged |= ImGui.Checkbox(Strings.OverrideTodoListColor, ref OverrideTextColor);
                         configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextColor, ref TodoTextColor, KnownColor.White.Vector());
                         configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextOutlineColor, ref TodoTextOutline, KnownColor.Black.Vector());
-                    }
-                }
-            }
-        }
-					
-        using (var timerTab = ImRaii.TabItem("Timer")) {
-            if (timerTab) {
-                using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
-                if (tabChild) {
-                    ImGuiHelpers.ScaledDummy(10.0f);
-                    ImGui.TextUnformatted("Timers Configuration");
-                    ImGui.Separator();
-                    ImGuiHelpers.ScaledDummy(5.0f);
-                    using (ImRaii.PushIndent()) {
-                        configChanged = TimerConfig.Draw();
                     }
                 }
             }

@@ -77,7 +77,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     }
 
     protected override void DrawSelectedOption(Module option) {
-        using var table = ImRaii.Table($"module_table", 2, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.Resizable, ImGui.GetContentRegionAvail());
+        using var table = ImRaii.Table("module_table", 2, ImGuiTableFlags.SizingStretchSame | ImGuiTableFlags.BordersInnerV | ImGuiTableFlags.Resizable, ImGui.GetContentRegionAvail());
         if (!table) return;
 
         ImGui.TableNextColumn();
@@ -159,18 +159,12 @@ public class TodoConfigTab : ITabItem {
         using var id = ImRaii.PushId("main_config");
         var configChanged = false;
   
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted("Todo List Config");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Todo List Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted("Display Options");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Display Option");
         using (ImRaii.PushIndent()) {
             ImGui.Text("Position");
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
@@ -183,10 +177,7 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGui.DragFloat2("Size", ref System.TodoConfig.Size, 5.0f);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted("Style Options");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Style Options");
         using (ImRaii.PushIndent()) {
             
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
@@ -207,10 +198,7 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref System.TodoConfig.ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.40f });
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted($"Functional Options");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Functional Options");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TodoConfig.HideDuringQuests);
             configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TodoConfig.HideInDuties);
@@ -225,18 +213,12 @@ public class TodoConfigTab : ITabItem {
         var config = System.TodoConfig.CategoryConfigs[(uint)type];
         var configChanged = false;
 
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted($"{type.GetDescription()} Config");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header($"{type.GetDescription()} Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref config.Enabled);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted($"Style Options");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Style Options");
         using (ImRaii.PushIndent()) {
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
             configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref config.LayoutAnchor);
@@ -251,10 +233,7 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGui.DragFloat4("Category Spacing", ref config.CategoryMargin, 0.05f);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted($"Header Options");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Header Options");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox("Show Header", ref config.ShowHeader);
             configChanged |= ImGui.Checkbox(Strings.HeaderItalic, ref config.HeaderItalic);
@@ -274,10 +253,7 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderOutlineColor, ref config.HeaderTextOutline, CategoryConfig.DefaultColors.DefaultHeaderOutlineColor);
         }
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted("Module Options");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Module Options");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.ModuleItalic, ref config.ModuleItalic);
 
@@ -301,15 +277,13 @@ public class TodoConfigTab : ITabItem {
 }
 
 public class TimersConfigTab : ITabItem {
+    
     public string Name => "Timers";
     public bool Disabled => false;
     public void Draw() {
         var configChanged = false;
 
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted("Timers Config");
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header("Timers Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TimersConfig.Enabled);
             

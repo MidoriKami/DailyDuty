@@ -34,8 +34,6 @@ public class TreasureMap : Modules.Special<TreasureMapData, TreasureMapConfig> {
 	public override DateTime GetNextReset()
 		=> Data.LastMapGatheredTime + TimeSpan.FromHours(18);
 
-	public override TimeSpan GetModulePeriod() => TimeSpan.FromHours(18);
-
 	public TreasureMap()
 		=> Service.GameInventory.ItemAddedExplicit += OnItemAdded;
 

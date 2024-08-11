@@ -57,8 +57,6 @@ public abstract class Module : IDisposable {
     
     public abstract DateTime GetNextReset();
 
-    public abstract TimeSpan GetModulePeriod();
-    
     public TimeSpan GetTimeRemaining() => GetData().NextReset - DateTime.UtcNow;
     
     protected abstract ModuleStatus GetModuleStatus();
@@ -67,8 +65,6 @@ public abstract class Module : IDisposable {
 
     protected virtual void UpdateTaskLists() { }
 
-    public abstract TimerConfig GetTimerConfig();
-    
     public virtual bool ShouldReset() => DateTime.UtcNow >= GetData().NextReset;
 }
 
@@ -76,8 +72,6 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     protected T Data { get; private set; } = new();
 
     protected TU Config { get; private set; } = new();
-
-    public override TimerConfig GetTimerConfig() => Config.TimerConfig;
 
     public override bool IsEnabled => Config.ModuleEnabled;
 
