@@ -13,10 +13,6 @@ public class RaidsAlliance : RaidsBase {
 	public override ModuleName ModuleName => ModuleName.RaidsAlliance;
 
 	protected override List<ContentFinderCondition> RaidDuties { get; set; } = Service.DataManager.GetLimitedAllianceRaidDuties().ToList();
-
-	protected override void UpdateTaskLists() {
-		CheckForDutyListUpdate(RaidDuties);
-	}
 	
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderAllianceRaid;
 

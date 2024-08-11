@@ -42,6 +42,10 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 		Service.GameInventory.ItemChanged -= OnItemEvent;
 	}
 
+	protected override void UpdateTaskLists() {
+		CheckForDutyListUpdate(RaidDuties);
+	}
+
 	public override void Update() {
 		if (Agent is not null && Agent->IsAgentActive()) {
 			var selectedDuty = Agent->SelectedDutyId;

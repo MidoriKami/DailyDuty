@@ -14,10 +14,6 @@ public class RaidsNormal : RaidsBase {
 
 	protected override List<ContentFinderCondition> RaidDuties { get; set; } = Service.DataManager.GetLimitedNormalRaidDuties().ToList();
 	
-	protected override void UpdateTaskLists() {
-		CheckForDutyListUpdate(RaidDuties);
-	}
-
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderRaid;
     
 	protected override StatusMessage GetStatusMessage() {
