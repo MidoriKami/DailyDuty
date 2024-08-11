@@ -34,7 +34,7 @@ public unsafe class TodoListController : NativeUiOverlayController {
 			Size = System.TodoConfig.Size,
 			Position = System.TodoConfig.Position,
 			LayoutAnchor = System.TodoConfig.Anchor,
-			NodeFlags = NodeFlags.Clip,
+			ClipListContents = true,
 			IsVisible = System.TodoConfig.Enabled,
 			LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
 			NodeID = 300_000,
