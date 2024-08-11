@@ -35,7 +35,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.WindowManager.AddWindow(new WonderousTailsDebugWindow());
 
         if (Service.ClientState.IsLoggedIn) {
-            OnLogin();
+            Service.Framework.RunOnFrameworkThread(OnLogin);
         }
         
         Service.Framework.Update += OnFrameworkUpdate;
