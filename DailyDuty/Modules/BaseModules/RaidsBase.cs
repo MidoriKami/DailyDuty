@@ -30,6 +30,8 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 	
 	public override bool HasClickableLink => Config.ClickableLink;
 
+	protected abstract List<ContentFinderCondition> RaidDuties { get; set; }
+
 	protected RaidsBase() {
 		Service.GameInventory.ItemAdded += OnItemEvent;
 		Service.GameInventory.ItemChanged += OnItemEvent;
