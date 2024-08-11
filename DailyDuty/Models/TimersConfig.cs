@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using DailyDuty.Classes.Timers;
 using DailyDuty.Localization;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -11,6 +10,7 @@ using KamiLib.Configuration;
 namespace DailyDuty.Models;
 
 public class TimersConfig {
+    public int Version = 2;
 
     public bool Enabled = false;
 	
@@ -81,13 +81,5 @@ public class TimerConfig {
         configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref BarBackgroundColor, KnownColor.Black.Vector());
 
         return configChanged;
-    }
-
-    public void UpdateNodeStyle(TimerNode node) {
-        
-        
-        node.Position = Position;
-        node.Size = Size;
-        node.BarColor = BarColor;
     }
 }

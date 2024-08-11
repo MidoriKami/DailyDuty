@@ -24,8 +24,15 @@ public unsafe class TimersController : NativeUiOverlayController {
 		});
 	}
 
-	protected override void LoadConfig()
-		=> System.TimersConfig = TimersConfig.Load();
+	protected override void LoadConfig() {
+		System.TimersConfig = TimersConfig.Load();
+
+		// Potentially fix corrupted config files
+		if (System.TimersConfig.Version is not 2) {
+			System.TimersConfig = new TimersConfig();
+			System.TimersConfig.Save();
+		}
+	}
 
 	protected override void AttachNodes(AddonNamePlate* addonNamePlate) {
 		weeklyTimerNode = new TimerNode(500000);
