@@ -57,8 +57,13 @@ public unsafe class TimersController : NativeUiOverlayController {
 	}
 
 	public void Update() {
-		UpdateNode(dailyTimerNode, System.TimersConfig.DailyTimerConfig, ModuleType.Daily);
-		UpdateNode(weeklyTimerNode, System.TimersConfig.WeeklyTimerConfig, ModuleType.Weekly);
+		if (dailyTimerNode is not null) {
+			UpdateNode(dailyTimerNode, System.TimersConfig.DailyTimerConfig, ModuleType.Daily);
+		}
+
+		if (weeklyTimerNode is not null) {
+			UpdateNode(weeklyTimerNode, System.TimersConfig.WeeklyTimerConfig, ModuleType.Weekly);
+		}
 	}
 
 	public void Refresh() {
