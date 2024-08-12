@@ -31,7 +31,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     
     protected override float SelectionListWidth { get; set; } = 200.0f;
     
-    protected override float SelectionItemHeight => ImGui.CalcTextSize("Butts").Y;
+    protected override float SelectionItemHeight => ImGui.GetTextLineHeight() / ImGuiHelpers.GlobalScale;
 
     protected override bool ShowListButton => true;
 
@@ -55,7 +55,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     protected override void DrawListOption(Module option) {
         ImGui.Text(option.ModuleName.GetDescription());
         
-        ImGui.SameLine(ImGui.GetContentRegionAvail().X- 10.0f * ImGuiHelpers.GlobalScale);
+        ImGui.SameLine(ImGui.GetContentRegionAvail().X - 13.0f * ImGuiHelpers.GlobalScale);
         using var _ = Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle.Push();
 
         var status = option.ModuleStatus;
