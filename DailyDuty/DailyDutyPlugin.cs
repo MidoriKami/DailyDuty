@@ -82,10 +82,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     private void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
         
-        System.ModuleController.LoadModules();
-        
         System.TodoListController.Load();
         System.TimersController.Load();
+        
+        System.ModuleController.LoadModules();
     }
     
     private void OnLogout() {

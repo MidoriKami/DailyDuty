@@ -251,7 +251,6 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
 
     private void UpdateOverlays() {
         System.TodoListController.Refresh();
-        System.TimersController.Refresh();
     }
 
     private void SendStatusMessage() {
