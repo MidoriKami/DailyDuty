@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Numerics;
 using DailyDuty.Models;
 using DailyDuty.Modules;
 using Dalamud.Interface;
@@ -43,6 +44,7 @@ public unsafe class TodoListController : NativeUiOverlayController {
 			BackgroundColor = System.TodoConfig.ListBackgroundColor,
 			BorderVisible = System.TodoConfig.ShowListBorder,
 			BackgroundFitsContents = System.TodoConfig.FitBackground,
+			Scale = new Vector2(System.TodoConfig.Scale),
 		};
 
 		foreach (var moduleType in Enum.GetValues<ModuleType>()) {
@@ -92,7 +94,8 @@ public unsafe class TodoListController : NativeUiOverlayController {
 		todoListNode.BorderVisible = System.TodoConfig.ShowListBorder;
 		todoListNode.BackgroundFitsContents = System.TodoConfig.FitBackground;
 		todoListNode.LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical;
-		
+		todoListNode.Scale = new Vector2(System.TodoConfig.Scale);
+
 		foreach (var category in todoListNode) {
 			category.Refresh();
 		}

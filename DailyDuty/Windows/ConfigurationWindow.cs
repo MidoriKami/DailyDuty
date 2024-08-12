@@ -168,13 +168,18 @@ public class TodoConfigTab : ITabItem {
         using (ImRaii.PushIndent()) {
             ImGui.Text("Position");
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat2(Strings.Position, ref System.TodoConfig.Position, 5.0f);
+            configChanged |= ImGui.DragFloat2("##Position", ref System.TodoConfig.Position, 5.0f);
             
             ImGuiHelpers.ScaledDummy(5.0f);
             
             ImGui.Text("Size");
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat2("Size", ref System.TodoConfig.Size, 5.0f);
+            configChanged |= ImGui.DragFloat2("##Size", ref System.TodoConfig.Size, 5.0f);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            ImGui.Text("Scale");
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
+            configChanged |= ImGui.DragFloat("##Scale", ref System.TodoConfig.Scale, 0.005f, 0.05f, 10.0f);
         }
         
         ImGuiTweaks.Header("Style Options");

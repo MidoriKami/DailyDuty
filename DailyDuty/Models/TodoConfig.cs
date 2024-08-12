@@ -73,6 +73,7 @@ public class TodoConfig {
     public bool HideInDuties = true;
 
     public Vector4 ListBackgroundColor = KnownColor.Aqua.Vector() with { W = 0.40f };
+    public float Scale = 1.0f;
 
     public static TodoConfig Load() 
         => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "TodoList.config.json", () => new TodoConfig());
