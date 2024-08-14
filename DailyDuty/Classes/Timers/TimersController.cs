@@ -48,11 +48,13 @@ public unsafe class TimersController : NativeUiOverlayController {
 		if (weeklyTimerNode is not null) {
 			System.NativeController.DetachFromAddon(weeklyTimerNode, (AtkUnitBase*)addonNamePlate);
 			weeklyTimerNode.Dispose();
+			weeklyTimerNode = null;
 		}
 
 		if (dailyTimerNode is not null) {
 			System.NativeController.DetachFromAddon(dailyTimerNode, (AtkUnitBase*)addonNamePlate);
 			dailyTimerNode.Dispose();
+			dailyTimerNode = null;
 		}
 	}
 
