@@ -45,6 +45,7 @@ public class ModuleController : IDisposable {
         }
 
         modulesLoaded = true;
+        Service.Log.Debug("Modules Loaded");
     }
     
     public void UnloadModules() {
@@ -56,6 +57,8 @@ public class ModuleController : IDisposable {
     }
 
     public void ResetModules() {
+        if (!modulesLoaded) return;
+        
         foreach (var module in Modules) {
             if (module.ShouldReset()) {
                 module.Reset();
