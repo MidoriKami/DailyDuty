@@ -45,7 +45,7 @@ public class ModuleController : IDisposable {
         }
 
         modulesLoaded = true;
-        Service.Log.Debug("Modules Loaded");
+        Service.Log.Debug("All Modules Loaded");
     }
     
     public void UnloadModules() {
