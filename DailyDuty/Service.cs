@@ -22,4 +22,5 @@ public sealed class Service {
     [PluginService] public static IDataManager DataManager { get; set; }
     [PluginService] public static IAddonEventManager AddonEventManager { get; set; }
     [PluginService] public static IGameInventory GameInventory { get; set; }
+    [PluginService] public static IGameConfig GameConfig { get; set; }
 }

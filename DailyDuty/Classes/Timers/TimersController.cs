@@ -15,7 +15,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 	private TimerNode? weeklyTimerNode;
 	private TimerNode? dailyTimerNode;
 
-	public TimersController() : base(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
+	public TimersController() : base(Service.AddonLifecycle, Service.Framework, Service.GameGui, Service.GameConfig) {
 		System.CommandManager.RegisterCommand(new ToggleCommandHandler {
 			DisableDelegate = _ => System.TimersConfig.Enabled = false,
 			EnableDelegate = _ => System.TimersConfig.Enabled = true,
