@@ -2,8 +2,8 @@
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
         <Version>5.0.3.7</Version>
-        
     </PropertyGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
