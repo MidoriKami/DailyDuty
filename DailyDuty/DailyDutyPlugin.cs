@@ -1,10 +1,13 @@
-﻿using DailyDuty.Classes;
+﻿using System;
+using DailyDuty.Classes;
 using DailyDuty.Classes.Timers;
 using DailyDuty.Classes.TodoList;
 using Dalamud.Plugin;
 using DailyDuty.Models;
 using DailyDuty.Windows;
+using Dalamud.Interface.ImGuiNotification;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;
@@ -12,9 +15,24 @@ using KamiToolKit;
 namespace DailyDuty;
 
 public sealed class DailyDutyPlugin : IDalamudPlugin {
-    public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
+    public unsafe DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
+        
+        // Ensure required game settings are set
+        if (RaptureAtkModule.Instance()->AtkTextureResourceManager.DefaultTextureVersion is not 2) {
+            Service.Chat.PrintError("Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"");
+            Service.Log.Warning("Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"");
+            Service.NotificationManager.AddNotification(new Notification {
+                Type = NotificationType.Error,
+                Content = "Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"",
+                RespectUiHidden = false,
+                Minimized = false,
+                InitialDuration = TimeSpan.FromSeconds(30),
+            });
 
+            throw new Exception("Plugin unable to load, incompatible game settings.");
+        }
+        
         // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
         System.SystemConfig = new SystemConfig();
         System.NativeController = new NativeController(Service.PluginInterface);

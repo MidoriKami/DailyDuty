@@ -9,6 +9,7 @@ using Dalamud.Game.Text;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
+using KamiLib.Classes;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 
@@ -98,32 +99,26 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     }
 
     public override void DrawData() {
-        ImGui.TextUnformatted(Strings.CurrentStatus);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header(Strings.CurrentStatus);
         using (var _ = ImRaii.PushIndent()) {
            DrawModuleCurrentStatusUi();
-        } 
+        }
 
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted(Strings.ModuleData);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-        using (var _ = ImRaii.PushIndent()) {
+        if (Data.NextReset != DateTime.MaxValue) {
+            ImGuiTweaks.Header(Strings.ModuleData);
+            using var _ = ImRaii.PushIndent();
+            
             DrawModuleResetDataUi();
-        } 
+        }
     
         Data.DrawDataUi();
         
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.TextUnformatted(Strings.ModuleSuppression);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
+        ImGuiTweaks.Header(Strings.ModuleSuppression);
         ImGuiHelpers.CenteredText(Strings.ModuleSuppressionHelp);
 
         using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
-            if (ImGui.Button(Strings.Snooze, new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
-                Config.Suppressed = true;
+            if (ImGui.Button(!Config.Suppressed ? Strings.Snooze : "Unsnooze", new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
+                Config.Suppressed = !Config.Suppressed;
                 ConfigChanged = true;
             }
 
