@@ -82,8 +82,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     private void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
         
-        System.TodoListController.Load();
-        System.TimersController.Load();
+        System.TodoListController.Enable();
+        System.TimersController.Enable();
         
         System.ModuleController.LoadModules();
     }
@@ -91,8 +91,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     private void OnLogout() {
         System.ModuleController.UnloadModules();
         
-        System.TodoListController.Unload();
-        System.TimersController.Unload();
+        System.TodoListController.Disable();
+        System.TimersController.Disable();
     }
     
     private void OnZoneChange(ushort territoryTypeId) {

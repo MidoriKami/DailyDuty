@@ -17,7 +17,7 @@ namespace DailyDuty.Classes.TodoList;
 public unsafe class TodoListController : NativeUiOverlayController {
 	private ListNode<TodoCategoryNode>? todoListNode;
 
-	public TodoListController() : base(Service.AddonLifecycle, Service.Framework, Service.GameGui, Service.GameConfig) {
+	public TodoListController() : base(Service.AddonLifecycle, Service.Framework, Service.GameGui) {
 		System.CommandManager.RegisterCommand(new ToggleCommandHandler {
 			DisableDelegate = _ => System.TodoConfig.Enabled = false,
 			EnableDelegate = _ => System.TodoConfig.Enabled = true,
@@ -26,7 +26,7 @@ public unsafe class TodoListController : NativeUiOverlayController {
 		});
 	}
 
-	protected override void LoadConfig() {
+	protected override void PreAttach() {
 		System.TodoConfig = TodoConfig.Load();
 	}
 	
