@@ -20,11 +20,15 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         // Ensure required game settings are set
         if (RaptureAtkModule.Instance()->AtkTextureResourceManager.DefaultTextureVersion is not 2) {
-            Service.Chat.PrintError("Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"");
-            Service.Log.Warning("Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"");
+            const string warningString = "Plugin requires\"System Configuration\" \u2192 \"Graphics Setting\" \u2192 \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"\n\n" +
+                                         "This setting has nothing to do with your actual screen resolution.\n\n" +
+                                         "This setting does not effect your UI Scaling.";
+            
+            Service.Chat.PrintError(warningString);
+            Service.Log.Warning(warningString);
             Service.NotificationManager.AddNotification(new Notification {
                 Type = NotificationType.Error,
-                Content = "Plugin requires \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"",
+                Content = warningString,
                 RespectUiHidden = false,
                 Minimized = false,
                 InitialDuration = TimeSpan.FromSeconds(30),
