@@ -5,6 +5,7 @@ using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using Lumina.Excel.GeneratedSheets;
 
@@ -34,6 +35,14 @@ public class TreasureMap : Modules.Special<TreasureMapData, TreasureMapConfig> {
 	public override DateTime GetNextReset() 
 		=> DateTime.MaxValue;
 
+	public override void Reset() {
+		Data.MapAvailable = true;
+		Data.NextReset = DateTime.MaxValue;
+		Config.Suppressed = false;
+		
+		base.Reset();
+	}
+
 	public TreasureMap()
 		=> Service.GameInventory.ItemAddedExplicit += OnItemAdded;
 
@@ -41,6 +50,8 @@ public class TreasureMap : Modules.Special<TreasureMapData, TreasureMapConfig> {
 		=> Service.GameInventory.ItemAddedExplicit -= OnItemAdded;
 
 	private void OnItemAdded(InventoryItemAddedArgs data) {
+		if (!Service.Condition.Any(ConditionFlag.Gathering, ConditionFlag.Gathering42)) return;
+		
 		if (Service.DataManager.GetExcelSheet<TreasureHuntRank>()!.Any(treasureHunt => treasureHunt.ItemName.Row == data.Item.ItemId)) {
 			Data.MapAvailable = false;
 			Data.LastMapGatheredTime = DateTime.UtcNow;
