@@ -1,13 +1,10 @@
-﻿using System;
-using DailyDuty.Classes;
+﻿using DailyDuty.Classes;
 using DailyDuty.Classes.Timers;
 using DailyDuty.Classes.TodoList;
 using Dalamud.Plugin;
 using DailyDuty.Models;
 using DailyDuty.Windows;
-using Dalamud.Interface.ImGuiNotification;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;
@@ -15,27 +12,8 @@ using KamiToolKit;
 namespace DailyDuty;
 
 public sealed class DailyDutyPlugin : IDalamudPlugin {
-    public unsafe DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
+    public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
-        
-        // Ensure required game settings are set
-        if (RaptureAtkModule.Instance()->AtkTextureResourceManager.DefaultTextureVersion is not 2) {
-            const string warningString = "Plugin requires\"System Configuration\" \u2192 \"Graphics Setting\" \u2192 \"UI Resolution\" System Configuration setting to be set to \"High (WQHD/4K)\"\n\n" +
-                                         "This setting has nothing to do with your actual screen resolution.\n\n" +
-                                         "This setting does not effect your UI Scaling.";
-            
-            Service.Chat.PrintError(warningString);
-            Service.Log.Warning(warningString);
-            Service.NotificationManager.AddNotification(new Notification {
-                Type = NotificationType.Error,
-                Content = warningString,
-                RespectUiHidden = false,
-                Minimized = false,
-                InitialDuration = TimeSpan.FromSeconds(30),
-            });
-
-            throw new Exception("Plugin unable to load, incompatible game settings.");
-        }
         
         // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
         System.SystemConfig = new SystemConfig();
@@ -64,8 +42,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         Service.ClientState.Login += OnLogin;
         Service.ClientState.Logout += OnLogout;
         Service.ClientState.TerritoryChanged += OnZoneChange;
-        Service.ClientState.EnterPvP += OnEnterPvP;
-        Service.ClientState.LeavePvP += OnLeavePvP;
     }
 
     public void Dispose() {
@@ -73,8 +49,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
-        Service.ClientState.EnterPvP -= OnEnterPvP;
-        Service.ClientState.LeavePvP -= OnLeavePvP;
         
         System.LocalizationController.Dispose();
         System.PayloadController.Dispose();
@@ -88,7 +62,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     }
     
     private void OnFrameworkUpdate(IFramework framework) {
-        if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
 
         // Check for reset, and reset modules that need it 
@@ -122,13 +95,5 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         if (!Service.ClientState.IsLoggedIn) return;
         
         System.ModuleController.ZoneChange(territoryTypeId);
-    }
-    
-    private void OnLeavePvP() {
-        System.TodoListController.Refresh();
-    }
-
-    private void OnEnterPvP() {
-        System.TodoListController.Refresh();
     }
 }

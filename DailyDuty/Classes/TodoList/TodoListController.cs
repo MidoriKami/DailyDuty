@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Drawing;
-using System.Numerics;
 using DailyDuty.Models;
 using DailyDuty.Modules;
-using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.CommandManager;
@@ -32,19 +29,7 @@ public unsafe class TodoListController : NativeUiOverlayController {
 	
 	protected override void AttachNodes(AddonNamePlate* addonNamePlate) {
 		todoListNode = new ListNode<TodoCategoryNode> {
-			Size = System.TodoConfig.Size,
-			Position = System.TodoConfig.Position,
-			LayoutAnchor = System.TodoConfig.Anchor,
-			ClipListContents = true,
-			IsVisible = System.TodoConfig.Enabled,
-			LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical,
 			NodeID = 300_000,
-			Color = KnownColor.White.Vector(),
-			BackgroundVisible = System.TodoConfig.ShowListBackground,
-			BackgroundColor = System.TodoConfig.ListBackgroundColor,
-			BorderVisible = System.TodoConfig.ShowListBorder,
-			BackgroundFitsContents = System.TodoConfig.FitBackground,
-			Scale = new Vector2(System.TodoConfig.Scale),
 		};
 
 		foreach (var moduleType in Enum.GetValues<ModuleType>()) {
@@ -80,21 +65,9 @@ public unsafe class TodoListController : NativeUiOverlayController {
 
 	public void Refresh() {
 		if (todoListNode is null) return;
-		if (Service.ClientState.IsPvP) {
-			todoListNode.IsVisible = false;
-			return;
-		}
 		
+		todoListNode.SetStyle(System.TodoConfig.ListStyle);
 		todoListNode.IsVisible = System.TodoConfig.Enabled;
-		todoListNode.LayoutAnchor = System.TodoConfig.Anchor;
-		todoListNode.Position = System.TodoConfig.Position;
-		todoListNode.Size = System.TodoConfig.Size;
-		todoListNode.BackgroundVisible = System.TodoConfig.ShowListBackground;
-		todoListNode.BackgroundColor = System.TodoConfig.ListBackgroundColor;
-		todoListNode.BorderVisible = System.TodoConfig.ShowListBorder;
-		todoListNode.BackgroundFitsContents = System.TodoConfig.FitBackground;
-		todoListNode.LayoutOrientation = System.TodoConfig.SingleLine ? LayoutOrientation.Horizontal : LayoutOrientation.Vertical;
-		todoListNode.Scale = new Vector2(System.TodoConfig.Scale);
 
 		foreach (var category in todoListNode) {
 			category.Refresh();

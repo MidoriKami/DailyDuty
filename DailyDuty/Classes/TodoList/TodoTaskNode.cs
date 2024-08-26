@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Nodes;
 
@@ -13,24 +12,8 @@ public class TodoTaskNode : TextNode {
 	private CategoryConfig CategoryConfig => System.TodoConfig.CategoryConfigs[(uint) Module.ModuleType];
 
 	public void Refresh() {
+		SetStyle(CategoryConfig.ModuleStyle);
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
-
-		TextFlags = GetModuleFlags();
-		FontSize = CategoryConfig.ModuleFontSize;
-		
-		Margin = new Spacing(CategoryConfig.ModuleMargin.X,
-			CategoryConfig.ModuleMargin.Y,
-			CategoryConfig.ModuleMargin.Z,
-			CategoryConfig.ModuleMargin.W);
-		
-		if (ModuleConfig.OverrideTextColor) {
-			TextColor = ModuleConfig.TodoTextColor;
-			TextOutlineColor = ModuleConfig.TodoTextOutline;
-		}
-		else {
-			TextColor = CategoryConfig.ModuleTextColor;
-			TextOutlineColor = CategoryConfig.ModuleOutlineColor;
-		}
 		
 		if (Module.HasClickableLink && MouseClick is null) {
 			MouseClick = () => PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
@@ -47,15 +30,5 @@ public class TodoTaskNode : TextNode {
 		else {
 			Tooltip = null;
 		}
-	}
-	
-	private TextFlags GetModuleFlags() {
-		var flags = TextFlags.AutoAdjustNodeSize;
-
-		if (CategoryConfig.ModuleItalic) flags |= TextFlags.Italic;
-		if (CategoryConfig.Edge) flags |= TextFlags.Edge;
-		if (CategoryConfig.Glare) flags |= TextFlags.Glare;
-
-		return flags;
 	}
 }

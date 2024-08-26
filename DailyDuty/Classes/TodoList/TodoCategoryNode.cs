@@ -28,20 +28,13 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 
 		headerTextNode = new TextNode {
 			NodeID = NodeID + 500,
-			FontType = FontType.Axis, 
-			TextFlags = TextFlags.AutoAdjustNodeSize,
 			MouseClick = () => System.ConfigurationWindow.UnCollapseOrToggle(),
 		};
 		
 		System.NativeController.AttachToNode(headerTextNode, this, NodePosition.AsFirstChild);
 
 		taskListNode = new ListNode<TodoTaskNode> {
-			IsVisible = true,
-			LayoutOrientation = LayoutOrientation.Vertical,
 			NodeID = 310_000 + (uint)moduleType * 1_000,
-			Color = KnownColor.White.Vector(),
-			Margin = new Spacing(5.0f),
-			BackgroundVisible = false,
 		};
 		
 		System.NativeController.AttachToNode(taskListNode, this, NodePosition.AsLastChild);
@@ -65,14 +58,8 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 		foreach (var module in System.ModuleController.GetModules(CategoryConfig.ModuleType)) {
 			var newTaskNode = new TodoTaskNode {
 				NodeID = NodeID + 500 + (uint)module.ModuleName,
-				TextColor = CategoryConfig.ModuleTextColor,
-				TextOutlineColor = CategoryConfig.ModuleOutlineColor,
-				FontSize = CategoryConfig.ModuleFontSize,
-				FontType = FontType.Axis, 
-				TextFlags = TextFlags.AutoAdjustNodeSize,
 				Text = module.ModuleName.GetDescription(),
 				IsVisible = module is { IsEnabled: true, ModuleStatus: ModuleStatus.Incomplete },
-
 				Module = module,
 			};
 
@@ -104,49 +91,32 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 		headerTextNode.DisableEvents(eventManager);
 	}
 
-	private TextFlags GetHeaderFlags() {
-		var flags = TextFlags.AutoAdjustNodeSize;
-
-		if (CategoryConfig.HeaderItalic) flags |= TextFlags.Italic;
-		if (CategoryConfig.Edge) flags |= TextFlags.Edge;
-		if (CategoryConfig.Glare) flags |= TextFlags.Glare;
-
-		return flags;
-	}
-    
 	public void Refresh() {
+		taskListNode.SetStyle(CategoryConfig.ListNodeStyle);
 		IsVisible = CategoryConfig.Enabled && taskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }});
-		
-		headerTextNode.TextColor = CategoryConfig.HeaderTextColor;
-		headerTextNode.TextOutlineColor = CategoryConfig.HeaderTextOutline;
-		headerTextNode.FontSize = CategoryConfig.HeaderFontSize;
+
+		headerTextNode.SetStyle(CategoryConfig.HeaderStyle);
 		headerTextNode.Text = CategoryConfig.UseCustomLabel ? CategoryConfig.CustomLabel : CategoryConfig.HeaderLabel;
-		headerTextNode.TextFlags = GetHeaderFlags();
-		headerTextNode.IsVisible = CategoryConfig.ShowHeader;
 		
-		var headerOffset = CategoryConfig.ShowHeader ? headerTextNode.Height : 0.0f;
+		var headerOffset = CategoryConfig.HeaderStyle.IsVisible ? headerTextNode.Height : 0.0f;
 		
 		taskListNode.Position = new Vector2(0.0f, headerOffset);
-		taskListNode.LayoutAnchor = CategoryConfig.LayoutAnchor;
-		Margin = new Spacing(CategoryConfig.CategoryMargin.X,
-			CategoryConfig.CategoryMargin.Y,
-			CategoryConfig.CategoryMargin.Z,
-			CategoryConfig.CategoryMargin.W);
-
+		taskListNode.LayoutAnchor = CategoryConfig.ListNodeStyle.LayoutAnchor;
+		
 		foreach (var node in taskListNode) {
 			node.Refresh();
 		}
 		
 		taskListNode.Size = taskListNode.GetMinimumSize();
-		if (CategoryConfig.ShowHeader) {
+		if (headerTextNode.IsVisible) {
 			taskListNode.Width = MathF.Max(taskListNode.Width, headerTextNode.Width);
 		}
 		
 		taskListNode.RecalculateLayout();
-
+		
 		var minSize = taskListNode.GetMinimumSize();
-
-		if (CategoryConfig.ShowHeader) {
+		
+		if (headerTextNode.IsVisible) {
 			Width = MathF.Max(headerTextNode.LayoutSize.X, minSize.X);
 			Height = headerTextNode.LayoutSize.Y + minSize.Y;
 		}
@@ -154,7 +124,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			Size = minSize;
 		}
 		
-		if (CategoryConfig.LayoutAnchor is LayoutAnchor.BottomRight or LayoutAnchor.TopRight) {
+		if (CategoryConfig.ListNodeStyle.LayoutAnchor is LayoutAnchor.BottomRight or LayoutAnchor.TopRight) {
 			headerTextNode.X = Width - headerTextNode.Width;
 		}
 	}

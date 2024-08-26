@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using DailyDuty.Models;
 using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -71,26 +70,21 @@ public unsafe class TimersController : NativeUiOverlayController {
 	public void Refresh() {
 		if (weeklyTimerNode is not null) {
 			var timerConfig = System.TimersConfig.WeeklyTimerConfig;
+			weeklyTimerNode.SetStyle(timerConfig.Style);
 			weeklyTimerNode.ModuleName = timerConfig.UseCustomLabel ? timerConfig.CustomLabel : "Weekly Reset";
 		}
 
 		if (dailyTimerNode is not null) {
 			var timerConfig = System.TimersConfig.DailyTimerConfig;
+			dailyTimerNode.SetStyle(timerConfig.Style);
 			dailyTimerNode.ModuleName = timerConfig.UseCustomLabel ? timerConfig.CustomLabel : "Daily Reset";
 		}
 	}
 
 	private void UpdateNode(TimerNode? node, TimerConfig config, ModuleType type) {
 		if (node is null) return;
-		
+
 		node.IsVisible = config.TimerEnabled && ShouldShow();
-		node.Size = config.Size;
-		node.Position = config.Position;
-		node.BarColor = config.BarColor;
-		node.BarBackgroundColor = config.BarBackgroundColor;
-		node.LabelVisible = !config.HideName;
-		node.TimeVisible = !config.HideTime;
-		node.Scale = new Vector2(config.Scale);
 
 		var nextReset = type switch {
 			ModuleType.Weekly => Time.NextWeeklyReset(),
@@ -104,7 +98,7 @@ public unsafe class TimersController : NativeUiOverlayController {
 			_ => throw new Exception("Invalid Type"),
 		};
 		
-		var timeRemaining =nextReset - DateTime.UtcNow;
+		var timeRemaining = nextReset - DateTime.UtcNow;
 
 		var percent =  1.0f - (float)(timeRemaining / resetPeriod);
 		if (percent > 1.0f) return;

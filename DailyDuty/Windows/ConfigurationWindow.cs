@@ -163,44 +163,10 @@ public class TodoConfigTab : ITabItem {
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
         }
-        
-        ImGuiTweaks.Header("Display Option");
-        using (ImRaii.PushIndent()) {
-            ImGui.Text("Position");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat2("##Position", ref System.TodoConfig.Position, 5.0f);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            
-            ImGui.Text("Size");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat2("##Size", ref System.TodoConfig.Size, 5.0f);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            ImGui.Text("Scale");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat("##Scale", ref System.TodoConfig.Scale, 0.005f, 0.05f, 10.0f);
-        }
-        
-        ImGuiTweaks.Header("Style Options");
-        using (ImRaii.PushIndent()) {
-            
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref System.TodoConfig.Anchor);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGui.Checkbox("Single Line", ref System.TodoConfig.SingleLine);
-            configChanged |= ImGui.Checkbox("Show Background", ref System.TodoConfig.ShowListBackground);
 
-            if (System.TodoConfig.ShowListBackground) {
-                configChanged |= ImGui.Checkbox("Fit Background", ref System.TodoConfig.FitBackground);
-            }
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGui.Checkbox("Show Border", ref System.TodoConfig.ShowListBorder);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGuiTweaks.ColorEditWithDefault("Background Color", ref System.TodoConfig.ListBackgroundColor, KnownColor.Aqua.Vector() with { W = 0.40f });
+        ImGuiTweaks.Header("Todo List Style");
+        using (ImRaii.PushIndent()) {
+            configChanged |= System.TodoConfig.ListStyle.DrawSettings();
         }
         
         ImGuiTweaks.Header("Functional Options");
@@ -223,58 +189,27 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref config.Enabled);
         }
         
-        ImGuiTweaks.Header("Style Options");
+        ImGuiTweaks.Header("Category Style");
         using (ImRaii.PushIndent()) {
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGuiTweaks.EnumCombo("Anchor Corner", ref config.LayoutAnchor);
-            ImGuiHelpers.ScaledDummy(5.0f);
-
-            configChanged |= ImGui.Checkbox(Strings.EnableOutline, ref config.Edge);
-            configChanged |= ImGui.Checkbox(Strings.EnableGlowingOutline, ref config.Glare);
+            using (ImRaii.TabBar("todo_node_options")) {
+                using (var tabItem = ImRaii.TabItem("Category Container")) {
+                    if (tabItem) {
+                        configChanged |= config.ListNodeStyle.DrawSettings();
+                    }
+                }
             
-            ImGuiHelpers.ScaledDummy(5.0f);
-            ImGui.Text("Category Spacing");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat4("Category Spacing", ref config.CategoryMargin, 0.05f);
-        }
-        
-        ImGuiTweaks.Header("Header Options");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox("Show Header", ref config.ShowHeader);
-            configChanged |= ImGui.Checkbox(Strings.HeaderItalic, ref config.HeaderItalic);
-
-            ImGuiHelpers.ScaledDummy(5.0f);
-            ImGui.Text("Header Font Size");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGuiTweaks.SliderUint(Strings.HeaderSize, ref config.HeaderFontSize, 1, 64);
+                using (var tabItem = ImRaii.TabItem("Header Text")) {
+                    if (tabItem) {
+                        configChanged |= config.HeaderStyle.DrawSettings();
+                    }
+                }
             
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGui.Checkbox(Strings.EnableCustomStatusMessage, ref config.UseCustomLabel);
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.InputTextWithHint("##CustomStatusMessage", Strings.StatusMessage, ref config.CustomLabel, 1024);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderColor, ref config.HeaderTextColor, KnownColor.White.Vector());
-            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.HeaderOutlineColor, ref config.HeaderTextOutline, CategoryConfig.DefaultColors.DefaultHeaderOutlineColor);
-        }
-        
-        ImGuiTweaks.Header("Module Options");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox(Strings.ModuleItalic, ref config.ModuleItalic);
-
-            ImGuiHelpers.ScaledDummy(5.0f);
-            ImGui.Text("Module Font Size");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGuiTweaks.SliderUint(Strings.FontSize, ref config.ModuleFontSize, 1, 64);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            ImGui.Text("Module Spacing");
-            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-            configChanged |= ImGui.DragFloat4("Module Spacing", ref config.ModuleMargin, 0.05f);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleTextColor, ref config.ModuleTextColor, KnownColor.White.Vector());
-            configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.ModuleOutlineColor, ref config.ModuleOutlineColor, CategoryConfig.DefaultColors.DefaultModuleOutlineColor);
+                using (var tabItem = ImRaii.TabItem("Task Text")) {
+                    if (tabItem) {
+                        configChanged |= config.ModuleStyle.DrawSettings();
+                    }
+                }
+            }
         }
         
         return configChanged;
@@ -309,7 +244,7 @@ public class TimersConfigTab : ITabItem {
                     ImGui.TextUnformatted("Weekly Timer");
                     ImGuiHelpers.ScaledDummy(5.0f);
                     using (ImRaii.PushIndent()) {
-                        configChanged |= System.TimersConfig.WeeklyTimerConfig.Draw(true);
+                        configChanged |= System.TimersConfig.WeeklyTimerConfig.Draw();
                     }
                 }
                 
@@ -318,7 +253,7 @@ public class TimersConfigTab : ITabItem {
                     ImGui.TextUnformatted("Daily Timer");
                     ImGuiHelpers.ScaledDummy(2.0f);
                     using (ImRaii.PushIndent()) {
-                        configChanged |= System.TimersConfig.DailyTimerConfig.Draw(true);
+                        configChanged |= System.TimersConfig.DailyTimerConfig.Draw();
                     }
                 }
             }
