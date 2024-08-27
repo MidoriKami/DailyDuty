@@ -1,5 +1,6 @@
 ﻿using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Nodes;
 
@@ -14,7 +15,8 @@ public class TodoTaskNode : TextNode {
 	public void Refresh() {
 		SetStyle(CategoryConfig.ModuleStyle);
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
-		
+		NodeFlags |= NodeFlags.EmitsEvents | NodeFlags.HasCollision | NodeFlags.RespondToMouse;
+
 		if (Module.HasClickableLink && MouseClick is null) {
 			MouseClick = () => PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
 		}

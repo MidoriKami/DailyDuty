@@ -130,7 +130,8 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 
 	public void SetStyle(TimerNodeStyle style) {
 		SetStyle(style as NodeBaseStyle);
-		
+		tooltipNode.NodeFlags |= NodeFlags.EmitsEvents | NodeFlags.HasCollision | NodeFlags.RespondToMouse;
+
 		progressBarNode.SetStyle(style.ProgressBarNodeStyle);
 		moduleNameNode.SetStyle(style.ModuleNameStyle);
 		timeRemainingNode.SetStyle(style.TimerTextStyle);

@@ -97,7 +97,8 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 
 		headerTextNode.SetStyle(CategoryConfig.HeaderStyle);
 		headerTextNode.Text = CategoryConfig.UseCustomLabel ? CategoryConfig.CustomLabel : CategoryConfig.HeaderLabel;
-		
+		headerTextNode.NodeFlags |= NodeFlags.EmitsEvents | NodeFlags.HasCollision | NodeFlags.RespondToMouse;
+
 		var headerOffset = CategoryConfig.HeaderStyle.IsVisible ? headerTextNode.Height : 0.0f;
 		
 		taskListNode.Position = new Vector2(0.0f, headerOffset);
