@@ -189,6 +189,14 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref config.Enabled);
         }
         
+        ImGuiTweaks.Header("Custom Label");
+        using (ImRaii.PushIndent()) {
+            configChanged |= ImGui.Checkbox("Use Custom Label", ref config.UseCustomLabel);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.InputText("Custom Label", ref config.CustomLabel, 1024, ImGuiInputTextFlags.AutoSelectAll);
+        }
+        
         ImGuiTweaks.Header("Category Style");
         using (ImRaii.PushIndent()) {
             using (ImRaii.TabBar("todo_node_options")) {
