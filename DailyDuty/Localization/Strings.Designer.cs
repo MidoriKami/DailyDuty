@@ -609,6 +609,24 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duty Roulette: Expert complete when Tomecapped
+        /// </summary>
+        internal static string ExpertCompleteWhenTomeCapped {
+            get {
+                return ResourceManager.GetString("ExpertCompleteWhenTomeCapped", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Marks only Duty Roulette: Expert complete when you are at the tomestone weekly limit.
+        /// </summary>
+        internal static string ExpertCompleteWhenTomeCappedHelp {
+            get {
+                return ResourceManager.GetString("ExpertCompleteWhenTomeCappedHelp", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Fashion Report.
         /// </summary>
         internal static string FashionReport {

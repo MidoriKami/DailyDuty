@@ -271,6 +271,12 @@ Limited to once per 5 mins</value>
     <data name="CompleteWhenTomeCapped" xml:space="preserve">
         <value>Complete When Tomecapped</value>
     </data>
+    <data name="ExpertCompleteWhenTomeCapped" xml:space="preserve">
+        <value>Duty Roulette: Expert complete when Tomecapped</value>
+    </data>
+    <data name="ExpertCompleteWhenTomeCappedHelp" xml:space="preserve">
+        <value>Marks only Duty Roulette: Expert complete when you are at the tomestone weekly limit.</value>
+    </data>
     <data name="CompleteWhenTomeCappedHelp" xml:space="preserve">
         <value>Marks task as complete when you are at the tomestone weekly limit</value>
     </data>

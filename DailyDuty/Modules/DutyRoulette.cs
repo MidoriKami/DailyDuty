@@ -36,11 +36,13 @@ public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
             (Strings.WeeklyTomestoneLimit, ExpertTomestoneCap.ToString()),
             (Strings.AtWeeklyTomestoneLimit, AtTomeCap.ToString()),
         ]);
+        TaskData.Draw();
     }
 }
 
 public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public bool CompleteWhenCapped;
+    public bool ExpertCompleteWhenCapped;
     public bool ClickableLink = true;
     public bool ColorContentFinder = true;
     public Vector4 CompleteColor = KnownColor.LimeGreen.Vector();
@@ -51,6 +53,7 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
 
         configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
         configChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
+        configChanged |= ImGui.Checkbox(Strings.ExpertCompleteWhenTomeCapped, ref ExpertCompleteWhenCapped);
         configChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
 
         if (ColorContentFinder) {
@@ -183,7 +186,12 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     }
 
     public override void Update() {
-        Data.TaskData.Update(ref DataChanged, rowId => InstanceContent.Instance()->IsRouletteComplete((byte) rowId));
+        Data.TaskData.Update(ref DataChanged, rowId =>
+        {
+            var isExpert = rowId == 5;
+            if (Config.ExpertCompleteWhenCapped && isExpert && Data.AtTomeCap) return true;
+            return InstanceContent.Instance()->IsRouletteComplete((byte)rowId);
+        });
 
         Data.ExpertTomestones = TryUpdateData(Data.ExpertTomestones, InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount());
         Data.ExpertTomestoneCap = TryUpdateData(Data.ExpertTomestoneCap, InventoryManager.GetLimitedTomestoneWeeklyLimit());
