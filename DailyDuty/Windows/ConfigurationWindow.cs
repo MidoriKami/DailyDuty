@@ -239,6 +239,7 @@ public class TimersConfigTab : ITabItem {
 
             configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TimersConfig.HideInDuties);
             configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TimersConfig.HideInQuestEvents);
+            configChanged |= ImGui.Checkbox(Strings.HideTimerTooltip, ref System.TimersConfig.HideTimerTooltip);
         }
 
         ImGuiHelpers.ScaledDummy(10.0f);

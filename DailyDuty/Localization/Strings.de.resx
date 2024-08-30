@@ -665,4 +665,7 @@ Auf einmal pro 5 Minuten limitiert</value>
     <data name="WindowDraggingEnabled" xml:space="preserve">
         <value>Window Dragging Enabled</value>
     </data>
+    <data name="HideTimerTooltip" xml:space="preserve">
+        <value>Infonachricht ausblenden</value>
+    </data>
 </root>

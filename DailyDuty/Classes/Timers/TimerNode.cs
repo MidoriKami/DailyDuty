@@ -45,7 +45,6 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 			Size = new Vector2(16.0f, 16.0f),
 			TextColor = KnownColor.White.Vector(),
 			TextOutlineColor = KnownColor.Black.Vector(),
-			IsVisible = true,
 			FontSize = 16,
 			FontType = FontType.Axis,
 			TextFlags = TextFlags.Edge,
@@ -130,6 +129,7 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 
 	public void SetStyle(TimerNodeStyle style) {
 		SetStyle(style as NodeBaseStyle);
+		tooltipNode.IsVisible = !System.TimersConfig.HideTimerTooltip;
 		tooltipNode.NodeFlags |= NodeFlags.EmitsEvents | NodeFlags.HasCollision | NodeFlags.RespondToMouse;
 
 		progressBarNode.SetStyle(style.ProgressBarNodeStyle);

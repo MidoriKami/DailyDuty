@@ -665,4 +665,7 @@
     <data name="WindowDraggingEnabled" xml:space="preserve">
         <value>Window Dragging Enabled</value>
     </data>
+    <data name="HideTimerTooltip" xml:space="preserve">
+        <value>情報メッセージを非表示にする</value>
+    </data>
 </root>

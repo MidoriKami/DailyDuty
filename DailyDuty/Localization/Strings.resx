@@ -667,4 +667,7 @@ Limited to once per 5 mins</value>
     <data name="WindowDraggingEnabled" xml:space="preserve">
         <value>Window Dragging Enabled</value>
     </data>
+    <data name="HideTimerTooltip" xml:space="preserve">
+        <value>Hide Info Tooltip</value>
+    </data>
 </root>

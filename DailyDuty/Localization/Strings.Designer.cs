@@ -789,6 +789,15 @@ namespace DailyDuty.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide Info Tooltip.
+        /// </summary>
+        internal static string HideTimerTooltip {
+            get {
+                return ResourceManager.GetString("HideTimerTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Highest Score.
         /// </summary>
         internal static string HighestScore {

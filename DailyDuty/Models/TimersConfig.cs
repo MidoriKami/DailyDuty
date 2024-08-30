@@ -15,6 +15,7 @@ public class TimersConfig {
 	
     public bool HideInDuties = true;
     public bool HideInQuestEvents = true;
+    public bool HideTimerTooltip = false;
 
     public TimerConfig WeeklyTimerConfig = new() {
         Style = new TimerNodeStyle {
