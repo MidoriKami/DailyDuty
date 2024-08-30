@@ -20,7 +20,7 @@ namespace DailyDuty.Modules;
 
 public class GrandCompanySquadronConfig : ModuleConfig;
 
-public class GrandCompanySquadronData : ModuleTaskData<ClassJob> {
+public class GrandCompanySquadronData : ModuleData {
 	public bool MissionCompleted;
 	public bool MissionStarted;
 	public DateTime MissionCompleteTime = DateTime.MinValue;
@@ -33,8 +33,6 @@ public class GrandCompanySquadronData : ModuleTaskData<ClassJob> {
 			(Strings.MissionCompleteTime, MissionCompleteTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
 			(Strings.TimeUntilMissionComplete, TimeUntilMissionComplete.FormatTimespan()),
 		]);
-		
-		base.DrawModuleData();
 	}
 }
 
