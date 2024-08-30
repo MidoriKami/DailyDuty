@@ -6,6 +6,7 @@ using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using Lumina.Excel.GeneratedSheets;
 
@@ -67,12 +68,14 @@ public unsafe class PayloadController : IDisposable {
         },
         PayloadId.OpenDutyFinderRoulette => (_, _) => {
             AgentContentsFinder.Instance()->OpenRouletteDuty(1);
+            ClearDutyFinderSelection();
         },
         PayloadId.OpenDutyFinderRaid => (_, _) => {
             var currentRaid = Service.DataManager.GetLimitedNormalRaidDuties().LastOrDefault();
 
             if (currentRaid is not null) {
-                AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
+                AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId); 
+                ClearDutyFinderSelection();
             }
         },
         PayloadId.OpenDutyFinderAllianceRaid => (_, _) => {
@@ -102,4 +105,13 @@ public unsafe class PayloadController : IDisposable {
     
     private static DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
         => Service.PluginInterface.AddChatLinkHandler((uint) payloadId, action);
+
+    private static void ClearDutyFinderSelection() {
+        var returnValue = stackalloc AtkValue[1];
+        var command = stackalloc AtkValue[2];
+        command[0].SetInt(12);
+        command[1].SetInt(1);
+                
+        AgentContentsFinder.Instance()->ReceiveEvent(returnValue, command, 2, 0);
+    }
 }
