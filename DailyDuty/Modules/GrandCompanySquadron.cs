@@ -33,6 +33,8 @@ public class GrandCompanySquadronData : ModuleTaskData<ClassJob> {
 			(Strings.MissionCompleteTime, MissionCompleteTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
 			(Strings.TimeUntilMissionComplete, TimeUntilMissionComplete.FormatTimespan()),
 		]);
+		
+		base.DrawModuleData();
 	}
 }
 

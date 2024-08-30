@@ -36,6 +36,8 @@ public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
             (Strings.WeeklyTomestoneLimit, ExpertTomestoneCap.ToString()),
             (Strings.AtWeeklyTomestoneLimit, AtTomeCap.ToString()),
         ]);
+        
+        base.DrawModuleData();
     }
 }
 
