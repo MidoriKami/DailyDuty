@@ -10,6 +10,7 @@ using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using Dalamud.Utility;
 using Dalamud.Utility.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -43,6 +44,7 @@ public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
 
 public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public bool CompleteWhenCapped;
+    public bool ExpertCompleteWhenCapped;
     public bool ClickableLink = true;
     public bool ColorContentFinder = true;
     public Vector4 CompleteColor = KnownColor.LimeGreen.Vector();
@@ -53,6 +55,11 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
 
         configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
         configChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
+        if (CompleteWhenCapped) {
+            using (ImRaii.PushIndent()) {
+                configChanged |= ImGuiTweaks.Checkbox("Only Show Expert Complete", ref ExpertCompleteWhenCapped, "Only marks Expert Roulette as complete\nwhen you are limited tomecapped");
+            }
+        }
         configChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
 
         if (ColorContentFinder) {
@@ -185,8 +192,11 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     }
 
     public override void Update() {
-        Data.TaskData.Update(ref DataChanged, rowId => InstanceContent.Instance()->IsRouletteComplete((byte) rowId));
-
+        Data.TaskData.Update(ref DataChanged, rowId => {
+            if (Config.ExpertCompleteWhenCapped && rowId is 5 && Data.AtTomeCap) return true;
+            return InstanceContent.Instance()->IsRouletteComplete((byte)rowId);
+        });
+        
         Data.ExpertTomestones = TryUpdateData(Data.ExpertTomestones, InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount());
         Data.ExpertTomestoneCap = TryUpdateData(Data.ExpertTomestoneCap, InventoryManager.GetLimitedTomestoneWeeklyLimit());
         Data.AtTomeCap = TryUpdateData(Data.AtTomeCap, Data.ExpertTomestones == Data.ExpertTomestoneCap);
