@@ -17,6 +17,11 @@ public class TodoTaskNode : TextNode {
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
 		NodeFlags |= NodeFlags.EmitsEvents | NodeFlags.HasCollision | NodeFlags.RespondToMouse;
 
+		if (ModuleConfig.OverrideTextColor) {
+			TextColor = ModuleConfig.TodoTextColor;
+			TextOutlineColor = ModuleConfig.TodoTextOutline;
+		}
+
 		if (Module.HasClickableLink && MouseClick is null) {
 			MouseClick = () => PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
 		}

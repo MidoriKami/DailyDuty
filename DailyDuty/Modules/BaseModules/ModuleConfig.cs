@@ -117,7 +117,7 @@ public abstract class ModuleConfig {
 
                         configChanged |= ImGui.Checkbox(Strings.OverrideTodoListColor, ref OverrideTextColor);
                         configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextColor, ref TodoTextColor, KnownColor.White.Vector());
-                        configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextOutlineColor, ref TodoTextOutline, KnownColor.Black.Vector());
+                        configChanged |= ImGuiTweaks.ColorEditWithDefault(Strings.TextOutlineColor, ref TodoTextOutline, new Vector4(10, 105, 146, 255) / 255);
                     }
                 }
             }
