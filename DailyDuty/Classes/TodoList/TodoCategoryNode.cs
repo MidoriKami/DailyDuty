@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Models;
 using DailyDuty.Modules;
-using Dalamud.Interface;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
