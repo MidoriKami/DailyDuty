@@ -9,7 +9,7 @@ namespace DailyDuty.Classes.TodoList;
 public class TodoTaskNode : TextNode {
 	public required Module Module { get; init; }
 	
-	private ModuleConfig ModuleConfig => Module.GetConfig();
+	public ModuleConfig ModuleConfig => Module.GetConfig();
 	private CategoryConfig CategoryConfig => System.TodoConfig.CategoryConfigs[(uint) Module.ModuleType];
 
 	public void Refresh() {

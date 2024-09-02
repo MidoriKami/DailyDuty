@@ -93,7 +93,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 
 	public void Refresh() {
 		taskListNode.SetStyle(CategoryConfig.ListNodeStyle);
-		IsVisible = CategoryConfig.Enabled && taskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }});
+		IsVisible = CategoryConfig.Enabled && taskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
 
 		headerTextNode.SetStyle(CategoryConfig.HeaderStyle);
 		headerTextNode.Text = CategoryConfig.UseCustomLabel ? CategoryConfig.CustomLabel : CategoryConfig.HeaderLabel;
