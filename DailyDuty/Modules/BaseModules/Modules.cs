@@ -19,14 +19,14 @@ public enum ModuleType {
     Special,
 }
 
-public class ModuleTaskData<T> : ModuleData where T : ExcelRow {
+public class ModuleTaskData<T> : ModuleData where T : struct, IExcelRow<T> {
     public LuminaTaskDataList<T> TaskData = [];
 
     protected override void DrawModuleData()
         => TaskData.Draw();
 }
 
-public class ModuleTaskConfig<T> : ModuleConfig where T : ExcelRow {
+public class ModuleTaskConfig<T> : ModuleConfig where T : struct, IExcelRow<T> {
     public LuminaTaskConfigList<T> TaskConfig = [];
 
     protected override bool DrawModuleConfig()
@@ -52,7 +52,7 @@ public static class Modules {
         public override ModuleType ModuleType => ModuleType.Special;
     }
 
-    public abstract class DailyTask<T, TU, TV> : Daily<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
+    public abstract class DailyTask<T, TU, TV> : Daily<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : struct, IExcelRow<TV> {
         public override bool HasTooltip => true;
         
         public override string TooltipText { get; protected set; } = string.Empty;
@@ -67,7 +67,7 @@ public static class Modules {
         }
     }
 
-    public abstract class WeeklyTask<T, TU, TV> : Weekly<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
+    public abstract class WeeklyTask<T, TU, TV> : Weekly<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : struct, IExcelRow<TV> {
         public override bool HasTooltip => true;
         
         public override string TooltipText { get; protected set; } = string.Empty;
@@ -82,7 +82,7 @@ public static class Modules {
         }
     }
 
-    public abstract class SpecialTask<T, TU, TV> : Special<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : ExcelRow {
+    public abstract class SpecialTask<T, TU, TV> : Special<T, TU> where T : ModuleTaskData<TV>, new() where TU : ModuleTaskConfig<TV>, new() where TV : struct, IExcelRow<TV> {
         public override bool HasTooltip => true;
 
         public override string TooltipText { get; protected set; } = string.Empty;
@@ -97,7 +97,7 @@ public static class Modules {
         }
     }
     
-    private static int GetIncompleteCount<TV>(LuminaTaskConfigList<TV> config, LuminaTaskDataList<TV> data) where TV : ExcelRow {
+    private static int GetIncompleteCount<TV>(LuminaTaskConfigList<TV> config, LuminaTaskDataList<TV> data) where TV : struct, IExcelRow<TV> {
         if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount.");
 
         var count = 0;
@@ -118,7 +118,7 @@ public static class Modules {
         return count;
     }
 
-    private static IEnumerable<string> GetIncompleteRows<TV>(LuminaTaskConfigList<TV> config, LuminaTaskDataList<TV> data) where TV : ExcelRow {
+    private static IEnumerable<string> GetIncompleteRows<TV>(LuminaTaskConfigList<TV> config, LuminaTaskDataList<TV> data) where TV : struct, IExcelRow<TV> {
         if (config.Count != data.Count) throw new Exception("Task and Data array size are mismatched. Unable to calculate IncompleteCount.");
 
         for (var i = 0; i < config.Count; i++) {

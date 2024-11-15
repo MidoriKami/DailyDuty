@@ -8,7 +8,7 @@ using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Modules;
 
@@ -38,8 +38,8 @@ public unsafe class TreasureMap : Modules.Special<TreasureMapData, TreasureMapCo
 	public override void Load() {
 		base.Load();
 
-		treasureMaps = Service.DataManager.GetExcelSheet<TreasureHuntRank>()!
-			.Where(map => map.ItemName.Row is not 0)
+		treasureMaps = Service.DataManager.GetExcelSheet<TreasureHuntRank>()
+			.Where(map => map.ItemName.RowId is not 0)
 			.ToList();
 	}
 
@@ -83,8 +83,8 @@ public unsafe class TreasureMap : Modules.Special<TreasureMapData, TreasureMapCo
 	private List<uint> GetInventoryTreasureMaps() {
 		var mapsInInventory =
 			from map in treasureMaps
-			where InventoryManager.Instance()->GetInventoryItemCount(map.ItemName.Row) > 0
-			select map.ItemName.Row;
+			where InventoryManager.Instance()->GetInventoryItemCount(map.ItemName.RowId) > 0
+			select map.ItemName.RowId;
         
 		return mapsInInventory.ToList();
 	}

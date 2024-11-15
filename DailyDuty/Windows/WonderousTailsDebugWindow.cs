@@ -5,7 +5,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
 using KamiLib.CommandManager;
 using KamiLib.Window;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Windows;
 
@@ -24,18 +24,13 @@ public unsafe class WonderousTailsDebugWindow : Window {
 			var taskId = PlayerState.Instance()->WeeklyBingoOrderData[index];
 			
 			var dutyListForSlot = TaskLookup.GetInstanceListFromId(taskId);
-			var bingoOrderData = Service.DataManager.GetExcelSheet<WeeklyBingoOrderData>()!.GetRow(taskId);
+			var bingoOrderData = Service.DataManager.GetExcelSheet<WeeklyBingoOrderData>().GetRow(taskId);
 
-			if (ImGui.CollapsingHeader($"{taskId}: {bingoOrderData?.Text.Value?.Description ?? "Unable to Read Task Data"}")) {
+			if (ImGui.CollapsingHeader($"{taskId}: {bingoOrderData.Text.Value.Description}")) {
 				foreach (var duty in dutyListForSlot) {
-					var territoryType = Service.DataManager.GetExcelSheet<TerritoryType>()!.GetRow(duty);
-					if (territoryType is null) {
-						ImGui.Text("CFC Null");
-					}
-					else {
-						var cfc = territoryType.ContentFinderCondition.Value;
-						ImGui.Text($"{territoryType.RowId}: {cfc?.Name ?? "Unable to Read Name"} - {cfc?.ClassJobLevelRequired}");
-					}
+					var territoryType = Service.DataManager.GetExcelSheet<TerritoryType>().GetRow(duty);
+					var cfc = territoryType.ContentFinderCondition.Value;
+					ImGui.Text($"{territoryType.RowId}: {cfc.Name} - {cfc.ClassJobLevelRequired}");
 				}
 			}
 		}

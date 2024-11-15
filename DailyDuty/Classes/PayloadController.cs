@@ -8,7 +8,7 @@ using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Classes;
 
@@ -61,10 +61,10 @@ public unsafe class PayloadController : IDisposable {
             }
         },
         PayloadId.IdyllshireTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>()!.GetRow(75)!);
+            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(75));
         },
         PayloadId.DomanEnclaveTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>()!.GetRow(127)!);
+            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(127));
         },
         PayloadId.OpenDutyFinderRoulette => (_, _) => {
             AgentContentsFinder.Instance()->OpenRouletteDuty(1);
@@ -73,26 +73,24 @@ public unsafe class PayloadController : IDisposable {
         PayloadId.OpenDutyFinderRaid => (_, _) => {
             var currentRaid = Service.DataManager.GetLimitedNormalRaidDuties().LastOrDefault();
 
-            if (currentRaid is not null) {
-                AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId); 
-                ClearDutyFinderSelection();
-            }
+            AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId); 
+            ClearDutyFinderSelection();
         },
         PayloadId.OpenDutyFinderAllianceRaid => (_, _) => {
-            var currentAllianceRaid = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!
-                .Where(cfc => cfc.ContentType.Row is 5 && cfc.Unknown33 is false && cfc.Unknown28)
+            var currentAllianceRaid = Service.DataManager.GetExcelSheet<ContentFinderCondition>()
+                .Where(cfc => cfc.ContentType.RowId is 5 && cfc is { Unknown33: 0, Unknown28: true })
                 .Last();
 
             AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
         },
         PayloadId.GoldSaucerTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>()!.GetRow(62)!);
+            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(62));
         },
         PayloadId.OpenPartyFinder => (_, _) => {
                 Framework.Instance()->GetUIModule()->ExecuteMainCommand(57);
         },
         PayloadId.UldahTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>()!.GetRow(9)!);
+            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(9));
         },
         PayloadId.Unknown => (_, _) => {
             Service.Log.Debug("Executed Unknown Payload.");

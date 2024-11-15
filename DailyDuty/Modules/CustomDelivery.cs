@@ -12,9 +12,7 @@ public class CustomDeliveryData : ModuleData {
     public int RemainingAllowances = 12;
 
     protected override void DrawModuleData() {
-        DrawDataTable([
-            (Strings.AllowancesRemaining, RemainingAllowances.ToString()),
-        ]);
+        DrawDataTable((Strings.AllowancesRemaining, RemainingAllowances.ToString()));
     }
 }
 

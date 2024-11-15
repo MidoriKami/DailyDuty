@@ -13,7 +13,7 @@ using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Modules;
@@ -48,8 +48,8 @@ public unsafe partial class GrandCompanySquadron : Modules.Weekly<GrandCompanySq
 	private readonly Dictionary<string, GcArmyExpedition> missionLookup = new();
             
 	public GrandCompanySquadron() {
-		foreach (var mission in Service.DataManager.GetExcelSheet<GcArmyExpedition>()!) {
-			missionLookup.TryAdd(Alphanumeric().Replace(mission.Name.RawString.ToLower(), string.Empty), mission);
+		foreach (var mission in Service.DataManager.GetExcelSheet<GcArmyExpedition>()) {
+			missionLookup.TryAdd(Alphanumeric().Replace(mission.Name.ExtractText().ToLower(), string.Empty), mission);
 		}
 	}
             
@@ -75,10 +75,10 @@ public unsafe partial class GrandCompanySquadron : Modules.Weekly<GrandCompanySq
 		var missionText = Alphanumeric().Replace(addon->AtkValues[4].GetValueAsString().ToLower(), string.Empty);
 		var missionSuccessful = addon->AtkValues[2].Int == 1;
 
-		var missionInfo = Service.DataManager.GetExcelSheet<GcArmyExpedition>()!
+		var missionInfo = Service.DataManager.GetExcelSheet<GcArmyExpedition>()
 			.FirstOrDefault(mission => Alphanumeric().Replace(mission.Name.ToString().ToLower(), string.Empty) == missionText);
 
-		if (missionInfo is { GcArmyExpeditionType.Row: 3 } && missionSuccessful) {
+		if (missionInfo is { GcArmyExpeditionType.RowId: 3 } && missionSuccessful) {
 			Data.MissionCompleted = true;
 			DataChanged = true;
 		}

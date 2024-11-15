@@ -7,9 +7,9 @@ using Lumina.Excel;
 
 namespace DailyDuty.Classes;
 
-public class LuminaTaskUpdater<T>(Module module, Func<T, bool> filter) where T : ExcelRow {
+public class LuminaTaskUpdater<T>(Module module, Func<T, bool> filter) where T : struct, IExcelRow<T> {
     
-    private readonly IEnumerable<T> luminaRows = Service.DataManager.GetExcelSheet<T>()!.Where(filter);
+    private readonly IEnumerable<T> luminaRows = Service.DataManager.GetExcelSheet<T>().Where(filter);
 
     public void UpdateConfig(LuminaTaskConfigList<T> configValues) {
         if (configValues.Count != luminaRows.Count()) {

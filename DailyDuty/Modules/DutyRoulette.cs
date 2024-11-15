@@ -19,7 +19,7 @@ using ImGuiNET;
 using KamiLib.Classes;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
@@ -133,7 +133,7 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
             var levelTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(15);
             if (levelTextNode is null) continue;
             
-            if (Service.DataManager.GetExcelSheet<ContentRoulette>()!.FirstOrDefault(rouletteData => string.Equals(listItemText, rouletteData.Category.ToString(), StringComparison.OrdinalIgnoreCase)) is {} contentRoulette && addon->SelectedRadioButton is 0){
+            if (Service.DataManager.GetExcelSheet<ContentRoulette>().FirstOrDefault(rouletteData => string.Equals(listItemText, rouletteData.Category.ToString(), StringComparison.OrdinalIgnoreCase)) is {} contentRoulette && addon->SelectedRadioButton is 0){
                 if (Config.TaskConfig.Any(task => task.Enabled && task.RowId == contentRoulette.RowId)) {
                     var rouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) contentRoulette.RowId);
 
@@ -179,7 +179,7 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
             .ToDalamudString();
 
     protected override void UpdateTaskLists() {
-        var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.RawString != string.Empty);
+        var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.ExtractText() != string.Empty);
         luminaUpdater.UpdateConfig(Config.TaskConfig);
         luminaUpdater.UpdateData(Data.TaskData);
     }

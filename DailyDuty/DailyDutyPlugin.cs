@@ -83,7 +83,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.LoadModules();
     }
     
-    private void OnLogout() {
+    private void OnLogout(int type, int code) {
         System.ModuleController.UnloadModules();
         
         System.TodoListController.Disable();

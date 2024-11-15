@@ -7,12 +7,12 @@ using System.Linq;
 using Dalamud.Interface;
 using ImGuiNET;
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
 using DailyDuty.Localization;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Models;
 
-public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : ExcelRow {
+public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : struct, IExcelRow<T> {
 	public List<LuminaTaskData<T>> DataList = [];
 
 	// Implement ICollection
@@ -60,30 +60,30 @@ public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : Ex
 			ImGui.TableNextColumn();
 			switch (this) {
 				case LuminaTaskDataList<ContentsNote>:
-					ImGui.Text(Service.DataManager.GetExcelSheet<ContentsNote>()!.GetRow(dataEntry.RowId)!.Name.ToString());
+					ImGui.Text(Service.DataManager.GetExcelSheet<ContentsNote>().GetRow(dataEntry.RowId).Name.ToString());
 					break;
                 
 				case LuminaTaskDataList<ContentRoulette>:
-					ImGui.Text(Service.DataManager.GetExcelSheet<ContentRoulette>()!.GetRow(dataEntry.RowId)!.Name.ToString());
+					ImGui.Text(Service.DataManager.GetExcelSheet<ContentRoulette>().GetRow(dataEntry.RowId).Name.ToString());
 					break;
                 
 				case LuminaTaskDataList<ClassJob>:
-					var classJob = Service.DataManager.GetExcelSheet<ClassJob>()!.GetRow(dataEntry.RowId)!;
+					var classJob = Service.DataManager.GetExcelSheet<ClassJob>().GetRow(dataEntry.RowId);
 					var classJobLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(classJob.Name.ToString());
 					ImGui.Text(classJobLabel);
 					break;
                 
 				case LuminaTaskDataList<MobHuntOrderType>:
-					var mobHuntOrderType = Service.DataManager.GetExcelSheet<MobHuntOrderType>()!.GetRow(dataEntry.RowId)!;
-					var eventItemName = mobHuntOrderType.EventItem.Value?.Name.ToString();
-					if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value?.Singular.ToString();
+					var mobHuntOrderType = Service.DataManager.GetExcelSheet<MobHuntOrderType>().GetRow(dataEntry.RowId);
+					var eventItemName = mobHuntOrderType.EventItem.Value.Name.ExtractText();
+					if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value.Singular.ExtractText();
 
-					var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName ?? "Unable to Read Event Item");
+					var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName);
 					ImGui.Text(mobHuntLabel);
 					break;
                 
 				case LuminaTaskDataList<Addon>:
-					ImGui.Text(Service.DataManager.GetExcelSheet<Addon>()!.GetRow(dataEntry.RowId)!.Text.ToString());
+					ImGui.Text(Service.DataManager.GetExcelSheet<Addon>().GetRow(dataEntry.RowId).Text.ToString());
 					break;
 			}
             
@@ -104,7 +104,7 @@ public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : Ex
 		if (DataList.Count > 0) {
 			foreach (var data in DataList) {
 				ImGui.TableNextColumn();
-				var luminaData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!.GetRow(data.RowId)!;
+				var luminaData = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(data.RowId);
 				ImGui.Text(luminaData.Name.ToString());
 
 				ImGui.TableNextColumn();

@@ -3,7 +3,7 @@ using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Plugin.Ipc.Exceptions;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Classes;
 
@@ -13,7 +13,7 @@ public class TeleporterController {
 
     public void Teleport(Aetheryte aetheryte) {
         try {
-            var didTeleport = teleportIpc.InvokeFunc(aetheryte.RowId, (byte) aetheryte.SubRowId);
+            var didTeleport = teleportIpc.InvokeFunc(aetheryte.RowId, 0);
             var showMessage = showChatMessageIpc.InvokeFunc();
 
             if (!didTeleport) {
@@ -25,7 +25,7 @@ public class TeleporterController {
                         .AddUiForeground("[DailyDuty] ", 45)
                         .AddUiForeground($"[{Strings.Teleport}] ", 62)
                         .AddText($"{Strings.TeleportingTo} ")
-                        .AddUiForeground(aetheryte.AethernetName.Value?.Name ?? "Unable to read name", 576)
+                        .AddUiForeground(aetheryte.AethernetName.Value.Name.ExtractText(), 576)
                         .Build(),
                 });
             }

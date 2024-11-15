@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
-using Lumina.Excel.GeneratedSheets;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Classes;
 
@@ -43,8 +44,8 @@ public static class Time {
 
     public class DatacenterException : Exception { }
     
-    public static DateTime NextJumboCactpotReset() {
-        var region = LookupDatacenterRegion(Service.ClientState.LocalPlayer?.HomeWorld.GameData?.DataCenter.Row);
+    public unsafe static DateTime NextJumboCactpotReset() {
+        var region = LookupDatacenterRegion(AgentLobby.Instance()->DataCenter);
 
         return region switch {
             // Japan
@@ -70,7 +71,7 @@ public static class Time {
     private static byte LookupDatacenterRegion(uint? playerDatacenterId) {
         if (playerDatacenterId == null) return 0;
 
-        return Service.DataManager.GetExcelSheet<WorldDCGroupType>()!
+        return Service.DataManager.GetExcelSheet<WorldDCGroupType>()
             .Where(world => world.RowId == playerDatacenterId.Value)
             .Select(dc => dc.Region)
             .FirstOrDefault();

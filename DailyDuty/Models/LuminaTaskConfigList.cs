@@ -6,13 +6,13 @@ using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using ImGuiNET;
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
 using DailyDuty.Localization;
 using Dalamud.Interface.Utility.Raii;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Models;
 
-public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T : ExcelRow {
+public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T : struct, IExcelRow<T> {
 	public List<LuminaTaskConfig<T>> ConfigList = [];
 
 	// Implement ICollection
@@ -71,13 +71,13 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
 	private bool DrawContentsNoteConfig() {
 		var result = false;
 		
-		foreach (var category in Service.DataManager.GetExcelSheet<ContentsNoteCategory>()!.Where(category => category.CategoryName.ToString() != string.Empty)) {
-			if (ImGui.CollapsingHeader(category.CategoryName.ToString())) {
+		foreach (var category in Service.DataManager.GetExcelSheet<ContentsNoteCategory>().Where(category => category.Unknown0.ExtractText() != string.Empty)) {
+			if (ImGui.CollapsingHeader(category.Unknown0.ExtractText())) {
 				using var indent = ImRaii.PushIndent();
 				
 				foreach (var option in ConfigList) {
-					var luminaData = Service.DataManager.GetExcelSheet<ContentsNote>()!.GetRow(option.RowId)!;
-					if (luminaData.ContentType != category.RowId) continue;
+					var luminaData = Service.DataManager.GetExcelSheet<ContentsNote>().GetRow(option.RowId);
+					if (luminaData.ContentType.RowId != category.RowId) continue;
 
 					var enabled = option.Enabled;
 					if (ImGui.Checkbox(luminaData.Name.ToString(), ref enabled)) {
@@ -106,7 +106,7 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
                         
 		if (ConfigList.Count > 0) {
 			foreach (var data in ConfigList) {
-				var luminaData = Service.DataManager.GetExcelSheet<ContentFinderCondition>()!.GetRow(data.RowId)!;
+				var luminaData = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(data.RowId);
 
 				ImGui.TableNextColumn();
 				var enabled = data.Enabled;

@@ -1,7 +1,7 @@
 ﻿using System;
 using DailyDuty.Classes;
 using DailyDuty.Modules.BaseModules;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Modules;
 

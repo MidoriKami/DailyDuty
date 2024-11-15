@@ -9,7 +9,7 @@ using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Modules.BaseModules;
 
@@ -75,18 +75,18 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 		if (GetDataForCurrentZone() is not { } trackedRaid) return;
 
 		// If we can't get the exd data for this item, return
-		if (Service.DataManager.GetExcelSheet<Item>()?.GetRow(data.Item.ItemId) is not { } item) return;
+		if (Service.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId) is not { RowId: 0 } item) return;
 		
 		Service.Log.Debug($"InventoryEvent: {type}: {item.Name}");
 
 		// If the item is a limited type that we care about, increment the current count
-		switch (item.ItemUICategory.Row) {
+		switch (item.ItemUICategory.RowId) {
 			case 34: // Head
 			case 35: // Body
 			case 36: // Legs
 			case 37: // Hands
 			case 38: // Feet
-			case 61 when item.ItemAction.Row == 0: // Miscellany with no itemAction
+			case 61 when item.ItemAction.RowId == 0: // Miscellany with no itemAction
 				trackedRaid.CurrentCount += 1;
 				DataChanged = true;
 				break;
