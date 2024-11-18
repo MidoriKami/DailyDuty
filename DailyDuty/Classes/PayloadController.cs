@@ -61,10 +61,10 @@ public unsafe class PayloadController : IDisposable {
             }
         },
         PayloadId.IdyllshireTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(75));
+            System.Teleporter.Teleport(75);
         },
         PayloadId.DomanEnclaveTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(127));
+            System.Teleporter.Teleport(127);
         },
         PayloadId.OpenDutyFinderRoulette => (_, _) => {
             AgentContentsFinder.Instance()->OpenRouletteDuty(1);
@@ -84,13 +84,13 @@ public unsafe class PayloadController : IDisposable {
             AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
         },
         PayloadId.GoldSaucerTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(62));
+            System.Teleporter.Teleport(62);
         },
         PayloadId.OpenPartyFinder => (_, _) => {
                 Framework.Instance()->GetUIModule()->ExecuteMainCommand(57);
         },
         PayloadId.UldahTeleport => (_, _) => {
-            System.TeleporterController.Teleport(Service.DataManager.GetExcelSheet<Aetheryte>().GetRow(9));
+            System.Teleporter.Teleport(9);
         },
         PayloadId.Unknown => (_, _) => {
             Service.Log.Debug("Executed Unknown Payload.");

@@ -3,6 +3,7 @@ using DailyDuty.Classes.Timers;
 using DailyDuty.Classes.TodoList;
 using DailyDuty.Models;
 using DailyDuty.Windows;
+using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;
@@ -17,8 +18,8 @@ public static class System {
 	public static PayloadController PayloadController { get; set; }
 	public static WindowManager WindowManager { get; set; }
 	public static CommandManager CommandManager { get; set; }
-	public static TeleporterController TeleporterController { get; set; }
 	public static NativeController NativeController { get; set; }
+	public static Teleporter Teleporter { get; set; }
 	public static ConfigurationWindow ConfigurationWindow { get; set; }
 	public static TodoListController TodoListController { get; set; }
 	public static TimersController TimersController { get; set; }

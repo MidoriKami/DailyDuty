@@ -5,6 +5,7 @@ using Dalamud.Plugin;
 using DailyDuty.Models;
 using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
+using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;
@@ -19,7 +20,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.SystemConfig = new SystemConfig();
         System.NativeController = new NativeController(Service.PluginInterface);
 
-        System.TeleporterController = new TeleporterController();
+        System.Teleporter = new Teleporter(Service.PluginInterface);
         
         System.CommandManager = new CommandManager(Service.PluginInterface, "dd", "dailyduty");
         System.LocalizationController = new LocalizationController();
