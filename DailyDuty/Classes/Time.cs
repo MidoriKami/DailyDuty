@@ -42,10 +42,10 @@ public static class Time {
         return nextReset.Date.AddHours(hour);
     }
 
-    public class DatacenterException : Exception { }
+    public class DatacenterException : Exception;
     
-    public unsafe static DateTime NextJumboCactpotReset() {
-        var region = LookupDatacenterRegion(AgentLobby.Instance()->DataCenter);
+    public static unsafe DateTime NextJumboCactpotReset() {
+        var region = LookupDatacenterRegion(AgentLobby.Instance()->LobbyData.HomeWorldId);
 
         return region switch {
             // Japan
