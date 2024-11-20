@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
 
@@ -45,7 +44,9 @@ public static class Time {
     public class DatacenterException : Exception;
     
     public static unsafe DateTime NextJumboCactpotReset() {
-        var region = LookupDatacenterRegion(AgentLobby.Instance()->LobbyData.HomeWorldId);
+        var worldId = AgentLobby.Instance()->LobbyData.HomeWorldId;
+        var world = Service.DataManager.GetExcelSheet<World>().GetRow(worldId);
+        var region = Service.DataManager.GetExcelSheet<WorldDCGroupType>().GetRow(world.DataCenter.RowId).Region;
 
         return region switch {
             // Japan
@@ -66,15 +67,6 @@ public static class Time {
             // Unknown Region
             _ => throw new DatacenterException(),
         };
-    }
-
-    private static byte LookupDatacenterRegion(uint? playerDatacenterId) {
-        if (playerDatacenterId == null) return 0;
-
-        return Service.DataManager.GetExcelSheet<WorldDCGroupType>()
-            .Where(world => world.RowId == playerDatacenterId.Value)
-            .Select(dc => dc.Region)
-            .FirstOrDefault();
     }
 
     public static string FormatTimespan(this TimeSpan timeSpan, bool hideSeconds = false)
