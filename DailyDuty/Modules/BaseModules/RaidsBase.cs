@@ -96,11 +96,18 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 	private LuminaTaskData<ContentFinderCondition>? GetDataForCurrentZone()
 		=> Data.TaskData.FirstOrDefault(task => task.RowId == GameMain.Instance()->CurrentContentFinderConditionId);
 
-	private bool IsDataStale(ICollection<ContentFinderCondition> dutyList)
-		=> dutyList.Any(duty => !Data.TaskData.Any(task => task.RowId == duty.RowId));
-    
-	protected void CheckForDutyListUpdate(List<ContentFinderCondition> dutyList) { 
-		if (IsDataStale(dutyList) || Config.TaskConfig.Count == 0 || Data.TaskData.Count == 0) {
+	private bool IsDataStale(ICollection<ContentFinderCondition> dutyList) {
+		// Are there any new duties that we might need to add?
+		var newDutiesAvailable = dutyList.Any(duty => !Data.TaskData.Any(task => task.RowId == duty.RowId));
+		
+		// Are there any duties that we might have that we need to remove?
+		var tooManyDuties = Data.TaskData.Any(taskDuty => dutyList.Any(duty => duty.RowId != taskDuty.RowId));
+		
+		return newDutiesAvailable || tooManyDuties;
+	}
+
+	private void CheckForDutyListUpdate(List<ContentFinderCondition> dutyList) { 
+		if (IsDataStale(dutyList) || Config.TaskConfig.Count is 0 || Data.TaskData.Count is 0) {
 			Config.TaskConfig.Clear();
 			Data.TaskData.Clear();
 	
