@@ -97,15 +97,11 @@
       "kamilib": {
         "type": "Project",
         "dependencies": {
-          "DalamudPackager": "[11.0.0, )",
           "NetStone": "[1.1.1, )"
         }
       },
       "kamitoolkit": {
-        "type": "Project",
-        "dependencies": {
-          "DalamudPackager": "[11.0.0, )"
-        }
+        "type": "Project"
       }
     }
   }
