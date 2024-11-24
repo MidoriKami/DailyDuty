@@ -32,7 +32,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
-        System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn | WindowFlags.OpenImmediately);
+        System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
         System.WindowManager.AddWindow(new WonderousTailsDebugWindow());
 
         if (Service.ClientState.IsLoggedIn) {
