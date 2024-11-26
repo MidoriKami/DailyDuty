@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Numerics;
-using DailyDuty.Modules;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
+using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using Lumina.Excel.Sheets;
@@ -23,7 +23,7 @@ public unsafe class WonderousTailsDebugWindow : Window {
 		foreach (var index in Enumerable.Range(0, 16)) {
 			var taskId = PlayerState.Instance()->WeeklyBingoOrderData[index];
 			
-			var dutyListForSlot = TaskLookup.GetInstanceListFromId(taskId);
+			var dutyListForSlot = WondrousTailsTaskResolver.GetTerritoriesFromOrderId(Service.DataManager, taskId);
 			var bingoOrderData = Service.DataManager.GetExcelSheet<WeeklyBingoOrderData>().GetRow(taskId);
 
 			if (ImGui.CollapsingHeader($"{taskId}: {bingoOrderData.Text.Value.Description}")) {
