@@ -27,12 +27,12 @@ public class GrandCompanySquadronData : ModuleData {
 	public TimeSpan TimeUntilMissionComplete = TimeSpan.MinValue;
 
 	protected override void DrawModuleData() {
-		DrawDataTable([
+		DrawDataTable(
 			(Strings.MissionCompleted, MissionCompleted.ToString()),
 			(Strings.MissionStarted, MissionStarted.ToString()),
 			(Strings.MissionCompleteTime, MissionCompleteTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
-			(Strings.TimeUntilMissionComplete, TimeUntilMissionComplete.FormatTimespan()),
-		]);
+			(Strings.TimeUntilMissionComplete, TimeUntilMissionComplete.FormatTimespan())
+		);
 	}
 }
 
@@ -40,19 +40,10 @@ public unsafe partial class GrandCompanySquadron : Modules.Weekly<GrandCompanySq
 	public override ModuleName ModuleName => ModuleName.GrandCompanySquadron;
 
 	private Hook<AgentGcArmyExpedition.Delegates.ReceiveEvent>? onReceiveEventHook;
-	private AgentGcArmyExpedition* Agent => (AgentGcArmyExpedition*) AgentModule.Instance()->GetAgentByInternalId(AgentId.GcArmyExpedition);
 
 	[GeneratedRegex("[^\\p{L}\\p{N}]")]
 	private static partial Regex Alphanumeric();
-            
-	private readonly Dictionary<string, GcArmyExpedition> missionLookup = new();
-            
-	public GrandCompanySquadron() {
-		foreach (var mission in Service.DataManager.GetExcelSheet<GcArmyExpedition>()) {
-			missionLookup.TryAdd(Alphanumeric().Replace(mission.Name.ExtractText().ToLower(), string.Empty), mission);
-		}
-	}
-            
+
 	public override void Load() {
 		base.Load();
 
@@ -104,8 +95,10 @@ public unsafe partial class GrandCompanySquadron : Modules.Weekly<GrandCompanySq
 
 
 	public override void Update() {
-		if (Agent is not null && Agent->IsAgentActive() && Agent->SelectedTab == 2) {
-			Data.MissionCompleted = TryUpdateData(Data.MissionCompleted, Agent->ExpeditionData->MissionInfo[0].Available == 0);
+		var gcAgent = AgentGcArmyExpedition.Instance();
+		
+		if (gcAgent->IsAgentActive() && gcAgent->SelectedTab == 2) {
+			Data.MissionCompleted = TryUpdateData(Data.MissionCompleted, gcAgent->ExpeditionData->MissionInfo[0].Available == 0);
 		}
 
 		if (Data.MissionCompleteTime > DateTime.UtcNow) {
