@@ -31,11 +31,11 @@ public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
     public bool AtTomeCap;
 
     protected override void DrawModuleData() {
-        DrawDataTable([
+        DrawDataTable(
             (Strings.CurrentWeeklyTomestones, ExpertTomestones.ToString()),
             (Strings.WeeklyTomestoneLimit, ExpertTomestoneCap.ToString()),
-            (Strings.AtWeeklyTomestoneLimit, AtTomeCap.ToString()),
-        ]);
+            (Strings.AtWeeklyTomestoneLimit, AtTomeCap.ToString())
+        );
         
         base.DrawModuleData();
     }
