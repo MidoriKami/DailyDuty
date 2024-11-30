@@ -9,9 +9,9 @@ using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Windows;
 
-public unsafe class WonderousTailsDebugWindow : Window {
+public unsafe class WondrousTailsDebugWindow : Window {
 
-	public WonderousTailsDebugWindow() : base("WondrousTails Debug", new Vector2(400.0f, 400.0f)) {
+	public WondrousTailsDebugWindow() : base("WondrousTails Debug", new Vector2(400.0f, 400.0f)) {
 		System.CommandManager.RegisterCommand(new CommandHandler {
 			Delegate = _ => UnCollapseOrShow(),
 			ActivationPath = "/wt",

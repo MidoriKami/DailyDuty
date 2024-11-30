@@ -33,7 +33,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
-        System.WindowManager.AddWindow(new WonderousTailsDebugWindow());
+        System.WindowManager.AddWindow(new WondrousTailsDebugWindow());
 
         if (Service.ClientState.IsLoggedIn) {
             Service.Framework.RunOnFrameworkThread(OnLogin);
