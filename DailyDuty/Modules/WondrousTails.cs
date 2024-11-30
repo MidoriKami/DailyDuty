@@ -9,7 +9,6 @@ using DailyDuty.Modules.BaseModules;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using ImGuiNET;
-using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
@@ -26,23 +25,22 @@ public class WondrousTailsData : ModuleData {
 	public bool CastingTeleport;
 	
 	protected override void DrawModuleData() {
-		DrawDataTable([
-			(Strings.PlacedStickers, PlacedStickers.ToString()),
+		DrawDataTable(
+			(Strings.PlacedStickers, PlacedStickers.ToString()), 
 			(Strings.SecondChancePoints, SecondChance.ToString()),
-			(Strings.NewBookAvailable, NewBookAvailable.ToString()),
-			(Strings.PlayerHasBook, PlayerHasBook.ToString()),
-			(Strings.Deadline, Deadline.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
-			(Strings.TimeRemaining, TimeRemaining.FormatTimespan()),
-			(Strings.BookExpired, BookExpired.ToString()),
-			(Strings.NearKhloe, CloseToKhloe.ToString()),
-			(Strings.DistanceToKhloe, DistanceToKhloe.ToString(CultureInfo.CurrentCulture)),
-			(Strings.CastingTeleport, CastingTeleport.ToString()),
-		]);
+			(Strings.NewBookAvailable, NewBookAvailable.ToString()), 
+			(Strings.PlayerHasBook, PlayerHasBook.ToString()), 
+			(Strings.Deadline, Deadline.ToLocalTime().ToString(CultureInfo.CurrentCulture)), 
+			(Strings.TimeRemaining, TimeRemaining.FormatTimespan()), 
+			(Strings.BookExpired, BookExpired.ToString()), 
+			(Strings.NearKhloe, CloseToKhloe.ToString()), 
+			(Strings.DistanceToKhloe, DistanceToKhloe.ToString(CultureInfo.CurrentCulture)), 
+			(Strings.CastingTeleport, CastingTeleport.ToString())
+		);
 	}
 }
 
 public class WondrousTailsConfig : ModuleConfig {
-	public bool InstanceNotifications = true;
 	public bool StickerAvailableNotice = true;
 	public bool UnclaimedBookWarning = true;
 	public bool ShuffleAvailableNotice;
@@ -51,7 +49,6 @@ public class WondrousTailsConfig : ModuleConfig {
 	protected override bool DrawModuleConfig() {
 		var configChanged = false;
 
-		configChanged |= ImGui.Checkbox(Strings.InstanceNotifications, ref InstanceNotifications);
 		configChanged |= ImGui.Checkbox(Strings.StickerAvailableNotice, ref StickerAvailableNotice);
 		configChanged |= ImGui.Checkbox(Strings.UnclaimedBookWarning, ref UnclaimedBookWarning);
 		configChanged |= ImGui.Checkbox(Strings.ShuffleAvailableNotice, ref ShuffleAvailableNotice);
@@ -67,16 +64,6 @@ public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTa
 	public override bool HasClickableLink => Config.ClickableLink;
     
 	public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.IdyllshireTeleport : PayloadId.OpenWondrousTailsBook;
-
-	public WondrousTails() {
-		Service.DutyState.DutyStarted += OnDutyStarted;
-		Service.DutyState.DutyCompleted += OnDutyCompleted;
-	}
-
-	public override void Dispose() {
-		Service.DutyState.DutyStarted -= OnDutyStarted;
-		Service.DutyState.DutyCompleted -= OnDutyCompleted;
-	}
 
 	public override void Update() {
 		Data.PlacedStickers = TryUpdateData(Data.PlacedStickers, PlayerState.Instance()->WeeklyBingoNumPlacedStickers);
@@ -117,49 +104,6 @@ public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTa
 		base.Update();
 	}
 
-	private void OnDutyStarted(object? sender, ushort e) {
-		if (!Config.ModuleEnabled) return;
-		if (!Config.InstanceNotifications) return;
-		if (Data is not { PlayerHasBook: true, BookExpired: false }) return;
-		if (GetModuleStatus() == ModuleStatus.Complete) return;
-		if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
-
-		var taskState = GetStatusForTerritory(e);
-
-		switch (taskState) {
-			case PlayerState.WeeklyBingoTaskStatus.Claimed when Data is { PlacedStickers: > 0, SecondChance: > 0}:
-				PrintMessage(Strings.RerollNotice);
-				PrintMessage(string.Format(Strings.RerollsAvailable, Data.SecondChance), true);
-				break;
-            
-			case PlayerState.WeeklyBingoTaskStatus.Claimable:
-				PrintMessage(Strings.StampAlreadyAvailable, true);
-				break;
-            
-			case PlayerState.WeeklyBingoTaskStatus.Open:
-				PrintMessage(Strings.CompletionAvailable);
-				break;
-		}
-	}
-    
-	private void OnDutyCompleted(object? sender, ushort e) {
-		if (!Config.ModuleEnabled) return;
-		if (!Config.InstanceNotifications) return;
-		if (Data is not { PlayerHasBook: true, BookExpired: false }) return;
-		if (GetModuleStatus() == ModuleStatus.Complete) return;
-		if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
-
-		var taskState = GetStatusForTerritory(e);
-
-		switch (taskState)
-		{
-			case PlayerState.WeeklyBingoTaskStatus.Claimable:
-			case PlayerState.WeeklyBingoTaskStatus.Open:
-				PrintMessage(Strings.StampClaimable, true);
-				break;
-		}
-	}
-
 	protected override ModuleStatus GetModuleStatus() {
 		if (Config.UnclaimedBookWarning && Data.NewBookAvailable) return ModuleStatus.Incomplete;
 
@@ -178,18 +122,6 @@ public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTa
 
 		_ => ConditionalStatusMessage.GetMessage(Config.ClickableLink, string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers), PayloadId.OpenWondrousTailsBook),
 	};
-
-	private static PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory) {
-		foreach (var index in Enumerable.Range(0, 16)) {
-			var dutyListForSlot = WondrousTailsTaskResolver.GetTerritoriesFromOrderId(Service.DataManager, PlayerState.Instance()->WeeklyBingoOrderData[index]);
-
-			if (dutyListForSlot.Contains(territory)) {
-				return PlayerState.Instance()->GetWeeklyBingoTaskStatus(index);
-			}
-		}
-
-		return null;
-	}
 
 	private bool AnyTaskAvailableForSticker() 
 		=> Enumerable.Range(0, 16).Select(index => PlayerState.Instance()->GetWeeklyBingoTaskStatus(index)).Any(taskStatus => taskStatus == PlayerState.WeeklyBingoTaskStatus.Claimable);
