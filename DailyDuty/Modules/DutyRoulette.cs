@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
@@ -127,27 +126,42 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         var anyRecolored = false;
 
         foreach (var listItem in treeListComponent->Items) {
-            var listItemTextNode = listItem.Value->Renderer->ButtonTextNode;
+            if (listItem.Value->Renderer is null) continue;
+            
+            var listItemTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(5);
+            if (listItemTextNode is null) continue;
+            
             var listItemText = listItemTextNode->NodeText.ToString();
 
             var levelTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(18);
             if (levelTextNode is null) continue;
-            
-            if (Service.DataManager.GetExcelSheet<ContentRoulette>().FirstOrDefault(rouletteData => string.Equals(listItemText, rouletteData.Category.ToString(), StringComparison.OrdinalIgnoreCase)) is { RowId: not 0 } contentRoulette && addon->SelectedRadioButton is 0){
-                if (Config.TaskConfig.Any(task => task.Enabled && task.RowId == contentRoulette.RowId)) {
-                    var rouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) contentRoulette.RowId);
 
-                    if (rouletteCompleted) {
+            foreach (var roulette in Service.DataManager.GetExcelSheet<ContentRoulette>()) {
+                if (roulette.RowId is 0) continue;
+                
+                var rouletteString = roulette.Category.ExtractText();
+
+                if (string.Equals(listItemText, rouletteString)) {
+                    var taskSettings = Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId);
+                    if (taskSettings is null) {
+                        Service.Log.Warning($"Unable to retrieve task settings for roulette {rouletteString}");
+                        break;
+                    }
+
+                    var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
+                    if (isRouletteCompleted) {
                         listItemTextNode->TextColor = Config.CompleteColor.ToByteColor();
                     }
                     else {
                         listItemTextNode->TextColor = Config.IncompleteColor.ToByteColor();
                     }
-
+                    
                     anyRecolored = true;
+                    break;
                 }
             }
-            else {
+
+            if (!anyRecolored) {
                 listItemTextNode->TextColor = levelTextNode->TextColor;
             }
         }
