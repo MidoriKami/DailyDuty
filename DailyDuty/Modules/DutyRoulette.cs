@@ -127,10 +127,10 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
 
         foreach (var listItem in treeListComponent->Items) {
             if (listItem.Value->Renderer is null) continue;
-            
+
             var listItemTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(5);
             if (listItemTextNode is null) continue;
-            
+
             var listItemText = listItemTextNode->NodeText.ToString();
 
             var levelTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(18);
@@ -155,7 +155,7 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
                     else {
                         listItemTextNode->TextColor = Config.IncompleteColor.ToByteColor();
                     }
-                    
+
                     anyRecolored = true;
                     break;
                 }
