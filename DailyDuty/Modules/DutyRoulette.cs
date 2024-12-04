@@ -143,20 +143,18 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
 
                 if (string.Equals(listItemText, rouletteString)) {
                     var taskSettings = Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId);
-                    if (taskSettings is null) {
-                        Service.Log.Warning($"Unable to retrieve task settings for roulette {rouletteString}");
-                        break;
+                    if (taskSettings is { Enabled: true }) {
+                        var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
+                        if (isRouletteCompleted) {
+                            listItemTextNode->TextColor = Config.CompleteColor.ToByteColor();
+                        }
+                        else {
+                            listItemTextNode->TextColor = Config.IncompleteColor.ToByteColor();
+                        }
+
+                        anyRecolored = true;
                     }
 
-                    var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
-                    if (isRouletteCompleted) {
-                        listItemTextNode->TextColor = Config.CompleteColor.ToByteColor();
-                    }
-                    else {
-                        listItemTextNode->TextColor = Config.IncompleteColor.ToByteColor();
-                    }
-
-                    anyRecolored = true;
                     break;
                 }
             }
