@@ -101,7 +101,17 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 		var newDutiesAvailable = dutyList.Any(duty => !Data.TaskData.Any(task => task.RowId == duty.RowId));
 		
 		// Are there any duties that we might have that we need to remove?
-		var tooManyDuties = Data.TaskData.Any(taskDuty => dutyList.Any(duty => duty.RowId != taskDuty.RowId));
+		var tooManyDuties = false;
+		
+		// Check every duty in saved task data
+		foreach (var taskDataDuty in Data.TaskData) {
+			
+			// If this duty doesn't match ANY of the new duties, then we have too many.
+			if (!dutyList.Any(newDuty => newDuty.RowId == taskDataDuty.RowId)) {
+				tooManyDuties = true;
+			}
+			// else this duty is in the list, it's good to keep.
+		}
 		
 		return newDutiesAvailable || tooManyDuties;
 	}
