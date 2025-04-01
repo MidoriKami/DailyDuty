@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using Dalamud.Game.Inventory;
 using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using Dalamud.Interface.Utility;
-using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using ImGuiNET;
@@ -18,29 +15,12 @@ namespace DailyDuty.Modules.BaseModules;
 
 public class RaidsConfig : ModuleTaskConfig<ContentFinderCondition> {
 	public bool ClickableLink = true;
-
-	[NonSerialized] public bool ResetData;
 	
 	protected override bool DrawModuleConfig() {
 		var configChanged = ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 		
 		ImGuiHelpers.ScaledDummy(5.0f);
-		configChanged |= base.DrawModuleConfig();
-		
-		ImGui.SetCursorPosY(ImGui.GetContentRegionMax().Y - 23.0f * ImGuiHelpers.GlobalScale);
-		using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
-			if (ImGui.Button("Force Reload Duties", new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
-				ResetData = true;
-			}
-
-			using (ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
-				if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled)) {
-					ImGui.SetTooltip("Hold Shift + Control while clicking activate button");
-				}
-			}
-		}
-		
-		return configChanged;
+		return base.DrawModuleConfig() || configChanged;
 	}
 }
 
@@ -67,13 +47,6 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 	}
 
 	public override void Update() {
-		if (Config.ResetData) {
-			Config.TaskConfig.Clear();
-			Data.TaskData.Clear();
-			Config.ResetData = false;
-			CheckForDutyListUpdate(RaidDuties);
-		}
-		
 		if (Agent is not null && Agent->IsAgentActive()) {
 			var selectedDuty = Agent->SelectedDutyId;
 			var task = Data.TaskData.FirstOrDefault(task => task.RowId == selectedDuty);
