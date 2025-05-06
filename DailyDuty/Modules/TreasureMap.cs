@@ -50,11 +50,11 @@ public unsafe class TreasureMap : Modules.Special<TreasureMapData, TreasureMapCo
 	}
 
 	public override void Update() {
-		if (Service.Condition[ConditionFlag.Gathering42] && !gatheringStarted) {
+		if (Service.Condition[ConditionFlag.ExecutingGatheringAction] && !gatheringStarted) {
 			gatheringStarted = true;
 			OnGatheringStart();
 		} 
-		else if (!Service.Condition[ConditionFlag.Gathering42] && gatheringStarted) {
+		else if (!Service.Condition[ConditionFlag.ExecutingGatheringAction] && gatheringStarted) {
 			gatheringStarted = false;
 			OnGatheringStop();
 		}

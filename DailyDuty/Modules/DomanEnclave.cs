@@ -47,11 +47,11 @@ public unsafe class DomanEnclave : Modules.Weekly<DomanEnclaveData, DomanEnclave
     public override PayloadId ClickableLinkPayloadId => PayloadId.DomanEnclaveTeleport;
 
     public override void Update() {
-        var reconstructionBoxData = ReconstructionBoxManager.Instance();
+        var reconstructionBoxData = DomanEnclaveManager.Instance();
 
-        if (reconstructionBoxData->Allowance is not 0) {
-            Data.WeeklyAllowance = TryUpdateData(Data.WeeklyAllowance, reconstructionBoxData->Allowance);
-            Data.DonatedThisWeek = TryUpdateData(Data.DonatedThisWeek, reconstructionBoxData->Donated);
+        if (reconstructionBoxData->State.Allowance is not 0) {
+            Data.WeeklyAllowance = TryUpdateData(Data.WeeklyAllowance, reconstructionBoxData->State.Allowance);
+            Data.DonatedThisWeek = TryUpdateData(Data.DonatedThisWeek, reconstructionBoxData->State.Donated);
             Data.RemainingAllowance = TryUpdateData(Data.RemainingAllowance, Data.WeeklyAllowance - Data.DonatedThisWeek);
         }
         
