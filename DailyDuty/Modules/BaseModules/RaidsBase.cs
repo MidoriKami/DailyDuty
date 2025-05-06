@@ -75,7 +75,8 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 		if (GetDataForCurrentZone() is not { } trackedRaid) return;
 
 		// If we can't get the exd data for this item, return
-		if (Service.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId) is not { RowId: 0 } item) return;
+		var item = Service.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId);
+		if (item.RowId is 0) return;
 		
 		Service.Log.Debug($"InventoryEvent: {type}: {item.Name}");
 
