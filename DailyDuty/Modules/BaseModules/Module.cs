@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
@@ -116,18 +115,10 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         ImGuiTweaks.Header(Strings.ModuleSuppression);
         ImGuiHelpers.CenteredText(Strings.ModuleSuppressionHelp);
 
-        using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
-            if (ImGui.Button(!Config.Suppressed ? Strings.Snooze : "Unsnooze", new Vector2(ImGui.GetContentRegionAvail().X, 23.0f * ImGuiHelpers.GlobalScale))) {
-                Config.Suppressed = !Config.Suppressed;
-                ConfigChanged = true;
-            }
-
-            using (ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
-                if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled)) {
-                    ImGui.SetTooltip("Hold Shift + Control while clicking activate button");
-                }
-            }
-        }
+        ImGuiTweaks.DisabledButton(!Config.Suppressed ? Strings.Snooze : "Unsnooze", () => {
+            Config.Suppressed = !Config.Suppressed;
+            ConfigChanged = true;
+        });
     }
 
     private void DrawModuleCurrentStatusUi() {
