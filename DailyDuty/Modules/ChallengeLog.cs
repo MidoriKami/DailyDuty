@@ -52,9 +52,6 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
 
     private bool DrawEntryTrackingOptions() {
         var configChanged = false;
-
-        ImGui.Checkbox("Enable Content Finder Warnings", ref EnableContentFinderWarning);
-        if (!EnableContentFinderWarning) return false;
         
         if (ImGui.Button("Add Tasks", new Vector2(ImGui.GetContentRegionAvail().X, 24.0f * ImGuiHelpers.GlobalScale))) {
             System.WindowManager.AddWindow(new ContentsNoteSelectionWindow(Service.PluginInterface) {
@@ -101,6 +98,9 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
 
     private bool DrawDutyFinderWarnings() {
         var configChanged = false;
+        
+        ImGui.Checkbox("Enable Duty Finder Warnings", ref EnableContentFinderWarning);
+        if (!EnableContentFinderWarning) return false;
 
         ImGui.TextWrapped("Post a warning to chat upon opening duty finder when any of the following challenges are incomplete");
 
