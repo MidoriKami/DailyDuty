@@ -12,8 +12,6 @@ public sealed class Service {
     [PluginService] public static IFramework Framework { get; set; }
     [PluginService] public static IGameGui GameGui { get; set; }
     [PluginService] public static ITargetManager TargetManager { get; set; }
-    [PluginService] public static IDutyState DutyState { get; set; }
-    [PluginService] public static IToastGui Toast { get; set; }
     [PluginService] public static IObjectTable ObjectTable { get; set; }
     [PluginService] public static IAddonLifecycle AddonLifecycle { get; set; }
     [PluginService] public static IPluginLog Log { get; set; }
