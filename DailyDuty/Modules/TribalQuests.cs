@@ -56,8 +56,7 @@ public unsafe class TribalQuests : Modules.Daily<TribalQuestsData, TribalQuestsC
 		ComparisonMode.LessThanOrEqual when Config.NotificationThreshold >= Data.RemainingAllowances => ModuleStatus.Complete,
 		_ => ModuleStatus.Incomplete,
 	};
-    
-	protected override StatusMessage GetStatusMessage() => new() {
-		Message = $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}",
-	};
+
+	protected override StatusMessage GetStatusMessage() 
+		=> $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}";
 }

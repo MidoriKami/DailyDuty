@@ -214,7 +214,6 @@ public unsafe class ChallengeLog : Modules.WeeklyTask<ModuleTaskData<ContentsNot
     protected override ModuleStatus GetModuleStatus()
         => IncompleteTaskCount is 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-    protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{IncompleteTaskCount} {Strings.TasksIncomplete}",
-    };
+    protected override StatusMessage GetStatusMessage() 
+        => $"{IncompleteTaskCount} {Strings.TasksIncomplete}";
 }

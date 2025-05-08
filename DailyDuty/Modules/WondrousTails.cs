@@ -95,7 +95,9 @@ public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTa
 				var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && Data.CastingTeleport;
                 
 				if ((noLongerNearKhloe || startedTeleportingAway) && Data is { PlayerHasBook: false, NewBookAvailable: true }) {
-					PrintMessage(Strings.ForgotBookWarning);
+					new StatusMessage {
+						Message = Strings.ForgotBookWarning, MessageChannel = GetChatChannel(), SourceModule = ModuleName,
+					}.PrintMessage();
 					UIGlobals.PlayChatSoundEffect(11);
 				}
 			}
@@ -111,36 +113,31 @@ public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTa
 	}
     
 	protected override StatusMessage GetStatusMessage() => Data switch {
-		{ PlayerHasBook: true, BookExpired: false } when Config.StickerAvailableNotice && AnyTaskAvailableForSticker() => 
-			ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.StickerAvailable, PayloadId.OpenWondrousTailsBook),
+		{ PlayerHasBook: true, BookExpired: false } when Config.StickerAvailableNotice && AnyTaskAvailableForSticker() => new LinkedStatusMessage {
+			LinkEnabled = Config.ClickableLink,
+			Message = Strings.StickerAvailable,
+			Payload = PayloadId.OpenWondrousTailsBook,
+		},
 
-		{ SecondChance: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, BookExpired: false } when Config.ShuffleAvailableNotice => 
-			ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.ShuffleAvailable, PayloadId.OpenWondrousTailsBook),
+		{ SecondChance: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, BookExpired: false } when Config.ShuffleAvailableNotice  => new LinkedStatusMessage {
+			LinkEnabled = Config.ClickableLink,
+			Message = Strings.ShuffleAvailable,
+			Payload = PayloadId.OpenWondrousTailsBook,
+		},
 
-		{ NewBookAvailable: true } when Config.UnclaimedBookWarning => 
-			ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.NewBookAvailable, PayloadId.IdyllshireTeleport),
+		{ NewBookAvailable: true } when Config.UnclaimedBookWarning  => new LinkedStatusMessage {
+			LinkEnabled = Config.ClickableLink,
+			Message = Strings.NewBookAvailable,
+			Payload = PayloadId.IdyllshireTeleport,
+		},
 
-		_ => ConditionalStatusMessage.GetMessage(Config.ClickableLink, string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers), PayloadId.OpenWondrousTailsBook),
+		_  => new LinkedStatusMessage {
+			LinkEnabled = Config.ClickableLink,
+			Message = string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers),
+			Payload = PayloadId.OpenWondrousTailsBook,
+		},
 	};
 
-	private bool AnyTaskAvailableForSticker() 
+	private static bool AnyTaskAvailableForSticker() 
 		=> Enumerable.Range(0, 16).Select(index => PlayerState.Instance()->GetWeeklyBingoTaskStatus(index)).Any(taskStatus => taskStatus == PlayerState.WeeklyBingoTaskStatus.Claimable);
-
-	private void PrintMessage(string message, bool withPayload = false) {
-		if (withPayload) {
-			var conditionalMessage = ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenWondrousTailsBook);
-			conditionalMessage.MessageChannel = GetChatChannel();
-			conditionalMessage.SourceModule = ModuleName;
-			conditionalMessage.PrintMessage();
-		}
-		else {
-			var statusMessage = new StatusMessage {
-				Message = message, 
-				MessageChannel = GetChatChannel(),
-				SourceModule = ModuleName,
-			};
-            
-			statusMessage.PrintMessage();
-		}
-	}
 }

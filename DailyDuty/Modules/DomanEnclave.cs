@@ -70,10 +70,10 @@ public unsafe class DomanEnclave : Modules.Weekly<DomanEnclaveData, DomanEnclave
 
         return Data.RemainingAllowance is 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
-    
-    protected override StatusMessage GetStatusMessage() {
-        var message = GetModuleStatus() is ModuleStatus.Unknown ? Strings.StatusUnknown : $"{Data.RemainingAllowance} {Strings.GilRemaining}";
 
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.DomanEnclaveTeleport);
-    }
+    protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+        LinkEnabled = Config.ClickableLink, 
+        Message = GetModuleStatus() is ModuleStatus.Unknown ? Strings.StatusUnknown : $"{Data.RemainingAllowance} {Strings.GilRemaining}", 
+        Payload = PayloadId.DomanEnclaveTeleport,
+    };
 }

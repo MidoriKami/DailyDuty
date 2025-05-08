@@ -55,7 +55,6 @@ public unsafe class CustomDelivery : Modules.Weekly<CustomDeliveryData, CustomDe
         _ => ModuleStatus.Incomplete,
     };
 
-    protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}",
-    };
+    protected override StatusMessage GetStatusMessage() 
+        => $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}";
 }

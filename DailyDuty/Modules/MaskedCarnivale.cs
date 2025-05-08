@@ -105,9 +105,9 @@ public unsafe class MaskedCarnivale : Modules.WeeklyTask<ModuleTaskData<Addon>, 
 	protected override ModuleStatus GetModuleStatus() 
 		=> IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-	protected override StatusMessage GetStatusMessage() {
-		var message = $"{IncompleteTaskCount} {Strings.ChallengesRemaining}";
-
-		return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.UldahTeleport);
-	}
+	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+		LinkEnabled = Config.ClickableLink,
+		Message = $"{IncompleteTaskCount} {Strings.ChallengesRemaining}",
+		Payload = PayloadId.UldahTeleport,
+	};
 }

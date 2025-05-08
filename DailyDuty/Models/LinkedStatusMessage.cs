@@ -10,22 +10,34 @@ namespace DailyDuty.Models;
 public class LinkedStatusMessage : StatusMessage {
     public PayloadId Payload { get; init; }
     
+    public required bool LinkEnabled { get; init; }
+    
     public override void PrintMessage() {
         var messagePayload = System.PayloadController.GetPayload(Payload);
         
-        var dailyDutyLabel = DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty"; 
+        var dailyDutyLabel = DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty";
+
+        var messageBuilder = new SeStringBuilder()
+            .AddUiForeground($"[{dailyDutyLabel}] ", 45)
+            .AddUiForeground($"[{SourceModule.GetDescription()}] ", 62);
         
-        var message = new XivChatEntry {
+        var chatEntry = new XivChatEntry {
             Type = MessageChannel,
-            Message = new SeStringBuilder()
-                .AddUiForeground($"[{dailyDutyLabel}] ", 45)
-                .AddUiForeground($"[{SourceModule.GetDescription()}] ", 62)
+        };
+        
+        if (LinkEnabled) {
+            chatEntry.Message = messageBuilder
                 .Add(messagePayload)
                 .AddUiForeground(Message, 576)
                 .Add(RawPayload.LinkTerminator)
-                .Build(),
-        };
+                .Build();
+        }
+        else {
+            chatEntry.Message = messageBuilder
+                .AddUiForeground(Message, 576)
+                .Build();
+        }
         
-        Service.Chat.Print(message);
+        Service.Chat.Print(chatEntry);
     }
 }

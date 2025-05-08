@@ -55,11 +55,11 @@ public unsafe class MiniCactpot : Modules.Daily<MiniCactpotData, MiniCactpotConf
     protected override ModuleStatus GetModuleStatus() 
         => Data.AllowancesRemaining == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-    protected override StatusMessage GetStatusMessage() {
-        var message = $"{Data.AllowancesRemaining} {Strings.TicketsRemaining}";
-
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
-    }
+    protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+        LinkEnabled = Config.ClickableLink,
+        Message = $"{Data.AllowancesRemaining} {Strings.TicketsRemaining}",
+        Payload = PayloadId.GoldSaucerTeleport,
+    };
 
     private void LotteryDailyPreSetup(AddonEvent eventType, AddonArgs addonInfo) {
         Data.AllowancesRemaining -= 1;

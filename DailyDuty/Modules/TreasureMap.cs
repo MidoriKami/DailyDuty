@@ -92,7 +92,6 @@ public unsafe class TreasureMap : Modules.Special<TreasureMapData, TreasureMapCo
 	protected override ModuleStatus GetModuleStatus() 
 		=> Data.MapAvailable ? ModuleStatus.Incomplete : ModuleStatus.Complete;
 
-	protected override StatusMessage GetStatusMessage() => new() {
-		Message = Strings.MapAvailable,
-	};
+	protected override StatusMessage GetStatusMessage()
+		=> Strings.MapAvailable;
 }

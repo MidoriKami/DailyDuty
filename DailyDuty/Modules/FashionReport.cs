@@ -88,16 +88,16 @@ public unsafe class FashionReport : Modules.Special<FashionReportData, FashionRe
 		};
 	}
 
-	protected override StatusMessage GetStatusMessage() => ConditionalStatusMessage.GetMessage(
-		Config.ClickableLink,
-		Config.CompletionMode switch {
+	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+		LinkEnabled = Config.ClickableLink,
+		Message = Config.CompletionMode switch {
 			FashionReportMode.All => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
 			FashionReportMode.Single when Data.AllowancesRemaining == 4 => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
 			FashionReportMode.Plus80 when Data.HighestWeeklyScore <= 80 => $"{Data.HighestWeeklyScore} {Strings.HighestScore}",
 			_ => throw new ArgumentOutOfRangeException(),
 		},
-		PayloadId.GoldSaucerTeleport
-	);
+		Payload = PayloadId.GoldSaucerTeleport,
+	};
     
 	public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
 		const int maskedRoseId = 1025176;

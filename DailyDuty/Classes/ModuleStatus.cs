@@ -41,11 +41,4 @@ public enum ModuleStatus {
 public static class ModuleStatusExtensions {
     public static Vector4 GetColor(this ModuleStatus status)
         => status.GetAttribute<ColorAttribute>()!.Color;
-
-    public static FontAwesomeIcon GetIcon(this ModuleStatus status)
-        => status switch {
-            ModuleStatus.Unknown => FontAwesomeIcon.Question,
-            ModuleStatus.Suppressed => FontAwesomeIcon.History,
-            _ => FontAwesomeIcon.Circle,
-        };
 }

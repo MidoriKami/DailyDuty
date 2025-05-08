@@ -15,10 +15,10 @@ public class RaidsNormal : RaidsBase {
 	protected override List<ContentFinderCondition> RaidDuties { get; set; } = Service.DataManager.GetLimitedNormalRaidDuties().ToList();
 	
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderRaid;
-    
-	protected override StatusMessage GetStatusMessage() {
-		var message = $"{IncompleteTaskCount} {Strings.RaidsAvailable}";
 
-		return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderRaid);
-	}
+	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+			Message = $"{IncompleteTaskCount} {Strings.RaidsAvailable}", 
+			LinkEnabled = Config.ClickableLink, 
+			Payload = PayloadId.OpenDutyFinderRaid,
+		};
 }

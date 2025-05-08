@@ -61,7 +61,6 @@ public abstract unsafe class HuntMarksBase : Modules.SpecialTask<ModuleTaskData<
 	protected override ModuleStatus GetModuleStatus() 
 		=> IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
-	protected override StatusMessage GetStatusMessage() => new() {
-		Message = $"{IncompleteTaskCount} {Strings.HuntsRemaining}",
-	};
+	protected override StatusMessage GetStatusMessage() 
+		=> $"{IncompleteTaskCount} {Strings.HuntsRemaining}";
 }

@@ -8,7 +8,7 @@ namespace DailyDuty.Models;
 
 public class StatusMessage {
     public ModuleName SourceModule { get; set; }
-    public XivChatType MessageChannel { get; set; }
+    public XivChatType MessageChannel { get; set; } = XivChatType.Debug;
     public string Message { get; set; } = string.Empty;
 
     public virtual void PrintMessage() {
@@ -40,4 +40,6 @@ public class StatusMessage {
         
         Service.Chat.Print(builtMessage);
     }
+    
+    public static implicit operator StatusMessage(string message) => new() { Message = message };
 }

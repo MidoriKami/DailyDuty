@@ -13,12 +13,12 @@ public class RaidsAlliance : RaidsBase {
 	public override ModuleName ModuleName => ModuleName.RaidsAlliance;
 
 	protected override List<ContentFinderCondition> RaidDuties { get; set; } = Service.DataManager.GetLimitedAllianceRaidDuties().ToList();
-	
+
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderAllianceRaid;
 
-	protected override StatusMessage GetStatusMessage() {
-		var message = $"{IncompleteTaskCount} {Strings.RaidsAvailable}";
-
-		return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderAllianceRaid);
-	}
+	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+		LinkEnabled = Config.ClickableLink,
+		Message = $"{IncompleteTaskCount} {Strings.RaidsAvailable}",
+		Payload = PayloadId.OpenDutyFinderAllianceRaid,
+	};
 }

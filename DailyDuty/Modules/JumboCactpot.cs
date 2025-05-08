@@ -89,12 +89,12 @@ public unsafe class JumboCactpot : Modules.Special<JumboCactpotData, JumboCactpo
         
 		base.Reset();
 	}
-
-	protected override StatusMessage GetStatusMessage() {
-		var message = $"{3 - Data.Tickets.Count} {Strings.TicketsAvailable}";
-
-		return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.GoldSaucerTeleport);
-	}
+	
+	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+		LinkEnabled = Config.ClickableLink,
+		Message = $"{3 - Data.Tickets.Count} {Strings.TicketsAvailable}",
+		Payload = PayloadId.GoldSaucerTeleport,
+	};
     
 	public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
 		const int jumboCactpotBroker = 1010446;

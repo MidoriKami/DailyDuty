@@ -68,6 +68,9 @@ public class FauxHollows : Modules.Weekly<FauxHollowsData, FauxHollowsConfig> {
 		_ => ModuleStatus.Incomplete,
 	};
 
-	protected override StatusMessage GetStatusMessage() => 
-		ConditionalStatusMessage.GetMessage(Config.ClickableLink, Strings.UnrealTrialAvailable, PayloadId.OpenPartyFinder);
+	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+		LinkEnabled = Config.ClickableLink,
+		Message = Strings.UnrealTrialAvailable,
+		Payload = PayloadId.OpenPartyFinder,
+	};
 }

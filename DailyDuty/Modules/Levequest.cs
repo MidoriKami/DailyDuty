@@ -66,7 +66,6 @@ public unsafe class Levequest : Modules.Special<LevequestData, LevequestConfig> 
         _ => ModuleStatus.Incomplete,
     };
 
-    protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{Data.NumLevequestAllowances} {Strings.AllowancesRemaining}",
-    };
+    protected override StatusMessage GetStatusMessage()
+        => $"{Data.NumLevequestAllowances} {Strings.AllowancesRemaining}";
 }

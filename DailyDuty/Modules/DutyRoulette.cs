@@ -86,6 +86,8 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
 
     public override void Dispose() {
         Service.AddonLifecycle.UnregisterListener(OnContentFinderSetup, OnContentFinderUpdate, OnContentFinderFinalize);
+        
+        base.Dispose();
     }
 
     private void OnContentFinderSetup(AddonEvent type, AddonArgs args) {
@@ -218,9 +220,9 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         return IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
     }
     
-    protected override StatusMessage GetStatusMessage() {
-        var message = $"{IncompleteTaskCount} {Strings.RoulettesRemaining}";
-
-        return ConditionalStatusMessage.GetMessage(Config.ClickableLink, message, PayloadId.OpenDutyFinderRoulette);
-    }
+    protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
+        Message = $"{IncompleteTaskCount} {Strings.RoulettesRemaining}", 
+        LinkEnabled = Config.ClickableLink, 
+        Payload = PayloadId.OpenDutyFinderRoulette,
+    };
 }
