@@ -61,7 +61,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.NativeController.Dispose();
     }
     
-    private void OnFrameworkUpdate(IFramework framework) {
+    private static void OnFrameworkUpdate(IFramework framework) {
         if (!Service.ClientState.IsLoggedIn) return;
 
         // Check for reset, and reset modules that need it 
@@ -74,7 +74,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.TimersController.Update();
     }
     
-    private void OnLogin() {
+    private static void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
         
         System.TodoListController.Enable();
@@ -83,14 +83,14 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.LoadModules();
     }
     
-    private void OnLogout(int type, int code) {
+    private static void OnLogout(int type, int code) {
         System.ModuleController.UnloadModules();
         
         System.TodoListController.Disable();
         System.TimersController.Disable();
     }
     
-    private void OnZoneChange(ushort territoryTypeId) {
+    private static void OnZoneChange(ushort territoryTypeId) {
         if (Service.ClientState.IsPvP) return;
         if (!Service.ClientState.IsLoggedIn) return;
         
