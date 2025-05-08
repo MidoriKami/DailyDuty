@@ -109,11 +109,11 @@ public class TodoConfigTab : ITabItem {
 
     public TodoConfigTab() {
         categoryTabBar = new TabBar("todo_tab_bar", [
-                new SimpleTabItem("General", DrawMainConfig),
-                new SimpleTabItem("Daily", () => DrawCategory(ModuleType.Daily)),
-                new SimpleTabItem("Weekly", () => DrawCategory(ModuleType.Weekly)),
-                new SimpleTabItem("Special", () => DrawCategory(ModuleType.Special)),
-            ]);
+            new SimpleTabItem("General", DrawMainConfig),
+            new SimpleTabItem("Daily", () => DrawCategory(ModuleType.Daily)),
+            new SimpleTabItem("Weekly", () => DrawCategory(ModuleType.Weekly)),
+            new SimpleTabItem("Special", () => DrawCategory(ModuleType.Special)),
+        ]);
     }
     
     public void Draw() {
