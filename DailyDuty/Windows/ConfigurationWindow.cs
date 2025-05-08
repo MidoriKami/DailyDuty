@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
-using DailyDuty.Models;
 using DailyDuty.Modules;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
@@ -56,11 +55,9 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
         ImGui.Text(option.ModuleName.GetDescription());
         
         ImGui.SameLine(ImGui.GetContentRegionAvail().X - 13.0f * ImGuiHelpers.GlobalScale);
-        using var _ = Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle.Push();
+        using var _ = Service.PluginInterface.PushIconFont();
 
-        var status = option.ModuleStatus;
-
-        switch (status) {
+        switch (option.ModuleStatus) {
             case ModuleStatus.Suppressed when option.IsEnabled:
                 ImGui.TextColored(KnownColor.MediumPurple.Vector(), FontAwesomeIcon.History.ToIconString());
                 break;
@@ -105,49 +102,24 @@ public class TodoConfigTab : ITabItem {
     public string Name => "Todo List";
     
     public bool Disabled => false;
+
+    private readonly TabBar categoryTabBar;
+
+    private bool configChanged;
+
+    public TodoConfigTab() {
+        categoryTabBar = new TabBar("todo_tab_bar", [
+                new SimpleTabItem("General", DrawMainConfig),
+                new SimpleTabItem("Daily", () => DrawCategory(ModuleType.Daily)),
+                new SimpleTabItem("Weekly", () => DrawCategory(ModuleType.Weekly)),
+                new SimpleTabItem("Special", () => DrawCategory(ModuleType.Special)),
+            ]);
+    }
     
     public void Draw() {
-        var configChanged = false;
+        configChanged = false;
 
-        using (var tabBar = ImRaii.TabBar("todo_tab_bar")) {
-            if (tabBar) {
-                using (var masterTab = ImRaii.TabItem("General")) {
-                    if (masterTab) {
-                        using var tabChild = ImRaii.Child("tab_child");
-                        if (tabChild) {
-                            configChanged |= DrawMainConfig();
-                        }
-                    }
-                }
-                
-                using (var dailyTab = ImRaii.TabItem("Daily")) {
-                    if (dailyTab) {
-                        using var tabChild = ImRaii.Child("tab_child");
-                        if (tabChild) {
-                            configChanged |= DrawCategory(ModuleType.Daily);
-                        }
-                    }
-                }
-                
-                using (var weeklyTab = ImRaii.TabItem("Weekly")) {
-                    if (weeklyTab) {
-                        using var tabChild = ImRaii.Child("tab_child");
-                        if (tabChild) {
-                            configChanged |= DrawCategory(ModuleType.Weekly);
-                        }
-                    }
-                }
-                
-                using (var specialTab = ImRaii.TabItem("Special")) {
-                    if (specialTab) {
-                        using var tabChild = ImRaii.Child("tab_child");
-                        if (tabChild) {
-                            configChanged |= DrawCategory(ModuleType.Special);
-                        }
-                    }
-                }
-            }
-        }
+        categoryTabBar.Draw();
         
         if (configChanged) {
             System.TodoConfig.Save();
@@ -155,9 +127,8 @@ public class TodoConfigTab : ITabItem {
         }
     }
 
-    private bool DrawMainConfig() {
+    private void DrawMainConfig() {
         using var id = ImRaii.PushId("main_config");
-        var configChanged = false;
   
         ImGuiTweaks.Header("Todo List Config");
         using (ImRaii.PushIndent()) {
@@ -174,15 +145,12 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TodoConfig.HideDuringQuests);
             configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TodoConfig.HideInDuties);
         }
-
-        return configChanged;
     }
     
-    private bool DrawCategory(ModuleType type) {
+    private void DrawCategory(ModuleType type) {
         using var id = ImRaii.PushId(type.ToString());
         
         var config = System.TodoConfig.CategoryConfigs[(uint)type];
-        var configChanged = false;
 
         ImGuiTweaks.Header($"{type.GetDescription()} Config");
         using (ImRaii.PushIndent()) {
@@ -219,8 +187,6 @@ public class TodoConfigTab : ITabItem {
                 }
             }
         }
-        
-        return configChanged;
     }
 }
 
