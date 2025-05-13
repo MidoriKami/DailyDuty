@@ -193,19 +193,15 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     }
     
     private void OnContentFinderFinalize(AddonEvent type, AddonArgs args) {
-        if (infoTextNode is not null) {
-            System.NativeController.DetachFromAddon(infoTextNode, (AtkUnitBase*) args.Addon, () => {
-                infoTextNode.Dispose();
-                infoTextNode = null;
-            });
-        }
+        System.NativeController.DetachFromAddon(infoTextNode, (AtkUnitBase*) args.Addon, () => {
+            infoTextNode?.Dispose();
+            infoTextNode = null;
+        });
 
-        if (openDailyDutyButton is not null) {
-            System.NativeController.DetachFromAddon(openDailyDutyButton, (AtkUnitBase*) args.Addon, () => {
-                openDailyDutyButton.Dispose();
-                openDailyDutyButton = null;
-            }); 
-        }
+        System.NativeController.DetachFromAddon(openDailyDutyButton, (AtkUnitBase*) args.Addon, () => {
+            openDailyDutyButton?.Dispose();
+            openDailyDutyButton = null;
+        }); 
     }
 
     private SeString GetHintText()
