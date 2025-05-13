@@ -15,7 +15,7 @@ namespace DailyDuty;
 public sealed class DailyDutyPlugin : IDalamudPlugin {
     public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
-        
+
         // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
         System.SystemConfig = new SystemConfig();
         System.NativeController = new NativeController(Service.PluginInterface);
