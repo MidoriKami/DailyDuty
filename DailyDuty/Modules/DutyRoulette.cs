@@ -4,6 +4,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
+using DailyDuty.Windows;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Text.SeStringHandling;
@@ -46,6 +47,7 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public bool ColorContentFinder = true;
     public Vector4 CompleteColor = KnownColor.LimeGreen.Vector();
     public Vector4 IncompleteColor = KnownColor.OrangeRed.Vector();
+    public bool ShowOpenDailyDutyButton = true;
     
     protected override bool DrawModuleConfig() {
         var configChanged = false;
@@ -53,6 +55,7 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
         configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
         configChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
         configChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
+        configChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
 
         if (ColorContentFinder) {
             ImGuiHelpers.ScaledDummy(5.0f);
@@ -76,6 +79,7 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     public override bool HasTooltip => true;
 
     private TextNode? infoTextNode;
+    private TextButton? openDailyDutyButton;
 
     public DutyRoulette() {
         Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "ContentsFinder", OnContentFinderSetup);
@@ -107,9 +111,25 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         };
         
         System.NativeController.AttachToAddon(infoTextNode, (AtkUnitBase*) addon, targetResNode, NodePosition.AfterTarget);
+        
+        openDailyDutyButton = new TextButton {
+            Position = new Vector2(50.0f, 622.0f),
+            Size = new Vector2(130.0f, 28.0f),
+            IsVisible = true,
+            Label = "Open DailyDuty",
+            OnClick = () => {
+                System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle();
+            },
+        };
+
+        System.NativeController.AttachToAddon(openDailyDutyButton, (AtkUnitBase*) addon, addon->RootNode, NodePosition.AsLastChild);
     }
     
     private void OnContentFinderUpdate(AddonEvent type, AddonArgs args) {
+        if (openDailyDutyButton is not null) {
+            openDailyDutyButton.IsVisible = Config.ShowOpenDailyDutyButton;
+        }
+        
         if (infoTextNode is not null) {
             infoTextNode.IsVisible = false;
         }
@@ -173,11 +193,19 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     }
     
     private void OnContentFinderFinalize(AddonEvent type, AddonArgs args) {
-        if (infoTextNode is null) return;
-        
-        System.NativeController.DetachFromAddon(infoTextNode, (AtkUnitBase*) args.Addon);
-        infoTextNode.Dispose();
-        infoTextNode = null;
+        if (infoTextNode is not null) {
+            System.NativeController.DetachFromAddon(infoTextNode, (AtkUnitBase*) args.Addon, () => {
+                infoTextNode.Dispose();
+                infoTextNode = null;
+            });
+        }
+
+        if (openDailyDutyButton is not null) {
+            System.NativeController.DetachFromAddon(openDailyDutyButton, (AtkUnitBase*) args.Addon, () => {
+                openDailyDutyButton.Dispose();
+                openDailyDutyButton = null;
+            }); 
+        }
     }
 
     private SeString GetHintText()
