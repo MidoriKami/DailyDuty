@@ -61,14 +61,9 @@ public unsafe class TimerNode : NodeBase<AtkResNode> {
 
 	protected override void Dispose(bool disposing) {
 		if (disposing) {
-			System.NativeController.DetachFromNode(progressBarNode);
-			progressBarNode.Dispose();
-			
-			System.NativeController.DetachFromNode(moduleNameNode);
-			moduleNameNode.Dispose();
-			
-			System.NativeController.DetachFromNode(timeRemainingNode);
-			timeRemainingNode.Dispose();
+			System.NativeController.DetachNode(progressBarNode, () => progressBarNode.Dispose());
+			System.NativeController.DetachNode(moduleNameNode, () => moduleNameNode.Dispose());
+			System.NativeController.DetachNode(timeRemainingNode, () => timeRemainingNode.Dispose());
 			
 			base.Dispose(disposing);
 		}

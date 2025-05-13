@@ -40,11 +40,8 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 
 	protected override void Dispose(bool disposing) {
 		if (disposing) {
-			System.NativeController.DetachFromNode(taskListNode);
-			System.NativeController.DetachFromNode(headerTextNode);
-			
-			taskListNode.Dispose();
-			headerTextNode.Dispose();
+			System.NativeController.DetachNode(taskListNode, () => taskListNode.Dispose());
+			System.NativeController.DetachNode(headerTextNode, () => headerTextNode.Dispose());
 			
 			base.Dispose(disposing);
 		}
