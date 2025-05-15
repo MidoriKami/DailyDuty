@@ -1,7 +1,6 @@
 ﻿using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Events;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Nodes;
 
@@ -16,7 +15,7 @@ public class TodoTaskNode : TextNode {
 	public void Refresh() {
 		SetStyle(CategoryConfig.ModuleStyle);
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
-		NodeFlags |= NodeFlags.EmitsEvents | NodeFlags.HasCollision | NodeFlags.RespondToMouse;
+		SetNodeEventFlags();
 
 		if (ModuleConfig.OverrideTextColor) {
 			TextColor = ModuleConfig.TodoTextColor;
