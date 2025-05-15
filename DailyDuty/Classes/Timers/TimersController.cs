@@ -44,15 +44,11 @@ public unsafe class TimersController : NativeUiOverlayController {
 	}
 
 	protected override void DetachNodes(AddonNamePlate* addonNamePlate) {
-		System.NativeController.DetachFromAddon(weeklyTimerNode, (AtkUnitBase*)addonNamePlate, () => {
-			weeklyTimerNode?.Dispose();
-			weeklyTimerNode = null;
-		});
-
-		System.NativeController.DetachFromAddon(dailyTimerNode, (AtkUnitBase*)addonNamePlate, () => {
-			dailyTimerNode?.Dispose();
-			dailyTimerNode = null;
-		});
+		weeklyTimerNode?.Dispose();
+		weeklyTimerNode = null;
+		
+		dailyTimerNode?.Dispose();
+		dailyTimerNode = null;
 	}
 
 	public void Update() {

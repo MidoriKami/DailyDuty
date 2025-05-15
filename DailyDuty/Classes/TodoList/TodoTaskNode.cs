@@ -1,5 +1,6 @@
 ﻿using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using Dalamud.Game.Addon.Events;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Nodes;
@@ -22,11 +23,11 @@ public class TodoTaskNode : TextNode {
 			TextOutlineColor = ModuleConfig.TodoTextOutline;
 		}
 
-		if (Module.HasClickableLink && MouseClick is null) {
-			MouseClick = () => PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
+		if (Module.HasClickableLink && !IsEventRegistered(AddonEventType.MouseClick)) {
+			AddEvent(AddonEventType.MouseClick, OnClick);
 		}
-		else if (!Module.HasClickableLink && MouseClick is not null) {
-			MouseClick = null;
+		else if (!Module.HasClickableLink && IsEventRegistered(AddonEventType.MouseClick)) {
+			RemoveEvent(AddonEventType.MouseClick, OnClick);
 		}
 		
 		Text = ModuleConfig.UseCustomTodoLabel ? ModuleConfig.CustomTodoLabel : Module.ModuleName.GetDescription();
@@ -38,4 +39,7 @@ public class TodoTaskNode : TextNode {
 			Tooltip = null;
 		}
 	}
+
+	private void OnClick()
+		=> PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
 }

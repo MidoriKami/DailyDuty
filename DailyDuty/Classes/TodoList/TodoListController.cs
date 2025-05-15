@@ -45,10 +45,8 @@ public unsafe class TodoListController : NativeUiOverlayController {
 	}
 	
 	protected override void DetachNodes(AddonNamePlate* addonNamePlate) {
-		System.NativeController.DetachFromAddon(todoListNode, (AtkUnitBase*)addonNamePlate, () => {
-			todoListNode?.Dispose();
-			todoListNode = null;
-		});
+		todoListNode?.Dispose();
+		todoListNode = null;
 	}
 
 	public void Update() {

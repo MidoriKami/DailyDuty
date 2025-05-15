@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Models;
 using DailyDuty.Modules;
+using Dalamud.Game.Addon.Events;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -26,8 +27,9 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 
 		headerTextNode = new TextNode {
 			NodeID = NodeID + 500,
-			MouseClick = () => System.ConfigurationWindow.UnCollapseOrToggle(),
 		};
+		
+		headerTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle);
 		
 		System.NativeController.AttachToNode(headerTextNode, this, NodePosition.AsFirstChild);
 
@@ -40,8 +42,8 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 
 	protected override void Dispose(bool disposing) {
 		if (disposing) {
-			System.NativeController.DetachNode(taskListNode, () => taskListNode.Dispose());
-			System.NativeController.DetachNode(headerTextNode, () => headerTextNode.Dispose());
+			taskListNode.Dispose();
+			headerTextNode.Dispose();
 			
 			base.Dispose(disposing);
 		}
@@ -63,7 +65,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			}
 			
 			if (module.HasClickableLink) {
-				newTaskNode.MouseClick = () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!);
+				newTaskNode.AddEvent(AddonEventType.MouseClick, () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!));
 			}
 
 			if (module is { HasTooltip: true } or { HasClickableLink: true }) {
