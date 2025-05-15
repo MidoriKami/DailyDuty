@@ -5,6 +5,7 @@ using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Windows;
+using Dalamud.Game.Addon.Events;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Text.SeStringHandling;
@@ -90,12 +91,14 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
 
     public override void Dispose() {
         Service.AddonLifecycle.UnregisterListener(OnContentFinderSetup, OnContentFinderUpdate, OnContentFinderFinalize);
+
+        DisposeNodes();
         
         base.Dispose();
     }
 
-    private void OnContentFinderSetup(AddonEvent type, AddonArgs args) {
-        var addon = (AddonContentsFinder*) args.Addon;
+    private void AttachNodes(AtkUnitBase* addon) {
+        if (addon is null) return;
 
         var targetResNode = addon->GetNodeById(56);
         if (targetResNode is null) return;
@@ -110,21 +113,31 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
             Tooltip = "Feature from DailyDuty Plugin",
         };
         
-        System.NativeController.AttachToAddon(infoTextNode, (AtkUnitBase*) addon, targetResNode, NodePosition.AfterTarget);
+        System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
         
         openDailyDutyButton = new TextButton {
             Position = new Vector2(50.0f, 622.0f),
             Size = new Vector2(130.0f, 28.0f),
             IsVisible = true,
             Label = "Open DailyDuty",
-            OnClick = () => {
-                System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle();
-            },
         };
+        
+        openDailyDutyButton.AddEvent(AddonEventType.MouseClick, () => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
 
-        System.NativeController.AttachToAddon(openDailyDutyButton, (AtkUnitBase*) addon, addon->RootNode, NodePosition.AsLastChild);
+        System.NativeController.AttachToAddon(openDailyDutyButton, addon, addon->RootNode, NodePosition.AsLastChild);
     }
-    
+
+    private void DisposeNodes() {
+        infoTextNode?.Dispose();
+        infoTextNode = null;
+        
+        openDailyDutyButton?.Dispose();
+        openDailyDutyButton = null;
+    }
+
+    private void OnContentFinderSetup(AddonEvent type, AddonArgs args)
+        => AttachNodes((AtkUnitBase*) args.Addon);
+
     private void OnContentFinderUpdate(AddonEvent type, AddonArgs args) {
         if (openDailyDutyButton is not null) {
             openDailyDutyButton.IsVisible = Config.ShowOpenDailyDutyButton;
@@ -192,17 +205,8 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         }
     }
     
-    private void OnContentFinderFinalize(AddonEvent type, AddonArgs args) {
-        System.NativeController.DetachFromAddon(infoTextNode, (AtkUnitBase*) args.Addon, () => {
-            infoTextNode?.Dispose();
-            infoTextNode = null;
-        });
-
-        System.NativeController.DetachFromAddon(openDailyDutyButton, (AtkUnitBase*) args.Addon, () => {
-            openDailyDutyButton?.Dispose();
-            openDailyDutyButton = null;
-        }); 
-    }
+    private void OnContentFinderFinalize(AddonEvent type, AddonArgs args)
+        => DisposeNodes();
 
     private SeString GetHintText()
         => new SeStringBuilder()
