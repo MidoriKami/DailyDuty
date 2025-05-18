@@ -20,20 +20,16 @@ public class CustomDeliveryConfig : ModuleConfig {
     public int NotificationThreshold = 12;
     public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 
-    protected override bool DrawModuleConfig() {
-        var configChanged = false;
-
+    protected override void DrawModuleConfig() {
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        configChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
+        ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
         
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        configChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 1, 12);
-
-        return configChanged;
+        ConfigChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 1, 12);
     }
 }
 
-public unsafe class CustomDelivery : Modules.Weekly<CustomDeliveryData, CustomDeliveryConfig> {
+public unsafe class CustomDelivery : BaseModules.Modules.Weekly<CustomDeliveryData, CustomDeliveryConfig> {
     public override ModuleName ModuleName => ModuleName.CustomDelivery;
 
     public override void Update() {

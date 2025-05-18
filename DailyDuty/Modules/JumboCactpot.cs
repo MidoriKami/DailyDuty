@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
@@ -40,12 +39,12 @@ public class JumboCactpotData : ModuleData {
 public class JumboCactpotConfig : ModuleConfig {
 	public bool ClickableLink = true;
 	
-	protected override bool DrawModuleConfig() {
-		return ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+	protected override void DrawModuleConfig() {
+		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 	}
 }
 
-public unsafe class JumboCactpot : Modules.Special<JumboCactpotData, JumboCactpotConfig>, IGoldSaucerMessageReceiver {
+public unsafe class JumboCactpot : BaseModules.Modules.Special<JumboCactpotData, JumboCactpotConfig>, IGoldSaucerMessageReceiver {
 	public override ModuleName ModuleName => ModuleName.JumboCactpot;
 	
 	public override DateTime GetNextReset() {

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using DailyDuty.Classes;
 using DailyDuty.Models;
-using DailyDuty.Modules.BaseModules;
 using Lumina.Excel;
 
-namespace DailyDuty.Modules;
+namespace DailyDuty.Modules.BaseModules;
 
 public enum ModuleType {
     [Description("Daily")]
@@ -29,8 +28,9 @@ public class ModuleTaskData<T> : ModuleData where T : struct, IExcelRow<T> {
 public class ModuleTaskConfig<T> : ModuleConfig where T : struct, IExcelRow<T> {
     public LuminaTaskConfigList<T> TaskConfig = [];
 
-    protected override bool DrawModuleConfig()
-        => TaskConfig.Draw();
+    protected override void DrawModuleConfig() {
+        ConfigChanged |= TaskConfig.Draw();
+    }
 }
 
 public static class Modules {
@@ -63,7 +63,6 @@ public static class Modules {
             IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
             TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
             System.TodoListController.Refresh();
-            System.TimersController.Refresh();
         }
     }
 
@@ -78,7 +77,6 @@ public static class Modules {
             IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
             TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
             System.TodoListController.Refresh();
-            System.TimersController.Refresh();
         }
     }
 
@@ -93,7 +91,6 @@ public static class Modules {
             IncompleteTaskCount = GetIncompleteCount(Config.TaskConfig, Data.TaskData);
             TooltipText = string.Join("\n", GetIncompleteRows(Config.TaskConfig, Data.TaskData));
             System.TodoListController.Refresh();
-            System.TimersController.Refresh();
         }
     }
     

@@ -33,13 +33,12 @@ public class DomanEnclaveData : ModuleData {
 public class DomanEnclaveConfig : ModuleConfig {
     public bool ClickableLink = true;
 
-    protected override bool DrawModuleConfig() {
-        return ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+    protected override void DrawModuleConfig() {
+        ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
     }
 }
 
-public unsafe class DomanEnclave : Modules.Weekly<DomanEnclaveData, DomanEnclaveConfig>
-{
+public unsafe class DomanEnclave : BaseModules.Modules.Weekly<DomanEnclaveData, DomanEnclaveConfig> {
     public override ModuleName ModuleName => ModuleName.DomanEnclave;
 
     public override bool HasClickableLink => Config.ClickableLink;

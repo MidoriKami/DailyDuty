@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using Dalamud.Game.Text;
@@ -36,6 +37,7 @@ public abstract class Module : IDisposable {
     public virtual ModuleStatus ModuleStatus => ModuleStatus.Unknown;
     
     public virtual bool IsEnabled => false;
+    public TodoTaskNode? TodoTaskNode;
 
     public abstract void DrawConfig();
 
@@ -91,10 +93,9 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     protected bool ConfigChanged;
 
     public override void DrawConfig() {
-        if (Config.DrawConfigUi()) {
-            ConfigChanged = true;
-            SaveConfig();
-        }
+        Config.DrawConfigUi(this);
+
+        ConfigChanged |= Config.ConfigChanged;
     }
 
     public override void DrawData() {

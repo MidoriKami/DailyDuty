@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
-using DailyDuty.Modules;
+using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -100,44 +100,16 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
 
 public class TodoConfigTab : ITabItem {
     public string Name => "Todo List";
-    
     public bool Disabled => false;
 
-    private readonly TabBar categoryTabBar;
-
-    private bool configChanged;
-
-    public TodoConfigTab() {
-        categoryTabBar = new TabBar("todo_tab_bar", [
-            new SimpleTabItem("General", DrawMainConfig),
-            new SimpleTabItem("Daily", () => DrawCategory(ModuleType.Daily)),
-            new SimpleTabItem("Weekly", () => DrawCategory(ModuleType.Weekly)),
-            new SimpleTabItem("Special", () => DrawCategory(ModuleType.Special)),
-        ]);
-    }
-    
     public void Draw() {
-        configChanged = false;
+        var configChanged = false;
 
-        categoryTabBar.Draw();
-        
-        if (configChanged) {
-            System.TodoConfig.Save();
-            System.TodoListController.Refresh();
-        }
-    }
-
-    private void DrawMainConfig() {
         using var id = ImRaii.PushId("main_config");
   
         ImGuiTweaks.Header("Todo List Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
-        }
-
-        ImGuiTweaks.Header("Todo List Style");
-        using (ImRaii.PushIndent()) {
-            configChanged |= System.TodoConfig.ListStyle.DrawSettings();
         }
         
         ImGuiTweaks.Header("Functional Options");
@@ -145,53 +117,45 @@ public class TodoConfigTab : ITabItem {
             configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TodoConfig.HideDuringQuests);
             configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TodoConfig.HideInDuties);
         }
-    }
-    
-    private void DrawCategory(ModuleType type) {
-        using var id = ImRaii.PushId(type.ToString());
         
-        var config = System.TodoConfig.CategoryConfigs[(uint)type];
-
-        ImGuiTweaks.Header($"{type.GetDescription()} Config");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox(Strings.Enable, ref config.Enabled);
-        }
-        
-        ImGuiTweaks.Header("Custom Label");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox("Use Custom Label", ref config.UseCustomLabel);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGui.InputText("Custom Label", ref config.CustomLabel, 1024, ImGuiInputTextFlags.AutoSelectAll);
-        }
-        
-        ImGuiTweaks.Header("Category Style");
-        using (ImRaii.PushIndent()) {
-            using (ImRaii.TabBar("todo_node_options")) {
-                using (var tabItem = ImRaii.TabItem("Category Container")) {
-                    if (tabItem) {
-                        configChanged |= config.ListNodeStyle.DrawSettings();
-                    }
-                }
-            
-                using (var tabItem = ImRaii.TabItem("Header Text")) {
-                    if (tabItem) {
-                        configChanged |= config.HeaderStyle.DrawSettings();
-                    }
-                }
-            
-                using (var tabItem = ImRaii.TabItem("Task Text")) {
-                    if (tabItem) {
-                        configChanged |= config.ModuleStyle.DrawSettings();
-                    }
-                }
+        ImGuiTweaks.Header("Todo List Style");
+        using (var child = ImRaii.Child("TodoListStyleConfig", ImGui.GetContentRegionAvail() - ImGuiHelpers.ScaledVector2(0.0f, 33.0f))) {
+            if (child) {
+                System.TodoListController.DrawConfig();
             }
+        }
+        
+        ImGui.Separator();
+        
+        if (ImGui.Button("Save", ImGuiHelpers.ScaledVector2(100.0f, 23.0f))) {
+            System.TodoListController.Save();
+            System.TodoListController.Refresh();
+            StatusMessage.PrintTaggedMessage("Saved configuration options for Todo List", "Todo List Config");
+        }
+        
+        ImGui.SameLine(ImGui.GetContentRegionMax().X / 2.0f - 75.0f * ImGuiHelpers.GlobalScale);
+        if (ImGui.Button("Refresh Layout", ImGuiHelpers.ScaledVector2(150.0f, 23.0f))) {
+            System.TodoListController.Refresh();
+        }
+        if (ImGui.IsItemHovered()) {
+            ImGui.SetTooltip("Triggers a refresh of the UI element to recalculate dynamic element size/positions");
+        }
+        
+        ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
+        ImGuiTweaks.DisabledButton("Reset", () => {
+            System.TodoListController.Load();
+            System.TodoListController.Refresh();
+            StatusMessage.PrintTaggedMessage("Loaded last saved configuration options for Todo List", "Todo List Config");
+        });
+        
+        if (configChanged) {
+            System.TodoConfig.Save();
+            System.TodoListController.Refresh();
         }
     }
 }
 
 public class TimersConfigTab : ITabItem {
-    
     public string Name => "Timers";
     public bool Disabled => false;
     public void Draw() {
@@ -205,37 +169,62 @@ public class TimersConfigTab : ITabItem {
 
             configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TimersConfig.HideInDuties);
             configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TimersConfig.HideInQuestEvents);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            configChanged |= ImGui.Checkbox("Hide Seconds", ref System.TimersConfig.HideTimerSeconds);
+
         }
 
         ImGuiHelpers.ScaledDummy(10.0f);
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
 
-        using (var table = ImRaii.Table("special_timers_config", 2)) {
-            if (table) {
-                ImGui.TableNextColumn();
-                using (ImRaii.PushId("Weekly")) {
-                    ImGui.TextUnformatted("Weekly Timer");
-                    ImGuiHelpers.ScaledDummy(5.0f);
-                    using (ImRaii.PushIndent()) {
-                        configChanged |= System.TimersConfig.WeeklyTimerConfig.Draw();
+        using (var child = ImRaii.Child("timers_child", ImGui.GetContentRegionAvail() - ImGuiHelpers.ScaledVector2(0.0f, 33.0f))) {
+            if (child) {
+                using var table = ImRaii.Table("special_timers_config", 2);
+                if (table) {
+                    ImGui.TableNextColumn();
+                    using (var weeklyChild = ImRaii.Child("weekly_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
+                        if (weeklyChild) {
+                            using (ImRaii.PushId("Weekly")) {
+                                ImGui.TextUnformatted("Weekly Timer");
+                                ImGuiHelpers.ScaledDummy(5.0f);
+                                System.TimersController.WeeklyTimerNode?.DrawConfig();
+                            }
+                        }
                     }
-                }
                 
-                ImGui.TableNextColumn();
-                using (ImRaii.PushId("Daily")) {
-                    ImGui.TextUnformatted("Daily Timer");
-                    ImGuiHelpers.ScaledDummy(2.0f);
-                    using (ImRaii.PushIndent()) {
-                        configChanged |= System.TimersConfig.DailyTimerConfig.Draw();
+                    ImGui.TableNextColumn();
+                    using (var weeklyChild = ImRaii.Child("daily_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
+                        if (weeklyChild) {
+                            using (ImRaii.PushId("Daily")) {
+                                ImGui.TextUnformatted("Daily Timer");
+                                ImGuiHelpers.ScaledDummy(5.0f);
+                                System.TimersController.DailyTimerNode?.DrawConfig();
+                            }
+                        }
                     }
                 }
             }
         }
         
+        ImGui.Separator();
+        
+        if (ImGui.Button("Save", ImGuiHelpers.ScaledVector2(100.0f, 23.0f))) {
+            System.TimersController.WeeklyTimerNode?.Save(System.TimersController.WeeklyTimerSavePath);
+            System.TimersController.DailyTimerNode?.Save(System.TimersController.DailyTimerSavePath);
+            StatusMessage.PrintTaggedMessage("Saved configuration options for Timers", "Timers Config");
+        }
+        
+        ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
+        ImGuiTweaks.DisabledButton("Reset", () => {
+            System.TimersController.WeeklyTimerNode?.Load(System.TimersController.WeeklyTimerSavePath);
+            System.TimersController.DailyTimerNode?.Load(System.TimersController.DailyTimerSavePath);
+            StatusMessage.PrintTaggedMessage("Loaded last saved configuration options for Timers", "Timers Config");
+        });
+        
         if (configChanged) {
             System.TimersConfig.Save();
-            System.TimersController.Refresh();
         }
     }
 }

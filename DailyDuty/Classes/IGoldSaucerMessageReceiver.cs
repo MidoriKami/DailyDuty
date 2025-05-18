@@ -1,6 +1,4 @@
-﻿using DailyDuty.Classes;
-
-namespace DailyDuty.Interfaces;
+﻿namespace DailyDuty.Classes;
 
 public interface IGoldSaucerMessageReceiver {
 	void GoldSaucerUpdate(GoldSaucerEventArgs data);

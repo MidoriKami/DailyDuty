@@ -5,6 +5,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Models;
 using DailyDuty.Localization;
+using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface;
@@ -20,39 +21,29 @@ using ClientStructs = FFXIVClientStructs.FFXIV.Client.Game.UI;
 namespace DailyDuty.Modules;
 
 public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
-
-    // ContentNote rowId's to warn the user about when they open the Duty Finder
     public bool EnableContentFinderWarning = true;
     public bool EnableWarningSound = true;
     
     public HashSet<uint> WarningEntries = [];
     
-    protected override bool DrawModuleConfig() {
-        var configChanged = false;
-
+    protected override void DrawModuleConfig() {
         using var tabBar = ImRaii.TabBar("##SubOptionsTabBar");
         if (tabBar) {
             using (var entryTracking = ImRaii.TabItem("Entry Tracking##entryTracking")) {
                 if (entryTracking) {
-                    configChanged |= DrawEntryTrackingOptions();
+                    DrawEntryTrackingOptions();
                 }
             }
                 
             using (var dutyFinderWarningTab = ImRaii.TabItem("Duty Finder Warning##dutyFinderFeature")) {
                 if (dutyFinderWarningTab) {
-                    configChanged = DrawDutyFinderWarnings();
-                        
-
+                    DrawDutyFinderWarnings();
                 }
             }
         }
-
-        return configChanged;
     }
 
-    private bool DrawEntryTrackingOptions() {
-        var configChanged = false;
-        
+    private void DrawEntryTrackingOptions() {
         if (ImGui.Button("Add Tasks", new Vector2(ImGui.GetContentRegionAvail().X, 24.0f * ImGuiHelpers.GlobalScale))) {
             System.WindowManager.AddWindow(new ContentsNoteSelectionWindow(Service.PluginInterface) {
                 MultiSelectionCallback = selections => {
@@ -63,7 +54,7 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
                         }
                     }
 
-                    configChanged = true;
+                    ConfigChanged = true;
                 },
             });
         }
@@ -75,7 +66,7 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
         foreach (var task in enabledTasks) {
             if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, $"remove_task##{task.RowId}", ImGuiHelpers.ScaledVector2(24.0f))) {
                 task.Enabled = false;
-                configChanged = true;
+                ConfigChanged = true;
             }
             
             ImGui.SameLine();
@@ -92,15 +83,11 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
         ImGuiTweaks.DisabledButton("Clear All", () => {
             TaskConfig.ConfigList.ForEach(task => task.Enabled = false);
         });
-        
-        return configChanged;
     }
 
-    private bool DrawDutyFinderWarnings() {
-        var configChanged = false;
-        
+    private void DrawDutyFinderWarnings() {
         ImGui.Checkbox("Enable Duty Finder Warnings", ref EnableContentFinderWarning);
-        if (!EnableContentFinderWarning) return false;
+        if (!EnableContentFinderWarning) return;
 
         ImGui.TextWrapped("Post a warning to chat upon opening duty finder when any of the following challenges are incomplete");
 
@@ -113,7 +100,7 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
                         WarningEntries.Add(selection.RowId);
                     }
 
-                    configChanged = true;
+                    ConfigChanged = true;
                 },
             });
         }
@@ -123,7 +110,7 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
         foreach (var task in enabledWarnings) {
             if (ImGuiTweaks.IconButtonWithSize(Service.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, $"remove_task##{task.RowId}", ImGuiHelpers.ScaledVector2(24.0f))) {
                 WarningEntries.Remove(task.RowId);
-                configChanged = true;
+                ConfigChanged = true;
             }
             
             ImGui.SameLine();
@@ -138,12 +125,10 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
         ImGui.Spacing();
 
         ImGuiTweaks.DisabledButton("Clear All", WarningEntries.Clear);
-        
-        return configChanged;
     }
 }
 
-public unsafe class ChallengeLog : Modules.WeeklyTask<ModuleTaskData<ContentsNote>, ChallengeLogConfig, ContentsNote> {
+public unsafe class ChallengeLog : BaseModules.Modules.WeeklyTask<ModuleTaskData<ContentsNote>, ChallengeLogConfig, ContentsNote> {
     public override ModuleName ModuleName => ModuleName.ChallengeLog;
     
     public override bool HasClickableLink => true;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using DailyDuty.Classes;
-using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
@@ -39,18 +38,14 @@ public class FashionReportConfig : ModuleConfig {
 	public FashionReportMode CompletionMode = FashionReportMode.Single;
 	public bool ClickableLink = true;
 
-	protected override bool DrawModuleConfig() {
-		var configChanged = false;
-
+	protected override void DrawModuleConfig() {
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		configChanged |= ImGuiTweaks.EnumCombo(Strings.CompletionMode, ref CompletionMode);
-		configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
-
-		return configChanged;
+		ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.CompletionMode, ref CompletionMode);
+		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 	}
 }
 
-public unsafe class FashionReport : Modules.Special<FashionReportData, FashionReportConfig>, IGoldSaucerMessageReceiver {
+public unsafe class FashionReport : BaseModules.Modules.Special<FashionReportData, FashionReportConfig>, IGoldSaucerMessageReceiver {
 	public override ModuleName ModuleName => ModuleName.FashionReport;
 
 	public override bool HasClickableLink => Config.ClickableLink;

@@ -4,10 +4,9 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
+using DailyDuty.Modules.BaseModules;
 using DailyDuty.Windows;
 using Dalamud.Game.Addon.Events;
-using Dalamud.Game.Addon.Lifecycle;
-using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -20,6 +19,7 @@ using ImGuiNET;
 using KamiLib.Classes;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
+using KamiToolKit.Nodes.ComponentNodes;
 using Lumina.Excel.Sheets;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
@@ -50,27 +50,24 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public Vector4 IncompleteColor = KnownColor.OrangeRed.Vector();
     public bool ShowOpenDailyDutyButton = true;
     
-    protected override bool DrawModuleConfig() {
-        var configChanged = false;
-
-        configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
-        configChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
-        configChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
-        configChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
+    protected override void DrawModuleConfig() {
+        ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+        ConfigChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
+        ConfigChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
+        ConfigChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
 
         if (ColorContentFinder) {
             ImGuiHelpers.ScaledDummy(5.0f);
 
-            configChanged |= ImGuiTweaks.ColorEditWithDefault("Complete Color", ref CompleteColor, KnownColor.LimeGreen.Vector());
-            configChanged |= ImGuiTweaks.ColorEditWithDefault("Incomplete Color", ref IncompleteColor, KnownColor.OrangeRed.Vector());
+            ConfigChanged |= ImGuiTweaks.ColorEditWithDefault("Complete Color", ref CompleteColor, KnownColor.LimeGreen.Vector());
+            ConfigChanged |= ImGuiTweaks.ColorEditWithDefault("Incomplete Color", ref IncompleteColor, KnownColor.OrangeRed.Vector());
         }
         
         ImGuiHelpers.ScaledDummy(5.0f);
-        return base.DrawModuleConfig() || configChanged;
     }
 }
 
-public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRouletteConfig, ContentRoulette> {
+public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteData, DutyRouletteConfig, ContentRoulette> {
     public override ModuleName ModuleName => ModuleName.DutyRoulette;
 
     public override bool HasClickableLink => Config.ClickableLink;
@@ -83,34 +80,36 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
     private TextButton? openDailyDutyButton;
 
     public DutyRoulette() {
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "ContentsFinder", OnContentFinderSetup);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostRequestedUpdate, "ContentsFinder", OnContentFinderUpdate);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostRefresh, "ContentsFinder", OnContentFinderUpdate);
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "ContentsFinder", OnContentFinderFinalize);
+        System.ContentsFinderController.OnAttach += AttachNodes;
+        System.ContentsFinderController.OnDetach += DetachNodes;
+        System.ContentsFinderController.OnUpdate += OnContentFinderUpdate;
+        System.ContentsFinderController.OnRefresh += OnContentFinderUpdate;
     }
 
     public override void Dispose() {
-        Service.AddonLifecycle.UnregisterListener(OnContentFinderSetup, OnContentFinderUpdate, OnContentFinderFinalize);
-
-        DisposeNodes();
+        System.ContentsFinderController.OnAttach -= AttachNodes;
+        System.ContentsFinderController.OnDetach -= DetachNodes;
+        System.ContentsFinderController.OnUpdate -= OnContentFinderUpdate;
+        System.ContentsFinderController.OnRefresh -= OnContentFinderUpdate;
         
         base.Dispose();
     }
 
-    private void AttachNodes(AtkUnitBase* addon) {
+    private void AttachNodes(AddonContentsFinder* addon) {
         if (addon is null) return;
 
         var targetResNode = addon->GetNodeById(56);
         if (targetResNode is null) return;
 
         infoTextNode = new TextNode {
-            NodeID = 1000,
+            NodeId = 1000,
             X = 16.0f,
             Y = targetResNode->GetYFloat() + 2.0f, 
             TextFlags = TextFlags.AutoAdjustNodeSize,
             AlignmentType = AlignmentType.TopLeft,
             Text = GetHintText(),
             Tooltip = "Feature from DailyDuty Plugin",
+            EventFlagsSet = true,
         };
         
         System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
@@ -127,18 +126,19 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         System.NativeController.AttachToAddon(openDailyDutyButton, addon, addon->RootNode, NodePosition.AsLastChild);
     }
 
-    private void DisposeNodes() {
-        infoTextNode?.Dispose();
-        infoTextNode = null;
+    private void DetachNodes(AddonContentsFinder* addon) {
+        System.NativeController.DetachFromAddon(infoTextNode, addon, () => {
+            infoTextNode?.Dispose();
+            infoTextNode = null;
+        });
         
-        openDailyDutyButton?.Dispose();
-        openDailyDutyButton = null;
+        System.NativeController.DetachFromAddon(openDailyDutyButton, addon, () => {
+            openDailyDutyButton?.Dispose();
+            openDailyDutyButton = null;
+        });
     }
 
-    private void OnContentFinderSetup(AddonEvent type, AddonArgs args)
-        => AttachNodes((AtkUnitBase*) args.Addon);
-
-    private void OnContentFinderUpdate(AddonEvent type, AddonArgs args) {
+    private void OnContentFinderUpdate(AddonContentsFinder* addon) {
         if (openDailyDutyButton is not null) {
             openDailyDutyButton.IsVisible = Config.ShowOpenDailyDutyButton;
         }
@@ -150,8 +150,6 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
         if (!Config.ColorContentFinder) return;
         if (!Config.ModuleEnabled) return;
         
-        var addon = (AddonContentsFinder*) args.Addon;
-
         var treeListComponentNode = (AtkComponentNode*)addon->GetNodeById(52);
         if (treeListComponentNode is null) return;
         
@@ -204,9 +202,6 @@ public unsafe class DutyRoulette : Modules.DailyTask<DutyRouletteData, DutyRoule
             infoTextNode.Text = GetHintText();
         }
     }
-    
-    private void OnContentFinderFinalize(AddonEvent type, AddonArgs args)
-        => DisposeNodes();
 
     private SeString GetHintText()
         => new SeStringBuilder()

@@ -29,8 +29,7 @@ public unsafe class GoldSaucerMessageController : IDisposable {
     }
     
     private void* ProcessNetworkPacket(void* a1, byte* a2, uint a3, ushort a4, void* a5, int* data, byte eventId) {
-        HookSafety.ExecuteSafe(() =>
-        {
+        HookSafety.ExecuteSafe(() => {
             // Service.Log.Debug("[GoldSaucerMessage]\n" +
             //                 $"A1: {new nint(a1):X8}\n" +
             //                 $"A2: {new nint(a2):X8}\n" +

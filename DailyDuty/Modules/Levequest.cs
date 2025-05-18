@@ -34,20 +34,16 @@ public class LevequestConfig : ModuleConfig {
     public int NotificationThreshold = 95;
     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
 
-    protected override bool DrawModuleConfig() {
-        var configChanged = false;
+    protected override void DrawModuleConfig() {
+        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
+        ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
 
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        configChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
-
-        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        configChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 0, 100);
-
-        return configChanged;
+        ConfigChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 0, 100);
     }
 }
 
-public unsafe class Levequest : Modules.Special<LevequestData, LevequestConfig> {
+public unsafe class Levequest : BaseModules.Modules.Special<LevequestData, LevequestConfig> {
     public override ModuleName ModuleName => ModuleName.Levequest;
     
     public override DateTime GetNextReset() => Time.NextLeveAllowanceReset();

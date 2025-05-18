@@ -1,10 +1,9 @@
 ﻿using DailyDuty.Classes;
-using DailyDuty.Classes.Timers;
-using DailyDuty.Classes.TodoList;
 using Dalamud.Plugin;
 using DailyDuty.Models;
 using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
@@ -25,6 +24,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.CommandManager = new CommandManager(Service.PluginInterface, "dd", "dailyduty");
         System.LocalizationController = new LocalizationController();
         System.PayloadController = new PayloadController();
+        System.ContentsFinderController = new AddonController<AddonContentsFinder>(Service.PluginInterface, "ContentsFinder");
+        System.NameplateAddonController = new NameplateAddonController(Service.PluginInterface);
         
         System.ModuleController = new ModuleController();
         System.TodoListController = new TodoListController();
@@ -32,7 +33,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
-        System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
+        System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn | WindowFlags.OpenImmediately);
 
         if (Service.ClientState.IsLoggedIn) {
             Service.Framework.RunOnFrameworkThread(OnLogin);
@@ -52,9 +53,14 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         System.LocalizationController.Dispose();
         System.PayloadController.Dispose();
+        System.NameplateAddonController.Dispose();
+        System.ContentsFinderController.Dispose();
+
         System.ModuleController.Dispose();
+
         System.WindowManager.Dispose();
         System.CommandManager.Dispose();
+
         System.TodoListController.Dispose();
         System.TimersController.Dispose();
         
@@ -77,17 +83,17 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     private static void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
         
-        System.TodoListController.Enable();
-        System.TimersController.Enable();
-        
         System.ModuleController.LoadModules();
+
+        System.NameplateAddonController.Enable();
+        System.ContentsFinderController.Enable();
     }
     
     private static void OnLogout(int type, int code) {
+        System.NameplateAddonController.Disable();
+        System.ContentsFinderController.Disable();
+
         System.ModuleController.UnloadModules();
-        
-        System.TodoListController.Disable();
-        System.TimersController.Disable();
     }
     
     private static void OnZoneChange(ushort territoryTypeId) {

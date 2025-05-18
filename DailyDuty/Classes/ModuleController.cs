@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Interfaces;
-using DailyDuty.Modules;
 using DailyDuty.Modules.BaseModules;
 using KamiLib.Classes;
 
@@ -66,7 +64,7 @@ public class ModuleController : IDisposable {
         }
     }
 
-    public void ZoneChange(uint newZone) {
+    public void ZoneChange(uint _) {
         foreach (var module in Modules) {
             module.ZoneChange();
         }

@@ -1,8 +1,7 @@
 using DailyDuty.Classes;
-using DailyDuty.Classes.Timers;
-using DailyDuty.Classes.TodoList;
 using DailyDuty.Models;
 using DailyDuty.Windows;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
@@ -25,4 +24,6 @@ public static class System {
 	public static TimersController TimersController { get; set; }
 	public static TodoConfig TodoConfig { get; set; }
 	public static TimersConfig TimersConfig { get; set; }
+	public static AddonController<AddonContentsFinder> ContentsFinderController { get; set; }
+	public static NameplateAddonController NameplateAddonController { get; set; }
 }

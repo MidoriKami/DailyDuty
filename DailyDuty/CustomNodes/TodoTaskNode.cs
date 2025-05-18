@@ -1,26 +1,19 @@
-﻿using DailyDuty.Models;
+﻿using DailyDuty.Classes;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Events;
-using KamiLib.Extensions;
 using KamiToolKit.Nodes;
+using Newtonsoft.Json;
 
-namespace DailyDuty.Classes.TodoList;
+namespace DailyDuty.CustomNodes;
 
 public class TodoTaskNode : TextNode {
-	public required Module Module { get; init; }
+	[JsonIgnore] public required Module Module { get; init; }
 	
-	public ModuleConfig ModuleConfig => Module.GetConfig();
-	private CategoryConfig CategoryConfig => System.TodoConfig.CategoryConfigs[(uint) Module.ModuleType];
+	[JsonIgnore] public ModuleConfig ModuleConfig => Module.GetConfig();
 
 	public void Refresh() {
-		SetStyle(CategoryConfig.ModuleStyle);
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
-		SetNodeEventFlags();
-
-		if (ModuleConfig.OverrideTextColor) {
-			TextColor = ModuleConfig.TodoTextColor;
-			TextOutlineColor = ModuleConfig.TodoTextOutline;
-		}
+		SetEventFlags();
 
 		if (Module.HasClickableLink && !IsEventRegistered(AddonEventType.MouseClick)) {
 			AddEvent(AddonEventType.MouseClick, OnClick);
@@ -29,8 +22,6 @@ public class TodoTaskNode : TextNode {
 			RemoveEvent(AddonEventType.MouseClick, OnClick);
 		}
 		
-		Text = ModuleConfig.UseCustomTodoLabel ? ModuleConfig.CustomTodoLabel : Module.ModuleName.GetDescription();
-
 		if (Module.HasTooltip) {
 			Tooltip = Module.TooltipText;
 		}

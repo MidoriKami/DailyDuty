@@ -26,7 +26,7 @@ public class TreasureMapData : ModuleData {
 	}
 }
 
-public unsafe class TreasureMap : Modules.Special<TreasureMapData, TreasureMapConfig> {
+public unsafe class TreasureMap : BaseModules.Modules.Special<TreasureMapData, TreasureMapConfig> {
 	public override ModuleName ModuleName => ModuleName.TreasureMap;
 
 	public override DateTime GetNextReset() => DateTime.MaxValue;

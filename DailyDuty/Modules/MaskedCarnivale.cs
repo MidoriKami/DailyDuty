@@ -3,6 +3,7 @@ using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
+using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface.Utility;
@@ -17,15 +18,14 @@ namespace DailyDuty.Modules;
 public class MaskedCarnivaleConfig : ModuleTaskConfig<Addon> {
 	public bool ClickableLink = true;
 	
-	protected override bool DrawModuleConfig() {
-		var configChanged = ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+	protected override void DrawModuleConfig() {
+		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 		
 		ImGuiHelpers.ScaledDummy(5.0f);
-		return base.DrawModuleConfig() || configChanged;
 	}
 }
 
-public unsafe class MaskedCarnivale : Modules.WeeklyTask<ModuleTaskData<Addon>, MaskedCarnivaleConfig, Addon> {
+public unsafe class MaskedCarnivale : BaseModules.Modules.WeeklyTask<ModuleTaskData<Addon>, MaskedCarnivaleConfig, Addon> {
 	public override ModuleName ModuleName => ModuleName.MaskedCarnivale;
 
 	public override bool HasClickableLink => Config.ClickableLink;

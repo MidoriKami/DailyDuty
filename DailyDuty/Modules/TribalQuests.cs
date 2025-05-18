@@ -22,20 +22,16 @@ public class TribalQuestsConfig : ModuleConfig {
 	public int NotificationThreshold = 12;
 	public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
 	
-	protected override bool DrawModuleConfig() {
-		var configChanged = false;
-
+	protected override void DrawModuleConfig() {
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		configChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
+		ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
         
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		configChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 1, 12);
-
-		return configChanged;
+		ConfigChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 1, 12);
 	}
 }
 
-public unsafe class TribalQuests : Modules.Daily<TribalQuestsData, TribalQuestsConfig> {
+public unsafe class TribalQuests : BaseModules.Modules.Daily<TribalQuestsData, TribalQuestsConfig> {
 	public override ModuleName ModuleName => ModuleName.TribalQuests;
 
 	public override void Update() {

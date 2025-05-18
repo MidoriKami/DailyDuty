@@ -46,19 +46,15 @@ public class WondrousTailsConfig : ModuleConfig {
 	public bool ShuffleAvailableNotice;
 	public bool ClickableLink = true;
 	
-	protected override bool DrawModuleConfig() {
-		var configChanged = false;
-
-		configChanged |= ImGui.Checkbox(Strings.StickerAvailableNotice, ref StickerAvailableNotice);
-		configChanged |= ImGui.Checkbox(Strings.UnclaimedBookWarning, ref UnclaimedBookWarning);
-		configChanged |= ImGui.Checkbox(Strings.ShuffleAvailableNotice, ref ShuffleAvailableNotice);
-		configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
-		
-		return configChanged;
+	protected override void DrawModuleConfig() {
+		ConfigChanged |= ImGui.Checkbox(Strings.StickerAvailableNotice, ref StickerAvailableNotice);
+		ConfigChanged |= ImGui.Checkbox(Strings.UnclaimedBookWarning, ref UnclaimedBookWarning);
+		ConfigChanged |= ImGui.Checkbox(Strings.ShuffleAvailableNotice, ref ShuffleAvailableNotice);
+		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 	}
 }
 
-public unsafe class WondrousTails : Modules.Weekly<WondrousTailsData, WondrousTailsConfig> {
+public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData, WondrousTailsConfig> {
 	public override ModuleName ModuleName => ModuleName.WondrousTails;
     
 	public override bool HasClickableLink => Config.ClickableLink;

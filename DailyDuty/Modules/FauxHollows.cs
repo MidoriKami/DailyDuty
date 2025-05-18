@@ -22,17 +22,13 @@ public class FauxHollowsConfig : ModuleConfig {
 	public bool IncludeRetelling = true;
 	public bool ClickableLink = true;
 
-	protected override bool DrawModuleConfig() {
-		var configChanged = false;
-
-		configChanged |= ImGui.Checkbox(Strings.IncludeRetelling, ref IncludeRetelling);
-		configChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
-
-		return configChanged;
+	protected override void DrawModuleConfig() {
+		ConfigChanged |= ImGui.Checkbox(Strings.IncludeRetelling, ref IncludeRetelling);
+		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 	}
 }
 
-public class FauxHollows : Modules.Weekly<FauxHollowsData, FauxHollowsConfig> {
+public class FauxHollows : BaseModules.Modules.Weekly<FauxHollowsData, FauxHollowsConfig> {
 	public override ModuleName ModuleName => ModuleName.FauxHollows;
     
 	public override bool HasClickableLink => Config.ClickableLink;

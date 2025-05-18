@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Classes;
-using DailyDuty.Interfaces;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
@@ -22,12 +21,12 @@ public class MiniCactpotData : ModuleData {
 public class MiniCactpotConfig : ModuleConfig {
     public bool ClickableLink = true;
     
-    protected override bool DrawModuleConfig() {
-        return ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+    protected override void DrawModuleConfig() {
+        ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
     }
 }
 
-public unsafe class MiniCactpot : Modules.Daily<MiniCactpotData, MiniCactpotConfig>, IGoldSaucerMessageReceiver {
+public unsafe class MiniCactpot : BaseModules.Modules.Daily<MiniCactpotData, MiniCactpotConfig>, IGoldSaucerMessageReceiver {
     public override ModuleName ModuleName => ModuleName.MiniCactpot;
     
     public override bool HasClickableLink => Config.ClickableLink;

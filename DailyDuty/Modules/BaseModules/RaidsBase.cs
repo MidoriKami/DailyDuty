@@ -16,11 +16,10 @@ namespace DailyDuty.Modules.BaseModules;
 public class RaidsConfig : ModuleTaskConfig<ContentFinderCondition> {
 	public bool ClickableLink = true;
 	
-	protected override bool DrawModuleConfig() {
-		var configChanged = ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+	protected override void DrawModuleConfig() {
+		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 		
 		ImGuiHelpers.ScaledDummy(5.0f);
-		return base.DrawModuleConfig() || configChanged;
 	}
 }
 
