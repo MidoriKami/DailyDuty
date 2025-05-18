@@ -32,6 +32,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			Margin = new Spacing(5.0f),
 			TextOutlineColor = new Vector4(142, 106, 12, 255) / 255,
 			NodeId = NodeId + 500,
+			Text = type.GetDescription(),
 		};
 		
 		HeaderTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle);
