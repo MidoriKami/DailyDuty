@@ -57,7 +57,7 @@ public unsafe class TodoListController : IDisposable {
 		TodoListNode = new ListNode<TodoCategoryNode> {
 			NodeId = 300_000,
 			LayoutAnchor = LayoutAnchor.TopLeft,
-			Position = new Vector2(1024.0f, 720.0f ) / 2.0f,
+			Position = new Vector2(750.0f, 375.0f),
 			Size = new Vector2(600.0f, 200.0f),
 			LayoutOrientation = LayoutOrientation.Horizontal,
 			BackgroundVisible = true,
