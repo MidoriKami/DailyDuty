@@ -51,6 +51,7 @@ public unsafe class TimersController : IDisposable {
 			Size = new Vector2(400.0f, 32.0f),
 			Scale = new Vector2(0.80f, 0.80f),
 			Position = new Vector2(400.0f, 400.0f),
+			ModuleName = "Weekly Reset",
 		};
 		
 		WeeklyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "WeeklyTimer.style.json").FullName);
@@ -60,6 +61,7 @@ public unsafe class TimersController : IDisposable {
 			Size = new Vector2(400.0f, 32.0f), 
 			Scale = new Vector2(0.80f, 0.80f), 
 			Position = new Vector2(400.0f, 475.0f),
+			ModuleName = "Daily Reset",
 		};
 		
 		DailyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "DailyTimer.style.json").FullName);
