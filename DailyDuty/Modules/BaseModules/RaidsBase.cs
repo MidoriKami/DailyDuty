@@ -20,6 +20,8 @@ public class RaidsConfig : ModuleTaskConfig<ContentFinderCondition> {
 		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
 		
 		ImGuiHelpers.ScaledDummy(5.0f);
+		
+		base.DrawModuleConfig();
 	}
 }
 
