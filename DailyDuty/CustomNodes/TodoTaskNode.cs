@@ -2,14 +2,13 @@
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Events;
 using KamiToolKit.Nodes;
-using Newtonsoft.Json;
 
 namespace DailyDuty.CustomNodes;
 
 public class TodoTaskNode : TextNode {
-	[JsonIgnore] public required Module Module { get; init; }
+	public required Module Module { get; init; }
 	
-	[JsonIgnore] public ModuleConfig ModuleConfig => Module.GetConfig();
+	public ModuleConfig ModuleConfig => Module.GetConfig();
 
 	public void Refresh() {
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;

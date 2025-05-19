@@ -12,11 +12,12 @@ using Newtonsoft.Json;
 
 namespace DailyDuty.CustomNodes;
 
+[JsonObject(MemberSerialization.OptIn)]
 public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
-	public readonly ProgressBarNode ProgressBarNode;
-	public readonly TextNode ModuleNameNode;
-	public readonly TextNode TimeRemainingNode;
-	public readonly TextNode TooltipNode;
+	[JsonProperty] private readonly ProgressBarNode progressBarNode;
+	[JsonProperty] private readonly TextNode moduleNameNode;
+	[JsonProperty] private readonly TextNode timeRemainingNode;
+	[JsonProperty] private readonly TextNode tooltipNode;
 
 	private Vector2 actualSize;
 
@@ -26,7 +27,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		IsVisible = true;
 		Position = new Vector2(400.0f, 400.0f);
 		
-		ProgressBarNode = new ProgressBarNode(nodeId) {
+		progressBarNode = new ProgressBarNode(nodeId) {
 			NodeId = nodeId + 10000,
 			Progress = 0.30f,
 			Size = new Vector2(400.0f, 48.0f),
@@ -34,9 +35,9 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			BackgroundColor = KnownColor.Black.Vector(),
 			BarColor = KnownColor.Aqua.Vector(),
 		};
-		System.NativeController.AttachToNode(ProgressBarNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(progressBarNode, this, NodePosition.AsLastChild);
 
-		ModuleNameNode = new TextNode {
+		moduleNameNode = new TextNode {
 			NodeId = nodeId + 20000,
 			Position = new Vector2(12.0f, -24.0f),
 			NodeFlags = NodeFlags.Visible,
@@ -44,9 +45,9 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			FontSize = 24,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
 		};
-		System.NativeController.AttachToNode(ModuleNameNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(moduleNameNode, this, NodePosition.AsLastChild);
 
-		TimeRemainingNode = new TextNode {
+		timeRemainingNode = new TextNode {
 			NodeId = nodeId + 30000,
 			NodeFlags = NodeFlags.Visible | NodeFlags.AnchorRight,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
@@ -56,9 +57,9 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			Position = new Vector2(0.0f, -22.0f),
 			Text = "0.00:00:00",
 		};
-		System.NativeController.AttachToNode(TimeRemainingNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(timeRemainingNode, this, NodePosition.AsLastChild);
 
-		TooltipNode = new TextNode {
+		tooltipNode = new TextNode {
 			NodeId = 250000 + nodeId,
 			Size = new Vector2(16.0f, 16.0f),
 			TextColor = KnownColor.White.Vector(),
@@ -72,7 +73,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			Tooltip = "Overlay from DailyDuty plugin",
 			EventFlagsSet = true,
 		};
-		System.NativeController.AttachToNode(TooltipNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(tooltipNode, this, NodePosition.AsLastChild);
 
 		Width = 400.0f;
 		Height = 48.0f;
@@ -80,10 +81,10 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 
 	protected override void Dispose(bool disposing) {
 		if (disposing) {
-			ProgressBarNode.Dispose();
-			ModuleNameNode.Dispose();
-			TimeRemainingNode.Dispose();
-			TooltipNode.Dispose();
+			progressBarNode.Dispose();
+			moduleNameNode.Dispose();
+			timeRemainingNode.Dispose();
+			tooltipNode.Dispose();
 			
 			base.Dispose(disposing);
 		}
@@ -92,27 +93,27 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 	public override void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
 		base.EnableEvents(eventManager, addon);
 		
-		TooltipNode.EnableEvents(Service.AddonEventManager, addon);
+		tooltipNode.EnableEvents(Service.AddonEventManager, addon);
 	}
 
 	public override void DisableEvents(IAddonEventManager eventManager) {
 		base.DisableEvents(eventManager);
 		
-		TooltipNode.DisableEvents(eventManager);
+		tooltipNode.DisableEvents(eventManager);
 	}
 
 	public float Progress {
-		get => ProgressBarNode.Progress;
-		set => ProgressBarNode.Progress = value;
+		get => progressBarNode.Progress;
+		set => progressBarNode.Progress = value;
 	}
 
 	public new float Width {
 		get => actualSize.X;
 		set {
 			InternalNode->SetWidth((ushort)value);
-			ProgressBarNode.Width = value;
-			TimeRemainingNode.X = value - TimeRemainingNode.Width - 12.0f;
-			TooltipNode.Position = new Vector2(ProgressBarNode.Width, 8.0f);
+			progressBarNode.Width = value;
+			timeRemainingNode.X = value - timeRemainingNode.Width - 12.0f;
+			tooltipNode.Position = new Vector2(progressBarNode.Width, 8.0f);
 			actualSize.X = value;
 		}
 	}
@@ -121,7 +122,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		get => actualSize.Y;
 		set {
 			InternalNode->SetHeight((ushort)value);
-			ProgressBarNode.Height = value;
+			progressBarNode.Height = value;
 			actualSize.Y = value;
 		}
 	}
@@ -134,14 +135,14 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		}
 	}
 
-	[JsonIgnore] public SeString ModuleName {
-		get => ModuleNameNode.Text;
-		set => ModuleNameNode.Text = value;
+	public SeString ModuleName {
+		get => moduleNameNode.Text;
+		set => moduleNameNode.Text = value;
 	}
 
-	[JsonIgnore] public SeString TimeRemainingText {
-		set => TimeRemainingNode.Text = value;
-		get => TimeRemainingNode.Text;
+	public SeString TimeRemainingText {
+		set => timeRemainingNode.Text = value;
+		get => timeRemainingNode.Text;
 	}
 
 	public override void DrawConfig() {
@@ -149,25 +150,25 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 				
 		using (var progressBar = ImRaii.TreeNode("Progress Bar")) {
 			if (progressBar) {
-				ProgressBarNode.DrawConfig();
+				progressBarNode.DrawConfig();
 			}
 		}
 				
 		using (var moduleName = ImRaii.TreeNode("Module Name")) {
 			if (moduleName) {
-				ModuleNameNode.DrawConfig();
+				moduleNameNode.DrawConfig();
 			}
 		}
 				
 		using (var timeRemaining = ImRaii.TreeNode("Time Remaining")) {
 			if (timeRemaining) {
-				TimeRemainingNode.DrawConfig();
+				timeRemainingNode.DrawConfig();
 			}
 		}
 				
 		using (var tooltip = ImRaii.TreeNode("Tooltip")) {
 			if (tooltip) {
-				TooltipNode.DrawConfig();
+				tooltipNode.DrawConfig();
 			}
 		}
 	}
