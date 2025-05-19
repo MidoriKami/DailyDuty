@@ -35,10 +35,9 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			TextOutlineColor = new Vector4(142, 106, 12, 255) / 255,
 			NodeId = NodeId + 500,
 			Text = type.GetDescription(),
-			EventFlagsSet = true,
 		};
 		
-		headerTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle);
+		headerTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle, true);
 		
 		System.NativeController.AttachToNode(headerTextNode, this, NodePosition.AsFirstChild);
 
@@ -88,7 +87,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			}
 			
 			if (module.HasClickableLink) {
-				newTaskNode.AddEvent(AddonEventType.MouseClick, () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!));
+				newTaskNode.AddEvent(AddonEventType.MouseClick, () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!), true);
 			}
 
 			if (module is { HasTooltip: true } or { HasClickableLink: true }) {

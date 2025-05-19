@@ -12,13 +12,12 @@ public class TodoTaskNode : TextNode {
 
 	public void Refresh() {
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
-		SetEventFlags();
 
 		if (Module.HasClickableLink && !IsEventRegistered(AddonEventType.MouseClick)) {
-			AddEvent(AddonEventType.MouseClick, OnClick);
+			AddEvent(AddonEventType.MouseClick, OnClick, true);
 		}
 		else if (!Module.HasClickableLink && IsEventRegistered(AddonEventType.MouseClick)) {
-			RemoveEvent(AddonEventType.MouseClick, OnClick);
+			RemoveEvent(AddonEventType.MouseClick, OnClick, true);
 		}
 		
 		if (Module.HasTooltip) {
