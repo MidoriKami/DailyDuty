@@ -64,6 +64,8 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
         }
         
         ImGuiHelpers.ScaledDummy(5.0f);
+        
+        base.DrawModuleConfig();
     }
 }
 
