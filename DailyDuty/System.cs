@@ -26,4 +26,5 @@ public static class System {
 	public static TimersConfig TimersConfig { get; set; }
 	public static AddonController<AddonContentsFinder> ContentsFinderController { get; set; }
 	public static NameplateAddonController NameplateAddonController { get; set; }
+	public static Testing Testing { get; set; }
 }

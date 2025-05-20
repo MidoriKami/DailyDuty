@@ -35,6 +35,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.WindowManager = new WindowManager(Service.PluginInterface);
         System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
 
+        System.Testing = new Testing();
+        
         if (Service.ClientState.IsLoggedIn) {
             Service.Framework.RunOnFrameworkThread(OnLogin);
         }
@@ -50,6 +52,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
+        
+        System.Testing.Dispose();
         
         System.LocalizationController.Dispose();
         System.PayloadController.Dispose();
