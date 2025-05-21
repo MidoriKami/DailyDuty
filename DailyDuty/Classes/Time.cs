@@ -73,4 +73,9 @@ public static class Time {
         => hideSeconds ? 
                $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}" : 
                $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
+    
+    public static string FormatTimeSpanShort(this TimeSpan timeSpan, bool hideSeconds = false)
+        => hideSeconds ? 
+               $"{timeSpan.Hours:00}:{timeSpan.Minutes:00}" : 
+               $"{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}"; 
 }

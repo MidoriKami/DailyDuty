@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
@@ -18,6 +19,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib.Classes;
 using KamiToolKit.Classes;
+using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.ComponentNodes;
 using Lumina.Excel.Sheets;
@@ -49,12 +51,14 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public Vector4 CompleteColor = KnownColor.LimeGreen.Vector();
     public Vector4 IncompleteColor = KnownColor.OrangeRed.Vector();
     public bool ShowOpenDailyDutyButton = true;
+    public bool ShowResetTimer = true;
     
     protected override void DrawModuleConfig() {
         ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
         ConfigChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
         ConfigChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
         ConfigChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
+        ConfigChanged |= ImGui.Checkbox("Show Daily Reset Timer in Duty Finder", ref ShowResetTimer);
 
         if (ColorContentFinder) {
             ImGuiHelpers.ScaledDummy(5.0f);
@@ -80,7 +84,8 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
 
     private TextNode? infoTextNode;
     private TextButton? openDailyDutyButton;
-
+    private TextNode? dailyResetTimer;
+    
     public DutyRoulette() {
         System.ContentsFinderController.OnAttach += AttachNodes;
         System.ContentsFinderController.OnDetach += DetachNodes;
@@ -126,6 +131,18 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, () => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
 
         System.NativeController.AttachToAddon(openDailyDutyButton, addon, addon->RootNode, NodePosition.AsLastChild);
+
+        dailyResetTimer = new TextNode {
+            Position = new Vector2(300.0f, 202.0f),
+            Size = new Vector2(148.0f, 24.0f),
+            AlignmentType = AlignmentType.Right,
+            Tooltip = "Time until next daily reset",
+            Text = "0:00:00:00",
+            EventFlagsSet = true,
+            TextColor = addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode->TextColor.ToVector4(),
+        };
+        
+        System.NativeController.AttachToAddon(dailyResetTimer, addon, addon->RootNode, NodePosition.AsLastChild);
     }
 
     private void DetachNodes(AddonContentsFinder* addon) {
@@ -138,6 +155,11 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             openDailyDutyButton?.Dispose();
             openDailyDutyButton = null;
         });
+        
+        System.NativeController.DetachFromAddon(dailyResetTimer, addon, () => {
+            dailyResetTimer?.Dispose();
+            dailyResetTimer = null;
+        });
     }
 
     private void OnContentFinderUpdate(AddonContentsFinder* addon) {
@@ -147,6 +169,17 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         
         if (infoTextNode is not null) {
             infoTextNode.IsVisible = false;
+        }
+
+        if (dailyResetTimer is not null && Config.ShowResetTimer) {
+            var nextReset = Time.NextDailyReset();
+            var timeRemaining = nextReset - DateTime.UtcNow;
+
+            dailyResetTimer.Text = timeRemaining.FormatTimeSpanShort(System.TimersConfig.HideTimerSeconds);
+        }
+        
+        if (dailyResetTimer is not null) {
+            dailyResetTimer.IsVisible = Config.ShowResetTimer && addon->SelectedRadioButton == 0;
         }
         
         if (!Config.ColorContentFinder) return;
