@@ -116,7 +116,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             AlignmentType = AlignmentType.TopLeft,
             Text = GetHintText(),
             Tooltip = "Feature from DailyDuty Plugin",
-            EventFlagsSet = true,
+            EnableEventFlags = true,
         };
         
         System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
@@ -138,8 +138,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             AlignmentType = AlignmentType.Right,
             Tooltip = "Time until next daily reset",
             Text = "0:00:00:00",
-            EventFlagsSet = true,
-            TextColor = addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode->TextColor.ToVector4(),
+            EnableEventFlags = true,
         };
 
         if (addon->DutyList is not null) {
