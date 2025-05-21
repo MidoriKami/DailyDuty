@@ -141,7 +141,15 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             EventFlagsSet = true,
             TextColor = addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode->TextColor.ToVector4(),
         };
-        
+
+        if (addon->DutyList is not null) {
+            if (addon->DutyList->FirstAtkComponentListItemRenderer is not null) {
+                if (addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode is not null) {
+                    dailyResetTimer.TextColor = addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode->TextColor.ToVector4();
+                }
+            }
+        }
+
         System.NativeController.AttachToAddon(dailyResetTimer, addon, addon->RootNode, NodePosition.AsLastChild);
     }
 
