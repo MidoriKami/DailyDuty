@@ -115,8 +115,8 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
         
         openDailyDutyButton = new TextButton {
-            Position = new Vector2(50.0f, 622.0f),
-            Size = new Vector2(130.0f, 28.0f),
+            Position = new Vector2(41.0f, 622.0f),
+            Size = new Vector2(139.0f, 28.0f),
             IsVisible = true,
             Label = "Open DailyDuty",
         };
