@@ -77,7 +77,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     public override bool HasTooltip => true;
 
     private TextNode? infoTextNode;
-    private TextButton? openDailyDutyButton;
+    private TextButtonNode? openDailyDutyButton;
 
     public DutyRoulette() {
         System.ContentsFinderController.OnAttach += AttachNodes;
@@ -114,7 +114,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         
         System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
         
-        openDailyDutyButton = new TextButton {
+        openDailyDutyButton = new TextButtonNode {
             Position = new Vector2(41.0f, 622.0f),
             Size = new Vector2(139.0f, 28.0f),
             IsVisible = true,

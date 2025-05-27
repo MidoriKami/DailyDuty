@@ -19,16 +19,13 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 	[JsonProperty] private readonly TextNode timeRemainingNode;
 	[JsonProperty] private readonly TextNode tooltipNode;
 
-	private Vector2 actualSize;
-
-	public TimerNode(uint nodeId) : base(NodeType.Res) {
-		NodeId = nodeId;
+	public TimerNode() : base(NodeType.Res) {
 		Color = KnownColor.White.Vector();
 		IsVisible = true;
 		Position = new Vector2(400.0f, 400.0f);
 		
-		progressBarNode = new ProgressBarNode(nodeId) {
-			NodeId = nodeId + 10000,
+		progressBarNode = new ProgressBarNode {
+			NodeId = 10000,
 			Progress = 0.30f,
 			Size = new Vector2(400.0f, 48.0f),
 			NodeFlags = NodeFlags.Visible,
@@ -38,7 +35,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		System.NativeController.AttachToNode(progressBarNode, this, NodePosition.AsLastChild);
 
 		moduleNameNode = new TextNode {
-			NodeId = nodeId + 20000,
+			NodeId = 20000,
 			Position = new Vector2(12.0f, -24.0f),
 			NodeFlags = NodeFlags.Visible,
 			FontType = FontType.Jupiter,
@@ -48,7 +45,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		System.NativeController.AttachToNode(moduleNameNode, this, NodePosition.AsLastChild);
 
 		timeRemainingNode = new TextNode {
-			NodeId = nodeId + 30000,
+			NodeId = 30000,
 			NodeFlags = NodeFlags.Visible | NodeFlags.AnchorRight,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
 			FontType = FontType.Axis,
@@ -60,7 +57,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		System.NativeController.AttachToNode(timeRemainingNode, this, NodePosition.AsLastChild);
 
 		tooltipNode = new TextNode {
-			NodeId = 250000 + nodeId,
+			NodeId = 250000,
 			Size = new Vector2(16.0f, 16.0f),
 			TextColor = KnownColor.White.Vector(),
 			TextOutlineColor = KnownColor.Black.Vector(),
@@ -107,31 +104,21 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		set => progressBarNode.Progress = value;
 	}
 
-	public new float Width {
-		get => actualSize.X;
+	public override float Width {
+		get => base.Width;
 		set {
-			InternalNode->SetWidth((ushort)value);
+			base.Width = value;
 			progressBarNode.Width = value;
 			timeRemainingNode.X = value - timeRemainingNode.Width - 12.0f;
 			tooltipNode.Position = new Vector2(progressBarNode.Width, 8.0f);
-			actualSize.X = value;
 		}
 	}
 
-	public new float Height {
-		get => actualSize.Y;
+	public override float Height {
+		get => base.Height;
 		set {
-			InternalNode->SetHeight((ushort)value);
+			base.Height = value;
 			progressBarNode.Height = value;
-			actualSize.Y = value;
-		}
-	}
-
-	public new Vector2 Size {
-		get => actualSize;
-		set {
-			Width = value.X;
-			Height = value.Y;
 		}
 	}
 
