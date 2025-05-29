@@ -49,7 +49,7 @@ public abstract unsafe class RaidsBase : Modules.WeeklyTask<ModuleTaskData<Conte
 
 	public override void Update() {
 		if (Agent is not null && Agent->IsAgentActive()) {
-			var selectedDuty = Agent->SelectedDutyId;
+			var selectedDuty = Agent->SelectedDuty.Id;
 			var task = Data.TaskData.FirstOrDefault(task => task.RowId == selectedDuty);
 			var numRewards = Agent->NumCollectedRewards;
             

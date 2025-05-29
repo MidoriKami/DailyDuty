@@ -12,7 +12,6 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Utility;
-using Dalamud.Utility.Numerics;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -83,7 +82,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     public override bool HasTooltip => true;
 
     private TextNode? infoTextNode;
-    private TextButton? openDailyDutyButton;
+    private TextButtonNode? openDailyDutyButton;
     private TextNode? dailyResetTimer;
     
     public DutyRoulette() {
@@ -121,7 +120,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         
         System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
         
-        openDailyDutyButton = new TextButton {
+        openDailyDutyButton = new TextButtonNode {
             Position = new Vector2(50.0f, 622.0f),
             Size = new Vector2(130.0f, 28.0f),
             IsVisible = true,

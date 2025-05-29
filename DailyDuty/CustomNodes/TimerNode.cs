@@ -27,7 +27,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		IsVisible = true;
 		Position = new Vector2(400.0f, 400.0f);
 		
-		progressBarNode = new ProgressBarNode(nodeId) {
+		progressBarNode = new ProgressBarNode {
 			NodeId = nodeId + 10000,
 			Progress = 0.30f,
 			Size = new Vector2(400.0f, 48.0f),
