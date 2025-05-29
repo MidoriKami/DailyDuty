@@ -51,14 +51,25 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public Vector4 IncompleteColor = KnownColor.OrangeRed.Vector();
     public bool ShowOpenDailyDutyButton = true;
     public bool ShowResetTimer = true;
+    public Vector4 TimerColor = KnownColor.Black.Vector();
     
     protected override void DrawModuleConfig() {
         ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
         ConfigChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
-        ConfigChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
         ConfigChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
+        
+        ImGui.Spacing();
+
         ConfigChanged |= ImGui.Checkbox("Show Daily Reset Timer in Duty Finder", ref ShowResetTimer);
 
+        if (ShowResetTimer) {
+            ConfigChanged |= ImGuiTweaks.ColorEditWithDefault("Timer Color", ref TimerColor, ColorHelper.GetColor(7));
+        }
+        
+        ImGui.Spacing();
+
+        ConfigChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
+        
         if (ColorContentFinder) {
             ImGuiHelpers.ScaledDummy(5.0f);
 
@@ -131,6 +142,11 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
 
         System.NativeController.AttachToAddon(openDailyDutyButton, addon, addon->RootNode, NodePosition.AsLastChild);
 
+        if (Config.TimerColor == Vector4.Zero) {
+            Config.TimerColor = ColorHelper.GetColor(7);
+            ConfigChanged = true;
+        }
+        
         dailyResetTimer = new TextNode {
             Position = new Vector2(300.0f, 202.0f),
             Size = new Vector2(148.0f, 24.0f),
@@ -138,15 +154,8 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             Tooltip = "Time until next daily reset",
             Text = "0:00:00:00",
             EnableEventFlags = true,
+            TextColor = Config.TimerColor,
         };
-
-        if (addon->DutyList is not null) {
-            if (addon->DutyList->FirstAtkComponentListItemRenderer is not null) {
-                if (addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode is not null) {
-                    dailyResetTimer.TextColor = addon->DutyList->FirstAtkComponentListItemRenderer->ButtonTextNode->TextColor.ToVector4();
-                }
-            }
-        }
 
         System.NativeController.AttachToAddon(dailyResetTimer, addon, addon->RootNode, NodePosition.AsLastChild);
     }
@@ -182,6 +191,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             var timeRemaining = nextReset - DateTime.UtcNow;
 
             dailyResetTimer.Text = timeRemaining.FormatTimeSpanShort(System.TimersConfig.HideTimerSeconds);
+            dailyResetTimer.TextColor = Config.TimerColor;
         }
         
         if (dailyResetTimer is not null) {
