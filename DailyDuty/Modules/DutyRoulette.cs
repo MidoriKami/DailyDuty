@@ -142,6 +142,11 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
 
         System.NativeController.AttachToAddon(openDailyDutyButton, addon, addon->RootNode, NodePosition.AsLastChild);
 
+        if (Config.TimerColor == Vector4.Zero) {
+            Config.TimerColor = ColorHelper.GetColor(7);
+            ConfigChanged = true;
+        }
+        
         dailyResetTimer = new TextNode {
             Position = new Vector2(300.0f, 202.0f),
             Size = new Vector2(148.0f, 24.0f),
@@ -149,7 +154,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             Tooltip = "Time until next daily reset",
             Text = "0:00:00:00",
             EnableEventFlags = true,
-            TextColor = Config.TimerColor == Vector4.Zero ? ColorHelper.GetColor(1) : Config.TimerColor,
+            TextColor = Config.TimerColor,
         };
 
         System.NativeController.AttachToAddon(dailyResetTimer, addon, addon->RootNode, NodePosition.AsLastChild);
