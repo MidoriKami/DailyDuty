@@ -22,7 +22,7 @@ public unsafe class TimersController : IDisposable {
 		System.CommandManager.RegisterCommand(new ToggleCommandHandler {
 			DisableDelegate = _ => System.TimersConfig.Enabled = false,
 			EnableDelegate = _ => System.TimersConfig.Enabled = true,
-			ToggleDelegate = _ => System.TimersConfig.Enabled = !System.TodoConfig.Enabled,
+			ToggleDelegate = _ => System.TimersConfig.Enabled = !System.TimersConfig.Enabled,
 			BaseActivationPath = "/timers/",
 		});
 
