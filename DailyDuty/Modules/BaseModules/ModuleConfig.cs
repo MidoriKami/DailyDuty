@@ -156,7 +156,7 @@ public abstract class ModuleConfig {
             }
         
             ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
-            ImGuiTweaks.DisabledButton("Reset", () => {
+            ImGuiTweaks.DisabledButton("Undo", () => {
                 if (module.TodoTaskNode is not null) {
                     module.TodoTaskNode?.Load(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
                     System.TodoListController.Refresh();

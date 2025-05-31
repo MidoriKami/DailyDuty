@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
@@ -142,7 +143,7 @@ public class TodoConfigTab : ITabItem {
         }
         
         ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
-        ImGuiTweaks.DisabledButton("Reset", () => {
+        ImGuiTweaks.DisabledButton("Undo", () => {
             System.TodoListController.Load();
             System.TodoListController.Refresh();
             StatusMessage.PrintTaggedMessage("Loaded last saved configuration options for Todo List", "Todo List Config");
@@ -189,7 +190,7 @@ public class TimersConfigTab : ITabItem {
                             using (ImRaii.PushId("Weekly")) {
                                 ImGui.TextUnformatted("Weekly Timer");
                                 ImGuiHelpers.ScaledDummy(5.0f);
-                                System.TimersController.WeeklyTimerNode?.DrawConfig();
+                                DrawTimerConfig(System.TimersController.WeeklyTimerNode);
                             }
                         }
                     }
@@ -200,7 +201,7 @@ public class TimersConfigTab : ITabItem {
                             using (ImRaii.PushId("Daily")) {
                                 ImGui.TextUnformatted("Daily Timer");
                                 ImGuiHelpers.ScaledDummy(5.0f);
-                                System.TimersController.DailyTimerNode?.DrawConfig();
+                                DrawTimerConfig(System.TimersController.DailyTimerNode);
                             }
                         }
                     }
@@ -217,7 +218,7 @@ public class TimersConfigTab : ITabItem {
         }
         
         ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
-        ImGuiTweaks.DisabledButton("Reset", () => {
+        ImGuiTweaks.DisabledButton("Undo", () => {
             System.TimersController.WeeklyTimerNode?.Load(System.TimersController.WeeklyTimerSavePath);
             System.TimersController.DailyTimerNode?.Load(System.TimersController.DailyTimerSavePath);
             StatusMessage.PrintTaggedMessage("Loaded last saved configuration options for Timers", "Timers Config");
@@ -225,6 +226,101 @@ public class TimersConfigTab : ITabItem {
         
         if (configChanged) {
             System.TimersConfig.Save();
+        }
+    }
+
+    private void DrawTimerConfig(TimerNode? node) {
+        if (node is null) return;
+
+        using var tabBar = ImRaii.TabBar("node_config_tab_bar");
+        if (!tabBar) return;
+
+        using (var simpleMode = ImRaii.TabItem("Simple Mode")) {
+            if (simpleMode) {
+                using var table = ImRaii.Table("simple_mode_table", 2);
+                if (!table) return;
+        
+                ImGui.TableSetupColumn("##label", ImGuiTableColumnFlags.WidthStretch, 1.0f);
+                ImGui.TableSetupColumn("##config", ImGuiTableColumnFlags.WidthStretch, 2.0f);
+        
+                ImGui.TableNextRow();
+
+                ImGui.TableNextColumn();
+                ImGui.Text("Position");
+
+                ImGui.TableNextColumn();
+                var position = node.Position;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.DragFloat2("##Position", ref position, 0.75f, 0.0f, 5000.0f)) {
+                    node.Position = position;
+                }
+
+                ImGui.TableNextColumn();
+                ImGui.Text("Size");
+
+                ImGui.TableNextColumn();
+                var size = node.Size;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.DragFloat2("##Size", ref size, 0.50f, 0.0f, 5000.0f)) {
+                    node.Size = size;
+                }
+                
+                ImGui.TableNextColumn();
+                ImGui.Text("Bar Color");
+                
+                ImGui.TableNextColumn();
+                var color = node.BarColor;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.ColorEdit4("##BarColor", ref color, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+                    node.BarColor = color;
+                }
+                
+                ImGui.TableNextColumn();
+                ImGui.Text("Label Color");
+                
+                ImGui.TableNextColumn();
+                var labelColor = node.LabelColor;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.ColorEdit4("##LabelColor", ref labelColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+                    node.LabelColor = labelColor;
+                }
+                
+                ImGui.TableNextColumn();
+                ImGui.Text("Timer Color");
+                
+                ImGui.TableNextColumn();
+                var timerColor = node.TimerColor;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.ColorEdit4("##TimerColor", ref timerColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+                    node.TimerColor = timerColor;
+                }
+                
+                ImGui.TableNextColumn();
+                ImGui.Text("Show Label");
+                
+                ImGui.TableNextColumn();
+                var showText = node.ShowLabel;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.Checkbox("##ShowText", ref showText)) {
+                    node.ShowLabel = showText;
+                }
+                
+                ImGui.TableNextColumn();
+                ImGui.Text("Show Timer");
+                
+                ImGui.TableNextColumn();
+                var showTimer = node.ShowTimer;
+                ImGuiTweaks.SetFullWidth();
+                if (ImGui.Checkbox("##Showtimer", ref showTimer)) {
+                    node.ShowTimer = showTimer;
+                }
+            }
+        }
+
+        using (var advancedMode = ImRaii.TabItem("Advanced Mode")) {
+            if (advancedMode) {
+                node.DrawConfig();
+            }
         }
     }
 }
