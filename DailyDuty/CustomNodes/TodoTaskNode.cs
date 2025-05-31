@@ -20,12 +20,7 @@ public class TodoTaskNode : TextNode {
 			RemoveEvent(AddonEventType.MouseClick, OnClick, true);
 		}
 		
-		if (Module.HasTooltip) {
-			Tooltip = Module.TooltipText;
-		}
-		else {
-			Tooltip = null;
-		}
+		Tooltip = Module.HasTooltip ? Module.TooltipText : string.Empty;
 	}
 
 	private void OnClick()

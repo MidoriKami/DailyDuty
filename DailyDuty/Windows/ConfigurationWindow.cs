@@ -4,17 +4,19 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Localization;
-using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.Window;
+using KamiToolKit.Classes;
+using KamiToolKit.Nodes;
 
 namespace DailyDuty.Windows;
 
@@ -79,14 +81,24 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
         if (!table) return;
 
         ImGui.TableNextColumn();
-        using (var _ = ImRaii.Child($"config_child_{option.ModuleName}", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-            option.DrawConfig();
-        }
+        DrawConfigPane(option);
 
         ImGui.TableNextColumn();
-        using (var _ = ImRaii.Child($"data_child_{option.ModuleName}", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-            option.DrawData();
-        }
+        DrawDataPane(option);
+    }
+
+    private static void DrawDataPane(Module option) {
+        using var dataChild = ImRaii.Child($"data_child_{option.ModuleName}", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding);
+        if (!dataChild) return;
+
+        option.DrawData();
+    }
+
+    private static void DrawConfigPane(Module option) {
+        using var configChild = ImRaii.Child($"config_child_{option.ModuleName}", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding);
+        if (!configChild) return;
+
+        option.DrawConfig();
     }
 
     protected override void DrawExtraButton() {
@@ -95,6 +107,16 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
         if (ImGui.Button(label, ImGui.GetContentRegionAvail())) {
             System.SystemConfig.HideDisabledModules = !System.SystemConfig.HideDisabledModules;
             System.SystemConfig.Save();
+        }
+    }
+
+    public override void OnClose() {
+        System.TodoListController.Save();
+        System.TimersController.WeeklyTimerNode?.Save(System.TimersController.WeeklyTimerSavePath);
+        System.TimersController.DailyTimerNode?.Save(System.TimersController.DailyTimerSavePath);
+
+        foreach (var module in System.ModuleController.Modules) {
+            module.TodoTaskNode?.Save(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
         }
     }
 }
@@ -120,39 +142,269 @@ public class TodoConfigTab : ITabItem {
         }
         
         ImGuiTweaks.Header("Todo List Style");
-        using (var child = ImRaii.Child("TodoListStyleConfig", ImGui.GetContentRegionAvail() - ImGuiHelpers.ScaledVector2(0.0f, 33.0f))) {
-            if (child) {
-                System.TodoListController.DrawConfig();
-            }
-        }
-        
-        ImGui.Separator();
-        
-        if (ImGui.Button("Save", ImGuiHelpers.ScaledVector2(100.0f, 23.0f))) {
-            System.TodoListController.Save();
-            System.TodoListController.Refresh();
-            StatusMessage.PrintTaggedMessage("Saved configuration options for Todo List", "Todo List Config");
-        }
-        
-        ImGui.SameLine(ImGui.GetContentRegionMax().X / 2.0f - 75.0f * ImGuiHelpers.GlobalScale);
-        if (ImGui.Button("Refresh Layout", ImGuiHelpers.ScaledVector2(150.0f, 23.0f))) {
-            System.TodoListController.Refresh();
-        }
-        if (ImGui.IsItemHovered()) {
-            ImGui.SetTooltip("Triggers a refresh of the UI element to recalculate dynamic element size/positions");
-        }
-        
-        ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
-        ImGuiTweaks.DisabledButton("Undo", () => {
-            System.TodoListController.Load();
-            System.TodoListController.Refresh();
-            StatusMessage.PrintTaggedMessage("Loaded last saved configuration options for Todo List", "Todo List Config");
-        });
+        DrawTodoConfig();
         
         if (configChanged) {
             System.TodoConfig.Save();
-            System.TodoListController.Refresh();
         }
+        
+        System.TodoListController.Refresh();
+    }
+
+    private static void DrawTodoConfig() {
+        using var tabBar = ImRaii.TabBar("mode_select");
+        if (!tabBar) return;
+
+        DrawSimpleModeConfig();
+        DrawAdvancedModeConfig();
+    }
+
+    private static void DrawSimpleModeConfig() {
+        using var simpleMode = ImRaii.TabItem("Simple Mode");
+        if (!simpleMode) return;
+
+        using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
+        if (!tabChild) return;
+        
+        DrawBasicSimpleNodeTable();
+        ImGui.Spacing();
+
+        using var categoryTabBar = ImRaii.TabBar("category_tab_bar");
+        if (!categoryTabBar) return;
+
+        DrawSimpleDailyTab();
+        DrawSimpleWeeklyTab();
+        DrawSimpleSpecialTab();
+    }
+
+    private static void DrawSimpleDailyTab() {
+        using var dailyTab = ImRaii.TabItem("Daily Tasks");
+        if (!dailyTab) return;
+        
+        DrawSimpleCategoryConfig(System.TodoListController.DailyTaskNode);        
+    }
+    
+    private static void DrawSimpleWeeklyTab() {
+        using var weeklyTab = ImRaii.TabItem("Weekly Tasks");
+        if (!weeklyTab) return;
+        
+        DrawSimpleCategoryConfig(System.TodoListController.WeeklyTaskNode);        
+    }
+    
+    private static void DrawSimpleSpecialTab() {
+        using var specialTab = ImRaii.TabItem("Special Tasks");
+        if (!specialTab) return;
+        
+        DrawSimpleCategoryConfig(System.TodoListController.SpecialTaskNode);        
+    }
+
+    private static void DrawBasicSimpleNodeTable() {
+        using var table = ImRaii.Table("simple_mode_table", 2);
+        if (!table) return;
+
+        var todoController = System.TodoListController;
+
+        var dailyCategory = todoController.DailyTaskNode;
+        if (dailyCategory is null) return;
+        
+        var weeklyCategory = todoController.WeeklyTaskNode;
+        if (weeklyCategory is null) return;
+        
+        var specialCategory = todoController.SpecialTaskNode;
+        if (specialCategory is null) return;
+        
+        var listNode = todoController.TodoListNode;
+        if (listNode is null) return;
+                        
+        ImGui.TableSetupColumn("##label", ImGuiTableColumnFlags.WidthStretch, 1.0f);
+        ImGui.TableSetupColumn("##config", ImGuiTableColumnFlags.WidthStretch, 2.0f);
+                
+        ImGui.TableNextRow();
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Position");
+                        
+        ImGui.TableNextColumn();
+        var position = listNode.Position;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.DragFloat2("##position", ref position, 0.75f, 0.0f, 5000.0f)) {
+            listNode.Position = position;
+        }
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Size");
+                
+        ImGui.TableNextColumn();
+        var size = listNode.Size;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.DragFloat2("##size", ref size, 0.75f, 0.0f, 5000.0f)) {
+            listNode.Size = size;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Background Color");
+                
+        ImGui.TableNextColumn();
+        var backgroundColor = listNode.BackgroundColor;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.ColorEdit4("##BackgroundColor", ref backgroundColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+            listNode.BackgroundColor = backgroundColor;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("List Orientation");
+                
+        ImGui.TableNextColumn();
+        var orientation = listNode.LayoutOrientation;
+        ImGuiTweaks.SetFullWidth();
+        if (ComboHelper.EnumCombo("##Orientation", ref orientation)) {
+            listNode.LayoutOrientation = orientation;
+        }
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Anchor Corner");
+                
+        ImGui.TableNextColumn();
+        var anchor = listNode.LayoutAnchor;
+        ImGuiTweaks.SetFullWidth();
+        if (ComboHelper.EnumCombo("##Anchor", ref anchor)) {
+            listNode.LayoutAnchor = anchor;
+
+            dailyCategory.TaskListNode.LayoutAnchor = anchor;
+            weeklyCategory.TaskListNode.LayoutAnchor = anchor;
+            specialCategory.TaskListNode.LayoutAnchor = anchor;
+
+            var alignmentDirection = anchor switch {
+                LayoutAnchor.TopLeft => AlignmentType.TopLeft,
+                LayoutAnchor.TopRight => AlignmentType.TopRight,
+                LayoutAnchor.BottomLeft => AlignmentType.BottomLeft,
+                LayoutAnchor.BottomRight => AlignmentType.BottomRight,
+                _ => AlignmentType.TopLeft,
+            };
+
+            dailyCategory.HeaderTextNode.AlignmentType = alignmentDirection;
+            weeklyCategory.HeaderTextNode.AlignmentType = alignmentDirection;
+            specialCategory.HeaderTextNode.AlignmentType = alignmentDirection;
+        }
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Category Vertical Spacing");
+        
+        ImGui.TableNextColumn();
+        var categorySpacing = dailyCategory.Margin.Top;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.DragFloat("##VerticalSpacing", ref categorySpacing, 0.10f, -10.0f, 5000.0f)) {
+            dailyCategory.Margin.Top = categorySpacing;
+            dailyCategory.Margin.Bottom = 0.0f;
+            dailyCategory.HeaderTextNode.Margin.Top = 0.0f;
+            dailyCategory.HeaderTextNode.Margin.Bottom = 0.0f;
+            
+            weeklyCategory.Margin.Top = categorySpacing;
+            weeklyCategory.Margin.Bottom = 0.0f;
+            weeklyCategory.HeaderTextNode.Margin.Top = 0.0f;
+            weeklyCategory.HeaderTextNode.Margin.Bottom = 0.0f;
+            
+            specialCategory.Margin.Top = categorySpacing;
+            specialCategory.Margin.Bottom = 0.0f;
+            specialCategory.HeaderTextNode.Margin.Top = 0.0f;
+            specialCategory.HeaderTextNode.Margin.Bottom = 0.0f;
+        }
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Category Horizontal Spacing");
+                
+        ImGui.TableNextColumn();
+        var horizontalSpacing = dailyCategory.Margin.Left;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.DragFloat("##HorizontalSpacing", ref horizontalSpacing, 0.10f, -10.0f, 5000.0f)) {
+            dailyCategory.Margin.Left = horizontalSpacing;
+            dailyCategory.Margin.Right = 0.0f;
+            dailyCategory.HeaderTextNode.Margin.Left = 0.0f;
+            dailyCategory.HeaderTextNode.Margin.Right = 0.0f;
+            
+            weeklyCategory.Margin.Left = horizontalSpacing;
+            weeklyCategory.Margin.Right = 0.0f;
+            weeklyCategory.HeaderTextNode.Margin.Left = 0.0f;
+            weeklyCategory.HeaderTextNode.Margin.Right = 0.0f;
+            
+            specialCategory.Margin.Left = horizontalSpacing;
+            specialCategory.Margin.Right = 0.0f;
+            specialCategory.HeaderTextNode.Margin.Left = 0.0f;
+            specialCategory.HeaderTextNode.Margin.Right = 0.0f;
+        }
+        
+        ImGui.TableNextColumn();
+        ImGui.Text("Show Background");
+
+        ImGui.TableNextColumn();
+        var background = listNode.BackgroundVisible;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.Checkbox("##BackgroundVisible", ref background)) {
+            listNode.BackgroundVisible = background;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Show Border");
+
+        ImGui.TableNextColumn();
+        var border = listNode.BorderVisible;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.Checkbox("##BorderVisible", ref border)) {
+            listNode.BorderVisible = border;
+        }
+    }
+
+    private static void DrawSimpleCategoryConfig(TodoCategoryNode? node) {
+        if (node is null) return;
+        var listNode = node.TaskListNode;
+        
+        using var table = ImRaii.Table("simple_mode_table", 2);
+        if (!table) return;
+        
+        ImGui.TableSetupColumn("##label", ImGuiTableColumnFlags.WidthStretch, 1.0f);
+        ImGui.TableSetupColumn("##config", ImGuiTableColumnFlags.WidthStretch, 2.0f);
+                
+        ImGui.TableNextRow();
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Header Color");
+
+        ImGui.TableNextColumn();
+        var headerColor = node.HeaderTextNode.TextColor;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.ColorEdit4("##HeaderColor", ref headerColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+            node.HeaderTextNode.TextColor = headerColor;
+        }
+        
+        ImGui.TableNextColumn();
+        ImGui.Text("Alignment");
+        
+        ImGui.TableNextColumn();
+        var alignment = listNode.LayoutOrientation;
+        ImGuiTweaks.SetFullWidth();
+        if (ComboHelper.EnumCombo("##Alignment", ref alignment)) {
+            listNode.LayoutOrientation = alignment;
+        }
+        
+        ImGui.TableNextColumn();
+        ImGui.Text("Show Header");
+        
+        ImGui.TableNextColumn();
+        var showHeader = node.HeaderTextNode.IsVisible;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.Checkbox("##HeaderVisible", ref showHeader)) {
+            node.HeaderTextNode.IsVisible = showHeader;
+        }
+    }
+
+    private static void DrawAdvancedModeConfig() {
+        using var advancedMode = ImRaii.TabItem("Advanced Mode");
+        if (!advancedMode) return;
+        
+        using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
+        if (!tabChild) return;
+
+        System.TodoListController.DrawConfig();
     }
 }
 
@@ -180,52 +432,43 @@ public class TimersConfigTab : ITabItem {
         ImGui.Separator();
         ImGuiHelpers.ScaledDummy(5.0f);
 
-        using (var child = ImRaii.Child("timers_child", ImGui.GetContentRegionAvail() - ImGuiHelpers.ScaledVector2(0.0f, 33.0f))) {
-            if (child) {
-                using var table = ImRaii.Table("special_timers_config", 2);
-                if (table) {
-                    ImGui.TableNextColumn();
-                    using (var weeklyChild = ImRaii.Child("weekly_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-                        if (weeklyChild) {
-                            using (ImRaii.PushId("Weekly")) {
-                                ImGui.TextUnformatted("Weekly Timer");
-                                ImGuiHelpers.ScaledDummy(5.0f);
-                                DrawTimerConfig(System.TimersController.WeeklyTimerNode);
-                            }
-                        }
-                    }
-                
-                    ImGui.TableNextColumn();
-                    using (var weeklyChild = ImRaii.Child("daily_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding)) {
-                        if (weeklyChild) {
-                            using (ImRaii.PushId("Daily")) {
-                                ImGui.TextUnformatted("Daily Timer");
-                                ImGuiHelpers.ScaledDummy(5.0f);
-                                DrawTimerConfig(System.TimersController.DailyTimerNode);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        ImGui.Separator();
-        
-        if (ImGui.Button("Save", ImGuiHelpers.ScaledVector2(100.0f, 23.0f))) {
-            System.TimersController.WeeklyTimerNode?.Save(System.TimersController.WeeklyTimerSavePath);
-            System.TimersController.DailyTimerNode?.Save(System.TimersController.DailyTimerSavePath);
-            StatusMessage.PrintTaggedMessage("Saved configuration options for Timers", "Timers Config");
-        }
-        
-        ImGui.SameLine(ImGui.GetContentRegionMax().X - 100.0f * ImGuiHelpers.GlobalScale);
-        ImGuiTweaks.DisabledButton("Undo", () => {
-            System.TimersController.WeeklyTimerNode?.Load(System.TimersController.WeeklyTimerSavePath);
-            System.TimersController.DailyTimerNode?.Load(System.TimersController.DailyTimerSavePath);
-            StatusMessage.PrintTaggedMessage("Loaded last saved configuration options for Timers", "Timers Config");
-        });
-        
+        DrawTimersConfig();
+
         if (configChanged) {
             System.TimersConfig.Save();
+        }
+    }
+
+    private void DrawTimersConfig() {
+        using var table = ImRaii.Table("special_timers_config", 2);
+        if (!table) return;
+        
+        ImGui.TableNextColumn();
+        DrawWeeklyConfig();
+                
+        ImGui.TableNextColumn();
+        DrawDailyConfig();
+    }
+
+    private void DrawDailyConfig() {
+        using var weeklyChild = ImRaii.Child("daily_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding);
+        if (!weeklyChild) return;
+
+        using (ImRaii.PushId("Daily")) {
+            ImGui.TextUnformatted("Daily Timer");
+            ImGuiHelpers.ScaledDummy(5.0f);
+            DrawTimerConfig(System.TimersController.DailyTimerNode);
+        }
+    }
+
+    private void DrawWeeklyConfig() {
+        using var weeklyChild = ImRaii.Child("weekly_child", ImGui.GetContentRegionAvail() - ImGui.GetStyle().FramePadding);
+        if (!weeklyChild) return;
+        
+        using (ImRaii.PushId("Weekly")) {
+            ImGui.TextUnformatted("Weekly Timer");
+            ImGuiHelpers.ScaledDummy(5.0f);
+            DrawTimerConfig(System.TimersController.WeeklyTimerNode);
         }
     }
 
@@ -235,92 +478,97 @@ public class TimersConfigTab : ITabItem {
         using var tabBar = ImRaii.TabBar("node_config_tab_bar");
         if (!tabBar) return;
 
-        using (var simpleMode = ImRaii.TabItem("Simple Mode")) {
-            if (simpleMode) {
-                using var table = ImRaii.Table("simple_mode_table", 2);
-                if (!table) return;
+        DrawSimpleModeConfig(node);
+        DrawAdvancedModeConfig(node);
+    }
+
+    private static void DrawAdvancedModeConfig(TimerNode node) {
+        using var advancedMode = ImRaii.TabItem("Advanced Mode");
+        if (!advancedMode) return;
         
-                ImGui.TableSetupColumn("##label", ImGuiTableColumnFlags.WidthStretch, 1.0f);
-                ImGui.TableSetupColumn("##config", ImGuiTableColumnFlags.WidthStretch, 2.0f);
+        node.DrawConfig();
+    }
+
+    private static void DrawSimpleModeConfig(TimerNode node) {
+        using var simpleMode = ImRaii.TabItem("Simple Mode");
+        if (!simpleMode) return;
+
+        using var table = ImRaii.Table("simple_mode_table", 2);
+        if (!table) return;
+
+        ImGui.TableSetupColumn("##label", ImGuiTableColumnFlags.WidthStretch, 1.0f);
+        ImGui.TableSetupColumn("##config", ImGuiTableColumnFlags.WidthStretch, 2.0f);
         
-                ImGui.TableNextRow();
+        ImGui.TableNextRow();
 
-                ImGui.TableNextColumn();
-                ImGui.Text("Position");
+        ImGui.TableNextColumn();
+        ImGui.Text("Position");
 
-                ImGui.TableNextColumn();
-                var position = node.Position;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.DragFloat2("##Position", ref position, 0.75f, 0.0f, 5000.0f)) {
-                    node.Position = position;
-                }
-
-                ImGui.TableNextColumn();
-                ImGui.Text("Size");
-
-                ImGui.TableNextColumn();
-                var size = node.Size;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.DragFloat2("##Size", ref size, 0.50f, 0.0f, 5000.0f)) {
-                    node.Size = size;
-                }
-                
-                ImGui.TableNextColumn();
-                ImGui.Text("Bar Color");
-                
-                ImGui.TableNextColumn();
-                var color = node.BarColor;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.ColorEdit4("##BarColor", ref color, ImGuiColorEditFlags.AlphaPreviewHalf)) {
-                    node.BarColor = color;
-                }
-                
-                ImGui.TableNextColumn();
-                ImGui.Text("Label Color");
-                
-                ImGui.TableNextColumn();
-                var labelColor = node.LabelColor;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.ColorEdit4("##LabelColor", ref labelColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
-                    node.LabelColor = labelColor;
-                }
-                
-                ImGui.TableNextColumn();
-                ImGui.Text("Timer Color");
-                
-                ImGui.TableNextColumn();
-                var timerColor = node.TimerColor;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.ColorEdit4("##TimerColor", ref timerColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
-                    node.TimerColor = timerColor;
-                }
-                
-                ImGui.TableNextColumn();
-                ImGui.Text("Show Label");
-                
-                ImGui.TableNextColumn();
-                var showText = node.ShowLabel;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.Checkbox("##ShowText", ref showText)) {
-                    node.ShowLabel = showText;
-                }
-                
-                ImGui.TableNextColumn();
-                ImGui.Text("Show Timer");
-                
-                ImGui.TableNextColumn();
-                var showTimer = node.ShowTimer;
-                ImGuiTweaks.SetFullWidth();
-                if (ImGui.Checkbox("##Showtimer", ref showTimer)) {
-                    node.ShowTimer = showTimer;
-                }
-            }
+        ImGui.TableNextColumn();
+        var position = node.Position;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.DragFloat2("##Position", ref position, 0.75f, 0.0f, 5000.0f)) {
+            node.Position = position;
         }
 
-        using (var advancedMode = ImRaii.TabItem("Advanced Mode")) {
-            if (advancedMode) {
-                node.DrawConfig();
-            }
+        ImGui.TableNextColumn();
+        ImGui.Text("Size");
+
+        ImGui.TableNextColumn();
+        var size = node.Size;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.DragFloat2("##Size", ref size, 0.50f, 0.0f, 5000.0f)) {
+            node.Size = size;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Bar Color");
+                
+        ImGui.TableNextColumn();
+        var color = node.BarColor;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.ColorEdit4("##BarColor", ref color, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+            node.BarColor = color;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Label Color");
+                
+        ImGui.TableNextColumn();
+        var labelColor = node.LabelColor;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.ColorEdit4("##LabelColor", ref labelColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+            node.LabelColor = labelColor;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Timer Color");
+                
+        ImGui.TableNextColumn();
+        var timerColor = node.TimerColor;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.ColorEdit4("##TimerColor", ref timerColor, ImGuiColorEditFlags.AlphaPreviewHalf)) {
+            node.TimerColor = timerColor;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Show Label");
+                
+        ImGui.TableNextColumn();
+        var showText = node.ShowLabel;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.Checkbox("##ShowText", ref showText)) {
+            node.ShowLabel = showText;
+        }
+                
+        ImGui.TableNextColumn();
+        ImGui.Text("Show Timer");
+                
+        ImGui.TableNextColumn();
+        var showTimer = node.ShowTimer;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGui.Checkbox("##ShowTimer", ref showTimer)) {
+            node.ShowTimer = showTimer;
         }
     }
 }

@@ -17,11 +17,11 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes;
 
 public unsafe class TodoListController : IDisposable {
-	private ListNode<TodoCategoryNode>? TodoListNode { get; set; }
+	public ListNode<TodoCategoryNode>? TodoListNode { get; private set; }
 
-	private TodoCategoryNode? DailyTaskNode { get; set; }
-	private TodoCategoryNode? WeeklyTaskNode { get; set; }
-	private TodoCategoryNode? SpecialTaskNode { get; set; }
+	public TodoCategoryNode? DailyTaskNode { get; private set; }
+	public TodoCategoryNode? WeeklyTaskNode { get; private set; }
+	public TodoCategoryNode? SpecialTaskNode { get; private set; }
 
 	private static string TodoListNodePath => StyleFileHelper.GetPath("TodoList.style.json");
 	private static string DailyCategoryPath => StyleFileHelper.GetPath("DailyCategory.style.json");
