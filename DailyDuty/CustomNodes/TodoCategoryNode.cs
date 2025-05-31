@@ -20,15 +20,15 @@ namespace DailyDuty.CustomNodes;
 public class TodoCategoryNode : NodeBase<AtkResNode> {
 	public ModuleType ModuleType { get; private set; }
 
-	[JsonProperty] private readonly TextNode headerTextNode;
-	[JsonProperty] private readonly ListNode<TodoTaskNode> taskListNode;
+	[JsonProperty] public TextNode HeaderTextNode { get; private set; }
+	[JsonProperty] public ListNode<TodoTaskNode> TaskListNode { get; private set; }
 
 	public TodoCategoryNode(ModuleType type) : base(NodeType.Res) {
 		ModuleType = type;
 		NodeId = NodeId = 310_000 + (uint) ModuleType;
 		Margin = new Spacing(5.0f);
 
-		headerTextNode = new TextNode {
+		HeaderTextNode = new TextNode {
 			TextFlags = TextFlags.Edge | TextFlags.AutoAdjustNodeSize,
 			FontSize = 24,
 			Margin = new Spacing(5.0f),
@@ -37,33 +37,33 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			Text = type.GetDescription(),
 		};
 		
-		headerTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle, true);
+		HeaderTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle, true);
 		
-		System.NativeController.AttachToNode(headerTextNode, this, NodePosition.AsFirstChild);
+		System.NativeController.AttachToNode(HeaderTextNode, this, NodePosition.AsFirstChild);
 
-		taskListNode = new ListNode<TodoTaskNode> {
+		TaskListNode = new ListNode<TodoTaskNode> {
 			NodeId = 310_000 + (uint)ModuleType * 1_000,
 			LayoutAnchor = LayoutAnchor.TopLeft,
 			LayoutOrientation = LayoutOrientation.Vertical,
-			Position = new Vector2(0.0f, headerTextNode.Height),
+			Position = new Vector2(0.0f, HeaderTextNode.Height),
 			IsVisible = true,
 			BackgroundVisible = false,
 		};
 		
-		System.NativeController.AttachToNode(taskListNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachToNode(TaskListNode, this, NodePosition.AsLastChild);
 	}
 
 	protected override void Dispose(bool disposing) {
 		if (disposing) {
-			taskListNode.Dispose();
-			headerTextNode.Dispose();
+			TaskListNode.Dispose();
+			HeaderTextNode.Dispose();
 			
 			base.Dispose(disposing);
 		}
 	}
 
 	public unsafe void LoadNodes(AddonNamePlate* addonNamePlate) {
-		taskListNode.Clear();
+		TaskListNode.Clear();
 		
 		foreach (var module in System.ModuleController.GetModules(ModuleType)) {
 			var newTaskNode = new TodoTaskNode {
@@ -94,55 +94,58 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 				newTaskNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*)addonNamePlate);
 			}
 
-			taskListNode.Add(newTaskNode);
+			TaskListNode.Add(newTaskNode);
 		}
 	}
 
 	public override unsafe void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
 		base.EnableEvents(eventManager, addon);
 		
-		headerTextNode.EnableEvents(eventManager, addon);
+		HeaderTextNode.EnableEvents(eventManager, addon);
 	}
 
 	public override void DisableEvents(IAddonEventManager eventManager) {
 		base.DisableEvents(eventManager);
 		
-		headerTextNode.DisableEvents(eventManager);
+		HeaderTextNode.DisableEvents(eventManager);
 	}
 	
-	public bool AnyTasksActive => taskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
+	public bool AnyTasksActive => TaskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
 
 	public void Refresh() {
 		IsVisible = AnyTasksActive;
 
-		var headerOffset = headerTextNode.IsVisible ? headerTextNode.Height : 0.0f;
+		var headerOffset = HeaderTextNode.IsVisible ? HeaderTextNode.Height : 0.0f;
 		
-		taskListNode.Position = new Vector2(0.0f, headerOffset);
-		taskListNode.LayoutAnchor = taskListNode.LayoutAnchor;
+		TaskListNode.Position = new Vector2(0.0f, headerOffset);
+		TaskListNode.LayoutAnchor = TaskListNode.LayoutAnchor;
 		
-		foreach (var node in taskListNode) {
+		foreach (var node in TaskListNode) {
 			node.Refresh();
 		}
 		
-		taskListNode.Size = taskListNode.GetMinimumSize();
-		if (headerTextNode.IsVisible) {
-			taskListNode.Width = MathF.Max(taskListNode.Width, headerTextNode.Width);
+		TaskListNode.Size = TaskListNode.GetMinimumSize();
+		if (HeaderTextNode.IsVisible) {
+			TaskListNode.Width = MathF.Max(TaskListNode.Width, HeaderTextNode.Width);
 		}
 		
-		taskListNode.RecalculateLayout();
+		TaskListNode.RecalculateLayout();
 		
-		var minSize = taskListNode.GetMinimumSize();
+		var minSize = TaskListNode.GetMinimumSize();
 		
-		if (headerTextNode.IsVisible) {
-			Width = MathF.Max(headerTextNode.LayoutSize.X, minSize.X);
-			Height = headerTextNode.LayoutSize.Y + minSize.Y;
+		if (HeaderTextNode.IsVisible) {
+			Width = MathF.Max(HeaderTextNode.LayoutSize.X, minSize.X);
+			Height = HeaderTextNode.LayoutSize.Y + minSize.Y;
 		}
 		else {
 			Size = minSize;
 		}
 		
-		if (taskListNode.LayoutAnchor is LayoutAnchor.BottomRight or LayoutAnchor.TopRight) {
-			headerTextNode.X = Width - headerTextNode.Width;
+		if (TaskListNode.LayoutAnchor is LayoutAnchor.BottomRight or LayoutAnchor.TopRight) {
+			HeaderTextNode.X = Width - HeaderTextNode.Width;
+		}
+		else {
+			HeaderTextNode.X = 0.0f;
 		}
 	}
 
@@ -151,13 +154,13 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 				
 		using (var header = ImRaii.TreeNode("Header Text Node")) {
 			if (header) {
-				headerTextNode.DrawConfig();
+				HeaderTextNode.DrawConfig();
 			}
 		}
 				
 		using (var listNode = ImRaii.TreeNode("List Node")) {
 			if (listNode) {
-				taskListNode.DrawConfig();
+				TaskListNode.DrawConfig();
 			}
 		}
 	}

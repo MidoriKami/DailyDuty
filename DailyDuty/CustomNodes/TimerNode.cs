@@ -145,6 +145,31 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		get => timeRemainingNode.Text;
 	}
 
+	public Vector4 BarColor {
+		get => progressBarNode.BarColor;
+		set => progressBarNode.BarColor = value;
+	}
+
+	public Vector4 LabelColor {
+		get => moduleNameNode.TextColor;
+		set => moduleNameNode.TextColor = value;
+	}
+
+	public Vector4 TimerColor {
+		get => timeRemainingNode.TextColor;
+		set => timeRemainingNode.TextColor = value;
+	}
+
+	public bool ShowLabel {
+		get => moduleNameNode.IsVisible;
+		set => moduleNameNode.IsVisible = value;
+	}
+
+	public bool ShowTimer {
+		get => timeRemainingNode.IsVisible;
+		set => timeRemainingNode.IsVisible = value;
+	}
+
 	public override void DrawConfig() {
 		base.DrawConfig();
 				
