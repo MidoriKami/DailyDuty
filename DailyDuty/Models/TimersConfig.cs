@@ -8,6 +8,9 @@ public class TimersConfig {
     public bool HideInDuties = true;
     public bool HideInQuestEvents = true;
     public bool HideTimerSeconds = false;
+
+    public bool EnableDailyTimer = true;
+    public bool EnableWeeklyTimer = true;
     
     public static TimersConfig Load() 
         => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "Timers.config.json", () => new TimersConfig());

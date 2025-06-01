@@ -435,6 +435,10 @@ public class TimersConfigTab : ITabItem {
         ImGuiTweaks.Header("Timers Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TimersConfig.Enabled);
+            ImGuiHelpers.ScaledDummy(5.0f);
+            
+            configChanged |= ImGui.Checkbox("Daily Timer Enable", ref System.TimersConfig.EnableDailyTimer);
+            configChanged |= ImGui.Checkbox("Weekly Timer Enable", ref System.TimersConfig.EnableWeeklyTimer);
             
             ImGuiHelpers.ScaledDummy(5.0f);
 

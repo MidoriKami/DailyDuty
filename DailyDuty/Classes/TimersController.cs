@@ -52,6 +52,7 @@ public unsafe class TimersController : IDisposable {
 			Scale = new Vector2(0.80f, 0.80f),
 			Position = new Vector2(400.0f, 400.0f),
 			ModuleName = "Weekly Reset",
+			IsVisible = true,
 		};
 		
 		WeeklyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "WeeklyTimer.style.json").FullName);
@@ -62,6 +63,7 @@ public unsafe class TimersController : IDisposable {
 			Scale = new Vector2(0.80f, 0.80f), 
 			Position = new Vector2(400.0f, 475.0f),
 			ModuleName = "Daily Reset",
+			IsVisible = true,
 		};
 		
 		DailyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "DailyTimer.style.json").FullName);
@@ -83,14 +85,14 @@ public unsafe class TimersController : IDisposable {
 	public void Update() {
 		if (DailyTimerNode is null || WeeklyTimerNode is null) return;
 		
-		UpdateNode(DailyTimerNode, ModuleType.Daily);
-		UpdateNode(WeeklyTimerNode, ModuleType.Weekly);
+		UpdateNode(DailyTimerNode, ModuleType.Daily, System.TimersConfig.EnableDailyTimer);
+		UpdateNode(WeeklyTimerNode, ModuleType.Weekly, System.TimersConfig.EnableWeeklyTimer);
 	}
 
-	private void UpdateNode(TimerNode? node, ModuleType type) {
+	private void UpdateNode(TimerNode? node, ModuleType type, bool showTimer) {
 		if (node is null) return;
 
-		node.IsVisible = ShouldShow();
+		node.IsVisible = ShouldShow() && showTimer;
 
 		var nextReset = type switch {
 			ModuleType.Weekly => Time.NextWeeklyReset(),
