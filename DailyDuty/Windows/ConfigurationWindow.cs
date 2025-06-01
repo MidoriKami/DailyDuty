@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -384,6 +385,23 @@ public class TodoConfigTab : ITabItem {
         ImGuiTweaks.SetFullWidth();
         if (ComboHelper.EnumCombo("##Alignment", ref alignment)) {
             listNode.LayoutOrientation = alignment;
+        }
+
+        ImGui.TableNextColumn();
+        ImGui.Text("Font Size");
+
+        ImGui.TableNextColumn();
+        var firstNode = node.TaskListNode.FirstOrDefault();
+
+        if (firstNode is not null) {
+            var fontSize = (int) firstNode.FontSize;
+            ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+            if (ImGui.InputInt("##FontSize", ref fontSize)) {
+                foreach (var taskNode in node.TaskListNode) {
+                    taskNode.FontSize = (uint) fontSize;
+                    taskNode.Text = taskNode.Text;
+                }
+            }
         }
         
         ImGui.TableNextColumn();

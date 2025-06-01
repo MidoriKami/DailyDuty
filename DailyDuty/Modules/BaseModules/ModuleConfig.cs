@@ -165,16 +165,17 @@ public abstract class ModuleConfig {
             node.TextColor = textColor;
         }
 
-        ImGui.TableNextColumn();
-        ImGui.Text("Font Size");
-        
-        ImGui.TableNextColumn();
-        var fontSize = (int) node.FontSize;
-        ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-        if (ImGui.InputInt("##FontSize", ref fontSize)) {
-            node.FontSize = (uint) fontSize;
-            node.Text = node.Text;
-        }
+        // Maybe not include this here? Gonna include a set-all option in TodoList config
+        // ImGui.TableNextColumn();
+        // ImGui.Text("Font Size");
+        //
+        // ImGui.TableNextColumn();
+        // var fontSize = (int) node.FontSize;
+        // ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
+        // if (ImGui.InputInt("##FontSize", ref fontSize)) {
+        //     node.FontSize = (uint) fontSize;
+        //     node.Text = node.Text;
+        // }
         
         ImGui.TableNextColumn();
         ImGui.Text("Label");
