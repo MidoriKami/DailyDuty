@@ -129,7 +129,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             EnableEventFlags = true,
         };
         
-        System.NativeController.AttachToAddon(infoTextNode, addon, targetResNode, NodePosition.AfterTarget);
+        System.NativeController.AttachNode(infoTextNode, targetResNode, addon, NodePosition.AfterTarget);
         
         openDailyDutyButton = new TextButtonNode {
             Position = new Vector2(50.0f, 622.0f),
@@ -140,7 +140,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         
         openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, () => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
 
-        System.NativeController.AttachToAddon(openDailyDutyButton, addon, addon->RootNode, NodePosition.AsLastChild);
+        System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode, addon, NodePosition.AsLastChild);
 
         if (Config.TimerColor == Vector4.Zero) {
             Config.TimerColor = ColorHelper.GetColor(7);
@@ -149,17 +149,17 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void DetachNodes(AddonContentsFinder* addon) {
-        System.NativeController.DetachFromAddon(infoTextNode, addon, () => {
+        System.NativeController.DetachNode(infoTextNode, () => {
             infoTextNode?.Dispose();
             infoTextNode = null;
         });
         
-        System.NativeController.DetachFromAddon(openDailyDutyButton, addon, () => {
+        System.NativeController.DetachNode(openDailyDutyButton, () => {
             openDailyDutyButton?.Dispose();
             openDailyDutyButton = null;
         });
         
-        System.NativeController.DetachFromComponent(dailyResetTimer, GetListHeaderComponent(addon), addon, () => {
+        System.NativeController.DetachNode(dailyResetTimer, () => {
             dailyResetTimer?.Dispose();
             dailyResetTimer = null;
         });
@@ -247,7 +247,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     private void TryAttachTimer(AddonContentsFinder* addon) {
         if (dailyResetTimer is not null) return; 
         
-        var targetComponent = GetListHeaderComponent(addon);
+        var targetComponent = GetListHeaderComponentNode(addon);
         if (targetComponent is null) return;
         
         dailyResetTimer = new TextNode {
@@ -260,10 +260,10 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             TextColor = Config.TimerColor,
         };
 
-        System.NativeController.AttachToComponent(dailyResetTimer, targetComponent, addon, NodePosition.AfterAllSiblings);
+        System.NativeController.AttachNode(dailyResetTimer, targetComponent, addon, NodePosition.AfterAllSiblings);
     }
 
-    private AtkComponentBase* GetListHeaderComponent(AddonContentsFinder* addon) {
+    private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon) {
         var dutyListNode = addon->DutyList;
         if (dutyListNode is null) return null;
 
@@ -273,10 +273,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         var renderer = categoryItem->AtkComponentListItemRenderer;
         if (renderer is null) return null;
 
-        var componentNode = renderer->ComponentNode;
-        if (componentNode is null) return null;
-
-        return componentNode->Component;
+        return renderer->ComponentNode;
     }
 
     private SeString GetHintText()

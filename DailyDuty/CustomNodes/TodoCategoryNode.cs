@@ -39,7 +39,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 		
 		HeaderTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle, true);
 		
-		System.NativeController.AttachToNode(HeaderTextNode, this, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(HeaderTextNode, this, NodePosition.AsFirstChild);
 
 		TaskListNode = new ListNode<TodoTaskNode> {
 			NodeId = 310_000 + (uint)ModuleType * 1_000,
@@ -50,7 +50,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			BackgroundVisible = false,
 		};
 		
-		System.NativeController.AttachToNode(TaskListNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(TaskListNode, this, NodePosition.AsLastChild);
 	}
 
 	protected override void Dispose(bool disposing) {

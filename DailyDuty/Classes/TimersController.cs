@@ -4,6 +4,7 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.CommandManager;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
@@ -56,7 +57,7 @@ public unsafe class TimersController : IDisposable {
 		};
 		
 		WeeklyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "WeeklyTimer.style.json").FullName);
-		System.NativeController.AttachToAddon(WeeklyTimerNode, addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(WeeklyTimerNode, addonNamePlate->RootNode, (AtkUnitBase*) addonNamePlate, NodePosition.AsFirstChild);
 
 		DailyTimerNode = new TimerNode(600000) {
 			Size = new Vector2(400.0f, 32.0f), 
@@ -67,16 +68,16 @@ public unsafe class TimersController : IDisposable {
 		};
 		
 		DailyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "DailyTimer.style.json").FullName);
-		System.NativeController.AttachToAddon(DailyTimerNode, addonNamePlate, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(DailyTimerNode, addonNamePlate->RootNode, addonNamePlate, NodePosition.AsFirstChild);
 	}
 
 	private void DetachNodes(AddonNamePlate* addonNamePlate) {
-		System.NativeController.DetachFromAddon(WeeklyTimerNode, addonNamePlate, () => {
+		System.NativeController.DetachNode(WeeklyTimerNode, () => {
 			WeeklyTimerNode?.Dispose();
 			WeeklyTimerNode = null;
 		});
 		
-		System.NativeController.DetachFromAddon(DailyTimerNode, addonNamePlate, () => {
+		System.NativeController.DetachNode(DailyTimerNode, () => {
 			DailyTimerNode?.Dispose();
 			DailyTimerNode = null;
 		});

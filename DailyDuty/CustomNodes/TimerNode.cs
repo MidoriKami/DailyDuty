@@ -35,7 +35,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			BackgroundColor = KnownColor.Black.Vector(),
 			BarColor = KnownColor.Aqua.Vector(),
 		};
-		System.NativeController.AttachToNode(progressBarNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(progressBarNode, this, NodePosition.AsLastChild);
 
 		moduleNameNode = new TextNode {
 			NodeId = nodeId + 20000,
@@ -45,7 +45,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			FontSize = 24,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
 		};
-		System.NativeController.AttachToNode(moduleNameNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(moduleNameNode, this, NodePosition.AsLastChild);
 
 		timeRemainingNode = new TextNode {
 			NodeId = nodeId + 30000,
@@ -57,7 +57,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			Position = new Vector2(0.0f, -22.0f),
 			Text = "0.00:00:00",
 		};
-		System.NativeController.AttachToNode(timeRemainingNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(timeRemainingNode, this, NodePosition.AsLastChild);
 
 		tooltipNode = new TextNode {
 			NodeId = 250000 + nodeId,
@@ -73,7 +73,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			Tooltip = "Overlay from DailyDuty plugin",
 			EventFlagsSet = true,
 		};
-		System.NativeController.AttachToNode(tooltipNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(tooltipNode, this, NodePosition.AsLastChild);
 
 		Width = 400.0f;
 		Height = 48.0f;
