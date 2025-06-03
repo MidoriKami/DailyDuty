@@ -251,7 +251,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         if (targetComponent is null) return;
         
         dailyResetTimer = new TextNode {
-            Position = new Vector2(300.0f, 0.0f),
+            Position = new Vector2(290.0f, 0.0f),
             Size = new Vector2(148.0f, 24.0f),
             AlignmentType = AlignmentType.Right,
             Tooltip = "Time until next daily reset",
