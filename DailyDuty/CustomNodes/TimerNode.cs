@@ -5,7 +5,6 @@ using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.System;
 using Newtonsoft.Json;
@@ -35,7 +34,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			BackgroundColor = KnownColor.Black.Vector(),
 			BarColor = KnownColor.Aqua.Vector(),
 		};
-		System.NativeController.AttachNode(progressBarNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(progressBarNode, this);
 
 		moduleNameNode = new TextNode {
 			NodeId = nodeId + 20000,
@@ -45,7 +44,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			FontSize = 24,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
 		};
-		System.NativeController.AttachNode(moduleNameNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(moduleNameNode, this);
 
 		timeRemainingNode = new TextNode {
 			NodeId = nodeId + 30000,
@@ -57,7 +56,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			Position = new Vector2(0.0f, -22.0f),
 			Text = "0.00:00:00",
 		};
-		System.NativeController.AttachNode(timeRemainingNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(timeRemainingNode, this);
 
 		tooltipNode = new TextNode {
 			NodeId = 250000 + nodeId,
@@ -73,7 +72,7 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 			Tooltip = "Overlay from DailyDuty plugin",
 			EventFlagsSet = true,
 		};
-		System.NativeController.AttachNode(tooltipNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(tooltipNode, this);
 
 		Width = 400.0f;
 		Height = 48.0f;

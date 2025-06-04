@@ -140,7 +140,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         
         openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, () => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
 
-        System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode, addon, NodePosition.AsLastChild);
+        System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode, addon);
 
         if (Config.TimerColor == Vector4.Zero) {
             Config.TimerColor = ColorHelper.GetColor(7);

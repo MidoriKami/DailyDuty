@@ -50,7 +50,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			BackgroundVisible = false,
 		};
 		
-		System.NativeController.AttachNode(TaskListNode, this, NodePosition.AsLastChild);
+		System.NativeController.AttachNode(TaskListNode, this);
 	}
 
 	protected override void Dispose(bool disposing) {
