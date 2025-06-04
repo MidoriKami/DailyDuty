@@ -4,7 +4,6 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.CommandManager;
 using KamiLib.Configuration;
 using KamiLib.Extensions;
@@ -57,7 +56,7 @@ public unsafe class TimersController : IDisposable {
 		};
 		
 		WeeklyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "WeeklyTimer.style.json").FullName);
-		System.NativeController.AttachNode(WeeklyTimerNode, addonNamePlate->RootNode, (AtkUnitBase*) addonNamePlate, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(WeeklyTimerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
 
 		DailyTimerNode = new TimerNode(600000) {
 			Size = new Vector2(400.0f, 32.0f), 
@@ -68,7 +67,7 @@ public unsafe class TimersController : IDisposable {
 		};
 		
 		DailyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "DailyTimer.style.json").FullName);
-		System.NativeController.AttachNode(DailyTimerNode, addonNamePlate->RootNode, addonNamePlate, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(DailyTimerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
 	}
 
 	private void DetachNodes(AddonNamePlate* addonNamePlate) {

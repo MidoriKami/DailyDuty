@@ -85,7 +85,7 @@ public unsafe class TodoListController : IDisposable {
 		SpecialTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(SpecialTaskNode);
 			
-		System.NativeController.AttachNode(TodoListNode, addonNamePlate->RootNode, addonNamePlate, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(TodoListNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
 		System.TodoListController.Refresh();
 	}
 
