@@ -51,6 +51,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         Service.ClientState.Logout -= OnLogout;
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         
+        System.WindowManager.Dispose();
         System.LocalizationController.Dispose();
         System.PayloadController.Dispose();
         System.NameplateAddonController.Dispose();
@@ -58,7 +59,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         System.ModuleController.Dispose();
 
-        System.WindowManager.Dispose();
         System.CommandManager.Dispose();
 
         System.TodoListController.Dispose();
