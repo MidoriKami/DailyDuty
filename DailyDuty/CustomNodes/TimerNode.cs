@@ -3,7 +3,6 @@ using System.Numerics;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using KamiToolKit.System;
@@ -89,16 +88,14 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		}
 	}
 
-	public override void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
-		base.EnableEvents(eventManager, addon);
-		
-		tooltipNode.EnableEvents(Service.AddonEventManager, addon);
+	public override void EnableEvents(AtkUnitBase* addon) {
+		base.EnableEvents(addon);
+		tooltipNode.EnableEvents(addon);
 	}
 
-	public override void DisableEvents(IAddonEventManager eventManager) {
-		base.DisableEvents(eventManager);
-		
-		tooltipNode.DisableEvents(eventManager);
+	public override void DisableEvents() {
+		base.DisableEvents();
+		tooltipNode.DisableEvents();
 	}
 
 	public float Progress {

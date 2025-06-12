@@ -68,19 +68,19 @@ public unsafe class TodoListController : IDisposable {
 		TodoListNode.Load(TodoListNodePath);
 
 		DailyTaskNode = new TodoCategoryNode(ModuleType.Daily);
-		DailyTaskNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*) addonNamePlate);
+		DailyTaskNode.EnableEvents((AtkUnitBase*) addonNamePlate);
 		DailyTaskNode.Load(DailyCategoryPath);
 		DailyTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(DailyTaskNode);
 		
 		WeeklyTaskNode = new TodoCategoryNode(ModuleType.Weekly);
-		WeeklyTaskNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*) addonNamePlate);
+		WeeklyTaskNode.EnableEvents((AtkUnitBase*) addonNamePlate);
 		WeeklyTaskNode.Load(WeeklyCategoryPath);
 		WeeklyTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(WeeklyTaskNode);
 		
 		SpecialTaskNode = new TodoCategoryNode(ModuleType.Special);
-		SpecialTaskNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*) addonNamePlate);
+		SpecialTaskNode.EnableEvents((AtkUnitBase*) addonNamePlate);
 		SpecialTaskNode.Load(SpecialCategoryPath);
 		SpecialTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(SpecialTaskNode);

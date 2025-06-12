@@ -5,7 +5,6 @@ using DailyDuty.Classes;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Events;
 using Dalamud.Interface.Utility.Raii;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
@@ -91,23 +90,21 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			}
 
 			if (module is { HasTooltip: true } or { HasClickableLink: true }) {
-				newTaskNode.EnableEvents(Service.AddonEventManager, (AtkUnitBase*)addonNamePlate);
+				newTaskNode.EnableEvents((AtkUnitBase*)addonNamePlate);
 			}
 
 			TaskListNode.Add(newTaskNode);
 		}
 	}
 
-	public override unsafe void EnableEvents(IAddonEventManager eventManager, AtkUnitBase* addon) {
-		base.EnableEvents(eventManager, addon);
-		
-		HeaderTextNode.EnableEvents(eventManager, addon);
+	public override unsafe void EnableEvents(AtkUnitBase* addon) {
+		base.EnableEvents(addon);
+		HeaderTextNode.EnableEvents(addon);
 	}
 
-	public override void DisableEvents(IAddonEventManager eventManager) {
-		base.DisableEvents(eventManager);
-		
-		HeaderTextNode.DisableEvents(eventManager);
+	public override void DisableEvents() {
+		base.DisableEvents();
+		HeaderTextNode.DisableEvents();
 	}
 	
 	public bool AnyTasksActive => TaskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
