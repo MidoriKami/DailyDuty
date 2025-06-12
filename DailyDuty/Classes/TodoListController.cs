@@ -46,8 +46,10 @@ public unsafe class TodoListController : IDisposable {
 		System.NameplateAddonController.OnAttach -= AttachNodes;
 		System.NameplateAddonController.OnDetach -= DetachNodes;
 		
-		TodoListNode?.Dispose();
-		TodoListNode = null;
+		System.NativeController.DetachNode(TodoListNode, () => {
+			TodoListNode?.Dispose();
+			TodoListNode = null;
+		});
 	}
 
 	private void LoadConfig(AddonNamePlate* addon)

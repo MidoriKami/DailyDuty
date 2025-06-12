@@ -36,11 +36,15 @@ public unsafe class TimersController : IDisposable {
 		System.NameplateAddonController.OnAttach -= AttachNodes;
 		System.NameplateAddonController.OnDetach -= DetachNodes;
 		
-		WeeklyTimerNode?.Dispose();
-		WeeklyTimerNode = null;
+		System.NativeController.DetachNode(WeeklyTimerNode, () => {
+			WeeklyTimerNode?.Dispose();
+			WeeklyTimerNode = null;
+		});
 		
-		DailyTimerNode?.Dispose();
-		DailyTimerNode = null;
+		System.NativeController.DetachNode(DailyTimerNode, () => {
+			DailyTimerNode?.Dispose();
+			DailyTimerNode = null;
+		});
 	}
 
 	private void PreAttach(AddonNamePlate* addonNamePlate)
