@@ -20,7 +20,6 @@ using KamiLib.Classes;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.ComponentNodes;
 using Lumina.Excel.Sheets;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
@@ -142,6 +141,21 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
 
         System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode);
 
+        var targetComponent = GetListHeaderComponentNode(addon);
+        if (targetComponent is not null) {
+            dailyResetTimer = new TextNode {
+                Position = new Vector2(targetComponent->X, targetComponent->Y),
+                Size = new Vector2(targetComponent->Width, targetComponent->Height),
+                AlignmentType = AlignmentType.Center,
+                Tooltip = "[DailyDuty] Time until next daily reset",
+                Text = "0:00:00:00",
+                EnableEventFlags = true,
+                TextColor = Config.TimerColor,
+            };
+        
+            System.NativeController.AttachNode(dailyResetTimer, targetComponent);
+        }
+        
         if (Config.TimerColor == Vector4.Zero) {
             Config.TimerColor = ColorHelper.GetColor(7);
             ConfigChanged = true;
@@ -174,8 +188,6 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             infoTextNode.IsVisible = false;
         }
 
-        TryAttachTimer(addon);
-        
         if (dailyResetTimer is not null && Config.ShowResetTimer) {
             var nextReset = Time.NextDailyReset();
             var timeRemaining = nextReset - DateTime.UtcNow;
@@ -242,25 +254,6 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             infoTextNode.IsVisible = anyRecolored;
             infoTextNode.Text = GetHintText();
         }
-    }
-
-    private void TryAttachTimer(AddonContentsFinder* addon) {
-        if (dailyResetTimer is not null) return; 
-        
-        var targetComponent = GetListHeaderComponentNode(addon);
-        if (targetComponent is null) return;
-        
-        dailyResetTimer = new TextNode {
-            Position = new Vector2(290.0f, 0.0f),
-            Size = new Vector2(148.0f, 24.0f),
-            AlignmentType = AlignmentType.Right,
-            Tooltip = "Time until next daily reset",
-            Text = "0:00:00:00",
-            EnableEventFlags = true,
-            TextColor = Config.TimerColor,
-        };
-
-        System.NativeController.AttachNode(dailyResetTimer, targetComponent, NodePosition.AfterAllSiblings);
     }
 
     private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon) {
