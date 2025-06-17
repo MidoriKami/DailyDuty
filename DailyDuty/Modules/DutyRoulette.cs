@@ -137,7 +137,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             Label = "Open DailyDuty",
         };
         
-        openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, () => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
+        openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, _ => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
 
         System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode);
 

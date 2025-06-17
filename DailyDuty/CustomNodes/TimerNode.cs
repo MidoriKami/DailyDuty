@@ -17,8 +17,6 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 	[JsonProperty] private readonly TextNode timeRemainingNode;
 	[JsonProperty] private readonly TextNode tooltipNode;
 
-	private Vector2 actualSize;
-
 	public TimerNode(uint nodeId) : base(NodeType.Res) {
 		NodeId = nodeId;
 		Color = KnownColor.White.Vector();
@@ -103,31 +101,21 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 		set => progressBarNode.Progress = value;
 	}
 
-	public new float Width {
-		get => actualSize.X;
+	public override float Width {
+		get => base.Width;
 		set {
-			InternalNode->SetWidth((ushort)value);
+			base.Width = value;
 			progressBarNode.Width = value;
 			timeRemainingNode.X = value - timeRemainingNode.Width - 12.0f;
 			tooltipNode.Position = new Vector2(progressBarNode.Width, 8.0f);
-			actualSize.X = value;
 		}
 	}
 
-	public new float Height {
-		get => actualSize.Y;
+	public override float Height {
+		get => base.Height;
 		set {
-			InternalNode->SetHeight((ushort)value);
+			base.Height = value;
 			progressBarNode.Height = value;
-			actualSize.Y = value;
-		}
-	}
-
-	public new Vector2 Size {
-		get => actualSize;
-		set {
-			Width = value.X;
-			Height = value.Y;
 		}
 	}
 

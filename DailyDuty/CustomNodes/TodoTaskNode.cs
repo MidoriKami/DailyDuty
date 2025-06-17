@@ -26,6 +26,6 @@ public class TodoTaskNode : TextNode {
 		EnableEventFlags = IsVisible && (!Tooltip.ToString().IsNullOrEmpty() || Module.HasClickableLink);
 	}
 
-	private void OnClick()
+	private void OnClick(AddonEventData data)
 		=> PayloadController.GetDelegateForPayload(Module.ClickableLinkPayloadId).Invoke(0, null!);
 }

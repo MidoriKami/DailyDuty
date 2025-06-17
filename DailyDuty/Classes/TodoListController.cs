@@ -17,7 +17,7 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes;
 
 public unsafe class TodoListController : IDisposable {
-	public ListNode<TodoCategoryNode>? TodoListNode { get; private set; }
+	public ListBoxNode<TodoCategoryNode>? TodoListNode { get; private set; }
 
 	public TodoCategoryNode? DailyTaskNode { get; private set; }
 	public TodoCategoryNode? WeeklyTaskNode { get; private set; }
@@ -56,7 +56,7 @@ public unsafe class TodoListController : IDisposable {
 		=> System.TodoConfig = TodoConfig.Load();
 
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
-		TodoListNode = new ListNode<TodoCategoryNode> {
+		TodoListNode = new ListBoxNode<TodoCategoryNode> {
 			NodeId = 300_000,
 			LayoutAnchor = LayoutAnchor.TopLeft,
 			Position = new Vector2(750.0f, 375.0f),

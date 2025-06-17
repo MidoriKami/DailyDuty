@@ -20,7 +20,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 	public ModuleType ModuleType { get; private set; }
 
 	[JsonProperty] public TextNode HeaderTextNode { get; private set; }
-	[JsonProperty] public ListNode<TodoTaskNode> TaskListNode { get; private set; }
+	[JsonProperty] public ListBoxNode<TodoTaskNode> TaskListNode { get; private set; }
 
 	public TodoCategoryNode(ModuleType type) : base(NodeType.Res) {
 		ModuleType = type;
@@ -36,11 +36,11 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			Text = type.GetDescription(),
 		};
 		
-		HeaderTextNode.AddEvent(AddonEventType.MouseClick, System.ConfigurationWindow.UnCollapseOrToggle, true);
+		HeaderTextNode.AddEvent(AddonEventType.MouseClick, _ => System.ConfigurationWindow.UnCollapseOrToggle(), true);
 		
 		System.NativeController.AttachNode(HeaderTextNode, this, NodePosition.AsFirstChild);
 
-		TaskListNode = new ListNode<TodoTaskNode> {
+		TaskListNode = new ListBoxNode<TodoTaskNode> {
 			NodeId = 310_000 + (uint)ModuleType * 1_000,
 			LayoutAnchor = LayoutAnchor.TopLeft,
 			LayoutOrientation = LayoutOrientation.Vertical,
@@ -86,7 +86,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			}
 			
 			if (module.HasClickableLink) {
-				newTaskNode.AddEvent(AddonEventType.MouseClick, () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!), true);
+				newTaskNode.AddEvent(AddonEventType.MouseClick, _ => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!), true);
 			}
 
 			if (module is { HasTooltip: true } or { HasClickableLink: true }) {
