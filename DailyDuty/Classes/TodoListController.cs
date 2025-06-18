@@ -8,7 +8,6 @@ using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
@@ -70,19 +69,16 @@ public unsafe class TodoListController : IDisposable {
 		TodoListNode.Load(TodoListNodePath);
 
 		DailyTaskNode = new TodoCategoryNode(ModuleType.Daily);
-		DailyTaskNode.EnableEvents((AtkUnitBase*) addonNamePlate);
 		DailyTaskNode.Load(DailyCategoryPath);
 		DailyTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(DailyTaskNode);
 		
 		WeeklyTaskNode = new TodoCategoryNode(ModuleType.Weekly);
-		WeeklyTaskNode.EnableEvents((AtkUnitBase*) addonNamePlate);
 		WeeklyTaskNode.Load(WeeklyCategoryPath);
 		WeeklyTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(WeeklyTaskNode);
 		
 		SpecialTaskNode = new TodoCategoryNode(ModuleType.Special);
-		SpecialTaskNode.EnableEvents((AtkUnitBase*) addonNamePlate);
 		SpecialTaskNode.Load(SpecialCategoryPath);
 		SpecialTaskNode.LoadNodes(addonNamePlate);
 		TodoListNode.Add(SpecialTaskNode);
@@ -104,13 +100,13 @@ public unsafe class TodoListController : IDisposable {
 		var passedDutyCheck = System.TodoConfig.HideInDuties && !Service.Condition.IsBoundByDuty() || !System.TodoConfig.HideInDuties;
 		var passedQuestCheck = System.TodoConfig.HideDuringQuests && !Service.Condition.IsInQuestEvent()  || !System.TodoConfig.HideDuringQuests;
 
-		TodoListNode.IsVisible = passedDutyCheck && passedQuestCheck && System.TodoConfig.Enabled && TodoListNode.Any(node => node.AnyTasksActive);
+		TodoListNode.IsVisible = passedDutyCheck && passedQuestCheck && System.TodoConfig.Enabled && TodoListNode.Items.Any(node => node.AnyTasksActive);
 	}
 
 	public void Refresh() {
 		if (TodoListNode is null) return;
 
-		foreach (var category in TodoListNode) {
+		foreach (var category in TodoListNode.Items) {
 			category.Refresh();
 		}
 		

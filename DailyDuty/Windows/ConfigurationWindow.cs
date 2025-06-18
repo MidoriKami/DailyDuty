@@ -391,13 +391,13 @@ public class TodoConfigTab : ITabItem {
         ImGui.Text("Font Size");
 
         ImGui.TableNextColumn();
-        var firstNode = node.TaskListNode.FirstOrDefault();
+        var firstNode = node.TaskListNode.Items.FirstOrDefault();
 
         if (firstNode is not null) {
             var fontSize = (int) firstNode.FontSize;
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
             if (ImGui.InputInt("##FontSize", ref fontSize)) {
-                foreach (var taskNode in node.TaskListNode) {
+                foreach (var taskNode in node.TaskListNode.Items) {
                     taskNode.FontSize = (uint) fontSize;
                     taskNode.Text = taskNode.Text;
                 }

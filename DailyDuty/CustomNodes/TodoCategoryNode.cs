@@ -16,13 +16,13 @@ using Newtonsoft.Json;
 namespace DailyDuty.CustomNodes;
 
 [JsonObject(MemberSerialization.OptIn)]
-public class TodoCategoryNode : NodeBase<AtkResNode> {
+public class TodoCategoryNode : ResNode {
 	public ModuleType ModuleType { get; private set; }
 
 	[JsonProperty] public TextNode HeaderTextNode { get; private set; }
 	[JsonProperty] public ListBoxNode<TodoTaskNode> TaskListNode { get; private set; }
 
-	public TodoCategoryNode(ModuleType type) : base(NodeType.Res) {
+	public TodoCategoryNode(ModuleType type) {
 		ModuleType = type;
 		NodeId = NodeId = 310_000 + (uint) ModuleType;
 		Margin = new Spacing(5.0f);
@@ -50,15 +50,6 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 		};
 		
 		System.NativeController.AttachNode(TaskListNode, this);
-	}
-
-	protected override void Dispose(bool disposing) {
-		if (disposing) {
-			TaskListNode.Dispose();
-			HeaderTextNode.Dispose();
-			
-			base.Dispose(disposing);
-		}
 	}
 
 	public unsafe void LoadNodes(AddonNamePlate* addonNamePlate) {
@@ -90,24 +81,14 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 			}
 
 			if (module is { HasTooltip: true } or { HasClickableLink: true }) {
-				newTaskNode.EnableEvents((AtkUnitBase*)addonNamePlate);
+				newTaskNode.SetEventFlags();
 			}
 
 			TaskListNode.Add(newTaskNode);
 		}
 	}
-
-	public override unsafe void EnableEvents(AtkUnitBase* addon) {
-		base.EnableEvents(addon);
-		HeaderTextNode.EnableEvents(addon);
-	}
-
-	public override void DisableEvents() {
-		base.DisableEvents();
-		HeaderTextNode.DisableEvents();
-	}
 	
-	public bool AnyTasksActive => TaskListNode.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
+	public bool AnyTasksActive => TaskListNode.Items.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
 
 	public void Refresh() {
 		IsVisible = AnyTasksActive;
@@ -117,7 +98,7 @@ public class TodoCategoryNode : NodeBase<AtkResNode> {
 		TaskListNode.Position = new Vector2(0.0f, headerOffset);
 		TaskListNode.LayoutAnchor = TaskListNode.LayoutAnchor;
 		
-		foreach (var node in TaskListNode) {
+		foreach (var node in TaskListNode.Items) {
 			node.Refresh();
 		}
 		

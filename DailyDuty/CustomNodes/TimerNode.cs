@@ -5,19 +5,18 @@ using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.System;
 using Newtonsoft.Json;
 
 namespace DailyDuty.CustomNodes;
 
 [JsonObject(MemberSerialization.OptIn)]
-public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
+public sealed class TimerNode : ResNode {
 	[JsonProperty] private readonly ProgressBarNode progressBarNode;
 	[JsonProperty] private readonly TextNode moduleNameNode;
 	[JsonProperty] private readonly TextNode timeRemainingNode;
 	[JsonProperty] private readonly TextNode tooltipNode;
 
-	public TimerNode(uint nodeId) : base(NodeType.Res) {
+	public TimerNode(uint nodeId) {
 		NodeId = nodeId;
 		Color = KnownColor.White.Vector();
 		IsVisible = true;
@@ -73,27 +72,6 @@ public sealed unsafe class TimerNode : NodeBase<AtkResNode> {
 
 		Width = 400.0f;
 		Height = 48.0f;
-	}
-
-	protected override void Dispose(bool disposing) {
-		if (disposing) {
-			progressBarNode.Dispose();
-			moduleNameNode.Dispose();
-			timeRemainingNode.Dispose();
-			tooltipNode.Dispose();
-			
-			base.Dispose(disposing);
-		}
-	}
-
-	public override void EnableEvents(AtkUnitBase* addon) {
-		base.EnableEvents(addon);
-		tooltipNode.EnableEvents(addon);
-	}
-
-	public override void DisableEvents() {
-		base.DisableEvents();
-		tooltipNode.DisableEvents();
 	}
 
 	public float Progress {
