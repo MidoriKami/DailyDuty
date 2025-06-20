@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -21,6 +22,8 @@ public unsafe class TodoListController : IDisposable {
 	public TodoCategoryNode? DailyTaskNode { get; private set; }
 	public TodoCategoryNode? WeeklyTaskNode { get; private set; }
 	public TodoCategoryNode? SpecialTaskNode { get; private set; }
+	
+	private List<TodoCategoryNode?> TodoListNodes => [ DailyTaskNode, WeeklyTaskNode, SpecialTaskNode ];
 
 	private static string TodoListNodePath => StyleFileHelper.GetPath("TodoList.style.json");
 	private static string DailyCategoryPath => StyleFileHelper.GetPath("DailyCategory.style.json");
@@ -100,14 +103,14 @@ public unsafe class TodoListController : IDisposable {
 		var passedDutyCheck = System.TodoConfig.HideInDuties && !Service.Condition.IsBoundByDuty() || !System.TodoConfig.HideInDuties;
 		var passedQuestCheck = System.TodoConfig.HideDuringQuests && !Service.Condition.IsInQuestEvent()  || !System.TodoConfig.HideDuringQuests;
 
-		TodoListNode.IsVisible = passedDutyCheck && passedQuestCheck && System.TodoConfig.Enabled && TodoListNode.Items.Any(node => node.AnyTasksActive);
+		TodoListNode.IsVisible = passedDutyCheck && passedQuestCheck && System.TodoConfig.Enabled && TodoListNodes.Any(node => node?.AnyTasksActive ?? false);
 	}
 
 	public void Refresh() {
 		if (TodoListNode is null) return;
 
-		foreach (var category in TodoListNode.Items) {
-			category.Refresh();
+		foreach (var category in TodoListNodes) {
+			category?.Refresh();
 		}
 		
 		TodoListNode.RecalculateLayout();

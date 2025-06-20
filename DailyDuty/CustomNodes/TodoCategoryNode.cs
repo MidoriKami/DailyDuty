@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
@@ -16,32 +17,33 @@ using Newtonsoft.Json;
 namespace DailyDuty.CustomNodes;
 
 [JsonObject(MemberSerialization.OptIn)]
-public class TodoCategoryNode : ResNode {
+public class TodoCategoryNode : SimpleComponentNode {
 	public ModuleType ModuleType { get; private set; }
 
 	[JsonProperty] public TextNode HeaderTextNode { get; private set; }
 	[JsonProperty] public ListBoxNode<TodoTaskNode> TaskListNode { get; private set; }
 
+	public readonly List<TodoTaskNode?> TaskNodes = [];
+
 	public TodoCategoryNode(ModuleType type) {
 		ModuleType = type;
-		NodeId = NodeId = 310_000 + (uint) ModuleType;
 		Margin = new Spacing(5.0f);
 
 		HeaderTextNode = new TextNode {
+			NodeId = 2,
 			TextFlags = TextFlags.Edge | TextFlags.AutoAdjustNodeSize,
 			FontSize = 24,
 			Margin = new Spacing(5.0f),
 			TextOutlineColor = new Vector4(142, 106, 12, 255) / 255,
-			NodeId = NodeId + 500,
 			Text = type.GetDescription(),
 		};
 		
 		HeaderTextNode.AddEvent(AddonEventType.MouseClick, _ => System.ConfigurationWindow.UnCollapseOrToggle(), true);
 		
-		System.NativeController.AttachNode(HeaderTextNode, this, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(HeaderTextNode, this);
 
 		TaskListNode = new ListBoxNode<TodoTaskNode> {
-			NodeId = 310_000 + (uint)ModuleType * 1_000,
+			NodeId = 3,
 			LayoutAnchor = LayoutAnchor.TopLeft,
 			LayoutOrientation = LayoutOrientation.Vertical,
 			Position = new Vector2(0.0f, HeaderTextNode.Height),
@@ -54,19 +56,21 @@ public class TodoCategoryNode : ResNode {
 
 	public unsafe void LoadNodes(AddonNamePlate* addonNamePlate) {
 		TaskListNode.Clear();
+		TaskNodes.Clear();
 		
 		foreach (var module in System.ModuleController.GetModules(ModuleType)) {
 			var newTaskNode = new TodoTaskNode {
 				FontSize = 12,
 				Margin = new Spacing(1.0f),  
-				TextOutlineColor = new Vector4(10, 105, 146, 255) / 255,
+				TextOutlineColor = ColorHelper.GetColor(53),
 				FontType = FontType.Axis,
 				TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
-				NodeId = NodeId + 500 + (uint)module.ModuleName,
 				Text = module.ModuleName.GetDescription(),
 				IsVisible = module is { IsEnabled: true, ModuleStatus: ModuleStatus.Incomplete },
 				Module = module,
 			};
+			
+			TaskNodes.Add(newTaskNode);
 
 			newTaskNode.Load(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
 			
@@ -88,7 +92,7 @@ public class TodoCategoryNode : ResNode {
 		}
 	}
 	
-	public bool AnyTasksActive => TaskListNode.Items.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
+	public bool AnyTasksActive => TaskNodes.Any(nodes => nodes is { Module: { ModuleStatus: ModuleStatus.Incomplete, IsEnabled: true }, ModuleConfig.TodoEnabled: true });
 
 	public void Refresh() {
 		IsVisible = AnyTasksActive;
@@ -98,8 +102,8 @@ public class TodoCategoryNode : ResNode {
 		TaskListNode.Position = new Vector2(0.0f, headerOffset);
 		TaskListNode.LayoutAnchor = TaskListNode.LayoutAnchor;
 		
-		foreach (var node in TaskListNode.Items) {
-			node.Refresh();
+		foreach (var node in TaskNodes) {
+			node?.Refresh();
 		}
 		
 		TaskListNode.Size = TaskListNode.GetMinimumSize();

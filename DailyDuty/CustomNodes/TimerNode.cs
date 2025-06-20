@@ -10,20 +10,15 @@ using Newtonsoft.Json;
 namespace DailyDuty.CustomNodes;
 
 [JsonObject(MemberSerialization.OptIn)]
-public sealed class TimerNode : ResNode {
-	[JsonProperty] private readonly ProgressBarNode progressBarNode;
+public sealed class TimerNode : SimpleComponentNode {
+	[JsonProperty] private readonly CastBarProgressBarNode progressBarNode;
 	[JsonProperty] private readonly TextNode moduleNameNode;
 	[JsonProperty] private readonly TextNode timeRemainingNode;
 	[JsonProperty] private readonly TextNode tooltipNode;
 
-	public TimerNode(uint nodeId) {
-		NodeId = nodeId;
-		Color = KnownColor.White.Vector();
-		IsVisible = true;
-		Position = new Vector2(400.0f, 400.0f);
-		
-		progressBarNode = new ProgressBarNode {
-			NodeId = nodeId + 10000,
+	public TimerNode() {
+		progressBarNode = new CastBarProgressBarNode {
+			NodeId = 2,
 			Progress = 0.30f,
 			Size = new Vector2(400.0f, 48.0f),
 			NodeFlags = NodeFlags.Visible,
@@ -33,7 +28,7 @@ public sealed class TimerNode : ResNode {
 		System.NativeController.AttachNode(progressBarNode, this);
 
 		moduleNameNode = new TextNode {
-			NodeId = nodeId + 20000,
+			NodeId = 3,
 			Position = new Vector2(12.0f, -24.0f),
 			NodeFlags = NodeFlags.Visible,
 			FontType = FontType.Jupiter,
@@ -43,7 +38,7 @@ public sealed class TimerNode : ResNode {
 		System.NativeController.AttachNode(moduleNameNode, this);
 
 		timeRemainingNode = new TextNode {
-			NodeId = nodeId + 30000,
+			NodeId = 4,
 			NodeFlags = NodeFlags.Visible | NodeFlags.AnchorRight,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
 			FontType = FontType.Axis,
@@ -55,7 +50,7 @@ public sealed class TimerNode : ResNode {
 		System.NativeController.AttachNode(timeRemainingNode, this);
 
 		tooltipNode = new TextNode {
-			NodeId = 250000 + nodeId,
+			NodeId = 5,
 			Size = new Vector2(16.0f, 16.0f),
 			TextColor = KnownColor.White.Vector(),
 			TextOutlineColor = KnownColor.Black.Vector(),
@@ -69,9 +64,6 @@ public sealed class TimerNode : ResNode {
 			EventFlagsSet = true,
 		};
 		System.NativeController.AttachNode(tooltipNode, this);
-
-		Width = 400.0f;
-		Height = 48.0f;
 	}
 
 	public float Progress {

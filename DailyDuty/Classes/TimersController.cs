@@ -51,7 +51,8 @@ public unsafe class TimersController : IDisposable {
 		=> System.TimersConfig = TimersConfig.Load();
 
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
-		WeeklyTimerNode = new TimerNode(500000) {
+		WeeklyTimerNode = new TimerNode {
+			NodeId = 500_000,
 			Size = new Vector2(400.0f, 32.0f),
 			Scale = new Vector2(0.80f, 0.80f),
 			Position = new Vector2(400.0f, 400.0f),
@@ -62,7 +63,8 @@ public unsafe class TimersController : IDisposable {
 		WeeklyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "WeeklyTimer.style.json").FullName);
 		System.NativeController.AttachNode(WeeklyTimerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
 
-		DailyTimerNode = new TimerNode(600000) {
+		DailyTimerNode = new TimerNode {
+			NodeId = 600_000,
 			Size = new Vector2(400.0f, 32.0f), 
 			Scale = new Vector2(0.80f, 0.80f), 
 			Position = new Vector2(400.0f, 475.0f),
