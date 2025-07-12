@@ -21,7 +21,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 	public ModuleType ModuleType { get; private set; }
 
 	[JsonProperty] public TextNode HeaderTextNode { get; private set; }
-	[JsonProperty] public ListBoxNode<TodoTaskNode> TaskListNode { get; private set; }
+	[JsonProperty] public ListBoxNode TaskListNode { get; private set; }
 
 	public readonly List<TodoTaskNode?> TaskNodes = [];
 
@@ -42,7 +42,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 		
 		System.NativeController.AttachNode(HeaderTextNode, this);
 
-		TaskListNode = new ListBoxNode<TodoTaskNode> {
+		TaskListNode = new ListBoxNode {
 			NodeId = 3,
 			LayoutAnchor = LayoutAnchor.TopLeft,
 			LayoutOrientation = LayoutOrientation.Vertical,
@@ -88,7 +88,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 				newTaskNode.SetEventFlags();
 			}
 
-			TaskListNode.Add(newTaskNode);
+			TaskListNode.AddNode(newTaskNode);
 		}
 	}
 	

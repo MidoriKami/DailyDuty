@@ -17,7 +17,7 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes;
 
 public unsafe class TodoListController : IDisposable {
-	public ListBoxNode<TodoCategoryNode>? TodoListNode { get; private set; }
+	public ListBoxNode? TodoListNode { get; private set; }
 
 	public TodoCategoryNode? DailyTaskNode { get; private set; }
 	public TodoCategoryNode? WeeklyTaskNode { get; private set; }
@@ -58,8 +58,15 @@ public unsafe class TodoListController : IDisposable {
 		=> System.TodoConfig = TodoConfig.Load();
 
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
-		TodoListNode = new ListBoxNode<TodoCategoryNode> {
-			NodeId = 300_000,
+		if (System.OverlayContainerNode is null) {
+			System.OverlayContainerNode ??= new SimpleComponentNode {
+				Size = new Vector2(addonNamePlate->RootNode->Width, addonNamePlate->RootNode->Height), IsVisible = true,
+			};
+			System.NativeController.AttachNode(System.OverlayContainerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		}
+		
+		TodoListNode = new ListBoxNode {
+			NodeId = 2,
 			LayoutAnchor = LayoutAnchor.TopLeft,
 			Position = new Vector2(750.0f, 375.0f),
 			Size = new Vector2(600.0f, 200.0f),
@@ -68,25 +75,27 @@ public unsafe class TodoListController : IDisposable {
 			BackgroundColor = KnownColor.Aqua.Vector() with { W = 0.40f },
 			ClipListContents = true,
 			BorderVisible = true,
+
+			OnEditComplete = Save,
 		};
 		TodoListNode.Load(TodoListNodePath);
+		System.NativeController.AttachNode(TodoListNode, System.OverlayContainerNode);
 
 		DailyTaskNode = new TodoCategoryNode(ModuleType.Daily);
 		DailyTaskNode.Load(DailyCategoryPath);
 		DailyTaskNode.LoadNodes(addonNamePlate);
-		TodoListNode.Add(DailyTaskNode);
+		TodoListNode.AddNode(DailyTaskNode);
 		
 		WeeklyTaskNode = new TodoCategoryNode(ModuleType.Weekly);
 		WeeklyTaskNode.Load(WeeklyCategoryPath);
 		WeeklyTaskNode.LoadNodes(addonNamePlate);
-		TodoListNode.Add(WeeklyTaskNode);
+		TodoListNode.AddNode(WeeklyTaskNode);
 		
 		SpecialTaskNode = new TodoCategoryNode(ModuleType.Special);
 		SpecialTaskNode.Load(SpecialCategoryPath);
 		SpecialTaskNode.LoadNodes(addonNamePlate);
-		TodoListNode.Add(SpecialTaskNode);
-			
-		System.NativeController.AttachNode(TodoListNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		TodoListNode.AddNode(SpecialTaskNode);
+
 		System.TodoListController.Refresh();
 	}
 

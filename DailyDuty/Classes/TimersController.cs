@@ -5,9 +5,9 @@ using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
-using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
+using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes;
 
@@ -51,29 +51,40 @@ public unsafe class TimersController : IDisposable {
 		=> System.TimersConfig = TimersConfig.Load();
 
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
+		if (System.OverlayContainerNode is null) {
+			System.OverlayContainerNode ??= new SimpleComponentNode {
+				Size = new Vector2(addonNamePlate->RootNode->Width, addonNamePlate->RootNode->Height), IsVisible = true,
+			};
+			System.NativeController.AttachNode(System.OverlayContainerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		}
+		
 		WeeklyTimerNode = new TimerNode {
-			NodeId = 500_000,
-			Size = new Vector2(400.0f, 32.0f),
+			NodeId = 3,
+			Size = new Vector2(400.0f, 64.0f),
 			Scale = new Vector2(0.80f, 0.80f),
 			Position = new Vector2(400.0f, 400.0f),
 			ModuleName = "Weekly Reset",
 			IsVisible = true,
+			
+			OnEditComplete = () => WeeklyTimerNode?.Save(WeeklyTimerSavePath),
 		};
 		
-		WeeklyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "WeeklyTimer.style.json").FullName);
-		System.NativeController.AttachNode(WeeklyTimerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		WeeklyTimerNode.Load(WeeklyTimerSavePath);
+		System.NativeController.AttachNode(WeeklyTimerNode, System.OverlayContainerNode);
 
 		DailyTimerNode = new TimerNode {
-			NodeId = 600_000,
-			Size = new Vector2(400.0f, 32.0f), 
+			NodeId = 4,
+			Size = new Vector2(400.0f, 64.0f), 
 			Scale = new Vector2(0.80f, 0.80f), 
 			Position = new Vector2(400.0f, 475.0f),
 			ModuleName = "Daily Reset",
 			IsVisible = true,
+			
+			OnEditComplete = () => DailyTimerNode?.Save(DailyTimerSavePath),
 		};
 		
-		DailyTimerNode.Load(Service.PluginInterface.GetCharacterFileInfo(Service.ClientState.LocalContentId, "DailyTimer.style.json").FullName);
-		System.NativeController.AttachNode(DailyTimerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
+		DailyTimerNode.Load(DailyTimerSavePath);
+		System.NativeController.AttachNode(DailyTimerNode, System.OverlayContainerNode);
 	}
 
 	private void DetachNodes(AddonNamePlate* addonNamePlate) {
