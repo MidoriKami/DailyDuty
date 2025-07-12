@@ -46,6 +46,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     }
 
     public void Dispose() {
+        System.OverlayContainerNode?.Dispose();
+        
         Service.Framework.Update -= OnFrameworkUpdate;
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;

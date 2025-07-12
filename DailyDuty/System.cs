@@ -6,6 +6,7 @@ using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;
+using KamiToolKit.Nodes;
 
 namespace DailyDuty;
 
@@ -26,4 +27,6 @@ public static class System {
 	public static TimersConfig TimersConfig { get; set; }
 	public static AddonController<AddonContentsFinder> ContentsFinderController { get; set; }
 	public static NameplateAddonController NameplateAddonController { get; set; }
+	
+	public static SimpleComponentNode? OverlayContainerNode { get; set; }
 }
