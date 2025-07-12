@@ -17,7 +17,6 @@ using KamiLib.Configuration;
 using KamiLib.Extensions;
 using KamiLib.Window;
 using KamiToolKit.Classes;
-using KamiToolKit.Nodes;
 
 namespace DailyDuty.Windows;
 
@@ -111,7 +110,11 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
         }
     }
 
-    public override void OnClose() {
+    public override void OnClose() => SaveAll();
+
+    public override void OnTabChanged() => SaveAll();
+
+    private void SaveAll() {
         System.TodoListController.Save();
         System.TimersController.WeeklyTimerNode?.Save(System.TimersController.WeeklyTimerSavePath);
         System.TimersController.DailyTimerNode?.Save(System.TimersController.DailyTimerSavePath);
@@ -127,6 +130,8 @@ public class TodoConfigTab : ITabItem {
     public bool Disabled => false;
 
     public void Draw() {
+        if (System.TodoListController.TodoListNode is not { } listNode) return;
+        
         var configChanged = false;
 
         using var id = ImRaii.PushId("main_config");
@@ -134,6 +139,16 @@ public class TodoConfigTab : ITabItem {
         ImGuiTweaks.Header("Todo List Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
+
+            var enableMoving = listNode.EnableMoving;
+            if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
+                listNode.EnableMoving = enableMoving;
+            }
+        
+            var enableResizing = listNode.EnableResizing;
+            if (ImGui.Checkbox("Allow Resizing", ref enableResizing)) {
+                listNode.EnableResizing = enableResizing;
+            }
         }
         
         ImGuiTweaks.Header("Functional Options");
@@ -430,11 +445,29 @@ public class TimersConfigTab : ITabItem {
     public string Name => "Timers";
     public bool Disabled => false;
     public void Draw() {
+        if (System.TimersController.DailyTimerNode is not { } dailyTimerNode) return;
+        if (System.TimersController.WeeklyTimerNode is not { } weeklyTimerNode) return;
+        
         var configChanged = false;
 
         ImGuiTweaks.Header("Timers Config");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TimersConfig.Enabled);
+            
+            ImGuiHelpers.ScaledDummy(5.0f);
+            
+            var enableMoving = dailyTimerNode.EnableMoving;
+            if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
+                dailyTimerNode.EnableMoving = enableMoving;
+                weeklyTimerNode.EnableMoving = enableMoving;
+            }
+        
+            var enableResizing = dailyTimerNode.EnableResizing;
+            if (ImGui.Checkbox("Allow Resizing", ref enableResizing)) {
+                dailyTimerNode.EnableResizing = enableResizing;
+                weeklyTimerNode.EnableResizing = enableResizing;
+            }
+
             ImGuiHelpers.ScaledDummy(5.0f);
             
             configChanged |= ImGui.Checkbox("Daily Timer Enable", ref System.TimersConfig.EnableDailyTimer);
