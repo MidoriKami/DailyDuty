@@ -12,6 +12,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
+using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes;
@@ -60,7 +61,7 @@ public unsafe class TodoListController : IDisposable {
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
 		if (System.OverlayContainerNode is null) {
 			System.OverlayContainerNode ??= new SimpleOverlayNode {
-				Size = new Vector2(addonNamePlate->RootNode->Width, addonNamePlate->RootNode->Height), 
+				Size = addonNamePlate->AtkUnitBase.Size(), 
 				IsVisible = true,
 				NodeId = 100000002,
 			};
