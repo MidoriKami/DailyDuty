@@ -53,7 +53,9 @@ public unsafe class TimersController : IDisposable {
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
 		if (System.OverlayContainerNode is null) {
 			System.OverlayContainerNode ??= new SimpleOverlayNode {
-				Size = new Vector2(addonNamePlate->RootNode->Width, addonNamePlate->RootNode->Height), IsVisible = true,
+				Size = new Vector2(addonNamePlate->RootNode->Width, addonNamePlate->RootNode->Height), 
+				IsVisible = true,
+				NodeId = 100000002,
 			};
 			System.NativeController.AttachNode(System.OverlayContainerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
 		}
