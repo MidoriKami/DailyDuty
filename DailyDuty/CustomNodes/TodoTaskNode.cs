@@ -23,7 +23,8 @@ public class TodoTaskNode : TextNode {
 		
 		Tooltip = Module.HasTooltip ? Module.TooltipText : string.Empty;
 
-		EnableEventFlags = IsVisible && (!Tooltip.ToString().IsNullOrEmpty() || Module.HasClickableLink);
+		var isTooltipValid = Tooltip is not null && !Tooltip.ToString().IsNullOrEmpty();
+		EnableEventFlags = IsVisible && (isTooltipValid || Module.HasClickableLink);
 	}
 
 	private void OnClick(AddonEventData data)
