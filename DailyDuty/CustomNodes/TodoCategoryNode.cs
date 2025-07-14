@@ -98,9 +98,13 @@ public class TodoCategoryNode : SimpleComponentNode {
 		IsVisible = AnyTasksActive;
 
 		var headerOffset = HeaderTextNode.IsVisible ? HeaderTextNode.Height : 0.0f;
-		
-		TaskListNode.Position = new Vector2(Width - TaskListNode.Width, headerOffset);
-		TaskListNode.LayoutAnchor = TaskListNode.LayoutAnchor;
+
+		if (TaskListNode.LayoutAnchor is LayoutAnchor.TopLeft or LayoutAnchor.BottomLeft) {
+			TaskListNode.Position = new Vector2(0.0f, headerOffset);
+		}
+		else if (TaskListNode.LayoutAnchor is LayoutAnchor.TopRight or LayoutAnchor.BottomRight) {
+			TaskListNode.Position = new Vector2(Width - TaskListNode.Width, headerOffset);
+		}
 		
 		foreach (var node in TaskNodes) {
 			node?.Refresh();
