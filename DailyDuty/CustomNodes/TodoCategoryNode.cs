@@ -99,7 +99,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 
 		var headerOffset = HeaderTextNode.IsVisible ? HeaderTextNode.Height : 0.0f;
 		
-		TaskListNode.Position = new Vector2(0.0f, headerOffset);
+		TaskListNode.Position = new Vector2(Width - TaskListNode.Width, headerOffset);
 		TaskListNode.LayoutAnchor = TaskListNode.LayoutAnchor;
 		
 		foreach (var node in TaskNodes) {
