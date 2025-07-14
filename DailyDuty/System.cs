@@ -28,5 +28,5 @@ public static class System {
 	public static AddonController<AddonContentsFinder> ContentsFinderController { get; set; }
 	public static NameplateAddonController NameplateAddonController { get; set; }
 	
-	public static SimpleComponentNode? OverlayContainerNode { get; set; }
+	public static SimpleOverlayNode? OverlayContainerNode { get; set; }
 }

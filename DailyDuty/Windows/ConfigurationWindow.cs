@@ -353,20 +353,20 @@ public class TodoConfigTab : ITabItem {
         ImGui.Text("Show Background");
 
         ImGui.TableNextColumn();
-        var background = listNode.BackgroundVisible;
+        var background = listNode.ShowBackground;
         ImGuiTweaks.SetFullWidth();
         if (ImGui.Checkbox("##BackgroundVisible", ref background)) {
-            listNode.BackgroundVisible = background;
+            listNode.ShowBackground = background;
         }
                 
         ImGui.TableNextColumn();
         ImGui.Text("Show Border");
 
         ImGui.TableNextColumn();
-        var border = listNode.BorderVisible;
+        var border = listNode.ShowBorder;
         ImGuiTweaks.SetFullWidth();
         if (ImGui.Checkbox("##BorderVisible", ref border)) {
-            listNode.BorderVisible = border;
+            listNode.ShowBorder = border;
         }
     }
 

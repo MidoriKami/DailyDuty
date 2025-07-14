@@ -48,7 +48,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 			LayoutOrientation = LayoutOrientation.Vertical,
 			Position = new Vector2(0.0f, HeaderTextNode.Height),
 			IsVisible = true,
-			BackgroundVisible = false,
+			ShowBackground = false,
 		};
 		
 		System.NativeController.AttachNode(TaskListNode, this);

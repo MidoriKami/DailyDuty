@@ -59,7 +59,7 @@ public unsafe class TodoListController : IDisposable {
 
 	private void AttachNodes(AddonNamePlate* addonNamePlate) {
 		if (System.OverlayContainerNode is null) {
-			System.OverlayContainerNode ??= new SimpleComponentNode {
+			System.OverlayContainerNode ??= new SimpleOverlayNode {
 				Size = new Vector2(addonNamePlate->RootNode->Width, addonNamePlate->RootNode->Height), IsVisible = true,
 			};
 			System.NativeController.AttachNode(System.OverlayContainerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
@@ -71,10 +71,10 @@ public unsafe class TodoListController : IDisposable {
 			Position = new Vector2(750.0f, 375.0f),
 			Size = new Vector2(600.0f, 200.0f),
 			LayoutOrientation = LayoutOrientation.Horizontal,
-			BackgroundVisible = true,
+			ShowBackground = true,
 			BackgroundColor = KnownColor.Aqua.Vector() with { W = 0.40f },
 			ClipListContents = true,
-			BorderVisible = true,
+			ShowBorder = true,
 
 			OnEditComplete = Save,
 		};
