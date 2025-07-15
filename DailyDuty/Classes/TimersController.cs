@@ -3,16 +3,13 @@ using System.Numerics;
 using DailyDuty.CustomNodes;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
-using KamiToolKit.Classes;
-using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes;
 
-public unsafe class TimersController : IDisposable {
+public class TimersController : IDisposable {
 	public TimerNode? WeeklyTimerNode { get; private set; }
 	public TimerNode? DailyTimerNode { get; private set; }
 
@@ -26,17 +23,9 @@ public unsafe class TimersController : IDisposable {
 			ToggleDelegate = _ => System.TimersConfig.Enabled = !System.TimersConfig.Enabled,
 			BaseActivationPath = "/timers/",
 		});
-
-		System.NameplateAddonController.PreEnable += PreAttach;
-		System.NameplateAddonController.OnAttach += AttachNodes;
-		System.NameplateAddonController.OnDetach += DetachNodes;
 	}
 
 	public void Dispose() {
-		System.NameplateAddonController.PreEnable -= PreAttach;
-		System.NameplateAddonController.OnAttach -= AttachNodes;
-		System.NameplateAddonController.OnDetach -= DetachNodes;
-		
 		System.NativeController.DetachNode(WeeklyTimerNode, () => {
 			WeeklyTimerNode?.Dispose();
 			WeeklyTimerNode = null;
@@ -48,19 +37,11 @@ public unsafe class TimersController : IDisposable {
 		});
 	}
 
-	private void PreAttach(AddonNamePlate* addonNamePlate)
+	public void Load()
 		=> System.TimersConfig = TimersConfig.Load();
 
-	private void AttachNodes(AddonNamePlate* addonNamePlate) {
-		if (System.OverlayContainerNode is null) {
-			System.OverlayContainerNode ??= new SimpleOverlayNode {
-				Size = addonNamePlate->AtkUnitBase.Size(), 
-				IsVisible = true,
-				NodeId = 100000002,
-			};
-			System.NativeController.AttachNode(System.OverlayContainerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
-		}
-		
+
+	public void AttachNodes(SimpleOverlayNode overlayNode) {
 		WeeklyTimerNode = new TimerNode {
 			NodeId = 3,
 			Size = new Vector2(400.0f, 64.0f),
@@ -73,7 +54,7 @@ public unsafe class TimersController : IDisposable {
 		};
 		
 		WeeklyTimerNode.Load(WeeklyTimerSavePath);
-		System.NativeController.AttachNode(WeeklyTimerNode, System.OverlayContainerNode);
+		System.NativeController.AttachNode(WeeklyTimerNode, overlayNode);
 
 		DailyTimerNode = new TimerNode {
 			NodeId = 4,
@@ -87,10 +68,10 @@ public unsafe class TimersController : IDisposable {
 		};
 		
 		DailyTimerNode.Load(DailyTimerSavePath);
-		System.NativeController.AttachNode(DailyTimerNode, System.OverlayContainerNode);
+		System.NativeController.AttachNode(DailyTimerNode, overlayNode);
 	}
 
-	private void DetachNodes(AddonNamePlate* addonNamePlate) {
+	public void DetachNodes() {
 		System.NativeController.DetachNode(WeeklyTimerNode, () => {
 			WeeklyTimerNode?.Dispose();
 			WeeklyTimerNode = null;

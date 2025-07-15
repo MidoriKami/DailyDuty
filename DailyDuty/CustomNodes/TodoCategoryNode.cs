@@ -6,7 +6,6 @@ using DailyDuty.Classes;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Events;
 using Dalamud.Interface.Utility.Raii;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
@@ -54,7 +53,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 		System.NativeController.AttachNode(TaskListNode, this);
 	}
 
-	public unsafe void LoadNodes(AddonNamePlate* addonNamePlate) {
+	public void LoadNodes() {
 		TaskListNode.Clear();
 		TaskNodes.Clear();
 		

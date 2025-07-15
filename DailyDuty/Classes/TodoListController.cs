@@ -8,16 +8,14 @@ using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
-using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes;
 
-public unsafe class TodoListController : IDisposable {
+public class TodoListController : IDisposable {
 	public ListBoxNode? TodoListNode { get; private set; }
 
 	public TodoCategoryNode? DailyTaskNode { get; private set; }
@@ -38,36 +36,19 @@ public unsafe class TodoListController : IDisposable {
 			ToggleDelegate = _ => System.TodoConfig.Enabled = !System.TodoConfig.Enabled,
 			BaseActivationPath = "/todo/",
 		});
-
-		System.NameplateAddonController.PreEnable += LoadConfig;
-		System.NameplateAddonController.OnAttach += AttachNodes;
-		System.NameplateAddonController.OnDetach += DetachNodes;
 	}
-	
+
 	public void Dispose() {
-		System.NameplateAddonController.PreEnable -= LoadConfig;
-		System.NameplateAddonController.OnAttach -= AttachNodes;
-		System.NameplateAddonController.OnDetach -= DetachNodes;
-		
 		System.NativeController.DetachNode(TodoListNode, () => {
 			TodoListNode?.Dispose();
 			TodoListNode = null;
 		});
 	}
 
-	private void LoadConfig(AddonNamePlate* addon)
+	public void Load()
 		=> System.TodoConfig = TodoConfig.Load();
 
-	private void AttachNodes(AddonNamePlate* addonNamePlate) {
-		if (System.OverlayContainerNode is null) {
-			System.OverlayContainerNode ??= new SimpleOverlayNode {
-				Size = addonNamePlate->AtkUnitBase.Size(), 
-				IsVisible = true,
-				NodeId = 100000002,
-			};
-			System.NativeController.AttachNode(System.OverlayContainerNode, addonNamePlate->RootNode, NodePosition.AsFirstChild);
-		}
-		
+	public void AttachNodes(SimpleOverlayNode overlayNode) {
 		TodoListNode = new ListBoxNode {
 			NodeId = 2,
 			LayoutAnchor = LayoutAnchor.TopLeft,
@@ -82,27 +63,27 @@ public unsafe class TodoListController : IDisposable {
 			OnEditComplete = Save,
 		};
 		TodoListNode.Load(TodoListNodePath);
-		System.NativeController.AttachNode(TodoListNode, System.OverlayContainerNode);
+		System.NativeController.AttachNode(TodoListNode, overlayNode);
 
 		DailyTaskNode = new TodoCategoryNode(ModuleType.Daily);
 		DailyTaskNode.Load(DailyCategoryPath);
-		DailyTaskNode.LoadNodes(addonNamePlate);
+		DailyTaskNode.LoadNodes();
 		TodoListNode.AddNode(DailyTaskNode);
 		
 		WeeklyTaskNode = new TodoCategoryNode(ModuleType.Weekly);
 		WeeklyTaskNode.Load(WeeklyCategoryPath);
-		WeeklyTaskNode.LoadNodes(addonNamePlate);
+		WeeklyTaskNode.LoadNodes();
 		TodoListNode.AddNode(WeeklyTaskNode);
 		
 		SpecialTaskNode = new TodoCategoryNode(ModuleType.Special);
 		SpecialTaskNode.Load(SpecialCategoryPath);
-		SpecialTaskNode.LoadNodes(addonNamePlate);
+		SpecialTaskNode.LoadNodes();
 		TodoListNode.AddNode(SpecialTaskNode);
 
 		System.TodoListController.Refresh();
 	}
 
-	private void DetachNodes(AddonNamePlate* addonNamePlate) {
+	public void DetachNodes() {
 		System.NativeController.DetachNode(TodoListNode, () => {
 			TodoListNode?.Dispose();
 			TodoListNode = null;
@@ -155,12 +136,5 @@ public unsafe class TodoListController : IDisposable {
 		DailyTaskNode?.Save(DailyCategoryPath);
 		WeeklyTaskNode?.Save(WeeklyCategoryPath);
 		SpecialTaskNode?.Save(SpecialCategoryPath);
-	}
-
-	public void Load() {
-		TodoListNode?.Load(TodoListNodePath);
-		DailyTaskNode?.Load(DailyCategoryPath);
-		WeeklyTaskNode?.Load(WeeklyCategoryPath);
-		SpecialTaskNode?.Load(SpecialCategoryPath);
 	}
 }

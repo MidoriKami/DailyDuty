@@ -25,11 +25,11 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.LocalizationController = new LocalizationController();
         System.PayloadController = new PayloadController();
         System.ContentsFinderController = new AddonController<AddonContentsFinder>(Service.PluginInterface, "ContentsFinder");
-        System.NameplateAddonController = new NameplateAddonController(Service.PluginInterface);
         
         System.ModuleController = new ModuleController();
         System.TodoListController = new TodoListController();
         System.TimersController = new TimersController();
+        System.OverlayController = new OverlayController();
 
         System.ConfigurationWindow = new ConfigurationWindow();
         System.WindowManager = new WindowManager(Service.PluginInterface);
@@ -46,8 +46,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     }
 
     public void Dispose() {
-        System.OverlayContainerNode?.Dispose();
-        
         Service.Framework.Update -= OnFrameworkUpdate;
         Service.ClientState.Login -= OnLogin;
         Service.ClientState.Logout -= OnLogout;
@@ -56,7 +54,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.WindowManager.Dispose();
         System.LocalizationController.Dispose();
         System.PayloadController.Dispose();
-        System.NameplateAddonController.Dispose();
+        System.OverlayController.Dispose();
         System.ContentsFinderController.Dispose();
 
         System.ModuleController.Dispose();
@@ -84,17 +82,12 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     
     private static void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
-        
         System.ModuleController.LoadModules();
-
-        System.NameplateAddonController.Enable();
         System.ContentsFinderController.Enable();
     }
     
     private static void OnLogout(int type, int code) {
-        System.NameplateAddonController.Disable();
         System.ContentsFinderController.Disable();
-
         System.ModuleController.UnloadModules();
     }
     
