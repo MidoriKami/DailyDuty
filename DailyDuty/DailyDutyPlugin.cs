@@ -84,9 +84,11 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.SystemConfig = SystemConfig.Load();
         System.ModuleController.LoadModules();
         System.ContentsFinderController.Enable();
+        System.OverlayController.Enable();
     }
     
     private static void OnLogout(int type, int code) {
+        System.OverlayController.Disable();
         System.ContentsFinderController.Disable();
         System.ModuleController.UnloadModules();
     }

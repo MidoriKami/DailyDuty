@@ -13,8 +13,6 @@ public unsafe class OverlayController : NameplateAddonController {
 		PreEnable += OnAddonPreEnable;
 		OnAttach += AttachNodes;
 		OnDetach += DetachNodes;
-
-		Enable();
 	}
 
 	private void OnAddonPreEnable(AddonNamePlate* addon) {
@@ -37,5 +35,10 @@ public unsafe class OverlayController : NameplateAddonController {
 	private void DetachNodes(AddonNamePlate* addon) {
 		System.TimersController.DetachNodes();
 		System.TodoListController.DetachNodes();
+		
+		System.NativeController.DetachNode(OverlayContainerNode, () => {
+			OverlayContainerNode?.Dispose();
+			OverlayContainerNode = null;
+		});
 	}
 }
