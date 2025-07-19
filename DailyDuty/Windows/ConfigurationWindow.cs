@@ -140,6 +140,8 @@ public class TodoConfigTab : ITabItem {
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
 
+            ImGuiHelpers.ScaledDummy(5.0f);
+            
             var enableMoving = listNode.EnableMoving;
             if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
                 listNode.EnableMoving = enableMoving;
