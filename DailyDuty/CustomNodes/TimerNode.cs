@@ -97,6 +97,11 @@ public sealed class TimerNode : SimpleComponentNode {
 		tooltipNode.Position = new Vector2(Width - tooltipNode.Width, Height / 2.0f - tooltipNode.Height / 2.0f);
 	}
 
+	public AlignmentType ModuleNameAlignment {
+		get => moduleNameNode.AlignmentType;
+		set => moduleNameNode.AlignmentType = value;
+	}
+	
 	public SeString ModuleName {
 		get => moduleNameNode.Text;
 		set => moduleNameNode.Text = value;

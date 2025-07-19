@@ -575,6 +575,16 @@ public class TimersConfigTab : ITabItem {
         if (ImGui.DragFloat2("##Size", ref size, 0.50f, 0.0f, 5000.0f)) {
             node.Size = size;
         }
+        
+        ImGui.TableNextColumn();
+        ImGui.Text("Module Name Alignment");
+                
+        ImGui.TableNextColumn();
+        var nameTextAlignment = node.ModuleNameAlignment;
+        ImGuiTweaks.SetFullWidth();
+        if (ImGuiTweaks.EnumCombo("##ModuleNameAlignment", ref nameTextAlignment)) {
+            node.ModuleNameAlignment = nameTextAlignment;
+        }
                 
         ImGui.TableNextColumn();
         ImGui.Text("Bar Color");
