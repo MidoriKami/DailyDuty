@@ -30,7 +30,7 @@ public class TimersController : IDisposable {
 			WeeklyTimerNode?.Dispose();
 			WeeklyTimerNode = null;
 		});
-		
+
 		System.NativeController.DetachNode(DailyTimerNode, () => {
 			DailyTimerNode?.Dispose();
 			DailyTimerNode = null;
@@ -40,7 +40,6 @@ public class TimersController : IDisposable {
 	public void Load()
 		=> System.TimersConfig = TimersConfig.Load();
 
-
 	public void AttachNodes(SimpleOverlayNode overlayNode) {
 		WeeklyTimerNode = new TimerNode {
 			NodeId = 3,
@@ -49,10 +48,8 @@ public class TimersController : IDisposable {
 			Position = new Vector2(400.0f, 400.0f),
 			ModuleName = "Weekly Reset",
 			IsVisible = true,
-			
 			OnEditComplete = () => WeeklyTimerNode?.Save(WeeklyTimerSavePath),
 		};
-		
 		WeeklyTimerNode.Load(WeeklyTimerSavePath);
 		System.NativeController.AttachNode(WeeklyTimerNode, overlayNode);
 
@@ -63,10 +60,8 @@ public class TimersController : IDisposable {
 			Position = new Vector2(400.0f, 475.0f),
 			ModuleName = "Daily Reset",
 			IsVisible = true,
-			
 			OnEditComplete = () => DailyTimerNode?.Save(DailyTimerSavePath),
 		};
-		
 		DailyTimerNode.Load(DailyTimerSavePath);
 		System.NativeController.AttachNode(DailyTimerNode, overlayNode);
 	}
@@ -76,7 +71,7 @@ public class TimersController : IDisposable {
 			WeeklyTimerNode?.Dispose();
 			WeeklyTimerNode = null;
 		});
-		
+
 		System.NativeController.DetachNode(DailyTimerNode, () => {
 			DailyTimerNode?.Dispose();
 			DailyTimerNode = null;
