@@ -112,8 +112,6 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void AttachNodes(AddonContentsFinder* addon) {
-        if (addon is null) return;
-
         var targetResNode = addon->GetNodeById(56);
         if (targetResNode is null) return;
 
@@ -127,7 +125,6 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             Tooltip = "Feature from DailyDuty Plugin",
             EnableEventFlags = true,
         };
-        
         System.NativeController.AttachNode(infoTextNode, targetResNode, NodePosition.AfterTarget);
         
         openDailyDutyButton = new TextButtonNode {
@@ -136,9 +133,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             IsVisible = true,
             Label = "Open DailyDuty",
         };
-        
         openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, _ => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
-
         System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode);
 
         var targetComponent = GetListHeaderComponentNode(addon);
@@ -152,7 +147,6 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
                 EnableEventFlags = true,
                 TextColor = Config.TimerColor,
             };
-        
             System.NativeController.AttachNode(dailyResetTimer, targetComponent);
         }
         
