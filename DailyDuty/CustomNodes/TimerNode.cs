@@ -73,10 +73,7 @@ public sealed class TimerNode : SimpleComponentNode {
 		get => base.Width;
 		set {
 			base.Width = value;
-			progressBarNode.Width = value - tooltipNode.Width;
-			tooltipNode.X = value - tooltipNode.Width;
-			moduleNameNode.X = 7.5f;
-			timeRemainingNode.X = progressBarNode.Width - timeRemainingNode.Width - 7.5f;
+			RecalculateLayout();
 		}
 	}
 
@@ -84,14 +81,20 @@ public sealed class TimerNode : SimpleComponentNode {
 		get => base.Height;
 		set {
 			base.Height = value;
-			progressBarNode.Height = value * 4.0f / 7.0f;
-			progressBarNode.Y = value - progressBarNode.Height;
-			tooltipNode.Y = progressBarNode.Y + progressBarNode.Height / 2.0f - tooltipNode.Height / 2.0f;
-			moduleNameNode.Height = value * 3.0f / 7.0f - 4.0f;
-			timeRemainingNode.Height = value * 3.0f / 7.0f - 4.0f;
-			moduleNameNode.Y = value - progressBarNode.Y - moduleNameNode.Height - 4.0f;
-			timeRemainingNode.Y = value - progressBarNode.Y - timeRemainingNode.Height - 4.0f;
+			RecalculateLayout();
 		}
+	}
+
+	public void RecalculateLayout() {
+		tooltipNode.Size = new Vector2(16.0f, 16.0f);
+		progressBarNode.Size = new Vector2(Width - tooltipNode.Width, Height / 2.0f);
+		moduleNameNode.Size = new Vector2(Width / 2.0f, Height / 2.0f);
+		timeRemainingNode.Size = new Vector2(Width / 2.0f, Height / 2.0f);
+
+		progressBarNode.Position = new Vector2(0.0f, Height / 2.0f);
+		moduleNameNode.Position = new Vector2(0.0f, 0.0f);
+		timeRemainingNode.Position = new Vector2(Width - tooltipNode.Width - timeRemainingNode.Width, 0.0f);
+		tooltipNode.Position = new Vector2(Width - tooltipNode.Width, Height / 2.0f - tooltipNode.Height / 2.0f);
 	}
 
 	public SeString ModuleName {
