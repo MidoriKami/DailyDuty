@@ -69,6 +69,12 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		Data.NewBookAvailable = TryUpdateData(Data.NewBookAvailable, DateTime.UtcNow > Data.Deadline - TimeSpan.FromDays(7));
 		Data.BookExpired = TryUpdateData(Data.BookExpired, PlayerState.Instance()->IsWeeklyBingoExpired());
         
+		CheckKhloeDistance();
+
+		base.Update();
+	}
+
+	private void CheckKhloeDistance() {
 		var timeRemaining = Data.Deadline - DateTime.UtcNow;
 		Data.TimeRemaining = timeRemaining > TimeSpan.Zero ? timeRemaining : TimeSpan.Zero;
 		Data.DistanceToKhloe = 0.0f;
@@ -98,8 +104,6 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 				}
 			}
 		}
-
-		base.Update();
 	}
 
 	protected override ModuleStatus GetModuleStatus() {
