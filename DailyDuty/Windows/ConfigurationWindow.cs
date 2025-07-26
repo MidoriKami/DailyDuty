@@ -31,7 +31,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     
     protected override List<Module> Options => System.ModuleController.Modules;
     
-    protected override float SelectionListWidth { get; set; } = 200.0f;
+    protected override float SelectionListWidth => 200.0f;
     
     protected override float SelectionItemHeight => ImGui.GetTextLineHeight() / ImGuiHelpers.GlobalScale;
 
