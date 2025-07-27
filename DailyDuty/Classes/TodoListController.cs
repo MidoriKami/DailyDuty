@@ -62,7 +62,6 @@ public class TodoListController : IDisposable {
 
 			OnEditComplete = Save,
 		};
-		TodoListNode.Load(TodoListNodePath);
 		System.NativeController.AttachNode(TodoListNode, overlayNode);
 
 		DailyTaskNode = new TodoCategoryNode(ModuleType.Daily);
@@ -80,6 +79,7 @@ public class TodoListController : IDisposable {
 		SpecialTaskNode.LoadNodes();
 		TodoListNode.AddNode(SpecialTaskNode);
 
+		TodoListNode.Load(TodoListNodePath);
 		System.TodoListController.Refresh();
 	}
 
