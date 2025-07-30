@@ -3,6 +3,7 @@ using System.Numerics;
 using DailyDuty.CustomNodes;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit.Nodes;
@@ -51,6 +52,7 @@ public class TimersController : IDisposable {
 			OnEditComplete = () => WeeklyTimerNode?.Save(WeeklyTimerSavePath),
 		};
 		WeeklyTimerNode.Load(WeeklyTimerSavePath);
+		WeeklyTimerNode.ModuleNameAlignment = AlignmentType.Left; // Fix for old configs using a weird alignment
 		System.NativeController.AttachNode(WeeklyTimerNode, overlayNode);
 
 		DailyTimerNode = new TimerNode {
@@ -63,6 +65,7 @@ public class TimersController : IDisposable {
 			OnEditComplete = () => DailyTimerNode?.Save(DailyTimerSavePath),
 		};
 		DailyTimerNode.Load(DailyTimerSavePath);
+		DailyTimerNode.ModuleNameAlignment = AlignmentType.Left; // Fix for old configs using a weird alignment
 		System.NativeController.AttachNode(DailyTimerNode, overlayNode);
 	}
 

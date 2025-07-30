@@ -582,13 +582,6 @@ public class TimersConfigTab : ITabItem {
         ImGui.Text("Module Name Alignment");
                 
         ImGui.TableNextColumn();
-        var nameTextAlignment = node.ModuleNameAlignment;
-        ImGuiTweaks.SetFullWidth();
-        if (ImGuiTweaks.EnumCombo("##ModuleNameAlignment", ref nameTextAlignment)) {
-            node.ModuleNameAlignment = nameTextAlignment;
-        }
-                
-        ImGui.TableNextColumn();
         ImGui.Text("Bar Color");
                 
         ImGui.TableNextColumn();
