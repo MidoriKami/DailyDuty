@@ -70,6 +70,8 @@ public sealed class TimerNode : SimpleComponentNode {
 	}
 
 	protected override void OnSizeChanged() {
+		base.OnSizeChanged();
+		
 		tooltipNode.Size = new Vector2(16.0f, 16.0f);
 		progressBarNode.Size = new Vector2(Width - tooltipNode.Width, Height / 2.0f);
 		moduleNameNode.Size = new Vector2(Width / 2.0f, Height / 2.0f);
