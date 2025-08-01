@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -8,7 +9,10 @@ using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using DailyDuty.Windows;
 using Dalamud.Game.Addon.Events;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Utility;
@@ -17,6 +21,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using ImGuiNET;
 using KamiLib.Classes;
+using KamiLib.Extensions;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
@@ -94,22 +99,87 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     private TextNode? infoTextNode;
     private TextButtonNode? openDailyDutyButton;
     private TextNode? dailyResetTimer;
+
+    private Hook<AtkComponentListItemPopulator.PopulateDelegate>? onDutyListPopulate;
+    private readonly List<uint> modifiedIndexes = [];
     
     public DutyRoulette() {
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "ContentsFinder", OnContentsFinderSetup); 
+        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "ContentsFinder", OnContentsFinderFinalize);
+        
         System.ContentsFinderController.OnAttach += AttachNodes;
         System.ContentsFinderController.OnDetach += DetachNodes;
         System.ContentsFinderController.OnUpdate += OnContentFinderUpdate;
-        System.ContentsFinderController.OnRefresh += OnContentFinderUpdate;
     }
 
     public override void Dispose() {
+        Service.AddonLifecycle.UnregisterListener(OnContentsFinderSetup, OnContentsFinderFinalize);
+        
         System.ContentsFinderController.OnAttach -= AttachNodes;
         System.ContentsFinderController.OnDetach -= DetachNodes;
         System.ContentsFinderController.OnUpdate -= OnContentFinderUpdate;
-        System.ContentsFinderController.OnRefresh -= OnContentFinderUpdate;
+        
+        onDutyListPopulate?.Dispose();
         
         base.Dispose();
     }
+    
+    private void OnContentsFinderSetup(AddonEvent type, AddonArgs args) {
+        var addon = args.GetAddon<AddonContentsFinder>();
+        var populateMethod = addon->DutyList->GetItemRendererByNodeId(6)->Populator.Populate;
+
+        onDutyListPopulate = Service.Hooker.HookFromAddress<AtkComponentListItemPopulator.PopulateDelegate>(populateMethod, OnPopulateHook);
+        onDutyListPopulate?.Enable();
+    }
+    
+    private void OnContentsFinderFinalize(AddonEvent type, AddonArgs args) {
+        onDutyListPopulate?.Dispose();
+        modifiedIndexes.Clear();
+    }
+
+    private void OnPopulateHook(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) => HookSafety.ExecuteSafe(() => {
+        var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
+        
+        var dutyName = listItemInfo->ListItem->StringValues[0].ToString();
+        var dutyInfo = Service.DataManager.GetExcelSheet<ContentRoulette>().FirstOrNull(roulette => string.Equals(dutyName, roulette.Category.ExtractText(), StringComparison.OrdinalIgnoreCase));
+
+        var dutyNameTextNode = (AtkTextNode*) nodeList[3];
+        var levelTextNode = (AtkTextNode*) nodeList[4];
+        
+        // If this is already modified
+        if (modifiedIndexes.Contains(index)) {
+            // And is not a roulette, restore the original color
+            if (dutyInfo is null) {
+                dutyNameTextNode->TextColor = levelTextNode->TextColor;
+                modifiedIndexes.Remove(index);
+            }
+        }
+        // else, this hasn't been modified, and is a roulette
+        else if (dutyInfo is { } roulette) {
+            // If this roulette is being tracked
+            var taskSettings = Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId);
+            if (taskSettings is { Enabled: true }) {
+                var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
+                
+                // Color it appropriately
+                if (isRouletteCompleted) {
+                    dutyNameTextNode->TextColor = Config.CompleteColor.ToByteColor();
+                }
+                else {
+                    dutyNameTextNode->TextColor = Config.IncompleteColor.ToByteColor();
+                }
+
+                // Track that this node has been modified
+                modifiedIndexes.Add(index);
+            }
+        }
+        
+        if (infoTextNode is not null) {
+            infoTextNode.IsVisible = modifiedIndexes.Count is not 0;
+        }
+    
+        onDutyListPopulate!.Original(unitBase, listItemInfo, nodeList);
+    }, Service.Log);
 
     private void AttachNodes(AddonContentsFinder* addon) {
         var targetResNode = addon->GetNodeById(56);
@@ -178,14 +248,10 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             openDailyDutyButton.IsVisible = Config.ShowOpenDailyDutyButton;
         }
         
-        if (infoTextNode is not null) {
-            infoTextNode.IsVisible = false;
-        }
-
         if (dailyResetTimer is not null && Config.ShowResetTimer) {
             var nextReset = Time.NextDailyReset();
             var timeRemaining = nextReset - DateTime.UtcNow;
-
+        
             dailyResetTimer.Text = timeRemaining.FormatTimeSpanShort(System.TimersConfig.HideTimerSeconds);
             dailyResetTimer.TextColor = Config.TimerColor;
         }
@@ -193,75 +259,10 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         if (dailyResetTimer is not null) {
             dailyResetTimer.IsVisible = Config.ShowResetTimer && addon->SelectedRadioButton == 0;
         }
-        
-        if (!Config.ColorContentFinder) return;
-        if (!Config.ModuleEnabled) return;
-        
-        var treeListComponentNode = (AtkComponentNode*)addon->GetNodeById(52);
-        if (treeListComponentNode is null) return;
-        
-        var treeListComponent = (AtkComponentTreeList*) treeListComponentNode->Component;
-        if (treeListComponent is null) return;
-
-        var anyRecolored = false;
-
-        foreach (var listItem in treeListComponent->Items) {
-            if (listItem.Value->Renderer is null) continue;
-
-            var listItemTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(5);
-            if (listItemTextNode is null) continue;
-
-            var listItemText = listItemTextNode->NodeText.ToString();
-
-            var levelTextNode = (AtkTextNode*) listItem.Value->Renderer->GetTextNodeById(18);
-            if (levelTextNode is null) continue;
-
-            foreach (var roulette in Service.DataManager.GetExcelSheet<ContentRoulette>()) {
-                if (roulette.RowId is 0) continue;
-                
-                var rouletteString = roulette.Category.ExtractText();
-
-                if (string.Equals(listItemText, rouletteString)) {
-                    var taskSettings = Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId);
-                    if (taskSettings is { Enabled: true }) {
-                        var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
-                        if (isRouletteCompleted) {
-                            listItemTextNode->TextColor = Config.CompleteColor.ToByteColor();
-                        }
-                        else {
-                            listItemTextNode->TextColor = Config.IncompleteColor.ToByteColor();
-                        }
-
-                        anyRecolored = true;
-                    }
-
-                    break;
-                }
-            }
-
-            if (!anyRecolored) {
-                listItemTextNode->TextColor = levelTextNode->TextColor;
-            }
-        }
-
-        if (infoTextNode is not null) {
-            infoTextNode.IsVisible = anyRecolored;
-            infoTextNode.Text = GetHintText();
-        }
     }
 
-    private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon) {
-        var dutyListNode = addon->DutyList;
-        if (dutyListNode is null) return null;
-
-        var categoryItem = dutyListNode->CategoryItemRendererList;
-        if (categoryItem is null) return null;
-
-        var renderer = categoryItem->AtkComponentListItemRenderer;
-        if (renderer is null) return null;
-
-        return renderer->ComponentNode;
-    }
+    private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon)
+        => addon->DutyList->CategoryItemRendererList->AtkComponentListItemRenderer->ComponentNode;
 
     private SeString GetHintText()
         => new SeStringBuilder()
