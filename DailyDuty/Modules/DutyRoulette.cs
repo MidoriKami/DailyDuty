@@ -204,6 +204,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             Text = GetHintText(),
             Tooltip = "Feature from DailyDuty Plugin",
             EnableEventFlags = true,
+            IsVisible = false,
         };
         System.NativeController.AttachNode(infoTextNode, targetResNode, NodePosition.AfterTarget);
         
