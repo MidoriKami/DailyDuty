@@ -24,7 +24,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.CommandManager = new CommandManager(Service.PluginInterface, "dd", "dailyduty");
         System.LocalizationController = new LocalizationController();
         System.PayloadController = new PayloadController();
-        System.ContentsFinderController = new AddonController<AddonContentsFinder>(Service.PluginInterface, "ContentsFinder");
+        System.ContentsFinderController = new AddonController<AddonContentsFinder>("ContentsFinder");
         
         System.ModuleController = new ModuleController();
         System.TodoListController = new TodoListController();
