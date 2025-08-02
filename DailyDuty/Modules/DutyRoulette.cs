@@ -138,6 +138,8 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void OnPopulateHook(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) => HookSafety.ExecuteSafe(() => {
+        if (!Config.ColorContentFinder) return;
+        
         var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
         
         var dutyName = listItemInfo->ListItem->StringValues[0].ToString();
