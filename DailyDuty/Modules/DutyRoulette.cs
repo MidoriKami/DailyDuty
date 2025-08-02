@@ -138,8 +138,6 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void OnPopulateHook(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) => HookSafety.ExecuteSafe(() => {
-        if (!Config.ColorContentFinder) return;
-        
         var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
         
         var dutyName = listItemInfo->ListItem->StringValues[0].ToString();
@@ -147,33 +145,36 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
 
         var dutyNameTextNode = (AtkTextNode*) nodeList[3];
         var levelTextNode = (AtkTextNode*) nodeList[4];
-        
-        // If this is already modified
-        if (modifiedIndexes.Contains(index)) {
-            // And is not a roulette, restore the original color
-            if (dutyInfo is null) {
-                dutyNameTextNode->TextColor = levelTextNode->TextColor;
-                modifiedIndexes.Remove(index);
+
+        if (Config.ColorContentFinder) {
+            
+            // If this is already modified
+            if (modifiedIndexes.Contains(index)) {
+                
+                // And this is not a roulette
+                if (dutyInfo is null) {
+                    TryResetEntry(index, dutyNameTextNode, levelTextNode);
+                }
+                // else it is already colored correctly
+                
+            }
+            
+            // else, this hasn't been modified, and is a roulette
+            else if (dutyInfo is { } roulette) {
+                
+                // If this roulette is being tracked, apply color
+                if (Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId) is { Enabled: true }) {
+                    var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
+                    dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
+
+                    modifiedIndexes.Add(index);
+                }
+                // else leave it unmodified
+                
             }
         }
-        // else, this hasn't been modified, and is a roulette
-        else if (dutyInfo is { } roulette) {
-            // If this roulette is being tracked
-            var taskSettings = Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId);
-            if (taskSettings is { Enabled: true }) {
-                var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
-                
-                // Color it appropriately
-                if (isRouletteCompleted) {
-                    dutyNameTextNode->TextColor = Config.CompleteColor.ToByteColor();
-                }
-                else {
-                    dutyNameTextNode->TextColor = Config.IncompleteColor.ToByteColor();
-                }
-
-                // Track that this node has been modified
-                modifiedIndexes.Add(index);
-            }
+        else {
+            TryResetEntry(index, dutyNameTextNode, levelTextNode);
         }
         
         if (infoTextNode is not null) {
@@ -182,6 +183,13 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     
         onDutyListPopulate!.Original(unitBase, listItemInfo, nodeList);
     }, Service.Log);
+
+    private void TryResetEntry(uint index, AtkTextNode* nameNode, AtkTextNode* levelNode) {
+        if (modifiedIndexes.Contains(index)) {
+            nameNode->TextColor = levelNode->TextColor;
+            modifiedIndexes.Remove(index);
+        }
+    }
 
     private void AttachNodes(AddonContentsFinder* addon) {
         var targetResNode = addon->GetNodeById(56);
