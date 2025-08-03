@@ -10,7 +10,7 @@ public unsafe class OverlayController : NameplateAddonController {
 	public static SimpleOverlayNode? OverlayContainerNode { get; set; }
 
 	public OverlayController() : base(Service.PluginInterface) {
-		PreEnable += OnAddonPreEnable;
+		OnPreEnable += OnAddonPreEnable;
 		OnAttach += AttachNodes;
 		OnDetach += DetachNodes;
 	}
