@@ -16,11 +16,11 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes;
 
 public class TodoListController : IDisposable {
-	public ListBoxNode? TodoListNode { get; private set; }
+	public ListBoxNode? TodoListNode;
 
-	public TodoCategoryNode? DailyTaskNode { get; private set; }
-	public TodoCategoryNode? WeeklyTaskNode { get; private set; }
-	public TodoCategoryNode? SpecialTaskNode { get; private set; }
+	public TodoCategoryNode? DailyTaskNode;
+	public TodoCategoryNode? WeeklyTaskNode;
+	public TodoCategoryNode? SpecialTaskNode;
 	
 	private List<TodoCategoryNode?> TodoListNodes => [ DailyTaskNode, WeeklyTaskNode, SpecialTaskNode ];
 
@@ -39,10 +39,7 @@ public class TodoListController : IDisposable {
 	}
 
 	public void Dispose() {
-		System.NativeController.DetachNode(TodoListNode, () => {
-			TodoListNode?.Dispose();
-			TodoListNode = null;
-		});
+		System.NativeController.DisposeNode(ref TodoListNode);
 	}
 
 	public void Load()
@@ -84,10 +81,7 @@ public class TodoListController : IDisposable {
 	}
 
 	public void DetachNodes() {
-		System.NativeController.DetachNode(TodoListNode, () => {
-			TodoListNode?.Dispose();
-			TodoListNode = null;
-		});
+		System.NativeController.DisposeNode(ref TodoListNode);
 	}
 
 	public void Update() {

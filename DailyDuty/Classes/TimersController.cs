@@ -11,8 +11,8 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes;
 
 public class TimersController : IDisposable {
-	public TimerNode? WeeklyTimerNode { get; private set; }
-	public TimerNode? DailyTimerNode { get; private set; }
+	public TimerNode? WeeklyTimerNode;
+	public TimerNode? DailyTimerNode;
 
 	public string WeeklyTimerSavePath => StyleFileHelper.GetPath("WeeklyTimer.style.json"); 
 	public string DailyTimerSavePath => StyleFileHelper.GetPath("DailyTimer.style.json"); 
@@ -27,15 +27,8 @@ public class TimersController : IDisposable {
 	}
 
 	public void Dispose() {
-		System.NativeController.DetachNode(WeeklyTimerNode, () => {
-			WeeklyTimerNode?.Dispose();
-			WeeklyTimerNode = null;
-		});
-
-		System.NativeController.DetachNode(DailyTimerNode, () => {
-			DailyTimerNode?.Dispose();
-			DailyTimerNode = null;
-		});
+		System.NativeController.DisposeNode(ref WeeklyTimerNode);
+		System.NativeController.DisposeNode(ref DailyTimerNode);
 	}
 
 	public void Load()
@@ -70,15 +63,8 @@ public class TimersController : IDisposable {
 	}
 
 	public void DetachNodes() {
-		System.NativeController.DetachNode(WeeklyTimerNode, () => {
-			WeeklyTimerNode?.Dispose();
-			WeeklyTimerNode = null;
-		});
-
-		System.NativeController.DetachNode(DailyTimerNode, () => {
-			DailyTimerNode?.Dispose();
-			DailyTimerNode = null;
-		});
+		System.NativeController.DisposeNode(ref WeeklyTimerNode);
+		System.NativeController.DisposeNode(ref DailyTimerNode);
 	}
 
 	public void Update() {

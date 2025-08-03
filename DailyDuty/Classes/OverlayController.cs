@@ -7,7 +7,7 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Classes;
 
 public unsafe class OverlayController : NameplateAddonController {
-	public static SimpleOverlayNode? OverlayContainerNode { get; set; }
+	private static SimpleOverlayNode? overlayContainerNode;
 
 	public OverlayController() : base(Service.PluginInterface) {
 		OnPreEnable += OnAddonPreEnable;
@@ -21,24 +21,21 @@ public unsafe class OverlayController : NameplateAddonController {
 	}
 	
 	private void AttachNodes(AddonNamePlate* addon) {
-		OverlayContainerNode = new SimpleOverlayNode {
+		overlayContainerNode = new SimpleOverlayNode {
 			Size = addon->AtkUnitBase.Size(), 
 			IsVisible = true, 
 			NodeId = 100000002,
 		};
-		System.NativeController.AttachNode(OverlayContainerNode, addon->RootNode, NodePosition.AsFirstChild);
+		System.NativeController.AttachNode(overlayContainerNode, addon->RootNode, NodePosition.AsFirstChild);
 		
-		System.TimersController.AttachNodes(OverlayContainerNode);
-		System.TodoListController.AttachNodes(OverlayContainerNode);
+		System.TimersController.AttachNodes(overlayContainerNode);
+		System.TodoListController.AttachNodes(overlayContainerNode);
 	}
 
 	private void DetachNodes(AddonNamePlate* addon) {
 		System.TimersController.DetachNodes();
 		System.TodoListController.DetachNodes();
 		
-		System.NativeController.DetachNode(OverlayContainerNode, () => {
-			OverlayContainerNode?.Dispose();
-			OverlayContainerNode = null;
-		});
+		System.NativeController.DisposeNode(ref overlayContainerNode);
 	}
 }

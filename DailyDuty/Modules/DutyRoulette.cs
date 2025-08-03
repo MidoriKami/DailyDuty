@@ -238,20 +238,9 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void DetachNodes(AddonContentsFinder* addon) {
-        System.NativeController.DetachNode(infoTextNode, () => {
-            infoTextNode?.Dispose();
-            infoTextNode = null;
-        });
-        
-        System.NativeController.DetachNode(openDailyDutyButton, () => {
-            openDailyDutyButton?.Dispose();
-            openDailyDutyButton = null;
-        });
-        
-        System.NativeController.DetachNode(dailyResetTimer, () => {
-            dailyResetTimer?.Dispose();
-            dailyResetTimer = null;
-        });
+        System.NativeController.DisposeNode(ref infoTextNode);
+        System.NativeController.DisposeNode(ref openDailyDutyButton);
+        System.NativeController.DisposeNode(ref dailyResetTimer);
     }
 
     private void OnContentFinderUpdate(AddonContentsFinder* addon) {
