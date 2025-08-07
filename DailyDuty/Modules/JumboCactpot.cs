@@ -6,12 +6,12 @@ using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
 using KamiLib.Classes;
 
 namespace DailyDuty.Modules;

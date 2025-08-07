@@ -8,6 +8,7 @@ using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using DailyDuty.Windows;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Addon.Events;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
@@ -19,7 +20,6 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
 using KamiLib.Classes;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
@@ -273,7 +273,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             .PushColorRgba(Config.CompleteColor)
             .Append("Complete Task")
             .PopColor()
-            .ToSeString()
+            .ToReadOnlySeString()
             .ToDalamudString();
 
     protected override void UpdateTaskLists() {

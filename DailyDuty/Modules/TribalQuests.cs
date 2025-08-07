@@ -2,8 +2,8 @@
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using Dalamud.Bindings.ImGui;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using ImGuiNET;
 using KamiLib.Classes;
 
 namespace DailyDuty.Modules;

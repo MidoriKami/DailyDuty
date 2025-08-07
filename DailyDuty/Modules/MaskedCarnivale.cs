@@ -4,12 +4,12 @@ using DailyDuty.Classes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Interface.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using ImGuiNET;
 using Lumina.Excel.Sheets;
 using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
@@ -75,7 +75,7 @@ public unsafe class MaskedCarnivale : BaseModules.Modules.WeeklyTask<ModuleTaskD
 	}
 
 	private void AozContentResultPostSetup(AddonEvent eventType, AddonArgs addonInfo) {
-		var addon = (AtkUnitBase*) addonInfo.Addon;
+		var addon = (AtkUnitBase*) addonInfo.Addon.Address;
         
 		if (addon->AtkValues[112] is not { Type: ValueType.UInt, UInt: var completionIndex }) throw new Exception("Type Mismatch Exception");
 		if (addon->AtkValues[114] is not { Type: ValueType.Bool, Byte: var completionStatus }) throw new Exception("Type Mismatch Exception");

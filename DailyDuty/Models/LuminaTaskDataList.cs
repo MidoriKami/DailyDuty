@@ -5,9 +5,9 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using Dalamud.Interface;
-using ImGuiNET;
 using Lumina.Excel;
 using DailyDuty.Localization;
+using Dalamud.Bindings.ImGui;
 using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Models;

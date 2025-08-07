@@ -54,7 +54,7 @@ public unsafe partial class GrandCompanySquadron : BaseModules.Modules.Weekly<Gr
 
 	// The mission is no longer in progress when the window closes
 	private void GcArmyExpeditionResultPreFinalize(AddonEvent eventType, AddonArgs addonInfo) {
-		var addon = (AtkUnitBase*) addonInfo.Addon;
+		var addon = (AtkUnitBase*) addonInfo.Addon.Address;
                 
 		Data.MissionStarted = false;
 		DataChanged = true;

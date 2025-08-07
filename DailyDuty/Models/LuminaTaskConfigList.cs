@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Linq;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
-using ImGuiNET;
 using Lumina.Excel;
 using DailyDuty.Localization;
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility.Raii;
 using Lumina.Excel.Sheets;
 
@@ -117,7 +117,7 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
                         
 				ImGui.TableNextColumn();
 				var count = data.TargetCount;
-				ImGui.InputInt($"##TrackedItemCount{luminaData.Name}", ref count, 0, 0);
+				ImGui.InputInt($"##TrackedItemCount{luminaData.Name}", ref count);
 				if (ImGui.IsItemDeactivatedAfterEdit()) {
 					data.TargetCount = count;
 					result = true;
