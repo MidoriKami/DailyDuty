@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -10,18 +9,15 @@ using DailyDuty.Modules.BaseModules;
 using DailyDuty.Windows;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Addon.Events;
-using Dalamud.Game.Addon.Lifecycle;
-using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Hooking;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
-using KamiLib.Extensions;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
@@ -100,12 +96,12 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     private TextButtonNode? openDailyDutyButton;
     private TextNode? dailyResetTimer;
 
-    private Hook<AtkComponentListItemPopulator.PopulateDelegate>? onDutyListPopulate;
-    private readonly List<uint> modifiedIndexes = [];
-    
+    private readonly ContentFinderRouletteListController rouletteListController;
+
     public DutyRoulette() {
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "ContentsFinder", OnContentsFinderSetup); 
-        Service.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "ContentsFinder", OnContentsFinderFinalize);
+        rouletteListController = new ContentFinderRouletteListController();
+        rouletteListController.Apply += ApplyListModification;
+        rouletteListController.Reset += ResetListModification;
         
         System.ContentsFinderController.OnAttach += AttachNodes;
         System.ContentsFinderController.OnDetach += DetachNodes;
@@ -113,82 +109,38 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     public override void Dispose() {
-        Service.AddonLifecycle.UnregisterListener(OnContentsFinderSetup, OnContentsFinderFinalize);
-        
         System.ContentsFinderController.OnAttach -= AttachNodes;
         System.ContentsFinderController.OnDetach -= DetachNodes;
         System.ContentsFinderController.OnUpdate -= OnContentFinderUpdate;
         
-        onDutyListPopulate?.Dispose();
-        
-        base.Dispose();
+        rouletteListController.Dispose();
     }
     
-    private void OnContentsFinderSetup(AddonEvent type, AddonArgs args) {
-        var addon = args.GetAddon<AddonContentsFinder>();
-        var populateMethod = addon->DutyList->GetItemRendererByNodeId(6)->Populator.Populate;
-
-        onDutyListPopulate = Service.Hooker.HookFromAddress<AtkComponentListItemPopulator.PopulateDelegate>(populateMethod, OnPopulateHook);
-        onDutyListPopulate?.Enable();
-    }
-    
-    private void OnContentsFinderFinalize(AddonEvent type, AddonArgs args) {
-        onDutyListPopulate?.Dispose();
-        modifiedIndexes.Clear();
-    }
-
-    private void OnPopulateHook(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) => HookSafety.ExecuteSafe(() => {
-        var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
-        
-        var dutyName = listItemInfo->ListItem->StringValues[0].ToString();
-        var dutyInfo = Service.DataManager.GetExcelSheet<ContentRoulette>().FirstOrNull(roulette => string.Equals(dutyName, roulette.Category.ExtractText(), StringComparison.OrdinalIgnoreCase));
-
-        var dutyNameTextNode = (AtkTextNode*) nodeList[3];
-        var levelTextNode = (AtkTextNode*) nodeList[4];
-
+    private void ApplyListModification(ListPopulatorData<AddonContentsFinder> obj) {
         if (Config.ColorContentFinder) {
+            var roulette = GetRoulette(obj);
+            var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
             
-            // If this is already modified
-            if (modifiedIndexes.Contains(index)) {
-                
-                // And this is not a roulette
-                if (dutyInfo is null) {
-                    TryResetEntry(index, dutyNameTextNode, levelTextNode);
-                }
-                // else it is already colored correctly
-                
+            // If this roulette is being tracked, apply color
+            if (Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId) is { Enabled: true }) {
+                var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
+                dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
             }
-            
-            // else, this hasn't been modified, and is a roulette
-            else if (dutyInfo is { } roulette) {
-                
-                // If this roulette is being tracked, apply color
-                if (Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId) is { Enabled: true }) {
-                    var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
-                    dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
+        }
+    }
 
-                    modifiedIndexes.Add(index);
-                }
-                // else leave it unmodified
-                
-            }
-        }
-        else {
-            TryResetEntry(index, dutyNameTextNode, levelTextNode);
-        }
+    private static void ResetListModification(ListPopulatorData<AddonContentsFinder> obj) {
+        var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
+        var levelTextNode = (AtkTextNode*) obj.NodeList[4];
         
-        if (infoTextNode is not null) {
-            infoTextNode.IsVisible = modifiedIndexes.Count is not 0;
-        }
-    
-        onDutyListPopulate!.Original(unitBase, listItemInfo, nodeList);
-    }, Service.Log);
+        dutyNameTextNode->TextColor = levelTextNode->TextColor;
+    }
 
-    private void TryResetEntry(uint index, AtkTextNode* nameNode, AtkTextNode* levelNode) {
-        if (modifiedIndexes.Contains(index)) {
-            nameNode->TextColor = levelNode->TextColor;
-            modifiedIndexes.Remove(index);
-        }
+    private static ContentRoulette GetRoulette(ListPopulatorData<AddonContentsFinder> obj) {
+        var contentId = obj.ItemInfo->ListItem->UIntValues[1];
+        var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
+        var contentData = contentEntry.Value->Id;
+        return Service.DataManager.GetExcelSheet<ContentRoulette>().GetRow(contentData.Id);
     }
 
     private void AttachNodes(AddonContentsFinder* addon) {
@@ -259,6 +211,10 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         if (dailyResetTimer is not null) {
             dailyResetTimer.IsVisible = Config.ShowResetTimer && addon->SelectedRadioButton == 0;
         }
+                
+        if (infoTextNode is not null) {
+            infoTextNode.IsVisible = rouletteListController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
+        }
     }
 
     private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon)
@@ -277,7 +233,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             .ToDalamudString();
 
     protected override void UpdateTaskLists() {
-        var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.ExtractText() != string.Empty);
+        var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.ToString() != string.Empty);
         luminaUpdater.UpdateConfig(Config.TaskConfig);
         luminaUpdater.UpdateData(Data.TaskData);
     }

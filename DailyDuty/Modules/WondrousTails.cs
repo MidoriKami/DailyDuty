@@ -1,15 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
+using Dalamud.Game.Addon.Lifecycle;
+using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
+using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
+using KamiToolKit.Classes;
+using KamiToolKit.Extensions;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Modules;
 
@@ -47,6 +58,9 @@ public class WondrousTailsConfig : ModuleConfig {
 	public bool UnclaimedBookWarning = true;
 	public bool ShuffleAvailableNotice;
 	public bool ClickableLink = true;
+	public bool CloverIndicator;
+	public bool ColorDutyFinderText;
+	public Vector4 DutyFinderColor = KnownColor.Yellow.Vector();
 	
 	protected override void DrawModuleConfig() {
 		ConfigChanged |= ImGui.Checkbox(Strings.InstanceNotifications, ref InstanceNotifications);
@@ -54,6 +68,11 @@ public class WondrousTailsConfig : ModuleConfig {
 		ConfigChanged |= ImGui.Checkbox(Strings.UnclaimedBookWarning, ref UnclaimedBookWarning);
 		ConfigChanged |= ImGui.Checkbox(Strings.ShuffleAvailableNotice, ref ShuffleAvailableNotice);
 		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGui.Checkbox("Duty Finder Clover", ref CloverIndicator);
+		ConfigChanged |= ImGui.Checkbox("Duty Finder Text Color", ref ColorDutyFinderText);
+
+		ImGui.ColorEdit4("Duty Finder Color", ref DutyFinderColor, ImGuiColorEditFlags.NoInputs | ImGuiColorEditFlags.AlphaBar);
+		ConfigChanged |= ImGui.IsItemDeactivatedAfterEdit();
 	}
 }
 
@@ -64,16 +83,170 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
     
 	public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.IdyllshireTeleport : PayloadId.OpenWondrousTailsBook;
 
+	private readonly ContentFinderDutyListController dutyListController;
+	
+	private readonly Dictionary<uint, WondrousTailsNode> imageNodes = [];
+	private readonly Dictionary<uint, List<uint>> wondrousTailsDuties = [];
+
+	private bool isShowingTooltip;
+	
 	public WondrousTails() {
+		dutyListController = new ContentFinderDutyListController();
+		dutyListController.Apply += ApplyListModification;
+		dutyListController.Update += UpdateListModification;
+		dutyListController.Reset += ResetListModification;
+		dutyListController.OnOpen += OnContentsFinderSetup;
+		dutyListController.OnClose += ResetState;
+		
+		Service.AddonLifecycle.RegisterListener(AddonEvent.PostDraw, "ContentsFinder", OnContentsFinderDraw);
+        
 		Service.DutyState.DutyStarted += OnDutyStarted;
 		Service.DutyState.DutyCompleted += OnDutyCompleted;
 	}
 
+	private void ResetState() {
+		foreach (var node in imageNodes.Values) {
+			node.Dispose();
+		}
+		imageNodes.Clear();
+	}
+
 	public override void Dispose() {
+		Service.AddonLifecycle.UnregisterListener(OnContentsFinderDraw);
+        
+		dutyListController.Dispose();
+		
 		Service.DutyState.DutyStarted -= OnDutyStarted;
 		Service.DutyState.DutyCompleted -= OnDutyCompleted;
 	}
 	
+	private void OnContentsFinderSetup() {
+		wondrousTailsDuties.Clear();
+		
+		foreach (var index in Enumerable.Range(0, 16)) {
+			var tailsTaskId = PlayerState.Instance()->WeeklyBingoOrderData[index];
+			var tailsDuties = Service.DataManager.GetDutiesForOrderData(tailsTaskId).Select(cfc => cfc.RowId).ToList();
+			wondrousTailsDuties.Add((uint) index, tailsDuties);
+		}
+	}
+	
+	private void OnContentsFinderDraw(AddonEvent type, AddonArgs args) {
+		ref var cursor = ref UIInputData.Instance()->CursorInputs;
+		
+		foreach (var node in imageNodes.Values) {
+			if (node.CheckCollision((short) cursor.PositionX, (short) cursor.PositionY)) {
+				AtkStage.Instance()->TooltipManager.ShowTooltip(args.Addon.Id, (AtkResNode*)node, 
+					"[DailyDuty] This duty has an associated task in the Wondrous Tails Book.");
+				isShowingTooltip = true;
+				return;
+			}
+		}
+
+		if (isShowingTooltip) {
+			AtkStage.Instance()->TooltipManager.HideTooltip(args.Addon.Id);
+			isShowingTooltip = false;
+		}
+	}
+
+	private void ApplyListModification(ListPopulatorData<AddonContentsFinder> obj) {
+		var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
+		
+		if (Config.CloverIndicator && IsTailsTask(obj)) {
+			AttachCloverNode(obj, dutyNameTextNode);
+		}
+
+		if (Config.ColorDutyFinderText && IsTailsTask(obj) && IsTaskAvailable(obj)) {
+			dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
+		}
+	}
+
+	private void UpdateListModification(ListPopulatorData<AddonContentsFinder> obj) {
+		var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
+		var levelTextNode = (AtkTextNode*) obj.NodeList[4];
+		
+		if (IsTailsTask(obj)) {
+			if (IsTaskAvailable(obj)) {
+				if (imageNodes.TryGetValue(obj.Index, out var node)) {
+					node.IsVisible = true;
+					node.IsTaskAvailable = true;
+				}
+				else {
+					AttachCloverNode(obj, dutyNameTextNode);
+				}
+				
+				dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
+			}
+			else {
+				if (imageNodes.TryGetValue(obj.Index, out var node)) {
+					node.IsVisible = true;
+					node.IsTaskAvailable = false;
+				}
+				else {
+					AttachCloverNode(obj, dutyNameTextNode);
+				}
+
+				dutyNameTextNode->TextColor = levelTextNode->TextColor;
+			}
+		}
+		else {
+			if (imageNodes.TryGetValue(obj.Index, out var node)) {
+				node.IsVisible = false;
+			}
+			
+			dutyNameTextNode->TextColor = levelTextNode->TextColor;
+		}
+	}
+
+	private void AttachCloverNode(ListPopulatorData<AddonContentsFinder> obj, AtkTextNode* dutyNameTextNode) {
+		dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width - 24.0f);
+
+		var newNode = new WondrousTailsNode {
+			Size = new Vector2(24.0f, 24.0f),
+			Position = new Vector2(dutyNameTextNode->X + dutyNameTextNode->Width, 0.0f),
+			IsVisible = true,
+			IsTaskAvailable = IsTaskAvailable(obj),
+		};
+		System.NativeController.AttachNode(newNode, (AtkResNode*) dutyNameTextNode, NodePosition.AfterTarget);
+
+		imageNodes.Add(obj.Index, newNode);
+	}
+
+	private void ResetListModification(ListPopulatorData<AddonContentsFinder> obj) {
+		var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
+		var levelTextNode = (AtkTextNode*) obj.NodeList[4];
+
+		// Remove node
+		if (imageNodes.TryGetValue(obj.Index, out var node)) {
+			dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width + 24.0f);
+
+			System.NativeController.DetachNode(node);
+			imageNodes.Remove(obj.Index);
+			node.Dispose();
+		}
+		
+		// Reset Color
+		dutyNameTextNode->TextColor = levelTextNode->TextColor;
+	}
+
+	private static ContentFinderCondition GetContentFinderCondition(ListPopulatorData<AddonContentsFinder> obj) {
+		var contentId = obj.ItemInfo->ListItem->UIntValues[1];
+		var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
+		var contentData = contentEntry.Value->Id;
+		return Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(contentData.Id);
+	}
+
+	private bool IsTailsTask(ListPopulatorData<AddonContentsFinder> obj)
+		=> IsTailsTask(GetContentFinderCondition(obj));
+
+	private bool IsTaskAvailable(ListPopulatorData<AddonContentsFinder> obj) {
+		var contentFinderEntry = GetContentFinderCondition(obj);
+		var taskState = GetStatusForDuty(contentFinderEntry.RowId);
+		return taskState is PlayerState.WeeklyBingoTaskStatus.Claimable or PlayerState.WeeklyBingoTaskStatus.Open;
+	}
+
+	private bool IsTailsTask(ContentFinderCondition cfc)
+		=> wondrousTailsDuties.Values.Any(dutyList => dutyList.Contains(cfc.RowId));
+
 	public override void Update() {
 		Data.PlacedStickers = TryUpdateData(Data.PlacedStickers, PlayerState.Instance()->WeeklyBingoNumPlacedStickers);
 		Data.SecondChance = TryUpdateData(Data.SecondChance, PlayerState.Instance()->WeeklyBingoNumSecondChancePoints);
@@ -180,6 +353,16 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 
 			if (territoriesForSlot.Any(terr => terr.RowId == territory)) {
 				return PlayerState.Instance()->GetWeeklyBingoTaskStatus(index);
+			}
+		}
+
+		return null;
+	}
+
+	private PlayerState.WeeklyBingoTaskStatus? GetStatusForDuty(uint cfc) { 
+		foreach(var (taskId, dutyList) in wondrousTailsDuties) {
+			if (dutyList.Contains(cfc)) {
+				return PlayerState.Instance()->GetWeeklyBingoTaskStatus((int)taskId);
 			}
 		}
 
