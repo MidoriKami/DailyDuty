@@ -71,8 +71,8 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
 	private bool DrawContentsNoteConfig() {
 		var result = false;
 		
-		foreach (var category in Service.DataManager.GetExcelSheet<ContentsNoteCategory>().Where(category => category.Unknown0.ExtractText() != string.Empty)) {
-			if (ImGui.CollapsingHeader(category.Unknown0.ExtractText())) {
+		foreach (var category in Service.DataManager.GetExcelSheet<ContentsNoteCategory>().Where(category => category.Unknown0.ToString() != string.Empty)) {
+			if (ImGui.CollapsingHeader(category.Unknown0.ToString())) {
 				using var indent = ImRaii.PushIndent();
 				
 				foreach (var option in ConfigList) {

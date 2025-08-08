@@ -75,8 +75,8 @@ public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : st
                 
 				case LuminaTaskDataList<MobHuntOrderType>:
 					var mobHuntOrderType = Service.DataManager.GetExcelSheet<MobHuntOrderType>().GetRow(dataEntry.RowId);
-					var eventItemName = mobHuntOrderType.EventItem.Value.Name.ExtractText();
-					if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value.Singular.ExtractText();
+					var eventItemName = mobHuntOrderType.EventItem.Value.Name.ToString();
+					if (eventItemName == string.Empty) eventItemName = mobHuntOrderType.EventItem.Value.Singular.ToString();
 
 					var mobHuntLabel = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItemName);
 					ImGui.Text(mobHuntLabel);

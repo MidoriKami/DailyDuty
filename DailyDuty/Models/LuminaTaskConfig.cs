@@ -24,8 +24,8 @@ public class LuminaTaskConfig<T> {
     private static string GetMobHuntOrderTypeString(uint row) {
         var itemInfo = Service.DataManager.GetExcelSheet<MobHuntOrderType>().GetRow(row);
         
-        var eventItem = itemInfo.EventItem.Value.Name.ExtractText();
-        if(eventItem == string.Empty) eventItem = itemInfo.EventItem.Value.Singular.ExtractText();
+        var eventItem = itemInfo.EventItem.Value.Name.ToString();
+        if(eventItem == string.Empty) eventItem = itemInfo.EventItem.Value.Singular.ToString();
 
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(eventItem);
     }
