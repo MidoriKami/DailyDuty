@@ -9,6 +9,7 @@ using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using KamiLib.Classes;
 
 namespace DailyDuty.Modules;
 
@@ -41,12 +42,14 @@ public class WondrousTailsData : ModuleData {
 }
 
 public class WondrousTailsConfig : ModuleConfig {
+	public bool InstanceNotifications = true;
 	public bool StickerAvailableNotice = true;
 	public bool UnclaimedBookWarning = true;
 	public bool ShuffleAvailableNotice;
 	public bool ClickableLink = true;
 	
 	protected override void DrawModuleConfig() {
+		ConfigChanged |= ImGui.Checkbox(Strings.InstanceNotifications, ref InstanceNotifications);
 		ConfigChanged |= ImGui.Checkbox(Strings.StickerAvailableNotice, ref StickerAvailableNotice);
 		ConfigChanged |= ImGui.Checkbox(Strings.UnclaimedBookWarning, ref UnclaimedBookWarning);
 		ConfigChanged |= ImGui.Checkbox(Strings.ShuffleAvailableNotice, ref ShuffleAvailableNotice);
@@ -61,6 +64,16 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
     
 	public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.IdyllshireTeleport : PayloadId.OpenWondrousTailsBook;
 
+	public WondrousTails() {
+		Service.DutyState.DutyStarted += OnDutyStarted;
+		Service.DutyState.DutyCompleted += OnDutyCompleted;
+	}
+
+	public override void Dispose() {
+		Service.DutyState.DutyStarted -= OnDutyStarted;
+		Service.DutyState.DutyCompleted -= OnDutyCompleted;
+	}
+	
 	public override void Update() {
 		Data.PlacedStickers = TryUpdateData(Data.PlacedStickers, PlayerState.Instance()->WeeklyBingoNumPlacedStickers);
 		Data.SecondChance = TryUpdateData(Data.SecondChance, PlayerState.Instance()->WeeklyBingoNumSecondChancePoints);
@@ -105,7 +118,74 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 			}
 		}
 	}
+	
+	private void OnDutyStarted(object? sender, ushort e) {
+		if (!Config.ModuleEnabled) return;
+		if (!Config.InstanceNotifications) return;
+		if (Data is not { PlayerHasBook: true, BookExpired: false }) return;
+		if (GetModuleStatus() == ModuleStatus.Complete) return;
+		if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
 
+		var taskState = GetStatusForTerritory(e);
+
+		switch (taskState) {
+			case PlayerState.WeeklyBingoTaskStatus.Claimed when Data is { PlacedStickers: > 0, SecondChance: > 0}:
+				PrintMessage(Strings.RerollNotice);
+				PrintMessage(string.Format(Strings.RerollsAvailable, Data.SecondChance), true);
+				break;
+            
+			case PlayerState.WeeklyBingoTaskStatus.Claimable:
+				PrintMessage(Strings.StampAlreadyAvailable, true);
+				break;
+            
+			case PlayerState.WeeklyBingoTaskStatus.Open:
+				PrintMessage(Strings.CompletionAvailable);
+				break;
+		}
+	}
+
+	private void OnDutyCompleted(object? sender, ushort e) {
+		if (!Config.ModuleEnabled) return;
+		if (!Config.InstanceNotifications) return;
+		if (Data is not { PlayerHasBook: true, BookExpired: false }) return;
+		if (GetModuleStatus() == ModuleStatus.Complete) return;
+		if (!PlayerState.Instance()->HasWeeklyBingoJournal) return;
+
+		var taskState = GetStatusForTerritory(e);
+
+		switch (taskState)
+		{
+			case PlayerState.WeeklyBingoTaskStatus.Claimable:
+			case PlayerState.WeeklyBingoTaskStatus.Open:
+				PrintMessage(Strings.StampClaimable, true);
+				break;
+		}
+	}
+	
+	private void PrintMessage(string message, bool withPayload = false) {
+		var statusMessage = new LinkedStatusMessage {
+			LinkEnabled = withPayload,
+			Message = message,
+			Payload = PayloadId.OpenWondrousTailsBook,
+			SourceModule = ModuleName,
+			MessageChannel = GetChatChannel(),
+		};
+		
+		statusMessage.PrintMessage();
+	}
+	
+	private static PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory) {
+		foreach (var index in Enumerable.Range(0, 16)) {
+			var territoriesForSlot = Service.DataManager.GetTerritoriesForOrderData(PlayerState.Instance()->WeeklyBingoOrderData[index]);
+
+			if (territoriesForSlot.Any(terr => terr.RowId == territory)) {
+				return PlayerState.Instance()->GetWeeklyBingoTaskStatus(index);
+			}
+		}
+
+		return null;
+	}
+	
 	protected override ModuleStatus GetModuleStatus() {
 		if (Config.UnclaimedBookWarning && Data.NewBookAvailable) return ModuleStatus.Incomplete;
 
