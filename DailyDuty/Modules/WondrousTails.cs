@@ -58,7 +58,7 @@ public class WondrousTailsConfig : ModuleConfig {
 	public bool UnclaimedBookWarning = true;
 	public bool ShuffleAvailableNotice;
 	public bool ClickableLink = true;
-	public bool CloverIndicator;
+	public bool CloverIndicator = true;
 	public bool ColorDutyFinderText;
 	public Vector4 DutyFinderColor = KnownColor.Yellow.Vector();
 	
@@ -174,7 +174,9 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 					AttachCloverNode(obj, dutyNameTextNode);
 				}
 				
-				dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
+				if (Config.ColorDutyFinderText) {
+					dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
+				}
 			}
 			else {
 				if (imageNodes.TryGetValue(obj.Index, out var node)) {
@@ -198,6 +200,8 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 	}
 
 	private void AttachCloverNode(ListPopulatorData<AddonContentsFinder> obj, AtkTextNode* dutyNameTextNode) {
+		if (!Config.CloverIndicator) return;
+
 		dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width - 24.0f);
 
 		var newNode = new WondrousTailsNode {
