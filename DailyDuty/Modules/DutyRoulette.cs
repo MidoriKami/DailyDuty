@@ -101,6 +101,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     public DutyRoulette() {
         rouletteListController = new ContentFinderRouletteListController();
         rouletteListController.Apply += ApplyListModification;
+        rouletteListController.Update += UpdateListModification;
         rouletteListController.Reset += ResetListModification;
         
         System.ContentsFinderController.OnAttach += AttachNodes;
@@ -115,7 +116,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         
         rouletteListController.Dispose();
     }
-    
+
     private void ApplyListModification(ListPopulatorData<AddonContentsFinder> obj) {
         if (Config.ColorContentFinder) {
             var roulette = GetRoulette(obj);
@@ -126,6 +127,29 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
                 var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
                 dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
             }
+        }
+    }
+    
+    private void UpdateListModification(ListPopulatorData<AddonContentsFinder> obj) {
+        var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
+        var levelTextNode = (AtkTextNode*) obj.NodeList[4];
+        
+        if (Config.ColorContentFinder) {
+            var roulette = GetRoulette(obj);
+            
+            // If this roulette is being tracked, apply color
+            if (Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId) is { Enabled: true }) {
+                var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
+                dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
+            }
+            else {
+                dutyNameTextNode->TextColor = levelTextNode->TextColor;
+                rouletteListController.UntrackElement(obj.Index);
+            }
+        }
+        else {
+            dutyNameTextNode->TextColor = levelTextNode->TextColor;
+            rouletteListController.UntrackElement(obj.Index);
         }
     }
 
