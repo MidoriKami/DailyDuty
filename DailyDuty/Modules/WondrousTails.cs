@@ -18,6 +18,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
+using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
 using Lumina.Excel.Sheets;
@@ -83,7 +84,7 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
     
 	public override PayloadId ClickableLinkPayloadId => Data.NewBookAvailable ? PayloadId.IdyllshireTeleport : PayloadId.OpenWondrousTailsBook;
 
-	private readonly ContentFinderDutyListController dutyListController;
+	private readonly NativeListController dutyListController;
 	
 	private readonly Dictionary<uint, WondrousTailsNode> imageNodes = [];
 	private readonly Dictionary<uint, List<uint>> wondrousTailsDuties = [];
@@ -91,10 +92,12 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 	private bool isShowingTooltip;
 	
 	public WondrousTails() {
-		dutyListController = new ContentFinderDutyListController();
-		dutyListController.Apply += ApplyListModification;
-		dutyListController.Update += UpdateListModification;
-		dutyListController.Reset += ResetListModification;
+		dutyListController = new NativeListController("ContentsFinder") {
+			GetPopulatorNode = GetPopulatorNode,
+			ShouldModifyElement = ShouldModifyElement,
+			UpdateElement = UpdateElement,
+			ResetElement = ResetElement,
+		};
 		dutyListController.OnOpen += OnContentsFinderSetup;
 		dutyListController.OnClose += ResetState;
 		
@@ -102,13 +105,6 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
         
 		Service.DutyState.DutyStarted += OnDutyStarted;
 		Service.DutyState.DutyCompleted += OnDutyCompleted;
-	}
-
-	private void ResetState() {
-		foreach (var node in imageNodes.Values) {
-			node.Dispose();
-		}
-		imageNodes.Clear();
 	}
 
 	public override void Dispose() {
@@ -119,7 +115,98 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		Service.DutyState.DutyStarted -= OnDutyStarted;
 		Service.DutyState.DutyCompleted -= OnDutyCompleted;
 	}
-	
+
+	private AtkComponentListItemRenderer* GetPopulatorNode(AtkUnitBase* addon) {
+		var contentsFinder = (AddonContentsFinder*) addon;
+		return contentsFinder->DutyList->GetItemRendererByNodeId(6);
+	}
+
+	private bool ShouldModifyElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+		var contentId = listItemInfo->ListItem->UIntValues[1];
+		var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
+		var contentData = contentEntry.Value->Id;
+
+		if (Config is { CloverIndicator: false, ColorDutyFinderText: false }) return false;
+		if (contentData.ContentType is not ContentsId.ContentsType.Regular) return false;
+		
+		var cfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(contentData.Id);
+		return IsTailsTask(cfc);
+	}
+
+	private void UpdateElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+		var dutyNameTextNode = (AtkTextNode*) nodeList[3];
+		var levelTextNode = (AtkTextNode*) nodeList[4];
+
+		var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
+		
+		var contentId = listItemInfo->ListItem->UIntValues[1];
+		var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
+		var contentData = contentEntry.Value->Id;
+		var cfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(contentData.Id);
+
+		// If clover is enabled
+		if (Config.CloverIndicator) {
+			
+			// And it is attached already, update it
+			if (imageNodes.TryGetValue(index, out var node)) {
+				node.IsVisible = true;
+				node.IsTaskAvailable = IsTaskAvailable(cfc);
+			}
+			
+			// else make it and attach it
+			else {
+				dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width - 24.0f);
+
+				var newNode = new WondrousTailsNode {
+					Size = new Vector2(24.0f, 24.0f),
+					Position = new Vector2(dutyNameTextNode->X + dutyNameTextNode->Width, 0.0f),
+					IsVisible = true,
+					IsTaskAvailable = IsTaskAvailable(cfc),
+				};
+				System.NativeController.AttachNode(newNode, (AtkResNode*) dutyNameTextNode, NodePosition.AfterTarget);
+
+				imageNodes.Add(index, newNode);
+			}
+		}
+
+		if (Config.ColorDutyFinderText) {
+			if (IsTaskAvailable(cfc)) {
+				dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
+			}
+			else {
+				dutyNameTextNode->TextColor = levelTextNode->TextColor;
+			}
+		}
+		else {
+			dutyNameTextNode->TextColor = levelTextNode->TextColor;
+		}
+	}
+
+	private void ResetElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+		var dutyNameTextNode = (AtkTextNode*) nodeList[3];
+		var levelTextNode = (AtkTextNode*) nodeList[4];
+		var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
+
+		// Remove node
+		if (imageNodes.TryGetValue(index, out var node)) {
+			dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width + 24.0f);
+
+			System.NativeController.DetachNode(node);
+			imageNodes.Remove(index);
+			node.Dispose();
+		}
+		
+		// Reset Color
+		dutyNameTextNode->TextColor = levelTextNode->TextColor;
+	}
+
+	private void ResetState() {
+		foreach (var node in imageNodes.Values) {
+			node.Dispose();
+		}
+		imageNodes.Clear();
+	}
+
 	private void OnContentsFinderSetup() {
 		wondrousTailsDuties.Clear();
 		
@@ -148,103 +235,8 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		}
 	}
 
-	private void ApplyListModification(ListPopulatorData<AddonContentsFinder> obj) {
-		var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
-		
-		if (Config.CloverIndicator && IsTailsTask(obj)) {
-			AttachCloverNode(obj, dutyNameTextNode);
-		}
-
-		if (Config.ColorDutyFinderText && IsTailsTask(obj) && IsTaskAvailable(obj)) {
-			dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
-		}
-	}
-
-	private void UpdateListModification(ListPopulatorData<AddonContentsFinder> obj) {
-		var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
-		var levelTextNode = (AtkTextNode*) obj.NodeList[4];
-		
-		if (IsTailsTask(obj)) {
-			if (IsTaskAvailable(obj)) {
-				if (imageNodes.TryGetValue(obj.Index, out var node)) {
-					node.IsVisible = true;
-					node.IsTaskAvailable = true;
-				}
-				else {
-					AttachCloverNode(obj, dutyNameTextNode);
-				}
-				
-				if (Config.ColorDutyFinderText) {
-					dutyNameTextNode->TextColor = Config.DutyFinderColor.ToByteColor();
-				}
-			}
-			else {
-				if (imageNodes.TryGetValue(obj.Index, out var node)) {
-					node.IsVisible = true;
-					node.IsTaskAvailable = false;
-				}
-				else {
-					AttachCloverNode(obj, dutyNameTextNode);
-				}
-
-				dutyNameTextNode->TextColor = levelTextNode->TextColor;
-			}
-		}
-		else {
-			if (imageNodes.TryGetValue(obj.Index, out var node)) {
-				node.IsVisible = false;
-			}
-			
-			dutyNameTextNode->TextColor = levelTextNode->TextColor;
-		}
-	}
-
-	private void AttachCloverNode(ListPopulatorData<AddonContentsFinder> obj, AtkTextNode* dutyNameTextNode) {
-		if (!Config.CloverIndicator) return;
-
-		dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width - 24.0f);
-
-		var newNode = new WondrousTailsNode {
-			Size = new Vector2(24.0f, 24.0f),
-			Position = new Vector2(dutyNameTextNode->X + dutyNameTextNode->Width, 0.0f),
-			IsVisible = true,
-			IsTaskAvailable = IsTaskAvailable(obj),
-		};
-		System.NativeController.AttachNode(newNode, (AtkResNode*) dutyNameTextNode, NodePosition.AfterTarget);
-
-		imageNodes.Add(obj.Index, newNode);
-	}
-
-	private void ResetListModification(ListPopulatorData<AddonContentsFinder> obj) {
-		var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
-		var levelTextNode = (AtkTextNode*) obj.NodeList[4];
-
-		// Remove node
-		if (imageNodes.TryGetValue(obj.Index, out var node)) {
-			dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width + 24.0f);
-
-			System.NativeController.DetachNode(node);
-			imageNodes.Remove(obj.Index);
-			node.Dispose();
-		}
-		
-		// Reset Color
-		dutyNameTextNode->TextColor = levelTextNode->TextColor;
-	}
-
-	private static ContentFinderCondition GetContentFinderCondition(ListPopulatorData<AddonContentsFinder> obj) {
-		var contentId = obj.ItemInfo->ListItem->UIntValues[1];
-		var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
-		var contentData = contentEntry.Value->Id;
-		return Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(contentData.Id);
-	}
-
-	private bool IsTailsTask(ListPopulatorData<AddonContentsFinder> obj)
-		=> IsTailsTask(GetContentFinderCondition(obj));
-
-	private bool IsTaskAvailable(ListPopulatorData<AddonContentsFinder> obj) {
-		var contentFinderEntry = GetContentFinderCondition(obj);
-		var taskState = GetStatusForDuty(contentFinderEntry.RowId);
+	private bool IsTaskAvailable(ContentFinderCondition cfc) {
+		var taskState = GetStatusForDuty(cfc.RowId);
 		return taskState is PlayerState.WeeklyBingoTaskStatus.Claimable or PlayerState.WeeklyBingoTaskStatus.Open;
 	}
 

@@ -18,6 +18,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
+using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
@@ -96,75 +97,61 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     private TextButtonNode? openDailyDutyButton;
     private TextNode? dailyResetTimer;
 
-    private readonly ContentFinderRouletteListController rouletteListController;
+    private readonly NativeListController rouletteListController;
 
     public DutyRoulette() {
-        rouletteListController = new ContentFinderRouletteListController();
-        rouletteListController.Apply += ApplyListModification;
-        rouletteListController.Update += UpdateListModification;
-        rouletteListController.Reset += ResetListModification;
+        rouletteListController = new NativeListController("ContentsFinder") {
+            ShouldModifyElement = ShouldModifyElement,
+            UpdateElement = UpdateElement,
+            ResetElement = ResetElement,
+            GetPopulatorNode = GetPopulatorNode,
+        };
         
         System.ContentsFinderController.OnAttach += AttachNodes;
         System.ContentsFinderController.OnDetach += DetachNodes;
         System.ContentsFinderController.OnUpdate += OnContentFinderUpdate;
     }
-
+    
     public override void Dispose() {
-        System.ContentsFinderController.OnAttach -= AttachNodes;
-        System.ContentsFinderController.OnDetach -= DetachNodes;
-        System.ContentsFinderController.OnUpdate -= OnContentFinderUpdate;
-        
         rouletteListController.Dispose();
     }
 
-    private void ApplyListModification(ListPopulatorData<AddonContentsFinder> obj) {
-        if (Config.ColorContentFinder) {
-            var roulette = GetRoulette(obj);
-            var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
-            
-            // If this roulette is being tracked, apply color
-            if (Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId) is { Enabled: true }) {
-                var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
-                dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
-            }
-        }
-    }
-    
-    private void UpdateListModification(ListPopulatorData<AddonContentsFinder> obj) {
-        var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
-        var levelTextNode = (AtkTextNode*) obj.NodeList[4];
-        
-        if (Config.ColorContentFinder) {
-            var roulette = GetRoulette(obj);
-            
-            // If this roulette is being tracked, apply color
-            if (Config.TaskConfig.FirstOrDefault(task => task.RowId == roulette.RowId) is { Enabled: true }) {
-                var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) roulette.RowId);
-                dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
-            }
-            else {
-                dutyNameTextNode->TextColor = levelTextNode->TextColor;
-                rouletteListController.UntrackElement(obj.Index);
-            }
-        }
-        else {
-            dutyNameTextNode->TextColor = levelTextNode->TextColor;
-            rouletteListController.UntrackElement(obj.Index);
-        }
+    private AtkComponentListItemRenderer* GetPopulatorNode(AtkUnitBase* addon) {
+        var contentsFinder = (AddonContentsFinder*) addon;
+        return contentsFinder->DutyList->GetItemRendererByNodeId(6);
     }
 
-    private static void ResetListModification(ListPopulatorData<AddonContentsFinder> obj) {
-        var dutyNameTextNode = (AtkTextNode*) obj.NodeList[3];
-        var levelTextNode = (AtkTextNode*) obj.NodeList[4];
+    private bool ShouldModifyElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+        var contentData = GetContentData(listItemInfo);
+
+        if (!Config.ColorContentFinder) return false;
+        if (contentData.ContentType is not ContentsId.ContentsType.Roulette) return false;
+        
+        var contentRoulette = Service.DataManager.GetExcelSheet<ContentRoulette>().GetRow(contentData.Id);
+        return Config.TaskConfig.FirstOrDefault(task => task.RowId == contentRoulette.RowId) is { Enabled: true };
+    }
+
+    private void UpdateElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+        var dutyNameTextNode = (AtkTextNode*) nodeList[3];
+        var contentData = GetContentData(listItemInfo);
+        var contentRoulette = Service.DataManager.GetExcelSheet<ContentRoulette>().GetRow(contentData.Id);
+
+        var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) contentRoulette.RowId);
+        dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
+    }
+
+    private void ResetElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+        var dutyNameTextNode = (AtkTextNode*) nodeList[3];
+        var levelTextNode = (AtkTextNode*) nodeList[4];
         
         dutyNameTextNode->TextColor = levelTextNode->TextColor;
     }
 
-    private static ContentRoulette GetRoulette(ListPopulatorData<AddonContentsFinder> obj) {
-        var contentId = obj.ItemInfo->ListItem->UIntValues[1];
+    private static ContentsId GetContentData(AtkComponentListItemPopulator.ListItemInfo* listItemInfo) {
+        var contentId = listItemInfo->ListItem->UIntValues[1];
         var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
         var contentData = contentEntry.Value->Id;
-        return Service.DataManager.GetExcelSheet<ContentRoulette>().GetRow(contentData.Id);
+        return contentData;
     }
 
     private void AttachNodes(AddonContentsFinder* addon) {
