@@ -19,4 +19,5 @@ public sealed class Service {
     [PluginService] public static IDataManager DataManager { get; set; }
     [PluginService] public static IGameInventory GameInventory { get; set; }
     [PluginService] public static IDutyState DutyState { get; set; }
+    [PluginService] public static IDtrBar DtrBar { get; set; }
 }

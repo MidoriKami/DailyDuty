@@ -26,6 +26,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.PayloadController = new PayloadController();
         System.ContentsFinderController = new AddonController<AddonContentsFinder>("ContentsFinder");
         
+        System.DtrController = new DtrController();
         System.ModuleController = new ModuleController();
         System.TodoListController = new TodoListController();
         System.TimersController = new TimersController();
@@ -58,6 +59,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ContentsFinderController.Dispose();
 
         System.ModuleController.Dispose();
+        System.DtrController.Dispose();
 
         System.CommandManager.Dispose();
 
@@ -78,6 +80,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         System.TodoListController.Update();
         System.TimersController.Update();
+        System.DtrController.Update();
     }
     
     private static void OnLogin() {
@@ -85,12 +88,14 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleController.LoadModules();
         System.ContentsFinderController.Enable();
         System.OverlayController.Enable();
+        System.DtrController.Load();
     }
     
     private static void OnLogout(int type, int code) {
         System.OverlayController.Disable();
         System.ContentsFinderController.Disable();
         System.ModuleController.UnloadModules();
+        System.DtrController.Unload();
     }
     
     private static void OnZoneChange(ushort territoryTypeId) {
