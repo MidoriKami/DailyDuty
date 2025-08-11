@@ -27,6 +27,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     protected override List<ITabItem> Tabs { get; } = [
         new TodoConfigTab(),
         new TimersConfigTab(),
+        new ServerInfoBarTab(),
     ];
     
     protected override List<Module> Options => System.ModuleController.Modules;
@@ -626,6 +627,23 @@ public class TimersConfigTab : ITabItem {
         ImGuiTweaks.SetFullWidth();
         if (ImGui.Checkbox("##ShowTimer", ref showTimer)) {
             node.ShowTimer = showTimer;
+        }
+    }
+}
+
+public class ServerInfoBarTab : ITabItem {
+    public string Name => "Server Info Bar";
+    public bool Disabled => false;
+
+    public void Draw() {
+        ImGuiTweaks.Header("Server Info Bar Config");
+        using var indent = ImRaii.PushIndent();
+        
+        if (System.DtrController.Config is { } dtrEntry) {
+            dtrEntry.DrawConfig();
+        }
+        else {
+            ImGui.TextColored(KnownColor.OrangeRed.Vector(), "Failed to load Server Info Bar Controller.");
         }
     }
 }
