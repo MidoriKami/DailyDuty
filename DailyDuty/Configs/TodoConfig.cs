@@ -1,6 +1,6 @@
 ﻿using KamiLib.Configuration;
 
-namespace DailyDuty.Models;
+namespace DailyDuty.Configs;
 
 public class TodoConfig {
     public bool Enabled = false;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Configs;
 using DailyDuty.CustomNodes;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;

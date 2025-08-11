@@ -1,4 +1,5 @@
 ﻿using DailyDuty.Classes;
+using DailyDuty.Configs;
 using Dalamud.Plugin;
 using DailyDuty.Models;
 using DailyDuty.Windows;

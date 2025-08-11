@@ -1,4 +1,5 @@
 using DailyDuty.Classes;
+using DailyDuty.Configs;
 using DailyDuty.Models;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Client.UI;

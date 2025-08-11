@@ -1,7 +1,7 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiLib.Configuration;
 
-namespace DailyDuty.Models;
+namespace DailyDuty.Configs;
 
 public unsafe class SystemConfig : CharacterConfiguration {
     public bool HideDisabledModules = false;
