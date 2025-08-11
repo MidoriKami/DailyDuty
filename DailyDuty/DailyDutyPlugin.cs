@@ -1,7 +1,6 @@
 ﻿using DailyDuty.Classes;
 using DailyDuty.Configs;
 using Dalamud.Plugin;
-using DailyDuty.Models;
 using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;

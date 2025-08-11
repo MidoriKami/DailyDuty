@@ -2,7 +2,6 @@
 using System.Numerics;
 using DailyDuty.Configs;
 using DailyDuty.CustomNodes;
-using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.CommandManager;

@@ -225,10 +225,10 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     }
 
     private T LoadData()
-        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.data.json", () => new T());
+        => Service.PluginInterface.LoadCharacterFile<T>(Service.ClientState.LocalContentId, $"{ModuleName}.data.json");
     
     private TU LoadConfig()
-        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.config.json", () => new TU());
+        => Service.PluginInterface.LoadCharacterFile<TU>(Service.ClientState.LocalContentId, $"{ModuleName}.config.json");
     
     public override void SaveConfig() 
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, $"{ModuleName}.config.json", Config);

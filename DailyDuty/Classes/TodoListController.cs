@@ -5,7 +5,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Configs;
 using DailyDuty.CustomNodes;
-using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;

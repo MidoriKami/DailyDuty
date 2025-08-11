@@ -9,7 +9,7 @@ public class TodoConfig {
     public bool HideInDuties = true;
 
     public static TodoConfig Load() 
-        => Service.PluginInterface.LoadCharacterFile(Service.ClientState.LocalContentId, "TodoList.config.json", () => new TodoConfig());
+        => Service.PluginInterface.LoadCharacterFile<TodoConfig>(Service.ClientState.LocalContentId, "TodoList.config.json");
 
     public void Save()
         => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "TodoList.config.json", this);
