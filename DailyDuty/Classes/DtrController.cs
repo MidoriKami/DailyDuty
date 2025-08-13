@@ -92,8 +92,13 @@ public class DtrController : IDisposable {
 
 	public void Unload() {
 		daily?.Remove();
+		daily = null;
+		
 		weekly?.Remove();
+		weekly = null;
+		
 		combo?.Remove();
+		weekly = null;
 
 		Config?.Save();
 		Config = null;
