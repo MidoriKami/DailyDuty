@@ -14,10 +14,10 @@ public class DtrConfig {
 	public DtrMode CurrentMode = DtrMode.Daily;
 
 	public static DtrConfig Load() 
-		=> Service.PluginInterface.LoadCharacterFile<DtrConfig>(Service.ClientState.LocalContentId, "Timers.config.json");
+		=> Service.PluginInterface.LoadCharacterFile<DtrConfig>(Service.ClientState.LocalContentId, "DTR.config.json");
 
 	public void Save()
-		=> Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "Timers.config.json", this);
+		=> Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "DTR.config.json", this);
 
 	public void DrawConfig() {
 		var configChanged = false;
