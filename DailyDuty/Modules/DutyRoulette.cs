@@ -164,7 +164,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             Y = targetResNode->GetYFloat() + 2.0f, 
             TextFlags = TextFlags.AutoAdjustNodeSize,
             AlignmentType = AlignmentType.TopLeft,
-            Text = GetHintText(),
+            SeString = GetHintText(),
             Tooltip = "Feature from DailyDuty Plugin",
             EnableEventFlags = true,
             IsVisible = false,
@@ -187,7 +187,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
                 Size = new Vector2(targetComponent->Width, targetComponent->Height),
                 AlignmentType = AlignmentType.Center,
                 Tooltip = "[DailyDuty] Time until next daily reset",
-                Text = "0:00:00:00",
+                String = "0:00:00:00",
                 EnableEventFlags = true,
                 TextColor = Config.TimerColor,
             };
@@ -215,7 +215,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             var nextReset = Time.NextDailyReset();
             var timeRemaining = nextReset - DateTime.UtcNow;
         
-            dailyResetTimer.Text = timeRemaining.FormatTimeSpanShort(System.TimersConfig.HideTimerSeconds);
+            dailyResetTimer.String = timeRemaining.FormatTimeSpanShort(System.TimersConfig.HideTimerSeconds);
             dailyResetTimer.TextColor = Config.TimerColor;
         }
         

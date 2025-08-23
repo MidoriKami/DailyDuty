@@ -44,7 +44,7 @@ public sealed class TimerNode : SimpleComponentNode {
 			FontType = FontType.Axis,
 			TextOutlineColor = KnownColor.Black.Vector(),
 			FontSize = 24,
-			Label = "0.00:00:00",
+			String = "0.00:00:00",
 			IsVisible = true,
 		};
 		System.NativeController.AttachNode(timeRemainingNode, this);
@@ -56,7 +56,7 @@ public sealed class TimerNode : SimpleComponentNode {
 			TextFlags = TextFlags.Edge,
 			TextOutlineColor = KnownColor.Black.Vector(),
 			AlignmentType = AlignmentType.Center,
-			Text = "?",
+			String = "?",
 			Tooltip = "Overlay from DailyDuty plugin",
 			EventFlagsSet = true,
 			IsVisible = true,
@@ -89,16 +89,16 @@ public sealed class TimerNode : SimpleComponentNode {
 	}
 	
 	public SeString ModuleName {
-		get => moduleNameNode.Text;
-		set => moduleNameNode.Text = value;
+		get => moduleNameNode.SeString;
+		set => moduleNameNode.SeString = value;
 	}
 
 	public SeString TimeRemainingText {
 		set {
-			timeRemainingNode.Label = value;
+			timeRemainingNode.SeString = value;
 			timeRemainingNode.X = progressBarNode.Width - timeRemainingNode.Width - 7.5f;
 		}
-		get => timeRemainingNode.Label;
+		get => timeRemainingNode.SeString;
 	}
 
 	public Vector4 BarColor {

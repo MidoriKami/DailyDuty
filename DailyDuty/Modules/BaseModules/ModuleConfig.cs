@@ -181,10 +181,10 @@ public abstract class ModuleConfig {
         ImGui.Text("Label");
         
         ImGui.TableNextColumn();
-        var label = node.Text.ToString();
+        var label = node.String;
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
         if (ImGui.InputText("##Label", ref label, 100)) {
-            node.Text = label;
+            node.String = label;
         }
     }
 }

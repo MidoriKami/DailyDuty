@@ -34,7 +34,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 			FontSize = 24,
 			Margin = new Spacing(5.0f),
 			TextOutlineColor = new Vector4(142, 106, 12, 255) / 255,
-			Text = type.GetDescription(),
+			String = type.GetDescription(),
 		};
 		
 		HeaderTextNode.AddEvent(AddonEventType.MouseClick, _ => System.ConfigurationWindow.UnCollapseOrToggle(), true);
@@ -64,7 +64,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 				TextOutlineColor = ColorHelper.GetColor(53),
 				FontType = FontType.Axis,
 				TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
-				Text = module.ModuleName.GetDescription(),
+				String = module.ModuleName.GetDescription(),
 				IsVisible = module is { IsEnabled: true, ModuleStatus: ModuleStatus.Incomplete },
 				Module = module,
 			};
