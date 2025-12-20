@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -13,7 +12,7 @@ public class MiniCactpotData : ModuleData {
     
     protected override void DrawModuleData() {
         DrawDataTable([
-            (Strings.AllowancesRemaining, AllowancesRemaining.ToString()),
+            ("Allowances Remaining", AllowancesRemaining.ToString()),
         ]);
     }
 }
@@ -22,7 +21,7 @@ public class MiniCactpotConfig : ModuleConfig {
     public bool ClickableLink = true;
     
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+        ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
     }
 }
 
@@ -56,7 +55,7 @@ public unsafe class MiniCactpot : BaseModules.Modules.Daily<MiniCactpotData, Min
 
     protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
         LinkEnabled = Config.ClickableLink,
-        Message = $"{Data.AllowancesRemaining} {Strings.TicketsRemaining}",
+        Message = $"{Data.AllowancesRemaining} Tickets Remaining",
         Payload = PayloadId.GoldSaucerTeleport,
     };
 
@@ -67,7 +66,7 @@ public unsafe class MiniCactpot : BaseModules.Modules.Daily<MiniCactpotData, Min
 
     public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
         const int miniCactpotBroker = 1010445;
-        if (Service.TargetManager.Target?.DataId is not miniCactpotBroker) return;
+        if (Service.TargetManager.Target?.BaseId is not miniCactpotBroker) return;
 
         if (data.EventId == 5) {
             Data.AllowancesRemaining = data.Data[4];

@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -13,7 +12,7 @@ public class TribalQuestsData : ModuleData {
 	
 	protected override void DrawModuleData() {
 		DrawDataTable([
-			(Strings.AllowancesRemaining, RemainingAllowances.ToString()),
+			("Allowances Remaining", RemainingAllowances.ToString()),
 		]);
 	}
 }
@@ -24,10 +23,10 @@ public class TribalQuestsConfig : ModuleConfig {
 	
 	protected override void DrawModuleConfig() {
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
+		ConfigChanged |= ImGuiTweaks.EnumCombo("Comparison Mode", ref ComparisonMode);
         
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		ConfigChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 1, 12);
+		ConfigChanged |= ImGui.SliderInt("Notification Threshold", ref NotificationThreshold, 1, 12);
 	}
 }
 
@@ -54,5 +53,5 @@ public unsafe class TribalQuests : BaseModules.Modules.Daily<TribalQuestsData, T
 	};
 
 	protected override StatusMessage GetStatusMessage() 
-		=> $"{Data.RemainingAllowances} {Strings.AllowancesRemaining}";
+		=> $"{Data.RemainingAllowances} Allowances Remaining";
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Inventory;
@@ -17,7 +16,7 @@ public class RaidsConfig : ModuleTaskConfig<ContentFinderCondition> {
 	public bool ClickableLink = true;
 	
 	protected override void DrawModuleConfig() {
-		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 		
 		ImGuiHelpers.ScaledDummy(5.0f);
 		

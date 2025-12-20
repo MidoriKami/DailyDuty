@@ -27,8 +27,8 @@ public class TimersController : IDisposable {
 	}
 
 	public void Dispose() {
-		System.NativeController.DisposeNode(ref WeeklyTimerNode);
-		System.NativeController.DisposeNode(ref DailyTimerNode);
+		WeeklyTimerNode?.Dispose();
+		DailyTimerNode?.Dispose();
 	}
 
 	public void Load()
@@ -36,35 +36,33 @@ public class TimersController : IDisposable {
 
 	public void AttachNodes(SimpleOverlayNode overlayNode) {
 		WeeklyTimerNode = new TimerNode {
-			NodeId = 3,
 			Size = new Vector2(400.0f, 64.0f),
 			Scale = new Vector2(0.80f, 0.80f),
 			Position = new Vector2(400.0f, 400.0f),
 			ModuleName = "Weekly Reset",
 			IsVisible = true,
-			OnEditComplete = () => WeeklyTimerNode?.Save(WeeklyTimerSavePath),
+			// OnEditComplete = () => WeeklyTimerNode?.Save(WeeklyTimerSavePath),
 		};
-		WeeklyTimerNode.Load(WeeklyTimerSavePath);
+		// WeeklyTimerNode.Load(WeeklyTimerSavePath);
 		WeeklyTimerNode.ModuleNameAlignment = AlignmentType.Left; // Fix for old configs using a weird alignment
-		System.NativeController.AttachNode(WeeklyTimerNode, overlayNode);
+		WeeklyTimerNode.AttachNode(overlayNode);
 
 		DailyTimerNode = new TimerNode {
-			NodeId = 4,
 			Size = new Vector2(400.0f, 64.0f), 
 			Scale = new Vector2(0.80f, 0.80f), 
 			Position = new Vector2(400.0f, 475.0f),
 			ModuleName = "Daily Reset",
 			IsVisible = true,
-			OnEditComplete = () => DailyTimerNode?.Save(DailyTimerSavePath),
+			// OnEditComplete = () => DailyTimerNode?.Save(DailyTimerSavePath),
 		};
-		DailyTimerNode.Load(DailyTimerSavePath);
+		// DailyTimerNode.Load(DailyTimerSavePath);
 		DailyTimerNode.ModuleNameAlignment = AlignmentType.Left; // Fix for old configs using a weird alignment
-		System.NativeController.AttachNode(DailyTimerNode, overlayNode);
+		DailyTimerNode.AttachNode(overlayNode);
 	}
 
 	public void DetachNodes() {
-		System.NativeController.DisposeNode(ref WeeklyTimerNode);
-		System.NativeController.DisposeNode(ref DailyTimerNode);
+		WeeklyTimerNode?.Dispose();
+		DailyTimerNode?.Dispose();
 	}
 
 	public void Update() {

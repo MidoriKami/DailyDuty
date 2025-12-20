@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using DailyDuty.Localization;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
@@ -18,7 +17,7 @@ public abstract class ModuleData {
     
 	public void DrawDataUi() {
 		ImGuiHelpers.ScaledDummy(10.0f);
-		ImGui.TextUnformatted(Strings.ModuleData);
+		ImGui.TextUnformatted("Module Data");
 		ImGui.Separator();
 		ImGuiHelpers.ScaledDummy(5.0f);
 

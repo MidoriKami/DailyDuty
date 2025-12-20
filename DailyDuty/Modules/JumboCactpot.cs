@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -20,7 +19,7 @@ public class JumboCactpotData : ModuleData {
 	public List<int> Tickets = [];
 
 	protected override void DrawModuleData() {
-		ImGui.Text(Strings.ClaimedTickets);
+		ImGui.Text("Claimed Tickets");
 
 		var validTickets = Tickets.Where(ticket => ticket is not 0).ToList();
 
@@ -40,7 +39,7 @@ public class JumboCactpotConfig : ModuleConfig {
 	public bool ClickableLink = true;
 	
 	protected override void DrawModuleConfig() {
-		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 	}
 }
 
@@ -91,13 +90,13 @@ public unsafe class JumboCactpot : BaseModules.Modules.Special<JumboCactpotData,
 	
 	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
 		LinkEnabled = Config.ClickableLink,
-		Message = $"{3 - Data.Tickets.Count} {Strings.TicketsAvailable}",
+		Message = $"{3 - Data.Tickets.Count} Tickets Available",
 		Payload = PayloadId.GoldSaucerTeleport,
 	};
     
 	public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
 		const int jumboCactpotBroker = 1010446;
-		if (Service.TargetManager.Target?.DataId != jumboCactpotBroker) return;
+		if (Service.TargetManager.Target?.BaseId != jumboCactpotBroker) return;
 		Data.Tickets.Clear();
 
 		for(var i = 0; i < 3; ++i) {

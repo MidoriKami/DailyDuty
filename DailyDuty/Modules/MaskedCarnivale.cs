@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -19,7 +18,7 @@ public class MaskedCarnivaleConfig : ModuleTaskConfig<Addon> {
 	public bool ClickableLink = true;
 	
 	protected override void DrawModuleConfig() {
-		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 		
 		ImGuiHelpers.ScaledDummy(5.0f);
 		
@@ -109,7 +108,7 @@ public unsafe class MaskedCarnivale : BaseModules.Modules.WeeklyTask<ModuleTaskD
 
 	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
 		LinkEnabled = Config.ClickableLink,
-		Message = $"{IncompleteTaskCount} {Strings.ChallengesRemaining}",
+		Message = $"{IncompleteTaskCount} Challenges Remaining",
 		Payload = PayloadId.UldahTeleport,
 	};
 }

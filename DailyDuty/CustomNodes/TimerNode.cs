@@ -1,67 +1,57 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
-using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
+using Lumina.Text.ReadOnly;
 using Newtonsoft.Json;
 
 namespace DailyDuty.CustomNodes;
 
 [JsonObject(MemberSerialization.OptIn)]
 public sealed class TimerNode : SimpleComponentNode {
-	[JsonProperty] private readonly CastBarProgressBarNode progressBarNode;
-	[JsonProperty] private readonly TextNode moduleNameNode;
-	[JsonProperty] private readonly TextNineGridNode timeRemainingNode;
-	[JsonProperty] private readonly TextNode tooltipNode;
+	private readonly ProgressBarCastNode progressBarNode;
+	private readonly TextNode moduleNameNode;
+	private readonly TextNineGridNode timeRemainingNode;
+	private readonly TextNode tooltipNode;
 
 	public TimerNode() {
-		progressBarNode = new CastBarProgressBarNode {
-			NodeId = 2,
+		progressBarNode = new ProgressBarCastNode {
 			Progress = 0.30f,
 			Size = new Vector2(400.0f, 48.0f),
 			BackgroundColor = KnownColor.Black.Vector(),
 			BarColor = KnownColor.Aqua.Vector(),
-			IsVisible = true,
 		};
-		System.NativeController.AttachNode(progressBarNode, this);
+		progressBarNode.AttachNode(this);
 
 		moduleNameNode = new TextNode {
-			NodeId = 3,
 			FontType = FontType.Jupiter,
 			TextOutlineColor = KnownColor.Black.Vector(),
 			FontSize = 24,
 			AlignmentType = AlignmentType.Left,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
-			IsVisible = true,
 		};
-		System.NativeController.AttachNode(moduleNameNode, this);
+		moduleNameNode.AttachNode(this);
 
 		timeRemainingNode = new TextNineGridNode {
-			NodeId = 4,
 			TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Bold | TextFlags.Edge,
 			FontType = FontType.Axis,
 			TextOutlineColor = KnownColor.Black.Vector(),
 			FontSize = 24,
 			String = "0.00:00:00",
-			IsVisible = true,
 		};
-		System.NativeController.AttachNode(timeRemainingNode, this);
+		timeRemainingNode.AttachNode(this);
 
 		tooltipNode = new TextNode {
 			Size = new Vector2(24.0f, 24.0f),
-			NodeId = 5,
 			FontSize = 16,
 			TextFlags = TextFlags.Edge,
 			TextOutlineColor = KnownColor.Black.Vector(),
 			AlignmentType = AlignmentType.Center,
 			String = "?",
 			Tooltip = "Overlay from DailyDuty plugin",
-			EventFlagsSet = true,
-			IsVisible = true,
 		};
-		System.NativeController.AttachNode(tooltipNode, this);
+		tooltipNode.AttachNode(this);
 	}
 
 	public float Progress {
@@ -88,12 +78,12 @@ public sealed class TimerNode : SimpleComponentNode {
 		set => moduleNameNode.AlignmentType = value;
 	}
 	
-	public SeString ModuleName {
+	public ReadOnlySeString ModuleName {
 		get => moduleNameNode.SeString;
 		set => moduleNameNode.SeString = value;
 	}
 
-	public SeString TimeRemainingText {
+	public ReadOnlySeString TimeRemainingText {
 		set {
 			timeRemainingNode.SeString = value;
 			timeRemainingNode.X = progressBarNode.Width - timeRemainingNode.Width - 7.5f;
@@ -124,33 +114,5 @@ public sealed class TimerNode : SimpleComponentNode {
 	public bool ShowTimer {
 		get => timeRemainingNode.IsVisible;
 		set => timeRemainingNode.IsVisible = value;
-	}
-
-	public override void DrawConfig() {
-		base.DrawConfig();
-				
-		using (var progressBar = ImRaii.TreeNode("Progress Bar")) {
-			if (progressBar) {
-				progressBarNode.DrawConfig();
-			}
-		}
-				
-		using (var moduleName = ImRaii.TreeNode("Module Name")) {
-			if (moduleName) {
-				moduleNameNode.DrawConfig();
-			}
-		}
-				
-		using (var timeRemaining = ImRaii.TreeNode("Time Remaining")) {
-			if (timeRemaining) {
-				timeRemainingNode.DrawConfig();
-			}
-		}
-				
-		using (var tooltip = ImRaii.TreeNode("Tooltip")) {
-			if (tooltip) {
-				tooltipNode.DrawConfig();
-			}
-		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -15,8 +14,8 @@ public class LevequestData : ModuleData {
     
     protected override void DrawModuleData() {
         DrawDataTable(
-            (Strings.LevequestAllowances, NumLevequestAllowances.ToString()),
-            (Strings.AcceptedLevequests, AcceptedLevequests.ToString()));
+            ("Levequest Allowances", NumLevequestAllowances.ToString()),
+            ("Accepted Levequests", AcceptedLevequests.ToString()));
     }
 }
 
@@ -26,10 +25,10 @@ public class LevequestConfig : ModuleConfig {
 
     protected override void DrawModuleConfig() {
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.ComparisonMode, ref ComparisonMode);
+        ConfigChanged |= ImGuiTweaks.EnumCombo("Comparison Mode", ref ComparisonMode);
 
         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-        ConfigChanged |= ImGui.SliderInt(Strings.NotificationThreshold, ref NotificationThreshold, 0, 100);
+        ConfigChanged |= ImGui.SliderInt("Notification Threshold", ref NotificationThreshold, 0, 100);
     }
 }
 
@@ -53,5 +52,5 @@ public unsafe class Levequest : BaseModules.Modules.Special<LevequestData, Leveq
     };
 
     protected override StatusMessage GetStatusMessage()
-        => $"{Data.NumLevequestAllowances} {Strings.AllowancesRemaining}";
+        => $"{Data.NumLevequestAllowances} Allowances Remaining";
 }

@@ -8,6 +8,8 @@ using KamiLib.Classes;
 using KamiLib.CommandManager;
 using KamiLib.Window;
 using KamiToolKit;
+using KamiToolKit.Classes.Controllers;
+using KamiToolKit.Overlay;
 
 namespace DailyDuty;
 
@@ -15,14 +17,14 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Service>();
 
+        KamiToolKitLibrary.Initialize(pluginInterface);
+        
         // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
         System.SystemConfig = new SystemConfig();
-        System.NativeController = new NativeController(Service.PluginInterface);
 
         System.Teleporter = new Teleporter(Service.PluginInterface);
         
         System.CommandManager = new CommandManager(Service.PluginInterface, "dd", "dailyduty");
-        System.LocalizationController = new LocalizationController();
         System.PayloadController = new PayloadController();
         System.ContentsFinderController = new AddonController<AddonContentsFinder>("ContentsFinder");
         
@@ -53,7 +55,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         Service.ClientState.TerritoryChanged -= OnZoneChange;
         
         System.WindowManager.Dispose();
-        System.LocalizationController.Dispose();
         System.PayloadController.Dispose();
         System.OverlayController.Dispose();
         System.ContentsFinderController.Dispose();
@@ -66,7 +67,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.TodoListController.Dispose();
         System.TimersController.Dispose();
         
-        System.NativeController.Dispose();
+        KamiToolKitLibrary.Dispose();
     }
     
     private static void OnFrameworkUpdate(IFramework framework) {
@@ -87,12 +88,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.SystemConfig = SystemConfig.Load();
         System.ModuleController.LoadModules();
         System.ContentsFinderController.Enable();
-        System.OverlayController.Enable();
         System.DtrController.Load();
     }
     
     private static void OnLogout(int type, int code) {
-        System.OverlayController.Disable();
         System.ContentsFinderController.Disable();
         System.ModuleController.UnloadModules();
         System.DtrController.Unload();

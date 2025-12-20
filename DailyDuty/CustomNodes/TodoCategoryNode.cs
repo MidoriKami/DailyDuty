@@ -10,36 +10,29 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.System;
-using Newtonsoft.Json;
 
 namespace DailyDuty.CustomNodes;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class TodoCategoryNode : SimpleComponentNode {
 	public ModuleType ModuleType { get; private set; }
 
-	[JsonProperty] public TextNode HeaderTextNode { get; private set; }
-	[JsonProperty] public ListBoxNode TaskListNode { get; private set; }
+	public TextNode HeaderTextNode { get; private set; }
+	public ListBoxNode TaskListNode { get; private set; }
 
 	public readonly List<TodoTaskNode?> TaskNodes = [];
 
 	public TodoCategoryNode(ModuleType type) {
 		ModuleType = type;
-		Margin = new Spacing(5.0f);
 
 		HeaderTextNode = new TextNode {
 			NodeId = 2,
 			TextFlags = TextFlags.Edge | TextFlags.AutoAdjustNodeSize,
 			FontSize = 24,
-			Margin = new Spacing(5.0f),
 			TextOutlineColor = new Vector4(142, 106, 12, 255) / 255,
 			String = type.GetDescription(),
 		};
-		
-		HeaderTextNode.AddEvent(AddonEventType.MouseClick, _ => System.ConfigurationWindow.UnCollapseOrToggle(), true);
-		
-		System.NativeController.AttachNode(HeaderTextNode, this);
+		HeaderTextNode.AddEvent(AtkEventType.MouseClick, () => System.ConfigurationWindow.UnCollapseOrToggle());
+		HeaderTextNode.AttachNode(this);
 
 		TaskListNode = new ListBoxNode {
 			NodeId = 3,
@@ -49,8 +42,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 			IsVisible = true,
 			ShowBackground = false,
 		};
-		
-		System.NativeController.AttachNode(TaskListNode, this);
+		TaskListNode.AttachNode(this);
 	}
 
 	public void LoadNodes() {
@@ -60,7 +52,6 @@ public class TodoCategoryNode : SimpleComponentNode {
 		foreach (var module in System.ModuleController.GetModules(ModuleType)) {
 			var newTaskNode = new TodoTaskNode {
 				FontSize = 12,
-				Margin = new Spacing(1.0f),  
 				TextOutlineColor = ColorHelper.GetColor(53),
 				FontType = FontType.Axis,
 				TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
@@ -71,7 +62,7 @@ public class TodoCategoryNode : SimpleComponentNode {
 			
 			TaskNodes.Add(newTaskNode);
 
-			newTaskNode.Load(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
+			// newTaskNode.Load(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
 			
 			module.TodoTaskNode = newTaskNode;
 
@@ -80,12 +71,12 @@ public class TodoCategoryNode : SimpleComponentNode {
 			}
 			
 			if (module.HasClickableLink) {
-				newTaskNode.AddEvent(AddonEventType.MouseClick, _ => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!), true);
+				newTaskNode.AddEvent(AtkEventType.MouseClick, () => PayloadController.GetDelegateForPayload(module.ClickableLinkPayloadId).Invoke(0, null!));
 			}
 
-			if (module is { HasTooltip: true } or { HasClickableLink: true }) {
-				newTaskNode.SetEventFlags();
-			}
+			// if (module is { HasTooltip: true } or { HasClickableLink: true }) {
+			// 	newTaskNode.SetEventFlags();
+			// }
 
 			TaskListNode.AddNode(newTaskNode);
 		}
@@ -119,8 +110,8 @@ public class TodoCategoryNode : SimpleComponentNode {
 		var minSize = TaskListNode.GetMinimumSize();
 		
 		if (HeaderTextNode.IsVisible) {
-			Width = MathF.Max(HeaderTextNode.LayoutSize.X, minSize.X);
-			Height = HeaderTextNode.LayoutSize.Y + minSize.Y;
+			Width = MathF.Max(HeaderTextNode.Width, minSize.X);
+			Height = HeaderTextNode.Height + minSize.Y;
 		}
 		else {
 			Size = minSize;
@@ -131,22 +122,6 @@ public class TodoCategoryNode : SimpleComponentNode {
 		}
 		else {
 			HeaderTextNode.X = 0.0f;
-		}
-	}
-
-	public override void DrawConfig() {
-		base.DrawConfig();
-				
-		using (var header = ImRaii.TreeNode("Header Text Node")) {
-			if (header) {
-				HeaderTextNode.DrawConfig();
-			}
-		}
-				
-		using (var listNode = ImRaii.TreeNode("List Node")) {
-			if (listNode) {
-				TaskListNode.DrawConfig();
-			}
 		}
 	}
 }

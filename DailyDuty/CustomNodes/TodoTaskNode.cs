@@ -15,17 +15,18 @@ public class TodoTaskNode : TextNode {
 	public void Refresh() {
 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
 
-		if (Module.HasClickableLink && !IsEventRegistered(AddonEventType.MouseClick)) {
-			AddEvent(AddonEventType.MouseClick, OnClick);
-		}
-		else if (!Module.HasClickableLink && IsEventRegistered(AddonEventType.MouseClick)) {
-			RemoveEvent(AddonEventType.MouseClick, OnClick);
-		}
+		// todo fix clickable
+		// if (Module.HasClickableLink && !IsEventRegistered(AddonEventType.MouseClick)) {
+		// 	AddEvent(AddonEventType.MouseClick, OnClick);
+		// }
+		// else if (!Module.HasClickableLink && IsEventRegistered(AddonEventType.MouseClick)) {
+		// 	RemoveEvent(AddonEventType.MouseClick, OnClick);
+		// }
 		
 		Tooltip = Module.HasTooltip ? Module.TooltipText : string.Empty;
 
 		var isTooltipValid = Tooltip is not null && !Tooltip.ToString().IsNullOrEmpty();
-		EnableEventFlags = IsVisible && (isTooltipValid || Module.HasClickableLink);
+		// EnableEventFlags = IsVisible && (isTooltipValid || Module.HasClickableLink);
 	}
 
 	private void OnClick(AddonEventData data)

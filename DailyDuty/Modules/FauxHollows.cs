@@ -1,5 +1,4 @@
 ﻿using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -13,7 +12,7 @@ public class FauxHollowsData : ModuleData {
 	
 	protected override void DrawModuleData() {
 		DrawDataTable([
-			(Strings.FauxHollowsCompletions, FauxHollowsCompletions.ToString()),
+			("Faux Hollows Completions", FauxHollowsCompletions.ToString()),
 		]);
 	}
 }
@@ -23,8 +22,8 @@ public class FauxHollowsConfig : ModuleConfig {
 	public bool ClickableLink = true;
 
 	protected override void DrawModuleConfig() {
-		ConfigChanged |= ImGui.Checkbox(Strings.IncludeRetelling, ref IncludeRetelling);
-		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGui.Checkbox("Include Retelling", ref IncludeRetelling);
+		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 	}
 }
 
@@ -66,7 +65,7 @@ public class FauxHollows : BaseModules.Modules.Weekly<FauxHollowsData, FauxHollo
 
 	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
 		LinkEnabled = Config.ClickableLink,
-		Message = Strings.UnrealTrialAvailable,
+		Message = "Unreal Trial Available",
 		Payload = PayloadId.OpenPartyFinder,
 	};
 }

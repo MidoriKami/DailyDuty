@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Globalization;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Text;
@@ -99,13 +98,13 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     }
 
     public override void DrawData() {
-        ImGuiTweaks.Header(Strings.CurrentStatus);
+        ImGuiTweaks.Header("Current Status");
         using (var _ = ImRaii.PushIndent()) {
            DrawModuleCurrentStatusUi();
         }
 
         if (Data.NextReset != DateTime.MaxValue) {
-            ImGuiTweaks.Header(Strings.ModuleData);
+            ImGuiTweaks.Header("Module Data");
             using var _ = ImRaii.PushIndent();
             
             DrawModuleResetDataUi();
@@ -113,10 +112,10 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
     
         Data.DrawDataUi();
         
-        ImGuiTweaks.Header(Strings.ModuleSuppression);
-        ImGuiHelpers.CenteredText(Strings.ModuleSuppressionHelp);
+        ImGuiTweaks.Header("Module Suppression");
+        ImGuiHelpers.CenteredText("Silence notification until the next module reset");
 
-        ImGuiTweaks.DisabledButton(!Config.Suppressed ? Strings.Snooze : "Unsnooze", () => {
+        ImGuiTweaks.DisabledButton(!Config.Suppressed ? "Snooze" : "Unsnooze", () => {
             Config.Suppressed = !Config.Suppressed;
             ConfigChanged = true;
         });
@@ -127,16 +126,16 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         if (!table) return;
 
         ImGui.TableNextColumn();
-        ImGui.TextUnformatted(Strings.CurrentStatus);
+        ImGui.TextUnformatted("Current Status");
 
         ImGui.TableNextColumn();
         var message = ModuleStatus switch {
-            ModuleStatus.Suppressed => Strings.Suppressed,
-            ModuleStatus.Incomplete => Strings.Incomplete,
-            ModuleStatus.InProgress => Strings.InProgress,
-            ModuleStatus.Unavailable => Strings.Unavailable,
-            ModuleStatus.Complete => Strings.Complete,
-            ModuleStatus.Unknown => Strings.Unknown,
+            ModuleStatus.Suppressed => "Suppressed",
+            ModuleStatus.Incomplete => "Incomplete",
+            ModuleStatus.InProgress => "In-Progress",
+            ModuleStatus.Unavailable => "Unavailable",
+            ModuleStatus.Complete => "Complete",
+            ModuleStatus.Unknown => "Unknown",
             _ => "ERROR, Report this bug.",
         };
         
@@ -148,7 +147,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         if (!table) return;
 
         ImGui.TableNextColumn();
-        ImGui.TextUnformatted(Strings.NextReset);
+        ImGui.TextUnformatted("Next Reset");
 
         ImGui.TableNextColumn();
         ImGui.TextUnformatted(GetData().NextReset.ToLocalTime().ToString(CultureInfo.CurrentCulture));
@@ -156,7 +155,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         var timeRemaining = GetTimeRemaining();
         if (timeRemaining > TimeSpan.Zero) {
             ImGui.TableNextColumn();
-            ImGui.TextUnformatted(Strings.TimeRemaining);
+            ImGui.TextUnformatted("Time Remaining");
 
             ImGui.TableNextColumn();
             ImGui.TextUnformatted($"{timeRemaining.Days}.{timeRemaining.Hours:00}:{timeRemaining.Minutes:00}:{timeRemaining.Seconds:00}");
@@ -266,7 +265,7 @@ public abstract class Module<T, TU> : Module where T : ModuleData, new() where T
         if (DateTime.UtcNow - Data.NextReset >= TimeSpan.FromMinutes(5)) return;
         
         var statusMessage = GetStatusMessage();
-        statusMessage.Message = Config.UseCustomResetMessage ? Config.CustomResetMessage : Strings.ModuleReset;
+        statusMessage.Message = Config.UseCustomResetMessage ? Config.CustomResetMessage : "Module Reset";
         statusMessage.SourceModule = ModuleName;
         statusMessage.MessageChannel = GetChatChannel();
         statusMessage.PrintMessage();

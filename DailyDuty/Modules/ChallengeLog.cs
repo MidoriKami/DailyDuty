@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Models;
-using DailyDuty.Localization;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Addon.Lifecycle;
@@ -200,5 +199,5 @@ public unsafe class ChallengeLog : BaseModules.Modules.WeeklyTask<ModuleTaskData
         => IncompleteTaskCount is 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() 
-        => $"{IncompleteTaskCount} {Strings.TasksIncomplete}";
+        => $"{IncompleteTaskCount} Tasks Incomplete";
 }

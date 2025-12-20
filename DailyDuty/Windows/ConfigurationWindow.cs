@@ -4,7 +4,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
-using DailyDuty.Localization;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
@@ -103,7 +102,7 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
     }
 
     protected override void DrawExtraButton() {
-        var label = System.SystemConfig.HideDisabledModules ? Strings.ShowDisabled : Strings.HideDisabled;
+        var label = System.SystemConfig.HideDisabledModules ? "Show Disabled" : "Hide Disabled";
 
         if (ImGui.Button(label, ImGui.GetContentRegionAvail())) {
             System.SystemConfig.HideDisabledModules = !System.SystemConfig.HideDisabledModules;
@@ -117,12 +116,12 @@ public class ConfigurationWindow : TabbedSelectionWindow<Module> {
 
     private void SaveAll() {
         System.TodoListController.Save();
-        System.TimersController.WeeklyTimerNode?.Save(System.TimersController.WeeklyTimerSavePath);
-        System.TimersController.DailyTimerNode?.Save(System.TimersController.DailyTimerSavePath);
+        // System.TimersController.WeeklyTimerNode?.Save(System.TimersController.WeeklyTimerSavePath);
+        // System.TimersController.DailyTimerNode?.Save(System.TimersController.DailyTimerSavePath);
 
-        foreach (var module in System.ModuleController.Modules) {
-            module.TodoTaskNode?.Save(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
-        }
+        // foreach (var module in System.ModuleController.Modules) {
+            // module.TodoTaskNode?.Save(StyleFileHelper.GetPath($"{module.ModuleName}.style.json"));
+        // }
     }
 }
 
@@ -131,43 +130,48 @@ public class TodoConfigTab : ITabItem {
     public bool Disabled => false;
 
     public void Draw() {
-        if (System.TodoListController.TodoListNode is not { } listNode) return;
         
-        var configChanged = false;
-
-        using var id = ImRaii.PushId("main_config");
-  
-        ImGuiTweaks.Header("Todo List Config");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TodoConfig.Enabled);
-
-            ImGuiHelpers.ScaledDummy(5.0f);
-            
-            var enableMoving = listNode.EnableMoving;
-            if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
-                listNode.EnableMoving = enableMoving;
-            }
+        ImGui.Text("To release an update in a timely manner, the Todo List feature has been omitted.");
+        ImGui.Spacing();
+        ImGui.Text("These systems are being rebuilt to include several new and super cool features, stay tuned for more information.");
         
-            var enableResizing = listNode.EnableResizing;
-            if (ImGui.Checkbox("Allow Resizing", ref enableResizing)) {
-                listNode.EnableResizing = enableResizing;
-            }
-        }
-        
-        ImGuiTweaks.Header("Functional Options");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TodoConfig.HideDuringQuests);
-            configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TodoConfig.HideInDuties);
-        }
-        
-        ImGuiTweaks.Header("Todo List Style");
-        DrawTodoConfig();
-        
-        if (configChanged) {
-            System.TodoConfig.Save();
-        }
-        
-        System.TodoListController.Refresh();
+        // if (System.TodoListController.TodoListNode is not { } listNode) return;
+        //
+        // var configChanged = false;
+        //
+        // using var id = ImRaii.PushId("main_config");
+        //
+        // ImGuiTweaks.Header("Todo List Config");
+        // using (ImRaii.PushIndent()) {
+        //     configChanged |= ImGui.Checkbox("Enable", ref System.TodoConfig.Enabled);
+        //
+        //     ImGuiHelpers.ScaledDummy(5.0f);
+        //     
+        //     var enableMoving = listNode.EnableMoving;
+        //     if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
+        //         listNode.EnableMoving = enableMoving;
+        //     }
+        //
+        //     var enableResizing = listNode.EnableResizing;
+        //     if (ImGui.Checkbox("Allow Resizing", ref enableResizing)) {
+        //         listNode.EnableResizing = enableResizing;
+        //     }
+        // }
+        //
+        // ImGuiTweaks.Header("Functional Options");
+        // using (ImRaii.PushIndent()) {
+        //     configChanged |= ImGui.Checkbox("Hide in Quest Event", ref System.TodoConfig.HideDuringQuests);
+        //     configChanged |= ImGui.Checkbox("Hide in Duties", ref System.TodoConfig.HideInDuties);
+        // }
+        //
+        // ImGuiTweaks.Header("Todo List Style");
+        // DrawTodoConfig();
+        //
+        // if (configChanged) {
+        //     System.TodoConfig.Save();
+        // }
+        //
+        // System.TodoListController.Refresh();
     }
 
     private static void DrawTodoConfig() {
@@ -306,51 +310,51 @@ public class TodoConfigTab : ITabItem {
             specialCategory.HeaderTextNode.AlignmentType = alignmentDirection;
         }
 
-        ImGui.TableNextColumn();
-        ImGui.Text("Category Vertical Spacing");
-        
-        ImGui.TableNextColumn();
-        var categorySpacing = dailyCategory.Margin.Top;
-        ImGuiTweaks.SetFullWidth();
-        if (ImGui.DragFloat("##VerticalSpacing", ref categorySpacing, 0.10f, -10.0f, 5000.0f)) {
-            dailyCategory.Margin.Top = categorySpacing;
-            dailyCategory.Margin.Bottom = 0.0f;
-            dailyCategory.HeaderTextNode.Margin.Top = 0.0f;
-            dailyCategory.HeaderTextNode.Margin.Bottom = 0.0f;
-            
-            weeklyCategory.Margin.Top = categorySpacing;
-            weeklyCategory.Margin.Bottom = 0.0f;
-            weeklyCategory.HeaderTextNode.Margin.Top = 0.0f;
-            weeklyCategory.HeaderTextNode.Margin.Bottom = 0.0f;
-            
-            specialCategory.Margin.Top = categorySpacing;
-            specialCategory.Margin.Bottom = 0.0f;
-            specialCategory.HeaderTextNode.Margin.Top = 0.0f;
-            specialCategory.HeaderTextNode.Margin.Bottom = 0.0f;
-        }
-
-        ImGui.TableNextColumn();
-        ImGui.Text("Category Horizontal Spacing");
-                
-        ImGui.TableNextColumn();
-        var horizontalSpacing = dailyCategory.Margin.Left;
-        ImGuiTweaks.SetFullWidth();
-        if (ImGui.DragFloat("##HorizontalSpacing", ref horizontalSpacing, 0.10f, -10.0f, 5000.0f)) {
-            dailyCategory.Margin.Left = horizontalSpacing;
-            dailyCategory.Margin.Right = 0.0f;
-            dailyCategory.HeaderTextNode.Margin.Left = 0.0f;
-            dailyCategory.HeaderTextNode.Margin.Right = 0.0f;
-            
-            weeklyCategory.Margin.Left = horizontalSpacing;
-            weeklyCategory.Margin.Right = 0.0f;
-            weeklyCategory.HeaderTextNode.Margin.Left = 0.0f;
-            weeklyCategory.HeaderTextNode.Margin.Right = 0.0f;
-            
-            specialCategory.Margin.Left = horizontalSpacing;
-            specialCategory.Margin.Right = 0.0f;
-            specialCategory.HeaderTextNode.Margin.Left = 0.0f;
-            specialCategory.HeaderTextNode.Margin.Right = 0.0f;
-        }
+        // ImGui.TableNextColumn();
+        // ImGui.Text("Category Vertical Spacing");
+        //
+        // ImGui.TableNextColumn();
+        // var categorySpacing = dailyCategory.Margin.Top;
+        // ImGuiTweaks.SetFullWidth();
+        // if (ImGui.DragFloat("##VerticalSpacing", ref categorySpacing, 0.10f, -10.0f, 5000.0f)) {
+        //     dailyCategory.Margin.Top = categorySpacing;
+        //     dailyCategory.Margin.Bottom = 0.0f;
+        //     dailyCategory.HeaderTextNode.Margin.Top = 0.0f;
+        //     dailyCategory.HeaderTextNode.Margin.Bottom = 0.0f;
+        //     
+        //     weeklyCategory.Margin.Top = categorySpacing;
+        //     weeklyCategory.Margin.Bottom = 0.0f;
+        //     weeklyCategory.HeaderTextNode.Margin.Top = 0.0f;
+        //     weeklyCategory.HeaderTextNode.Margin.Bottom = 0.0f;
+        //     
+        //     specialCategory.Margin.Top = categorySpacing;
+        //     specialCategory.Margin.Bottom = 0.0f;
+        //     specialCategory.HeaderTextNode.Margin.Top = 0.0f;
+        //     specialCategory.HeaderTextNode.Margin.Bottom = 0.0f;
+        // }
+        //
+        // ImGui.TableNextColumn();
+        // ImGui.Text("Category Horizontal Spacing");
+        //         
+        // ImGui.TableNextColumn();
+        // var horizontalSpacing = dailyCategory.Margin.Left;
+        // ImGuiTweaks.SetFullWidth();
+        // if (ImGui.DragFloat("##HorizontalSpacing", ref horizontalSpacing, 0.10f, -10.0f, 5000.0f)) {
+        //     dailyCategory.Margin.Left = horizontalSpacing;
+        //     dailyCategory.Margin.Right = 0.0f;
+        //     dailyCategory.HeaderTextNode.Margin.Left = 0.0f;
+        //     dailyCategory.HeaderTextNode.Margin.Right = 0.0f;
+        //     
+        //     weeklyCategory.Margin.Left = horizontalSpacing;
+        //     weeklyCategory.Margin.Right = 0.0f;
+        //     weeklyCategory.HeaderTextNode.Margin.Left = 0.0f;
+        //     weeklyCategory.HeaderTextNode.Margin.Right = 0.0f;
+        //     
+        //     specialCategory.Margin.Left = horizontalSpacing;
+        //     specialCategory.Margin.Right = 0.0f;
+        //     specialCategory.HeaderTextNode.Margin.Left = 0.0f;
+        //     specialCategory.HeaderTextNode.Margin.Right = 0.0f;
+        // }
         
         ImGui.TableNextColumn();
         ImGui.Text("Show Background");
@@ -440,7 +444,7 @@ public class TodoConfigTab : ITabItem {
         using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
         if (!tabChild) return;
 
-        System.TodoListController.DrawConfig();
+        // System.TodoListController.DrawConfig();
     }
 }
 
@@ -448,53 +452,57 @@ public class TimersConfigTab : ITabItem {
     public string Name => "Timers";
     public bool Disabled => false;
     public void Draw() {
-        if (System.TimersController.DailyTimerNode is not { } dailyTimerNode) return;
-        if (System.TimersController.WeeklyTimerNode is not { } weeklyTimerNode) return;
+        ImGui.Text("To release an update in a timely manner, the Timers feature has been omitted.");
+        ImGui.Spacing();
+        ImGui.Text("These systems are being rebuilt to include several new and super cool features, stay tuned for more information.");
         
-        var configChanged = false;
-
-        ImGuiTweaks.Header("Timers Config");
-        using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox(Strings.Enable, ref System.TimersConfig.Enabled);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            
-            var enableMoving = dailyTimerNode.EnableMoving;
-            if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
-                dailyTimerNode.EnableMoving = enableMoving;
-                weeklyTimerNode.EnableMoving = enableMoving;
-            }
-        
-            var enableResizing = dailyTimerNode.EnableResizing;
-            if (ImGui.Checkbox("Allow Resizing", ref enableResizing)) {
-                dailyTimerNode.EnableResizing = enableResizing;
-                weeklyTimerNode.EnableResizing = enableResizing;
-            }
-
-            ImGuiHelpers.ScaledDummy(5.0f);
-            
-            configChanged |= ImGui.Checkbox("Daily Timer Enable", ref System.TimersConfig.EnableDailyTimer);
-            configChanged |= ImGui.Checkbox("Weekly Timer Enable", ref System.TimersConfig.EnableWeeklyTimer);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-
-            configChanged |= ImGui.Checkbox(Strings.HideInDuties, ref System.TimersConfig.HideInDuties);
-            configChanged |= ImGui.Checkbox(Strings.HideInQuestEvent, ref System.TimersConfig.HideInQuestEvents);
-            
-            ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGui.Checkbox("Hide Seconds", ref System.TimersConfig.HideTimerSeconds);
-
-        }
-
-        ImGuiHelpers.ScaledDummy(10.0f);
-        ImGui.Separator();
-        ImGuiHelpers.ScaledDummy(5.0f);
-
-        DrawTimersConfig();
-
-        if (configChanged) {
-            System.TimersConfig.Save();
-        }
+        // if (System.TimersController.DailyTimerNode is not { } dailyTimerNode) return;
+        // if (System.TimersController.WeeklyTimerNode is not { } weeklyTimerNode) return;
+        //
+        // var configChanged = false;
+        //
+        // ImGuiTweaks.Header("Timers Config");
+        // using (ImRaii.PushIndent()) {
+        //     configChanged |= ImGui.Checkbox("Enable", ref System.TimersConfig.Enabled);
+        //     
+        //     ImGuiHelpers.ScaledDummy(5.0f);
+        //     
+        //     var enableMoving = dailyTimerNode.EnableMoving;
+        //     if (ImGui.Checkbox("Allow Moving", ref enableMoving)) {
+        //         dailyTimerNode.EnableMoving = enableMoving;
+        //         weeklyTimerNode.EnableMoving = enableMoving;
+        //     }
+        //
+        //     var enableResizing = dailyTimerNode.EnableResizing;
+        //     if (ImGui.Checkbox("Allow Resizing", ref enableResizing)) {
+        //         dailyTimerNode.EnableResizing = enableResizing;
+        //         weeklyTimerNode.EnableResizing = enableResizing;
+        //     }
+        //
+        //     ImGuiHelpers.ScaledDummy(5.0f);
+        //     
+        //     configChanged |= ImGui.Checkbox("Daily Timer Enable", ref System.TimersConfig.EnableDailyTimer);
+        //     configChanged |= ImGui.Checkbox("Weekly Timer Enable", ref System.TimersConfig.EnableWeeklyTimer);
+        //     
+        //     ImGuiHelpers.ScaledDummy(5.0f);
+        //
+        //     configChanged |= ImGui.Checkbox("Hide in Duties", ref System.TimersConfig.HideInDuties);
+        //     configChanged |= ImGui.Checkbox("Hide in Quest Event", ref System.TimersConfig.HideInQuestEvents);
+        //     
+        //     ImGuiHelpers.ScaledDummy(5.0f);
+        //     configChanged |= ImGui.Checkbox("Hide Seconds", ref System.TimersConfig.HideTimerSeconds);
+        //
+        // }
+        //
+        // ImGuiHelpers.ScaledDummy(10.0f);
+        // ImGui.Separator();
+        // ImGuiHelpers.ScaledDummy(5.0f);
+        //
+        // DrawTimersConfig();
+        //
+        // if (configChanged) {
+        //     System.TimersConfig.Save();
+        // }
     }
 
     private void DrawTimersConfig() {
@@ -544,7 +552,7 @@ public class TimersConfigTab : ITabItem {
         using var advancedMode = ImRaii.TabItem("Advanced Mode");
         if (!advancedMode) return;
         
-        node.DrawConfig();
+        // node.DrawConfig();
     }
 
     private static void DrawSimpleModeConfig(TimerNode node) {

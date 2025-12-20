@@ -39,7 +39,7 @@ public class TodoListController : IDisposable {
 	}
 
 	public void Dispose() {
-		System.NativeController.DisposeNode(ref TodoListNode);
+		TodoListNode?.Dispose();
 	}
 
 	public void Load()
@@ -59,29 +59,29 @@ public class TodoListController : IDisposable {
 
 			OnEditComplete = Save,
 		};
-		System.NativeController.AttachNode(TodoListNode, overlayNode);
+		TodoListNode.AttachNode(overlayNode);
 
 		DailyTaskNode = new TodoCategoryNode(ModuleType.Daily);
-		DailyTaskNode.Load(DailyCategoryPath);
+		// DailyTaskNode.Load(DailyCategoryPath);
 		DailyTaskNode.LoadNodes();
 		TodoListNode.AddNode(DailyTaskNode);
 		
 		WeeklyTaskNode = new TodoCategoryNode(ModuleType.Weekly);
-		WeeklyTaskNode.Load(WeeklyCategoryPath);
+		// WeeklyTaskNode.Load(WeeklyCategoryPath);
 		WeeklyTaskNode.LoadNodes();
 		TodoListNode.AddNode(WeeklyTaskNode);
 		
 		SpecialTaskNode = new TodoCategoryNode(ModuleType.Special);
-		SpecialTaskNode.Load(SpecialCategoryPath);
+		// SpecialTaskNode.Load(SpecialCategoryPath);
 		SpecialTaskNode.LoadNodes();
 		TodoListNode.AddNode(SpecialTaskNode);
 
-		TodoListNode.Load(TodoListNodePath);
+		// TodoListNode.Load(TodoListNodePath);
 		System.TodoListController.Refresh();
 	}
 
 	public void DetachNodes() {
-		System.NativeController.DisposeNode(ref TodoListNode);
+		TodoListNode?.Dispose();
 	}
 
 	public void Update() {
@@ -103,32 +103,10 @@ public class TodoListController : IDisposable {
 		TodoListNode.RecalculateLayout();
 	}
 
-	public void DrawConfig() {
-		TodoListNode?.DrawConfig();
-
-		using (var dailyCategory = ImRaii.TreeNode("Daily Tasks")) {
-			if (dailyCategory) {
-				DailyTaskNode?.DrawConfig();
-			}
-		}
-
-		using (var weeklyCategory = ImRaii.TreeNode("Weekly Tasks")) {
-			if (weeklyCategory) {
-				WeeklyTaskNode?.DrawConfig();
-			}
-		}
-
-		using (var specialCategory = ImRaii.TreeNode("Special Tasks")) {
-			if (specialCategory) {
-				SpecialTaskNode?.DrawConfig();
-			}
-		}
-	}
-
 	public void Save() {
-		TodoListNode?.Save(TodoListNodePath);
-		DailyTaskNode?.Save(DailyCategoryPath);
-		WeeklyTaskNode?.Save(WeeklyCategoryPath);
-		SpecialTaskNode?.Save(SpecialCategoryPath);
+		// TodoListNode?.Save(TodoListNodePath);
+		// DailyTaskNode?.Save(DailyCategoryPath);
+		// WeeklyTaskNode?.Save(WeeklyCategoryPath);
+		// SpecialTaskNode?.Save(SpecialCategoryPath);
 	}
 }

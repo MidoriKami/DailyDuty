@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using KamiLib.Extensions;
@@ -17,7 +16,7 @@ public class RaidsNormal : RaidsBase {
 	public override PayloadId ClickableLinkPayloadId => PayloadId.OpenDutyFinderRaid;
 
 	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
-			Message = $"{IncompleteTaskCount} {Strings.RaidsAvailable}", 
+			Message = $"{IncompleteTaskCount} Raids Available", 
 			LinkEnabled = Config.ClickableLink, 
 			Payload = PayloadId.OpenDutyFinderRaid,
 		};

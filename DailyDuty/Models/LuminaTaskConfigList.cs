@@ -5,7 +5,6 @@ using System.Linq;
 using Dalamud.Interface;
 using Dalamud.Interface.Components;
 using Lumina.Excel;
-using DailyDuty.Localization;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility.Raii;
 using Lumina.Excel.Sheets;
@@ -71,8 +70,8 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
 	private bool DrawContentsNoteConfig() {
 		var result = false;
 		
-		foreach (var category in Service.DataManager.GetExcelSheet<ContentsNoteCategory>().Where(category => category.Unknown0.ToString() != string.Empty)) {
-			if (ImGui.CollapsingHeader(category.Unknown0.ToString())) {
+		foreach (var category in Service.DataManager.GetExcelSheet<ContentsNoteCategory>().Where(category => category.Name.ToString() != string.Empty)) {
+			if (ImGui.CollapsingHeader(category.Name.ToString())) {
 				using var indent = ImRaii.PushIndent();
 				
 				foreach (var option in ConfigList) {
@@ -98,11 +97,11 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
 		if (!table) return false;
 		
 		ImGui.TableNextColumn();
-		ImGui.TextColored(KnownColor.Gray.Vector(), Strings.DutyName);
+		ImGui.TextColored(KnownColor.Gray.Vector(), "Duty Name");
 
 		ImGui.TableNextColumn();
-		ImGui.TextColored(KnownColor.Gray.Vector(), Strings.NumDrops);
-		ImGuiComponents.HelpMarker(Strings.RaidsModuleHelp);
+		ImGui.TextColored(KnownColor.Gray.Vector(), "Num Drops");
+		ImGuiComponents.HelpMarker("Number of drops required from this duty to be considered complete");
                         
 		if (ConfigList.Count > 0) {
 			foreach (var data in ConfigList) {
@@ -126,7 +125,7 @@ public class LuminaTaskConfigList<T> : ICollection<LuminaTaskConfig<T>> where T 
 		}
 		else {
 			ImGui.TableNextColumn();
-			ImGui.TextColored(KnownColor.Orange.Vector(), Strings.NothingToTrack);
+			ImGui.TextColored(KnownColor.Orange.Vector(), "Nothing to Track");
 		}
 
 		return result;

@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using Dalamud.Interface;
 using Lumina.Excel;
-using DailyDuty.Localization;
 using Dalamud.Bindings.ImGui;
 using Lumina.Excel.Sheets;
 
@@ -89,17 +88,17 @@ public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : st
             
 			ImGui.TableNextColumn();
 			var color = dataEntry.Complete ? KnownColor.Green.Vector() : KnownColor.Orange.Vector();
-			var text = dataEntry.Complete ? Strings.Complete : Strings.Incomplete;
+			var text = dataEntry.Complete ? "Complete" : "Incomplete";
 			ImGui.TextColored(color, text);
 		}
 	}
     
 	private void DrawContentFinderCondition() {
 		ImGui.TableNextColumn();
-		ImGui.TextColored(KnownColor.Gray.Vector(), Strings.DutyName);
+		ImGui.TextColored(KnownColor.Gray.Vector(), "Duty Name");
 
 		ImGui.TableNextColumn();
-		ImGui.TextColored(KnownColor.Gray.Vector(), Strings.CurrentNumDrops);
+		ImGui.TextColored(KnownColor.Gray.Vector(), "Current Drop Count");
                             
 		if (DataList.Count > 0) {
 			foreach (var data in DataList) {
@@ -113,7 +112,7 @@ public class LuminaTaskDataList<T> : ICollection<LuminaTaskData<T>> where T : st
 		}
 		else {
 			ImGui.TableNextColumn();
-			ImGui.TextColored(KnownColor.Orange.Vector(), Strings.NothingToTrack);
+			ImGui.TextColored(KnownColor.Orange.Vector(), "Nothing to track");
 		}
 	}
 

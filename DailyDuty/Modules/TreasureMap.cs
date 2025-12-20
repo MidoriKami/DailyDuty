@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.ClientState.Conditions;
@@ -20,8 +19,8 @@ public class TreasureMapData : ModuleData {
 	
 	protected override void DrawModuleData() {
 		DrawDataTable([
-			(Strings.LastMapGathered, LastMapGatheredTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
-			(Strings.MapAvailable, MapAvailable.ToString()),
+			("Last Map Gathered", LastMapGatheredTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
+			("Map Available", MapAvailable.ToString()),
 		]);
 	}
 }
@@ -93,5 +92,5 @@ public unsafe class TreasureMap : BaseModules.Modules.Special<TreasureMapData, T
 		=> Data.MapAvailable ? ModuleStatus.Incomplete : ModuleStatus.Complete;
 
 	protected override StatusMessage GetStatusMessage()
-		=> Strings.MapAvailable;
+		=> "Map Available";
 }

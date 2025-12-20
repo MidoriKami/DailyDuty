@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Text.Json.Serialization;
 using DailyDuty.CustomNodes;
-using DailyDuty.Localization;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Game.Text;
 using Dalamud.Interface;
@@ -51,12 +50,12 @@ public abstract class ModuleConfig {
         using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
         if (!tabChild) return;
 
-        ImGuiTweaks.Header(Strings.ModuleEnable);
+        ImGuiTweaks.Header("Module Enable");
         using (ImRaii.PushIndent()) {
-            ConfigChanged |= ImGui.Checkbox(Strings.Enable, ref ModuleEnabled);
+            ConfigChanged |= ImGui.Checkbox("Enable", ref ModuleEnabled);
         }
 
-        ImGuiTweaks.Header(Strings.ModuleConfiguration);
+        ImGuiTweaks.Header("Module Configuration");
         using (ImRaii.PushIndent()) {
             DrawModuleConfig();
         }
@@ -69,32 +68,32 @@ public abstract class ModuleConfig {
         using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
         if (!tabChild) return;
         
-        ImGuiTweaks.Header(Strings.NotificationOptions);
+        ImGuiTweaks.Header("Notification Options");
         using (ImRaii.PushIndent()) {
-            ConfigChanged |= ImGuiTweaks.Checkbox(Strings.SendStatusOnLogin, ref OnLoginMessage, Strings.SendStatusOnLoginHelp);
-            ConfigChanged |= ImGuiTweaks.Checkbox(Strings.SendStatusOnZoneChange, ref OnZoneChangeMessage, Strings.SendStatusOnZoneChangeHelp);
-            ConfigChanged |= ImGuiTweaks.Checkbox(Strings.SendMessageOnReset, ref ResetMessage, Strings.SendMessageOnResetHelp);
+            ConfigChanged |= ImGuiTweaks.Checkbox("Send status on login", ref OnLoginMessage, "Sends a notification once when you login");
+            ConfigChanged |= ImGuiTweaks.Checkbox("Send status on zone change", ref OnZoneChangeMessage, "Sends a notification once every 5 mins, when changing zones");
+            ConfigChanged |= ImGuiTweaks.Checkbox("Send status on reset", ref ResetMessage, "Sends a notification when this module resets");
         }
 
-        ImGuiTweaks.Header(Strings.NotificationCustomization);
+        ImGuiTweaks.Header("Notification Customization");
         using (ImRaii.PushIndent()) {
-            ConfigChanged |= ImGui.Checkbox(Strings.EnableCustomChannel, ref UseCustomChannel);
+            ConfigChanged |= ImGui.Checkbox("Enable custom channel", ref UseCustomChannel);
 
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
             ConfigChanged |= ImGuiTweaks.EnumCombo("##ChannelSelect", ref MessageChatChannel);
 
             ImGuiHelpers.ScaledDummy(3.0f);
-            ConfigChanged |= ImGui.Checkbox(Strings.EnableCustomStatusMessage, ref UseCustomStatusMessage);
+            ConfigChanged |= ImGui.Checkbox("Enable custom status message", ref UseCustomStatusMessage);
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-            ImGui.InputTextWithHint("##CustomStatusMessage", Strings.StatusMessage, ref CustomStatusMessage, 1024);
+            ImGui.InputTextWithHint("##CustomStatusMessage", "Status message", ref CustomStatusMessage, 1024);
             if (ImGui.IsItemDeactivatedAfterEdit()) {
                 ConfigChanged = true;
             }
 
             ImGuiHelpers.ScaledDummy(3.0f);
-            ConfigChanged |= ImGui.Checkbox(Strings.EnableCustomResetMessage, ref UseCustomResetMessage);
+            ConfigChanged |= ImGui.Checkbox("Enable custom reset message", ref UseCustomResetMessage);
             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-            ImGui.InputTextWithHint("##CustomResetMessage", Strings.ResetMessage, ref CustomResetMessage, 1024);
+            ImGui.InputTextWithHint("##CustomResetMessage", "Reset message", ref CustomResetMessage, 1024);
             if (ImGui.IsItemDeactivatedAfterEdit()) {
                 ConfigChanged = true;
             }
@@ -108,9 +107,9 @@ public abstract class ModuleConfig {
         using var tabChild = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
         if (!tabChild) return;
 
-        ImGuiTweaks.Header(Strings.TodoConfiguration);
+        ImGuiTweaks.Header("Todo Configuration");
         using (ImRaii.PushIndent()) {
-            ConfigChanged |= ImGui.Checkbox(Strings.TodoEnable, ref TodoEnabled);
+            ConfigChanged |= ImGui.Checkbox("Tddo Enable", ref TodoEnabled);
         }
 
         ImGuiTweaks.Header("Style Configuration");
@@ -134,7 +133,7 @@ public abstract class ModuleConfig {
         using var child = ImRaii.Child("tab_child", ImGui.GetContentRegionAvail());
         if (!child) return;
 
-        module.TodoTaskNode?.DrawConfig();
+        // module.TodoTaskNode?.DrawConfig();
     }
 
     private void DrawSimpleConfigTab(Module module) {

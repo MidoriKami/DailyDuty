@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Game.Addon.Lifecycle;
@@ -27,10 +26,10 @@ public class GrandCompanySquadronData : ModuleData {
 
 	protected override void DrawModuleData() {
 		DrawDataTable(
-			(Strings.MissionCompleted, MissionCompleted.ToString()),
-			(Strings.MissionStarted, MissionStarted.ToString()),
-			(Strings.MissionCompleteTime, MissionCompleteTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
-			(Strings.TimeUntilMissionComplete, TimeUntilMissionComplete.FormatTimespan())
+			("Mission Completed", MissionCompleted.ToString()),
+			("Mission Started", MissionStarted.ToString()),
+			("Mission Completion Time", MissionCompleteTime.ToLocalTime().ToString(CultureInfo.CurrentCulture)),
+			("Time Until Mission Completion", TimeUntilMissionComplete.FormatTimespan())
 		);
 	}
 }
@@ -141,5 +140,5 @@ public unsafe partial class GrandCompanySquadron : BaseModules.Modules.Weekly<Gr
 	}
 
 	protected override StatusMessage GetStatusMessage() 
-		=> Data.MissionStarted && Data.TimeUntilMissionComplete == TimeSpan.Zero ? Strings.MissionCompleted : Strings.MissionAvailable;
+		=> Data.MissionStarted && Data.TimeUntilMissionComplete == TimeSpan.Zero ? "Mission Completed" : "Mission Available";
 }

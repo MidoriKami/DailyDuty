@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.CustomNodes;
@@ -16,20 +17,20 @@ public class WondrousTailsNode : SimpleComponentNode {
 			TextureCoordinates = new Vector2(74.0f, 62.0f),
 			TextureSize = new Vector2(22.0f, 22.0f),
 			IsVisible = true,
-			WrapMode = 1,
+			WrapMode = WrapMode.Tile,
 			ImageNodeFlags = 0,
 		};
-		System.NativeController.AttachNode(background, this);
+		background.AttachNode(this);
 						
 		foreground = new SimpleImageNode {
 			Size = new Vector2(22.0f, 22.0f),
 			TexturePath = "ui/uld/WeeklyBingo.tex",
 			TextureCoordinates = new Vector2(95.0f, 63.0f),
 			TextureSize = new Vector2(24.0f, 24.0f),
-			WrapMode = 1,
+			WrapMode = WrapMode.Tile,
 			ImageNodeFlags = 0,
 		};
-		System.NativeController.AttachNode(foreground, this);
+		foreground.AttachNode(this);
 	}
 
 	public bool IsTaskAvailable {

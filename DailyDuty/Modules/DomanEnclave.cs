@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -17,9 +16,9 @@ public class DomanEnclaveData : ModuleData {
 
     protected override void DrawModuleData() {
         DrawDataTable([
-            (Strings.WeeklyAllowance, WeeklyAllowance.ToString()),
-            (Strings.DonatedThisWeek, DonatedThisWeek.ToString()),
-            (Strings.BudgetRemaining, RemainingAllowance.ToString()),
+            ("Weekly Allowance", WeeklyAllowance.ToString()),
+            ("Donated this Week", DonatedThisWeek.ToString()),
+            ("Budget Remaining", RemainingAllowance.ToString()),
         ]);
 
         ImGuiHelpers.ScaledDummy(5.0f);
@@ -34,7 +33,7 @@ public class DomanEnclaveConfig : ModuleConfig {
     public bool ClickableLink = true;
 
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+        ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
     }
 }
 
@@ -72,7 +71,7 @@ public unsafe class DomanEnclave : BaseModules.Modules.Weekly<DomanEnclaveData, 
 
     protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
         LinkEnabled = Config.ClickableLink, 
-        Message = GetModuleStatus() is ModuleStatus.Unknown ? Strings.StatusUnknown : $"{Data.RemainingAllowance} {Strings.GilRemaining}", 
+        Message = GetModuleStatus() is ModuleStatus.Unknown ? "Status Unknown" : $"{Data.RemainingAllowance} gil remaining", 
         Payload = PayloadId.DomanEnclaveTeleport,
     };
 }

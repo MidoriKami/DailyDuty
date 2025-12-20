@@ -3,26 +3,23 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using DailyDuty.Windows;
 using Dalamud.Bindings.ImGui;
-using Dalamud.Game.Addon.Events;
-using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
-using KamiToolKit;
 using KamiToolKit.Classes;
+using KamiToolKit.Classes.Controllers;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
+using Lumina.Text.ReadOnly;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
@@ -35,9 +32,9 @@ public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
 
     protected override void DrawModuleData() {
         DrawDataTable(
-            (Strings.CurrentWeeklyTomestones, ExpertTomestones.ToString()),
-            (Strings.WeeklyTomestoneLimit, ExpertTomestoneCap.ToString()),
-            (Strings.AtWeeklyTomestoneLimit, AtTomeCap.ToString())
+            ("Current Weekly Tomestones", ExpertTomestones.ToString()),
+            ("Weekly Tomestone Limit", ExpertTomestoneCap.ToString()),
+            ("At Weekly Limit?", AtTomeCap.ToString())
         );
         
         base.DrawModuleData();
@@ -55,8 +52,8 @@ public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
     public Vector4 TimerColor = KnownColor.Black.Vector();
     
     protected override void DrawModuleConfig() {
-        ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
-        ConfigChanged |= ImGui.Checkbox(Strings.CompleteWhenTomeCapped, ref CompleteWhenCapped);
+        ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
+        ConfigChanged |= ImGui.Checkbox("Mark complete when tomecapped", ref CompleteWhenCapped);
         ConfigChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
         
         ImGui.Spacing();
@@ -121,8 +118,8 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         return contentsFinder->DutyList->GetItemRendererByNodeId(6);
     }
 
-    private bool ShouldModifyElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
-        var contentData = GetContentData(listItemInfo);
+    private bool ShouldModifyElement(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
+        var contentData = GetContentData(listItemData.ItemInfo);
 
         if (!Config.ColorContentFinder) return false;
         if (contentData.ContentType is not ContentsId.ContentsType.Roulette) return false;
@@ -131,16 +128,16 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         return Config.TaskConfig.FirstOrDefault(task => task.RowId == contentRoulette.RowId) is { Enabled: true };
     }
 
-    private void UpdateElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+    private void UpdateElement(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
         var dutyNameTextNode = (AtkTextNode*) nodeList[3];
-        var contentData = GetContentData(listItemInfo);
+        var contentData = GetContentData(listItemData.ItemInfo);
         var contentRoulette = Service.DataManager.GetExcelSheet<ContentRoulette>().GetRow(contentData.Id);
 
         var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) contentRoulette.RowId);
         dutyNameTextNode->TextColor = isRouletteCompleted ? Config.CompleteColor.ToByteColor() : Config.IncompleteColor.ToByteColor();
     }
 
-    private void ResetElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+    private void ResetElement(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
         var dutyNameTextNode = (AtkTextNode*) nodeList[3];
         var levelTextNode = (AtkTextNode*) nodeList[4];
         
@@ -166,19 +163,18 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
             AlignmentType = AlignmentType.TopLeft,
             SeString = GetHintText(),
             Tooltip = "Feature from DailyDuty Plugin",
-            EnableEventFlags = true,
             IsVisible = false,
         };
-        System.NativeController.AttachNode(infoTextNode, targetResNode, NodePosition.AfterTarget);
+        infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
         
         openDailyDutyButton = new TextButtonNode {
             Position = new Vector2(50.0f, 622.0f),
             Size = new Vector2(130.0f, 28.0f),
             IsVisible = true,
-            Label = "Open DailyDuty",
+            String = "Open DailyDuty",
         };
-        openDailyDutyButton.AddEvent(AddonEventType.ButtonClick, _ => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
-        System.NativeController.AttachNode(openDailyDutyButton, addon->RootNode);
+        openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.WindowManager.GetWindow<ConfigurationWindow>()?.UnCollapseOrToggle() );
+        openDailyDutyButton.AttachNode(addon->RootNode);
 
         var targetComponent = GetListHeaderComponentNode(addon);
         if (targetComponent is not null) {
@@ -188,10 +184,9 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
                 AlignmentType = AlignmentType.Center,
                 Tooltip = "[DailyDuty] Time until next daily reset",
                 String = "0:00:00:00",
-                EnableEventFlags = true,
                 TextColor = Config.TimerColor,
             };
-            System.NativeController.AttachNode(dailyResetTimer, targetComponent);
+            dailyResetTimer.AttachNode(targetComponent);
         }
         
         if (Config.TimerColor == Vector4.Zero) {
@@ -201,9 +196,9 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void DetachNodes(AddonContentsFinder* addon) {
-        System.NativeController.DisposeNode(ref infoTextNode);
-        System.NativeController.DisposeNode(ref openDailyDutyButton);
-        System.NativeController.DisposeNode(ref dailyResetTimer);
+        infoTextNode?.Dispose();
+        openDailyDutyButton?.Dispose(); 
+        dailyResetTimer?.Dispose();
     }
 
     private void OnContentFinderUpdate(AddonContentsFinder* addon) {
@@ -231,17 +226,16 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon)
         => addon->DutyList->CategoryItemRendererList->AtkComponentListItemRenderer->ComponentNode;
 
-    private SeString GetHintText()
+    private ReadOnlySeString GetHintText()
         => new SeStringBuilder()
-            .PushColorRgba(Config.IncompleteColor)
-            .Append("Incomplete Task")
-            .PopColor()
-            .Append("        ")
-            .PushColorRgba(Config.CompleteColor)
-            .Append("Complete Task")
-            .PopColor()
-            .ToReadOnlySeString()
-            .ToDalamudString();
+           .PushColorRgba(Config.IncompleteColor)
+           .Append("Incomplete Task")
+           .PopColor()
+           .Append("        ")
+           .PushColorRgba(Config.CompleteColor)
+           .Append("Complete Task")
+           .PopColor()
+           .ToReadOnlySeString();
 
     protected override void UpdateTaskLists() {
         var luminaUpdater = new LuminaTaskUpdater<ContentRoulette>(this, roulette => roulette.DutyType.ToString() != string.Empty);
@@ -272,7 +266,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
     
     protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
-        Message = $"{IncompleteTaskCount} {Strings.RoulettesRemaining}", 
+        Message = $"{IncompleteTaskCount} roulettes remaining", 
         LinkEnabled = Config.ClickableLink, 
         Payload = PayloadId.OpenDutyFinderRoulette,
     };

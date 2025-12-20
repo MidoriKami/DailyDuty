@@ -6,7 +6,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -20,6 +19,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
 using KamiToolKit;
 using KamiToolKit.Classes;
+using KamiToolKit.Classes.Controllers;
 using KamiToolKit.Extensions;
 using Lumina.Excel.Sheets;
 
@@ -39,16 +39,16 @@ public class WondrousTailsData : ModuleData {
 	
 	protected override void DrawModuleData() {
 		DrawDataTable(
-			(Strings.PlacedStickers, PlacedStickers.ToString()), 
-			(Strings.SecondChancePoints, SecondChance.ToString()),
-			(Strings.NewBookAvailable, NewBookAvailable.ToString()), 
-			(Strings.PlayerHasBook, PlayerHasBook.ToString()), 
-			(Strings.Deadline, Deadline.ToLocalTime().ToString(CultureInfo.CurrentCulture)), 
-			(Strings.TimeRemaining, TimeRemaining.FormatTimespan()), 
-			(Strings.BookExpired, BookExpired.ToString()), 
-			(Strings.NearKhloe, CloseToKhloe.ToString()), 
-			(Strings.DistanceToKhloe, DistanceToKhloe.ToString(CultureInfo.CurrentCulture)), 
-			(Strings.CastingTeleport, CastingTeleport.ToString())
+			("Placed Stickers", PlacedStickers.ToString()), 
+			("Second Chance Points", SecondChance.ToString()),
+			("New Book Available", NewBookAvailable.ToString()), 
+			("Player Has Book", PlayerHasBook.ToString()), 
+			("Deadline", Deadline.ToLocalTime().ToString(CultureInfo.CurrentCulture)), 
+			("Time Remaining", TimeRemaining.FormatTimespan()), 
+			("Book Expired", BookExpired.ToString()), 
+			("Near Khloe", CloseToKhloe.ToString()), 
+			("Distance to Khloe", DistanceToKhloe.ToString(CultureInfo.CurrentCulture)), 
+			("Casting Teleport", CastingTeleport.ToString())
 		);
 	}
 }
@@ -64,11 +64,11 @@ public class WondrousTailsConfig : ModuleConfig {
 	public Vector4 DutyFinderColor = KnownColor.Yellow.Vector();
 	
 	protected override void DrawModuleConfig() {
-		ConfigChanged |= ImGui.Checkbox(Strings.InstanceNotifications, ref InstanceNotifications);
-		ConfigChanged |= ImGui.Checkbox(Strings.StickerAvailableNotice, ref StickerAvailableNotice);
-		ConfigChanged |= ImGui.Checkbox(Strings.UnclaimedBookWarning, ref UnclaimedBookWarning);
-		ConfigChanged |= ImGui.Checkbox(Strings.ShuffleAvailableNotice, ref ShuffleAvailableNotice);
-		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGui.Checkbox("Instance Notifications", ref InstanceNotifications);
+		ConfigChanged |= ImGui.Checkbox("Sticker Available Warning", ref StickerAvailableNotice);
+		ConfigChanged |= ImGui.Checkbox("Unclaimed Book Warning", ref UnclaimedBookWarning);
+		ConfigChanged |= ImGui.Checkbox("Shuffle Available Warning", ref ShuffleAvailableNotice);
+		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 		ConfigChanged |= ImGui.Checkbox("Duty Finder Clover", ref CloverIndicator);
 		ConfigChanged |= ImGui.Checkbox("Duty Finder Text Color", ref ColorDutyFinderText);
 
@@ -121,8 +121,8 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		return contentsFinder->DutyList->GetItemRendererByNodeId(6);
 	}
 
-	private bool ShouldModifyElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
-		var contentId = listItemInfo->ListItem->UIntValues[1];
+	private bool ShouldModifyElement(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
+		var contentId = listItemData.ItemInfo->ListItem->UIntValues[1];
 		var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
 		var contentData = contentEntry.Value->Id;
 
@@ -133,13 +133,13 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		return IsTailsTask(cfc);
 	}
 
-	private void UpdateElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+	private void UpdateElement(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
 		var dutyNameTextNode = (AtkTextNode*) nodeList[3];
 		var levelTextNode = (AtkTextNode*) nodeList[4];
 
-		var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
+		var index = listItemData.ItemInfo->ListItem->Renderer->OwnerNode->NodeId;
 		
-		var contentId = listItemInfo->ListItem->UIntValues[1];
+		var contentId = listItemData.ItemInfo->ListItem->UIntValues[1];
 		var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
 		var contentData = contentEntry.Value->Id;
 		var cfc = Service.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(contentData.Id);
@@ -163,7 +163,7 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 					IsVisible = true,
 					IsTaskAvailable = IsTaskAvailable(cfc),
 				};
-				System.NativeController.AttachNode(newNode, (AtkResNode*) dutyNameTextNode, NodePosition.AfterTarget);
+				newNode.AttachNode((AtkResNode*)dutyNameTextNode, NodePosition.AfterTarget);
 
 				imageNodes.Add(index, newNode);
 			}
@@ -182,16 +182,15 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		}
 	}
 
-	private void ResetElement(AtkUnitBase* unitBase, AtkComponentListItemPopulator.ListItemInfo* listItemInfo, AtkResNode** nodeList) {
+	private void ResetElement(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
 		var dutyNameTextNode = (AtkTextNode*) nodeList[3];
 		var levelTextNode = (AtkTextNode*) nodeList[4];
-		var index = listItemInfo->ListItem->Renderer->OwnerNode->NodeId;
+		var index = listItemData.ItemInfo->ListItem->Renderer->OwnerNode->NodeId;
 
 		// Remove node
 		if (imageNodes.TryGetValue(index, out var node)) {
 			dutyNameTextNode->Width = (ushort) (dutyNameTextNode->Width + 24.0f);
 
-			System.NativeController.DetachNode(node);
 			imageNodes.Remove(index);
 			node.Dispose();
 		}
@@ -268,19 +267,19 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		const int idyllshireTerritoryType = 478;
 		const uint khloeAliapohDataId = 1017653;
 		if (Service.ClientState.TerritoryType is idyllshireTerritoryType && Config.ModuleEnabled) {
-			var khloe = Service.ObjectTable.FirstOrDefault(obj => obj.DataId is khloeAliapohDataId);
+			var khloe = Service.ObjectTable.FirstOrDefault(obj => obj.BaseId is khloeAliapohDataId);
 
-			if (khloe is not null && Service.ClientState.LocalPlayer is { Position: var playerPosition }) {
+			if (khloe is not null && Service.ObjectTable.LocalPlayer is { Position: var playerPosition }) {
 				Data.DistanceToKhloe = Vector3.Distance(playerPosition, khloe.Position);
 				Data.CloseToKhloe = Data.DistanceToKhloe < 10.0f;
-				Data.CastingTeleport = Service.ClientState.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
+				Data.CastingTeleport = Service.ObjectTable.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
 
 				var noLongerNearKhloe = lastNearKhloe && !Data.CloseToKhloe;
 				var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && Data.CastingTeleport;
                 
 				if ((noLongerNearKhloe || startedTeleportingAway) && Data is { PlayerHasBook: false, NewBookAvailable: true }) {
 					new StatusMessage {
-						Message = Strings.ForgotBookWarning, MessageChannel = GetChatChannel(), SourceModule = ModuleName,
+						Message = "Wait! You forgot you book!", MessageChannel = GetChatChannel(), SourceModule = ModuleName,
 					}.PrintMessage();
 					UIGlobals.PlayChatSoundEffect(11);
 				}
@@ -299,16 +298,15 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 
 		switch (taskState) {
 			case PlayerState.WeeklyBingoTaskStatus.Claimed when Data is { PlacedStickers: > 0, SecondChance: > 0}:
-				PrintMessage(Strings.RerollNotice);
-				PrintMessage(string.Format(Strings.RerollsAvailable, Data.SecondChance), true);
+				PrintMessage($"{Data.SecondChance} Rerolls Available");
 				break;
             
 			case PlayerState.WeeklyBingoTaskStatus.Claimable:
-				PrintMessage(Strings.StampAlreadyAvailable, true);
+				PrintMessage("Sticker is Already Available", true);
 				break;
             
 			case PlayerState.WeeklyBingoTaskStatus.Open:
-				PrintMessage(Strings.CompletionAvailable);
+				PrintMessage("Stickers Claimable");
 				break;
 		}
 	}
@@ -326,7 +324,7 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 		{
 			case PlayerState.WeeklyBingoTaskStatus.Claimable:
 			case PlayerState.WeeklyBingoTaskStatus.Open:
-				PrintMessage(Strings.StampClaimable, true);
+				PrintMessage("Stamps Claimable", true);
 				break;
 		}
 	}
@@ -374,25 +372,25 @@ public unsafe class WondrousTails : BaseModules.Modules.Weekly<WondrousTailsData
 	protected override StatusMessage GetStatusMessage() => Data switch {
 		{ PlayerHasBook: true, BookExpired: false } when Config.StickerAvailableNotice && AnyTaskAvailableForSticker() => new LinkedStatusMessage {
 			LinkEnabled = Config.ClickableLink,
-			Message = Strings.StickerAvailable,
+			Message = "Sticker Available",
 			Payload = PayloadId.OpenWondrousTailsBook,
 		},
 
 		{ SecondChance: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, BookExpired: false } when Config.ShuffleAvailableNotice  => new LinkedStatusMessage {
 			LinkEnabled = Config.ClickableLink,
-			Message = Strings.ShuffleAvailable,
+			Message = "Shuffle Available",
 			Payload = PayloadId.OpenWondrousTailsBook,
 		},
 
 		{ NewBookAvailable: true } when Config.UnclaimedBookWarning  => new LinkedStatusMessage {
 			LinkEnabled = Config.ClickableLink,
-			Message = Strings.NewBookAvailable,
+			Message = "New Book Available",
 			Payload = PayloadId.IdyllshireTeleport,
 		},
 
 		_  => new LinkedStatusMessage {
 			LinkEnabled = Config.ClickableLink,
-			Message = string.Format(Strings.StickersRemaining, 9 - Data.PlacedStickers),
+			Message = $"{9 - Data.PlacedStickers} Stickers Remaining",
 			Payload = PayloadId.OpenWondrousTailsBook,
 		},
 	};

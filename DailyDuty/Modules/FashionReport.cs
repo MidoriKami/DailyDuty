@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Bindings.ImGui;
@@ -27,9 +26,9 @@ public class FashionReportData : ModuleData {
 
 	protected override void DrawModuleData() {
 		DrawDataTable([
-			(Strings.AllowancesRemaining, AllowancesRemaining.ToString()),
-			(Strings.HighestWeeklyScore, HighestWeeklyScore.ToString()),
-			(Strings.FashionReportAvailable, FashionReportAvailable.ToString()),
+			("Allowances Remaining", AllowancesRemaining.ToString()),
+			("Highest Weekly Score", HighestWeeklyScore.ToString()),
+			("Fashion Report Available?", FashionReportAvailable.ToString()),
 		]);
 	}
 }
@@ -40,8 +39,8 @@ public class FashionReportConfig : ModuleConfig {
 
 	protected override void DrawModuleConfig() {
 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-		ConfigChanged |= ImGuiTweaks.EnumCombo(Strings.CompletionMode, ref CompletionMode);
-		ConfigChanged |= ImGui.Checkbox(Strings.ClickableLink, ref ClickableLink);
+		ConfigChanged |= ImGuiTweaks.EnumCombo("Completion Mode", ref CompletionMode);
+		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 	}
 }
 
@@ -86,9 +85,9 @@ public unsafe class FashionReport : BaseModules.Modules.Special<FashionReportDat
 	protected override StatusMessage GetStatusMessage() => new LinkedStatusMessage {
 		LinkEnabled = Config.ClickableLink,
 		Message = Config.CompletionMode switch {
-			FashionReportMode.All => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
-			FashionReportMode.Single when Data.AllowancesRemaining == 4 => $"{Data.AllowancesRemaining} {Strings.AllowancesAvailable}",
-			FashionReportMode.Plus80 when Data.HighestWeeklyScore <= 80 => $"{Data.HighestWeeklyScore} {Strings.HighestScore}",
+			FashionReportMode.All => $"{Data.AllowancesRemaining} Allowances Available",
+			FashionReportMode.Single when Data.AllowancesRemaining == 4 => $"{Data.AllowancesRemaining} Allowances Available",
+			FashionReportMode.Plus80 when Data.HighestWeeklyScore <= 80 => $"{Data.HighestWeeklyScore} Highest Score",
 			_ => throw new ArgumentOutOfRangeException(),
 		},
 		Payload = PayloadId.GoldSaucerTeleport,
@@ -96,7 +95,7 @@ public unsafe class FashionReport : BaseModules.Modules.Special<FashionReportDat
     
 	public void GoldSaucerUpdate(GoldSaucerEventArgs data) {
 		const int maskedRoseId = 1025176;
-		if (Service.TargetManager.Target?.DataId != maskedRoseId) return;
+		if (Service.TargetManager.Target?.BaseId != maskedRoseId) return;
 
 		var allowances = Data.AllowancesRemaining;
 		var score = Data.HighestWeeklyScore;

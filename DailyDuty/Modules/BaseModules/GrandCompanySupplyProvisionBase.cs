@@ -1,6 +1,5 @@
 using System;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
@@ -37,5 +36,5 @@ public abstract unsafe class GrandCompanySupplyProvisionBase : Modules.DailyTask
 		=> IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
 	protected override StatusMessage GetStatusMessage() 
-		=> $"{IncompleteTaskCount} {Strings.AllowancesRemaining}";
+		=> $"{IncompleteTaskCount} Allowances Remaining";
 }

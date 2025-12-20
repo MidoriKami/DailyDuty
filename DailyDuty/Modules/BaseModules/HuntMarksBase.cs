@@ -1,6 +1,5 @@
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Localization;
 using DailyDuty.Models;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
@@ -62,5 +61,5 @@ public abstract unsafe class HuntMarksBase : Modules.SpecialTask<ModuleTaskData<
 		=> IncompleteTaskCount == 0 ? ModuleStatus.Complete : ModuleStatus.Incomplete;
 
 	protected override StatusMessage GetStatusMessage() 
-		=> $"{IncompleteTaskCount} {Strings.HuntsRemaining}";
+		=> $"{IncompleteTaskCount} Hunts Remaining";
 }
