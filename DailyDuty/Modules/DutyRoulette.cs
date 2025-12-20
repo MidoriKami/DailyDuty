@@ -186,6 +186,9 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
                 String = "0:00:00:00",
                 TextColor = Config.TimerColor,
             };
+
+            dailyResetTimer.AddFlags(NodeFlags.HasCollision);
+
             dailyResetTimer.AttachNode(targetComponent);
         }
         
@@ -217,7 +220,7 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
         infoTextNode?.IsVisible = rouletteListController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
     }
 
-    private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon)
+    private static AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon)
         => addon->DutyList->CategoryItemRendererList->AtkComponentListItemRenderer->ComponentNode;
 
     private ReadOnlySeString GetHintText()
