@@ -56,14 +56,10 @@ public class DtrController : IDisposable {
 			combo.Remove();
 			combo = null;
 		}
-		
-		if (daily is not null) {
-			daily.Text = $"Daily Reset: {timeUntilDailyReset.FormatTimespan(Config.HideSeconds)}";
-		}
 
-		if (weekly is not null) {
-			weekly.Text = $"Weekly Reset: {timeUntilWeeklyReset.FormatTimespan(Config.HideSeconds)}";
-		}
+		daily?.Text = $"Daily Reset: {timeUntilDailyReset.FormatTimespan(Config.HideSeconds)}";
+
+		weekly?.Text = $"Weekly Reset: {timeUntilWeeklyReset.FormatTimespan(Config.HideSeconds)}";
 
 		if (combo is not null) {
 			if (Config.CurrentMode is DtrMode.Daily) {

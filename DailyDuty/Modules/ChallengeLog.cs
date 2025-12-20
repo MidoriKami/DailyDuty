@@ -48,9 +48,7 @@ public class ChallengeLogConfig : ModuleTaskConfig<ContentsNote> {
                 MultiSelectionCallback = selections => {
                     foreach (var selection in selections) {
                         var matchingTask = TaskConfig.ConfigList.FirstOrDefault(tasks => tasks.RowId == selection.RowId);
-                        if (matchingTask is not null) {
-                            matchingTask.Enabled = true;
-                        }
+                        matchingTask?.Enabled = true;
                     }
 
                     ConfigChanged = true;

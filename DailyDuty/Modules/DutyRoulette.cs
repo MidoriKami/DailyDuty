@@ -202,25 +202,19 @@ public unsafe class DutyRoulette : BaseModules.Modules.DailyTask<DutyRouletteDat
     }
 
     private void OnContentFinderUpdate(AddonContentsFinder* addon) {
-        if (openDailyDutyButton is not null) {
-            openDailyDutyButton.IsVisible = Config.ShowOpenDailyDutyButton;
-        }
-        
+        openDailyDutyButton?.IsVisible = Config.ShowOpenDailyDutyButton;
+
         if (dailyResetTimer is not null && Config.ShowResetTimer) {
             var nextReset = Time.NextDailyReset();
             var timeRemaining = nextReset - DateTime.UtcNow;
-        
-            dailyResetTimer.String = timeRemaining.FormatTimeSpanShort(System.TimersConfig.HideTimerSeconds);
+            
+            dailyResetTimer.String = timeRemaining.FormatTimeSpanShort(System.TimersConfig?.HideTimerSeconds ?? false);
             dailyResetTimer.TextColor = Config.TimerColor;
         }
-        
-        if (dailyResetTimer is not null) {
-            dailyResetTimer.IsVisible = Config.ShowResetTimer && addon->SelectedRadioButton == 0;
-        }
-                
-        if (infoTextNode is not null) {
-            infoTextNode.IsVisible = rouletteListController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
-        }
+
+        dailyResetTimer?.IsVisible = Config.ShowResetTimer && addon->SelectedRadioButton == 0;
+
+        infoTextNode?.IsVisible = rouletteListController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
     }
 
     private AtkComponentNode* GetListHeaderComponentNode(AddonContentsFinder* addon)

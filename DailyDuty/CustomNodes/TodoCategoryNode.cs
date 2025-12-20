@@ -4,8 +4,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Modules.BaseModules;
-using Dalamud.Game.Addon.Events;
-using Dalamud.Interface.Utility.Raii;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;

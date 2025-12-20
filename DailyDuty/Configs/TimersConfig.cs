@@ -13,8 +13,8 @@ public class TimersConfig {
     public bool EnableWeeklyTimer = true;
     
     public static TimersConfig Load() 
-        => Service.PluginInterface.LoadCharacterFile<TimersConfig>(Service.ClientState.LocalContentId, "Timers.config.json");
+        => Service.PluginInterface.LoadCharacterFile<TimersConfig>(Service.PlayerState.ContentId, "Timers.config.json");
 
     public void Save()
-        => Service.PluginInterface.SaveCharacterFile(Service.ClientState.LocalContentId, "Timers.config.json", this);
+        => Service.PluginInterface.SaveCharacterFile(Service.PlayerState.ContentId, "Timers.config.json", this);
 }

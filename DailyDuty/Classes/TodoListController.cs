@@ -7,7 +7,6 @@ using DailyDuty.Configs;
 using DailyDuty.CustomNodes;
 using DailyDuty.Modules.BaseModules;
 using Dalamud.Interface;
-using Dalamud.Interface.Utility.Raii;
 using KamiLib.CommandManager;
 using KamiLib.Extensions;
 using KamiToolKit.Classes;

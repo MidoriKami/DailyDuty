@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Classes;
 using DailyDuty.Modules.BaseModules;
-using Dalamud.Game.Addon.Events;
 using Dalamud.Game.Addon.Events.EventDataTypes;
 using Dalamud.Utility;
 using KamiToolKit.Nodes;
