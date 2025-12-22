@@ -1,106 +1,55 @@
-﻿using DailyDuty.Classes;
-using DailyDuty.Configs;
+﻿using System.Numerics;
+using DailyDuty.Classes;
+using DailyDuty.ConfigurationWindow;
 using Dalamud.Plugin;
-using DailyDuty.Windows;
-using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.UI;
-using KamiLib.Classes;
-using KamiLib.CommandManager;
-using KamiLib.Window;
 using KamiToolKit;
-using KamiToolKit.Classes.Controllers;
-using KamiToolKit.Overlay;
 
 namespace DailyDuty;
 
 public sealed class DailyDutyPlugin : IDalamudPlugin {
     public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
-        pluginInterface.Create<Service>();
+        pluginInterface.Create<Services>();
 
         KamiToolKitLibrary.Initialize(pluginInterface);
-        
-        // Load placeholder SystemConfig, we will load the correct one for the player once they log in.
-        System.SystemConfig = new SystemConfig();
 
-        System.Teleporter = new Teleporter(Service.PluginInterface);
+        System.ConfigurationWindow = new ConfigWindow {
+            InternalName = "DailyDutyConfig",
+            Title = "Daily Duty Configuration",
+            Size = new Vector2(700.0f, 600.0f),
+        };
         
-        System.CommandManager = new CommandManager(Service.PluginInterface, "dd", "dailyduty");
+        System.ConfigurationWindow.DebugOpen();
+        
         System.PayloadController = new PayloadController();
-        System.ContentsFinderController = new AddonController<AddonContentsFinder>("ContentsFinder");
-        
-        System.DtrController = new DtrController();
-        System.ModuleController = new ModuleController();
-        System.TodoListController = new TodoListController();
-        System.TimersController = new TimersController();
-        System.OverlayController = new OverlayController();
+        System.ModuleManager = new ModuleManager();
 
-        System.ConfigurationWindow = new ConfigurationWindow();
-        System.WindowManager = new WindowManager(Service.PluginInterface);
-        System.WindowManager.AddWindow(System.ConfigurationWindow, WindowFlags.IsConfigWindow | WindowFlags.RequireLoggedIn);
-
-        if (Service.ClientState.IsLoggedIn) {
-            Service.Framework.RunOnFrameworkThread(OnLogin);
+        if (Services.ClientState.IsLoggedIn) {
+            Services.Framework.RunOnFrameworkThread(OnLogin);
         }
         
-        Service.Framework.Update += OnFrameworkUpdate;
-        Service.ClientState.Login += OnLogin;
-        Service.ClientState.Logout += OnLogout;
-        Service.ClientState.TerritoryChanged += OnZoneChange;
+        Services.ClientState.Login += OnLogin;
+        Services.ClientState.Logout += OnLogout;
     }
 
     public void Dispose() {
-        Service.Framework.Update -= OnFrameworkUpdate;
-        Service.ClientState.Login -= OnLogin;
-        Service.ClientState.Logout -= OnLogout;
-        Service.ClientState.TerritoryChanged -= OnZoneChange;
+        Services.ClientState.Login -= OnLogin;
+        Services.ClientState.Logout -= OnLogout;
         
-        System.WindowManager.Dispose();
         System.PayloadController.Dispose();
-        System.OverlayController.Dispose();
-        System.ContentsFinderController.Dispose();
-
-        System.ModuleController.Dispose();
-        System.DtrController.Dispose();
-
-        System.CommandManager.Dispose();
-
-        System.TodoListController.Dispose();
-        System.TimersController.Dispose();
+        System.ModuleManager.Dispose();
+        
+        System.ConfigurationWindow.Dispose();
         
         KamiToolKitLibrary.Dispose();
     }
-    
-    private static void OnFrameworkUpdate(IFramework framework) {
-        if (!Service.ClientState.IsLoggedIn) return;
 
-        // Check for reset, and reset modules that need it 
-        System.ModuleController.ResetModules();
-        
-        // Update All Modules
-        System.ModuleController.UpdateModules();
-        
-        System.TodoListController.Update();
-        System.TimersController.Update();
-        System.DtrController.Update();
-    }
-    
     private static void OnLogin() {
         System.SystemConfig = SystemConfig.Load();
-        System.ModuleController.LoadModules();
-        System.ContentsFinderController.Enable();
-        System.DtrController.Load();
+        System.ModuleManager.LoadModules();
     }
     
     private static void OnLogout(int type, int code) {
-        System.ContentsFinderController.Disable();
-        System.ModuleController.UnloadModules();
-        System.DtrController.Unload();
-    }
-    
-    private static void OnZoneChange(ushort territoryTypeId) {
-        if (Service.ClientState.IsPvP) return;
-        if (!Service.ClientState.IsLoggedIn) return;
-        
-        System.ModuleController.ZoneChange(territoryTypeId);
+        System.ModuleManager.UnloadModules();
+        System.SystemConfig = null;
     }
 }

@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\KamiLib\KamiLib.csproj" />
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
     </ItemGroup>
 </Project>
