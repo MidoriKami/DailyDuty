@@ -2,11 +2,7 @@
 
 namespace DailyDuty.Features.TodoOverlay;
 
-public class TodoOverlayConfig : ModuleConfig<TodoOverlayConfig> {
-    protected override string FileName => "TodoList";
-    
-    public bool Enabled = false;
-    
+public class TodoOverlayConfig : ConfigBase {
     public bool HideDuringQuests = true;
     public bool HideInDuties = true;
 }

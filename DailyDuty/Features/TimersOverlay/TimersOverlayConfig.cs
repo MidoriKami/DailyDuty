@@ -2,11 +2,7 @@
 
 namespace DailyDuty.Features.TimersOverlay;
 
-public class TimersOverlayConfig : ModuleConfig<TimersOverlayConfig> {
-    protected override string FileName => "Timers";
-    
-    public bool Enabled = false;
-	
+public class TimersOverlayConfig : ConfigBase {
     public bool HideInDuties = true;
     public bool HideInQuestEvents = true;
     public bool HideTimerSeconds = false;

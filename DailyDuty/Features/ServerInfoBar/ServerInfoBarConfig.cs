@@ -3,9 +3,7 @@ using DailyDuty.Enums;
 
 namespace DailyDuty.Features.ServerInfoBar;
 
-public class ServerInfoBarConfig : ModuleConfig<ServerInfoBarConfig> {
-    protected override string FileName => "DTR";
-    
+public class ServerInfoBarConfig : ConfigBase {
     public bool SoloDaily;
     public bool SoloWeekly;
     public bool Combo = true;

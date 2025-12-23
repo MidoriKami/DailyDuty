@@ -12,9 +12,10 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.ChallengeLog;
 
-public class ChallengeLog : Module<ChallengeLogConfig, ChallengeLogData> {
+public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Challenge Log",
+        FileName = "ChallengeLog",
         Type = ModuleType.Daily,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),

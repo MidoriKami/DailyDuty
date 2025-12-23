@@ -10,9 +10,10 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.ServerInfoBar;
 
-public class ServerInfoBar : Module<ServerInfoBarConfig, ServerInfoBarData> {
+public class ServerInfoBar : Module<ServerInfoBarConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Server Info Bar",
+        FileName = "DTR",
         Type = ModuleType.GeneralFeatures,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation")

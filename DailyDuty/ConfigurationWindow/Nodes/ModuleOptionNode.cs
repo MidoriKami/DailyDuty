@@ -130,7 +130,13 @@ public class ModuleOptionNode : SimpleComponentNode {
     }
 
     public void Update() {
-        statusTextNode.SeString = "Status: " + (Module.ModuleBase.GetModuleStatus()?.Description ?? CompletionStatus.Unknown.Description);
+        if (ModuleInfo.Type is ModuleType.GeneralFeatures) {
+            statusTextNode.IsVisible = false;
+        }
+        else {
+            statusTextNode.IsVisible = true;
+            statusTextNode.SeString = "Status: " + (Module.ModuleBase.GetModuleStatus()?.Description ?? CompletionStatus.Unknown.Description);
+        }
     }
 
     public Action? OnClick { get; set; }

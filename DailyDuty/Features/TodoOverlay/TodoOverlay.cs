@@ -6,9 +6,10 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.TodoOverlay;
 
-public class TodoOverlay : Module<TodoOverlayConfig, TodoOverlayData> {
+public class TodoOverlay : Module<TodoOverlayConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Todo List Overlay",
+        FileName = "TodoList",
         Type = ModuleType.GeneralFeatures,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Reimplementation"),

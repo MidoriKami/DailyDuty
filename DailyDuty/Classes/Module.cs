@@ -2,17 +2,17 @@
 
 namespace DailyDuty.Classes;
 
-public abstract class Module<TU, T> : ModuleBase where T: ModuleData<T>, new() where TU : ModuleConfig<TU>, new() {
+public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() where TU : DataBase, new() {
 
-    protected T? ModuleData { get; private set; }
-    protected TU? ModuleConfig { get; private set; }
+    protected T? ModuleConfig { get; private set; }
+    protected TU? ModuleData { get; private set; }
 
     public override void Enable() {
-        var dataFilePath = new T().GetFileName();
-        ModuleData = Utilities.Data.LoadCharacterData<T>(dataFilePath);
+        ModuleConfig = Utilities.Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
+        ModuleConfig.FileName = ModuleInfo.FileName;
         
-        var configFilePath = new TU().GetFileName();
-        ModuleConfig = Utilities.Config.LoadCharacterConfig<TU>(configFilePath);
+        ModuleData = Utilities.Data.LoadCharacterData<TU>($"{ModuleInfo.FileName}.data.json");
+        ModuleData.FileName = ModuleInfo.FileName;
 
         Services.Framework.Update += OnUpdate;
         

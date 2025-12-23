@@ -6,10 +6,11 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.TimersOverlay;
 
-public class TimersOverlay : Module<TimersOverlayConfig, TimersOverlayData> {
+public class TimersOverlay : Module<TimersOverlayConfig, DataBase> {
 
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Timers Overlay",
+        FileName = "Timers",
         Type = ModuleType.GeneralFeatures,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),

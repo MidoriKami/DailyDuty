@@ -3,9 +3,7 @@ using DailyDuty.Classes;
 
 namespace DailyDuty.Features.ChallengeLog;
 
-public class ChallengeLogConfig : ModuleConfig<ChallengeLogConfig> {
-    protected override string FileName => "ChallengeLog";
-	
+public class ChallengeLogConfig : ConfigBase {
 	public bool EnableContentFinderWarning = true;
 	public bool EnableWarningSound = true;
     
