@@ -6,7 +6,7 @@ namespace DailyDuty;
 
 public sealed class Services {
     [PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
-    [PluginService] public static IChatGui Chat { get; set; } = null!;
+    [PluginService] public static IChatGui ChatGui { get; set; } = null!;
     [PluginService] public static IClientState ClientState { get; set; } = null!;
     [PluginService] public static IFramework Framework { get; set; } = null!;
     [PluginService] public static ITargetManager TargetManager { get; set; } = null!;

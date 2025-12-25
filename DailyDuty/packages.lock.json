@@ -14,50 +14,16 @@
         "resolved": "1.2.39",
         "contentHash": "fcFN01tDTIQqDuTwr1jUQK/geofiwjG5DycJQOnC72i1SsLAk1ELe+apBOuZ11UMQG8YKFZG1FgvjZPbqHyatg=="
       },
-      "HtmlAgilityPack": {
-        "type": "Transitive",
-        "resolved": "1.11.46",
-        "contentHash": "dLMn4EVfJBHWmWK4Uh0XGD76FPLHI0qr2Tm0s1m/xmgiHb1JUb9zB8AzO8HtrkBBlMN6JfCUBYddhqC0hZNR+g=="
-      },
-      "Karashiiro.HtmlAgilityPack.CssSelectors.NetCoreFork": {
-        "type": "Transitive",
-        "resolved": "0.0.2",
-        "contentHash": "+7cqe/+tN7gDW36pgrefSeyAQvhqznM34D0uTwnETgU25iAC6boPtblxbrMluW5rA9o6MzjEg4qZK7WrnT+tSw==",
-        "dependencies": {
-          "HtmlAgilityPack": "1.11.46"
-        }
-      },
-      "Microsoft.Extensions.ObjectPool": {
-        "type": "Transitive",
-        "resolved": "10.0.0-preview.6.25358.103",
-        "contentHash": "r49n6FoNDeCC0G/KPLHHxg/VneYlpRNVmpzWyAiKAJ3wfpSOsbXB84Owyt3loATmO5aP20th0xGmKavdgDItDA=="
-      },
-      "NetStone": {
-        "type": "Transitive",
-        "resolved": "1.1.1",
-        "contentHash": "7AWc3j6082Ut3xTbJTWBhsZC2Zd7hYVprQiNiei+FGxSSvGacv+xQMBpBIfAnQnnmsKnEQ47NExNgZpt6UcI4A==",
-        "dependencies": {
-          "HtmlAgilityPack": "1.11.46",
-          "Karashiiro.HtmlAgilityPack.CssSelectors.NetCoreFork": "0.0.2",
-          "Newtonsoft.Json": "13.0.3"
-        }
-      },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
+      "JetBrains.Annotations": {
+        "type": "Direct",
+        "requested": "[2025.2.4, )",
+        "resolved": "2025.2.4",
+        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
       },
       "SixLabors.ImageSharp": {
         "type": "Transitive",
         "resolved": "3.1.12",
         "contentHash": "iAg6zifihXEFS/t7fiHhZBGAdCp3FavsF4i2ZIDp0JfeYeDVzvmlbY1CNhhIKimaIzrzSi5M/NBFcWvZT2rB/A=="
-      },
-      "kamilib": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.ObjectPool": "[10.0.0-preview.6.25358.103, )",
-          "NetStone": "[1.1.1, )"
-        }
       },
       "kamitoolkit": {
         "type": "Project",

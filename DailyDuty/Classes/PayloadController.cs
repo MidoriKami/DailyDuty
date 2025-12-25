@@ -25,7 +25,7 @@ public unsafe class PayloadController : IDisposable {
     
     public void Dispose() {
         foreach (var registeredPayload in payloads) {
-            Services.Chat.RemoveChatLinkHandler((uint)registeredPayload.Key);
+            Services.ChatGui.RemoveChatLinkHandler((uint)registeredPayload.Key);
         }
     }
 
@@ -79,7 +79,7 @@ public unsafe class PayloadController : IDisposable {
     }
 
     private static DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
-        => Services.Chat.AddChatLinkHandler((uint) payloadId, action);
+        => Services.ChatGui.AddChatLinkHandler((uint) payloadId, action);
 
     private static void ClearDutyFinderSelection() {
         var returnValue = stackalloc AtkValue[1];

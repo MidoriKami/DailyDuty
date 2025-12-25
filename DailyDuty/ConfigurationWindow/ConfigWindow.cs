@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.ConfigurationWindow.Nodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -9,15 +10,9 @@ using Lumina.Text.ReadOnly;
 namespace DailyDuty.ConfigurationWindow;
 
 public class ConfigWindow : NativeAddon {
-    private readonly ChangelogWindow? changelogWindow = new() {
-        InternalName = "DailyDutyChangelog",
-        Title = "Changelog",
-        Size = new Vector2(450.0f, 400.0f),
-    };
-
     private SearchNode? searchNode;
     private OptionsNode? optionsNode;
-    private NodeBase? statusNode = null;
+    private UpdatableNode? statusNode;
     private SimpleComponentNode? mainContainerNode;
 
     private ModuleOptionNode? selectedOption;
@@ -36,7 +31,7 @@ public class ConfigWindow : NativeAddon {
         
         optionsNode = new OptionsNode {
             Position = new Vector2(0.0f, searchNode.Bounds.Bottom + 4.0f),
-            Size = new Vector2(mainContainerNode.Width / 2.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 4.0f),
+            Size = new Vector2(mainContainerNode.Width * 2.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 4.0f),
             OptionClicked = OnOptionClicked,
             CategoryToggled = OnCategoryToggled,
         };
@@ -51,6 +46,8 @@ public class ConfigWindow : NativeAddon {
         foreach (var node in optionsNode?.Nodes ?? []) {
             node.Update();
         }
+
+        statusNode?.Update();
     }
 
     private void OnSearchUpdated(ReadOnlySeString obj) {
@@ -58,13 +55,17 @@ public class ConfigWindow : NativeAddon {
     }
 
     private void OnOptionClicked(ModuleOptionNode option) {
+        if (selectedOption == option) return;
+        
         selectedOption?.IsSelected = false;
         selectedOption?.IsHovered = false;
 
         selectedOption = option;
         selectedOption.IsSelected = true;
-
-        var statusDisplayNode = option.Module.ModuleBase.GetStatusDisplayNode();
+        
+        statusNode?.Dispose();
+        
+        var statusDisplayNode = option.Module.ModuleBase.GetDataNode();
         
         AttachStatusNode(statusDisplayNode);
     }
@@ -73,14 +74,14 @@ public class ConfigWindow : NativeAddon {
         
     }
 
-    private void AttachStatusNode(NodeBase node) {
+    private void AttachStatusNode(UpdatableNode node) {
         if (mainContainerNode is null) return;
         if (searchNode is null) return;
         
         statusNode = node;
         
-        node.Size = new Vector2(mainContainerNode.Width / 2.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 4.0f);
-        node.Position = new Vector2(mainContainerNode.Width / 2.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f);
+        node.Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f);
+        node.Position = new Vector2(mainContainerNode.Width * 2.0f / 5.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f);
         node.AttachNode(mainContainerNode);
     }
 }

@@ -24,10 +24,10 @@ public class ChangelogWindow : NativeAddon {
         };
         scrollingAreaNode.AttachNode(this);
 
-        if (Modification is not null) {
+        if (Module is not null) {
             categoryNodes.Clear();
 
-            foreach (var changelog in Modification.ModuleInfo.ChangeLog.OrderByDescending(log => log.Version)) {
+            foreach (var changelog in Module.ModuleInfo.ChangeLog.OrderByDescending(log => log.Version)) {
                 var categoryNode = new TreeListCategoryNode {
                     SeString = $"Version {changelog.Version}",
                     Width = ContentSize.X,
@@ -58,5 +58,5 @@ public class ChangelogWindow : NativeAddon {
         }
     }
 
-    public ModuleBase? Modification { get; set; }
+    public ModuleBase? Module { get; set; }
 }

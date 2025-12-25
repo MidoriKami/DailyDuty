@@ -135,7 +135,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         }
         else {
             statusTextNode.IsVisible = true;
-            statusTextNode.SeString = "Status: " + (Module.ModuleBase.GetModuleStatus()?.Description ?? CompletionStatus.Unknown.Description);
+            statusTextNode.SeString = $"Status: {Module.ModuleBase.GetModuleStatus().Description}";
         }
     }
 

@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace DailyDuty.Classes;
 
 public class DataBase {
-    [JsonIgnore] public string FileName;
+    [JsonIgnore] public string FileName = string.Empty;
     
     public DateTime NextReset;
     
