@@ -2,7 +2,6 @@
 using System.Linq;
 using DailyDuty.Extensions;
 using Dalamud.Game.Text;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using XivChatTypeExtensions = DailyDuty.Extensions.XivChatTypeExtensions;
 
@@ -18,14 +17,9 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
         };
         listNode.AttachNode(this);
         
-        listNode.AddNode(new CategoryTextNode {
-            String = "Notification Settings",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
+        listNode.AddNode(new CategoryHeaderNode {
+            Label = "Notification Settings",
         });
-        
-        listNode.AddNode(new HorizontalLineNode { Height = 4.0f });
-        listNode.AddNode(new ResNode { Height = 8.0f });
         
         listNode.AddNode(new CheckboxNode {
             String = "Send status on login",
@@ -57,13 +51,9 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             },
         });
         
-        listNode.AddNode(new ResNode { Height = 8.0f });
-        listNode.AddNode(new CategoryTextNode {
-            String = "Custom Status Message",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
+        listNode.AddNode(new CategoryHeaderNode {
+            Label = "Custom Status Message",
         });
-        listNode.AddNode(new HorizontalLineNode { Height = 4.0f });
         
         listNode.AddNode(new TextInputNode {
             Height = 28.0f,
@@ -75,12 +65,9 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             },
         });
         
-        listNode.AddNode(new CategoryTextNode {
-            String = "Custom Reset Message",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
+        listNode.AddNode(new CategoryHeaderNode {
+            Label = "Custom Reset Message",
         });
-        listNode.AddNode(new HorizontalLineNode { Height = 4.0f });
         
         listNode.AddNode(new TextInputNode {
             PlaceholderString = "Custom Reset Message",
@@ -92,12 +79,9 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             },
         });
         
-        listNode.AddNode(new CategoryTextNode {
-            String = "Chat Channel",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
+        listNode.AddNode(new CategoryHeaderNode {
+            Label = "Chat Channel",
         });
-        listNode.AddNode(new HorizontalLineNode { Height = 4.0f });
         
         listNode.AddNode(new TextDropDownNode {
             Height = 24.0f,

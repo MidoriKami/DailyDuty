@@ -1,6 +1,9 @@
-﻿using System.Numerics;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
+using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
@@ -53,8 +56,29 @@ public class ModuleBrowserWindow : NativeAddon {
         statusNode?.Update();
     }
 
-    private void OnSearchUpdated(ReadOnlySeString obj) {
+    private void OnSearchUpdated(ReadOnlySeString searchTerm) {
+        List<ModuleOptionNode> validOptions = [];
         
+        foreach (var node in optionsNode?.Nodes ?? []) {
+            var isTarget = node.ModuleInfo.IsMatch(searchTerm.ToString());
+            node.IsVisible = isTarget;
+            
+            if (isTarget) {
+                validOptions.Add(node);
+            }
+        }
+        
+        foreach (var categoryNode in optionsNode?.CategoryNodes ?? []) {
+            categoryNode.IsVisible = validOptions.Any(option => option.ModuleInfo.Type.Description == categoryNode.SeString.ToString());
+        }
+
+        if (validOptions.All(option => option != selectedOption)) {
+            selectedOption?.IsSelected = false;
+            selectedOption?.IsHovered = false;
+            selectedOption = null;
+        }
+
+        optionsNode?.RecalculateLayout();
     }
 
     private void OnOptionClicked(ModuleOptionNode option) {
@@ -73,7 +97,7 @@ public class ModuleBrowserWindow : NativeAddon {
         AttachStatusNode(statusDisplayNode);
     }
     
-    private void OnCategoryToggled(bool arg1, ModuleType arg2) {
+    private void OnCategoryToggled(bool isVisible, ModuleType category) {
         
     }
 

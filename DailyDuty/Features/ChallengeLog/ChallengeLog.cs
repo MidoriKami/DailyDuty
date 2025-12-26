@@ -75,7 +75,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     protected override CompletionStatus GetCompletionStatus()
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
-    public override ReadOnlySeString GetStatusMessage()
+    protected override ReadOnlySeString GetStatusMessage()
         => $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log entrie(s) Incomplete";
 
     private static unsafe bool IsContentNoteComplete(uint rowId)

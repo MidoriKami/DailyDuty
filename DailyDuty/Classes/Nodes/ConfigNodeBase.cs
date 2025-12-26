@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes.Nodes;
@@ -30,14 +29,10 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.ContentNode.FitWidth = true;
         configNode.ContentNode.ItemSpacing = 4.0f;
 
-        configNode.ContentNode.AddNode(new CategoryTextNode {
-            String = "Module Settings",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
+        configNode.ContentNode.AddNode(new CategoryHeaderNode {
+            Label = "Module Settings",
+            Height = 40.0f,
         });
-        
-        configNode.ContentNode.AddNode(new HorizontalLineNode { Height = 4.0f });
-        configNode.ContentNode.AddNode(new ResNode { Height = 8.0f });
         
         AttachDataNode(configNode.ContentNode);
         configNode.AttachNode(this);

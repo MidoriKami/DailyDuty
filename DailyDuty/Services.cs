@@ -1,4 +1,5 @@
-﻿using Dalamud.IoC;
+﻿using System.Diagnostics.CodeAnalysis;
+using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 
@@ -21,4 +22,7 @@ public sealed class Services {
     [PluginService] public static IDtrBar DtrBar { get; set; } = null!;
     [PluginService] public static IPlayerState PlayerState { get; set; } = null!;
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
+
+    [PluginService] [Experimental("Dalamud001")]
+    public static IReliableFileStorage ReliableFileStorage { get; set; } = null!;
 }

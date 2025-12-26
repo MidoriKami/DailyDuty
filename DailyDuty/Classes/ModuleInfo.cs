@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Enums;
+using DailyDuty.Extensions;
 
 namespace DailyDuty.Classes;
 
@@ -12,4 +14,12 @@ public class ModuleInfo {
 	public required List<ChangeLogInfo> ChangeLog { get; init; } = [];
 	public List<string> Tags { get; init; } = [];
     public PayloadId MessageClickAction { get; init; }
+    
+    public bool IsMatch(string searchTerm) {
+        if (DisplayName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+        if (Type.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) return true;
+        if (Tags.Any(tag => tag.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) return true;
+        
+        return false;
+    }
 }

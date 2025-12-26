@@ -8,10 +8,9 @@ public class SystemConfig {
     public string CharacterWorld = "Unknown World";
     public ulong ContentId;
     public string? LodestoneId;
-    public bool HideDisabledModules = false;
     public bool EnableChatLinks = true;
 
-    public List<string> EnabledModules = [];
+    public HashSet<string> EnabledModules = [];
     
     public static SystemConfig Load()
         => Utilities.Config.LoadCharacterConfig<SystemConfig>("system.config.json");

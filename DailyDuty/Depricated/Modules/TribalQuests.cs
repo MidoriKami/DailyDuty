@@ -20,7 +20,7 @@
 //
 // public class TribalQuestsConfig : ModuleConfig {
 // 	public int NotificationThreshold = 12;
-// 	public ComparisonMode ComparisonMode = ComparisonMode.LessThan;
+// 	public ComparisonMode ComparisonMode = ComparisonMode.Below;
 // 	
 // 	protected override void DrawModuleConfig() {
 // 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
@@ -47,9 +47,9 @@
 // 	}
 //
 // 	protected override ModuleStatus GetModuleStatus() => Config.ComparisonMode switch {
-// 		ComparisonMode.LessThan when Config.NotificationThreshold > Data.RemainingAllowances => ModuleStatus.Complete,
-// 		ComparisonMode.EqualTo when Config.NotificationThreshold == Data.RemainingAllowances => ModuleStatus.Complete,
-// 		ComparisonMode.LessThanOrEqual when Config.NotificationThreshold >= Data.RemainingAllowances => ModuleStatus.Complete,
+// 		ComparisonMode.Below when Config.NotificationThreshold > Data.RemainingAllowances => ModuleStatus.Complete,
+// 		ComparisonMode.Equal when Config.NotificationThreshold == Data.RemainingAllowances => ModuleStatus.Complete,
+// 		ComparisonMode.Above when Config.NotificationThreshold >= Data.RemainingAllowances => ModuleStatus.Complete,
 // 		_ => ModuleStatus.Incomplete,
 // 	};
 //

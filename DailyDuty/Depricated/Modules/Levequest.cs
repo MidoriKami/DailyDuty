@@ -22,7 +22,7 @@
 //
 // public class LevequestConfig : ModuleConfig { 
 //     public int NotificationThreshold = 95;
-//     public ComparisonMode ComparisonMode = ComparisonMode.EqualTo;
+//     public ComparisonMode ComparisonMode = ComparisonMode.Equal;
 //
 //     protected override void DrawModuleConfig() {
 //         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
@@ -46,9 +46,9 @@
 //         }
 //
 //     protected override ModuleStatus GetModuleStatus() => Config.ComparisonMode switch {
-//         ComparisonMode.LessThan when Config.NotificationThreshold > Data.NumLevequestAllowances => ModuleStatus.Complete,
-//         ComparisonMode.EqualTo when Config.NotificationThreshold == Data.NumLevequestAllowances => ModuleStatus.Complete,
-//         ComparisonMode.LessThanOrEqual when Config.NotificationThreshold >= Data.NumLevequestAllowances => ModuleStatus.Complete,
+//         ComparisonMode.Below when Config.NotificationThreshold > Data.NumLevequestAllowances => ModuleStatus.Complete,
+//         ComparisonMode.Equal when Config.NotificationThreshold == Data.NumLevequestAllowances => ModuleStatus.Complete,
+//         ComparisonMode.Above when Config.NotificationThreshold >= Data.NumLevequestAllowances => ModuleStatus.Complete,
 //         _ => ModuleStatus.Incomplete,
 //     };
 //

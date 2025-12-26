@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using DailyDuty.Enums;
 using DailyDuty.Extensions;
@@ -13,6 +14,7 @@ public class OptionsNode : SimpleComponentNode {
     private readonly List<ModuleOptionNode> optionNodes = [];
 
     public IReadOnlyList<ModuleOptionNode> Nodes => optionNodes;
+    public ReadOnlyCollection<TreeListCategoryNode> CategoryNodes => optionsList.ContentNode.CategoryNodes;
     
     public OptionsNode() {
         optionsList = new ScrollingAreaNode<TreeListNode> {
@@ -68,4 +70,9 @@ public class OptionsNode : SimpleComponentNode {
 
     public required Action<ModuleOptionNode>? OptionClicked { get; set; }
     public required Action<bool, ModuleType>? CategoryToggled { get; set; }
+
+    public void RecalculateLayout() {
+        optionsList.ContentNode.RefreshLayout();
+        optionsList.ContentHeight = optionsList.ContentNode.CategoryNodes.Sum(node => node.Height) + 20.0f;
+    }
 }

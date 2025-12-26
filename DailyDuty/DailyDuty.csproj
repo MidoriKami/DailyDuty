@@ -2,6 +2,7 @@
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
         <Version>5.4.0.1</Version>
+        <NoWarn>$(NoWarn);Dalamud001</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

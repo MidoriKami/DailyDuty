@@ -11,6 +11,8 @@ public class DataBase {
     [JsonIgnore] public bool SavePending;
 
     public void Save() {
+        SavePending = false;
+        
         if (FileName == string.Empty) {
             Services.PluginLog.Error("Tried to save a config with no file name set");
             return;

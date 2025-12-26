@@ -1,6 +1,5 @@
 ﻿using DailyDuty.Classes.Nodes;
 using DailyDuty.Windows;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
@@ -12,57 +11,44 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
     private LuminaMultiSelectWindow<ContentsNote>? luminaSelectionWindow;
     
     protected override void BuildNode(VerticalListNode container) {
-        container.AddNode(new CheckboxNode {
-            Height = 24.0f,
-            String = "Enable Duty Finder Warning",
-            IsChecked = module.ModuleConfig.EnableContentFinderWarning,
-            OnClick = newValue => {
-                module.ModuleConfig.EnableContentFinderWarning = newValue;
-                module.ModuleConfig.SavePending = true;
+        container.AddNode([
+            new CheckboxNode {
+                Height = 24.0f,
+                String = "Enable Duty Finder Warning",
+                IsChecked = module.ModuleConfig.EnableContentFinderWarning,
+                OnClick = newValue => {
+                    module.ModuleConfig.EnableContentFinderWarning = newValue;
+                    module.ModuleConfig.SavePending = true;
+                },
             },
-        });
-        
-        container.AddNode(new CheckboxNode {
-            Height = 24.0f,
-            String = "Enable Duty Finder Warning Sound",
-            IsChecked = module.ModuleConfig.EnableWarningSound,
-            OnClick = newValue => {
-                module.ModuleConfig.EnableWarningSound = newValue;
-                module.ModuleConfig.SavePending = true;
+            new CheckboxNode {
+                Height = 24.0f,
+                String = "Enable Duty Finder Warning Sound",
+                IsChecked = module.ModuleConfig.EnableWarningSound,
+                OnClick = newValue => {
+                    module.ModuleConfig.EnableWarningSound = newValue;
+                    module.ModuleConfig.SavePending = true;
+                },
             },
-        });
-        
-        container.AddNode(new ResNode{ Height = 4.0f });
-        
-        container.AddNode(new CategoryTextNode {
-            String = "Tracked Challenge Log Entries",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
-        });
-        
-        container.AddNode(new HorizontalLineNode { Height = 4.0f });
-        
-        container.AddNode(new TextButtonNode {
-            Height = 24.0f,
-            String = "Edit Tracked Challenge Log Entries",
-            OnClick = OpenMainTrackingWindow,
-        });
-        
-        container.AddNode(new ResNode{ Height = 4.0f });
-        
-        container.AddNode(new CategoryTextNode {
-            String = "Tracked Duty Finder Warning Entries",
-            AlignmentType = AlignmentType.BottomLeft,
-            Height = 24.0f,
-        });
-        
-        container.AddNode(new HorizontalLineNode { Height = 4.0f });
-        
-        container.AddNode(new TextButtonNode {
-            Height = 24.0f,
-            String = "Edit Duty Finder Warning Entries",
-            OnClick = OpenDutyFinderWarningEntries,
-        });
+            new CategoryHeaderNode {
+                Label = "Tracked Challenge Log Entries",
+                Height = 40.0f,
+            },
+            new TextButtonNode {
+                Height = 24.0f,
+                String = "Edit Tracked Challenge Log Entries",
+                OnClick = OpenMainTrackingWindow,
+            },
+            new CategoryHeaderNode {
+                Label = "Tracked Duty Finder Warning Entries",
+                Height = 40.0f,
+            },
+            new TextButtonNode {
+                Height = 24.0f,
+                String = "Edit Duty Finder Warning Entries",
+                OnClick = OpenDutyFinderWarningEntries,
+            },
+        ]);
     }
 
     private void OpenMainTrackingWindow() {

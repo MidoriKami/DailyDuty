@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Numerics;
+﻿using System.Numerics;
 using DailyDuty.Enums;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -44,6 +43,12 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         };
         dataNode.ContentNode.FitContents = true;
         dataNode.ContentNode.FitWidth = true;
+        
+        dataNode.ContentNode.AddNode(new CategoryHeaderNode {
+            Label = "Module Data",
+            Alignment = AlignmentType.Bottom,
+        });
+        
         AttachDataNode(dataNode.ContentNode);
         dataNode.AttachNode(this);
 
@@ -61,7 +66,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
 
         versionNode = new TextNode {
             AlignmentType = AlignmentType.BottomRight,
-            String = $"Version {module.ModuleInfo.ChangeLog.Max(changelog => changelog.Version)}",
+            String = $"Version {module.ModuleInfo.Version}",
         };
         versionNode.AttachNode(this);
         

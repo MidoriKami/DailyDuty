@@ -50,7 +50,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         configWindow = new ModuleConfigWindow<Module<T, TU>> {
             Module = this,
             InternalName = $"{GetType().Name}ConfigWindow",
-            Title = $"{ModuleInfo.DisplayName} Config Window",
+            Title = $"{ModuleInfo.DisplayName} Config",
             Size = new Vector2(400.0f, 500.0f),
         };
 
@@ -77,10 +77,12 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         Update();
 
         if (ModuleConfig.SavePending) {
+            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
             ModuleConfig.Save();
         }
 
         if (ModuleData.SavePending) {
+            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} data");
             ModuleData.Save();
         }
     }

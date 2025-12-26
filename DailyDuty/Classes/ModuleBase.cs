@@ -30,12 +30,14 @@ public abstract class ModuleBase {
 
     protected virtual void Update() {
         ModuleStatus = GetModuleStatus();
+        ModuleStatusMessage = GetStatusMessage();
     }
 
     public CompletionStatus ModuleStatus { get; private set; }
+    public ReadOnlySeString ModuleStatusMessage { get; private set; }
     
     protected abstract CompletionStatus GetModuleStatus();
-    public abstract ReadOnlySeString GetStatusMessage();
+    protected abstract ReadOnlySeString GetStatusMessage();
     public abstract DateTime GetNextResetDateTime();
     public abstract void Reset();
 }

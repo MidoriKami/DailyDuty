@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Extensions;
@@ -6,10 +7,16 @@ namespace DailyDuty.Extensions;
 public static class ComparisonModeExtensions {
     extension(ComparisonMode mode) {
         public string Description => mode switch {
-            ComparisonMode.LessThan => "Less than",
-            ComparisonMode.EqualTo => "Equal to",
-            ComparisonMode.LessThanOrEqual => "Less than or equal to",
+            ComparisonMode.Below => "Below",
+            ComparisonMode.Equal => "Equal",
+            ComparisonMode.Above => "Above",
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
+    }
+
+    public static ComparisonMode Parse(string comparisonMode) {
+        var result = Enum.GetValues<ComparisonMode>().Where(type => type.Description == comparisonMode).FirstOrDefault();
+        
+        return result == default ? ComparisonMode.Below : result;
     }
 }
