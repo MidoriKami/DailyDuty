@@ -49,7 +49,7 @@
 //                         matchingTask?.Enabled = true;
 //                     }
 //
-//                     ConfigChanged = true;
+//                     SavePending = true;
 //                 },
 //             });
 //         }
@@ -61,7 +61,7 @@
 //         foreach (var task in enabledTasks) {
 //             if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, $"remove_task##{task.RowId}", ImGuiHelpers.ScaledVector2(24.0f))) {
 //                 task.Enabled = false;
-//                 ConfigChanged = true;
+//                 SavePending = true;
 //             }
 //             
 //             ImGui.SameLine();
@@ -95,7 +95,7 @@
 //                         WarningEntries.Add(selection.RowId);
 //                     }
 //
-//                     ConfigChanged = true;
+//                     SavePending = true;
 //                 },
 //             });
 //         }
@@ -105,7 +105,7 @@
 //         foreach (var task in enabledWarnings) {
 //             if (ImGuiTweaks.IconButtonWithSize(Services.PluginInterface.UiBuilder.IconFontFixedWidthHandle, FontAwesomeIcon.Trash, $"remove_task##{task.RowId}", ImGuiHelpers.ScaledVector2(24.0f))) {
 //                 WarningEntries.Remove(task.RowId);
-//                 ConfigChanged = true;
+//                 SavePending = true;
 //             }
 //             
 //             ImGui.SameLine();

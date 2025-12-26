@@ -3,7 +3,7 @@ using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
 
-namespace DailyDuty.ConfigurationWindow.Nodes;
+namespace DailyDuty.Classes.Nodes;
 
 public class SearchNode : SimpleComponentNode {
     private readonly HorizontalFlexNode searchContainerNode;

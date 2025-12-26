@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Numerics;
 using DailyDuty.Classes;
-using DailyDuty.ConfigurationWindow.AutoConfig;
+using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Extensions;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Addons;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 
@@ -26,30 +23,16 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Achievements", "Exp" ],
+        MessageClickAction = PayloadId.OpenChallengeLog,
     };
 
     private Stopwatch? contentsFinderStopwatch;
-    private ConfigAddon? configWindow;
-    private LuminaSearchAddon<ContentsNote>? contentsNoteSearch; // todo: what?
-    
-    public override UpdatableNode GetDataNode() => new DataNode(this);
-    public override SimpleComponentNode GetConfigNode() => new ConfigNode(this);
+
+    public override DataNodeBase GetDataNode() => new DataNode(this);
+    public override ConfigNodeBase GetConfigNode() => new ConfigNode(this);
 
     protected override void OnEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
-
-        configWindow = new ConfigAddon {
-            InternalName = "ChallengeLogConfig",
-            Title = "Challenge Log Config",
-            Size = new Vector2(300.0f, 400.0f),
-            Config = ModuleConfig,
-        };
-
-        configWindow.AddCategory("Duty Finder Warnings")
-            .AddCheckbox("Enable Duty Finder Warning", nameof(ModuleConfig.EnableContentFinderWarning))
-            .AddCheckbox("Enable Warning Sound", nameof(ModuleConfig.EnableWarningSound));
-
-        OpenConfigAction = configWindow.Toggle;
     }
 
     protected override void OnDisable() {
@@ -71,13 +54,11 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
 
         var anyWarningGenerated = false;
 
-        foreach (var warningId in config.WarningEntries) {
-            if (!IsContentNoteComplete(warningId)) {
-                if (!Services.DataManager.GetExcelSheet<ContentsNote>().TryGetRow(warningId, out var contentNote)) continue;
+        foreach (var warningId in config.WarningEntries.Where(warningId => !IsContentNoteComplete(warningId))) {
+            if (!Services.DataManager.GetExcelSheet<ContentsNote>().TryGetRow(warningId, out var contentNote)) continue;
 
-                Services.ChatGui.PrintTaggedMessage($"{contentNote.Name.ToString()} is still incomplete!", "ChallengeLog");
-                anyWarningGenerated = true;
-            }
+            Services.ChatGui.PrintTaggedMessage($"{contentNote.Name.ToString()} is still incomplete!", "ChallengeLog");
+            anyWarningGenerated = true;
         }
 
         if (anyWarningGenerated && config.EnableWarningSound) {
@@ -95,7 +76,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     public override ReadOnlySeString GetStatusMessage()
-        => $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log Entries Incomplete";
+        => $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log entrie(s) Incomplete";
 
     private static unsafe bool IsContentNoteComplete(uint rowId)
         => FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote.Instance()->IsContentNoteComplete((int)rowId);

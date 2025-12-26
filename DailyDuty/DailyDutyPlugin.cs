@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using DailyDuty.Classes;
-using DailyDuty.ConfigurationWindow;
+using DailyDuty.Windows;
+using Dalamud.Game.Command;
 using Dalamud.Plugin;
 using KamiToolKit;
 
@@ -12,13 +13,25 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         KamiToolKitLibrary.Initialize(pluginInterface);
 
-        System.ConfigurationWindow = new ConfigWindow {
+        System.ConfigurationWindow = new ModuleBrowserWindow {
             InternalName = "DailyDutyConfig",
             Title = "Daily Duty Configuration",
             Size = new Vector2(700.0f, 600.0f),
         };
+
+        if (Services.ClientState.IsLoggedIn) {
+            System.ConfigurationWindow.DebugOpen();
+        }
+
+        Services.CommandManager.AddHandler("/dd", new CommandInfo(OnCommandReceived) {
+            HelpMessage = "Open DailyDuty Config Window",
+            ShowInHelp = true,
+        });
         
-        System.ConfigurationWindow.DebugOpen();
+        Services.CommandManager.AddHandler("/dailyduty", new CommandInfo(OnCommandReceived) {
+            HelpMessage = "Open DailyDuty Config Window",
+            ShowInHelp = true,
+        });
         
         System.PayloadController = new PayloadController();
         System.ModuleManager = new ModuleManager();
@@ -31,14 +44,27 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         Services.ClientState.Logout += OnLogout;
     }
 
+    private void OnCommandReceived(string command, string arguments) {
+        if (command is not ("/dailyduty" or "/dd")) return;
+
+        switch (arguments) {
+            case null or "":
+                System.ConfigurationWindow.Toggle();
+                break;
+        }
+    }
+
     public void Dispose() {
         Services.ClientState.Login -= OnLogin;
         Services.ClientState.Logout -= OnLogout;
         
-        System.PayloadController.Dispose();
-        System.ModuleManager.Dispose();
+        Services.CommandManager.RemoveHandler("/dd");
+        Services.CommandManager.RemoveHandler("/dailyduty");
         
         System.ConfigurationWindow.Dispose();
+        
+        System.PayloadController.Dispose();
+        System.ModuleManager.Dispose();
         
         KamiToolKitLibrary.Dispose();
     }

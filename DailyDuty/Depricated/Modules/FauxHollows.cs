@@ -22,8 +22,8 @@
 // 	public bool ClickableLink = true;
 //
 // 	protected override void DrawModuleConfig() {
-// 		ConfigChanged |= ImGui.Checkbox("Include Retelling", ref IncludeRetelling);
-// 		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
+// 		SavePending |= ImGui.Checkbox("Include Retelling", ref IncludeRetelling);
+// 		SavePending |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 // 	}
 // }
 //

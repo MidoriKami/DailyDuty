@@ -1,23 +1,24 @@
 ﻿using System.Numerics;
-using DailyDuty.Classes;
-using DailyDuty.ConfigurationWindow.Nodes;
+using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
 
-namespace DailyDuty.ConfigurationWindow;
+namespace DailyDuty.Windows;
 
-public class ConfigWindow : NativeAddon {
+public class ModuleBrowserWindow : NativeAddon {
     private SearchNode? searchNode;
     private OptionsNode? optionsNode;
-    private UpdatableNode? statusNode;
+    private DataNodeBase? statusNode;
     private SimpleComponentNode? mainContainerNode;
 
     private ModuleOptionNode? selectedOption;
 
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
+        statusNode = null;
+        
         mainContainerNode = new SimpleComponentNode {
             Position = ContentStartPosition,
             Size = ContentSize,
@@ -43,6 +44,8 @@ public class ConfigWindow : NativeAddon {
     }
 
     protected override unsafe void OnUpdate(AtkUnitBase* addon) {
+        if (System.ModuleManager.IsUnloading) return;
+        
         foreach (var node in optionsNode?.Nodes ?? []) {
             node.Update();
         }
@@ -74,10 +77,11 @@ public class ConfigWindow : NativeAddon {
         
     }
 
-    private void AttachStatusNode(UpdatableNode node) {
+    private void AttachStatusNode(DataNodeBase node) {
         if (mainContainerNode is null) return;
         if (searchNode is null) return;
         
+        statusNode?.Dispose();
         statusNode = node;
         
         node.Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f);

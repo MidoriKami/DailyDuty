@@ -51,27 +51,27 @@
 //     public Vector4 TimerColor = KnownColor.Black.Vector();
 //     
 //     protected override void DrawModuleConfig() {
-//         ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
-//         ConfigChanged |= ImGui.Checkbox("Mark complete when tomecapped", ref CompleteWhenCapped);
-//         ConfigChanged |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
+//         SavePending |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
+//         SavePending |= ImGui.Checkbox("Mark complete when tomecapped", ref CompleteWhenCapped);
+//         SavePending |= ImGui.Checkbox("Show 'Open DailyDuty' button", ref ShowOpenDailyDutyButton);
 //         
 //         ImGui.Spacing();
 //
-//         ConfigChanged |= ImGui.Checkbox("Show Daily Reset Timer in Duty Finder", ref ShowResetTimer);
+//         SavePending |= ImGui.Checkbox("Show Daily Reset Timer in Duty Finder", ref ShowResetTimer);
 //
 //         if (ShowResetTimer) {
-//             ConfigChanged |= ImGuiTweaks.ColorEditWithDefault("Timer Color", ref TimerColor, ColorHelper.GetColor(7));
+//             SavePending |= ImGuiTweaks.ColorEditWithDefault("Timer Color", ref TimerColor, ColorHelper.GetColor(7));
 //         }
 //         
 //         ImGui.Spacing();
 //
-//         ConfigChanged |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
+//         SavePending |= ImGui.Checkbox("Color Duty Finder", ref ColorContentFinder);
 //         
 //         if (ColorContentFinder) {
 //             ImGuiHelpers.ScaledDummy(5.0f);
 //
-//             ConfigChanged |= ImGuiTweaks.ColorEditWithDefault("Complete Color", ref CompleteColor, KnownColor.LimeGreen.Vector());
-//             ConfigChanged |= ImGuiTweaks.ColorEditWithDefault("Incomplete Color", ref IncompleteColor, KnownColor.OrangeRed.Vector());
+//             SavePending |= ImGuiTweaks.ColorEditWithDefault("Complete Color", ref CompleteColor, KnownColor.LimeGreen.Vector());
+//             SavePending |= ImGuiTweaks.ColorEditWithDefault("Incomplete Color", ref IncompleteColor, KnownColor.OrangeRed.Vector());
 //         }
 //         
 //         ImGuiHelpers.ScaledDummy(5.0f);
@@ -193,7 +193,7 @@
 //         
 //         if (Config.TimerColor == Vector4.Zero) {
 //             Config.TimerColor = ColorHelper.GetColor(7);
-//             ConfigChanged = true;
+//             SavePending = true;
 //         }
 //     }
 //

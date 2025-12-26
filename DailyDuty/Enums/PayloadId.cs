@@ -1,6 +1,7 @@
 ﻿namespace DailyDuty.Enums;
 
 public enum PayloadId : uint {
+    Unset,
 	OpenWondrousTailsBook,
 	IdyllshireTeleport,
 	DomanEnclaveTeleport,
@@ -10,6 +11,5 @@ public enum PayloadId : uint {
 	GoldSaucerTeleport,
 	OpenPartyFinder,
 	UldahTeleport,
-	Unknown,
 	OpenChallengeLog,
 }

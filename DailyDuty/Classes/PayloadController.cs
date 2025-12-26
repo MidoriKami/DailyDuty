@@ -46,7 +46,7 @@ public unsafe class PayloadController : IDisposable {
         PayloadId.OpenDutyFinderRoulette => OpenDutyFinderRoulette,
         PayloadId.OpenDutyFinderRaid => OpenDutyFinderRaid,
         PayloadId.OpenDutyFinderAllianceRaid => OpenDutyFinderAllianceRaid,
-        PayloadId.Unknown => (_, _) => Services.PluginLog.Debug("Executed Unknown Payload."),
+        PayloadId.Unset => (_, _) => Services.PluginLog.Debug("Executed Unknown Payload."),
         _ => throw new ArgumentOutOfRangeException(nameof(payload), payload, null),
     };
 

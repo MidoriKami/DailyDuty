@@ -28,7 +28,7 @@
 //
 //     public bool Suppressed;
 //
-//     [JsonIgnore] public bool ConfigChanged;
+//     [JsonIgnore] public bool SavePending;
 // 	    
 //     protected virtual void DrawModuleConfig() {
 //         ImGui.TextColored(KnownColor.Orange.Vector(), "No additional options for this module");
@@ -52,7 +52,7 @@
 //
 //         ImGuiTweaks.Header("Module Enable");
 //         using (ImRaii.PushIndent()) {
-//             ConfigChanged |= ImGui.Checkbox("Enable", ref ModuleEnabled);
+//             SavePending |= ImGui.Checkbox("Enable", ref ModuleEnabled);
 //         }
 //
 //         ImGuiTweaks.Header("Module Configuration");
@@ -70,32 +70,32 @@
 //         
 //         ImGuiTweaks.Header("Notification Options");
 //         using (ImRaii.PushIndent()) {
-//             ConfigChanged |= ImGuiTweaks.Checkbox("Send status on login", ref OnLoginMessage, "Sends a notification once when you login");
-//             ConfigChanged |= ImGuiTweaks.Checkbox("Send status on zone change", ref OnZoneChangeMessage, "Sends a notification once every 5 mins, when changing zones");
-//             ConfigChanged |= ImGuiTweaks.Checkbox("Send status on reset", ref ResetMessage, "Sends a notification when this module resets");
+//             SavePending |= ImGuiTweaks.Checkbox("Send status on login", ref OnLoginMessage, "Sends a notification once when you login");
+//             SavePending |= ImGuiTweaks.Checkbox("Send status on zone change", ref OnZoneChangeMessage, "Sends a notification once every 5 mins, when changing zones");
+//             SavePending |= ImGuiTweaks.Checkbox("Send status on reset", ref ResetMessage, "Sends a notification when this module resets");
 //         }
 //
 //         ImGuiTweaks.Header("Notification Customization");
 //         using (ImRaii.PushIndent()) {
-//             ConfigChanged |= ImGui.Checkbox("Enable custom channel", ref UseCustomChannel);
+//             SavePending |= ImGui.Checkbox("Enable custom channel", ref UseCustomChannel);
 //
 //             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
-//             ConfigChanged |= ImGuiTweaks.EnumCombo("##ChannelSelect", ref MessageChatChannel);
+//             SavePending |= ImGuiTweaks.EnumCombo("##ChannelSelect", ref MessageChatChannel);
 //
 //             ImGuiHelpers.ScaledDummy(3.0f);
-//             ConfigChanged |= ImGui.Checkbox("Enable custom status message", ref UseCustomStatusMessage);
+//             SavePending |= ImGui.Checkbox("Enable custom status message", ref UseCustomStatusMessage);
 //             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
 //             ImGui.InputTextWithHint("##CustomStatusMessage", "Status message", ref CustomStatusMessage, 1024);
 //             if (ImGui.IsItemDeactivatedAfterEdit()) {
-//                 ConfigChanged = true;
+//                 SavePending = true;
 //             }
 //
 //             ImGuiHelpers.ScaledDummy(3.0f);
-//             ConfigChanged |= ImGui.Checkbox("Enable custom reset message", ref UseCustomResetMessage);
+//             SavePending |= ImGui.Checkbox("Enable custom reset message", ref UseCustomResetMessage);
 //             ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X);
 //             ImGui.InputTextWithHint("##CustomResetMessage", "Reset message", ref CustomResetMessage, 1024);
 //             if (ImGui.IsItemDeactivatedAfterEdit()) {
-//                 ConfigChanged = true;
+//                 SavePending = true;
 //             }
 //         }
 //     }
@@ -109,7 +109,7 @@
 //
 //         ImGuiTweaks.Header("Todo Configuration");
 //         using (ImRaii.PushIndent()) {
-//             ConfigChanged |= ImGui.Checkbox("Tddo Enable", ref TodoEnabled);
+//             SavePending |= ImGui.Checkbox("Tddo Enable", ref TodoEnabled);
 //         }
 //
 //         ImGuiTweaks.Header("Style Configuration");

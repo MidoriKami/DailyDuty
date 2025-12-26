@@ -75,7 +75,7 @@
 // 			Data.NextReset = Data.LastMapGatheredTime + TimeSpan.FromHours(18);
 // 			Config.Suppressed = false;
 // 			DataChanged = true;
-// 			ConfigChanged = true;
+// 			SavePending = true;
 // 		}
 // 	}
 //

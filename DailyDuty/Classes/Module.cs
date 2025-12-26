@@ -1,19 +1,28 @@
 ﻿using System;
+using System.Numerics;
 using DailyDuty.Enums;
 using DailyDuty.Extensions;
 using DailyDuty.Utilities;
-using Dalamud.Game.Text;
+using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
+using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Classes;
 
 public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() where TU : DataBase, new() {
 
-    // These are effectively not nullable, for the lifetime of a user session they are expected to be valid.
+    private ModuleConfigWindow<Module<T, TU>>? configWindow;
+
     public T ModuleConfig { get; private set; } = null!;
     public TU ModuleData { get; private set; } = null!;
 
-    public override void Enable() {
+    public override ConfigBase ConfigBase => ModuleConfig;
+    public override DataBase DataBase => ModuleData;
+
+    private bool isEnabled;
+
+    public sealed override void Load() {
         ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
@@ -23,45 +32,85 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleData is null) throw new Exception("Failed to load data file");
         
         ModuleData.FileName = ModuleInfo.FileName;
-
+        
         Services.Framework.Update += OnUpdate;
+        OnUpdate(Services.Framework);
+    }
+
+    public sealed override void Unload() {
+        Services.Framework.Update -= OnUpdate;
+
+        ModuleData = null!;
+        ModuleConfig = null!;
+    }
+
+    public sealed override void Enable() {
+        isEnabled = true;
+        
+        configWindow = new ModuleConfigWindow<Module<T, TU>> {
+            Module = this,
+            InternalName = $"{GetType().Name}ConfigWindow",
+            Title = $"{ModuleInfo.DisplayName} Config Window",
+            Size = new Vector2(400.0f, 500.0f),
+        };
+
+        OpenConfigAction = configWindow.Toggle;
         
         OnEnable();
         SendStatusMessage();
     }
     
-    public override void Disable() {
+    public sealed override void Disable() {
+        isEnabled = false;
+                
+        OpenConfigAction = null;
+        
+        configWindow?.Dispose();
+        configWindow = null;
+        
         OnDisable();
-        
-        Services.Framework.Update -= OnUpdate;
-        
-        ModuleData = null!;
-        ModuleConfig = null!;
     }
     
     private void OnUpdate(IFramework framework) {
         TryReset();
         
         Update();
+
+        if (ModuleConfig.SavePending) {
+            ModuleConfig.Save();
+        }
+
+        if (ModuleData.SavePending) {
+            ModuleData.Save();
+        }
     }
 
     private void SendStatusMessage() {
-        var moduleStatus = GetModuleStatus();
-
-        if (moduleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
+        if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
-        
-        var statusMessage = ModuleConfig.CustomStatusMessage != string.Empty ? ModuleConfig.CustomStatusMessage : GetStatusMessage();
+
+        ReadOnlySeString statusMessage;
+        if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
+            statusMessage = GetStatusMessage();
+        }
+        else {
+            statusMessage = ModuleConfig.CustomStatusMessage;
+        }
         
         Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Status Message");
-        Services.ChatGui.PrintMessage(ModuleConfig.MessageChatChannel, ModuleInfo.DisplayName, statusMessage.ExtractText());
+        Services.ChatGui.PrintPayloadMessage(
+            ModuleConfig.MessageChatChannel, 
+            ModuleInfo.MessageClickAction, 
+            ModuleInfo.DisplayName, 
+            statusMessage.ExtractText()
+        );
     }
     
     private void TryReset() {
         if (DateTime.UtcNow <= ModuleData.NextReset) return;
-        if (GetResetMessage() is not {} message) return;
         
-        Services.ChatGui.PrintMessage(GetMessageChannel(), ModuleInfo.DisplayName, message);
+        Services.ChatGui.PrintMessage(ModuleConfig.MessageChatChannel, ModuleInfo.DisplayName, GetResetMessage());
+
         Reset();
         
         ModuleData.NextReset = GetNextResetDateTime();
@@ -71,17 +120,18 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         ModuleConfig.Save();
     }
 
-    public override string GetResetMessage()
-        => ModuleConfig.CustomResetMessage != string.Empty ? ModuleConfig.CustomResetMessage : $"Resetting {ModuleInfo.DisplayName} module";
+    private string GetResetMessage() {
+        if (ModuleConfig.CustomResetMessage is { Length: > 0 }) return ModuleConfig.CustomResetMessage;
 
-    public override XivChatType GetMessageChannel()
-        => ModuleConfig.MessageChatChannel;
+        return $"Resetting {ModuleInfo.DisplayName} module";
+    }
 
-    public override CompletionStatus GetModuleStatus()
-        => ModuleConfig.Suppressed ? CompletionStatus.Suppressed : GetCompletionStatus();
+    protected override CompletionStatus GetModuleStatus() {
+        if (!isEnabled) return CompletionStatus.Disabled;
+        if (ModuleConfig.Suppressed) return CompletionStatus.Suppressed;
+
+        return GetCompletionStatus();
+    }
 
     protected abstract CompletionStatus GetCompletionStatus();
-
-    public override DateTime GetCurrentResetDateTime()
-        => ModuleData.NextReset;
 }

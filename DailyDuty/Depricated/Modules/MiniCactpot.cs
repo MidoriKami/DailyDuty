@@ -21,7 +21,7 @@
 //     public bool ClickableLink = true;
 //     
 //     protected override void DrawModuleConfig() {
-//         ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
+//         SavePending |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 //     }
 // }
 //

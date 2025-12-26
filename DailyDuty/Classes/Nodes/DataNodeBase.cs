@@ -1,11 +1,15 @@
-﻿using System;
+﻿using System.Linq;
 using System.Numerics;
-using DailyDuty.Classes;
+using DailyDuty.Enums;
+using DailyDuty.Windows;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.ConfigurationWindow.Nodes;
+namespace DailyDuty.Classes.Nodes;
 
-public abstract class StatusNode<T> : UpdatableNode where T : ModuleBase {
+public abstract class DataNodeBase : UpdatableNode;
+
+public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     private readonly ChangelogWindow? changelogWindow = new() {
         InternalName = "DailyDutyChangelog",
         Title = "Changelog",
@@ -22,9 +26,9 @@ public abstract class StatusNode<T> : UpdatableNode where T : ModuleBase {
 
     private readonly GenericDataNode statusDisplayNode;
 
-    protected StatusNode(T module) {
+    protected DataNodeBase(T module) {
         this.module = module;
-
+        
         tabBarNode = new TabBarNode();
         tabBarNode.AddTab("Status", OnStatusSelected);
         tabBarNode.AddTab("Data", OnDataSelected);
@@ -50,13 +54,14 @@ public abstract class StatusNode<T> : UpdatableNode where T : ModuleBase {
         changeLogButtonNode.AttachNode(this);
 
         snoozeButtonNode = new TextButtonNode {
-            String = "Snooze",
+            String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze",
             OnClick = SnoozeClicked,
         };
         snoozeButtonNode.AttachNode(this);
 
         versionNode = new TextNode {
-            String = "Version -69.420",
+            AlignmentType = AlignmentType.BottomRight,
+            String = $"Version {module.ModuleInfo.ChangeLog.Max(changelog => changelog.Version)}",
         };
         versionNode.AttachNode(this);
         
@@ -84,8 +89,8 @@ public abstract class StatusNode<T> : UpdatableNode where T : ModuleBase {
         snoozeButtonNode.Size = buttonSize;
         snoozeButtonNode.Position = new Vector2(Width / 2.0f - snoozeButtonNode.Width / 2.0f, Height - buttonSize.Y - padding);
         
-        versionNode.Size = new Vector2(100.0f, 24.0f);
-        versionNode.Position = new Vector2(Width - versionNode.Width - 4.0f, Height - 16.0f - 4.0f - 4.0f);
+        versionNode.Size = buttonSize;
+        versionNode.Position = new Vector2(Width - versionNode.Width - 4.0f, Height - buttonSize.Y - padding);
 
         var contentsSize = new Vector2(Width - padding * 2.0f, Height - tabBarNode.Height - buttonSize.Y - padding * 5.0f);
         var contentPosition = new Vector2(padding, tabBarNode.Bounds.Bottom + padding * 2.0f);
@@ -95,12 +100,13 @@ public abstract class StatusNode<T> : UpdatableNode where T : ModuleBase {
 
         dataNode.Size = contentsSize;
         dataNode.Position = contentPosition;
-        dataNode.ContentNode.Width = Width;
         dataNode.ContentNode.RecalculateLayout();
     }
 
     public override void Update() {
         statusDisplayNode.Update(module);
+
+        snoozeButtonNode.IsEnabled = module.ModuleStatus is not CompletionStatus.Complete;
     }
 
     private void OnDataSelected() {
@@ -118,10 +124,13 @@ public abstract class StatusNode<T> : UpdatableNode where T : ModuleBase {
         changelogWindow?.Toggle();
     }
 
-    private void SnoozeClicked()
-        => Snooze?.Invoke();
-
-    public Action? Snooze { get; set; }
+    private void SnoozeClicked() {
+        module.ConfigBase.Suppressed = !module.ConfigBase.Suppressed;
+        
+        snoozeButtonNode.String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze";
+        
+        module.ConfigBase.SavePending = true;
+    }
 
     protected abstract void BuildNode(VerticalListNode container);
     

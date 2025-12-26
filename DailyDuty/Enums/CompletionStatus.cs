@@ -2,6 +2,7 @@
 
 public enum CompletionStatus {
     Unknown,
+    Disabled,
     Incomplete,
     Unavailable,
     InProgress,

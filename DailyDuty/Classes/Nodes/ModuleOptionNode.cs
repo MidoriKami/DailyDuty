@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -9,7 +8,7 @@ using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.ConfigurationWindow.Nodes;
+namespace DailyDuty.Classes.Nodes;
 
 public class ModuleOptionNode : SimpleComponentNode {
     private readonly NineGridNode hoveredBackgroundNode;
@@ -135,7 +134,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         }
         else {
             statusTextNode.IsVisible = true;
-            statusTextNode.SeString = $"Status: {Module.ModuleBase.GetModuleStatus().Description}";
+            statusTextNode.SeString = $"Status: {Module.ModuleBase.ModuleStatus.Description}";
         }
     }
 

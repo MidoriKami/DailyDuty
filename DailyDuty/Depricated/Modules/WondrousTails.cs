@@ -63,16 +63,16 @@
 // 	public Vector4 DutyFinderColor = KnownColor.Yellow.Vector();
 // 	
 // 	protected override void DrawModuleConfig() {
-// 		ConfigChanged |= ImGui.Checkbox("Instance Notifications", ref InstanceNotifications);
-// 		ConfigChanged |= ImGui.Checkbox("Sticker Available Warning", ref StickerAvailableNotice);
-// 		ConfigChanged |= ImGui.Checkbox("Unclaimed Book Warning", ref UnclaimedBookWarning);
-// 		ConfigChanged |= ImGui.Checkbox("Shuffle Available Warning", ref ShuffleAvailableNotice);
-// 		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
-// 		ConfigChanged |= ImGui.Checkbox("Duty Finder Clover", ref CloverIndicator);
-// 		ConfigChanged |= ImGui.Checkbox("Duty Finder Text Color", ref ColorDutyFinderText);
+// 		SavePending |= ImGui.Checkbox("Instance Notifications", ref InstanceNotifications);
+// 		SavePending |= ImGui.Checkbox("Sticker Available Warning", ref StickerAvailableNotice);
+// 		SavePending |= ImGui.Checkbox("Unclaimed Book Warning", ref UnclaimedBookWarning);
+// 		SavePending |= ImGui.Checkbox("Shuffle Available Warning", ref ShuffleAvailableNotice);
+// 		SavePending |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
+// 		SavePending |= ImGui.Checkbox("Duty Finder Clover", ref CloverIndicator);
+// 		SavePending |= ImGui.Checkbox("Duty Finder Text Color", ref ColorDutyFinderText);
 //
 // 		ImGui.ColorEdit4("Duty Finder Color", ref DutyFinderColor, ImGuiColorEditFlags.NoInputs | ImGuiColorEditFlags.AlphaBar);
-// 		ConfigChanged |= ImGui.IsItemDeactivatedAfterEdit();
+// 		SavePending |= ImGui.IsItemDeactivatedAfterEdit();
 // 	}
 // }
 //

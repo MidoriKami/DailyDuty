@@ -7,7 +7,7 @@ using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.ConfigurationWindow;
+namespace DailyDuty.Windows;
 
 public class ChangelogWindow : NativeAddon {
     private ScrollingAreaNode<TreeListNode>? scrollingAreaNode;

@@ -17,7 +17,7 @@ public class ConfigBase : ISavable {
 
     public bool Suppressed;
     
-    [JsonIgnore] public bool ConfigChanged;
+    [JsonIgnore] public bool SavePending;
     
     public void Save() {
         if (FileName == string.Empty) {

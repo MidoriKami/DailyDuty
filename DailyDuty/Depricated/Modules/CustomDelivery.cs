@@ -22,10 +22,10 @@
 //
 //     protected override void DrawModuleConfig() {
 //         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-//         ConfigChanged |= ImGuiTweaks.EnumCombo("Comparison Mode", ref ComparisonMode);
+//         SavePending |= ImGuiTweaks.EnumCombo("Comparison Mode", ref ComparisonMode);
 //         
 //         ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-//         ConfigChanged |= ImGui.SliderInt("Notification Threshold", ref NotificationThreshold, 1, 12);
+//         SavePending |= ImGui.SliderInt("Notification Threshold", ref NotificationThreshold, 1, 12);
 //     }
 // }
 //

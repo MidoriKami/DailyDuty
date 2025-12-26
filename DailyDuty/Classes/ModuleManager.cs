@@ -9,6 +9,7 @@ namespace DailyDuty.Classes;
 public class ModuleManager : IDisposable {
 
     public List<LoadedModule>? LoadedModules { get; private set; }
+    public bool IsUnloading {get; private set; }
     
     public void Dispose() => UnloadModules();
     
@@ -22,6 +23,7 @@ public class ModuleManager : IDisposable {
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
 
             LoadedModules.Add(newLoadedModule);
+            module.Load();
 
             if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
                 TryEnableModule(newLoadedModule);
@@ -30,8 +32,10 @@ public class ModuleManager : IDisposable {
     }
 
     public void UnloadModules() {
+        IsUnloading = true;
+        
         if (LoadedModules is null) {
-            Services.PluginLog.Error("No loaded modules loaded");
+            Services.PluginLog.Debug("No modules loaded");
             return;
         }
         
@@ -48,6 +52,8 @@ public class ModuleManager : IDisposable {
                     Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
                 }
             }
+            
+            loadedModule.ModuleBase.Unload();
         }
 
         LoadedModules = null;
@@ -127,5 +133,4 @@ public class ModuleManager : IDisposable {
         .Where(modification => modification?.ModuleInfo.Type is not ModuleType.Hidden)
         .OfType<ModuleBase>()
         .ToList();
-
 }

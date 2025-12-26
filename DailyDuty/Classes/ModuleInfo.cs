@@ -11,4 +11,5 @@ public class ModuleInfo {
 	public required ModuleType Type { get; init; }
 	public required List<ChangeLogInfo> ChangeLog { get; init; } = [];
 	public List<string> Tags { get; init; } = [];
+    public PayloadId MessageClickAction { get; init; }
 }

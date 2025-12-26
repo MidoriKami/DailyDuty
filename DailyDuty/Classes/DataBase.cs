@@ -8,6 +8,8 @@ public class DataBase {
     
     public DateTime NextReset;
     
+    [JsonIgnore] public bool SavePending;
+
     public void Save() {
         if (FileName == string.Empty) {
             Services.PluginLog.Error("Tried to save a config with no file name set");

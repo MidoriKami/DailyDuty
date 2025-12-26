@@ -89,12 +89,12 @@
 //     protected virtual void UpdateTaskData() { }
 //         
 //     protected bool DataChanged;
-//     protected bool ConfigChanged;
+//     protected bool SavePending;
 //
 //     public override void DrawConfig() {
 //         Config.DrawConfigUi(this);
 //
-//         ConfigChanged |= Config.ConfigChanged;
+//         SavePending |= Config.SavePending;
 //     }
 //
 //     public override void DrawData() {
@@ -117,7 +117,7 @@
 //
 //         ImGuiTweaks.DisabledButton(!Config.Suppressed ? "Snooze" : "Unsnooze", () => {
 //             Config.Suppressed = !Config.Suppressed;
-//             ConfigChanged = true;
+//             SavePending = true;
 //         });
 //     }
 //
@@ -163,17 +163,17 @@
 //     }
 //     
 //     public override void Update() {
-//         if (DataChanged || ConfigChanged) {
+//         if (DataChanged || SavePending) {
 //             UpdateTaskLists();
 //             UpdateTaskData();
 //             UpdateOverlays();
 //         }
 //         
 //         if (DataChanged) SaveData();
-//         if (ConfigChanged) SaveConfig();
+//         if (SavePending) SaveConfig();
 //         
 //         DataChanged = false;
-//         ConfigChanged = false;
+//         SavePending = false;
 //     }
 //
 //     public override void Load() {
@@ -213,7 +213,7 @@
 //         SaveData();
 //         
 //         Config.Suppressed = false;
-//         ConfigChanged = true;
+//         SavePending = true;
 //         SaveConfig();
 //     }
 //

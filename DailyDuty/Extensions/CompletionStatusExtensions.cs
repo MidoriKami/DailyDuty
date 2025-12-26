@@ -10,6 +10,7 @@ public static class CompletionStatusExtensions {
     extension(CompletionStatus status) {
         public string Description => status switch {
             CompletionStatus.Unknown => "Unknown",
+            CompletionStatus.Disabled => "Disabled",
             CompletionStatus.Incomplete => "Incomplete",
             CompletionStatus.Unavailable => "Unavailable",
             CompletionStatus.InProgress => "In Progress",
@@ -20,6 +21,7 @@ public static class CompletionStatusExtensions {
         
         public Vector4 Color => status switch {
             CompletionStatus.Unknown => KnownColor.Gray.Vector(),
+            CompletionStatus.Disabled => KnownColor.Gray.Vector(),
             CompletionStatus.Incomplete => KnownColor.Red.Vector(),
             CompletionStatus.Unavailable => KnownColor.Orange.Vector(),
             CompletionStatus.InProgress => KnownColor.Aqua.Vector(),

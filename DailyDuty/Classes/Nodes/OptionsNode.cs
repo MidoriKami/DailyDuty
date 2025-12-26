@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Extensions;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.ConfigurationWindow.Nodes;
+namespace DailyDuty.Classes.Nodes;
 
 public class OptionsNode : SimpleComponentNode {
 

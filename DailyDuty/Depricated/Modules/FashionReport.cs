@@ -39,8 +39,8 @@
 //
 // 	protected override void DrawModuleConfig() {
 // 		ImGui.SetNextItemWidth(ImGui.GetContentRegionAvail().X / 2.0f);
-// 		ConfigChanged |= ImGuiTweaks.EnumCombo("Completion Mode", ref CompletionMode);
-// 		ConfigChanged |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
+// 		SavePending |= ImGuiTweaks.EnumCombo("Completion Mode", ref CompletionMode);
+// 		SavePending |= ImGui.Checkbox("Clickable Link", ref ClickableLink);
 // 	}
 // }
 //

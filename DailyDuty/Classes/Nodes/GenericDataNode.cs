@@ -1,11 +1,10 @@
 ﻿using System;
-using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.ConfigurationWindow.Nodes;
+namespace DailyDuty.Classes.Nodes;
 
 public class GenericDataNode : SimpleComponentNode {
     private readonly TabbedVerticalListNode listNode;
@@ -14,6 +13,8 @@ public class GenericDataNode : SimpleComponentNode {
     private readonly TextNode resetTimeTextNode;
     private readonly TextNode timeRemainingTextNode;
 
+    private readonly bool isReady;
+    
     public GenericDataNode() {
         listNode = new TabbedVerticalListNode {
             FitWidth = true,
@@ -61,6 +62,8 @@ public class GenericDataNode : SimpleComponentNode {
             AlignmentType = AlignmentType.BottomLeft,
             Height = 32.0f,
         });
+        
+        isReady = true;
     }
 
     protected override void OnSizeChanged() {
@@ -71,9 +74,11 @@ public class GenericDataNode : SimpleComponentNode {
     }
 
     public void Update(ModuleBase module) {
-        var resetTime = module.GetCurrentResetDateTime();
+        if (!isReady) return;
+        
+        var resetTime = module.DataBase.NextReset;
 
-        statusTextNode.String = module.GetModuleStatus().Description;
+        statusTextNode.String = module.ModuleStatus.Description;
         resetTimeTextNode.String = resetTime.ToLocalTime().GetDisplayString();
         timeRemainingTextNode.String = $"Time Remaining: {(resetTime - DateTime.UtcNow).FormatTimespan()}";
     }

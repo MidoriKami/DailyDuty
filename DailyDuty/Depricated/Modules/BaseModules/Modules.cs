@@ -20,7 +20,7 @@
 //     public LuminaTaskConfigList<T> TaskConfig = [];
 //
 //     protected override void DrawModuleConfig() {
-//         ConfigChanged |= TaskConfig.Draw();
+//         SavePending |= TaskConfig.Draw();
 //     }
 // }
 //
