@@ -181,7 +181,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         erroringImageNode.Position = checkboxNode.Position + new Vector2(1.0f, 3.0f);
     }
 
-    public void UpdateDisabledState() {
+    private void UpdateDisabledState() {
         if (Module.State is LoadedState.Errored) {
             checkboxNode.IsEnabled = false;
             erroringImageNode.IsVisible = true;

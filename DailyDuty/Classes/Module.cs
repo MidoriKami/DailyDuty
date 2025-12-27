@@ -57,6 +57,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         OpenConfigAction = configWindow.Toggle;
         
         OnEnable();
+        Update();
         SendStatusMessage();
     }
     

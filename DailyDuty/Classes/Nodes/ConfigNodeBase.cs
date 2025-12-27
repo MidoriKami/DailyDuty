@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes.Nodes;
@@ -65,7 +66,19 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
     protected abstract void BuildNode(VerticalListNode container);
     
     private void AttachDataNode(VerticalListNode container) {
+        var preCount = container.Nodes.Count;
+        
         BuildNode(container);
         container.RecalculateLayout();
+        
+        var postCount = container.Nodes.Count;
+
+        if (preCount == postCount) {
+            container.AddNode(new TextNode {
+                String = "No options available for this module",
+                AlignmentType = AlignmentType.Left,
+                Height = 32.0f,
+            });
+        }
     }
 }

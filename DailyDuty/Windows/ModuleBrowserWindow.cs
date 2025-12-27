@@ -73,9 +73,7 @@ public class ModuleBrowserWindow : NativeAddon {
         }
 
         if (validOptions.All(option => option != selectedOption)) {
-            selectedOption?.IsSelected = false;
-            selectedOption?.IsHovered = false;
-            selectedOption = null;
+            UnselectCurrentStatus();
         }
 
         optionsNode?.RecalculateLayout();
@@ -84,13 +82,10 @@ public class ModuleBrowserWindow : NativeAddon {
     private void OnOptionClicked(ModuleOptionNode option) {
         if (selectedOption == option) return;
         
-        selectedOption?.IsSelected = false;
-        selectedOption?.IsHovered = false;
+        UnselectCurrentStatus();
 
         selectedOption = option;
         selectedOption.IsSelected = true;
-        
-        statusNode?.Dispose();
         
         var statusDisplayNode = option.Module.ModuleBase.GetDataNode();
         
@@ -98,7 +93,7 @@ public class ModuleBrowserWindow : NativeAddon {
     }
     
     private void OnCategoryToggled(bool isVisible, ModuleType category) {
-        
+        // Not sure why this exists.
     }
 
     private void AttachStatusNode(DataNodeBase node) {
@@ -111,5 +106,14 @@ public class ModuleBrowserWindow : NativeAddon {
         node.Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f);
         node.Position = new Vector2(mainContainerNode.Width * 2.0f / 5.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f);
         node.AttachNode(mainContainerNode);
+    }
+
+    private void UnselectCurrentStatus() {
+        selectedOption?.IsSelected = false;
+        selectedOption?.IsHovered = false;
+        selectedOption = null;
+        
+        statusNode?.Dispose();
+        statusNode = null;
     }
 }
