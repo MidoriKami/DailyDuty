@@ -105,7 +105,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
             ModuleConfig.MessageChatChannel, 
             ModuleInfo.MessageClickAction, 
             ModuleInfo.DisplayName, 
-            statusMessage.ExtractText()
+            statusMessage.ToString()
         );
     }
     

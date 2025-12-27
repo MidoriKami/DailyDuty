@@ -1,5 +1,7 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 using DailyDuty.Classes.Nodes;
+using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
@@ -11,6 +13,7 @@ public unsafe class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(m
     private TextNode? allowanceText;
     private TextNode? donatedText;
     private TextNode? allowanceRemaining;
+    private TextNode? warningText;
     
     protected override void BuildNode(VerticalListNode container) {
         container.AddNode([
@@ -65,7 +68,12 @@ public unsafe class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(m
                     },
                 ],
             },
-                
+            warningText = new TextNode {
+                MultiplyColor = KnownColor.Orange.Vector().Fade(0.40f).AsVector3(),
+                String = "Status is unavailable, visit the Doman Enclave to update",
+                AlignmentType = AlignmentType.Center,
+                Height = 32.0f,
+            },
         ]);
     }
 
@@ -75,6 +83,8 @@ public unsafe class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(m
         allowanceText?.String = Allowance.ToString();
         donatedText?.String = Donated.ToString();
         allowanceRemaining?.String = RemainingAllowance.ToString();
+
+        warningText?.IsVisible = Allowance is 0;
     }
     
     private static int Allowance => DomanEnclaveManager.Instance()->State.Allowance;

@@ -17,12 +17,14 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     
     private readonly T module;
     private readonly TabBarNode tabBarNode;
+    private readonly CategoryHeaderNode categoryHeaderNode;
 
     private readonly ScrollingAreaNode<VerticalListNode> dataNode;
     private readonly TextButtonNode changeLogButtonNode;
     private readonly TextButtonNode snoozeButtonNode;
     private readonly TextNode versionNode;
 
+    private readonly SimpleComponentNode dataContentSection;
     private readonly GenericDataNode statusDisplayNode;
 
     protected DataNodeBase(T module) {
@@ -37,6 +39,15 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         statusDisplayNode = new GenericDataNode();
         statusDisplayNode.AttachNode(this);
 
+        dataContentSection = new SimpleComponentNode();
+        dataContentSection.AttachNode(this);
+
+        categoryHeaderNode = new CategoryHeaderNode {
+            Label = "Module Data",
+            Alignment = AlignmentType.Bottom,
+        };
+        categoryHeaderNode.AttachNode(dataContentSection);
+
         dataNode = new ScrollingAreaNode<VerticalListNode> {
             ContentHeight = 1000.0f,
             AutoHideScrollBar = true,
@@ -44,13 +55,8 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataNode.ContentNode.FitContents = true;
         dataNode.ContentNode.FitWidth = true;
         
-        dataNode.ContentNode.AddNode(new CategoryHeaderNode {
-            Label = "Module Data",
-            Alignment = AlignmentType.Bottom,
-        });
-        
         AttachDataNode(dataNode.ContentNode);
-        dataNode.AttachNode(this);
+        dataNode.AttachNode(dataContentSection);
 
         changeLogButtonNode = new TextButtonNode {
             String = "Changelog",
@@ -88,6 +94,9 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         tabBarNode.Size = new Vector2(Width - padding * 2.0f, 20.0f);
         tabBarNode.Position = new Vector2(padding, 0.0f);
 
+        categoryHeaderNode.Size = new Vector2(Width - padding, 40.0f);
+        categoryHeaderNode.Position = new Vector2(padding, tabBarNode.Bounds.Bottom + padding * 2.0f);
+        
         changeLogButtonNode.Size = buttonSize;
         changeLogButtonNode.Position = new Vector2(padding, Height - buttonSize.Y - padding);
         
@@ -97,8 +106,8 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         versionNode.Size = buttonSize;
         versionNode.Position = new Vector2(Width - versionNode.Width - 4.0f, Height - buttonSize.Y - padding);
 
-        var contentsSize = new Vector2(Width - padding * 2.0f, Height - tabBarNode.Height - buttonSize.Y - padding * 5.0f);
-        var contentPosition = new Vector2(padding, tabBarNode.Bounds.Bottom + padding * 2.0f);
+        var contentsSize = new Vector2(Width - padding * 2.0f, Height - tabBarNode.Height - buttonSize.Y - padding * 5.0f - 44.0f);
+        var contentPosition = new Vector2(padding, tabBarNode.Bounds.Bottom + padding * 2.0f + 44.0f);
 
         statusDisplayNode.Size = contentsSize;
         statusDisplayNode.Position = contentPosition;
@@ -115,12 +124,12 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     }
 
     private void OnDataSelected() {
-        dataNode.IsVisible = true;
+        dataContentSection.IsVisible = true;
         statusDisplayNode.IsVisible = false;
     }
 
     private void OnStatusSelected() {
-        dataNode.IsVisible = false;
+        dataContentSection.IsVisible = false;
         statusDisplayNode.IsVisible = true;
     }
     

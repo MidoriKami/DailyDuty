@@ -4,18 +4,18 @@ using DailyDuty.Classes.Nodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
-using ContentsNoteModule = FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote;
+using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 
-namespace DailyDuty.Features.ChallengeLog;
+namespace DailyDuty.Features.DutyRoulette;
 
-public class DataNode(ChallengeLog module) : DataNodeBase<ChallengeLog>(module) {
-
+public unsafe class DataNode(DutyRoulette module) : DataNodeBase<DutyRoulette>(module) {
+    
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     
     protected override void BuildNode(VerticalListNode container) {
-        foreach (var contentsRow in Services.DataManager.GetExcelSheet<ContentsNote>()) {
-            if (contentsRow is not { Name.ByteLength: > 0 } ) continue;
-
+        foreach (var roulette in Services.DataManager.GetExcelSheet<ContentRoulette>()) {
+            if (roulette is not { Name.ByteLength: > 0, ContentRouletteRoleBonus.RowId: not 0 }) continue;
+            
             container.ItemSpacing = 6.0f;
 
             TextNode statusNode;
@@ -24,16 +24,11 @@ public class DataNode(ChallengeLog module) : DataNodeBase<ChallengeLog>(module) 
                 FitToContentHeight = true,
                 ItemSpacing = 4.0f,
                 InitialNodes = [
-                    new IconImageNode {
-                        Size = new Vector2(28.0f, 28.0f),
-                        FitTexture = true,
-                        IconId = (uint)contentsRow.Icon,
-                    },
                     new TextNode {
-                        Size = new Vector2(225.0f, 28.0f),
+                        Size = new Vector2(250.0f, 28.0f),
                         TextFlags = TextFlags.Ellipsis,
                         AlignmentType = AlignmentType.Left,
-                        String = contentsRow.Name.ToString(),
+                        String = roulette.Name.ToString(),
                     },
                     statusNode = new TextNode {
                         Size = new Vector2(100.0f, 28.0f),
@@ -43,15 +38,15 @@ public class DataNode(ChallengeLog module) : DataNodeBase<ChallengeLog>(module) 
                 ],
             });
 
-            statusNodes.Add(contentsRow.RowId, statusNode);
+            statusNodes.Add(roulette.RowId, statusNode);
         }
     }
 
-    public override unsafe void Update() {
+    public override void Update() {
         base.Update();
         
         foreach (var (rowId, textNode) in statusNodes) {
-            var isComplete = ContentsNoteModule.Instance()->IsContentNoteComplete((int)rowId);
+            var isComplete = InstanceContent.Instance()->IsRouletteComplete((byte) rowId);
     
             textNode.String = isComplete ? "Complete" : "Not Complete";
         }

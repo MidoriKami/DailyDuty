@@ -8,7 +8,6 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.DomanEnclave;
 
-// Template SampleModification for more easily creating your own, can copy this entire folder and rename it.
 public unsafe class DomanEnclave : Module<ConfigBase, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Doman Enclave",

@@ -60,7 +60,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             String = module.ConfigBase.CustomStatusMessage,
             PlaceholderString = "Custom Status Message",
             OnInputReceived = value => {
-                module.ConfigBase.CustomStatusMessage = value.ExtractText();
+                module.ConfigBase.CustomStatusMessage = value.ToString();
                 module.ConfigBase.SavePending = true;
             },
         });
@@ -74,7 +74,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             Height = 28.0f,
             String = module.ConfigBase.CustomResetMessage,
             OnInputReceived = value => {
-                module.ConfigBase.CustomResetMessage = value.ExtractText();
+                module.ConfigBase.CustomResetMessage = value.ToString();
                 module.ConfigBase.SavePending = true;
             },
         });

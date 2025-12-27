@@ -70,6 +70,7 @@ public class ModuleBrowserWindow : NativeAddon {
         
         foreach (var categoryNode in optionsNode?.CategoryNodes ?? []) {
             categoryNode.IsVisible = validOptions.Any(option => option.ModuleInfo.Type.Description == categoryNode.SeString.ToString());
+            categoryNode.RecalculateLayout();
         }
 
         if (validOptions.All(option => option != selectedOption)) {

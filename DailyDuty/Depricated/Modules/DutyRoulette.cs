@@ -24,22 +24,6 @@
 //
 // namespace DailyDuty.Modules;
 //
-// public class DutyRouletteData : ModuleTaskData<ContentRoulette> {
-//     public int ExpertTomestones;
-//     public int ExpertTomestoneCap;
-//     public bool AtTomeCap;
-//
-//     protected override void DrawModuleData() {
-//         DrawDataTable(
-//             ("Current Weekly Tomestones", ExpertTomestones.ToString()),
-//             ("Weekly Tomestone Limit", ExpertTomestoneCap.ToString()),
-//             ("At Weekly Limit?", AtTomeCap.ToString())
-//         );
-//         
-//         base.DrawModuleData();
-//     }
-// }
-//
 // public class DutyRouletteConfig : ModuleTaskConfig<ContentRoulette> {
 //     public bool CompleteWhenCapped;
 //     public bool ClickableLink = true;
