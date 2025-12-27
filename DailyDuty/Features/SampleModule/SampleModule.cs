@@ -17,7 +17,9 @@ public class SampleModule : Module<ConfigBase, DataBase> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Tag" ],
-        MessageClickAction = PayloadId.Unset, // Remove or change, don't leave as unset.
+
+        // Remove or change, don't leave as unset.
+        MessageClickAction = PayloadId.Unset, 
     };
 
     public override DataNodeBase GetDataNode() 
