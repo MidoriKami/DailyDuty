@@ -8,6 +8,8 @@ namespace DailyDuty.Features.CustomDelivery;
 
 public unsafe class DataNode(CustomDelivery module) : DataNodeBase<CustomDelivery>(module) {
 
+    private TextNode? allowancesTextNode;
+    
     protected override void BuildNode(VerticalListNode container) {
         container.AddNode(new HorizontalListNode {
             FitToContentHeight = true,
@@ -19,12 +21,18 @@ public unsafe class DataNode(CustomDelivery module) : DataNodeBase<CustomDeliver
                     AlignmentType = AlignmentType.Left,
                     Height = 32.0f,
                 },
-                new TextNode {
+                allowancesTextNode = new TextNode {
                     Size = new Vector2(225.0f, 32.0f),
                     AlignmentType = AlignmentType.Left,
-                    String = SatisfactionSupplyManager.Instance()->GetRemainingAllowances().ToString(),
+                    String = "Allowances Not Updated",
                 },
             ],
         });
+    }
+
+    public override void Update() {
+        base.Update();
+
+        allowancesTextNode?.String = SatisfactionSupplyManager.Instance()->GetRemainingAllowances().ToString();
     }
 }
