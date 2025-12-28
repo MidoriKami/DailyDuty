@@ -43,6 +43,9 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     public override DateTime GetNextResetDateTime() 
         => Time.NextDailyReset();
 
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(1);
+
     protected override CompletionStatus GetCompletionStatus() {
         if (ModuleConfig.CompleteWhenCapped && GetLimitedTomestonesCount() == GetLimitedTomestonesLimit()) {
             return  CompletionStatus.Complete;

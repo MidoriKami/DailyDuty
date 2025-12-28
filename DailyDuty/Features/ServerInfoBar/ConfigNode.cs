@@ -1,11 +1,10 @@
-﻿using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+﻿using DailyDuty.Classes.Nodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Features.ServerInfoBar;
 
-public class ConfigNode : UpdatableNode {
+public class ConfigNode : SimpleComponentNode {
     private readonly VerticalListNode listNode;
 
     public ConfigNode(ServerInfoBar module) {
@@ -66,6 +65,4 @@ public class ConfigNode : UpdatableNode {
         listNode.Size = Size;
         listNode.RecalculateLayout();
     }
-
-    public override void Update() { }
 }

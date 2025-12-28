@@ -31,6 +31,9 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     protected override void OnDisable()
         => Services.AddonLifecycle.UnregisterListener(WeeklyPuzzlePreSetup);
 
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(7);
+
     public override void Reset() {
         ModuleData.FauxHollowsCompletions = 0;
         ModuleData.SavePending = true;

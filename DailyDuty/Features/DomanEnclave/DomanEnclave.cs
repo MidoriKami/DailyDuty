@@ -28,6 +28,9 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override DateTime GetNextResetDateTime() 
         => Time.NextWeeklyReset();
 
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(7);
+
     public override void Reset() {
         ModuleData.DonatedThisWeek = 0;
         ModuleData.RemainingAllowance = ModuleData.WeeklyAllowance;

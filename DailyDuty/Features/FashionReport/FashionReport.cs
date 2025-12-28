@@ -46,6 +46,9 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
     public override DateTime GetNextResetDateTime() 
         => Time.NextFashionReportReset();
 
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(7);
+
     public override void Reset() {
         ModuleData.AllowancesRemaining = 4;
         ModuleData.HighestWeeklyScore = 0;

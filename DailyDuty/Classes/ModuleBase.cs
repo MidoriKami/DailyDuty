@@ -23,7 +23,10 @@ public abstract class ModuleBase : FeatureBase {
 
     protected virtual void Update() {
         ModuleStatus = GetModuleStatus();
-        ModuleStatusMessage = GetStatusMessage();
+
+        if (ModuleStatus is not CompletionStatus.Complete) {
+            ModuleStatusMessage = GetStatusMessage();
+        }
     }
 
     public CompletionStatus ModuleStatus { get; private set; }
@@ -32,6 +35,7 @@ public abstract class ModuleBase : FeatureBase {
     protected abstract CompletionStatus GetModuleStatus();
     protected abstract ReadOnlySeString GetStatusMessage();
     public abstract DateTime GetNextResetDateTime();
+    public abstract TimeSpan GetResetPeriod();
     public virtual void Reset() { }
     public virtual ReadOnlySeString? GetTooltip() => null;
 }

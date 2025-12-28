@@ -28,6 +28,9 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
 
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(7);
+
     protected override CompletionStatus GetCompletionStatus() => ModuleConfig.ComparisonMode switch {
         ComparisonMode.Below when ModuleConfig.NotificationThreshold > RemainingAllowances => CompletionStatus.Complete,
         ComparisonMode.Equal when ModuleConfig.NotificationThreshold == RemainingAllowances => CompletionStatus.Complete,

@@ -17,6 +17,8 @@ public class ModuleBrowserWindow : NativeAddon {
     private OptionsNode? optionsNode;
     private NodeBase? statusNode;
     private SimpleComponentNode? mainContainerNode;
+    private SimpleComponentNode? contentsNode;
+    private TextNode? selectOptionLabelNode;
 
     private ModuleOptionNode? selectedOption;
 
@@ -28,7 +30,7 @@ public class ModuleBrowserWindow : NativeAddon {
             Size = ContentSize,
         };
         mainContainerNode.AttachNode(this);
-
+        
         searchNode = new SearchNode {
             Size = new Vector2(mainContainerNode.Width, 28.0f),
             OnSearchUpdated = OnSearchUpdated,
@@ -45,6 +47,20 @@ public class ModuleBrowserWindow : NativeAddon {
         searchNode.AttachNode(mainContainerNode);
         
         optionsNode.SetOptions(System.ModuleManager.LoadedModules);
+        
+        contentsNode = new SimpleComponentNode {
+            Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f),
+            Position = new Vector2(mainContainerNode.Width * 2.0f / 5.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f),
+        };
+        contentsNode.AttachNode(mainContainerNode);
+        
+        selectOptionLabelNode = new TextNode {
+            Size = contentsNode.Size,
+            FontSize = 14,
+            String = "Please select an option on the left",
+            AlignmentType = AlignmentType.Center,
+        };
+        selectOptionLabelNode.AttachNode(contentsNode);
     }
 
     protected override unsafe void OnUpdate(AtkUnitBase* addon) {
@@ -101,15 +117,12 @@ public class ModuleBrowserWindow : NativeAddon {
     }
 
     private void AttachFeatureNode(NodeBase node) {
-        if (mainContainerNode is null) return;
-        if (searchNode is null) return;
-        
-        statusNode?.Dispose();
-        statusNode = node;
+        if (contentsNode is null) return;
 
-        node.Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f);
-        node.Position = new Vector2(mainContainerNode.Width * 2.0f / 5.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f);
-        node.AttachNode(mainContainerNode);
+        SelectOptionNode(node);
+
+        node.Size = contentsNode.Size;
+        node.AttachNode(contentsNode);
 
         if (node is LayoutListNode layoutListNode) {
             layoutListNode.RecalculateLayout();
@@ -121,17 +134,20 @@ public class ModuleBrowserWindow : NativeAddon {
     }
 
     private void AttachStatusNode(DataNodeBase node) {
-        if (mainContainerNode is null) return;
-        if (searchNode is null) return;
+        if (contentsNode is null) return;
         
-        statusNode?.Dispose();
-        statusNode = node;
-        
-        node.Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f);
-        node.Position = new Vector2(mainContainerNode.Width * 2.0f / 5.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f);
-        node.AttachNode(mainContainerNode);
+        SelectOptionNode(node);
+
+        node.Size = contentsNode.Size;
+        node.AttachNode(contentsNode);
     }
 
+    private void SelectOptionNode(NodeBase option) {
+        statusNode?.Dispose();
+        statusNode = option;
+        selectOptionLabelNode?.IsVisible = false;
+    }
+    
     private void UnselectCurrentOption() {
         selectedOption?.IsSelected = false;
         selectedOption?.IsHovered = false;
@@ -139,5 +155,7 @@ public class ModuleBrowserWindow : NativeAddon {
         
         statusNode?.Dispose();
         statusNode = null;
+
+        selectOptionLabelNode?.IsVisible = true;
     }
 }

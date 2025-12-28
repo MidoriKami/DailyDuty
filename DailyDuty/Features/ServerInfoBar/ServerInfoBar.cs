@@ -66,8 +66,8 @@ public class ServerInfoBar : FeatureBase {
         if (ModuleConfig is not { } config) return;
 
         if (ModuleConfig.SavePending) {
+            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
             ModuleConfig.Save();
-            ModuleConfig.SavePending = false;
         }
         
         var nextDailyReset = Time.NextDailyReset();

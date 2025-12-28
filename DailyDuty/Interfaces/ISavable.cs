@@ -1,5 +1,21 @@
-﻿namespace DailyDuty.Interfaces;
+﻿using System.Text.Json.Serialization;
 
-public interface ISavable {
-	void Save();
+namespace DailyDuty.Interfaces;
+
+public abstract class Savable {
+    [JsonIgnore] public string FileName { get; set; } = string.Empty;
+    [JsonIgnore] public bool SavePending;
+
+    protected abstract string FileExtension { get; }
+
+    public virtual void Save() {
+        SavePending = false;
+        
+        if (FileName == string.Empty) {
+            Services.PluginLog.Error("Tried to save a config with no file name set");
+            return;
+        }
+
+        Utilities.Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
+    }
 }

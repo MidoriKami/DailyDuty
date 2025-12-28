@@ -1,12 +1,9 @@
-﻿using System.Text.Json.Serialization;
-using DailyDuty.Interfaces;
+﻿using DailyDuty.Interfaces;
 using Dalamud.Game.Text;
 
 namespace DailyDuty.Classes;
 
-public class ConfigBase : ISavable {
-    [JsonIgnore] public string FileName = string.Empty;
-
+public class ConfigBase : Savable {
     public bool OnLoginMessage = true;
     public bool OnZoneChangeMessage = true;
     public bool ResetMessage;
@@ -16,17 +13,6 @@ public class ConfigBase : ISavable {
     public string CustomResetMessage = string.Empty;
 
     public bool Suppressed;
-    
-    [JsonIgnore] public bool SavePending;
-    
-    public void Save() {
-        SavePending = false;
-        
-        if (FileName == string.Empty) {
-            Services.PluginLog.Error("Tried to save a config with no file name set");
-            return;
-        }
 
-        Utilities.Config.SaveCharacterConfig(this, $"{FileName}.config.json");
-    }
+    protected override string FileExtension => ".config.json";
 }

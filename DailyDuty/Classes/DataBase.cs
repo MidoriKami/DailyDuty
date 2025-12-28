@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Text.Json.Serialization;
+using DailyDuty.Interfaces;
 
 namespace DailyDuty.Classes;
 
-public class DataBase {
-    [JsonIgnore] public string FileName = string.Empty;
-    
+public class DataBase : Savable {
     public DateTime NextReset;
-    
-    [JsonIgnore] public bool SavePending;
 
-    public void Save() {
-        SavePending = false;
-        
-        if (FileName == string.Empty) {
-            Services.PluginLog.Error("Tried to save a config with no file name set");
-            return;
-        }
-
-        Utilities.Config.SaveCharacterConfig(this, $"{FileName}.config.json");
-    }
+    protected override string FileExtension => ".data.json";
 }

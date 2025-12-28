@@ -68,6 +68,9 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
 
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(7);
+
     protected override CompletionStatus GetCompletionStatus()
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
