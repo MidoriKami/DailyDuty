@@ -59,7 +59,7 @@ public unsafe class TimersOverlay : FeatureBase {
             if (System.ModuleManager.LoadedModules is null) return;
             
             moduleSelectionWindow ??= new MultiSelectWindow {
-                Size = new Vector2(225.0f, 300.0f),
+                Size = new Vector2(300.0f, 300.0f),
                 Options = System.ModuleManager.LoadedModules
                     .Where(loadedModule => loadedModule.FeatureBase.ModuleInfo.Type is not ModuleType.GeneralFeatures)
                     .Select(loadedModule => loadedModule.Name)
