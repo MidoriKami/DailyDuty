@@ -35,12 +35,12 @@ public unsafe class PayloadController : IDisposable {
     private static DalamudLinkPayload RegisterPayload(PayloadId id) 
         => AddHandler(id, GetDelegateForPayload(id));
 
-    public static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch {
-        PayloadId.IdyllshireTeleport => (_, _) => Telepo.Instance()->Teleport(75, 0),
-        PayloadId.DomanEnclaveTeleport => (_, _) => Telepo.Instance()->Teleport(127, 0),
-        PayloadId.GoldSaucerTeleport => (_, _) => Telepo.Instance()->Teleport(62, 0),
+    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch {
+        PayloadId.IdyllshireTeleport => (_, _) => Teleport(75),
+        PayloadId.DomanEnclaveTeleport => (_, _) => Teleport(127),
+        PayloadId.GoldSaucerTeleport => (_, _) => Teleport(62),
         PayloadId.OpenPartyFinder => (_, _) => Framework.Instance()->GetUIModule()->ExecuteMainCommand(57),
-        PayloadId.UldahTeleport => (_, _) => Telepo.Instance()->Teleport(9, 0),
+        PayloadId.UldahTeleport => (_, _) => Teleport(9),
         PayloadId.OpenChallengeLog => (_, _) => Framework.Instance()->GetUIModule()->ExecuteMainCommand(60),
         PayloadId.OpenWondrousTailsBook => OpenWondrousTailsBook,
         PayloadId.OpenDutyFinderRoulette => OpenDutyFinderRoulette,
@@ -88,5 +88,12 @@ public unsafe class PayloadController : IDisposable {
         command[1].SetInt(1);
                 
         AgentContentsFinder.Instance()->ReceiveEvent(returnValue, command, 2, 0);
+    }
+
+    private static void Teleport(uint id) {
+        if (!Services.DataManager.GetExcelSheet<Aetheryte>().TryGetRow(id, out var aetheryte)) return;
+        
+        Services.ChatGui.PrintTaggedMessage($"Teleporting to {aetheryte.PlaceName.Value.Name.ToString()}", "Teleport");
+        Telepo.Instance()->Teleport(id, 0);
     }
 }
