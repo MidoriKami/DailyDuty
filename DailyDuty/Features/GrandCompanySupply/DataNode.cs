@@ -4,10 +4,10 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
-namespace DailyDuty.Features.GrandCompanyProvision;
+namespace DailyDuty.Features.GrandCompanySupply;
 
-public class DataNode(GrandCompanyProvision module) : DataNodeBase<GrandCompanyProvision>(module) {
-    private readonly GrandCompanyProvision module = module;
+public class DataNode(GrandCompanySupply module) : DataNodeBase<GrandCompanySupply>(module) {
+    private readonly GrandCompanySupply module = module;
 
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     

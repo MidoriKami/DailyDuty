@@ -7,12 +7,12 @@ using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Text.ReadOnly;
 
-namespace DailyDuty.Features.GrandCompanyProvision;
+namespace DailyDuty.Features.GrandCompanySupply;
 
-public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, GrandCompanyProvisionData> {
+public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandCompanySupplyData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Grand Company Provision",
-        FileName = "GrandCompanyProvision",
+        DisplayName = "Grand Company Supply",
+        FileName = "GrandCompanySupply",
         Type = ModuleType.Daily,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),
@@ -24,7 +24,7 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override ReadOnlySeString GetStatusMessage()
-        => $"{GetIncompleteCount()} Provision Deliveries Available";
+        => $"{GetIncompleteCount()} Supply Deliveries Available";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextGrandCompanyReset();
@@ -33,9 +33,6 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         => TimeSpan.FromDays(1);
 
     public override void Reset() {
-        foreach (var entry in ModuleData.ClassJobStatus.Keys) {
-            ModuleData.ClassJobStatus[entry] = false;
-        }
     }
 
     protected override void Update() {
@@ -46,8 +43,8 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         if (agent->NumItems < 11) return;
 
         // Offset ClassJob by -8, as there's 8 non-DoH/DoL jobs at the start of the sheet that native omits
-        // Grab items 8, 9, 10 from the Agent
-        foreach (uint index in Enumerable.Range(8, 3)) {
+        // Grab items 0 -> 8 from the Agent
+        foreach (uint index in Enumerable.Range(0, 8)) {
             if (ModuleData.ClassJobStatus[index + 8] != !agent->ItemArray[index].IsTurnInAvailable) {
                 ModuleData.ClassJobStatus[index + 8] = !agent->ItemArray[index].IsTurnInAvailable;
                 ModuleData.MarkDirty();

@@ -1,9 +1,12 @@
-﻿using DailyDuty.Classes;
+﻿using System.Collections.Generic;
+using DailyDuty.Classes;
 
 namespace DailyDuty.Features.GrandCompanyProvision;
 
 public class GrandCompanyProvisionData : DataBase {
-    public bool MinerComplete = false;
-    public bool BotanistComplete = false;
-    public bool FisherComplete = false;
+    public Dictionary<uint, bool> ClassJobStatus = new() {
+        [16] = false,
+        [17] = false,
+        [18] = false,
+    };
 }

@@ -1,9 +1,12 @@
-﻿using DailyDuty.Classes;
+﻿using System.Collections.Generic;
+using DailyDuty.Classes;
 
 namespace DailyDuty.Features.GrandCompanyProvision;
 
 public class GrandCompanyProvisionConfig : ConfigBase {
-    public bool MinerEnabled = true;
-    public bool BotanistEnabled = true;
-    public bool FisherEnabled = true;
+    public Dictionary<uint, bool> TrackedClasses = new() {
+        [16] = true,
+        [17] = true,
+        [18] = true,
+    };
 }

@@ -2,10 +2,10 @@
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
-namespace DailyDuty.Features.GrandCompanyProvision;
+namespace DailyDuty.Features.GrandCompanySupply;
 
-public class ConfigNode(GrandCompanyProvision module) : ConfigNodeBase<GrandCompanyProvision>(module) {
-    private readonly GrandCompanyProvision module = module;
+public class ConfigNode(GrandCompanySupply module) : ConfigNodeBase<GrandCompanySupply>(module) {
+    private readonly GrandCompanySupply module = module;
 
     protected override void BuildNode(VerticalListNode container) {
         foreach (var (job, _) in module.ModuleData.ClassJobStatus) {
