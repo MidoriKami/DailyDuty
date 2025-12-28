@@ -11,7 +11,7 @@ public class ModuleConfigWindow<T> : NativeAddon where T : ModuleBase {
     private ConfigNodeBase? configNode;
     
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
-        configNode = Module.GetConfigNode();
+        configNode = Module.ConfigNode;
         configNode.Position = ContentStartPosition;
         configNode.Size = ContentSize;
         configNode.AttachNode(this);

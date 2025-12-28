@@ -47,7 +47,7 @@
 // 			TextOutlineColor = KnownColor.Black.Vector(),
 // 			AlignmentType = AlignmentType.Center,
 // 			String = "?",
-// 			Tooltip = "Overlay from DailyDuty plugin",
+// 			TextTooltip = "Overlay from DailyDuty plugin",
 // 		};
 // 		tooltipNode.AttachNode(this);
 // 	}

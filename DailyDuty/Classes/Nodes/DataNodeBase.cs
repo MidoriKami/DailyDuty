@@ -9,12 +9,6 @@ namespace DailyDuty.Classes.Nodes;
 public abstract class DataNodeBase : UpdatableNode;
 
 public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
-    private readonly ChangelogWindow? changelogWindow = new() {
-        InternalName = "DailyDutyChangelog",
-        Title = "Changelog",
-        Size = new Vector2(450.0f, 400.0f),
-    };
-    
     private readonly T module;
     private readonly TabBarNode tabBarNode;
     private readonly CategoryHeaderNode categoryHeaderNode;
@@ -27,7 +21,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     private readonly SimpleComponentNode dataContentSection;
     private readonly GenericDataNode statusDisplayNode;
 
-    protected DataNodeBase(T module) {
+    public DataNodeBase(T module) {
         this.module = module;
         
         tabBarNode = new TabBarNode();
@@ -79,12 +73,6 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         OnStatusSelected();
     }
 
-    protected override void Dispose(bool disposing, bool isNativeDestructor) {
-        base.Dispose(disposing, isNativeDestructor);
-        
-        changelogWindow?.Dispose();
-    }
-
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 
@@ -120,7 +108,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     public override void Update() {
         statusDisplayNode.Update(module);
 
-        snoozeButtonNode.IsEnabled = module.ModuleStatus is not CompletionStatus.Complete;
+        snoozeButtonNode.IsEnabled = module.ModuleStatus is not (CompletionStatus.Complete or CompletionStatus.Disabled);
     }
 
     private void OnDataSelected() {
@@ -134,8 +122,14 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     }
     
     private void OpenChangeLogClicked() {
-        changelogWindow?.Module = module;
-        changelogWindow?.Toggle();
+        module.ChangelogWindow ??= new ChangelogWindow {
+            InternalName = "DailyDutyChangelog",
+            Title = "Changelog",
+            Size = new Vector2(450.0f, 400.0f),
+            Module = module,
+        };
+        
+        module.ChangelogWindow.Toggle();
     }
 
     private void SnoozeClicked() {

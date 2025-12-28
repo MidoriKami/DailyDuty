@@ -32,29 +32,35 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleData is null) throw new Exception("Failed to load data file");
         
         ModuleData.FileName = ModuleInfo.FileName;
-        
+
         Services.Framework.Update += OnUpdate;
-        OnUpdate(Services.Framework);
     }
 
     public sealed override void Unload() {
         Services.Framework.Update -= OnUpdate;
-
+        
+        ChangelogWindow?.Dispose();
+        ChangelogWindow = null;
+        
         ModuleData = null!;
         ModuleConfig = null!;
     }
 
     public sealed override void Enable() {
         isEnabled = true;
-        
-        configWindow = new ModuleConfigWindow<Module<T, TU>> {
-            Module = this,
-            InternalName = $"{GetType().Name}ConfigWindow",
-            Title = $"{ModuleInfo.DisplayName} Config",
-            Size = new Vector2(400.0f, 500.0f),
-        };
 
-        OpenConfigAction = configWindow.Toggle;
+        OnUpdate(Services.Framework);
+
+        OpenConfigAction = () => {
+            configWindow ??= new ModuleConfigWindow<Module<T, TU>> {
+                Module = this,
+                InternalName = $"{GetType().Name}ConfigWindow",
+                Title = $"{ModuleInfo.DisplayName} Config",
+                Size = new Vector2(400.0f, 500.0f),
+            };
+            
+            configWindow.Toggle();
+        };
         
         OnEnable();
         Update();
@@ -63,7 +69,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     
     public sealed override void Disable() {
         isEnabled = false;
-                
+
         OpenConfigAction = null;
         
         configWindow?.Dispose();
@@ -89,6 +95,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
 
     private void SendStatusMessage() {
+        if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
 
@@ -110,13 +117,19 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
     
     private void TryReset() {
+        if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (DateTime.UtcNow <= ModuleData.NextReset) return;
-        
-        Services.ChatGui.PrintMessage(ModuleConfig.MessageChatChannel, ModuleInfo.DisplayName, GetResetMessage());
+
+        if (ModuleConfig.ResetMessage) {
+            Services.ChatGui.PrintMessage(ModuleConfig.MessageChatChannel, ModuleInfo.DisplayName, GetResetMessage());
+        }
 
         Reset();
         
-        ModuleData.NextReset = GetNextResetDateTime();
+        var nextReset = GetNextResetDateTime();
+        Services.PluginLog.Debug($"Resetting {ModuleInfo.DisplayName}, next reset at {nextReset.ToLocalTime().GetDisplayString()}");
+        
+        ModuleData.NextReset = nextReset;
         ModuleData.Save();
 
         ModuleConfig.Suppressed = false;

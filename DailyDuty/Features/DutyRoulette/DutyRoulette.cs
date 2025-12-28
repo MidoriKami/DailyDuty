@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Classes.Nodes;
@@ -23,16 +24,12 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         MessageClickAction = PayloadId.OpenDutyFinderRoulette, 
     };
 
-    private DutyFinderRouleteController? rouletteController;
-    
-    public override DataNodeBase GetDataNode() 
-        => new DataNode(this);
-
-    public override ConfigNodeBase GetConfigNode() 
-        => new ConfigNode(this);
+    private DutyFinderRouletteController? rouletteController;
+    public override DataNodeBase DataNode => new DataNode(this);
+    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override void OnEnable() {
-        rouletteController = new DutyFinderRouleteController(this);
+        rouletteController = new DutyFinderRouletteController(this);
     }
 
     protected override void OnDisable() {
@@ -41,12 +38,10 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     }
 
     protected override ReadOnlySeString GetStatusMessage() 
-        => $"{GetIncompleteCount()} Duty Roulettes incomplete";
+        => $"{GetIncompleteCount()} Duty Roulette(s) incomplete";
 
     public override DateTime GetNextResetDateTime() 
         => Time.NextDailyReset();
-
-    public override void Reset() { }
 
     protected override CompletionStatus GetCompletionStatus() {
         if (ModuleConfig.CompleteWhenCapped && GetLimitedTomestonesCount() == GetLimitedTomestonesLimit()) {
@@ -56,9 +51,16 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         return GetIncompleteCount() is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 
+    public override ReadOnlySeString? GetTooltip()
+        => string.Join("\n", GetIncompleteTasks().Select(task => task.Name));
+
+    private IEnumerable<ContentRoulette> GetIncompleteTasks()
+        => ModuleConfig.TrackedRoulettes
+            .Select(id => Services.DataManager.GetExcelSheet<ContentRoulette>().GetRow(id))
+            .Where(row => !InstanceContent.Instance()->IsRouletteComplete((byte)row.RowId));
+
     private int GetIncompleteCount()
-        => ModuleConfig.TrackedRoulettes.Select(id => Services.DataManager.GetExcelSheet<ContentRoulette>().GetRow(id))
-            .Count(row => !InstanceContent.Instance()->IsRouletteComplete((byte)row.RowId));
+        => GetIncompleteTasks().Count();
 
     private static int GetLimitedTomestonesCount() => InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
     private static int GetLimitedTomestonesLimit() => InventoryManager.GetLimitedTomestoneWeeklyLimit();

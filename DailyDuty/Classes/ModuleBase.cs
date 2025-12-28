@@ -1,32 +1,25 @@
 ﻿using System;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
+using DailyDuty.Windows;
+using KamiToolKit;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Classes;
 
-public abstract class ModuleBase {
-    public abstract ModuleInfo ModuleInfo { get; }
-    public string Name => ModuleInfo.DisplayName;
+public abstract class ModuleBase : FeatureBase {
     
     public abstract ConfigBase ConfigBase { get; }
     public abstract DataBase DataBase { get; }
-    
-    public virtual void ProcessCommand(string args) { }
 
-    public abstract void Load();
-    public abstract void Unload();
-
-    public abstract void Enable();
-    public abstract void Disable();
+    public ChangelogWindow? ChangelogWindow { get; set; }
     
-    public Action? OpenConfigAction { get; set; }
+    protected virtual void OnEnable() { }
+    protected virtual void OnDisable() { }
 
-    public abstract DataNodeBase GetDataNode();
-    public abstract ConfigNodeBase GetConfigNode();
-    
-    protected abstract void OnEnable();
-    protected abstract void OnDisable();
+    public override NodeBase DisplayNode => DataNode;
+    public virtual DataNodeBase DataNode => new GenericDataNodeBase(this);
+    public virtual ConfigNodeBase ConfigNode => new GenericConfigNodeBase(this);
 
     protected virtual void Update() {
         ModuleStatus = GetModuleStatus();
@@ -39,5 +32,6 @@ public abstract class ModuleBase {
     protected abstract CompletionStatus GetModuleStatus();
     protected abstract ReadOnlySeString GetStatusMessage();
     public abstract DateTime GetNextResetDateTime();
-    public abstract void Reset();
+    public virtual void Reset() { }
+    public virtual ReadOnlySeString? GetTooltip() => null;
 }

@@ -22,9 +22,9 @@
 // 		// 	RemoveEvent(AddonEventType.MouseClick, OnClick);
 // 		// }
 // 		
-// 		Tooltip = Module.HasTooltip ? Module.TooltipText : string.Empty;
+// 		TextTooltip = Module.HasTooltip ? Module.TooltipText : string.Empty;
 //
-// 		var isTooltipValid = Tooltip is not null && !Tooltip.ToString().IsNullOrEmpty();
+// 		var isTooltipValid = TextTooltip is not null && !TextTooltip.ToString().IsNullOrEmpty();
 // 		// EnableEventFlags = IsVisible && (isTooltipValid || Module.HasClickableLink);
 // 	}
 //

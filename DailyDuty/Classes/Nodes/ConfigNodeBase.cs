@@ -32,7 +32,6 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
         configNode.ContentNode.AddNode(new CategoryHeaderNode {
             Label = "Module Settings",
-            Height = 40.0f,
         });
         
         AttachDataNode(configNode.ContentNode);

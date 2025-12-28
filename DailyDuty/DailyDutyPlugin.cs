@@ -19,10 +19,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
             Size = new Vector2(700.0f, 600.0f),
         };
 
-        if (Services.ClientState.IsLoggedIn) {
-            System.ConfigurationWindow.DebugOpen();
-        }
-
         Services.CommandManager.AddHandler("/dd", new CommandInfo(OnCommandReceived) {
             HelpMessage = "Open DailyDuty Config Window",
             ShowInHelp = true,
@@ -42,6 +38,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         
         Services.ClientState.Login += OnLogin;
         Services.ClientState.Logout += OnLogout;
+        
+        if (Services.ClientState.IsLoggedIn) {
+            System.ConfigurationWindow.DebugOpen();
+        }
     }
 
     private void OnCommandReceived(string command, string arguments) {

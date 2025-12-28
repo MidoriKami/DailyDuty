@@ -64,7 +64,7 @@
 // 			module.TodoTaskNode = newTaskNode;
 //
 // 			if (module.HasTooltip) {
-// 				newTaskNode.Tooltip = module.TooltipText;
+// 				newTaskNode.TextTooltip = module.TooltipText;
 // 			}
 // 			
 // 			if (module.HasClickableLink) {

@@ -8,8 +8,15 @@
     <ItemGroup>
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
-    </ItemGroup>
+    
+    <PropertyGroup>
+        <Author>MidoriKami</Author>
+        <Name>DailyDuty</Name>
+        <InternalName>dailyduty</InternalName>
+        <Punchline>Easily Track Daily and Weekly tasks</Punchline>
+        <Description>Automatically track and complete many daily and weekly tasks</Description>
+        <RepoUrl>https://github.com/MidoriKami/DailyDuty</RepoUrl>
+        <Tags>utility;gil;tasks;dailies;tracking;todo</Tags>
+        <AcceptsFeedback>false</AcceptsFeedback>
+    </PropertyGroup>
 </Project>

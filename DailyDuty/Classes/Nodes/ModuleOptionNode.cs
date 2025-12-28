@@ -52,7 +52,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         erroringImageNode = new IconImageNode {
             IconId = 61502,
             FitTexture = true,
-            Tooltip = "Module Failed To Load",
+            TextTooltip = "Module Failed To Load",
         };
         erroringImageNode.AttachNode(this);
 
@@ -73,9 +73,9 @@ public class ModuleOptionNode : SimpleComponentNode {
         
         configButtonNode = new CircleButtonNode {
             Icon = ButtonIcon.GearCog,
-            Tooltip = "Open Configuration",
+            TextTooltip = "Open Configuration",
             OnClick = () => {
-                Module?.ModuleBase.OpenConfigAction?.Invoke();
+                Module?.FeatureBase.OpenConfigAction?.Invoke();
                 OnClick?.Invoke();
             },
         };
@@ -98,13 +98,13 @@ public class ModuleOptionNode : SimpleComponentNode {
         });
     }
 
-    public ModuleInfo ModuleInfo => Module.ModuleBase.ModuleInfo;
+    public ModuleInfo ModuleInfo => Module.FeatureBase.ModuleInfo;
     
     public required LoadedModule Module {
         get;
         set {
             field = value;
-            modificationNameNode.String = value.ModuleBase.ModuleInfo.DisplayName;
+            modificationNameNode.String = value.FeatureBase.ModuleInfo.DisplayName;
             
             RefreshConfigWindowButton();
 
@@ -129,12 +129,12 @@ public class ModuleOptionNode : SimpleComponentNode {
     }
 
     public void Update() {
-        if (ModuleInfo.Type is ModuleType.GeneralFeatures) {
-            statusTextNode.IsVisible = false;
+        if (Module.FeatureBase is ModuleBase module) {
+            statusTextNode.IsVisible = true;
+            statusTextNode.SeString = $"Status: {module.ModuleStatus.Description}";
         }
         else {
-            statusTextNode.IsVisible = true;
-            statusTextNode.SeString = $"Status: {Module.ModuleBase.ModuleStatus.Description}";
+            statusTextNode.IsVisible = false;
         }
     }
 
@@ -154,7 +154,7 @@ public class ModuleOptionNode : SimpleComponentNode {
     }
 
     private void RefreshConfigWindowButton() {
-        if (Module.ModuleBase.OpenConfigAction is not null) {
+        if (Module.FeatureBase.OpenConfigAction is not null) {
             configButtonNode.IsVisible = true;
             configButtonNode.IsEnabled = Module.State is LoadedState.Enabled;
         }
@@ -185,7 +185,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         if (Module.State is LoadedState.Errored) {
             checkboxNode.IsEnabled = false;
             erroringImageNode.IsVisible = true;
-            erroringImageNode.Tooltip = Module.ErrorMessage;
+            erroringImageNode.TextTooltip = Module.ErrorMessage;
         }
         else {
             checkboxNode.IsEnabled = true;
@@ -196,7 +196,7 @@ public class ModuleOptionNode : SimpleComponentNode {
 
         checkboxNode.IsChecked = Module.State is LoadedState.Enabled;
         configButtonNode.IsEnabled = Module.State is LoadedState.Enabled;
-        configButtonNode.IsVisible = Module.ModuleBase.OpenConfigAction is not null;
+        configButtonNode.IsVisible = Module.FeatureBase.OpenConfigAction is not null;
 
         RefreshConfigWindowButton();
     }

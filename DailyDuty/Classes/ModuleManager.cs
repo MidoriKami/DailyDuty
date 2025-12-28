@@ -45,7 +45,7 @@ public class ModuleManager : IDisposable {
             if (loadedModule.State is LoadedState.Enabled) {
                 try {
                     Services.PluginLog.Info($"Disabling {loadedModule.Name}");
-                    loadedModule.ModuleBase.Disable();
+                    loadedModule.FeatureBase.Disable();
                     Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
                 }
                 catch (Exception e) {
@@ -53,7 +53,7 @@ public class ModuleManager : IDisposable {
                 }
             }
             
-            loadedModule.ModuleBase.Unload();
+            loadedModule.FeatureBase.Unload();
         }
 
         LoadedModules = null;
@@ -72,7 +72,7 @@ public class ModuleManager : IDisposable {
 
         try {
             Services.PluginLog.Info($"Enabling {module.Name}");
-            module.ModuleBase.Enable();
+            module.FeatureBase.Enable();
             module.State = LoadedState.Enabled;
             Services.PluginLog.Info($"Successfully Enabled {module.Name}");
             System.SystemConfig.EnabledModules.Add(module.Name);
@@ -84,7 +84,7 @@ public class ModuleManager : IDisposable {
             Services.PluginLog.Error(e, $"Error while enabling {module.Name}, attempting to disable");
             
             try {
-                module.ModuleBase.Disable();
+                module.FeatureBase.Disable();
                 Services.PluginLog.Information($"Successfully disabled erroring module {module.Name}");
             }
             catch (Exception fatal) {
@@ -107,8 +107,8 @@ public class ModuleManager : IDisposable {
 
         try {
             Services.PluginLog.Info($"Disabling {modification.Name}");
-            modification.ModuleBase.Disable();
-            modification.ModuleBase.OpenConfigAction = null;
+            modification.FeatureBase.Disable();
+            modification.FeatureBase.OpenConfigAction = null;
         }
         catch (Exception e) {
             modification.State = LoadedState.Errored;
@@ -124,13 +124,13 @@ public class ModuleManager : IDisposable {
         }
     }
     
-    private static List<ModuleBase> GetModules() => Assembly
+    private static List<FeatureBase> GetModules() => Assembly
         .GetCallingAssembly()
         .GetTypes()
-        .Where(type => type.IsSubclassOf(typeof(ModuleBase)))
+        .Where(type => type.IsSubclassOf(typeof(FeatureBase)))
         .Where(type => !type.IsAbstract)
-        .Select(type => (ModuleBase?) Activator.CreateInstance(type))
+        .Select(type => (FeatureBase?) Activator.CreateInstance(type))
         .Where(modification => modification?.ModuleInfo.Type is not ModuleType.Hidden)
-        .OfType<ModuleBase>()
+        .OfType<FeatureBase>()
         .ToList();
 }

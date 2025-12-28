@@ -33,7 +33,7 @@ public class OptionsNode : SimpleComponentNode {
     public void SetOptions(List<LoadedModule>? modules) {
         if (modules is null) return;
         
-        var categoryGroups = modules.GroupBy(module => module.ModuleBase.ModuleInfo.Type);
+        var categoryGroups = modules.GroupBy(module => module.FeatureBase.ModuleInfo.Type);
         uint optionIndex = 0;
 
         foreach (var categoryGroup in categoryGroups) {

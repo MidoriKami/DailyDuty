@@ -18,7 +18,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Challenge Log",
         FileName = "ChallengeLog",
-        Type = ModuleType.Daily,
+        Type = ModuleType.Weekly,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
@@ -27,9 +27,8 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     };
 
     private Stopwatch? contentsFinderStopwatch;
-
-    public override DataNodeBase GetDataNode() => new DataNode(this);
-    public override ConfigNodeBase GetConfigNode() => new ConfigNode(this);
+    public override DataNodeBase DataNode => new DataNode(this);
+    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override void OnEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
@@ -37,7 +36,6 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
 
     protected override void OnDisable() {
         Services.AddonLifecycle.UnregisterListener(OnContentsFinderOpen);
-
         contentsFinderStopwatch = null;
     }
 
@@ -69,8 +67,6 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
-
-    public override void Reset() { }
 
     protected override CompletionStatus GetCompletionStatus()
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;

@@ -8,7 +8,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.DomanEnclave;
 
-public unsafe class DomanEnclave : Module<ConfigBase, DataBase> {
+public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Doman Enclave",
         FileName = "DomanEnclave",
@@ -20,15 +20,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DataBase> {
         MessageClickAction = PayloadId.DomanEnclaveTeleport,
     };
 
-    public override DataNodeBase GetDataNode() 
-        => new DataNode(this);
-
-    public override ConfigNodeBase GetConfigNode() 
-        => new ConfigNode(this);
-
-    protected override void OnEnable() { }
-
-    protected override void OnDisable() { }
+    public override DataNodeBase DataNode => new DataNode(this);
 
     protected override ReadOnlySeString GetStatusMessage() 
         => ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil remaining";
@@ -36,15 +28,34 @@ public unsafe class DomanEnclave : Module<ConfigBase, DataBase> {
     public override DateTime GetNextResetDateTime() 
         => Time.NextWeeklyReset();
 
-    public override void Reset() { }
+    public override void Reset() {
+        ModuleData.DonatedThisWeek = 0;
+        ModuleData.RemainingAllowance = ModuleData.WeeklyAllowance;
+    }
 
     protected override CompletionStatus GetCompletionStatus() {
-        if (Allowance is 0) return CompletionStatus.Unknown;
-        
+        if (DomanEnclaveManager.Instance()->State.Allowance is 0) return CompletionStatus.Unknown;
         return RemainingAllowance is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 
-    private static int Allowance => DomanEnclaveManager.Instance()->State.Allowance;
-    private static int Donated => DomanEnclaveManager.Instance()->State.Donated;
-    private static int RemainingAllowance => Allowance - Donated;
+    protected override void Update() {
+        base.Update();
+
+        var allowance = DomanEnclaveManager.Instance()->State.Allowance;
+        var donated = DomanEnclaveManager.Instance()->State.Donated; 
+        
+        if (allowance is 0) return;
+        
+        if (ModuleData.WeeklyAllowance != allowance) {
+            ModuleData.WeeklyAllowance = allowance;
+            ModuleData.SavePending = true;
+        }
+
+        if (ModuleData.DonatedThisWeek != donated) {
+            ModuleData.DonatedThisWeek = donated;
+            ModuleData.SavePending = true;
+        }
+    }
+
+    private int RemainingAllowance => ModuleData.WeeklyAllowance - ModuleData.DonatedThisWeek;
 }

@@ -19,21 +19,14 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    public override DataNodeBase GetDataNode() => new DataNode(this);
-
-    public override ConfigNodeBase GetConfigNode() => new ConfigNode(this);
-
-    protected override void OnEnable() { }
-
-    protected override void OnDisable() { }
+    public override DataNodeBase DataNode => new DataNode(this);
+    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override ReadOnlySeString GetStatusMessage()
         => $"{RemainingAllowances} Custom Delivery allowances remaining";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
-
-    public override void Reset() { }
 
     protected override CompletionStatus GetCompletionStatus() => ModuleConfig.ComparisonMode switch {
         ComparisonMode.Below when ModuleConfig.NotificationThreshold > RemainingAllowances => CompletionStatus.Complete,

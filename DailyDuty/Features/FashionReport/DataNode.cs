@@ -1,19 +1,18 @@
-﻿using System.Drawing;
+﻿using System;
 using System.Numerics;
 using DailyDuty.Classes.Nodes;
-using Dalamud.Interface;
+using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Features.DomanEnclave;
+namespace DailyDuty.Features.FashionReport;
 
-public class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(module) {
-    private readonly DomanEnclave module = module;
+public class DataNode(FashionReport module) : DataNodeBase<FashionReport>(module) {
+    private readonly FashionReport module = module;
 
-    private TextNode? allowanceText;
-    private TextNode? donatedText;
-    private TextNode? allowanceRemaining;
-    private TextNode? warningText;
+    private TextNode? allowancesRemaining;
+    private TextNode? highestScore;
+    private TextNode? fashionReportAvailable;
 
     protected override void BuildNode(VerticalListNode container) {
         container.AddNode([
@@ -23,11 +22,11 @@ public class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(module) 
                 InitialNodes = [
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
-                        String = "Current Max Allowance",
+                        String = "Allowances Remaining",
                         AlignmentType = AlignmentType.Left,
                         Height = 32.0f,
                     },
-                    allowanceText = new TextNode {
+                    allowancesRemaining = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
                         AlignmentType = AlignmentType.Left,
                         String = "Allowances Not Updated",
@@ -40,14 +39,14 @@ public class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(module) 
                 InitialNodes = [
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
-                        String = "Donated This Week",
+                        String = "Highest Score",
                         AlignmentType = AlignmentType.Left,
                         Height = 32.0f,
                     },
-                    donatedText = new TextNode {
+                    highestScore = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
                         AlignmentType = AlignmentType.Left,
-                        String = "Donated Not Updated",
+                        String = "Highest Score Not Updated",
                     },
                 ],
             },
@@ -57,22 +56,16 @@ public class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(module) 
                 InitialNodes = [
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
-                        String = "Allowance Remaining",
+                        String = "Fashion Report Available",
                         AlignmentType = AlignmentType.Left,
                         Height = 32.0f,
                     },
-                    allowanceRemaining = new TextNode {
+                    fashionReportAvailable = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
                         AlignmentType = AlignmentType.Left,
-                        String = "Remaining Not Updated",
+                        String = "Available Not Updated",
                     },
                 ],
-            },
-            warningText = new TextNode {
-                MultiplyColor = KnownColor.Orange.Vector().Fade(0.40f).AsVector3(),
-                String = "Status is unavailable, visit the Doman Enclave to update",
-                AlignmentType = AlignmentType.Center,
-                Height = 32.0f,
             },
         ]);
     }
@@ -80,14 +73,11 @@ public class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(module) 
     public override void Update() {
         base.Update();
 
-        allowanceText?.String = Allowance.ToString();
-        donatedText?.String = Donated.ToString();
-        allowanceRemaining?.String = RemainingAllowance.ToString();
-
-        warningText?.IsVisible = Allowance is 0;
+        allowancesRemaining?.String = module.ModuleData.AllowancesRemaining.ToString();
+        highestScore?.String = module.ModuleData.HighestWeeklyScore.ToString();
+        fashionReportAvailable?.String = IsFashionReportAvailable ? "Available" : "Not Available";
     }
-
-    private int Allowance => module.ModuleData.WeeklyAllowance;
-    private int Donated => module.ModuleData.DonatedThisWeek;
-    private int RemainingAllowance => Allowance - Donated;
+    
+    private bool IsFashionReportAvailable 
+        => DateTime.UtcNow > Time.NextWeeklyReset().AddDays(-4) && DateTime.UtcNow < Time.NextWeeklyReset();
 }

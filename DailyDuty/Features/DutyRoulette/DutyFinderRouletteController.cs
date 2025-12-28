@@ -13,13 +13,13 @@ using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
 namespace DailyDuty.Features.DutyRoulette;
 
-public unsafe class DutyFinderRouleteController : IDisposable {
+public unsafe class DutyFinderRouletteController : IDisposable {
     private readonly DutyRoulette module;
     private readonly NativeListController listController;
     private readonly AddonController<AddonContentsFinder> addonController;
     private TextNode? infoTextNode;
 
-    public DutyFinderRouleteController(DutyRoulette module) {
+    public DutyFinderRouletteController(DutyRoulette module) {
         this.module = module;
 
         listController = new NativeListController("ContentsFinder") {
@@ -49,7 +49,7 @@ public unsafe class DutyFinderRouleteController : IDisposable {
                     .Append("Complete Task")
                     .PopColor()
                     .ToReadOnlySeString(),
-                Tooltip = "[DailyDuty] Duty Roulette Feature",
+                TextTooltip = "[DailyDuty] Duty Roulette Feature",
             };
             infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
         };
