@@ -23,7 +23,7 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override ReadOnlySeString GetStatusMessage()
-        => $"{RemainingAllowances} Custom Delivery allowances remaining";
+        => $"{RemainingAllowances} Custom Deliveries Available";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
@@ -32,9 +32,9 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
         => TimeSpan.FromDays(7);
 
     protected override CompletionStatus GetCompletionStatus() => ModuleConfig.ComparisonMode switch {
-        ComparisonMode.Below when ModuleConfig.NotificationThreshold > RemainingAllowances => CompletionStatus.Complete,
+        ComparisonMode.Below when ModuleConfig.NotificationThreshold < RemainingAllowances => CompletionStatus.Complete,
         ComparisonMode.Equal when ModuleConfig.NotificationThreshold == RemainingAllowances => CompletionStatus.Complete,
-        ComparisonMode.Above when ModuleConfig.NotificationThreshold < RemainingAllowances => CompletionStatus.Complete,
+        ComparisonMode.Above when ModuleConfig.NotificationThreshold > RemainingAllowances => CompletionStatus.Complete,
         _ => CompletionStatus.Incomplete,
     };
     

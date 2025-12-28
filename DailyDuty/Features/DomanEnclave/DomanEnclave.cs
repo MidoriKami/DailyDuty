@@ -23,7 +23,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override DataNodeBase DataNode => new DataNode(this);
 
     protected override ReadOnlySeString GetStatusMessage() 
-        => ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil remaining";
+        => ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil Remaining";
 
     public override DateTime GetNextResetDateTime() 
         => Time.NextWeeklyReset();
@@ -33,11 +33,10 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
 
     public override void Reset() {
         ModuleData.DonatedThisWeek = 0;
-        ModuleData.RemainingAllowance = ModuleData.WeeklyAllowance;
     }
 
     protected override CompletionStatus GetCompletionStatus() {
-        if (DomanEnclaveManager.Instance()->State.Allowance is 0) return CompletionStatus.Unknown;
+        if (ModuleData.WeeklyAllowance is 0) return CompletionStatus.Unknown;
         return RemainingAllowance is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 

@@ -5,5 +5,4 @@ namespace DailyDuty.Features.DomanEnclave;
 public class DomanEnclaveData : DataBase {
     public int WeeklyAllowance;
     public int DonatedThisWeek;
-    public int RemainingAllowance;
 }

@@ -36,7 +36,6 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
 
     public override void Reset() {
         ModuleData.FauxHollowsCompletions = 0;
-        ModuleData.MarkDirty();
     }
 
     protected override ReadOnlySeString GetStatusMessage() 
