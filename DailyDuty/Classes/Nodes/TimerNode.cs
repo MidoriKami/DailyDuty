@@ -33,7 +33,7 @@ public sealed class TimerNode : OverlayNode {
         moduleNameNode = new TextNode {
             FontType = FontType.Jupiter,
             TextOutlineColor = KnownColor.Black.Vector(),
-            FontSize = 20,
+            FontSize = 16,
             AlignmentType = AlignmentType.BottomLeft,
             TextFlags = TextFlags.Bold | TextFlags.Edge | TextFlags.Ellipsis,
         };
