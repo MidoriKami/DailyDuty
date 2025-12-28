@@ -51,12 +51,12 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
         
         if (ModuleData.WeeklyAllowance != allowance) {
             ModuleData.WeeklyAllowance = allowance;
-            ModuleData.SavePending = true;
+            ModuleData.MarkDirty();
         }
 
         if (ModuleData.DonatedThisWeek != donated) {
             ModuleData.DonatedThisWeek = donated;
-            ModuleData.SavePending = true;
+            ModuleData.MarkDirty();
         }
     }
 

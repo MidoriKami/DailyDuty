@@ -27,7 +27,7 @@ public class ConfigNode(FashionReport module) : ConfigNodeBase<FashionReport>(mo
                     SelectedOption = module.ModuleConfig.CompletionMode.Description,
                     OnOptionSelected = newOption => {
                         module.ModuleConfig.CompletionMode = FashionReportModeExtensions.Parse(newOption);
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
             ],

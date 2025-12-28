@@ -27,7 +27,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             IsChecked = module.ConfigBase.OnLoginMessage,
             OnClick = value => {
                 module.ConfigBase.OnLoginMessage = value;
-                module.ConfigBase.SavePending = true;
+                module.ConfigBase.MarkDirty();
             },
         });
 
@@ -37,7 +37,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             IsChecked = module.ConfigBase.OnZoneChangeMessage,
             OnClick = value => {
                 module.ConfigBase.OnZoneChangeMessage = value;
-                module.ConfigBase.SavePending = true;
+                module.ConfigBase.MarkDirty();
             },
         });
 
@@ -47,7 +47,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             IsChecked = module.ConfigBase.ResetMessage,
             OnClick = value => {
                 module.ConfigBase.ResetMessage = value;
-                module.ConfigBase.SavePending = true;
+                module.ConfigBase.MarkDirty();
             },
         });
         
@@ -61,7 +61,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             PlaceholderString = "Custom Status Message",
             OnInputReceived = value => {
                 module.ConfigBase.CustomStatusMessage = value.ToString();
-                module.ConfigBase.SavePending = true;
+                module.ConfigBase.MarkDirty();
             },
         });
         
@@ -75,7 +75,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             String = module.ConfigBase.CustomResetMessage,
             OnInputReceived = value => {
                 module.ConfigBase.CustomResetMessage = value.ToString();
-                module.ConfigBase.SavePending = true;
+                module.ConfigBase.MarkDirty();
             },
         });
         
@@ -89,7 +89,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             SelectedOption = module.ConfigBase.MessageChatChannel.Description,
             OnOptionSelected = newValue => {
                 module.ConfigBase.MessageChatChannel = XivChatTypeExtensions.Parse(newValue);
-                module.ConfigBase.SavePending = true;
+                module.ConfigBase.MarkDirty();
             },
             MaxListOptions = 20,
         });

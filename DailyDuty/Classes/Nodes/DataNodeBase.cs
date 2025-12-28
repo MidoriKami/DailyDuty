@@ -137,7 +137,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         
         snoozeButtonNode.String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze";
         
-        module.ConfigBase.SavePending = true;
+        module.ConfigBase.MarkDirty();
     }
 
     protected abstract void BuildNode(VerticalListNode container);

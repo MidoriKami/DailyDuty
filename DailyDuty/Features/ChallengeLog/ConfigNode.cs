@@ -18,7 +18,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
                 IsChecked = module.ModuleConfig.EnableContentFinderWarning,
                 OnClick = newValue => {
                     module.ModuleConfig.EnableContentFinderWarning = newValue;
-                    module.ModuleConfig.SavePending = true;
+                    module.ModuleConfig.MarkDirty();
                 },
             },
             new CheckboxNode {
@@ -27,7 +27,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
                 IsChecked = module.ModuleConfig.EnableWarningSound,
                 OnClick = newValue => {
                     module.ModuleConfig.EnableWarningSound = newValue;
-                    module.ModuleConfig.SavePending = true;
+                    module.ModuleConfig.MarkDirty();
                 },
             },
             new CategoryHeaderNode {

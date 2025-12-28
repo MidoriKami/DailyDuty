@@ -36,7 +36,7 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
 
     public override void Reset() {
         ModuleData.FauxHollowsCompletions = 0;
-        ModuleData.SavePending = true;
+        ModuleData.MarkDirty();
     }
 
     protected override ReadOnlySeString GetStatusMessage() 
@@ -53,6 +53,6 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     
     private void WeeklyPuzzlePreSetup(AddonEvent type, AddonArgs args) {
         ModuleData.FauxHollowsCompletions++;
-        ModuleData.SavePending = true;
+        ModuleData.MarkDirty();
     }
 }

@@ -110,6 +110,6 @@ public sealed class TimerNode : OverlayNode {
     
     private void EditComplete() {
         TimerConfig.TimerData[Module.Name].Position = Position;
-        TimerConfig.SavePending = true;
+        TimerConfig.MarkDirty();
     }
 }

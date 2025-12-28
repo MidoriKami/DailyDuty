@@ -14,7 +14,7 @@ public class ConfigNode(FauxHollows module) : ConfigNodeBase<FauxHollows>(module
                 IsChecked = module.ModuleConfig.IncludeRetelling,
                 OnClick = newValue => {
                     module.ModuleConfig.IncludeRetelling = newValue;
-                    module.ModuleConfig.SavePending = true;
+                    module.ModuleConfig.MarkDirty();
                 },
             },
         ]);

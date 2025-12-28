@@ -8,6 +8,9 @@ public abstract class Savable {
 
     protected abstract string FileExtension { get; }
 
+    public void MarkDirty()
+        => SavePending = true;
+
     public virtual void Save() {
         SavePending = false;
         

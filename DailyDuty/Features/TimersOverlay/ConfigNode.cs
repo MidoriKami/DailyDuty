@@ -33,7 +33,7 @@ public class ConfigNode : UpdatableNode {
                     IsChecked = module.ModuleConfig.HideInDuties,
                     OnClick = newValue => {
                         module.ModuleConfig.HideInDuties = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -42,7 +42,7 @@ public class ConfigNode : UpdatableNode {
                     IsChecked = module.ModuleConfig.HideInQuestEvents,
                     OnClick = newValue => {
                         module.ModuleConfig.HideInQuestEvents = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -51,7 +51,7 @@ public class ConfigNode : UpdatableNode {
                     IsChecked = module.ModuleConfig.HideTimerSeconds,
                     OnClick = newValue => {
                         module.ModuleConfig.HideTimerSeconds = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -60,7 +60,7 @@ public class ConfigNode : UpdatableNode {
                     IsChecked = module.ModuleConfig.ShowLabel,
                     OnClick = newValue => {
                         module.ModuleConfig.ShowLabel = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -69,7 +69,7 @@ public class ConfigNode : UpdatableNode {
                     IsChecked = module.ModuleConfig.ShowCountdownText,
                     OnClick = newValue => {
                         module.ModuleConfig.ShowCountdownText = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -93,7 +93,7 @@ public class ConfigNode : UpdatableNode {
                             Value = (int)(module.ModuleConfig.Scale * 100),
                             OnValueChanged = newValue => {
                                 module.ModuleConfig.Scale = newValue / 100.0f;
-                                module.ModuleConfig.SavePending = true;
+                                module.ModuleConfig.MarkDirty();
                             },
                         },
                     ],
@@ -183,12 +183,12 @@ public class ConfigNode : UpdatableNode {
             
         module.ColorPicker.OnColorCancelled = () => {
             config.Color = originalColor;
-            module.ModuleConfig.SavePending = true;
+            module.ModuleConfig.MarkDirty();
         };
             
         module.ColorPicker.OnColorConfirmed = color => {
             config.Color = color;
-            module.ModuleConfig.SavePending = true;
+            module.ModuleConfig.MarkDirty();
         };
             
         module.ColorPicker.Toggle();

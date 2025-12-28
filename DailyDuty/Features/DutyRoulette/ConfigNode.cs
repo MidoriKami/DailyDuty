@@ -26,7 +26,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
                 IsChecked = module.ModuleConfig.ColorContentFinder,
                 OnClick = newValue => {
                     module.ModuleConfig.ColorContentFinder = newValue;
-                    module.ModuleConfig.SavePending = true;
+                    module.ModuleConfig.MarkDirty();
                 },
             },
             new CategoryHeaderNode {

@@ -74,17 +74,17 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
             case 1:
                 ModuleData.AllowancesRemaining = (int) sceneData[1];
                 ModuleData.HighestWeeklyScore = (int) sceneData[0];
-                ModuleData.SavePending = true;
+                ModuleData.MarkDirty();
                 break;
             
             case 2:
                 ModuleData.HighestWeeklyScore = Math.Max((int) sceneData[0], ModuleData.HighestWeeklyScore);
-                ModuleData.SavePending = true;
+                ModuleData.MarkDirty();
                 break;
             
             case 5:
                 ModuleData.AllowancesRemaining = (int) sceneData[0];
-                ModuleData.SavePending = true;
+                ModuleData.MarkDirty();
                 break;
         }
     }

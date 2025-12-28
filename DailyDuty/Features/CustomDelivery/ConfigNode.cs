@@ -27,7 +27,7 @@ public class ConfigNode(CustomDelivery module) : ConfigNodeBase<CustomDelivery>(
                     OnValueChanged = newValue => {
                         if (newValue != module.ModuleConfig.NotificationThreshold) {
                             module.ModuleConfig.NotificationThreshold = newValue;
-                            module.ModuleConfig.SavePending = true;
+                            module.ModuleConfig.MarkDirty();
                         }
                     },
                 },
@@ -47,7 +47,7 @@ public class ConfigNode(CustomDelivery module) : ConfigNodeBase<CustomDelivery>(
                     SelectedOption = module.ModuleConfig.ComparisonMode.Description,
                     OnOptionSelected = newOption => {
                         module.ModuleConfig.ComparisonMode = ComparisonModeExtensions.Parse(newOption);
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
             ],

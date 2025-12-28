@@ -79,7 +79,7 @@ public unsafe class TimersOverlay : FeatureBase {
                         }
                     }
 
-                    ModuleConfig.SavePending = true;
+                    ModuleConfig.MarkDirty();
                     RebuildTimers();
                 },
             };

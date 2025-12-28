@@ -22,7 +22,7 @@ public class ConfigNode : SimpleComponentNode {
                     IsChecked = module.ModuleConfig.HideSeconds,
                     OnClick = newValue => {
                         module.ModuleConfig.HideSeconds = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -31,7 +31,7 @@ public class ConfigNode : SimpleComponentNode {
                     IsChecked = module.ModuleConfig.Combo,
                     OnClick = newValue => {
                         module.ModuleConfig.Combo = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -40,7 +40,7 @@ public class ConfigNode : SimpleComponentNode {
                     IsChecked = module.ModuleConfig.SoloDaily,
                     OnClick = newValue => {
                         module.ModuleConfig.SoloDaily = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
                 new CheckboxNode {
@@ -49,7 +49,7 @@ public class ConfigNode : SimpleComponentNode {
                     IsChecked = module.ModuleConfig.SoloWeekly,
                     OnClick = newValue => {
                         module.ModuleConfig.SoloWeekly = newValue;
-                        module.ModuleConfig.SavePending = true;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
             ],
