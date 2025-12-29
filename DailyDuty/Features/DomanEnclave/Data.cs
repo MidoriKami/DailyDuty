@@ -2,7 +2,7 @@
 
 namespace DailyDuty.Features.DomanEnclave;
 
-public class DomanEnclaveData : DataBase {
+public class Data : DataBase {
     public int WeeklyAllowance;
     public int DonatedThisWeek;
 }

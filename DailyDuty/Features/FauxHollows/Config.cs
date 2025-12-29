@@ -2,6 +2,6 @@
 
 namespace DailyDuty.Features.FauxHollows;
 
-public class FauxHollowsConfig : ConfigBase {
+public class Config : ConfigBase {
 	public bool IncludeRetelling = true;
 }

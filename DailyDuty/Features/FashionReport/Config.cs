@@ -3,6 +3,6 @@ using DailyDuty.Enums;
 
 namespace DailyDuty.Features.FashionReport;
 
-public class FashionReportConfig : ConfigBase {
+public class Config : ConfigBase {
 	public FashionReportMode CompletionMode = FashionReportMode.Single;
 }

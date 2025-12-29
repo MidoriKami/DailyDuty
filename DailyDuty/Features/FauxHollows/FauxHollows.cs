@@ -10,7 +10,7 @@ using Lumina.Text.ReadOnly;
 namespace DailyDuty.Features.FauxHollows;
 
 // Template SampleModification for more easily creating your own, can copy this entire folder and rename it.
-public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
+public class FauxHollows : Module<Config, Data> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Faux Hollows",
         FileName = "FauxHollows",

@@ -12,7 +12,7 @@ using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 
 namespace DailyDuty.Features.DutyRoulette;
 
-public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
+public unsafe class DutyRoulette : Module<Config, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Duty Roulette",
         FileName = "DutyRoulette",
@@ -24,12 +24,12 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         MessageClickAction = PayloadId.OpenDutyFinderRoulette, 
     };
 
-    private DutyFinderRouletteController? rouletteController;
+    private Controller? rouletteController;
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override void OnEnable() {
-        rouletteController = new DutyFinderRouletteController(this);
+        rouletteController = new Controller(this);
     }
 
     protected override void OnDisable() {

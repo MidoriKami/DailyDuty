@@ -3,7 +3,7 @@ using DailyDuty.Classes;
 
 namespace DailyDuty.Features.ChallengeLog;
 
-public class ChallengeLogConfig : ConfigBase {
+public class Config : ConfigBase {
 	public bool EnableContentFinderWarning = true;
 	public bool EnableWarningSound = true;
     

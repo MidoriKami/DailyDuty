@@ -8,7 +8,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.DomanEnclave;
 
-public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
+public unsafe class DomanEnclave : Module<ConfigBase, Data> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Doman Enclave",
         FileName = "DomanEnclave",

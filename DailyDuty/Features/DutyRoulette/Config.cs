@@ -6,7 +6,7 @@ using Dalamud.Interface;
 
 namespace DailyDuty.Features.DutyRoulette;
 
-public class DutyRouletteConfig : ConfigBase {
+public class Config : ConfigBase {
     public bool CompleteWhenCapped;
     public bool ColorContentFinder = true;
     public Vector4 CompleteColor = KnownColor.LimeGreen.Vector();

@@ -13,13 +13,13 @@ using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
 namespace DailyDuty.Features.DutyRoulette;
 
-public unsafe class DutyFinderRouletteController : IDisposable {
+public unsafe class Controller : IDisposable {
     private readonly DutyRoulette module;
     private readonly NativeListController listController;
     private readonly AddonController<AddonContentsFinder> addonController;
     private TextNode? infoTextNode;
 
-    public DutyFinderRouletteController(DutyRoulette module) {
+    public Controller(DutyRoulette module) {
         this.module = module;
 
         listController = new NativeListController("ContentsFinder") {

@@ -10,7 +10,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.FashionReport;
 
-public unsafe class FashionReport : Module<FashionReportConfig, FashionReportData> {
+public unsafe class FashionReport : Module<Config, Data> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Fashion Report",
         FileName = "FashionReport",

@@ -3,7 +3,7 @@ using DailyDuty.Classes;
 
 namespace DailyDuty.Features.GrandCompanySupply;
 
-public class GrandCompanySupplyConfig : ConfigBase {
+public class Config : ConfigBase {
     public Dictionary<uint, bool> TrackedClasses = new() {
         [8] = true,
         [9] = true,

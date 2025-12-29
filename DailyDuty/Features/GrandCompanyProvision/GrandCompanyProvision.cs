@@ -9,7 +9,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.GrandCompanyProvision;
 
-public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, GrandCompanyProvisionData> {
+public unsafe class GrandCompanyProvision : Module<Config, Data> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Grand Company Provision",
         FileName = "GrandCompanyProvision",

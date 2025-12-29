@@ -14,7 +14,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.ChallengeLog;
 
-public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
+public class ChallengeLog : Module<Config, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Challenge Log",
         FileName = "ChallengeLog",

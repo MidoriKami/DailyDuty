@@ -8,7 +8,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.CustomDelivery;
 
-public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
+public unsafe class CustomDelivery : Module<Config, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Custom Delivery",
         FileName = "CustomDelivery",

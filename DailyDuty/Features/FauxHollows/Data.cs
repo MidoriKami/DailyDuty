@@ -2,6 +2,6 @@
 
 namespace DailyDuty.Features.FauxHollows;
 
-public class FauxHollowsData : DataBase {
+public class Data : DataBase {
 	public int FauxHollowsCompletions;
 }

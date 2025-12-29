@@ -3,7 +3,7 @@ using DailyDuty.Classes;
 
 namespace DailyDuty.Features.GrandCompanySupply;
 
-public class GrandCompanySupplyData : DataBase {
+public class Data : DataBase {
     public Dictionary<uint, bool> ClassJobStatus = new() {
         [8] = false,
         [9] = false,
