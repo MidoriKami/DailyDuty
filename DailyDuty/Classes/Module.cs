@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using Dalamud.Plugin.Services;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Classes.Nodes;

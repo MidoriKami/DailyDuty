@@ -2,7 +2,6 @@
 using System.Linq;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;

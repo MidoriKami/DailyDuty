@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;

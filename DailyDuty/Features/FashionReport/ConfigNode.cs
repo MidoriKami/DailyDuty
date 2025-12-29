@@ -3,7 +3,6 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 

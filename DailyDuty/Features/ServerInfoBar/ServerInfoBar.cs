@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using DailyDuty.Utilities;
 using Dalamud.Game.Gui.Dtr;
 using Dalamud.Plugin.Services;

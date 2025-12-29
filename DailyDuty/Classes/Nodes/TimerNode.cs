@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Numerics;
-using DailyDuty.Extensions;
 using DailyDuty.Features.TimersOverlay;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;

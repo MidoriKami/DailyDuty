@@ -4,7 +4,6 @@ using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;

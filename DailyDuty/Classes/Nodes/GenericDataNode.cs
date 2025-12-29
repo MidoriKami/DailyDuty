@@ -1,6 +1,5 @@
 ﻿using System;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
