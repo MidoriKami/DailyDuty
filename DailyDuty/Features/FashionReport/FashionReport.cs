@@ -22,18 +22,18 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
         MessageClickAction = PayloadId.GoldSaucerTeleport, 
     };
 
-    private Hook<EventFramework.Delegates.ProcessEventPlay>? goldSaucerUpdateHook;
+    private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override void OnEnable() {
-        goldSaucerUpdateHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
-        goldSaucerUpdateHook.Enable();
+        frameworkEventHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
+        frameworkEventHook.Enable();
     }
 
     protected override void OnDisable() {
-        goldSaucerUpdateHook?.Dispose();
-        goldSaucerUpdateHook = null;
+        frameworkEventHook?.Dispose();
+        frameworkEventHook = null;
     }
 
     protected override ReadOnlySeString GetStatusMessage() => ModuleConfig.CompletionMode switch {
@@ -63,7 +63,7 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
     };
     
     private void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
-        goldSaucerUpdateHook!.Original(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
+        frameworkEventHook!.Original(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
         
         if (gameObject->BaseId is not 1025176) return;
         
