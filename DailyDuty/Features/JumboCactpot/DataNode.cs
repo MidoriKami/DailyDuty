@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes.Nodes;
+using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
@@ -23,9 +24,11 @@ public class DataNode(JumpCactpot module) : DataNodeBase<JumpCactpot>(module) {
                     InitialNodes = [
                         new TextNode {
                             String = $"Ticket #{index + 1}",
+                            AlignmentType = AlignmentType.Left,
                         },
                         statusNode = new TextNode {
                             String = "Ticket Not Updated",
+                            AlignmentType = AlignmentType.Left,
                         },
                     ],
                 },
