@@ -6,13 +6,13 @@ using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Text.ReadOnly;
 
-namespace DailyDuty.Features.Levequest;
+namespace DailyDuty.Features.TribalQuests;
 
-public unsafe class Levequest : Module<Config, DataBase> {
+public unsafe class TribalQuests : Module<Config, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Levequest",
-        FileName = "Levequest",
-        Type = ModuleType.Special,
+        DisplayName = "Tribal Quests",
+        FileName = "TribalQuests",
+        Type = ModuleType.Daily,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
@@ -23,13 +23,13 @@ public unsafe class Levequest : Module<Config, DataBase> {
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override ReadOnlySeString GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Allowances Remaining";
+        => $"{RemainingAllowances} Quests Remaining";
 
     public override DateTime GetNextResetDateTime()
-        => Time.NextLeveAllowanceReset();
+        => Time.NextDailyReset();
 
     public override TimeSpan GetResetPeriod()
-        => TimeSpan.FromHours(12);
+        => TimeSpan.FromDays(1);
 
     protected override CompletionStatus GetCompletionStatus() => ModuleConfig.ComparisonMode switch {
         ComparisonMode.Below when ModuleConfig.NotificationThreshold < RemainingAllowances => CompletionStatus.Complete,
@@ -38,5 +38,5 @@ public unsafe class Levequest : Module<Config, DataBase> {
         _ => CompletionStatus.Incomplete,
     };
 
-    private static int RemainingAllowances => QuestManager.Instance()->NumLeveAllowances;
+    private static int RemainingAllowances => (int) QuestManager.Instance()->GetBeastTribeAllowance();
 }
