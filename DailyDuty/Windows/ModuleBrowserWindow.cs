@@ -130,6 +130,7 @@ public class ModuleBrowserWindow : NativeAddon {
 
     private void OnCategoryToggled(bool isVisible, ModuleType category) {
         UnselectCurrentOption();
+        optionsNode?.RecalculateLayout();
     }
 
     private void AttachStatusNode(DataNodeBase node) {
