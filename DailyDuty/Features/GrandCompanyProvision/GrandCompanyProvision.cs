@@ -24,7 +24,7 @@ public unsafe class GrandCompanyProvision : Module<Config, Data> {
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override ReadOnlySeString GetStatusMessage()
-        => $"{GetIncompleteCount()} Provision Deliveries Available";
+        => $"{GetIncompleteCount()} Deliveries Available";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextGrandCompanyReset();

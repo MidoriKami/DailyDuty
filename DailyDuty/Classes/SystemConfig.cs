@@ -8,7 +8,6 @@ public class SystemConfig {
     public string CharacterWorld = "Unknown World";
     public ulong ContentId;
     public string? LodestoneId;
-    public bool EnableChatLinks = true;
 
     public HashSet<string> EnabledModules = [];
     

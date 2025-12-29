@@ -61,6 +61,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         snoozeButtonNode = new TextButtonNode {
             String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze",
             OnClick = SnoozeClicked,
+            TextTooltip = module.ConfigBase.Suppressed ? string.Empty : "Suppresses notification until the next reset",
         };
         snoozeButtonNode.AttachNode(this);
 
@@ -136,6 +137,13 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         module.ConfigBase.Suppressed = !module.ConfigBase.Suppressed;
         
         snoozeButtonNode.String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze";
+        if (!module.ConfigBase.Suppressed) {
+            snoozeButtonNode.TextTooltip = "Suppresses notification until the next reset";
+        }
+        else {
+            snoozeButtonNode.HideTooltip();
+            snoozeButtonNode.TextTooltip = string.Empty;
+        }
         
         module.ConfigBase.MarkDirty();
     }

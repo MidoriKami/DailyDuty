@@ -37,7 +37,7 @@ public static class ChatGuiExtensions {
 	private static string DailyDutyTag => DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty";
 
 	private static SeString BuildPayloadString(PayloadId payloadId, string moduleName, string message) {
-		if ((System.SystemConfig?.EnableChatLinks ?? false) && payloadId is not PayloadId.Unset) {
+		if (payloadId is not PayloadId.Unset) {
 			return new SeStringBuilder()
 		       .AddUiForeground($"[{DailyDutyTag}] ", 45)
 		       .AddUiForeground($"[{moduleName}] ", 62)
@@ -50,7 +50,7 @@ public static class ChatGuiExtensions {
 		return new SeStringBuilder()
 	       .AddUiForeground($"[{DailyDutyTag}] ", 45)
 	       .AddUiForeground($"[{moduleName}] ", 62)
-	       .AddUiForeground(message, 576)
+	       .AddText(message)
 	       .Build();
 	}
 }

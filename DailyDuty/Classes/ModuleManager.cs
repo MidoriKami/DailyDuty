@@ -17,7 +17,7 @@ public class ModuleManager : IDisposable {
         var allModules = GetModules();
         LoadedModules = [];
         
-        foreach (var module in allModules.OrderBy(module => module.Name)) {
+        foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
             Services.PluginInterface.Inject(module);
 
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
