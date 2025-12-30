@@ -87,7 +87,6 @@ public unsafe class ModuleManager : IDisposable {
                 try {
                     Services.PluginLog.Info($"Disabling {loadedModule.Name}");
                     loadedModule.FeatureBase.Disable();
-                    loadedModule.FeatureBase.IsEnabled = false;
                     Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
                 }
                 catch (Exception e) {

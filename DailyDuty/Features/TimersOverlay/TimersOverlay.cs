@@ -49,6 +49,7 @@ public unsafe class TimersOverlay : FeatureBase {
     }
 
     public override void Enable() {
+        IsEnabled = true;
         overlayController = new OverlayController();
 
         OpenConfigAction = () => {
@@ -85,6 +86,8 @@ public unsafe class TimersOverlay : FeatureBase {
     }
 
     public override void Disable() {
+        IsEnabled = false;
+
         moduleSelectionWindow?.Dispose();
         moduleSelectionWindow = null;
         
