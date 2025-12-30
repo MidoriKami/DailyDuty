@@ -42,9 +42,12 @@ public class ServerInfoBar : FeatureBase {
     }
 
     public override void Enable() {
+        IsEnabled = true;
     }
 
     public override void Disable() {
+        IsEnabled = false;
+        
         daily?.Remove();
         daily = null;
 		
