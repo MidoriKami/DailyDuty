@@ -11,6 +11,8 @@ public abstract class FeatureBase {
     
     public virtual void ProcessCommand(string args) { }
     
+    public bool IsEnabled { get; set; }
+    
     public abstract void Load();
     public abstract void Unload();
 

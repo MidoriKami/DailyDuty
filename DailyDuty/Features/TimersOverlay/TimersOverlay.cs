@@ -32,13 +32,12 @@ public unsafe class TimersOverlay : FeatureBase {
     public Config ModuleConfig = null!;
     public override NodeBase DisplayNode => new ConfigNode(this);
 
-    private bool isEnabled;
-    
     public override void Load() {
         ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
         ModuleConfig.FileName = ModuleInfo.FileName;
+        System.ModuleManager.OnLoadComplete += RebuildTimers;
 
         Services.Framework.Update += OnFrameworkUpdate;
     }
@@ -50,8 +49,6 @@ public unsafe class TimersOverlay : FeatureBase {
     }
 
     public override void Enable() {
-        isEnabled = true;
-
         overlayController = new OverlayController();
 
         OpenConfigAction = () => {
@@ -85,13 +82,9 @@ public unsafe class TimersOverlay : FeatureBase {
             
             moduleSelectionWindow.Toggle();
         };
-        
-        RebuildTimers();
     }
 
     public override void Disable() {
-        isEnabled = false;
-        
         moduleSelectionWindow?.Dispose();
         moduleSelectionWindow = null;
         
@@ -110,8 +103,10 @@ public unsafe class TimersOverlay : FeatureBase {
     }
     
     private void RebuildTimers() {
+        System.ModuleManager.OnLoadComplete -= RebuildTimers;
+
         overlayController?.RemoveAllNodes();
-        if (!isEnabled) return;
+        if (!IsEnabled) return;
 
         foreach (var (index, option) in ModuleConfig.EnabledTimers.Index()) {
             var loadedModule = System.ModuleManager.LoadedModules?.FirstOrDefault(loadedModule => loadedModule.Name == option);

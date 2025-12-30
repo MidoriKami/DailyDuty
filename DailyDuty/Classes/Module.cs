@@ -19,8 +19,6 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     public override ConfigBase ConfigBase => ModuleConfig;
     public override DataBase DataBase => ModuleData;
 
-    private bool isEnabled;
-
     public sealed override void Load() {
         ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
@@ -46,7 +44,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
 
     public sealed override void Enable() {
-        isEnabled = true;
+        IsEnabled = true;
 
         OnUpdate(Services.Framework);
 
@@ -67,7 +65,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
     
     public sealed override void Disable() {
-        isEnabled = false;
+        IsEnabled = false;
 
         OpenConfigAction = null;
         
@@ -144,7 +142,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
 
     protected override CompletionStatus GetModuleStatus() {
-        if (!isEnabled) return CompletionStatus.Disabled;
+        if (!IsEnabled) return CompletionStatus.Disabled;
         if (ModuleConfig.Suppressed) return CompletionStatus.Suppressed;
 
         return GetCompletionStatus();

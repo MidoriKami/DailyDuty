@@ -14,8 +14,10 @@ public unsafe class ModuleManager : IDisposable {
     public List<LoadedModule>? LoadedModules { get; private set; }
     public bool IsUnloading {get; private set; }
 
-    private readonly bool frameworkLoggingEnabled = false;
-    private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
+    private readonly bool frameworkLoggingEnabled = true;
+    private static Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
+    
+    public Action? OnLoadComplete { get; set; }
 
     public void Dispose() => UnloadModules();
     
@@ -38,6 +40,8 @@ public unsafe class ModuleManager : IDisposable {
                 TryEnableModule(newLoadedModule);
             }
         }
+        
+        OnLoadComplete?.Invoke();
     }
 
     private void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
@@ -68,9 +72,8 @@ public unsafe class ModuleManager : IDisposable {
 
     public void UnloadModules() {
         IsUnloading = true;
-        
-        frameworkEventHook?.Dispose();
-        frameworkEventHook = null;
+
+        frameworkEventHook?.Disable();
         
         if (LoadedModules is null) {
             Services.PluginLog.Debug("No modules loaded");
@@ -84,6 +87,7 @@ public unsafe class ModuleManager : IDisposable {
                 try {
                     Services.PluginLog.Info($"Disabling {loadedModule.Name}");
                     loadedModule.FeatureBase.Disable();
+                    loadedModule.FeatureBase.IsEnabled = false;
                     Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
                 }
                 catch (Exception e) {

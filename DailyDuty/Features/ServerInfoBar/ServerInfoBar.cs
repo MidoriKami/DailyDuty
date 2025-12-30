@@ -26,8 +26,6 @@ public class ServerInfoBar : FeatureBase {
     private IDtrBarEntry? weekly;
     private IDtrBarEntry? combo;
 
-    private bool isEnabled;
-    
     public override void Load() {
         ModuleConfig = Config.LoadCharacterConfig<ServerInfoBarConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
@@ -44,12 +42,9 @@ public class ServerInfoBar : FeatureBase {
     }
 
     public override void Enable() {
-        isEnabled = true;
     }
 
     public override void Disable() {
-        isEnabled = false;
-        
         daily?.Remove();
         daily = null;
 		
@@ -61,7 +56,7 @@ public class ServerInfoBar : FeatureBase {
     }
 
     private void Update(IFramework framework) {
-        if (!isEnabled) return;
+        if (!IsEnabled) return;
         if (ModuleConfig is not { } config) return;
 
         if (ModuleConfig.SavePending) {
