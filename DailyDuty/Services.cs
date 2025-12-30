@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Dalamud.IoC;
+﻿using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 
@@ -10,8 +9,6 @@ public sealed class Services {
     [PluginService] public static IChatGui ChatGui { get; set; } = null!;
     [PluginService] public static IClientState ClientState { get; set; } = null!;
     [PluginService] public static IFramework Framework { get; set; } = null!;
-    [PluginService] public static ITargetManager TargetManager { get; set; } = null!;
-    [PluginService] public static IObjectTable ObjectTable { get; set; } = null!;
     [PluginService] public static IAddonLifecycle AddonLifecycle { get; set; } = null!;
     [PluginService] public static IPluginLog PluginLog { get; set; } = null!;
     [PluginService] public static ICondition Condition { get; set; } = null!;
@@ -22,7 +19,4 @@ public sealed class Services {
     [PluginService] public static IDtrBar DtrBar { get; set; } = null!;
     [PluginService] public static IPlayerState PlayerState { get; set; } = null!;
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
-
-    [PluginService] [Experimental("Dalamud001")]
-    public static IReliableFileStorage ReliableFileStorage { get; set; } = null!;
 }

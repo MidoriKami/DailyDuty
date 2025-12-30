@@ -6,6 +6,7 @@ using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
+using Data = DailyDuty.Utilities.Data;
 
 namespace DailyDuty.Classes;
 

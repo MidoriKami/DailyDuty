@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using DailyDuty.Enums;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -60,6 +61,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
 
         snoozeButtonNode = new TextButtonNode {
             String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze",
+            IsEnabled = module.DataBase.NextReset != DateTime.MaxValue,
             OnClick = SnoozeClicked,
             TextTooltip = module.ConfigBase.Suppressed ? string.Empty : "Suppresses notification until the next reset",
         };
@@ -99,7 +101,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         var contentPosition = new Vector2(padding, tabBarNode.Bounds.Bottom + padding * 2.0f + 44.0f);
 
         statusDisplayNode.Size = contentsSize;
-        statusDisplayNode.Position = contentPosition;
+        statusDisplayNode.Position = contentPosition - new Vector2(0.0f, 22.0f);
 
         dataNode.Size = contentsSize;
         dataNode.Position = contentPosition;
