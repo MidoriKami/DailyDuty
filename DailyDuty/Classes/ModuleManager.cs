@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DailyDuty.Enums;
+using Dalamud.Hooking;
+using FFXIVClientStructs.FFXIV.Client.Game.Event;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.Classes;
 
-public class ModuleManager : IDisposable {
+public unsafe class ModuleManager : IDisposable {
 
     public List<LoadedModule>? LoadedModules { get; private set; }
     public bool IsUnloading {get; private set; }
-    
+
+    private readonly bool frameworkLoggingEnabled = false;
+    private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
+
     public void Dispose() => UnloadModules();
     
     public void LoadModules() {
+        frameworkEventHook ??= Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
+        frameworkEventHook.Enable();
+        
         var allModules = GetModules();
         LoadedModules = [];
         
@@ -31,8 +40,37 @@ public class ModuleManager : IDisposable {
         }
     }
 
+    private void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
+        frameworkEventHook!.Original(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
+
+        try {
+            if (frameworkLoggingEnabled) {
+                Services.PluginLog.Debug($"[FrameworkEvent]\n" +
+                                         $"Scene: {scene}, Flags: {sceneFlags}, EventId: {eventId.ContentId}-{eventId.EntryId}-{eventId.EntryId} DataCount: {sceneDataCount}\n" +
+                                         string.Join("\n", Enumerable.Range(0, sceneDataCount).Select(index => $"[{index}] {sceneData[index]}")));
+            }
+            
+            foreach (var loadedModule in LoadedModules ?? []) {
+                if (loadedModule.FeatureBase is not ModuleBase module) continue;
+
+                try {
+                    module.OnNpcInteract(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
+                }
+                catch (Exception e) {
+                    Services.PluginLog.Error(e, $"Exception processing OnNpcInteract for {loadedModule.Name}");
+                }
+            }
+        }
+        catch (Exception e) {
+            Services.PluginLog.Error(e, "Exception processing EventFrameWork.ProcessEventPlay");
+        }
+    }
+
     public void UnloadModules() {
         IsUnloading = true;
+        
+        frameworkEventHook?.Dispose();
+        frameworkEventHook = null;
         
         if (LoadedModules is null) {
             Services.PluginLog.Debug("No modules loaded");

@@ -75,7 +75,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         if (preCount == postCount) {
             container.AddNode(new TextNode {
                 String = "No options available for this module",
-                AlignmentType = AlignmentType.Left,
+                AlignmentType = AlignmentType.Bottom,
                 Height = 32.0f,
             });
         }

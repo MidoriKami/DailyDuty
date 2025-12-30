@@ -7,7 +7,6 @@ using DailyDuty.Enums;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.TreasureMap;
 
@@ -26,7 +25,7 @@ public unsafe class TreasureMap : Module<ConfigBase, Data> {
     private List<uint> inventoryMaps = [];
     private bool gatheringStarted;
 
-    protected override ReadOnlySeString GetStatusMessage()
+    protected override StatusMessage GetStatusMessage()
         => "Map Available";
 
     public override DateTime GetNextResetDateTime() {

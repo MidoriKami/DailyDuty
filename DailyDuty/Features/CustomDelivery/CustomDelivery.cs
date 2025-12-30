@@ -4,7 +4,6 @@ using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.CustomDelivery;
 
@@ -21,8 +20,8 @@ public unsafe class CustomDelivery : Module<Config, DataBase> {
 
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
-
-    protected override ReadOnlySeString GetStatusMessage()
+    
+    protected override StatusMessage GetStatusMessage()
         => $"{RemainingAllowances} Custom Deliveries Available";
 
     public override DateTime GetNextResetDateTime()

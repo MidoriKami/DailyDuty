@@ -4,7 +4,6 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -30,13 +29,13 @@ public unsafe class TimersOverlay : FeatureBase {
     private OverlayController? overlayController;
     public ColorPickerAddon? ColorPicker;
     
-    public TimersOverlayConfig ModuleConfig = null!;
+    public Config ModuleConfig = null!;
     public override NodeBase DisplayNode => new ConfigNode(this);
 
     private bool isEnabled;
     
     public override void Load() {
-        ModuleConfig = Config.LoadCharacterConfig<TimersOverlayConfig>($"{ModuleInfo.FileName}.config.json");
+        ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
         ModuleConfig.FileName = ModuleInfo.FileName;

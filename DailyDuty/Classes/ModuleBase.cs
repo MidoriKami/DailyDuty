@@ -2,12 +2,14 @@
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Windows;
+using FFXIVClientStructs.FFXIV.Client.Game.Event;
+using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using KamiToolKit;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Classes;
 
-public abstract class ModuleBase : FeatureBase {
+public abstract unsafe class ModuleBase : FeatureBase {
     
     public abstract ConfigBase ConfigBase { get; }
     public abstract DataBase DataBase { get; }
@@ -30,12 +32,14 @@ public abstract class ModuleBase : FeatureBase {
     }
 
     public CompletionStatus ModuleStatus { get; private set; }
-    public ReadOnlySeString ModuleStatusMessage { get; private set; }
+    public StatusMessage ModuleStatusMessage { get; private set; } = new();
     
     protected abstract CompletionStatus GetModuleStatus();
-    protected abstract ReadOnlySeString GetStatusMessage();
+    protected abstract StatusMessage GetStatusMessage();
     public abstract DateTime GetNextResetDateTime();
     public abstract TimeSpan GetResetPeriod();
     public virtual void Reset() { }
     public virtual ReadOnlySeString? GetTooltip() => null;
+
+    public virtual void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) { }
 }

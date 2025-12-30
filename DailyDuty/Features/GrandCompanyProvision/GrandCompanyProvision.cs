@@ -5,7 +5,6 @@ using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.GrandCompanyProvision;
 
@@ -23,7 +22,7 @@ public unsafe class GrandCompanyProvision : Module<Config, Data> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override ReadOnlySeString GetStatusMessage()
+    protected override StatusMessage GetStatusMessage()
         => $"{GetIncompleteCount()} Deliveries Available";
 
     public override DateTime GetNextResetDateTime()

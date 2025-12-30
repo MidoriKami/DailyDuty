@@ -4,7 +4,6 @@ using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.HuntMarksDaily;
 
@@ -22,7 +21,7 @@ public unsafe class HuntMarksDaily : Module<Config, DataBase> {
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
     public override DataNodeBase DataNode => new DataNode(this);
 
-    protected override ReadOnlySeString GetStatusMessage()
+    protected override StatusMessage GetStatusMessage()
         => $"{GetIncompleteCount()} Hunt Bills Available";
 
     public override DateTime GetNextResetDateTime()

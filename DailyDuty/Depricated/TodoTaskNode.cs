@@ -14,7 +14,6 @@
 // 	public void Refresh() {
 // 		IsVisible = Module.IsEnabled && ModuleConfig.TodoEnabled && Module.ModuleStatus is ModuleStatus.Incomplete;
 //
-// 		// todo fix clickable
 // 		// if (Module.HasClickableLink && !IsEventRegistered(AddonEventType.MouseClick)) {
 // 		// 	AddEvent(AddonEventType.MouseClick, OnClick);
 // 		// }

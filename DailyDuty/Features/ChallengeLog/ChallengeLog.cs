@@ -9,7 +9,6 @@ using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.Sheets;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.ChallengeLog;
 
@@ -22,7 +21,6 @@ public class ChallengeLog : Module<Config, DataBase> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Achievements", "Exp" ],
-        MessageClickAction = PayloadId.OpenChallengeLog,
     };
 
     private Stopwatch? contentsFinderStopwatch;
@@ -38,6 +36,23 @@ public class ChallengeLog : Module<Config, DataBase> {
         contentsFinderStopwatch = null;
     }
 
+    public override DateTime GetNextResetDateTime()
+        => Time.NextWeeklyReset();
+
+    public override TimeSpan GetResetPeriod()
+        => TimeSpan.FromDays(7);
+
+    protected override CompletionStatus GetCompletionStatus()
+        => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
+
+    protected override StatusMessage GetStatusMessage() => new() {
+        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log entrie(s) Incomplete",
+        PayloadId = PayloadId.OpenChallengeLog,
+    };
+
+    private static unsafe bool IsContentNoteComplete(uint rowId)
+        => FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote.Instance()->IsContentNoteComplete((int)rowId);
+    
     private void OnContentsFinderOpen(AddonEvent type, AddonArgs args) {
         if (ModuleConfig is not { EnableContentFinderWarning: true } config) return;
 
@@ -63,19 +78,4 @@ public class ChallengeLog : Module<Config, DataBase> {
             contentsFinderStopwatch?.Restart();
         }
     }
-        
-    public override DateTime GetNextResetDateTime()
-        => Time.NextWeeklyReset();
-
-    public override TimeSpan GetResetPeriod()
-        => TimeSpan.FromDays(7);
-
-    protected override CompletionStatus GetCompletionStatus()
-        => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
-
-    protected override ReadOnlySeString GetStatusMessage()
-        => $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log entrie(s) Incomplete";
-
-    private static unsafe bool IsContentNoteComplete(uint rowId)
-        => FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote.Instance()->IsContentNoteComplete((int)rowId);
 }

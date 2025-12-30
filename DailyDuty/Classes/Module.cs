@@ -5,7 +5,6 @@ using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
-using Lumina.Text.ReadOnly;
 using Data = DailyDuty.Utilities.Data;
 
 namespace DailyDuty.Classes;
@@ -99,20 +98,22 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
 
-        ReadOnlySeString statusMessage;
+        StatusMessage statusMessage;
         if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
             statusMessage = GetStatusMessage();
         }
         else {
             statusMessage = ModuleConfig.CustomStatusMessage;
         }
+
+        if (statusMessage.Message == string.Empty) return;
         
         Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Status Message");
         Services.ChatGui.PrintPayloadMessage(
             ModuleConfig.MessageChatChannel, 
-            ModuleInfo.MessageClickAction, 
+            statusMessage.PayloadId, 
             ModuleInfo.DisplayName, 
-            statusMessage.ToString()
+            statusMessage.Message
         );
     }
     

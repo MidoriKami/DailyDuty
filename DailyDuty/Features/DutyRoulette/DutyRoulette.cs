@@ -21,7 +21,6 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Exp", "Gil" ],
-        MessageClickAction = PayloadId.OpenDutyFinderRoulette, 
     };
 
     private Controller? rouletteController;
@@ -37,8 +36,10 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
         rouletteController = null;
     }
 
-    protected override ReadOnlySeString GetStatusMessage() 
-        => $"{GetIncompleteCount()} Duty Roulette(s) incomplete";
+    protected override StatusMessage GetStatusMessage() => new() {
+        Message = $"{GetIncompleteCount()} Duty Roulette(s) incomplete",
+        PayloadId = PayloadId.OpenDutyFinderRoulette,
+    };
 
     public override DateTime GetNextResetDateTime() 
         => Time.NextDailyReset();

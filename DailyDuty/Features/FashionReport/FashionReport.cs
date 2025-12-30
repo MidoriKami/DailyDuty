@@ -3,10 +3,8 @@ using DailyDuty.Classes;
 using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
-using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.FashionReport;
 
@@ -19,28 +17,19 @@ public unsafe class FashionReport : Module<Config, Data> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Gold Saucer", "Gold", "Saucer", "MGP" ],
-        MessageClickAction = PayloadId.GoldSaucerTeleport, 
     };
 
-    private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable() {
-        frameworkEventHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
-        frameworkEventHook.Enable();
-    }
-
-    protected override void OnDisable() {
-        frameworkEventHook?.Dispose();
-        frameworkEventHook = null;
-    }
-
-    protected override ReadOnlySeString GetStatusMessage() => ModuleConfig.CompletionMode switch {
-        FashionReportMode.All => $"{ModuleData.AllowancesRemaining} Allowances Available",
-        FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} Allowances Available",
-        FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} Highest Score",
-        _ => throw new ArgumentOutOfRangeException(),
+    protected override StatusMessage GetStatusMessage() => new() {
+        Message = ModuleConfig.CompletionMode switch {
+            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} Allowances Available",
+            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} Allowances Available",
+            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} Highest Score",
+            _ => string.Empty,
+        },
+        PayloadId = PayloadId.GoldSaucerTeleport,
     };
 
     public override DateTime GetNextResetDateTime() 
@@ -61,14 +50,9 @@ public unsafe class FashionReport : Module<Config, Data> {
         FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore >= 80 => CompletionStatus.Complete,
         _ => CompletionStatus.Incomplete,
     };
-    
-    private void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
-        frameworkEventHook!.Original(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
-        
+
+    public override void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         if (gameObject->BaseId is not 1025176) return;
-        
-        // Services.PluginLog.Debug($"[FrameworkEvent] Scene: {scene}, Flags: {sceneFlags}, EventId: {eventId.ContentId}-{eventId.EntryId}-{eventId.EntryId}");
-        // Services.PluginLog.Debug($"[FrameworkEvent] DataCount: {sceneDataCount} Data: {string.Join(", ", Enumerable.Range(0, sceneDataCount).Select(index => sceneData[index]))}");
 
         switch (scene) {
             case 1:

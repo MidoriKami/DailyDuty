@@ -4,7 +4,6 @@ using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.Levequest;
 
@@ -22,7 +21,7 @@ public unsafe class Levequest : Module<Config, DataBase> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override ReadOnlySeString GetStatusMessage()
+    protected override StatusMessage GetStatusMessage()
         => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Allowances Remaining";
 
     public override DateTime GetNextResetDateTime()

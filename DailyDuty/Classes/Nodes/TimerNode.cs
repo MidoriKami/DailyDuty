@@ -18,7 +18,7 @@ public sealed class TimerNode : OverlayNode {
 	private readonly TextNineGridNode timeRemainingNode;
 	private readonly TextNode tooltipNode;
 
-    public required TimersOverlayConfig TimerConfig { get; init; }
+    public required Config TimerConfig { get; init; }
 
     public required ModuleBase Module {
         get;

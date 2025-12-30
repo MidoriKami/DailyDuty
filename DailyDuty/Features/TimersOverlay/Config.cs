@@ -4,7 +4,7 @@ using DailyDuty.Classes;
 
 namespace DailyDuty.Features.TimersOverlay;
 
-public class TimersOverlayConfig : ConfigBase {
+public class Config : ConfigBase {
     public bool HideInDuties = true;
     public bool HideInQuestEvents = true;
     public bool HideTimerSeconds = false;

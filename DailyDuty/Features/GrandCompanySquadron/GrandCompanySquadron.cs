@@ -2,7 +2,6 @@
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.GrandCompanySquadron;
 
@@ -27,7 +26,7 @@ public class GrandCompanySquadron : Module<ConfigBase, Data> {
     protected override void OnDisable() {
     }
 
-    protected override ReadOnlySeString GetStatusMessage()
+    protected override StatusMessage GetStatusMessage()
         => "INVALID MODULE ACTIVATED";
 
     public override DateTime GetNextResetDateTime()

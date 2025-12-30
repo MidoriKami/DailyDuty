@@ -13,7 +13,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
         container.AddNode([
             new CheckboxNode {
                 Height = 24.0f,
-                String = "Mark Complete When Tomecapped",
+                String = "Mark Complete When Weekly Tomecapped",
                 IsChecked = module.ModuleConfig.CompleteWhenCapped,
                 OnClick = newValue => {
                     module.ModuleConfig.CompleteWhenCapped = newValue;

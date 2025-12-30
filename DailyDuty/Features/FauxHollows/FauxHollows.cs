@@ -5,11 +5,9 @@ using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.FauxHollows;
 
-// Template SampleModification for more easily creating your own, can copy this entire folder and rename it.
 public class FauxHollows : Module<Config, Data> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Faux Hollows",
@@ -19,7 +17,6 @@ public class FauxHollows : Module<Config, Data> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Poetics" ],
-        MessageClickAction = PayloadId.IdyllshireTeleport, 
     };
 
     public override DataNodeBase DataNode => new DataNode(this);
@@ -34,12 +31,13 @@ public class FauxHollows : Module<Config, Data> {
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(7);
 
-    public override void Reset() {
-        ModuleData.FauxHollowsCompletions = 0;
-    }
+    public override void Reset()
+        => ModuleData.FauxHollowsCompletions = 0;
 
-    protected override ReadOnlySeString GetStatusMessage() 
-        => "Unreal Trial Available";
+    protected override StatusMessage GetStatusMessage() => new() {
+        Message = "Unreal Trial Available",
+        PayloadId = PayloadId.IdyllshireTeleport,
+    };
 
     public override DateTime GetNextResetDateTime() 
         => Time.NextWeeklyReset();

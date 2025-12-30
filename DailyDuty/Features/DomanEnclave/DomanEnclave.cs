@@ -4,7 +4,6 @@ using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.DomanEnclave;
 
@@ -17,13 +16,14 @@ public unsafe class DomanEnclave : Module<ConfigBase, Data> {
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
         Tags = [ "Money", "Gil" ],
-        MessageClickAction = PayloadId.DomanEnclaveTeleport,
     };
 
     public override DataNodeBase DataNode => new DataNode(this);
 
-    protected override ReadOnlySeString GetStatusMessage() 
-        => ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil Remaining";
+    protected override StatusMessage GetStatusMessage() => new() {
+        Message = ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil Remaining",
+        PayloadId = PayloadId.DomanEnclaveTeleport,
+    };
 
     public override DateTime GetNextResetDateTime() 
         => Time.NextWeeklyReset();
