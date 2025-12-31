@@ -48,7 +48,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
             Options = module.ModuleConfig.TrackedRoulettes,
             GetLabelFunc = item => item.Name.ToString(),
             FilterFunc = item => item.ContentRouletteRoleBonus.RowId is not 0,
-            OnEdited = () => module.ModuleConfig.SavePending = true,
+            OnEdited = module.ModuleConfig.MarkDirty,
         };
         
         luminaSelectionWindow.Open();

@@ -65,7 +65,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
             Title = "Challenge Log Tracking Selection",
             Options = module.ModuleConfig.TrackedEntries,
             GetLabelFunc = item => item.Name.ToString(),
-            OnEdited = () => module.ModuleConfig.SavePending = true,
+            OnEdited = module.ModuleConfig.MarkDirty,
         };
         
         luminaSelectionWindow.Open();
@@ -78,7 +78,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
             Title = "Challenge Log Duty Finder Warning Selection",
             Options = module.ModuleConfig.WarningEntries,
             GetLabelFunc = item => item.Name.ToString(),
-            OnEdited = () => module.ModuleConfig.SavePending = true,
+            OnEdited = module.ModuleConfig.MarkDirty,
         };
         
         luminaSelectionWindow.Open();

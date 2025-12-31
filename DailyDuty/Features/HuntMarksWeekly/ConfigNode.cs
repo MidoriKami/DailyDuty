@@ -34,7 +34,7 @@ public class ConfigNode(HuntMarksWeekly module) : ConfigNodeBase<HuntMarksWeekly
             Title = "Hunts Weekly Selection",
             Options = module.ModuleConfig.TrackedHuntMarks,
             GetLabelFunc = item => item.EventItem.ValueNullable?.Name.ToString(),
-            OnEdited = () => module.ModuleConfig.SavePending = true,
+            OnEdited = module.ModuleConfig.MarkDirty,
             FilterFunc = orderType => orderType.Type is 2,
         };
         

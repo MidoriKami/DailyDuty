@@ -3,21 +3,21 @@ using DailyDuty.Windows;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
-namespace DailyDuty.Features.HuntMarksDaily;
+namespace DailyDuty.Features.MaskedCarnivale;
 
-public class ConfigNode(HuntMarksDaily module) : ConfigNodeBase<HuntMarksDaily>(module) {
-    private readonly HuntMarksDaily module = module;
+public class ConfigNode(MaskedCarnivale module) : ConfigNodeBase<MaskedCarnivale>(module){
+    private readonly MaskedCarnivale module = module;
 
-    private LuminaMultiSelectWindow<MobHuntOrderType>? luminaSelectionWindow;
+    private LuminaMultiSelectWindow<Addon>? luminaSelectionWindow;
     
     protected override void BuildNode(VerticalListNode container) {
         container.AddNode([
             new TextButtonNode {
                 Height = 24.0f,
-                String = "Edit Tracked Daily Hunt Bills",
+                String = "Edit Tracked Cranivale Entries",
                 OnClick = OpenMainTrackingWindow,
             },
-        ]);
+        ]);   
     }
     
     protected override void Dispose(bool disposing, bool isNativeDestructor) {
@@ -26,16 +26,16 @@ public class ConfigNode(HuntMarksDaily module) : ConfigNodeBase<HuntMarksDaily>(
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = null;
     }
-
+    
     private void OpenMainTrackingWindow() {
         luminaSelectionWindow?.Dispose();
-        luminaSelectionWindow = new LuminaMultiSelectWindow<MobHuntOrderType> {
-            InternalName = "MobHuntOrder",
-            Title = "Hunts Daily Selection",
-            Options = module.ModuleConfig.TrackedHuntMarks,
-            GetLabelFunc = item => item.EventItem.ValueNullable?.Name.ToString(),
+        luminaSelectionWindow = new LuminaMultiSelectWindow<Addon> {
+            InternalName = "CarnavaleSelection",
+            Title = "Masked Carnival Selection",
+            Options = module.ModuleConfig.TrackedTasks,
+            GetLabelFunc = item => item.Text.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,
-            FilterFunc = orderType => orderType.Type is 1,
+            FilterFunc = item => item.RowId is >= 12447 and <= 12449,
         };
         
         luminaSelectionWindow.Open();
