@@ -1,7 +1,5 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using System.Numerics;
 using DailyDuty.Classes.Nodes;
-using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
@@ -13,7 +11,7 @@ namespace DailyDuty.Features.DutyFinderTimer;
 public class ConfigNode : SimpleComponentNode {
     private readonly DutyFinderTimer module;
     private readonly VerticalListNode listNode;
-    private ColorPreviewNode? colorPreviewNode;
+    private readonly ColorPreviewNode? colorPreviewNode;
     
     public ConfigNode(DutyFinderTimer module) {
         this.module = module;
