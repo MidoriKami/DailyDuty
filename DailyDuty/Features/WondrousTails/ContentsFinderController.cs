@@ -104,7 +104,7 @@ public unsafe class ContentsFinderController : IDisposable {
 
         infoTextNode?.ShowClickableCursor = shouldShow;
         infoTextNode?.IsVisible = shouldShow;
-        infoTailsNode?.IsVisible = shouldShow;
+        infoTailsNode?.IsVisible = shouldShow && module.ModuleConfig.CloverIndicator;
 
         addon->UpdateCollisionNodeList(false);
     }
