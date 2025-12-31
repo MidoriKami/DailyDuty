@@ -17,7 +17,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
                 IsChecked = module.ModuleConfig.CompleteWhenCapped,
                 OnClick = newValue => {
                     module.ModuleConfig.CompleteWhenCapped = newValue;
-                    module.ModuleConfig.CompleteWhenCapped = true;
+                    module.ModuleConfig.MarkDirty();
                 },
             },
             new CheckboxNode {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.Classes;
+using DailyDuty.Classes.Nodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using KamiToolKit.Premade.Addons;
 
 namespace DailyDuty.Features.WondrousTails;
 
@@ -19,12 +21,25 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
     };
 
     private DutyController? dutyController;
+    private ContentsFinderController? contentsFinderController;
+    public ColorPickerAddon? ColorPicker;
+    
+
+    public override DataNodeBase DataNode => new DataNode(this);
+    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override void OnEnable() {
         dutyController = new DutyController(this);
+        contentsFinderController = new ContentsFinderController(this);
     }
 
     protected override void OnDisable() {
+        ColorPicker?.Dispose();
+        ColorPicker = null;
+        
+        contentsFinderController?.Dispose();
+        contentsFinderController = null;
+        
         dutyController?.Dispose();
         dutyController = null;
     }

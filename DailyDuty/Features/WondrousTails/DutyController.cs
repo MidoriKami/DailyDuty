@@ -11,14 +11,18 @@ public unsafe class DutyController : IDisposable {
 
     public DutyController(WondrousTails module) {
         this.module = module;
-
+        
         Services.DutyState.DutyStarted += OnDutyStarted;
         Services.DutyState.DutyCompleted += OnDutyCompleted;
+
+        if (Services.DutyState.IsDutyStarted) {
+            OnDutyStarted(null, Services.ClientState.TerritoryType);
+        }
     }
 
     public void Dispose() {
         Services.DutyState.DutyStarted -= OnDutyStarted;
-        Services.DutyState.DutyStarted -= OnDutyCompleted;
+        Services.DutyState.DutyCompleted -= OnDutyCompleted;
     }
     
     private void OnDutyStarted(object? sender, ushort e) {
@@ -34,11 +38,11 @@ public unsafe class DutyController : IDisposable {
     			break;
             
     		case PlayerState.WeeklyBingoTaskStatus.Claimable:
-    			PrintMessage("Sticker is Already Available");
+    			PrintMessage("Sticker is already available for this duty, be sure to claim it!");
     			break;
             
     		case PlayerState.WeeklyBingoTaskStatus.Open:
-    			PrintMessage("Stickers Claimable");
+    			PrintMessage("Completing this duty will reward you with a sticker");
     			break;
     	}
     }
@@ -54,7 +58,6 @@ public unsafe class DutyController : IDisposable {
     		case PlayerState.WeeklyBingoTaskStatus.Claimable:
     		case PlayerState.WeeklyBingoTaskStatus.Open:
     			PrintMessage("Stickers Claimable");
-                // todo: maybe add SFX here?
     			break;
     	}
     }

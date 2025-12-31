@@ -83,6 +83,8 @@ public unsafe class TimersOverlay : FeatureBase {
             
             moduleSelectionWindow.Toggle();
         };
+        
+        RebuildTimers();
     }
 
     public override void Disable() {
@@ -106,6 +108,7 @@ public unsafe class TimersOverlay : FeatureBase {
     }
     
     private void RebuildTimers() {
+        if (!System.ModuleManager.IsLoadComplete) return;
         System.ModuleManager.OnLoadComplete -= RebuildTimers;
 
         overlayController?.RemoveAllNodes();

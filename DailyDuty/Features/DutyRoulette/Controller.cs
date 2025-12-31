@@ -50,6 +50,7 @@ public unsafe class Controller : IDisposable {
                     .PopColor()
                     .ToReadOnlySeString(),
                 TextTooltip = "[DailyDuty] Duty Roulette Feature",
+                IsVisible = false,
             };
             infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
         };
@@ -62,8 +63,17 @@ public unsafe class Controller : IDisposable {
         addonController.OnRefresh += addon => {
             var shouldShow = listController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
             
-            infoTextNode?.IsVisible = shouldShow;
             infoTextNode?.ShowClickableCursor = shouldShow;
+            infoTextNode?.IsVisible = shouldShow;
+            
+            if (!shouldShow) {
+                infoTextNode?.RemoveFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
+            }
+            else {
+                infoTextNode?.AddFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
+            }
+            
+            addon->UpdateCollisionNodeList(false);
         };
         
         addonController.Enable();
