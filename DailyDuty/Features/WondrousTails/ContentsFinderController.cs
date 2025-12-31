@@ -30,8 +30,6 @@ public unsafe class ContentsFinderController : IDisposable {
     public ContentsFinderController(WondrousTails module) {
         this.module = module;
 
-        Services.AddonLifecycle.LogAddon("ContentsFinder");
-        
         listController = new NativeListController("ContentsFinder") {
             GetPopulatorNode = GetPopulatorMethod,
             ShouldModifyElement = ShouldModifyElementMethod,
