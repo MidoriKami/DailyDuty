@@ -29,10 +29,9 @@ public unsafe class TreasureMap : Module<ConfigBase, Data> {
         => "Map Available";
 
     public override DateTime GetNextResetDateTime() {
-        if (ModuleData.LastMapGatheredTime == DateTime.MinValue) {
-            return DateTime.MaxValue;
-        }
-        
+        if (ModuleData.LastMapGatheredTime == DateTime.MinValue) return DateTime.MaxValue;
+        if (DateTime.UtcNow > ModuleData.LastMapGatheredTime + TimeSpan.FromHours(18)) return DateTime.MaxValue;
+
         return ModuleData.LastMapGatheredTime + TimeSpan.FromHours(18);
     }
 
