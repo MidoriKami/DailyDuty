@@ -23,7 +23,6 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
     private DutyController? dutyController;
     private ContentsFinderController? contentsFinderController;
     public ColorPickerAddon? ColorPicker;
-    
 
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
