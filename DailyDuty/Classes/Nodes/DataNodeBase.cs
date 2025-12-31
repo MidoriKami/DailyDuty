@@ -153,7 +153,18 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     protected abstract void BuildNode(VerticalListNode container);
     
     private void AttachDataNode(VerticalListNode container) {
+        var childCount = container.Nodes.Count;
         BuildNode(container);
+        var newCount = container.Nodes.Count;
+
+        if (childCount == newCount) {
+            container.AddNode(new TextNode {
+                String = "No data available for this module",
+                AlignmentType = AlignmentType.Bottom,
+                Height = 32.0f,
+            });
+        }
+        
         container.RecalculateLayout();
     }
 }
