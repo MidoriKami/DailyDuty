@@ -1,4 +1,4 @@
-﻿using DailyDuty.Classes.Nodes;
+﻿using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;

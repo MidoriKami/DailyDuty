@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
@@ -22,10 +22,10 @@ public class FauxHollows : Module<Config, Data> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable()
+    protected override void OnModuleEnable()
         => Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
 
-    protected override void OnDisable()
+    protected override void OnModuleDisable()
         => Services.AddonLifecycle.UnregisterListener(WeeklyPuzzlePreSetup);
 
     public override TimeSpan GetResetPeriod()

@@ -1,32 +1,39 @@
-﻿// using DailyDuty.Classes;
-// using DailyDuty.Enums;
-// using KamiToolKit;
-// using KamiToolKit.Nodes;
-// using Lumina.Text.ReadOnly;
-//
-// namespace DailyDuty.Features.TodoOverlay;
-//
-// public class TodoOverlay : Module<TodoOverlayConfig, DataBase> {
-//     public override ModuleInfo ModuleInfo => new() {
-//         DisplayName = "Todo List Overlay",
-//         FileName = "TodoList",
-//         Type = ModuleType.GeneralFeatures,
-//         ChangeLog = [
-//             new ChangeLogInfo(1, "Initial Reimplementation"),
-//         ],
-//         Tags = [ "Overlay" , "Todo" ],
-//     };
-//
-//     protected override void OnEnable() {
-//     }
-//
-//     protected override void OnDisable() {
-//     }
-//     
-//     public override NodeBase GetDataNode() {
-//         return new ResNode();
-//     }
-//     
-//     public override CompletionStatus? GetModuleStatus() => null;
-//     public override ReadOnlySeString? GetStatusMessage() => null;
-// }
+﻿using DailyDuty.Classes;
+using DailyDuty.Enums;
+using KamiToolKit;
+
+namespace DailyDuty.Features.TodoOverlay;
+
+public class TodoOverlay : FeatureBase {
+    public override ModuleInfo ModuleInfo => new() {
+        DisplayName = "Todo List Overlay",
+        FileName = "MiniCactpot",
+        Type = ModuleType.GeneralFeatures,
+        ChangeLog = [
+            new ChangeLogInfo(1, "Initial Re-Implementation"),
+        ],
+        Tags = [ "Tasks", "List" ],
+    };
+
+    public override NodeBase DisplayNode => new ConfigNode(this);
+
+    protected override void OnFeatureLoad() {
+        
+    }
+
+    protected override void OnFeatureUnload() {
+        
+    }
+
+    protected override void OnFeatureEnable() {
+        
+    }
+
+    protected override void OnFeatureDisable() {
+        
+    }
+    
+    protected override void OnFeatureUpdate() {
+        
+    }
+}

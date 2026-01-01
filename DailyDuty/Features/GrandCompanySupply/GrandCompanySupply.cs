@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -34,9 +34,7 @@ public unsafe class GrandCompanySupply : Module<Config, Data> {
     public override void Reset() {
     }
 
-    protected override void Update() {
-        base.Update();
-
+    protected override void OnModuleUpdate() {
         var agent = AgentGrandCompanySupply.Instance();
         if (!agent->IsAgentActive()) return;
         if (agent->NumItems < 11) return;

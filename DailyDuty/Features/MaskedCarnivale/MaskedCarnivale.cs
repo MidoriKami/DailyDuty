@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
@@ -25,11 +25,11 @@ public unsafe class MaskedCarnivale : Module<Config, Data> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AozContentResultPostSetup);
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
         Services.AddonLifecycle.UnregisterListener(AozContentResultPostSetup);
     }
 
@@ -65,9 +65,7 @@ public unsafe class MaskedCarnivale : Module<Config, Data> {
         return count;
     }
 
-    protected override void Update() {
-        base.Update();
-
+    protected override void OnModuleUpdate() {
         if (AgentAozContentBriefing.Instance() is not null && AgentAozContentBriefing.Instance()->IsAgentActive()) {
             ModuleData.TaskData.TryAdd(12449, false);
             ModuleData.TaskData.TryAdd(12448, false);

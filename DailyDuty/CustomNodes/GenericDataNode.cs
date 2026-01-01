@@ -1,9 +1,10 @@
 ﻿using System;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public class GenericDataNode : SimpleComponentNode {
     private readonly ScrollingAreaNode<TabbedVerticalListNode> statusNode;

@@ -3,7 +3,6 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -31,24 +30,18 @@ public unsafe class DutyFinderTimer : FeatureBase {
     
     public override NodeBase DisplayNode => new ConfigNode(this);
     
-    public override void Load() {
+    protected override void OnFeatureLoad() {
         ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
         ModuleConfig.FileName = ModuleInfo.FileName;
-        
-        Services.Framework.Update += Update;
     }
 
-    public override void Unload() {
-        Services.Framework.Update -= Update;
-        
+    protected override void OnFeatureUnload() {
         ModuleConfig = null!;
     }
 
-    public override void Enable() {
-        IsEnabled = true;
-
+    protected override void OnFeatureEnable() {
         addonController = new AddonController<AddonContentsFinder>("ContentsFinder");
 
         addonController.OnAttach += addon => {
@@ -83,9 +76,7 @@ public unsafe class DutyFinderTimer : FeatureBase {
         addonController.Enable();
     }
 
-    public override void Disable() {
-        IsEnabled = false;
-        
+    protected override void OnFeatureDisable() {
         addonController?.Dispose();
         addonController = null;
         
@@ -96,9 +87,7 @@ public unsafe class DutyFinderTimer : FeatureBase {
         timerTextNode = null;
     }
 
-    private void Update(IFramework framework) {
-        if (!IsEnabled) return;
-
+    protected override void OnFeatureUpdate() {
         if (ModuleConfig.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
             ModuleConfig.Save();

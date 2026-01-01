@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Hooking;
@@ -26,12 +26,12 @@ public unsafe class JumpCactpot : Module<ConfigBase, Data> {
     private Hook<AgentInterface.Delegates.ReceiveEvent>? onReceiveEventHook;
     private int ticketData = -1;
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         onReceiveEventHook = Services.Hooker.HookFromAddress<AgentInterface.Delegates.ReceiveEvent>(AgentModule.Instance()->GetAgentByInternalId(AgentId.LotteryWeekly)->VirtualTable->ReceiveEvent, OnReceiveEvent);
         onReceiveEventHook?.Enable();
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
         onReceiveEventHook?.Dispose();
         onReceiveEventHook = null;
     }

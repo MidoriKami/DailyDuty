@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
@@ -27,11 +27,11 @@ public class ChallengeLog : Module<Config, DataBase> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
         Services.AddonLifecycle.UnregisterListener(OnContentsFinderOpen);
         contentsFinderStopwatch = null;
     }

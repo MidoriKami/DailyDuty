@@ -3,7 +3,6 @@ using System.Numerics;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
-using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Data = DailyDuty.Utilities.Data;
 
@@ -18,8 +17,13 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
     public override ConfigBase ConfigBase => ModuleConfig;
     public override DataBase DataBase => ModuleData;
+    
+    protected abstract CompletionStatus GetCompletionStatus();
+    protected virtual void OnModuleEnable() { }
+    protected virtual void OnModuleDisable() { }
+    protected virtual void OnModuleUpdate() { }
 
-    public sealed override void Load() {
+    protected sealed override void OnFeatureLoad() {
         ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
@@ -29,13 +33,9 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleData is null) throw new Exception("Failed to load data file");
         
         ModuleData.FileName = ModuleInfo.FileName;
-
-        Services.Framework.Update += OnUpdate;
     }
 
-    public sealed override void Unload() {
-        Services.Framework.Update -= OnUpdate;
-        
+    protected sealed override void OnFeatureUnload() {
         ChangelogWindow?.Dispose();
         ChangelogWindow = null;
         
@@ -43,10 +43,10 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         ModuleConfig = null!;
     }
 
-    public sealed override void Enable() {
-        IsEnabled = true;
-
-        OnUpdate(Services.Framework);
+    protected sealed override void OnFeatureEnable() {
+        OnModuleEnable();
+        OnFeatureUpdate();
+        SendStatusMessage();
 
         OpenConfigAction = () => {
             configWindow ??= new ModuleConfigWindow<Module<T, TU>> {
@@ -58,37 +58,21 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
             
             configWindow.Toggle();
         };
-        
-        OnEnable();
-        Update();
-        SendStatusMessage();
     }
-    
-    public sealed override void Disable() {
-        IsEnabled = false;
 
+    protected sealed override void OnFeatureDisable() {
+        OnModuleDisable();
+        
         OpenConfigAction = null;
         
         configWindow?.Dispose();
         configWindow = null;
-        
-        OnDisable();
     }
     
-    private void OnUpdate(IFramework framework) {
+    protected sealed override void OnModuleBaseUpdate() {
         TryReset();
         
-        Update();
-
-        if (ModuleConfig.SavePending) {
-            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            ModuleConfig.Save();
-        }
-
-        if (ModuleData.SavePending) {
-            Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} data");
-            ModuleData.Save();
-        }
+        OnModuleUpdate();
     }
 
     private void SendStatusMessage() {
@@ -147,6 +131,4 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
         return GetCompletionStatus();
     }
-
-    protected abstract CompletionStatus GetCompletionStatus();
 }

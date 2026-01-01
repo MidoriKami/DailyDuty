@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public class OptionsNode : SimpleComponentNode {
 

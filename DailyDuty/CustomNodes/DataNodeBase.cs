@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public abstract class DataNodeBase : UpdatableNode;
 

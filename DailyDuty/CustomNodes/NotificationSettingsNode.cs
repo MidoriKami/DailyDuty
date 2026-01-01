@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using DailyDuty.Classes;
 using Dalamud.Game.Text;
 using KamiToolKit.Nodes;
 using XivChatTypeExtensions = DailyDuty.Extensions.XivChatTypeExtensions;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleBase {
     private readonly TabbedVerticalListNode listNode;

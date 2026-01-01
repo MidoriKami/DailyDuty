@@ -1,5 +1,5 @@
 ﻿using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 

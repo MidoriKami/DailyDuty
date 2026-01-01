@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -27,11 +27,11 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         rouletteController = new Controller(this);
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
         rouletteController?.Dispose();
         rouletteController = null;
     }

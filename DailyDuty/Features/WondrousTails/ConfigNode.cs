@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;

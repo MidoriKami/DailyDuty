@@ -19,11 +19,11 @@ public class GrandCompanySquadron : Module<ConfigBase, Data> {
         Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
     };
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         throw new Exception("This module should not be loaded.");
     }
     
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
     }
 
     protected override StatusMessage GetStatusMessage()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using Dalamud.Game.ClientState.Conditions;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -44,9 +44,7 @@ public unsafe class TreasureMap : Module<ConfigBase, Data> {
     protected override CompletionStatus GetCompletionStatus()
         => ModuleData.NextReset == DateTime.MaxValue ? CompletionStatus.Incomplete : CompletionStatus.Complete;
 
-    protected override void Update() {
-        base.Update();
-        
+    protected override void OnModuleUpdate() {
         if (Services.Condition[ConditionFlag.ExecutingGatheringAction] && !gatheringStarted) {
             gatheringStarted = true;
             OnGatheringStart();

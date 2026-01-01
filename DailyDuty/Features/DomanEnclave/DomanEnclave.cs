@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -31,18 +31,15 @@ public unsafe class DomanEnclave : Module<ConfigBase, Data> {
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(7);
 
-    public override void Reset() {
-        ModuleData.DonatedThisWeek = 0;
-    }
+    public override void Reset()
+        => ModuleData.DonatedThisWeek = 0;
 
     protected override CompletionStatus GetCompletionStatus() {
         if (ModuleData.WeeklyAllowance is 0) return CompletionStatus.Unknown;
         return RemainingAllowance is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 
-    protected override void Update() {
-        base.Update();
-
+    protected override void OnModuleUpdate() {
         var allowance = DomanEnclaveManager.Instance()->State.Allowance;
         var donated = DomanEnclaveManager.Instance()->State.Donated; 
         

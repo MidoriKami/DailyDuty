@@ -3,7 +3,6 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Gui.Dtr;
-using Dalamud.Plugin.Services;
 using KamiToolKit;
 
 namespace DailyDuty.Features.ServerInfoBar;
@@ -26,28 +25,20 @@ public class ServerInfoBar : FeatureBase {
     private IDtrBarEntry? weekly;
     private IDtrBarEntry? combo;
 
-    public override void Load() {
+    protected override void OnFeatureLoad() {
         ModuleConfig = Config.LoadCharacterConfig<ServerInfoBarConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
         ModuleConfig.FileName = ModuleInfo.FileName;
-
-        Services.Framework.Update += Update;
     }
 
-    public override void Unload() {
-        Services.Framework.Update -= Update;
-        
+    protected override void OnFeatureUnload() {
         ModuleConfig = null!;
     }
 
-    public override void Enable() {
-        IsEnabled = true;
-    }
+    protected override void OnFeatureEnable() { }
 
-    public override void Disable() {
-        IsEnabled = false;
-        
+    protected override void OnFeatureDisable() {
         daily?.Remove();
         daily = null;
 		
@@ -58,8 +49,7 @@ public class ServerInfoBar : FeatureBase {
         combo = null;
     }
 
-    private void Update(IFramework framework) {
-        if (!IsEnabled) return;
+    protected override void OnFeatureUpdate() {
         if (ModuleConfig is not { } config) return;
 
         if (ModuleConfig.SavePending) {

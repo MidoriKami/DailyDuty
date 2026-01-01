@@ -3,7 +3,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public sealed class CategoryHeaderNode : SimpleComponentNode {
     private readonly CategoryTextNode labelNode;

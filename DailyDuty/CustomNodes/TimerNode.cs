@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.Features.TimersOverlay;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -8,7 +9,7 @@ using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Overlay;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public sealed class TimerNode : OverlayNode {
     public override OverlayLayer OverlayLayer => OverlayLayer.BehindUserInterface;

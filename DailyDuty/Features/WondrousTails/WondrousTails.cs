@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -27,12 +27,12 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         dutyController = new DutyController(this);
         contentsFinderController = new ContentsFinderController(this);
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
         ColorPicker?.Dispose();
         ColorPicker = null;
         

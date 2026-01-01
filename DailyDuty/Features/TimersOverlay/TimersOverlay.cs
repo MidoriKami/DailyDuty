@@ -2,10 +2,9 @@
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Windows;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Overlay;
@@ -32,24 +31,19 @@ public unsafe class TimersOverlay : FeatureBase {
     public Config ModuleConfig = null!;
     public override NodeBase DisplayNode => new ConfigNode(this);
 
-    public override void Load() {
+    protected override void OnFeatureLoad() {
         ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
         ModuleConfig.FileName = ModuleInfo.FileName;
         System.ModuleManager.OnLoadComplete += RebuildTimers;
-
-        Services.Framework.Update += OnFrameworkUpdate;
     }
 
-    public override void Unload() {
-        Services.Framework.Update -= OnFrameworkUpdate;
-        
+    protected override void OnFeatureUnload() {
         ModuleConfig = null!;
     }
 
-    public override void Enable() {
-        IsEnabled = true;
+    protected override void OnFeatureEnable() {
         overlayController = new OverlayController();
 
         OpenConfigAction = () => {
@@ -87,9 +81,7 @@ public unsafe class TimersOverlay : FeatureBase {
         RebuildTimers();
     }
 
-    public override void Disable() {
-        IsEnabled = false;
-
+    protected override void OnFeatureDisable() {
         moduleSelectionWindow?.Dispose();
         moduleSelectionWindow = null;
         
@@ -100,7 +92,7 @@ public unsafe class TimersOverlay : FeatureBase {
         ColorPicker = null;
     }
     
-    private void OnFrameworkUpdate(IFramework framework) {
+    protected override void OnFeatureUpdate() {
         if (ModuleConfig.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
             ModuleConfig.Save();

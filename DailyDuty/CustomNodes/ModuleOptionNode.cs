@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -7,7 +8,7 @@ using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Classes.Nodes;
+namespace DailyDuty.CustomNodes;
 
 public class ModuleOptionNode : SimpleComponentNode {
     private readonly NineGridNode hoveredBackgroundNode;

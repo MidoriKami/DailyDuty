@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;

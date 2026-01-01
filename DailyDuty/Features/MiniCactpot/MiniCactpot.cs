@@ -1,6 +1,6 @@
 ﻿using System;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
@@ -23,11 +23,11 @@ public unsafe class MiniCactpot : Module<ConfigBase, Data> {
 
     public override DataNodeBase DataNode => new DataNode(this);
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
          Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
          Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
     }
 

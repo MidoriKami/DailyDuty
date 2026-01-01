@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
-using DailyDuty.Classes.Nodes;
+using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using Dalamud.Game.Inventory;
@@ -28,7 +28,7 @@ public unsafe class RaidsNormal : Module<Config, Data> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
-    protected override void OnEnable() {
+    protected override void OnModuleEnable() {
         Services.GameInventory.ItemAdded += OnItemEvent;
         Services.GameInventory.ItemChanged += OnItemEvent;
 
@@ -37,7 +37,7 @@ public unsafe class RaidsNormal : Module<Config, Data> {
         UpdateTrackedTasks();
     }
 
-    protected override void OnDisable() {
+    protected override void OnModuleDisable() {
         Services.GameInventory.ItemAdded -= OnItemEvent;
         Services.GameInventory.ItemChanged -= OnItemEvent;
 
