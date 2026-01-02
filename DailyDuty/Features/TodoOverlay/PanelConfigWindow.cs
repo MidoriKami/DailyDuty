@@ -50,6 +50,25 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
                         },
                     ],
                 },
+                new HorizontalFlexNode {
+                    Size = new Vector2(ContentSize.X, 24.0f),
+                    AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
+                    InitialNodes = [
+                        new TextNode {
+                            String = "Vertical Spacing",
+                            AlignmentType = AlignmentType.Left,
+                        },
+                        new NumericInputNode {
+                            Min = 0,
+                            Max = 12,
+                            Value = config.ItemSpacing,
+                            OnValueUpdate = newValue => {
+                                config.ItemSpacing = newValue;
+                                moduleConfig.MarkDirty();
+                            },
+                        },
+                    ],
+                },
                 new CheckboxNode {
                     String = "Hide Frame",
                     Height = 28.0f,
@@ -76,11 +95,11 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
         var remainingHeight = ContentSize.Y - listNode.Height - 8.0f;
 
         var verticalListNode = new ScrollingListNode {
-            Position = ContentStartPosition + new Vector2(0.0f, remainingHeight + 4.0f),
+            Position = new Vector2(ContentStartPosition.X, listNode.Bounds.Bottom + 4.0f),
             Size = new Vector2(ContentSize.X, remainingHeight),
             FitWidth =  true,
             ItemSpacing = 4.0f,
-            AutoHideScrollbar = true,
+            AutoHideScrollBar = true,
         };
         verticalListNode.AttachNode(this);
         

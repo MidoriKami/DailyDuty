@@ -8,7 +8,6 @@ using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Overlay;
-using KamiToolKit.Premade.Addons;
 
 namespace DailyDuty.Features.TimersOverlay;
 
@@ -26,7 +25,6 @@ public unsafe class TimersOverlay : FeatureBase {
 
     private MultiSelectWindow? moduleSelectionWindow;
     private OverlayController? overlayController;
-    public ColorPickerAddon? ColorPicker;
     
     public Config ModuleConfig = null!;
     public override NodeBase DisplayNode => new ConfigNode(this);
@@ -87,9 +85,6 @@ public unsafe class TimersOverlay : FeatureBase {
         
         overlayController?.Dispose();
         overlayController = null;
-        
-        ColorPicker?.Dispose();
-        ColorPicker = null;
     }
     
     protected override void OnFeatureUpdate() {

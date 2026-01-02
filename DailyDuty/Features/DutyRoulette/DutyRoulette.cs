@@ -22,12 +22,12 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
         Tags = [ "Exp", "Gil" ],
     };
 
-    private Controller? rouletteController;
+    private DutyFinderController? rouletteController;
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
     protected override void OnModuleEnable() {
-        rouletteController = new Controller(this);
+        rouletteController = new DutyFinderController(this);
     }
 
     protected override void OnModuleDisable() {

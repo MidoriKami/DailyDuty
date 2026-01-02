@@ -1,20 +1,15 @@
 ﻿using System.Drawing;
-using System.Numerics;
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Addons;
-using KamiToolKit.Premade.Nodes;
 
 namespace DailyDuty.Features.WondrousTails;
 
 public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(module) {
     private readonly WondrousTails module = module;
-    private ColorPreviewNode? colorPreviewNode;
 
     protected override void BuildNode(VerticalListNode container) {
-        HorizontalListNode colorEditNode;
+        var originalColor = module.ModuleConfig.DutyFinderColor;
         
         container.AddNode([
             new CheckboxNode {
@@ -65,20 +60,22 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
                     module.ModuleConfig.MarkDirty();
                 },
             },
-            colorEditNode = new HorizontalListNode {
+            new ColorEditNode {
                 Height = 28.0f,
-                ItemSpacing = 8.0f,
-                InitialNodes = [
-                    colorPreviewNode = new ColorPreviewNode {
-                        Size = new Vector2(24.0f, 24.0f),
-                        Color = module.ModuleConfig.DutyFinderColor,
-                    },
-                    new TextNode {
-                        Size = new Vector2(100.0f, 24.0f),
-                        String = "Entry Color",
-                        AlignmentType = AlignmentType.Left,
-                    },
-                ],
+                CurrentColor = module.ModuleConfig.DutyFinderColor,
+                Label = "Entry Color",
+                DefaultColor = KnownColor.Yellow.Vector(),
+                OnColorPreviewed = color => {
+                    module.ModuleConfig.DutyFinderColor = color;
+                },
+                OnColorCancelled = () => {
+                    module.ModuleConfig.DutyFinderColor = originalColor;
+                    module.ModuleConfig.MarkDirty();
+                },
+                OnColorConfirmed = color => {
+                    module.ModuleConfig.DutyFinderColor = color;
+                    module.ModuleConfig.MarkDirty();
+                }
             },
             new ResNode{ Height = 4.0f },
             new CheckboxNode {
@@ -91,39 +88,5 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
                 },
             },
         ]);
-
-        colorPreviewNode.CollisionNode.ShowClickableCursor = true;
-        colorPreviewNode.CollisionNode.AddEvent(AtkEventType.MouseClick, OnColorEdit);
-        
-        colorEditNode.CollisionNode.ShowClickableCursor = true;
-        colorEditNode.CollisionNode.AddEvent(AtkEventType.MouseClick, OnColorEdit);
-    }
-
-    private void OnColorEdit() {
-        module.ColorPicker ??= new ColorPickerAddon {
-            InternalName = "ColorPicker",
-            Title = "Wondrous Tails Color Picker",
-        };
-
-        var originalColor = module.ModuleConfig.DutyFinderColor;
-        module.ColorPicker.DefaultColor = KnownColor.Yellow.Vector();
-        module.ColorPicker.InitialColor = module.ModuleConfig.DutyFinderColor;
-            
-        module.ColorPicker.OnColorPreviewed = color => {
-            colorPreviewNode?.Color = color;
-            module.ModuleConfig.DutyFinderColor = color;
-        };
-            
-        module.ColorPicker.OnColorCancelled = () => {
-            module.ModuleConfig.DutyFinderColor = originalColor;
-            module.ModuleConfig.MarkDirty();
-        };
-            
-        module.ColorPicker.OnColorConfirmed = color => {
-            module.ModuleConfig.DutyFinderColor = color;
-            module.ModuleConfig.MarkDirty();
-        };
-            
-        module.ColorPicker.Toggle();
     }
 }

@@ -65,7 +65,6 @@ public class TodoPanelNode : OverlayNode {
         horizontalLine.AttachNode(this);
 
         warningList = new VerticalListNode {
-            ItemSpacing = 6.0f,
             FitContents = true,
         };
         warningList.AttachNode(this);
@@ -141,6 +140,7 @@ public class TodoPanelNode : OverlayNode {
         backgroundImage.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
         
         warningList.IsVisible = !Config.IsCollapsed;
+        warningList.ItemSpacing = Config.ItemSpacing;
 
         var warningModules = Config.Modules.Select(moduleName => System.ModuleManager.GetModule(moduleName))
             .OfType<ModuleBase>()
@@ -156,11 +156,16 @@ public class TodoPanelNode : OverlayNode {
 
             Height = warningList.Bounds.Bottom + 18.0f;
         }
+
+        foreach (var node in warningList.GetNodes<TodoListEntryNode>()) {
+            node.Update();
+        }
     }
     
     private void OpenConfig() {
         configWindow?.Dispose();
         configWindow = new PanelConfigWindow(ModuleConfig, Config) {
+            Size = new Vector2(325.0f, 550.0f),
             InternalName = "TodoListPanelConfig",
             Title = $"{Config.Label} Panel Config",
         };
@@ -168,13 +173,14 @@ public class TodoPanelNode : OverlayNode {
         configWindow.Toggle();
     }
     
-    private static TodoListEntryNode BuildTodoEntry(ModuleBase data) {
+    private TodoListEntryNode BuildTodoEntry(ModuleBase data) {
         var newNode = new TodoListEntryNode {
             Height = 24.0f,
-            TextFlags = TextFlags.AutoAdjustNodeSize,
+            TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
             AlignmentType = AlignmentType.Left,
             Module = data,
             String = data.Name,
+            Config = Config,
         };
 
         if (data.Tooltip is { TooltipText.IsEmpty: false } ) {

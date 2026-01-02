@@ -7,15 +7,13 @@ using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Addons;
-using KamiToolKit.Premade.Nodes;
 
 namespace DailyDuty.Features.TimersOverlay;
 
 public class ConfigNode : UpdatableNode {
     private readonly TimersOverlay module;
     private readonly VerticalListNode listNode;
-    private readonly ScrollingAreaNode<VerticalListNode> colorEdit;
+    private readonly ScrollingListNode colorEdit;
     
     public ConfigNode(TimersOverlay module) {
         this.module = module;
@@ -104,12 +102,12 @@ public class ConfigNode : UpdatableNode {
         listNode.RecalculateLayout();
         listNode.AttachNode(this);
 
-        colorEdit = new ScrollingAreaNode<VerticalListNode> {
-            ContentHeight = 1000.0f,
+        colorEdit = new ScrollingListNode {
+            ItemSpacing = 4.0f,
             AutoHideScrollBar = true,
         };
         
-        colorEdit.ContentNode.FitWidth = true;
+        colorEdit.FitWidth = true;
         colorEdit.AttachNode(this);
     }
 
@@ -133,64 +131,31 @@ public class ConfigNode : UpdatableNode {
     }
 
     private void RebuildOptionsList() {
-        colorEdit.ContentNode.Clear();
+        colorEdit.Clear();
 
         foreach (var name in module.ModuleConfig.EnabledTimers) {
             var config = module.ModuleConfig.TimerData[name];
             
-            ColorPreviewNode previewNode;
-            
-            colorEdit.ContentNode.AddNode(new HorizontalListNode {
-                FirstItemSpacing = 4.0f,
-                DisableCollisionNode = true,
-                FitToContentHeight = true,
-                ItemSpacing = 8.0f,
-                InitialNodes = [
-                    previewNode = new ColorPreviewNode {
-                        Size = new Vector2(28.0f, 28.0f),
-                        Color = config.Color,
-                        ShowClickableCursor = true,
-                    },
-                    new TextNode {
-                        Size = new Vector2(300.0f, 32.0f),
-                        String = name,
-                        AlignmentType = AlignmentType.Left,
-                    },
-                ],
+            var originalColor = config.Color;
+            colorEdit.AddNode(new ColorEditNode {
+                Height = 28.0f,
+                Label = name,
+                CurrentColor = config.Color,
+                DefaultColor = KnownColor.CornflowerBlue.Vector(),
+                OnColorPreviewed = color => {
+                    config.Color = color;
+                },
+                OnColorCancelled = () => {
+                    config.Color = originalColor;
+                    module.ModuleConfig.MarkDirty();
+                },
+                OnColorConfirmed = color => {
+                    config.Color = color;
+                    module.ModuleConfig.MarkDirty();
+                },
             });
-            
-            previewNode.CollisionNode.ShowClickableCursor = true;
-            previewNode.CollisionNode.AddEvent(AtkEventType.MouseClick, () => OnColorEditClicked(config, previewNode));
         }
         
-        colorEdit.FitToContentHeight();
-    }
-
-    private void OnColorEditClicked(TimerData config, ColorPreviewNode previewNode) {
-        module.ColorPicker ??= new ColorPickerAddon {
-            InternalName = "ColorPicker",
-            Title = "Timer Color Picker",
-        };
-
-        var originalColor = config.Color;
-        module.ColorPicker.DefaultColor = KnownColor.CornflowerBlue.Vector();
-        module.ColorPicker.InitialColor = config.Color;
-            
-        module.ColorPicker.OnColorPreviewed = color => {
-            previewNode.Color = color;
-            config.Color = color;
-        };
-            
-        module.ColorPicker.OnColorCancelled = () => {
-            config.Color = originalColor;
-            module.ModuleConfig.MarkDirty();
-        };
-            
-        module.ColorPicker.OnColorConfirmed = color => {
-            config.Color = color;
-            module.ModuleConfig.MarkDirty();
-        };
-            
-        module.ColorPicker.Toggle();
+        colorEdit.RecalculateLayout();
     }
 }

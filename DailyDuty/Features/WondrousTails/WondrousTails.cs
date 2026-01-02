@@ -5,7 +5,6 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using KamiToolKit.Premade.Addons;
 
 namespace DailyDuty.Features.WondrousTails;
 
@@ -22,7 +21,6 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
 
     private DutyController? dutyController;
     private ContentsFinderController? contentsFinderController;
-    public ColorPickerAddon? ColorPicker;
 
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
@@ -33,9 +31,6 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
     }
 
     protected override void OnModuleDisable() {
-        ColorPicker?.Dispose();
-        ColorPicker = null;
-        
         contentsFinderController?.Dispose();
         contentsFinderController = null;
         

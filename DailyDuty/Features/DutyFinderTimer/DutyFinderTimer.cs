@@ -8,7 +8,6 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Classes.Controllers;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Addons;
 
 namespace DailyDuty.Features.DutyFinderTimer;
 
@@ -24,7 +23,6 @@ public unsafe class DutyFinderTimer : FeatureBase {
     };
 
     public Config ModuleConfig = null!;
-    public ColorPickerAddon? ColorPicker;
     private AddonController<AddonContentsFinder>? addonController;
     private TextNode? timerTextNode;
     
@@ -55,8 +53,8 @@ public unsafe class DutyFinderTimer : FeatureBase {
                 TextTooltip = "[DailyDuty] Time until next daily reset",
                 String = "0:00:00:00",
                 TextColor = ModuleConfig.Color,
+                IsVisible = false,
             };
-            timerTextNode.AddFlags(NodeFlags.HasCollision);
             timerTextNode.AttachNode(targetNode);
         };
 
@@ -65,12 +63,17 @@ public unsafe class DutyFinderTimer : FeatureBase {
             timerTextNode = null;
         };
         
-        addonController.OnUpdate += _ => {
+        addonController.OnUpdate += addon => {
             var nextReset = Time.NextDailyReset();
             var timeRemaining = nextReset - DateTime.UtcNow;
 
             timerTextNode?.String = timeRemaining.FormatTimeSpanShort(ModuleConfig.HideSeconds);
             timerTextNode?.TextColor = ModuleConfig.Color;
+
+            if (timerTextNode?.IsVisible != addon->SelectedRadioButton is 0) {
+                timerTextNode?.IsVisible = addon->SelectedRadioButton is 0;
+                addon->UpdateCollisionNodeList(false);
+            }
         };
         
         addonController.Enable();
@@ -79,9 +82,6 @@ public unsafe class DutyFinderTimer : FeatureBase {
     protected override void OnFeatureDisable() {
         addonController?.Dispose();
         addonController = null;
-        
-        ColorPicker?.Dispose();
-        ColorPicker = null;
 
         timerTextNode?.Dispose();
         timerTextNode = null;
