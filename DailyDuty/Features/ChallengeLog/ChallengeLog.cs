@@ -9,6 +9,7 @@ using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.Sheets;
+using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features.ChallengeLog;
 
@@ -52,7 +53,26 @@ public class ChallengeLog : Module<Config, DataBase> {
 
     private static unsafe bool IsContentNoteComplete(uint rowId)
         => FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote.Instance()->IsContentNoteComplete((int)rowId);
-    
+
+    protected override TodoTooltip GetTooltip() => new() {
+        ClickAction = PayloadId.OpenChallengeLog,
+        TooltipText = GetMissingObjectives(),
+    };
+
+    private ReadOnlySeString GetMissingObjectives() {
+        var result = string.Empty;
+        
+        foreach (var warningId in ModuleConfig.TrackedEntries.Where(warningId => !IsContentNoteComplete(warningId))) {
+            if (!Services.DataManager.GetExcelSheet<ContentsNote>().TryGetRow(warningId, out var contentNote)) continue;
+            
+            result += contentNote.Name.ToString() + "\n";
+        }
+
+        result = result.Trim('\n');
+        
+        return result;
+    }
+
     private void OnContentsFinderOpen(AddonEvent type, AddonArgs args) {
         if (ModuleConfig is not { EnableContentFinderWarning: true } config) return;
 

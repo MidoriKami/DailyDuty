@@ -34,22 +34,54 @@ public unsafe class PayloadController : IDisposable {
     private static DalamudLinkPayload RegisterPayload(PayloadId id) 
         => AddHandler(id, GetDelegateForPayload(id));
 
-    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) => payload switch {
-        PayloadId.IdyllshireTeleport => (_, _) => Teleport(75),
-        PayloadId.DomanEnclaveTeleport => (_, _) => Teleport(127),
-        PayloadId.GoldSaucerTeleport => (_, _) => Teleport(62),
-        PayloadId.OpenPartyFinder => (_, _) => Framework.Instance()->GetUIModule()->ExecuteMainCommand(57),
-        PayloadId.UldahTeleport => (_, _) => Teleport(9),
-        PayloadId.OpenChallengeLog => (_, _) => Framework.Instance()->GetUIModule()->ExecuteMainCommand(60),
-        PayloadId.OpenWondrousTailsBook => OpenWondrousTailsBook,
-        PayloadId.OpenDutyFinderRoulette => OpenDutyFinderRoulette,
-        PayloadId.OpenDutyFinderRaid => OpenDutyFinderRaid,
-        PayloadId.OpenDutyFinderAllianceRaid => OpenDutyFinderAllianceRaid,
-        PayloadId.Unset => (_, _) => Services.PluginLog.Debug("Executed Unknown Payload."),
-        _ => throw new ArgumentOutOfRangeException(nameof(payload), payload, null),
-    };
+    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) 
+        => (_, _) => InvokePayload(payload);
 
-    private static void OpenDutyFinderAllianceRaid(uint u, SeString s) {
+    public static void InvokePayload(PayloadId payloadId) {
+        switch (payloadId) {
+            case PayloadId.OpenWondrousTailsBook: 
+                OpenWondrousTailsBook(); 
+                break;
+            
+            case PayloadId.IdyllshireTeleport: 
+                Teleport(75); 
+                break;
+            
+            case PayloadId.DomanEnclaveTeleport: 
+                Teleport(127); 
+                break;
+            
+            case PayloadId.OpenDutyFinderRoulette: 
+                OpenDutyFinderRoulette();
+                break;
+
+            case PayloadId.OpenDutyFinderRaid:
+                OpenDutyFinderRaid();
+                break;
+
+            case PayloadId.OpenDutyFinderAllianceRaid:
+                OpenDutyFinderAllianceRaid();
+                break;
+
+            case PayloadId.GoldSaucerTeleport:
+                Teleport(62);
+                break;
+
+            case PayloadId.OpenPartyFinder:
+                Framework.Instance()->GetUIModule()->ExecuteMainCommand(57);
+                break;
+
+            case PayloadId.UldahTeleport:
+                Teleport(9);
+                break;
+
+            case PayloadId.OpenChallengeLog:
+                Framework.Instance()->GetUIModule()->ExecuteMainCommand(60);
+                break;
+        }
+    }
+
+    private static void OpenDutyFinderAllianceRaid() {
         var currentAllianceRaid = Services.DataManager.GetExcelSheet<ContentFinderCondition>()
           .Where(cfc => cfc.ContentType.RowId is 5 && cfc is { RequiredExVersion.RowId: 0, Unknown28: true })
           .Last();
@@ -57,19 +89,19 @@ public unsafe class PayloadController : IDisposable {
         AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
     }
 
-    private static void OpenDutyFinderRaid(uint u, SeString s) {
+    private static void OpenDutyFinderRaid() {
         var currentRaid = Services.DataManager.LimitedNormalRaidDuties.LastOrDefault();
 
         AgentContentsFinder.Instance()->OpenRegularDuty(currentRaid.RowId);
         ClearDutyFinderSelection();
     }
 
-    private static void OpenDutyFinderRoulette(uint u, SeString s) {
+    private static void OpenDutyFinderRoulette() {
         AgentContentsFinder.Instance()->OpenRouletteDuty(1);
         ClearDutyFinderSelection();
     }
 
-    private static void OpenWondrousTailsBook(uint u, SeString s) {
+    private static void OpenWondrousTailsBook() {
         const uint wondrousTailsBookItemId = 2002023;
 
         if (InventoryManager.Instance()->GetInventoryItemCount(wondrousTailsBookItemId) == 1) {

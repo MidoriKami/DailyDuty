@@ -7,7 +7,6 @@ using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
-using Lumina.Text.ReadOnly;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 
 namespace DailyDuty.Features.DutyRoulette;
@@ -55,8 +54,8 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
         return GetIncompleteCount() is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 
-    public override ReadOnlySeString? GetTooltip()
-        => string.Join("\n", GetIncompleteTasks().Select(task => task.Name));
+    // public override ReadOnlySeString? GetTooltip()
+    //     => string.Join("\n", GetIncompleteTasks().Select(task => task.Name));
 
     private IEnumerable<ContentRoulette> GetIncompleteTasks()
         => ModuleConfig.TrackedRoulettes

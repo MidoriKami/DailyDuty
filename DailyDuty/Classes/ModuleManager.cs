@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace DailyDuty.Classes;
 public unsafe class ModuleManager : IDisposable {
 
     public List<LoadedModule>? LoadedModules { get; private set; }
+    private FrozenDictionary<string, LoadedModule>? loadedModulesByName;
     public bool IsUnloading {get; private set; }
     public bool IsLoadComplete { get; private set; }
 
@@ -31,7 +33,7 @@ public unsafe class ModuleManager : IDisposable {
         frameworkEventHook ??= Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
         frameworkEventHook.Enable();
         
-        var allModules = GetModules();
+        var allModules = GetModuleTypes();
         LoadedModules = [];
         
         foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
@@ -46,6 +48,8 @@ public unsafe class ModuleManager : IDisposable {
                 TryEnableModule(newLoadedModule);
             }
         }
+
+        loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
         IsLoadComplete = true;
         OnLoadComplete?.Invoke();
@@ -173,7 +177,14 @@ public unsafe class ModuleManager : IDisposable {
         }
     }
     
-    private static List<FeatureBase> GetModules() => Assembly
+    public static IEnumerable<LoadedModule> GetModules()
+        => System.ModuleManager.LoadedModules?
+               .Where(module => module.FeatureBase.ModuleInfo.Type is not (ModuleType.GeneralFeatures or ModuleType.Hidden)) ?? [];
+
+    public ModuleBase? GetModule(string name)
+        => loadedModulesByName?[name].FeatureBase as ModuleBase;
+
+    private static List<FeatureBase> GetModuleTypes() => Assembly
         .GetCallingAssembly()
         .GetTypes()
         .Where(type => type.IsSubclassOf(typeof(FeatureBase)))

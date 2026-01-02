@@ -8,10 +8,6 @@
     <ItemGroup>
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Features\DutyFinderTimer.cs\" />
-    </ItemGroup>
     
     <PropertyGroup>
         <Author>MidoriKami</Author>

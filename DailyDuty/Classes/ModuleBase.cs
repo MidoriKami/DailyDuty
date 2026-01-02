@@ -5,7 +5,6 @@ using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using KamiToolKit;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Classes;
 
@@ -22,6 +21,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
     
     public CompletionStatus ModuleStatus { get; private set; }
     public StatusMessage ModuleStatusMessage { get; private set; } = new();
+    public TodoTooltip? Tooltip { get; private set; }
     
     protected override void OnFeatureEnable() { }
     protected override void OnFeatureDisable() { }
@@ -31,7 +31,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
     public abstract DateTime GetNextResetDateTime();
     public abstract TimeSpan GetResetPeriod();
     public virtual void Reset() { }
-    public virtual ReadOnlySeString? GetTooltip() => null;
+    protected virtual TodoTooltip? GetTooltip() => null;
 
     public virtual void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) { }
     
@@ -42,6 +42,16 @@ public abstract unsafe class ModuleBase : FeatureBase {
 
         if (ModuleStatus is not CompletionStatus.Complete) {
             ModuleStatusMessage = GetStatusMessage();
+            
+            if (GetTooltip() is { } tooltip) {
+                Tooltip = tooltip;
+            }
+            else {
+                Tooltip = ModuleStatusMessage;
+            }
+        }
+        else {
+            Tooltip = null;
         }
         
         if (ConfigBase.SavePending) {
