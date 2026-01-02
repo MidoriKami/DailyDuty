@@ -66,7 +66,7 @@ public unsafe class TodoOverlay : FeatureBase {
         foreach (var (index, option) in ModuleConfig.Panels.Index()) {
 
             if (option.Position is null) {
-                var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 2.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
+                var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 4.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
                 var offset = new Vector2(300.0f, 0.0f) * index;
                 
                 option.Position = position + offset;

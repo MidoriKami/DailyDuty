@@ -9,17 +9,52 @@ namespace DailyDuty.Features.TodoOverlay;
 public class ConfigNode : SimpleComponentNode {
     private readonly TodoOverlay module;
 
+    private readonly VerticalListNode configNode;
     private readonly ScrollingListNode listNode;
     private PanelConfigWindow? panelConfigWindow;
     
     public ConfigNode(TodoOverlay module) {
         this.module = module;
 
-        listNode = new ScrollingListNode {
+        configNode = new VerticalListNode {
             FitWidth = true,
             ItemSpacing = 8.0f,
+            InitialNodes = [
+                new CategoryHeaderNode {
+                    Label= "Feature Configuration",
+                    Alignment = AlignmentType.Bottom,
+                },
+                new ResNode{ Height = 4.0f },
+                new CheckboxNode {
+                    Height = 28.0f,
+                    String = "Hide in Duties",
+                    IsChecked = module.ModuleConfig.HideInDuties,
+                    OnClick = newValue => {
+                        module.ModuleConfig.HideInDuties = newValue;
+                        module.ModuleConfig.MarkDirty();
+                    },
+                },
+                new CheckboxNode {
+                    Height = 28.0f,
+                    String = "Hide in Quest Events",
+                    IsChecked = module.ModuleConfig.HideDuringQuests,
+                    OnClick = newValue => {
+                        module.ModuleConfig.HideDuringQuests = newValue;
+                        module.ModuleConfig.MarkDirty();
+                    },
+                },
+                new ResNode{ Height = 4.0f },
+                new CategoryHeaderNode {
+                    Label= "Overlay Panels",
+                    Alignment = AlignmentType.Bottom,
+                },
+                listNode = new ScrollingListNode {
+                    FitWidth = true,
+                    ItemSpacing = 8.0f,
+                },
+            ],
         };
-        listNode.AttachNode(this);
+        configNode.AttachNode(this);
 
         RebuildList();
     }
@@ -27,37 +62,6 @@ public class ConfigNode : SimpleComponentNode {
     private void RebuildList() {
         
         listNode.Clear();
-        
-        listNode.AddNode([
-            new CategoryHeaderNode {
-                Label= "Feature Configuration",
-                Alignment = AlignmentType.Bottom,
-            },
-            new ResNode{ Height = 4.0f },
-            new CheckboxNode {
-                Height = 28.0f,
-                String = "Hide in Duties",
-                IsChecked = module.ModuleConfig.HideInDuties,
-                OnClick = newValue => {
-                    module.ModuleConfig.HideInDuties = newValue;
-                    module.ModuleConfig.MarkDirty();
-                },
-            },
-            new CheckboxNode {
-                Height = 28.0f,
-                String = "Hide in Quest Events",
-                IsChecked = module.ModuleConfig.HideDuringQuests,
-                OnClick = newValue => {
-                    module.ModuleConfig.HideDuringQuests = newValue;
-                    module.ModuleConfig.MarkDirty();
-                },
-            },
-            new ResNode{ Height = 4.0f },
-            new CategoryHeaderNode {
-                Label= "Overlay Panel Configuration",
-                Alignment = AlignmentType.Bottom,
-            },
-        ]);
 
         foreach (var panel in module.ModuleConfig.Panels) {
             NodeBase entry;
@@ -85,6 +89,7 @@ public class ConfigNode : SimpleComponentNode {
                             OnClick = () => {
                                 panelConfigWindow?.Dispose();
                                 panelConfigWindow = new PanelConfigWindow(module.ModuleConfig, panel, labelTextNode) {
+                                    Size = new Vector2(575.0f, 500.0f),
                                     InternalName = "TodoListPanelConfig",
                                     Title = $"{panel.Label} Panel Config",
                                 };
@@ -101,6 +106,7 @@ public class ConfigNode : SimpleComponentNode {
                 module.ModuleConfig.MarkDirty();
                 module.RebuildPanels();
                 listNode.RemoveNode(entry);
+                listNode.RecalculateLayout();
             };
         }
 
@@ -126,11 +132,26 @@ public class ConfigNode : SimpleComponentNode {
                 },
             ],
         });
+        
+        listNode.RecalculateLayout();
     }
 
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 
-        listNode.Size = Size;
+        const float featureConfigSize = 150.0f;
+        
+        configNode.Size = new Vector2(Width, featureConfigSize);
+        listNode.Size = new Vector2(Width, Height - featureConfigSize - 48.0f);
+        
+        configNode.RecalculateLayout();
+        listNode.RecalculateLayout();
+    }
+
+    protected override void Dispose(bool disposing, bool isNativeDestructor) {
+        base.Dispose(disposing, isNativeDestructor);
+
+        panelConfigWindow?.Dispose();
+        panelConfigWindow = null;
     }
 }

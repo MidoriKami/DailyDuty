@@ -4,14 +4,16 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Features.TodoOverlay;
+using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Overlay;
+using KamiToolKit.Extensions;
 
 namespace DailyDuty.CustomNodes;
 
-public class TodoPanelNode : OverlayNode {
+public unsafe class TodoPanelNode : OverlayNode {
     public override OverlayLayer OverlayLayer => OverlayLayer.BehindUserInterface;
     private readonly WindowBackgroundNode frame;
     private readonly ImageNode backgroundImage;
@@ -126,7 +128,18 @@ public class TodoPanelNode : OverlayNode {
     public override void Update() {
         base.Update();
 
+        if (Config.AttachToQuestList) {
+            var todoAddon = RaptureAtkUnitManager.Instance()->GetAddonByName("_ToDoList");
+            if (todoAddon is not null) {
+                Position = todoAddon->Position + todoAddon->RootSize - new Vector2(Width, 0.0f);
+            }
+        }
+        
         EnableMoving = Config.EnableMoving;
+
+        frameFront.Alpha = Config.Alpha;
+        frame.Alpha = Config.Alpha;
+        backgroundImage.Alpha = Config.Alpha;
         
         titleText.String = Config.Label;
 
@@ -148,7 +161,7 @@ public class TodoPanelNode : OverlayNode {
             .OrderBy(module => module.Name)
             .ToList();
 
-        IsVisible = warningModules.Count is not 0;
+        IsVisible = warningModules.Count is not 0 || Config.Modules.Count is 0;
 
         if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry)) {
             warningList.Width = MathF.Max(50.0f, warningList.Nodes.Sum(node => node.IsVisible ? node.Width : 0.0f));
@@ -165,7 +178,7 @@ public class TodoPanelNode : OverlayNode {
     private void OpenConfig() {
         configWindow?.Dispose();
         configWindow = new PanelConfigWindow(ModuleConfig, Config) {
-            Size = new Vector2(325.0f, 550.0f),
+            Size = new Vector2(575.0f, 500.0f),
             InternalName = "TodoListPanelConfig",
             Title = $"{Config.Label} Panel Config",
         };

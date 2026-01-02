@@ -14,16 +14,25 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
 
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
         VerticalListNode listNode;
+
+        var originalTextColor = config.TextColor;
+        var originalOutlineColor = config.OutlineColor;
+        HorizontalFlexNode flexNode;
         
-        AddNode(listNode = new VerticalListNode {
+        AddNode(flexNode = new HorizontalFlexNode {
+            AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
+            Position = ContentStartPosition,
+            Size = ContentSize,
+        });
+        
+        flexNode.AddNode(listNode = new VerticalListNode {
             FitWidth = true,
             FitContents = true,
             ItemSpacing = 4.0f,
-            Position = ContentStartPosition,
-            Size = new Vector2(ContentSize.X, 64.0f),
+            Width = ContentSize.X / 2.0f,
             InitialNodes = [
                 new TextInputNode {
-                    Size = new Vector2(ContentSize.X, 28.0f),
+                    Height = 28.0f,
                     String = config.Label,
                     OnInputReceived = input => {
                         config.Label = input.ToString();
@@ -33,7 +42,7 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
                     },
                 },
                 new HorizontalFlexNode {
-                    Size = new Vector2(ContentSize.X, 24.0f),
+                    Height = 28.0f,
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
@@ -51,7 +60,7 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
                     ],
                 },
                 new HorizontalFlexNode {
-                    Size = new Vector2(ContentSize.X, 24.0f),
+                    Height = 28.0f,
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
@@ -64,6 +73,24 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
                             Value = config.ItemSpacing,
                             OnValueUpdate = newValue => {
                                 config.ItemSpacing = newValue;
+                                moduleConfig.MarkDirty();
+                            },
+                        },
+                    ],
+                },
+                new HorizontalFlexNode {
+                    Height = 28.0f,
+                    AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
+                    InitialNodes = [
+                        new TextNode {
+                            String = "Background Alpha",
+                            AlignmentType = AlignmentType.Left,
+                        },
+                        new SliderNode {
+                            Range = 10..100,
+                            Value = (int) ( config.Alpha * 100 ),
+                            OnValueChanged = newValue => {
+                                config.Alpha = newValue / 100.0f;
                                 moduleConfig.MarkDirty();
                             },
                         },
@@ -84,27 +111,72 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
                     IsChecked = config.EnableMoving,
                     OnClick = newValue => config.EnableMoving = newValue,
                 },
-                new CategoryHeaderNode {
-                    Label = "Modules",
+                new CheckboxNode {
+                    String = "Pin to Quest List",
+                    Height = 28.0f,
+                    IsChecked = config.AttachToQuestList,
+                    OnClick = newValue => {
+                        config.AttachToQuestList = newValue;
+                        moduleConfig.MarkDirty();
+                    },
+                },
+                new ColorEditNode {
+                    Height = 28.0f,
+                    Label = "Text Color",
+                    DefaultColor = ColorHelper.GetColor(1),
+                     CurrentColor = config.TextColor,
+                     OnColorPreviewed = color => {
+                         config.TextColor = color;
+                     },
+                     OnColorCancelled = () => {
+                         config.TextColor = originalTextColor;
+                         moduleConfig.MarkDirty();
+                     },
+                     OnColorConfirmed = color => {
+                         config.TextColor = color;
+                         moduleConfig.MarkDirty();
+                     },
+                },
+                new ColorEditNode {
+                    Height = 28.0f,
+                    Label = "Text Outline Color",
+                    DefaultColor = ColorHelper.GetColor(53),
+                    CurrentColor = config.OutlineColor,
+                    OnColorPreviewed = color => {
+                        config.OutlineColor = color;
+                    },
+                    OnColorCancelled = () => {
+                        config.OutlineColor = originalOutlineColor;
+                        moduleConfig.MarkDirty();
+                    },
+                    OnColorConfirmed = color => {
+                        config.OutlineColor = color;
+                        moduleConfig.MarkDirty();
+                    },
                 },
             ],
         });
         
         listNode.RecalculateLayout();
 
-        var remainingHeight = ContentSize.Y - listNode.Height - 8.0f;
-
-        var verticalListNode = new ScrollingListNode {
-            Position = new Vector2(ContentStartPosition.X, listNode.Bounds.Bottom + 4.0f),
-            Size = new Vector2(ContentSize.X, remainingHeight),
+        ScrollingListNode scrollingList;
+        
+        var verticalListNode = new VerticalListNode {
             FitWidth =  true,
             ItemSpacing = 4.0f,
-            AutoHideScrollBar = true,
+            Width = ContentSize.X / 2.0f,
+            InitialNodes = [
+                scrollingList = new ScrollingListNode {
+                    ItemSpacing = 4.0f,
+                    AutoHideScrollBar = true,
+                    Size = new Vector2(ContentSize.X / 2.0f, ContentSize.Y),
+                },
+            ],
         };
-        verticalListNode.AttachNode(this);
+        flexNode.AddNode(verticalListNode);
         
         foreach (var module in ModuleManager.GetModules()) {
-            verticalListNode.AddNode(new CheckboxNode {
+            scrollingList.AddNode(new CheckboxNode {
                 Height = 28.0f,
                 String = module.Name,
                 IsChecked = config.Modules.Contains(module.Name),
@@ -120,6 +192,6 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
             });
         }
         
-        verticalListNode.RecalculateLayout();
+        scrollingList.RecalculateLayout();
     }
 }

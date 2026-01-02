@@ -33,6 +33,7 @@ public class ConfigNode : SimpleComponentNode {
                     Height = 28.0f,
                     CurrentColor = originalColor,
                     DefaultColor = ColorHelper.GetColor(8),
+                    Label = "Text Color",
                     OnColorCancelled = () => {
                         module.ModuleConfig.Color = originalColor;
                         module.ModuleConfig.MarkDirty();
