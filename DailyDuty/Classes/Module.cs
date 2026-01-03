@@ -80,7 +80,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     protected sealed override void OnFeatureEnable() {
         OnModuleEnable();
         OnFeatureUpdate();
-        SendStatusMessage();
+        SendLoginMessage();
 
         OpenConfigAction = () => {
             configWindow ??= new ModuleConfigWindow<Module<T, TU>> {
@@ -109,11 +109,25 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         OnModuleUpdate();
     }
 
-    private void SendStatusMessage() {
+    protected sealed override void OnTerritoryChanged() {
+        if (!ModuleConfig.OnZoneChangeMessage) return;
         if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
+        
+        SendStatusMessage();
+    }
 
+    private void SendLoginMessage() {
+        if (!ModuleConfig.OnZoneChangeMessage) return;
+        if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
+        if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
+        if (Services.Condition.IsBoundByDuty) return;
+        
+        SendStatusMessage();
+    }
+
+    private void SendStatusMessage() {
         StatusMessage statusMessage;
         if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
             statusMessage = GetStatusMessage();

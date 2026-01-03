@@ -25,6 +25,7 @@ public abstract class FeatureBase {
         OnFeatureEnable();
 
         Services.Framework.Update += Update;
+        Services.ClientState.TerritoryChanged += TerritoryChanged;
     }
 
     public void Disable() {
@@ -33,13 +34,18 @@ public abstract class FeatureBase {
         OnFeatureDisable();
         
         Services.Framework.Update -= Update;
+        Services.ClientState.TerritoryChanged -= TerritoryChanged;
     }
     
     private void Update(IFramework framework)
         => OnFeatureUpdate();
+    
+    private void TerritoryChanged(ushort obj)
+        => OnTerritoryChanged();
 
     protected abstract void OnFeatureUpdate();
-    
+    protected virtual void OnTerritoryChanged() { }
+
     protected abstract void OnFeatureLoad();
     protected abstract void OnFeatureUnload();
     
