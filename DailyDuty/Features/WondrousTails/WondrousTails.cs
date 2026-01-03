@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using FFXIVClientStructs.FFXIV.Client.UI;
 
 namespace DailyDuty.Features.WondrousTails;
 
@@ -59,6 +61,33 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
     };
+
+    protected override void OnModuleUpdate() {
+        base.OnModuleUpdate();
+
+        var lastNearKhloe = false;
+        var lastCastingTeleport = false;
+        
+        const int idyllshireTerritoryType = 478;
+        const uint khloeAliapohDataId = 1017653;
+        if (Services.ClientState.TerritoryType is idyllshireTerritoryType && IsEnabled) {
+            var khloe = Services.ObjectTable.FirstOrDefault(obj => obj.BaseId is khloeAliapohDataId);
+
+            if (khloe is not null && Services.ObjectTable.LocalPlayer is { Position: var playerPosition }) {
+                var distanceToKhloe = Vector3.Distance(playerPosition, khloe.Position);
+                var closeToKhloe = distanceToKhloe < 10.0f;
+                var castingTeleport = Services.ObjectTable.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
+
+                var noLongerNearKhloe = lastNearKhloe && !closeToKhloe;
+                var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && castingTeleport;
+                
+                if ((noLongerNearKhloe || startedTeleportingAway) && this is { PlayerHasBook: false, IsNewBookAvailable: true }) {
+                    Services.ChatGui.PrintTaggedMessage("Wait! You forgot you book!", ModuleInfo.DisplayName);
+                    UIGlobals.PlayChatSoundEffect(11);
+                }
+            }
+        }
+    }
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
