@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
-using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Nodes;
 
 namespace DailyDuty.Features.TodoOverlay;
 
