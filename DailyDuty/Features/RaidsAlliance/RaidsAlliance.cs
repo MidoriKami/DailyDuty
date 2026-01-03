@@ -47,7 +47,12 @@ public unsafe class RaidsAlliance : Module<Config, Data> {
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = $"{GetIncompleteCount()} Alliance Raid Available",
-        PayloadId = PayloadId.OpenDutyFinderRaid,
+        PayloadId = PayloadId.OpenDutyFinderAllianceRaid,
+    };
+
+    protected override TodoTooltip GetTooltip() => new() {
+        TooltipText = string.Join("\n", GetIncompleteTasks()),
+        ClickAction = PayloadId.OpenDutyFinderAllianceRaid,
     };
 
     public override DateTime GetNextResetDateTime()
@@ -137,4 +142,10 @@ public unsafe class RaidsAlliance : Module<Config, Data> {
         }
         ModuleData.MarkDirty();
     }
+
+    private IEnumerable<string> GetIncompleteTasks()
+        => ModuleConfig.TrackedTasks
+            .Where(task => task.Value)
+            .Where(task => !ModuleData.TaskStatus[task.Key])
+            .Select(task => Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(task.Key).Name.ToString());
 }

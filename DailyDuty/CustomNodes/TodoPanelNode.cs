@@ -200,8 +200,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             newNode.TextTooltip = data.Tooltip.TooltipText;
 
             if (data.Tooltip is { ClickAction: not PayloadId.Unset }) {
-                newNode.ShowClickableCursor = true;
-                newNode.AddEvent(AtkEventType.MouseClick, () => PayloadController.InvokePayload(data.Tooltip.ClickAction));
+
             }
         }
         

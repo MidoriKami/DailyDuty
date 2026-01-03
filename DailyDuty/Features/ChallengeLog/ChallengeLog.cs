@@ -55,8 +55,8 @@ public class ChallengeLog : Module<Config, DataBase> {
         => FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote.Instance()->IsContentNoteComplete((int)rowId);
 
     protected override TodoTooltip GetTooltip() => new() {
-        ClickAction = PayloadId.OpenChallengeLog,
         TooltipText = GetMissingObjectives(),
+        ClickAction = PayloadId.OpenChallengeLog,
     };
 
     private ReadOnlySeString GetMissingObjectives() {

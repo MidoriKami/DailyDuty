@@ -31,8 +31,10 @@ public unsafe class MiniCactpot : Module<ConfigBase, Data> {
          Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
     }
 
-    protected override StatusMessage GetStatusMessage()
-        => $"{ModuleData.AllowancesRemaining} Attempts Remaining";
+    protected override StatusMessage GetStatusMessage() => new() {
+        Message = $"{ModuleData.AllowancesRemaining} Attempts Remaining",
+        PayloadId = PayloadId.GoldSaucerTeleport,
+    };
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

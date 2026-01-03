@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Features.GrandCompanyProvision;
 
@@ -30,6 +32,9 @@ public unsafe class GrandCompanyProvision : Module<Config, Data> {
 
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(1);
+
+    protected override TodoTooltip GetTooltip() 
+        => string.Join("\n", GetIncompleteJobs());
 
     public override void Reset() {
         foreach (var entry in ModuleData.ClassJobStatus.Keys) {
@@ -64,4 +69,10 @@ public unsafe class GrandCompanyProvision : Module<Config, Data> {
         => ModuleConfig.TrackedClasses
             .Where(pair => pair.Value)
             .Count(job => !ModuleData.ClassJobStatus[job.Key]);
+
+    private IEnumerable<string> GetIncompleteJobs()
+        => ModuleConfig.TrackedClasses
+            .Where(pair => pair.Value)
+            .Where(job => !ModuleData.ClassJobStatus[job.Key])
+            .Select(job => Services.DataManager.GetExcelSheet<ClassJob>().GetRow(job.Key).NameEnglish.ToString());
 }

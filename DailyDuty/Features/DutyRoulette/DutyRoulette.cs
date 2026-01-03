@@ -54,8 +54,10 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
         return GetIncompleteCount() is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 
-    // public override ReadOnlySeString? GetTooltip()
-    //     => string.Join("\n", GetIncompleteTasks().Select(task => task.Name));
+    protected override TodoTooltip GetTooltip() => new() {
+        TooltipText = string.Join("\n", GetIncompleteTasks().Select(task => task.Name)),
+        ClickAction = PayloadId.OpenDutyFinderRoulette,
+    };
 
     private IEnumerable<ContentRoulette> GetIncompleteTasks()
         => ModuleConfig.TrackedRoulettes

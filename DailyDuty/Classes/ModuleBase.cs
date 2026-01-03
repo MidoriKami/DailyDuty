@@ -47,7 +47,10 @@ public abstract unsafe class ModuleBase : FeatureBase {
                 Tooltip = tooltip;
             }
             else {
-                Tooltip = ModuleStatusMessage;
+                Tooltip = new TodoTooltip {
+                    TooltipText = ModuleStatusMessage.Message,
+                    ClickAction = ModuleStatusMessage.PayloadId,
+                };
             }
         }
         else {

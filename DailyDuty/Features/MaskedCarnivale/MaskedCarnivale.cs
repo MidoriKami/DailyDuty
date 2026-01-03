@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -7,6 +9,7 @@ using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using Lumina.Excel.Sheets;
 using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Features.MaskedCarnivale;
@@ -36,6 +39,11 @@ public unsafe class MaskedCarnivale : Module<Config, Data> {
     protected override StatusMessage GetStatusMessage() => new() {
         Message = $"{GetIncompleteCount()} Challenges Remaining",
         PayloadId = PayloadId.UldahTeleport,
+    };
+
+    protected override TodoTooltip GetTooltip() => new() {
+        TooltipText = string.Join("\n", GetIncompleteTasks()),
+        ClickAction = PayloadId.UldahTeleport,
     };
 
     public override void Reset() {
@@ -104,4 +112,9 @@ public unsafe class MaskedCarnivale : Module<Config, Data> {
         ModuleData.TaskData[addonId] = completionStatus != 0;
         ModuleData.MarkDirty();
     }
+
+    private IEnumerable<string> GetIncompleteTasks()
+            => ModuleConfig.TrackedTasks
+                .Where(job => !ModuleData.TaskData[(int)job])
+                .Select(job => Services.DataManager.GetExcelSheet<Addon>().GetRow(job).Text.ToString());
 }

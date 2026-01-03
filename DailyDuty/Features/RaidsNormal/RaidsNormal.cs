@@ -50,6 +50,11 @@ public unsafe class RaidsNormal : Module<Config, Data> {
         PayloadId = PayloadId.OpenDutyFinderRaid,
     };
 
+    protected override TodoTooltip GetTooltip() => new() {
+        TooltipText = string.Join("\n", GetIncompleteTasks()),
+        ClickAction = PayloadId.OpenDutyFinderRaid,
+    };
+
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
 
@@ -137,4 +142,10 @@ public unsafe class RaidsNormal : Module<Config, Data> {
         }
         ModuleData.MarkDirty();
     }
+    
+    private IEnumerable<string> GetIncompleteTasks()
+        => ModuleConfig.TrackedTasks
+            .Where(task => task.Value)
+            .Where(task => !ModuleData.TaskStatus[task.Key])
+            .Select(task => Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(task.Key).Name.ToString());
 }
