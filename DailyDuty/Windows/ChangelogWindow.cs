@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
+﻿using System.Linq;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -10,51 +8,42 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Windows;
 
 public class ChangelogWindow : NativeAddon {
-    private ScrollingAreaNode<TreeListNode>? scrollingAreaNode;
+    private ScrollingTreeNode? scrollingTreeNode;
     
-    private readonly List<TreeListCategoryNode> categoryNodes = [];
-
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
-        scrollingAreaNode = new ScrollingAreaNode<TreeListNode> {
+        scrollingTreeNode = new ScrollingTreeNode {
             Size = ContentSize,
             Position = ContentStartPosition,
-            ContentHeight = 1000.0f,
             ScrollSpeed = 100,
             AutoHideScrollBar = true,
         };
-        scrollingAreaNode.AttachNode(this);
+        scrollingTreeNode.AttachNode(this);
 
         if (Module is not null) {
-            categoryNodes.Clear();
-
             foreach (var changelog in Module.ModuleInfo.ChangeLog.OrderByDescending(log => log.Version)) {
                 var categoryNode = new TreeListCategoryNode {
-                    SeString = $"Version {changelog.Version}",
-                    Width = ContentSize.X,
-                    OnToggle = _ => scrollingAreaNode.ContentHeight = categoryNodes.Sum(node => node.Height),
+                    String = $"Version {changelog.Version}",
+                    OnToggle = _ => scrollingTreeNode.RecalculateLayout(),
                 };
 
                 var newTextNode = new TextNode {
-                    Height = 32.0f,
-                    AlignmentType = AlignmentType.TopLeft,
-                    TextFlags = TextFlags.MultiLine | TextFlags.WordWrap | TextFlags.AutoAdjustNodeSize,
-                    Position = new Vector2(6.0f, 2.0f),
-                    Width = ContentSize.X - 32.0f,
+                    Width = scrollingTreeNode.TreeListNode.Width,
+                    TextFlags = TextFlags.MultiLine | TextFlags.WordWrap,
                     FontSize = 14,
                     LineSpacing = 22,
-                    String = changelog.Description,
                     TextColor = ColorHelper.GetColor(1),
                 };
 
-                newTextNode.Height = newTextNode.GetTextDrawSize(newTextNode.SeString).Y;
+                newTextNode.String = changelog.Description;
+                newTextNode.Height = newTextNode.GetTextDrawSize(newTextNode.String).Y;
+                
+                categoryNode.RecalculateLayout();
                 
                 categoryNode.AddNode(newTextNode);
-
-                scrollingAreaNode.ContentNode.AddCategoryNode(categoryNode);
-                categoryNodes.Add(categoryNode);
+                scrollingTreeNode.AddCategoryNode(categoryNode);
             }
 
-            scrollingAreaNode.ContentHeight = categoryNodes.Sum(node => node.Height);
+            scrollingTreeNode.RecalculateLayout();
         }
     }
 

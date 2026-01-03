@@ -3,6 +3,7 @@ using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
+using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Classes;
@@ -174,12 +175,13 @@ public class PanelConfigWindow(Config moduleConfig, TodoPanelConfig config, Text
             ],
         };
         flexNode.AddNode(verticalListNode);
-        
+
         foreach (var module in ModuleManager.GetModules()) {
             scrollingList.AddNode(new CheckboxNode {
                 Height = 28.0f,
                 String = module.Name,
                 IsChecked = config.Modules.Contains(module.Name),
+                IsEnabled = module.State is LoadedState.Enabled,
                 OnClick = newValue => {
                     if (newValue) {
                         config.Modules.Add(module.Name);

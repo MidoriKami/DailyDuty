@@ -85,7 +85,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
         
-        var buttonSize = new Vector2(130.0f, 24.0f);
+        var buttonSize = new Vector2(130.0f, 28.0f);
         const float padding = 4.0f;
         var widthPadded = Width - padding * 2.0f;
 

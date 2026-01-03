@@ -24,7 +24,7 @@ public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRo
             if (GetLabelFunc?.Invoke(option) is not { Length: > 0 } name) continue;
             
             scrollable.AddNode(new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = name,
                 IsChecked = Options.Contains(option.RowId),
                 OnClick = newValue => OnOptionEdited(option, newValue),

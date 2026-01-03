@@ -13,7 +13,7 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
         
         container.AddNode([
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Instance Notifications",
                 IsChecked = module.ModuleConfig.InstanceNotifications,
                 OnClick = newValue => {
@@ -22,7 +22,7 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
                 },
             },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Sticker Available Notification",
                 IsChecked = module.ModuleConfig.StickerAvailableNotice,
                 OnClick = newValue => {
@@ -31,7 +31,7 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
                 },
             },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Unclaimed Book Notification",
                 IsChecked = module.ModuleConfig.UnclaimedBookWarning,
                 OnClick = newValue => {
@@ -40,7 +40,7 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
                 },
             },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Shuffle Available Notification",
                 IsChecked = module.ModuleConfig.ShuffleAvailableNotice,
                 OnClick = newValue => {
@@ -52,7 +52,7 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
                 Label = "Duty Finder Integration",
             },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Recolor Duty Finder Entries",
                 IsChecked = module.ModuleConfig.ColorDutyFinderText,
                 OnClick = newValue => {
@@ -79,7 +79,7 @@ public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(mo
             },
             new ResNode{ Height = 4.0f },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Show Clover Indicator",
                 IsChecked = module.ModuleConfig.CloverIndicator,
                 OnClick = newValue => {

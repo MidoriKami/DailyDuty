@@ -13,7 +13,7 @@ public class ConfigNode(HuntMarksDaily module) : ConfigNodeBase<HuntMarksDaily>(
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new TextButtonNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Edit Tracked Daily Hunt Bills",
                 OnClick = OpenMainTrackingWindow,
             },

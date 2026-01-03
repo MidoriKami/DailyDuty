@@ -9,7 +9,7 @@ public class ConfigNode(FauxHollows module) : ConfigNodeBase<FauxHollows>(module
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Include Retelling",
                 IsChecked = module.ModuleConfig.IncludeRetelling,
                 OnClick = newValue => {

@@ -13,7 +13,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Enable Duty Finder Warning",
                 IsChecked = module.ModuleConfig.EnableContentFinderWarning,
                 OnClick = newValue => {
@@ -22,7 +22,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
                 },
             },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Enable Duty Finder Warning Sound",
                 IsChecked = module.ModuleConfig.EnableWarningSound,
                 OnClick = newValue => {
@@ -32,10 +32,9 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
             },
             new CategoryHeaderNode {
                 Label = "Tracked Challenge Log Entries",
-                Height = 40.0f,
             },
             new TextButtonNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Edit Tracked Challenge Log Entries",
                 OnClick = OpenMainTrackingWindow,
             },
@@ -44,7 +43,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
                 Height = 40.0f,
             },
             new TextButtonNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Edit Duty Finder Warning Entries",
                 OnClick = OpenDutyFinderWarningEntries,
             },

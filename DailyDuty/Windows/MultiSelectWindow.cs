@@ -19,7 +19,7 @@ public class MultiSelectWindow : NativeAddon {
 
         foreach (var option in Options) {
             scrollable.AddNode(new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = option,
                 IsChecked = SelectedOptions.Contains(option),
                 OnClick = newValue => OnOptionEdited(option, newValue),

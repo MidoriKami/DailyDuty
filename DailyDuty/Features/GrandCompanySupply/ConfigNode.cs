@@ -13,7 +13,7 @@ public class ConfigNode(GrandCompanySupply module) : ConfigNodeBase<GrandCompany
 
             container.AddNode(new CheckboxNode {
                 String = classJob.NameEnglish.ToString(),
-                Height = 24.0f,
+                Height = 28.0f,
                 IsChecked = module.ModuleConfig.TrackedClasses[job],
                 OnClick = newValue => {
                     module.ModuleConfig.TrackedClasses[job] = newValue;

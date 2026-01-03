@@ -12,7 +12,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Mark Complete When Weekly Tomecapped",
                 IsChecked = module.ModuleConfig.CompleteWhenCapped,
                 OnClick = newValue => {
@@ -21,7 +21,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
                 },
             },
             new CheckboxNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Color Duty Roulette",
                 IsChecked = module.ModuleConfig.ColorContentFinder,
                 OnClick = newValue => {
@@ -33,7 +33,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
                 Label = "Tracked Duty Finder Entries",
             },
             new TextButtonNode {
-                Height = 24.0f,
+                Height = 28.0f,
                 String = "Edit Tracked Duty Roulettes",
                 OnClick = OpenMainTrackingWindow,
             },
