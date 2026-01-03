@@ -115,19 +115,6 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
         
-        SendStatusMessage();
-    }
-
-    private void SendLoginMessage() {
-        if (!ModuleConfig.OnZoneChangeMessage) return;
-        if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
-        if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
-        if (Services.Condition.IsBoundByDuty) return;
-        
-        SendStatusMessage();
-    }
-
-    private void SendStatusMessage() {
         StatusMessage statusMessage;
         if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
             statusMessage = GetStatusMessage();
@@ -138,7 +125,32 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
         if (statusMessage.Message == string.Empty) return;
         
-        Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Status Message");
+        Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Zone Change Message");
+        Services.ChatGui.PrintPayloadMessage(
+            ModuleConfig.MessageChatChannel, 
+            statusMessage.PayloadId, 
+            ModuleInfo.DisplayName, 
+            statusMessage.Message
+        );
+    }
+
+    private void SendLoginMessage() {
+        if (!ModuleConfig.OnZoneChangeMessage) return;
+        if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
+        if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
+        if (Services.Condition.IsBoundByDuty) return;
+        
+        StatusMessage statusMessage;
+        if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
+            statusMessage = GetStatusMessage();
+        }
+        else {
+            statusMessage = ModuleConfig.CustomStatusMessage;
+        }
+
+        if (statusMessage.Message == string.Empty) return;
+        
+        Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Login Message");
         Services.ChatGui.PrintPayloadMessage(
             ModuleConfig.MessageChatChannel, 
             statusMessage.PayloadId, 
@@ -152,7 +164,23 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (DateTime.UtcNow <= ModuleData.NextReset) return;
 
         if (ModuleConfig.ResetMessage) {
-            Services.ChatGui.PrintMessage(ModuleConfig.MessageChatChannel, ModuleInfo.DisplayName, GetResetMessage());
+            StatusMessage statusMessage;
+            if (ModuleConfig.CustomResetMessage.IsNullOrEmpty()) {
+                statusMessage = GetStatusMessage();
+            }
+            else {
+                statusMessage = ModuleConfig.CustomResetMessage;
+            }
+
+            if (statusMessage.Message == string.Empty) return;
+        
+            Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Reset Message");
+            Services.ChatGui.PrintPayloadMessage(
+                ModuleConfig.MessageChatChannel, 
+                statusMessage.PayloadId, 
+                ModuleInfo.DisplayName, 
+                statusMessage.Message
+            );
         }
 
         Reset();
@@ -165,12 +193,6 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
         ModuleConfig.Suppressed = false;
         ModuleConfig.Save();
-    }
-
-    private string GetResetMessage() {
-        if (ModuleConfig.CustomResetMessage is { Length: > 0 }) return ModuleConfig.CustomResetMessage;
-
-        return $"Resetting {ModuleInfo.DisplayName} module";
     }
 
     protected override CompletionStatus GetModuleStatus() {
