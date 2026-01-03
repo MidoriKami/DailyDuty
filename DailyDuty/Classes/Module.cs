@@ -56,6 +56,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
                     Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Successfully migrated config file");
                 
                     ModuleConfig = migrationResult;
+                    ModuleConfig.FileName = ModuleInfo.FileName;
                     ModuleConfig.Save();
                     return true;
                 }
