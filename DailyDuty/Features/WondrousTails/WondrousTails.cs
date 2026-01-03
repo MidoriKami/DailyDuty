@@ -84,7 +84,7 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
                 var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && castingTeleport;
                 
                 if ((noLongerNearKhloe || startedTeleportingAway) && this is { PlayerHasBook: false, IsNewBookAvailable: true }) {
-                    Services.ChatGui.PrintTaggedMessage("Wait! You forgot you book!", ModuleInfo.DisplayName);
+                    Services.ChatGui.PrintTaggedMessage("Wait! You forgot your Wondrous Tails book!", ModuleInfo.DisplayName);
                     UIGlobals.PlayChatSoundEffect(11);
                 }
             }
