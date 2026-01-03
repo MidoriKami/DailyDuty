@@ -69,6 +69,10 @@ public class GenericDataNode : SimpleComponentNode {
             resetTimeTextNode.String = "Available Now";
             timeRemainingTextNode.String = "0.00:00:00";
         }
+        else if (resetTime == DateTime.MinValue) {
+            resetTimeTextNode.String = "Enable module to initialize";
+            timeRemainingTextNode.String = "Enable module to initialize";
+        }
         else {
             resetTimeTextNode.String = resetTime.ToLocalTime().GetDisplayString();
             timeRemainingTextNode.String = $"{(resetTime - DateTime.UtcNow).FormatTimespan()}";
