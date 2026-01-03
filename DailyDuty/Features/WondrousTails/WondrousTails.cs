@@ -23,6 +23,8 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
 
     private DutyController? dutyController;
     private ContentsFinderController? contentsFinderController;
+    private bool closeToKhloe;
+    private bool castingTeleport;
 
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
@@ -65,8 +67,8 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
     protected override void OnModuleUpdate() {
         base.OnModuleUpdate();
 
-        var lastNearKhloe = false;
-        var lastCastingTeleport = false;
+        var lastNearKhloe = closeToKhloe;
+        var lastCastingTeleport = castingTeleport;
         
         const int idyllshireTerritoryType = 478;
         const uint khloeAliapohDataId = 1017653;
@@ -75,8 +77,8 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
 
             if (khloe is not null && Services.ObjectTable.LocalPlayer is { Position: var playerPosition }) {
                 var distanceToKhloe = Vector3.Distance(playerPosition, khloe.Position);
-                var closeToKhloe = distanceToKhloe < 10.0f;
-                var castingTeleport = Services.ObjectTable.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
+                closeToKhloe = distanceToKhloe < 10.0f;
+                castingTeleport = Services.ObjectTable.LocalPlayer is { IsCasting: true, CastActionId: 5 or 6 };
 
                 var noLongerNearKhloe = lastNearKhloe && !closeToKhloe;
                 var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && castingTeleport;
