@@ -32,6 +32,7 @@ public sealed class TimerNode : OverlayNode {
 	public TimerNode() {
         moduleNameNode = new TextNode {
             FontType = FontType.Jupiter,
+            TextColor = KnownColor.White.Vector(),
             TextOutlineColor = KnownColor.Black.Vector(),
             FontSize = 16,
             AlignmentType = AlignmentType.BottomLeft,
@@ -43,6 +44,7 @@ public sealed class TimerNode : OverlayNode {
             TextFlags = TextFlags.Bold | TextFlags.Edge,
             FontType = FontType.Axis,
             AlignmentType = AlignmentType.Center,
+            TextColor = KnownColor.White.Vector(),
             TextOutlineColor = KnownColor.Black.Vector(),
             FontSize = 16,
             String = "0.00:00:00",
@@ -59,6 +61,7 @@ public sealed class TimerNode : OverlayNode {
 		tooltipNode = new TextNode {
 			FontSize = 16,
 			TextFlags = TextFlags.Edge,
+            TextColor = KnownColor.White.Vector(),
 			TextOutlineColor = KnownColor.Black.Vector(),
 			AlignmentType = AlignmentType.Center,
 			String = "?",

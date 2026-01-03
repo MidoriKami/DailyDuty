@@ -59,7 +59,6 @@ public class ModuleOptionNode : SimpleComponentNode {
         modificationNameNode = new TextNode {
             TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Ellipsis,
             AlignmentType = AlignmentType.BottomLeft,
-            TextColor = ColorHelper.GetColor(1),
         };
         modificationNameNode.AttachNode(this);
         
