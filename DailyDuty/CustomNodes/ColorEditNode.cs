@@ -46,11 +46,11 @@ public class ColorEditNode : SimpleOverlayNode {
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 
-        previewNode.Size = new Vector2(Height - 2.0f, Height - 2.0f);
-        previewNode.Position = new Vector2(1.0f, 1.0f);
+        previewNode.Size = new Vector2(Height - 6.0f, Height - 6.0f);
+        previewNode.Position = new Vector2(3.0f, 3.0f);
 
-        labelNode.Size = new Vector2(Width - Height - 8.0f, Height);
-        labelNode.Position = new Vector2(previewNode.Bounds.Right + 6.0f, 0.0f);
+        labelNode.Size = new Vector2(Width - Height - 12.0f, Height);
+        labelNode.Position = new Vector2(previewNode.Bounds.Right + 12.0f, 0.0f);
     }
     
     private void OnClicked() {
