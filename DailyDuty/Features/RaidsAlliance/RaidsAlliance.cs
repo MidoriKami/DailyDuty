@@ -8,6 +8,7 @@ using DailyDuty.Utilities;
 using Dalamud.Game.Inventory;
 using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
 using Newtonsoft.Json.Linq;
 
@@ -117,6 +118,23 @@ public unsafe class RaidsAlliance : Module<Config, Data> {
     	}
     }
 
+    protected override void OnModuleUpdate() {
+        base.OnModuleUpdate();
+
+        var agent = AgentContentsFinder.Instance();
+        if (agent is not null && agent->IsAgentActive()) {
+            var selectedDuty = agent->SelectedDuty.Id;
+            
+            if (!ModuleData.TaskStatus.TryGetValue(selectedDuty, out var value)) return;
+            var numRewards = agent->NumCollectedRewards;
+
+            if (value != numRewards is not 0) {
+                ModuleData.TaskStatus[selectedDuty] = numRewards is not 0;
+                ModuleData.MarkDirty();
+            }
+        }
+    }
+    
     private void UpdateTrackedTasks() {
         if (validAllianceRaids is null) return;
         
