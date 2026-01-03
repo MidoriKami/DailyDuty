@@ -9,12 +9,12 @@ using KamiToolKit;
 using KamiToolKit.Classes.Controllers;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Features.DutyFinderTimer;
+namespace DailyDuty.Features.DutyFinderEnhancements;
 
-public unsafe class DutyFinderTimer : FeatureBase {
+public unsafe class DutyFinderEnhancements : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Duty Finder Timer",
-        FileName = "DutyFinderTimer",
+        DisplayName = "Duty Finder Enhancements",
+        FileName = "DutyFinderEnhancements",
         Type = ModuleType.GeneralFeatures,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),
@@ -25,6 +25,7 @@ public unsafe class DutyFinderTimer : FeatureBase {
     public Config ModuleConfig = null!;
     private AddonController<AddonContentsFinder>? addonController;
     private TextNode? timerTextNode;
+    private TextButtonNode? openDailyDutyButton;
     
     public override NodeBase DisplayNode => new ConfigNode(this);
     
@@ -56,11 +57,23 @@ public unsafe class DutyFinderTimer : FeatureBase {
                 IsVisible = false,
             };
             timerTextNode.AttachNode(targetNode);
+            
+            openDailyDutyButton = new TextButtonNode {
+                Position = new Vector2(50.0f, 622.0f),
+                Size = new Vector2(130.0f, 28.0f),
+                IsVisible = true,
+                String = "Open DailyDuty",
+            };
+            openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
+            openDailyDutyButton.AttachNode(addon->RootNode);
         };
 
         addonController.OnDetach += _ => {
             timerTextNode?.Dispose();
             timerTextNode = null;
+            
+            openDailyDutyButton?.Dispose();
+            openDailyDutyButton = null;
         };
         
         addonController.OnUpdate += addon => {
@@ -74,6 +87,8 @@ public unsafe class DutyFinderTimer : FeatureBase {
                 timerTextNode?.IsVisible = addon->SelectedRadioButton is 0;
                 addon->UpdateCollisionNodeList(false);
             }
+
+            openDailyDutyButton?.IsVisible = ModuleConfig.OpenDailyDutyButton;
         };
         
         addonController.Enable();

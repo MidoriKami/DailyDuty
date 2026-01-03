@@ -24,7 +24,6 @@ public class ConfigNode : SimpleComponentNode {
                     Label= "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
-                new ResNode{ Height = 4.0f },
                 new CheckboxNode {
                     Height = 28.0f,
                     String = "Hide in Duties",
@@ -43,7 +42,6 @@ public class ConfigNode : SimpleComponentNode {
                         module.ModuleConfig.MarkDirty();
                     },
                 },
-                new ResNode{ Height = 4.0f },
                 new CategoryHeaderNode {
                     Label= "Overlay Panels",
                     Alignment = AlignmentType.Bottom,

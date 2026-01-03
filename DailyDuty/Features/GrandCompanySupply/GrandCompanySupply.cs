@@ -7,6 +7,7 @@ using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
+using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.GrandCompanySupply;
 
@@ -24,6 +25,9 @@ public unsafe class GrandCompanySupply : Module<Config, Data> {
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
 
+    protected override Config MigrateConfig(JObject objectData)
+        => Migration.Migrate(objectData);
+    
     protected override StatusMessage GetStatusMessage()
         => $"{GetIncompleteCount()} Deliveries Available";
     
@@ -35,9 +39,6 @@ public unsafe class GrandCompanySupply : Module<Config, Data> {
 
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(1);
-
-    public override void Reset() {
-    }
 
     protected override void OnModuleUpdate() {
         var agent = AgentGrandCompanySupply.Instance();

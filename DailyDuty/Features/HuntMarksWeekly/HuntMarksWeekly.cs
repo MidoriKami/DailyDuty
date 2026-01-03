@@ -4,6 +4,7 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.HuntMarksWeekly;
 
@@ -21,6 +22,9 @@ public unsafe class HuntMarksWeekly : Module<Config, DataBase> {
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
     public override DataNodeBase DataNode => new DataNode(this);
 
+    protected override Config MigrateConfig(JObject objectData)
+        => Migration.Migrate(objectData);
+    
     protected override StatusMessage GetStatusMessage()
         => $"{GetIncompleteCount()} Hunt Bills Available";
 

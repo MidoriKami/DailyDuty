@@ -17,7 +17,7 @@ public class ConfigNode : SimpleComponentNode {
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Hide Seconds",
                     IsChecked = module.ModuleConfig.HideSeconds,
                     OnClick = newValue => {
@@ -26,7 +26,7 @@ public class ConfigNode : SimpleComponentNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Toggleable Timer",
                     IsChecked = module.ModuleConfig.Combo,
                     OnClick = newValue => {
@@ -35,7 +35,7 @@ public class ConfigNode : SimpleComponentNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Daily Timer",
                     IsChecked = module.ModuleConfig.SoloDaily,
                     OnClick = newValue => {
@@ -44,7 +44,7 @@ public class ConfigNode : SimpleComponentNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Weekly Timer",
                     IsChecked = module.ModuleConfig.SoloWeekly,
                     OnClick = newValue => {

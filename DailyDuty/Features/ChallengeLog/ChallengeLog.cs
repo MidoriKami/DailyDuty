@@ -10,6 +10,7 @@ using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
+using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.ChallengeLog;
 
@@ -27,6 +28,9 @@ public class ChallengeLog : Module<Config, DataBase> {
     private Stopwatch? contentsFinderStopwatch;
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+
+    protected override Config MigrateConfig(JObject objectData)
+        => Migration.Migrate(objectData);
 
     protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);

@@ -26,7 +26,7 @@ public class ConfigNode : UpdatableNode {
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Hide in Duties",
                     IsChecked = module.ModuleConfig.HideInDuties,
                     OnClick = newValue => {
@@ -35,7 +35,7 @@ public class ConfigNode : UpdatableNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Hide in Quest Events",
                     IsChecked = module.ModuleConfig.HideInQuestEvents,
                     OnClick = newValue => {
@@ -44,7 +44,7 @@ public class ConfigNode : UpdatableNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Hide Timer Seconds",
                     IsChecked = module.ModuleConfig.HideTimerSeconds,
                     OnClick = newValue => {
@@ -53,7 +53,7 @@ public class ConfigNode : UpdatableNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Show Module Label",
                     IsChecked = module.ModuleConfig.ShowLabel,
                     OnClick = newValue => {
@@ -62,7 +62,7 @@ public class ConfigNode : UpdatableNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Show Countdown Text",
                     IsChecked = module.ModuleConfig.ShowCountdownText,
                     OnClick = newValue => {
@@ -71,14 +71,14 @@ public class ConfigNode : UpdatableNode {
                     },
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Enable Moving Timers",
                     IsChecked = module.ModuleConfig.EnableMovingTimers,
                     OnClick = newValue => module.ModuleConfig.EnableMovingTimers = newValue,
                 },
                 new ResNode{ Height = 1.0f },
                 new HorizontalFlexNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth | FlexFlags.CenterHorizontally,
                     InitialNodes = [
                         new TextNode {

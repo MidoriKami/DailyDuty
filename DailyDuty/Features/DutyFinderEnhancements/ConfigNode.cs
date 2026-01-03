@@ -3,12 +3,12 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Features.DutyFinderTimer;
+namespace DailyDuty.Features.DutyFinderEnhancements;
 
 public class ConfigNode : SimpleComponentNode {
     private readonly VerticalListNode listNode;
     
-    public ConfigNode(DutyFinderTimer module) {
+    public ConfigNode(DutyFinderEnhancements module) {
         var originalColor = module.ModuleConfig.Color;
         
         listNode = new VerticalListNode {
@@ -16,11 +16,11 @@ public class ConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    Label= "Feature Configuration",
+                    Label= "Timer Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
-                    Height = 24.0f,
+                    Height = 28.0f,
                     String = "Hide Seconds",
                     IsChecked = module.ModuleConfig.HideSeconds,
                     OnClick = newValue => {
@@ -28,7 +28,6 @@ public class ConfigNode : SimpleComponentNode {
                         module.ModuleConfig.MarkDirty();
                     },
                 },
-                new ResNode{ Height = 4.0f },
                 new ColorEditNode {
                     Height = 28.0f,
                     CurrentColor = originalColor,
@@ -44,6 +43,19 @@ public class ConfigNode : SimpleComponentNode {
                     },
                     OnColorPreviewed = color => {
                         module.ModuleConfig.Color = color;
+                    },
+                },
+                new CategoryHeaderNode {
+                    Label= "DailyDuty Button Configuration",
+                    Alignment = AlignmentType.Bottom,
+                },
+                new CheckboxNode {
+                    Height = 28.0f,
+                    String = "Show \"Open DailyDuty\" Button",
+                    IsChecked = module.ModuleConfig.OpenDailyDutyButton,
+                    OnClick = newValue => {
+                        module.ModuleConfig.OpenDailyDutyButton = newValue;
+                        module.ModuleConfig.MarkDirty();
                     },
                 },
             ],

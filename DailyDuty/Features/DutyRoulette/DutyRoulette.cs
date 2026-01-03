@@ -7,6 +7,7 @@ using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
+using Newtonsoft.Json.Linq;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 
 namespace DailyDuty.Features.DutyRoulette;
@@ -25,6 +26,9 @@ public unsafe class DutyRoulette : Module<Config, DataBase> {
     private DutyFinderController? rouletteController;
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+
+    protected override Config MigrateConfig(JObject objectData)
+        => Migration.Migrate(objectData);
 
     protected override void OnModuleEnable() {
         rouletteController = new DutyFinderController(this);

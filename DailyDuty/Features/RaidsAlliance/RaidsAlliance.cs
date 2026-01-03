@@ -9,6 +9,7 @@ using Dalamud.Game.Inventory;
 using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
+using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.RaidsAlliance;
 
@@ -27,6 +28,9 @@ public unsafe class RaidsAlliance : Module<Config, Data> {
 
     public override DataNodeBase DataNode => new DataNode(this);
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+
+    protected override Config MigrateConfig(JObject objectData)
+        => Migration.Migrate(objectData);
 
     protected override void OnModuleEnable() {
         Services.GameInventory.ItemAdded += OnItemEvent;

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Numerics;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using Dalamud.Utility;
+using Newtonsoft.Json.Linq;
 using Data = DailyDuty.Utilities.Data;
 
 namespace DailyDuty.Classes;
@@ -23,16 +25,47 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     protected virtual void OnModuleDisable() { }
     protected virtual void OnModuleUpdate() { }
 
+    protected virtual T? MigrateConfig(JObject objectData) => null;
+
     protected sealed override void OnFeatureLoad() {
-        ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
-        if (ModuleConfig is null) throw new Exception("Failed to load config file");
+        if (!TryMigrateConfig()) {
+            ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
+            if (ModuleConfig is null) throw new Exception("Failed to load config file");
         
-        ModuleConfig.FileName = ModuleInfo.FileName;
+            ModuleConfig.FileName = ModuleInfo.FileName;
+        }
         
         ModuleData = Data.LoadCharacterData<TU>($"{ModuleInfo.FileName}.data.json");
         if (ModuleData is null) throw new Exception("Failed to load data file");
         
         ModuleData.FileName = ModuleInfo.FileName;
+    }
+
+    // If the config contains a key "ModuleEnabled" then it's from the previous version of DailyDuty and needs to be migrated.
+    // This version of DailyDuty stores the enabled state elsewhere.
+    private bool TryMigrateConfig() {
+        try {
+            var fileInfo = new FileInfo(Path.Combine(Config.CharacterConfigPath, $"{ModuleInfo.FileName}.config.json"));
+        
+            if (fileInfo is { Exists: true }) {
+                var fileText = File.ReadAllText(fileInfo.FullName);
+                var jObject = JObject.Parse(fileText);
+
+                // Note if MigrationResult is null, the users old config will be nuked.
+                if (jObject.ContainsKey("ModuleEnabled") && MigrateConfig(jObject) is { } migrationResult) {
+                    Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Successfully migrated config file");
+                
+                    ModuleConfig = migrationResult;
+                    ModuleConfig.Save();
+                    return true;
+                }
+            }
+        }
+        catch (Exception e) {
+            Services.PluginLog.Error(e, $"Failed to migrate config file for {ModuleInfo.DisplayName}");
+        }
+
+        return false;
     }
 
     protected sealed override void OnFeatureUnload() {
