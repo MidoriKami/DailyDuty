@@ -115,48 +115,16 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
         
-        StatusMessage statusMessage;
-        if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
-            statusMessage = GetStatusMessage();
-        }
-        else {
-            statusMessage = ModuleConfig.CustomStatusMessage;
-        }
-
-        if (statusMessage.Message == string.Empty) return;
-        
-        Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Zone Change Message");
-        Services.ChatGui.PrintPayloadMessage(
-            ModuleConfig.MessageChatChannel, 
-            statusMessage.PayloadId, 
-            ModuleInfo.DisplayName, 
-            statusMessage.Message
-        );
+        PrintStatusMessage(StatusMessageType.ZoneChanged);
     }
 
     private void SendLoginMessage() {
-        if (!ModuleConfig.OnZoneChangeMessage) return;
+        if (!ModuleConfig.OnLoginMessage) return;
         if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
         
-        StatusMessage statusMessage;
-        if (ModuleConfig.CustomStatusMessage.IsNullOrEmpty()) {
-            statusMessage = GetStatusMessage();
-        }
-        else {
-            statusMessage = ModuleConfig.CustomStatusMessage;
-        }
-
-        if (statusMessage.Message == string.Empty) return;
-        
-        Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Login Message");
-        Services.ChatGui.PrintPayloadMessage(
-            ModuleConfig.MessageChatChannel, 
-            statusMessage.PayloadId, 
-            ModuleInfo.DisplayName, 
-            statusMessage.Message
-        );
+        PrintStatusMessage(StatusMessageType.Login);
     }
     
     private void TryReset() {
@@ -164,23 +132,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (DateTime.UtcNow <= ModuleData.NextReset) return;
 
         if (ModuleConfig.ResetMessage) {
-            StatusMessage statusMessage;
-            if (ModuleConfig.CustomResetMessage.IsNullOrEmpty()) {
-                statusMessage = GetStatusMessage();
-            }
-            else {
-                statusMessage = ModuleConfig.CustomResetMessage;
-            }
-
-            if (statusMessage.Message == string.Empty) return;
-        
-            Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending Reset Message");
-            Services.ChatGui.PrintPayloadMessage(
-                ModuleConfig.MessageChatChannel, 
-                statusMessage.PayloadId, 
-                ModuleInfo.DisplayName, 
-                statusMessage.Message
-            );
+            PrintStatusMessage(StatusMessageType.Reset);
         }
 
         Reset();
@@ -193,6 +145,29 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
         ModuleConfig.Suppressed = false;
         ModuleConfig.Save();
+    }
+
+    private void PrintStatusMessage(StatusMessageType type) {
+        var customMessage = type switch {
+            StatusMessageType.Login => ModuleConfig.CustomStatusMessage,
+            StatusMessageType.ZoneChanged => ModuleConfig.CustomStatusMessage,
+            StatusMessageType.Reset => ModuleConfig.CustomResetMessage,
+            _ => string.Empty,
+        };
+
+        var statusMessage = ModuleStatusMessage;
+        
+        if (!customMessage.IsNullOrEmpty()) {
+            statusMessage.Message = customMessage;
+        }
+        
+        Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending {type.ToString()} Message");
+        Services.ChatGui.PrintPayloadMessage(
+            ModuleConfig.MessageChatChannel, 
+            statusMessage.PayloadId, 
+            ModuleInfo.DisplayName, 
+            statusMessage.Message
+        );
     }
 
     protected override CompletionStatus GetModuleStatus() {

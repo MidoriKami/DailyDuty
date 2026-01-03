@@ -58,7 +58,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             FontType = FontType.TrumpGothic,
             FontSize = 23,
             AlignmentType = AlignmentType.Left,
-            TextColor = ColorHelper.GetColor(6),
+            TextColor = ColorHelper.GetColor(50),
             TextOutlineColor = ColorHelper.GetColor(54),
             TextFlags = TextFlags.Edge,
             String = "Important",
