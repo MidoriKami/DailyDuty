@@ -33,6 +33,8 @@ public unsafe class ModuleManager : IDisposable {
         frameworkEventHook ??= Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
         frameworkEventHook.Enable();
         
+        IsUnloading = false;
+        
         var allModules = GetModuleTypes();
         LoadedModules = [];
         

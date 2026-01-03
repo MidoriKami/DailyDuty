@@ -9,11 +9,11 @@ public class StatusMessage {
 
     public static implicit operator StatusMessage(string message) => new() {
         Message = message,
-        PayloadId = PayloadId.Unset
+        PayloadId = PayloadId.Unset,
     };
     
     public static implicit operator StatusMessage(ReadOnlySeString message) => new() {
         Message = message.ToString(),
-        PayloadId = PayloadId.Unset
+        PayloadId = PayloadId.Unset,
     };
 }
