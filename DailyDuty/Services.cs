@@ -19,4 +19,5 @@ public sealed class Services {
     [PluginService] public static IDtrBar DtrBar { get; set; } = null!;
     [PluginService] public static IPlayerState PlayerState { get; set; } = null!;
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
+    [PluginService] public static IObjectTable ObjectTable { get; set; } = null!;
 }
