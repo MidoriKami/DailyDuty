@@ -13,7 +13,7 @@ public class DataNode(MaskedCarnivale module) : DataNodeBase<MaskedCarnivale>(mo
     private readonly Dictionary<int, TextNode> statusNodes = [];
     private readonly MaskedCarnivale module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var index in Enumerable.Range(12447, 3)) {
 
             var text = Services.DataManager.GetExcelSheet<Addon>().GetRow((uint)index).Text.ToString();

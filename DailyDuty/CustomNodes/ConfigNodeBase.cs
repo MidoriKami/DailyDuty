@@ -11,7 +11,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
     
     private readonly TabBarNode tabBar;
     private readonly NotificationSettingsNode<T> notificationSettings;
-    private readonly ScrollingAreaNode<VerticalListNode> configNode;
+    private readonly ScrollingListNode configNode;
 
     protected ConfigNodeBase(T module) {
         tabBar = new TabBarNode();
@@ -22,20 +22,19 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         notificationSettings = new NotificationSettingsNode<T>(module);
         notificationSettings.AttachNode(this);
     
-        configNode = new ScrollingAreaNode<VerticalListNode> {
-            ContentHeight = 1000.0f,
+        configNode = new ScrollingListNode {
             AutoHideScrollBar = true,
             IsVisible = false,
         };
-        configNode.ContentNode.FitContents = true;
-        configNode.ContentNode.FitWidth = true;
-        configNode.ContentNode.ItemSpacing = 4.0f;
+        configNode.FitContents = true;
+        configNode.FitWidth = true;
+        configNode.ItemSpacing = 4.0f;
 
-        configNode.ContentNode.AddNode(new CategoryHeaderNode {
+        configNode.AddNode(new CategoryHeaderNode {
             Label = "Module Settings",
         });
         
-        AttachDataNode(configNode.ContentNode);
+        AttachDataNode(configNode);
         configNode.AttachNode(this);
     }
     
@@ -50,7 +49,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         
         configNode.Size = Size - new Vector2(0.0f, 28.0f);
         configNode.Position = new Vector2(0.0f, 28.0f);
-        configNode.ContentNode.RecalculateLayout();
+        configNode.RecalculateLayout();
     }
     
     private void OnNotificationTabSelected() {
@@ -63,9 +62,9 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.IsVisible = true;
     }
     
-    protected abstract void BuildNode(VerticalListNode container);
+    protected abstract void BuildNode(ScrollingListNode container);
     
-    private void AttachDataNode(VerticalListNode container) {
+    private void AttachDataNode(ScrollingListNode container) {
         var preCount = container.Nodes.Count;
         
         BuildNode(container);

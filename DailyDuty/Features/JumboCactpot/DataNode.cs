@@ -12,7 +12,7 @@ public class DataNode(JumpCactpot module) : DataNodeBase<JumpCactpot>(module) {
     private readonly Dictionary<int, TextNode> statusNodes = [];
     private readonly JumpCactpot module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var index in Enumerable.Range(0, 3)) {
 
             TextNode statusNode;

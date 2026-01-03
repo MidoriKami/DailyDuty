@@ -11,7 +11,7 @@ namespace DailyDuty.Features.FashionReport;
 public class ConfigNode(FashionReport module) : ConfigNodeBase<FashionReport>(module) {
     private readonly FashionReport module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode(new HorizontalListNode {
             Height = 28.0f,
             InitialNodes = [

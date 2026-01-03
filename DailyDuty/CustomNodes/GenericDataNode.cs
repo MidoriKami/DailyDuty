@@ -7,21 +7,20 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.CustomNodes;
 
 public class GenericDataNode : SimpleComponentNode {
-    private readonly ScrollingAreaNode<TabbedVerticalListNode> statusNode;
+    private readonly ScrollingListNode statusNode;
     
     private readonly TextNode statusTextNode;
     private readonly TextNode resetTimeTextNode;
     private readonly TextNode timeRemainingTextNode;
 
     public GenericDataNode() {
-        statusNode = new ScrollingAreaNode<TabbedVerticalListNode> {
-            ContentHeight = 1000.0f,
+        statusNode = new ScrollingListNode {
             AutoHideScrollBar = true,
         };
-        statusNode.ContentNode.FitWidth = true;
+        statusNode.FitWidth = true;
         statusNode.AttachNode(this);
         
-        statusNode.ContentNode.AddNode([
+        statusNode.AddNode([
             new CategoryHeaderNode {
                 Label = "Module Status",
                 Alignment = AlignmentType.Bottom,
@@ -58,7 +57,7 @@ public class GenericDataNode : SimpleComponentNode {
         base.OnSizeChanged();
 
         statusNode.Size = Size;
-        statusNode.ContentNode.RecalculateLayout();
+        statusNode.RecalculateLayout();
     }
 
     public void Update(ModuleBase module) {

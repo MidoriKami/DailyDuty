@@ -8,7 +8,7 @@ namespace DailyDuty.Features.WondrousTails;
 public class ConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(module) {
     private readonly WondrousTails module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         var originalColor = module.ModuleConfig.DutyFinderColor;
         
         container.AddNode([

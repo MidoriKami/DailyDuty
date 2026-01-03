@@ -9,7 +9,7 @@ public class DataNode(FauxHollows module) : DataNodeBase<FauxHollows>(module) {
     private readonly FauxHollows module = module;
     private TextNode? statusNode;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalListNode {
                 FitToContentHeight = true,

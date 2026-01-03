@@ -10,7 +10,7 @@ public unsafe class DataNode(CustomDelivery module) : DataNodeBase<CustomDeliver
 
     private TextNode? allowancesTextNode;
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode(new HorizontalListNode {
             FitToContentHeight = true,
             ItemSpacing = 4.0f,

@@ -9,7 +9,7 @@ public class ConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(modu
     private readonly DutyRoulette module = module;
     private LuminaMultiSelectWindow<ContentRoulette>? luminaSelectionWindow;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new CheckboxNode {
                 Height = 24.0f,

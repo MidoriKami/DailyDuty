@@ -15,7 +15,7 @@ public class DataNode(DomanEnclave module) : DataNodeBase<DomanEnclave>(module) 
     private TextNode? allowanceRemaining;
     private TextNode? warningText;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalListNode {
                 FitToContentHeight = true,

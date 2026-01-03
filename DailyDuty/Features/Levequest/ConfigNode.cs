@@ -11,7 +11,7 @@ namespace DailyDuty.Features.Levequest;
 public class ConfigNode(Levequest module) : ConfigNodeBase<Levequest>(module) {
     private readonly Levequest module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode(new HorizontalFlexNode {
             Height = 28.0f,
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,

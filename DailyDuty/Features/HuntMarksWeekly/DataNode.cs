@@ -12,7 +12,7 @@ public class DataNode(HuntMarksWeekly module) : DataNodeBase<HuntMarksWeekly>(mo
     
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var contentsRow in Services.DataManager.GetExcelSheet<MobHuntOrderType>()) {
             if (contentsRow is not { EventItem.ValueNullable.Name.ByteLength: > 0 } ) continue;
             if (contentsRow.Type is not 2) continue;

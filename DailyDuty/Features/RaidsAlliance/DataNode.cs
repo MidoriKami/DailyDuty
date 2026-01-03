@@ -12,7 +12,7 @@ public class DataNode(RaidsAlliance module) : DataNodeBase<RaidsAlliance>(module
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     private readonly RaidsAlliance module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var (cfc, _) in module.ModuleData.TaskStatus) {
             var text = Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(cfc).Name.ToString();
 

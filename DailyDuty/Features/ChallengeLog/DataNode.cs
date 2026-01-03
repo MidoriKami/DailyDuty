@@ -12,9 +12,9 @@ public class DataNode(ChallengeLog module) : DataNodeBase<ChallengeLog>(module) 
 
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var contentsRow in Services.DataManager.GetExcelSheet<ContentsNote>()) {
-            if (contentsRow is not { Name.ByteLength: > 0 } ) continue;
+            if (contentsRow is not { Name: { IsEmpty: false } name } ) continue;
 
             container.ItemSpacing = 6.0f;
 
@@ -33,7 +33,7 @@ public class DataNode(ChallengeLog module) : DataNodeBase<ChallengeLog>(module) 
                         Size = new Vector2(225.0f, 28.0f),
                         TextFlags = TextFlags.Ellipsis,
                         AlignmentType = AlignmentType.Left,
-                        String = contentsRow.Name.ToString(),
+                        SeString = name,
                     },
                     statusNode = new TextNode {
                         Size = new Vector2(100.0f, 28.0f),

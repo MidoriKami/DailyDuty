@@ -11,21 +11,19 @@ namespace DailyDuty.Windows;
 public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRow<T> {
 
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
-        var scrollable = new ScrollingAreaNode<VerticalListNode> {
-            ContentHeight = ContentSize.Y,
+        var scrollable = new ScrollingListNode {
             AutoHideScrollBar = true,
             Size = ContentSize,
             Position = ContentStartPosition,
         };
 
-        scrollable.ContentNode.FitWidth = true;
-        scrollable.ContentNode.FitContents = true;
-        scrollable.ContentNode.RecalculateLayout();
+        scrollable.FitWidth = true;
+        scrollable.FitContents = true;
 
         foreach (var option in Services.DataManager.GetExcelSheet<T>().Where(option => FilterFunc?.Invoke(option) ?? true)) {
             if (GetLabelFunc?.Invoke(option) is not { Length: > 0 } name) continue;
             
-            scrollable.ContentNode.AddNode(new CheckboxNode {
+            scrollable.AddNode(new CheckboxNode {
                 Height = 24.0f,
                 String = name,
                 IsChecked = Options.Contains(option.RowId),
@@ -33,8 +31,7 @@ public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRo
             });
         }
 
-        scrollable.ContentHeight = scrollable.ContentNode.Height;
-        
+        scrollable.RecalculateLayout();
         scrollable.AttachNode(this);
     }
 

@@ -11,7 +11,7 @@ namespace DailyDuty.Features.CustomDelivery;
 public class ConfigNode(CustomDelivery module) : ConfigNodeBase<CustomDelivery>(module) {
     private readonly CustomDelivery module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode(new HorizontalFlexNode {
             Height = 28.0f,
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,

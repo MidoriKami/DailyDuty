@@ -11,7 +11,7 @@ public class DataNode(GrandCompanySupply module) : DataNodeBase<GrandCompanySupp
 
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var (job, _) in module.ModuleData.ClassJobStatus) {
             var classJob = Services.DataManager.GetExcelSheet<ClassJob>().GetRow(job);
 

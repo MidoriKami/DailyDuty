@@ -8,7 +8,7 @@ namespace DailyDuty.Features.RaidsNormal;
 public class ConfigNode(RaidsNormal module) : ConfigNodeBase<RaidsNormal>(module) {
     private readonly RaidsNormal module = module;
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         if (module.ModuleConfig.TrackedTasks.Count is 0) {
             container.AddNode(new HorizontalListNode {
                 Height = 56.0f,

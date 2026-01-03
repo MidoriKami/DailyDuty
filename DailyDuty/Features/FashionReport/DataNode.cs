@@ -14,7 +14,7 @@ public class DataNode(FashionReport module) : DataNodeBase<FashionReport>(module
     private TextNode? highestScore;
     private TextNode? fashionReportAvailable;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalListNode {
                 FitToContentHeight = true,

@@ -76,6 +76,10 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     }
 
     private static void OnLogin() {
+
+        // I hate that this is necessary to recover from DDOS' DC's
+        // OnLogout(0, 0); 
+        
         System.SystemConfig = SystemConfig.Load();
         System.ModuleManager.LoadModules();
     }

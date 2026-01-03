@@ -10,7 +10,7 @@ public class ConfigNode(ChallengeLog module) : ConfigNodeBase<ChallengeLog>(modu
 
     private LuminaMultiSelectWindow<ContentsNote>? luminaSelectionWindow;
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new CheckboxNode {
                 Height = 24.0f,

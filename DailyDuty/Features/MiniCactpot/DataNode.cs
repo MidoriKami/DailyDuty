@@ -10,7 +10,7 @@ public class DataNode(MiniCactpot module) : DataNodeBase<MiniCactpot>(module) {
     private TextNode? attemptsNode;
     private readonly MiniCactpot module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalFlexNode {
                 Height = 28.0f,

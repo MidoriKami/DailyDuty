@@ -10,7 +10,7 @@ public unsafe class DataNode(TribalQuests module) : DataNodeBase<TribalQuests>(m
 
     private TextNode? allowancesNode;
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalFlexNode {
                 Height = 28.0f,

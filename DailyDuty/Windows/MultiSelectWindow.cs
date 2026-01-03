@@ -8,19 +8,17 @@ namespace DailyDuty.Windows;
 
 public class MultiSelectWindow : NativeAddon {
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
-        var scrollable = new ScrollingAreaNode<VerticalListNode> {
-            ContentHeight = ContentSize.Y,
+        var scrollable = new ScrollingListNode {
             AutoHideScrollBar = true,
             Size = ContentSize,
             Position = ContentStartPosition,
         };
 
-        scrollable.ContentNode.FitWidth = true;
-        scrollable.ContentNode.FitContents = true;
-        scrollable.ContentNode.RecalculateLayout();
+        scrollable.FitWidth = true;
+        scrollable.FitContents = true;
 
         foreach (var option in Options) {
-            scrollable.ContentNode.AddNode(new CheckboxNode {
+            scrollable.AddNode(new CheckboxNode {
                 Height = 24.0f,
                 String = option,
                 IsChecked = SelectedOptions.Contains(option),
@@ -28,8 +26,7 @@ public class MultiSelectWindow : NativeAddon {
             });
         }
 
-        scrollable.ContentHeight = scrollable.ContentNode.Height;
-        
+        scrollable.RecalculateLayout();
         scrollable.AttachNode(this);
     }
 

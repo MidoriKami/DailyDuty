@@ -11,7 +11,7 @@ public unsafe class DataNode(Levequest module) : DataNodeBase<Levequest>(module)
     private TextNode? allowancesNode;
     private TextNode? acceptedNode;
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalFlexNode {
                 Height = 28.0f,

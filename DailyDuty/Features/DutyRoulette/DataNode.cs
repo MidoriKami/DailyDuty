@@ -12,7 +12,7 @@ public unsafe class DataNode(DutyRoulette module) : DataNodeBase<DutyRoulette>(m
     
     private readonly Dictionary<uint, TextNode> statusNodes = [];
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         foreach (var roulette in Services.DataManager.GetExcelSheet<ContentRoulette>()) {
             if (roulette is not { Name.ByteLength: > 0, ContentRouletteRoleBonus.RowId: not 0 }) continue;
             

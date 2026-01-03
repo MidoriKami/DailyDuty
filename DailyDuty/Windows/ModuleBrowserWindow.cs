@@ -20,6 +20,7 @@ public class ModuleBrowserWindow : NativeAddon {
     private TextNode? selectOptionLabelNode;
 
     private ModuleOptionNode? selectedOption;
+    private DataNodeTab dataTabSelected;
 
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
         statusNode = null;
@@ -135,8 +136,14 @@ public class ModuleBrowserWindow : NativeAddon {
 
     private void AttachStatusNode(DataNodeBase node) {
         if (contentsNode is null) return;
-        
+
         SelectOptionNode(node);
+
+        node.SelectTab(dataTabSelected);
+        
+        node.TabSelected = tab => {
+            dataTabSelected = tab;
+        };
 
         node.Size = contentsNode.Size;
         node.AttachNode(contentsNode);

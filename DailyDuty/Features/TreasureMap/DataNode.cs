@@ -10,7 +10,7 @@ public class DataNode(TreasureMap module) : DataNodeBase<TreasureMap>(module) {
     private TextNode? lastGatheredTime;
     private readonly TreasureMap module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalFlexNode {
                 Height = 28.0f,

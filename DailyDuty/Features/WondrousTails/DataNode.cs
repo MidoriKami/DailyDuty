@@ -15,7 +15,7 @@ public class DataNode(WondrousTails module) : DataNodeBase<WondrousTails>(module
     private TextNode? newBookAvailable;
     private TextNode? isExpired;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new HorizontalFlexNode {
                 Height = 28.0f,

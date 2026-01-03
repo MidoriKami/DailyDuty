@@ -10,7 +10,7 @@ public class ConfigNode(MaskedCarnivale module) : ConfigNodeBase<MaskedCarnivale
 
     private LuminaMultiSelectWindow<Addon>? luminaSelectionWindow;
     
-    protected override void BuildNode(VerticalListNode container) {
+    protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new TextButtonNode {
                 Height = 24.0f,
