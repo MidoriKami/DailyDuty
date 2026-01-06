@@ -127,7 +127,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         configWindow = null;
     }
 
-    protected override void Update() {
+    protected override void OnUpdate() {
         if (Config.AttachToQuestList) {
             var todoAddon = RaptureAtkUnitManager.Instance()->GetAddonByName("_ToDoList");
             if (todoAddon is not null) {

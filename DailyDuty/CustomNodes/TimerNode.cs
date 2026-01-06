@@ -90,7 +90,7 @@ public sealed class TimerNode : OverlayNode {
         progressBarNode.Position = new Vector2(0.0f, Height / 2.0f);
     }
     
-    protected override void Update() {
+    protected override void OnUpdate() {
         var timeRemaining = Module.DataBase.NextReset - DateTime.UtcNow;
         var timerPeriod = Module.GetResetPeriod();
         var percentage = 1.0f - (float) (timeRemaining / timerPeriod);
