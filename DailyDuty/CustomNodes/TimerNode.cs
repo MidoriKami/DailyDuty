@@ -5,6 +5,7 @@ using DailyDuty.Classes;
 using DailyDuty.Features.TimersOverlay;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Overlay;
@@ -109,7 +110,7 @@ public sealed class TimerNode : OverlayNode {
         IsVisible = !shouldHide;
     }
     
-    private void EditComplete() {
+    private void EditComplete(NodeBase nodeBase) {
         TimerConfig.TimerData[Module.Name].Position = Position;
         TimerConfig.MarkDirty();
     }

@@ -88,7 +88,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         };
         collapseButton.AttachNode(this);
         
-        OnMoveComplete = () => {
+        OnMoveComplete = _ => {
             Config?.Position = Position;
             ModuleConfig?.MarkDirty();
         };
