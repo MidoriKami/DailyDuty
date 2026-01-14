@@ -22,7 +22,7 @@ public unsafe class CustomDelivery : Module<Config, DataBase> {
     public override ConfigNodeBase ConfigNode => new ConfigNode(this);
     
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances} Custom Deliveries Available";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Custom Deliveries Available";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
@@ -37,5 +37,5 @@ public unsafe class CustomDelivery : Module<Config, DataBase> {
         _ => CompletionStatus.Incomplete,
     };
     
-    private static int RemainingAllowances =>  SatisfactionSupplyManager.Instance()->GetRemainingAllowances();
+    private static int RemainingAllowances => SatisfactionSupplyManager.Instance()->GetRemainingAllowances();
 }

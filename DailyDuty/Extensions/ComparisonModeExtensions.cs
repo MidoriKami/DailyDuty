@@ -8,7 +8,7 @@ public static class ComparisonModeExtensions {
     extension(ComparisonMode mode) {
         public string Description => mode switch {
             ComparisonMode.Below => "Below",
-            ComparisonMode.Equal => "Equal",
+            ComparisonMode.Equal => "Not Equal",
             ComparisonMode.Above => "Above",
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
