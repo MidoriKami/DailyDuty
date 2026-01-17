@@ -15,7 +15,7 @@ using ValueType = FFXIVClientStructs.FFXIV.Component.GUI.ValueType;
 
 namespace DailyDuty.Features.MaskedCarnivale;
 
-public unsafe class MaskedCarnivale : Module<Config, Data> {
+public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Masked Carnivale",
         FileName = "MaskedCarnivale",
@@ -26,11 +26,11 @@ public unsafe class MaskedCarnivale : Module<Config, Data> {
         Tags = [ "Teleport", "Tickets", "Seals" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new MaskedCarnivaleDataNode(this);
+    public override ConfigNodeBase ConfigNode => new MaskedCarnivaleConfigNode(this);
 
-    protected override Config MigrateConfig(JObject objectData)
-        => Migration.Migrate(objectData);
+    protected override MaskedCarnivaleConfig MigrateConfig(JObject objectData)
+        => MaskedCarnivaleMigration.Migrate(objectData);
     
     protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AozContentResultPostSetup);

@@ -23,19 +23,19 @@ public unsafe class TodoOverlay : FeatureBase {
 
     private OverlayController? overlayController;
     
-    public Config ModuleConfig = null!;
-    public override NodeBase DisplayNode => new ConfigNode(this);
+    public TodoOverlayConfig ModuleTodoOverlayConfig = null!;
+    public override NodeBase DisplayNode => new TodoOverlayConfigNode(this);
 
     protected override void OnFeatureLoad() {
-        ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
-        if (ModuleConfig is null) throw new Exception("Failed to load config file");
+        ModuleTodoOverlayConfig = Utilities.Config.LoadCharacterConfig<TodoOverlayConfig>($"{ModuleInfo.FileName}.config.json");
+        if (ModuleTodoOverlayConfig is null) throw new Exception("Failed to load config file");
         
-        ModuleConfig.FileName = ModuleInfo.FileName;
+        ModuleTodoOverlayConfig.FileName = ModuleInfo.FileName;
         System.ModuleManager.OnLoadComplete += RebuildPanels;
     }
 
     protected override void OnFeatureUnload() {
-        ModuleConfig = null!;
+        ModuleTodoOverlayConfig = null!;
     }
 
     protected override void OnFeatureEnable() {
@@ -50,9 +50,9 @@ public unsafe class TodoOverlay : FeatureBase {
     }
     
     protected override void OnFeatureUpdate() {
-        if (ModuleConfig.SavePending) {
+        if (ModuleTodoOverlayConfig.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            ModuleConfig.Save();
+            ModuleTodoOverlayConfig.Save();
         }
     }
     
@@ -63,21 +63,21 @@ public unsafe class TodoOverlay : FeatureBase {
         overlayController?.RemoveAllNodes();
         if (!IsEnabled) return;
 
-        foreach (var (index, option) in ModuleConfig.Panels.Index()) {
+        foreach (var (index, option) in ModuleTodoOverlayConfig.Panels.Index()) {
 
             if (option.Position is null) {
                 var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 4.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
                 var offset = new Vector2(300.0f, 0.0f) * index;
                 
                 option.Position = position + offset;
-                ModuleConfig.MarkDirty();
+                ModuleTodoOverlayConfig.MarkDirty();
             }
             
             overlayController?.CreateNode(() => new TodoPanelNode {
                 Position = option.Position.Value,
                 Size = new Vector2(200.0f, 200.0f),
                 Config = option,
-                ModuleConfig = ModuleConfig,
+                ModuleTodoOverlayConfig = ModuleTodoOverlayConfig,
             });
         }
     }

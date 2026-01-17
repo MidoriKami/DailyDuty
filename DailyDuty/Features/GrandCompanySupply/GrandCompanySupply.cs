@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.GrandCompanySupply;
 
-public unsafe class GrandCompanySupply : Module<Config, Data> {
+public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandCompanySupplyData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Grand Company Supply",
         FileName = "GrandCompanySupply",
@@ -22,11 +22,11 @@ public unsafe class GrandCompanySupply : Module<Config, Data> {
         Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new GrandCompanySupplyDataNode(this);
+    public override ConfigNodeBase ConfigNode => new GrandCompanySupplyConfigNode(this);
 
-    protected override Config MigrateConfig(JObject objectData)
-        => Migration.Migrate(objectData);
+    protected override GrandCompanySupplyConfig MigrateConfig(JObject objectData)
+        => GrandCompanySupplyMigration.Migrate(objectData);
     
     protected override StatusMessage GetStatusMessage()
         => $"{GetIncompleteCount()} Deliveries Available";

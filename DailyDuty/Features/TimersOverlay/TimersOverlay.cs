@@ -26,19 +26,19 @@ public unsafe class TimersOverlay : FeatureBase {
     private MultiSelectWindow? moduleSelectionWindow;
     private OverlayController? overlayController;
     
-    public Config ModuleConfig = null!;
-    public override NodeBase DisplayNode => new ConfigNode(this);
+    public TimersOverlayConfig ModuleTimersOverlayConfig = null!;
+    public override NodeBase DisplayNode => new TimersOverlayConfigNode(this);
 
     protected override void OnFeatureLoad() {
-        ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
-        if (ModuleConfig is null) throw new Exception("Failed to load config file");
+        ModuleTimersOverlayConfig = Utilities.Config.LoadCharacterConfig<TimersOverlayConfig>($"{ModuleInfo.FileName}.config.json");
+        if (ModuleTimersOverlayConfig is null) throw new Exception("Failed to load config file");
         
-        ModuleConfig.FileName = ModuleInfo.FileName;
+        ModuleTimersOverlayConfig.FileName = ModuleInfo.FileName;
         System.ModuleManager.OnLoadComplete += RebuildTimers;
     }
 
     protected override void OnFeatureUnload() {
-        ModuleConfig = null!;
+        ModuleTimersOverlayConfig = null!;
     }
 
     protected override void OnFeatureEnable() {
@@ -53,22 +53,22 @@ public unsafe class TimersOverlay : FeatureBase {
                     .Where(loadedModule => loadedModule.FeatureBase.ModuleInfo.Type is not ModuleType.GeneralFeatures)
                     .Select(loadedModule => loadedModule.Name)
                     .ToList(),
-                SelectedOptions = ModuleConfig.EnabledTimers,
+                SelectedOptions = ModuleTimersOverlayConfig.EnabledTimers,
                 InternalName = "TimersSelection",
                 Title = "Timer Selection",
                 OnEdited = () => {
-                    foreach (var (index, option) in ModuleConfig.EnabledTimers.Index()) {
-                        if (!ModuleConfig.TimerData.ContainsKey(option)) {
+                    foreach (var (index, option) in ModuleTimersOverlayConfig.EnabledTimers.Index()) {
+                        if (!ModuleTimersOverlayConfig.TimerData.ContainsKey(option)) {
                             var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 2.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
                             var offset = new Vector2(0.0f, 68.0f) * index;
                         
-                            ModuleConfig.TimerData.TryAdd(option, new TimerData {
+                            ModuleTimersOverlayConfig.TimerData.TryAdd(option, new TimersOverlayTimerData {
                                 Position = position + offset,
                             });
                         }
                     }
 
-                    ModuleConfig.MarkDirty();
+                    ModuleTimersOverlayConfig.MarkDirty();
                     RebuildTimers();
                 },
             };
@@ -88,9 +88,9 @@ public unsafe class TimersOverlay : FeatureBase {
     }
     
     protected override void OnFeatureUpdate() {
-        if (ModuleConfig.SavePending) {
+        if (ModuleTimersOverlayConfig.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            ModuleConfig.Save();
+            ModuleTimersOverlayConfig.Save();
         }
     }
     
@@ -101,13 +101,13 @@ public unsafe class TimersOverlay : FeatureBase {
         overlayController?.RemoveAllNodes();
         if (!IsEnabled) return;
 
-        foreach (var (index, option) in ModuleConfig.EnabledTimers.Index()) {
+        foreach (var (index, option) in ModuleTimersOverlayConfig.EnabledTimers.Index()) {
             var loadedModule = System.ModuleManager.LoadedModules?.FirstOrDefault(loadedModule => loadedModule.Name == option);
             if (loadedModule?.FeatureBase is not ModuleBase module) continue;
             
             Vector2 initialPosition;
 
-            if (ModuleConfig.TimerData.TryGetValue(option, out var data)) {
+            if (ModuleTimersOverlayConfig.TimerData.TryGetValue(option, out var data)) {
                 initialPosition = data.Position;
             }
             else {
@@ -120,7 +120,7 @@ public unsafe class TimersOverlay : FeatureBase {
             overlayController?.CreateNode(() => new TimerNode {
                 Size = new Vector2(300.0f, 64.0f),
                 Position = initialPosition,
-                TimerConfig = ModuleConfig,
+                TimerTimersOverlayConfig = ModuleTimersOverlayConfig,
                 Module = module,
             });
         }

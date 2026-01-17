@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Text.Json.Serialization;
 using KamiToolKit.Classes;
+using KamiToolKit.Enums;
 
 namespace DailyDuty.Features.TodoOverlay;
 

@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Classes;
+using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.CustomNodes;
@@ -24,7 +24,7 @@ public class WondrousTailsNode : SimpleComponentNode {
         };
 
         background.ShowClickableCursor = true;
-        background.AddFlags(NodeFlags.HasCollision, NodeFlags.IsTopNode);
+        background.AddNodeFlags(NodeFlags.HasCollision, NodeFlags.IsTopNode);
         background.TextTooltip = "[DailyDuty] This duty is a Wondrous Tails task";
         
 		background.AttachNode(this);

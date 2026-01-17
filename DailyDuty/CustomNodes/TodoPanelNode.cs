@@ -7,6 +7,7 @@ using DailyDuty.Features.TodoOverlay;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
+using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using KamiToolKit.Overlay;
 using KamiToolKit.Extensions;
@@ -24,10 +25,10 @@ public unsafe class TodoPanelNode : OverlayNode {
     private readonly CircleButtonNode configButton;
     private readonly CircleButtonNode collapseButton;
     
-    private PanelConfigWindow? configWindow;
+    private TodoOverlayPanelConfigWindow? configWindow;
 
     public required TodoPanelConfig Config { get; init; }
-    public required Config ModuleConfig { get; init; }
+    public required TodoOverlayConfig ModuleTodoOverlayConfig { get; init; }
     
     public TodoPanelNode() {
         frame = new WindowBackgroundNode(false) {
@@ -83,14 +84,14 @@ public unsafe class TodoPanelNode : OverlayNode {
             Icon = ButtonIcon.Eye,
             OnClick = () => {
                 Config?.IsCollapsed = !Config.IsCollapsed;
-                ModuleConfig?.MarkDirty();
+                ModuleTodoOverlayConfig?.MarkDirty();
             },
         };
         collapseButton.AttachNode(this);
         
         OnMoveComplete = _ => {
             Config?.Position = Position;
-            ModuleConfig?.MarkDirty();
+            ModuleTodoOverlayConfig?.MarkDirty();
         };
     }
 
@@ -177,7 +178,7 @@ public unsafe class TodoPanelNode : OverlayNode {
     
     private void OpenConfig() {
         configWindow?.Dispose();
-        configWindow = new PanelConfigWindow(ModuleConfig, Config) {
+        configWindow = new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {
             Size = new Vector2(575.0f, 500.0f),
             InternalName = "TodoListPanelConfig",
             Title = $"{Config.Label} Panel Config",

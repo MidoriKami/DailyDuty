@@ -11,7 +11,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Features.JumboCactpot;
 
-public unsafe class JumpCactpot : Module<ConfigBase, Data> {
+public unsafe class JumpCactpot : Module<ConfigBase, JumboCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Jumbo Cactpot",
         FileName = "JumboCactpot",
@@ -22,7 +22,7 @@ public unsafe class JumpCactpot : Module<ConfigBase, Data> {
         Tags = [ "MGP" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
+    public override DataNodeBase DataNode => new JumboCactpotDataNode(this);
     private Hook<AgentInterface.Delegates.ReceiveEvent>? onReceiveEventHook;
     private int ticketData = -1;
 

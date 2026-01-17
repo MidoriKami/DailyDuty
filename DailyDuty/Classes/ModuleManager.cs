@@ -183,8 +183,11 @@ public unsafe class ModuleManager : IDisposable {
         => System.ModuleManager.LoadedModules?
                .Where(module => module.FeatureBase.ModuleInfo.Type is not (ModuleType.GeneralFeatures or ModuleType.Hidden)) ?? [];
 
-    public ModuleBase? GetModule(string name)
-        => loadedModulesByName?[name].FeatureBase as ModuleBase;
+    public ModuleBase? GetModule(string name) {
+        if (loadedModulesByName is null) return null;
+        if (!loadedModulesByName.TryGetValue(name, out var module)) return null;
+        return module.FeatureBase as ModuleBase;
+    }
 
     private static List<FeatureBase> GetModuleTypes() => Assembly
         .GetCallingAssembly()

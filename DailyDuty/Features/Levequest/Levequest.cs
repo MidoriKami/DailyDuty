@@ -7,7 +7,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.Levequest;
 
-public unsafe class Levequest : Module<Config, DataBase> {
+public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Levequest",
         FileName = "Levequest",
@@ -18,8 +18,8 @@ public unsafe class Levequest : Module<Config, DataBase> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new LevequestDataNode(this);
+    public override ConfigNodeBase ConfigNode => new LevequestConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
         => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Allowances Remaining";

@@ -7,7 +7,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.TribalQuests;
 
-public unsafe class TribalQuests : Module<Config, DataBase> {
+public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Tribal Quests",
         FileName = "TribalQuests",
@@ -18,8 +18,8 @@ public unsafe class TribalQuests : Module<Config, DataBase> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new TribalQuestsDataNode(this);
+    public override ConfigNodeBase ConfigNode => new TribalQuestsConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
         => $"{RemainingAllowances} Quests Remaining";

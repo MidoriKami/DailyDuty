@@ -11,7 +11,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
     public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Services>();
 
-        KamiToolKitLibrary.Initialize(pluginInterface);
+        KamiToolKitLibrary.Initialize(pluginInterface, "DailyDuty");
 
         System.ConfigurationWindow = new ModuleBrowserWindow {
             InternalName = "DailyDutyConfig",

@@ -80,7 +80,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         };
         configButtonNode.AttachNode(this);
 
-        CollisionNode.DrawFlags = DrawFlags.ClickableCursor;
+        CollisionNode.ShowClickableCursor = true;
         
         CollisionNode.AddEvent(AtkEventType.MouseOver, () => {
             if (!IsSelected) {

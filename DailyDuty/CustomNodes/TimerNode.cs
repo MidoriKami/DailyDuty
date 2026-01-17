@@ -6,7 +6,7 @@ using DailyDuty.Features.TimersOverlay;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
-using KamiToolKit.Classes;
+using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using KamiToolKit.Overlay;
 
@@ -20,7 +20,7 @@ public sealed class TimerNode : OverlayNode {
 	private readonly TextNineGridNode timeRemainingNode;
 	private readonly TextNode tooltipNode;
 
-    public required Config TimerConfig { get; init; }
+    public required TimersOverlayConfig TimerTimersOverlayConfig { get; init; }
 
     public required ModuleBase Module {
         get;
@@ -97,21 +97,21 @@ public sealed class TimerNode : OverlayNode {
         var percentage = 1.0f - (float) (timeRemaining / timerPeriod);
 
         progressBarNode.Progress = percentage;
-        progressBarNode.BarColor = TimerConfig.TimerData[Module.Name].Color;
-        timeRemainingNode.String = timeRemaining.FormatTimespan(TimerConfig.HideTimerSeconds);
-        EnableMoving = TimerConfig.EnableMovingTimers;
-        Scale = new Vector2(TimerConfig.Scale, TimerConfig.Scale);
-        moduleNameNode.IsVisible = TimerConfig.ShowLabel;
-        timeRemainingNode.IsVisible = TimerConfig.ShowCountdownText;
+        progressBarNode.BarColor = TimerTimersOverlayConfig.TimerData[Module.Name].Color;
+        timeRemainingNode.String = timeRemaining.FormatTimespan(TimerTimersOverlayConfig.HideTimerSeconds);
+        EnableMoving = TimerTimersOverlayConfig.EnableMovingTimers;
+        Scale = new Vector2(TimerTimersOverlayConfig.Scale, TimerTimersOverlayConfig.Scale);
+        moduleNameNode.IsVisible = TimerTimersOverlayConfig.ShowLabel;
+        timeRemainingNode.IsVisible = TimerTimersOverlayConfig.ShowCountdownText;
 
-        var shouldHide = TimerConfig.HideInDuties && Services.Condition.IsBoundByDuty;
-        shouldHide |= TimerConfig.HideInQuestEvents && Services.Condition.IsInQuestEvent;
+        var shouldHide = TimerTimersOverlayConfig.HideInDuties && Services.Condition.IsBoundByDuty;
+        shouldHide |= TimerTimersOverlayConfig.HideInQuestEvents && Services.Condition.IsInQuestEvent;
         
         IsVisible = !shouldHide;
     }
     
     private void EditComplete(NodeBase nodeBase) {
-        TimerConfig.TimerData[Module.Name].Position = Position;
-        TimerConfig.MarkDirty();
+        TimerTimersOverlayConfig.TimerData[Module.Name].Position = Position;
+        TimerTimersOverlayConfig.MarkDirty();
     }
 }

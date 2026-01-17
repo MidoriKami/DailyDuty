@@ -4,6 +4,7 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiToolKit;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.CustomNodes;
@@ -19,7 +20,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     private readonly CategoryHeaderNode categoryHeaderNode;
 
     private readonly SimpleComponentNode footerNode;
-    private readonly ScrollingListNode dataNode;
+    private readonly NodeBase dataNode;
     private readonly TextButtonNode changeLogButtonNode;
     private readonly TextButtonNode snoozeButtonNode;
     private readonly TextNode versionNode;
@@ -27,7 +28,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     private readonly SimpleComponentNode dataContentSection;
     private readonly GenericDataNode statusDisplayNode;
 
-    public DataNodeBase(T module) {
+    protected DataNodeBase(T module) {
         this.module = module;
         
         tabBarNode = new TabBarNode();
@@ -48,12 +49,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         };
         categoryHeaderNode.AttachNode(dataContentSection);
 
-        dataNode = new ScrollingListNode {
-            AutoHideScrollBar = true,
-            FitContents = true,
-            FitWidth = true,
-        };
-        AttachDataNode(dataNode);
+        dataNode = GetDataNode();
         dataNode.AttachNode(dataContentSection);
 
         footerNode = new SimpleComponentNode();
@@ -106,7 +102,10 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         
         dataNode.Size = new Vector2(dataContentSection.Width, dataContentSection.Height - categoryHeaderNode.Height - padding);
         dataNode.Position = new Vector2(0.0f, categoryHeaderNode.Bounds.Bottom + padding);
-        // Maybe DataNode.RecalculateLayout() ?, seems unnecessary
+
+        if (dataNode is LayoutListNode layoutNode) {
+            layoutNode.RecalculateLayout();
+        }
         
         changeLogButtonNode.Size = buttonSize;
         changeLogButtonNode.Position = Vector2.Zero;
@@ -164,23 +163,11 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         module.ConfigBase.MarkDirty();
     }
 
-    protected abstract void BuildNode(ScrollingListNode container);
-    
-    private void AttachDataNode(ScrollingListNode container) {
-        var childCount = container.Nodes.Count;
-        BuildNode(container);
-        var newCount = container.Nodes.Count;
+    protected abstract NodeBase BuildDataNode();
 
-        if (childCount == newCount) {
-            container.AddNode(new TextNode {
-                String = "No data available for this module",
-                AlignmentType = AlignmentType.Bottom,
-                Height = 32.0f,
-            });
-        }
-        
-        container.RecalculateLayout();
-    }
+    // Workaround for complaining about virtual call in ctor,
+    // When BuildDataNode does not require child class to be constructed first.
+    private NodeBase GetDataNode() => BuildDataNode();
 
     public sealed override Action<DataNodeTab>? TabSelected { get; set; }
 

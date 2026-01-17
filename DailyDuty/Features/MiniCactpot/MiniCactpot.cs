@@ -10,7 +10,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.Features.MiniCactpot;
 
-public unsafe class MiniCactpot : Module<ConfigBase, Data> {
+public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Mini Cactpot",
         FileName = "MiniCactpot",
@@ -21,7 +21,7 @@ public unsafe class MiniCactpot : Module<ConfigBase, Data> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
+    public override DataNodeBase DataNode => new MiniCactpotDataNode(this);
 
     protected override void OnModuleEnable() {
          Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);

@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.ChallengeLog;
 
-public class ChallengeLog : Module<Config, DataBase> {
+public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Challenge Log",
         FileName = "ChallengeLog",
@@ -26,11 +26,11 @@ public class ChallengeLog : Module<Config, DataBase> {
     };
 
     private Stopwatch? contentsFinderStopwatch;
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new ChallengeLogDataNode(this);
+    public override ConfigNodeBase ConfigNode => new ChallengeLogConfigNode(this);
 
-    protected override Config MigrateConfig(JObject objectData)
-        => Migration.Migrate(objectData);
+    protected override ChallengeLogConfig MigrateConfig(JObject objectData)
+        => ChallengeLogMigration.Migrate(objectData);
 
     protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);

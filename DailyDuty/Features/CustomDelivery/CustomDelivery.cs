@@ -7,7 +7,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.CustomDelivery;
 
-public unsafe class CustomDelivery : Module<Config, DataBase> {
+public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Custom Delivery",
         FileName = "CustomDelivery",
@@ -18,8 +18,8 @@ public unsafe class CustomDelivery : Module<Config, DataBase> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new CustomDeliveryDataNode(this);
+    public override ConfigNodeBase ConfigNode => new CustomDeliveryConfigNode(this);
     
     protected override StatusMessage GetStatusMessage()
         => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Custom Deliveries Available";

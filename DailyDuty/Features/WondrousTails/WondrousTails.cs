@@ -10,7 +10,7 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 
 namespace DailyDuty.Features.WondrousTails;
 
-public unsafe class WondrousTails : Module<Config, DataBase> {
+public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Wondrous Tails",
         FileName = "MiniCactpot",
@@ -21,17 +21,17 @@ public unsafe class WondrousTails : Module<Config, DataBase> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    private DutyController? dutyController;
-    private ContentsFinderController? contentsFinderController;
+    private WondrousTailsDutyController? dutyController;
+    private WondrousTailsContentsFinderController? contentsFinderController;
     private bool closeToKhloe;
     private bool castingTeleport;
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new WondrousTailsDataNode(this);
+    public override ConfigNodeBase ConfigNode => new WondrousTailsConfigNode(this);
 
     protected override void OnModuleEnable() {
-        dutyController = new DutyController(this);
-        contentsFinderController = new ContentsFinderController(this);
+        dutyController = new WondrousTailsDutyController(this);
+        contentsFinderController = new WondrousTailsContentsFinderController(this);
     }
 
     protected override void OnModuleDisable() {

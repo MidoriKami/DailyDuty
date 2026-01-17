@@ -6,7 +6,7 @@ using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
-using KamiToolKit.Classes.Controllers;
+using KamiToolKit.Controllers;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Features.DutyFinderEnhancements;
@@ -22,22 +22,22 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
         Tags = [ "Countdown", "Reset" ],
     };
 
-    public Config ModuleConfig = null!;
+    public DutyFinderEnhancementsConfig ModuleDutyFinderEnhancementsConfig = null!;
     private AddonController<AddonContentsFinder>? addonController;
     private TextNode? timerTextNode;
     private TextButtonNode? openDailyDutyButton;
     
-    public override NodeBase DisplayNode => new ConfigNode(this);
+    public override NodeBase DisplayNode => new DutyFinderEnhancementsConfigNode(this);
     
     protected override void OnFeatureLoad() {
-        ModuleConfig = Utilities.Config.LoadCharacterConfig<Config>($"{ModuleInfo.FileName}.config.json");
-        if (ModuleConfig is null) throw new Exception("Failed to load config file");
+        ModuleDutyFinderEnhancementsConfig = Config.LoadCharacterConfig<DutyFinderEnhancementsConfig>($"{ModuleInfo.FileName}.config.json");
+        if (ModuleDutyFinderEnhancementsConfig is null) throw new Exception("Failed to load config file");
         
-        ModuleConfig.FileName = ModuleInfo.FileName;
+        ModuleDutyFinderEnhancementsConfig.FileName = ModuleInfo.FileName;
     }
 
     protected override void OnFeatureUnload() {
-        ModuleConfig = null!;
+        ModuleDutyFinderEnhancementsConfig = null!;
     }
 
     protected override void OnFeatureEnable() {
@@ -53,7 +53,7 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
                 AlignmentType = AlignmentType.Center,
                 TextTooltip = "[DailyDuty] Time until next daily reset",
                 String = "0:00:00:00",
-                TextColor = ModuleConfig.Color,
+                TextColor = ModuleDutyFinderEnhancementsConfig.Color,
                 IsVisible = false,
             };
             timerTextNode.AttachNode(targetNode);
@@ -80,15 +80,15 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
             var nextReset = Time.NextDailyReset();
             var timeRemaining = nextReset - DateTime.UtcNow;
 
-            timerTextNode?.String = timeRemaining.FormatTimeSpanShort(ModuleConfig.HideSeconds);
-            timerTextNode?.TextColor = ModuleConfig.Color;
+            timerTextNode?.String = timeRemaining.FormatTimeSpanShort(ModuleDutyFinderEnhancementsConfig.HideSeconds);
+            timerTextNode?.TextColor = ModuleDutyFinderEnhancementsConfig.Color;
 
             if (timerTextNode?.IsVisible != addon->SelectedRadioButton is 0) {
                 timerTextNode?.IsVisible = addon->SelectedRadioButton is 0;
                 addon->UpdateCollisionNodeList(false);
             }
 
-            openDailyDutyButton?.IsVisible = ModuleConfig.OpenDailyDutyButton;
+            openDailyDutyButton?.IsVisible = ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton;
         };
         
         addonController.Enable();
@@ -103,9 +103,9 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
     }
 
     protected override void OnFeatureUpdate() {
-        if (ModuleConfig.SavePending) {
+        if (ModuleDutyFinderEnhancementsConfig.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
-            ModuleConfig.Save();
+            ModuleDutyFinderEnhancementsConfig.Save();
         }
     }
 }

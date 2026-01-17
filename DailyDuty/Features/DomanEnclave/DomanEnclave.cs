@@ -7,7 +7,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.DomanEnclave;
 
-public unsafe class DomanEnclave : Module<ConfigBase, Data> {
+public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Doman Enclave",
         FileName = "DomanEnclave",
@@ -18,7 +18,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, Data> {
         Tags = [ "Money", "Gil" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
+    public override DataNodeBase DataNode => new DomanEnclaveDataNode(this);
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil Remaining",

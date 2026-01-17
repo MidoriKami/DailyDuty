@@ -8,7 +8,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.Features.FashionReport;
 
-public unsafe class FashionReport : Module<Config, Data> {
+public unsafe class FashionReport : Module<FashionReportConfig, FashionReportData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Fashion Report",
         FileName = "FashionReport",
@@ -19,8 +19,8 @@ public unsafe class FashionReport : Module<Config, Data> {
         Tags = [ "Gold Saucer", "Gold", "Saucer", "MGP" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new FashionReportDataNode(this);
+    public override ConfigNodeBase ConfigNode => new FashionReportConfigNode(this);
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = ModuleConfig.CompletionMode switch {

@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.HuntMarksDaily;
 
-public unsafe class HuntMarksDaily : Module<Config, DataBase> {
+public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Hunt Marks Daily",
         FileName = "HuntMarksDaily",
@@ -19,11 +19,11 @@ public unsafe class HuntMarksDaily : Module<Config, DataBase> {
         Tags = [ "Teleport", "Tickets" ],
     };
 
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
-    public override DataNodeBase DataNode => new DataNode(this);
+    public override ConfigNodeBase ConfigNode => new HuntMarksDailyConfigNode(this);
+    public override DataNodeBase DataNode => new HuntMarksDailyDataNode(this);
 
-    protected override Config MigrateConfig(JObject objectData)
-        => Migration.Migrate(objectData);
+    protected override HuntMarksDailyConfig MigrateConfig(JObject objectData)
+        => HuntMarksDailyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
         => $"{GetIncompleteCount()} Hunt Bills Available";

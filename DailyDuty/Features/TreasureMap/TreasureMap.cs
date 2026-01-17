@@ -10,7 +10,7 @@ using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Features.TreasureMap;
 
-public unsafe class TreasureMap : Module<ConfigBase, Data> {
+public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Treasure Map",
         FileName = "TreasureMap",
@@ -21,7 +21,7 @@ public unsafe class TreasureMap : Module<ConfigBase, Data> {
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
+    public override DataNodeBase DataNode => new TreasureMapDataNode(this);
     private List<uint> inventoryMaps = [];
     private bool gatheringStarted;
 

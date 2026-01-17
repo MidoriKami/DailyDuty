@@ -8,7 +8,7 @@ namespace DailyDuty.Features.GrandCompanySquadron;
 /// <summary>
 /// This module needs to be completely redesigned.
 /// </summary>
-public class GrandCompanySquadron : Module<ConfigBase, Data> {
+public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Grand Company Squadron",
         FileName = "GrandCompanySquadron",

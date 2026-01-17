@@ -8,7 +8,7 @@ using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 
 namespace DailyDuty.Features.FauxHollows;
 
-public class FauxHollows : Module<Config, Data> {
+public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Faux Hollows",
         FileName = "FauxHollows",
@@ -19,8 +19,8 @@ public class FauxHollows : Module<Config, Data> {
         Tags = [ "Poetics" ],
     };
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new FauxHollowsDataNode(this);
+    public override ConfigNodeBase ConfigNode => new FauxHollowsConfigNode(this);
 
     protected override void OnModuleEnable()
         => Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);

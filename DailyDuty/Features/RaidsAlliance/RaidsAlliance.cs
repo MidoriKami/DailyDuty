@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.RaidsAlliance;
 
-public unsafe class RaidsAlliance : Module<Config, Data> {
+public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Raids Alliance",
         FileName = "RaidsAlliance",
@@ -27,11 +27,11 @@ public unsafe class RaidsAlliance : Module<Config, Data> {
 
     private List<uint>? validAllianceRaids;
 
-    public override DataNodeBase DataNode => new DataNode(this);
-    public override ConfigNodeBase ConfigNode => new ConfigNode(this);
+    public override DataNodeBase DataNode => new RaidsAllianceDataNode(this);
+    public override ConfigNodeBase ConfigNode => new RaidsAllianceConfigNode(this);
 
-    protected override Config MigrateConfig(JObject objectData)
-        => Migration.Migrate(objectData);
+    protected override RaidsAllianceConfig MigrateConfig(JObject objectData)
+        => RaidsAllianceMigration.Migrate(objectData);
 
     protected override void OnModuleEnable() {
         Services.GameInventory.ItemAdded += OnItemEvent;

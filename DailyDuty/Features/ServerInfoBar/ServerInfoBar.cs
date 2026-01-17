@@ -19,7 +19,7 @@ public class ServerInfoBar : FeatureBase {
     };
 
     public ServerInfoBarConfig ModuleConfig = null!;
-    public override NodeBase DisplayNode => new ConfigNode(this);
+    public override NodeBase DisplayNode => new ServerInfoBarConfigNode(this);
     
     private IDtrBarEntry? daily;
     private IDtrBarEntry? weekly;
