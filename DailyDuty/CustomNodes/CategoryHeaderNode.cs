@@ -31,9 +31,9 @@ public sealed class CategoryHeaderNode : SimpleComponentNode {
         lineNode.Position = new Vector2(0.0f, labelNode.Height + 4.0f);
     }
 
-    public required ReadOnlySeString Label {
-        get => labelNode.SeString;
-        set => labelNode.SeString = value;
+    public required ReadOnlySeString String {
+        get => labelNode.String;
+        set => labelNode.String = value;
     }
     
     public AlignmentType Alignment {

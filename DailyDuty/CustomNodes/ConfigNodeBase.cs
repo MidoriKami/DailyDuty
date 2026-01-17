@@ -31,7 +31,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.ItemSpacing = 4.0f;
 
         configNode.AddNode(new CategoryHeaderNode {
-            Label = "Module Settings",
+            String = "Module Settings",
         });
         
         AttachDataNode(configNode);

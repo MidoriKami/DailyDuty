@@ -31,7 +31,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
                 },
             },
             new CategoryHeaderNode {
-                Label = "Tracked Challenge Log Entries",
+                String = "Tracked Challenge Log Entries",
             },
             new TextButtonNode {
                 Height = 28.0f,
@@ -39,7 +39,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
                 OnClick = OpenMainTrackingWindow,
             },
             new CategoryHeaderNode {
-                Label = "Tracked Duty Finder Warning Entries",
+                String = "Tracked Duty Finder Warning Entries",
                 Height = 40.0f,
             },
             new TextButtonNode {

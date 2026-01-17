@@ -13,7 +13,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    Label= "Feature Configuration",
+                    String= "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {

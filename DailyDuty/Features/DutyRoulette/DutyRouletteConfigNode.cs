@@ -30,7 +30,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 },
             },
             new CategoryHeaderNode {
-                Label = "Tracked Duty Finder Entries",
+                String = "Tracked Duty Finder Entries",
             },
             new TextButtonNode {
                 Height = 28.0f,

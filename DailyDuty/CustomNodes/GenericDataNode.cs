@@ -18,7 +18,7 @@ public class GenericDataNode : SimpleComponentNode {
             FitWidth = true,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    Label = "Module Status",
+                    String = "Module Status",
                     Alignment = AlignmentType.Bottom,
                 },
                 statusTextNode = new TextNode {
@@ -28,7 +28,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    Label = "Next Reset",
+                    String = "Next Reset",
                     Alignment = AlignmentType.Bottom,
                 },
                 resetTimeTextNode = new TextNode {
@@ -38,7 +38,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    Label = "Time Remaining",
+                    String = "Time Remaining",
                     Alignment = AlignmentType.Bottom,
                 },
                 timeRemainingTextNode = new TextNode {

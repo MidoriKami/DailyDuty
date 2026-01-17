@@ -39,7 +39,7 @@ public class OptionsNode : SimpleComponentNode {
         foreach (var categoryGroup in categoryGroups) {
 
             var newCategoryNode = new TreeListCategoryNode {
-                SeString = categoryGroup.Key.Description,
+                String = categoryGroup.Key.Description,
                 OnToggle = isVisible => OnCategoryToggled(isVisible, categoryGroup.Key),
             };
 

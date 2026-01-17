@@ -40,7 +40,7 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
                 Position = new Vector2(16.0f, targetResNode->GetYFloat() + 2.0f),
                 Size = new Vector2(250.0f, 18.0f),
                 AlignmentType = AlignmentType.Center,
-                SeString = new SeStringBuilder()
+                String = new SeStringBuilder()
                     .PushColorRgba(module.ModuleConfig.IncompleteColor)
                     .Append("Incomplete Task")
                     .PopColor()

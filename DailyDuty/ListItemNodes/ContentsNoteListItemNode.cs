@@ -48,7 +48,7 @@ public unsafe class ContentsNoteListItemNode : ListItemNode<ContentsNote> {
 
     protected override void SetNodeData(ContentsNote itemData) {
         iconNode.IconId = (uint) itemData.Icon;
-        labelNode.SeString = itemData.Name;
+        labelNode.String = itemData.Name;
         statusNode.String = "Unknown Status";
     }
 

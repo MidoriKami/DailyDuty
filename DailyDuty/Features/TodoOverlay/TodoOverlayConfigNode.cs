@@ -21,7 +21,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    Label= "Feature Configuration",
+                    String= "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -43,7 +43,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    Label= "Overlay Panels",
+                    String= "Overlay Panels",
                     Alignment = AlignmentType.Bottom,
                 },
                 listNode = new ScrollingListNode {

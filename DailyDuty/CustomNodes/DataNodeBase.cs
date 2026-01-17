@@ -44,7 +44,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataContentSection.AttachNode(this);
 
         categoryHeaderNode = new CategoryHeaderNode {
-            Label = "Module Data",
+            String = "Module Data",
             Alignment = AlignmentType.Bottom,
         };
         categoryHeaderNode.AttachNode(dataContentSection);

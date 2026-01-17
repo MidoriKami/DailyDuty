@@ -19,7 +19,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
         
         listNode.AddNode([
             new CategoryHeaderNode {
-                Label = "Notification Settings",
+                String = "Notification Settings",
             },
             new CheckboxNode {
                 String = "Send status on login",
@@ -49,7 +49,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                Label = "Custom Status Message",
+                String = "Custom Status Message",
             },
             new TextInputNode {
                 Height = 28.0f,
@@ -61,7 +61,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                Label = "Custom Reset Message",
+                String = "Custom Reset Message",
             },
             new TextInputNode {
                 PlaceholderString = "Custom Reset Message",
@@ -73,7 +73,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                Label = "Chat Channel",
+                String = "Chat Channel",
             },
             new TextDropDownNode {
                 Height = 24.0f,

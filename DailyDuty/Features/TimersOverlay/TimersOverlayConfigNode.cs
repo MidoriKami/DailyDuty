@@ -23,7 +23,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    Label= "Feature Configuration",
+                    String= "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -140,7 +140,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
             var originalColor = config.Color;
             colorEdit.AddNode(new ColorEditNode {
                 Height = 28.0f,
-                Label = name,
+                String = name,
                 CurrentColor = config.Color,
                 DefaultColor = KnownColor.CornflowerBlue.Vector(),
                 OnColorPreviewed = color => {

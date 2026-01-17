@@ -50,7 +50,7 @@ public unsafe class MobHuntOrderTypeListItemNode : ListItemNode<MobHuntOrderType
     protected override void SetNodeData(MobHuntOrderType itemData) {
         iconNode.IconId = itemData.EventItem.Value.Icon;
         iconNode.ItemTooltip = itemData.EventItem.RowId;
-        labelNode.SeString = itemData.EventItem.Value.Name;
+        labelNode.String = itemData.EventItem.Value.Name;
         statusNode.String = MobHunt.Instance()->IsBillComplete((byte) itemData.RowId) ? "Complete" : "Incomplete";
     }
 

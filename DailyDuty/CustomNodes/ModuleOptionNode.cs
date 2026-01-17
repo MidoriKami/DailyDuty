@@ -130,7 +130,7 @@ public class ModuleOptionNode : SimpleComponentNode {
     public void Update() {
         if (Module.FeatureBase is ModuleBase module) {
             statusTextNode.IsVisible = true;
-            statusTextNode.SeString = $"Status: {module.ModuleStatus.Description}";
+            statusTextNode.String = $"Status: {module.ModuleStatus.Description}";
         }
         else {
             statusTextNode.IsVisible = false;

@@ -50,7 +50,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
                 },
             },
             new CategoryHeaderNode {
-                Label = "Duty Finder Integration",
+                String = "Duty Finder Integration",
             },
             new CheckboxNode {
                 Height = 28.0f,
@@ -64,7 +64,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             new ColorEditNode {
                 Height = 28.0f,
                 CurrentColor = module.ModuleConfig.DutyFinderColor,
-                Label = "Entry Color",
+                String = "Entry Color",
                 DefaultColor = KnownColor.Yellow.Vector(),
                 OnColorPreviewed = color => {
                     module.ModuleConfig.DutyFinderColor = color;

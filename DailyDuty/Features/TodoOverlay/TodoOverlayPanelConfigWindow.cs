@@ -124,7 +124,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new ColorEditNode {
                     Height = 28.0f,
-                    Label = "Text Color",
+                    String = "Text Color",
                     DefaultColor = ColorHelper.GetColor(1),
                      CurrentColor = config.TextColor,
                      OnColorPreviewed = color => {
@@ -141,7 +141,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new ColorEditNode {
                     Height = 28.0f,
-                    Label = "Text Outline Color",
+                    String = "Text Outline Color",
                     DefaultColor = ColorHelper.GetColor(53),
                     CurrentColor = config.OutlineColor,
                     OnColorPreviewed = color => {

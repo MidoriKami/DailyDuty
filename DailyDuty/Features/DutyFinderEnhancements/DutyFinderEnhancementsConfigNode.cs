@@ -17,7 +17,7 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    Label= "Timer Configuration",
+                    String= "Timer Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -33,7 +33,7 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     Height = 28.0f,
                     CurrentColor = originalColor,
                     DefaultColor = ColorHelper.GetColor(8),
-                    Label = "Text Color",
+                    String = "Text Color",
                     OnColorCancelled = () => {
                         module.ModuleDutyFinderEnhancementsConfig.Color = originalColor;
                         module.ModuleDutyFinderEnhancementsConfig.MarkDirty();
@@ -47,7 +47,7 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    Label= "DailyDuty Button Configuration",
+                    String= "DailyDuty Button Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
