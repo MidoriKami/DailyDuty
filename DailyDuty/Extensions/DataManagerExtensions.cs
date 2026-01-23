@@ -67,5 +67,4 @@ public static class DataManagerExtensions {
 			{ ContentType.RowId: 30, AllowUndersized: false } => DutyType.Criterion,
 			_ => DutyType.Unknown,
 		};
-
 }

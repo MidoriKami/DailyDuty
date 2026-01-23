@@ -47,7 +47,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         }
     }
 
-    private void OnCommandReceived(string command, string arguments) {
+    private static void OnCommandReceived(string command, string arguments) {
         if (command is not ("/dailyduty" or "/dd")) return;
 
         switch (arguments) {
