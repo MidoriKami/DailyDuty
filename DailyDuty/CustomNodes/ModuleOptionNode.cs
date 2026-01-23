@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -10,9 +9,7 @@ using KamiToolKit.Nodes;
 
 namespace DailyDuty.CustomNodes;
 
-public class ModuleOptionNode : SimpleComponentNode {
-    private readonly NineGridNode hoveredBackgroundNode;
-    private readonly NineGridNode selectedBackgroundNode;
+public class ModuleOptionNode : SelectableNode {
     private readonly CheckboxNode checkboxNode;
     private readonly IconImageNode erroringImageNode;
     private readonly TextNode modificationNameNode;
@@ -20,30 +17,6 @@ public class ModuleOptionNode : SimpleComponentNode {
     private readonly CircleButtonNode configButtonNode;
 
     public ModuleOptionNode() {
-        hoveredBackgroundNode = new SimpleNineGridNode {
-            TexturePath = "ui/uld/ListItemA.tex",
-            TextureCoordinates = new Vector2(0.0f, 22.0f),
-            TextureSize = new Vector2(64.0f, 22.0f),
-            TopOffset = 6,
-            BottomOffset = 6,
-            LeftOffset = 16,
-            RightOffset = 1,
-            IsVisible = false,
-        };
-        hoveredBackgroundNode.AttachNode(this);
-        
-        selectedBackgroundNode = new SimpleNineGridNode {
-            TexturePath = "ui/uld/ListItemA.tex",
-            TextureCoordinates = new Vector2(0.0f, 0.0f),
-            TextureSize = new Vector2(64.0f, 22.0f),
-            TopOffset = 6,
-            BottomOffset = 6,
-            LeftOffset = 16,
-            RightOffset = 1,
-            IsVisible = false,
-        };
-        selectedBackgroundNode.AttachNode(this);
-        
         checkboxNode = new CheckboxNode {
             OnClick = ToggleModification,
         };
@@ -57,7 +30,7 @@ public class ModuleOptionNode : SimpleComponentNode {
         erroringImageNode.AttachNode(this);
 
         modificationNameNode = new TextNode {
-            TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Ellipsis,
+            TextFlags = TextFlags.Ellipsis,
             AlignmentType = AlignmentType.BottomLeft,
         };
         modificationNameNode.AttachNode(this);
@@ -75,26 +48,10 @@ public class ModuleOptionNode : SimpleComponentNode {
             TextTooltip = "Open Configuration",
             OnClick = () => {
                 Module?.FeatureBase.OpenConfigAction?.Invoke();
-                OnClick?.Invoke();
+                OnClick?.Invoke(this);
             },
         };
         configButtonNode.AttachNode(this);
-
-        CollisionNode.ShowClickableCursor = true;
-        
-        CollisionNode.AddEvent(AtkEventType.MouseOver, () => {
-            if (!IsSelected) {
-                IsHovered = true;
-            }
-        });
-        
-        CollisionNode.AddEvent(AtkEventType.MouseDown, () => {
-            OnClick?.Invoke();
-        });
-        
-        CollisionNode.AddEvent(AtkEventType.MouseOut, () => {
-            IsHovered = false;
-        });
     }
 
     public ModuleInfo ModuleInfo => Module.FeatureBase.ModuleInfo;
@@ -110,6 +67,15 @@ public class ModuleOptionNode : SimpleComponentNode {
             checkboxNode.IsChecked = value.State is LoadedState.Enabled;
 
             UpdateDisabledState();
+            
+            if (Module.FeatureBase is ModuleBase) {
+                modificationNameNode.Height = Height / 2.0f;
+                modificationNameNode.AlignmentType = AlignmentType.BottomLeft;
+            }
+            else {
+                modificationNameNode.Height = Height;
+                modificationNameNode.AlignmentType = AlignmentType.Left;
+            }
         }
     }
     
@@ -123,7 +89,7 @@ public class ModuleOptionNode : SimpleComponentNode {
 
         UpdateDisabledState();
         
-        OnClick?.Invoke();
+        OnClick?.Invoke(this);
         RefreshConfigWindowButton();
     }
 
@@ -131,24 +97,11 @@ public class ModuleOptionNode : SimpleComponentNode {
         if (Module.FeatureBase is ModuleBase module) {
             statusTextNode.IsVisible = true;
             statusTextNode.String = $"Status: {module.ModuleStatus.Description}";
+            modificationNameNode.Height = Height / 2.0f;
         }
         else {
             statusTextNode.IsVisible = false;
-        }
-    }
-
-    public Action? OnClick { get; set; }
-
-    public bool IsHovered {
-        get => hoveredBackgroundNode.IsVisible;
-        set => hoveredBackgroundNode.IsVisible = value;
-    }
-    
-    public bool IsSelected {
-        get => selectedBackgroundNode.IsVisible;
-        set {
-            selectedBackgroundNode.IsVisible = value;
-            hoveredBackgroundNode.IsVisible = !value;
+            modificationNameNode.Height = Height;
         }
     }
 
@@ -161,20 +114,18 @@ public class ModuleOptionNode : SimpleComponentNode {
 
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
-        hoveredBackgroundNode.Size = Size;
-        selectedBackgroundNode.Size = Size;
 
-        checkboxNode.Size = new Vector2(Height, Height) * 3.0f / 4.0f;
-        checkboxNode.Position = new Vector2(Height, Height) / 8.0f;
+        checkboxNode.Size = new Vector2(Height - 8.0f, Height - 8.0f);
+        checkboxNode.Position = new Vector2(4.0f, 4.0f);
 
-        modificationNameNode.Height = Height / 2.0f;
-        modificationNameNode.Position = new Vector2(Height + Height / 3.0f, 0.0f);
+        modificationNameNode.Size = new Vector2(Width - Height * 2.0f, Height / 2.0f);
+        modificationNameNode.Position = new Vector2(checkboxNode.Bounds.Right + 4.0f, 0.0f);
         
-        statusTextNode.Height = Height / 2.0f;
-        statusTextNode.Position = new Vector2(Height * 2.0f, Height / 2.0f);
+        statusTextNode.Size = new Vector2(Width - Height * 2.5f, Height / 2.0f);
+        statusTextNode.Position = new Vector2(Height / 2.0f + checkboxNode.Bounds.Right + 4.0f, Height / 2.0f);
 
         configButtonNode.Size = new Vector2(Height * 2.0f / 3.0f, Height * 2.0f / 3.0f);
-        configButtonNode.Position = new Vector2(Width - Height, Height / 2.0f - configButtonNode.Height / 2.0f);
+        configButtonNode.Position = new Vector2(Width - Height + 4.0f, Height / 2.0f - configButtonNode.Height / 2.0f);
 
         erroringImageNode.Size = checkboxNode.Size - new Vector2(4.0f, 4.0f);
         erroringImageNode.Position = checkboxNode.Position + new Vector2(1.0f, 3.0f);

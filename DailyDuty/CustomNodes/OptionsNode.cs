@@ -51,7 +51,7 @@ public class OptionsNode : SimpleComponentNode {
                     IsVisible = true,
                 };
 
-                newOptionNode.OnClick = () => OnOptionClicked(newOptionNode);
+                newOptionNode.OnClick = _ => OnOptionClicked(newOptionNode);
                 newCategoryNode.AddNode(newOptionNode);
                 optionNodes.Add(newOptionNode);
             }
