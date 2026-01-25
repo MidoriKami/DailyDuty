@@ -82,11 +82,10 @@ public unsafe class PayloadController : IDisposable {
     }
 
     private static void OpenDutyFinderAllianceRaid() {
-        var currentAllianceRaid = Services.DataManager.GetExcelSheet<ContentFinderCondition>()
-          .Where(cfc => cfc.ContentType.RowId is 5 && cfc is { RequiredExVersion.RowId: 0, Unknown28: true })
-          .Last();
+        var currentAllianceRaid = Services.DataManager.LimitedAllianceRaidDuties.LastOrDefault();
 
         AgentContentsFinder.Instance()->OpenRegularDuty(currentAllianceRaid.RowId);
+        ClearDutyFinderSelection();
     }
 
     private static void OpenDutyFinderRaid() {
