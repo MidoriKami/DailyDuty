@@ -12,7 +12,7 @@ using KamiToolKit.Overlay;
 
 namespace DailyDuty.CustomNodes;
 
-public sealed class TimerNode : OverlayNode {
+public sealed class TimerOverlayNode : OverlayNode {
     public override OverlayLayer OverlayLayer => OverlayLayer.BehindUserInterface;
 
     private readonly ProgressBarCastNode progressBarNode;
@@ -30,7 +30,7 @@ public sealed class TimerNode : OverlayNode {
         }
     }
 
-	public TimerNode() {
+	public TimerOverlayNode() {
         moduleNameNode = new TextNode {
             FontType = FontType.Jupiter,
             TextColor = KnownColor.White.Vector(),
@@ -95,6 +95,7 @@ public sealed class TimerNode : OverlayNode {
         var timeRemaining = Module.DataBase.NextReset - DateTime.UtcNow;
         var timerPeriod = Module.GetResetPeriod();
         var percentage = 1.0f - (float) (timeRemaining / timerPeriod);
+        percentage = Math.Clamp(percentage, 0.0f, 1.0f);
 
         progressBarNode.Progress = percentage;
         progressBarNode.BarColor = TimerTimersOverlayConfig.TimerData[Module.Name].Color;

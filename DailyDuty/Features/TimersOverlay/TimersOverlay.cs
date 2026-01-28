@@ -117,7 +117,7 @@ public unsafe class TimersOverlay : FeatureBase {
                 initialPosition = position + offset;
             }
             
-            overlayController?.CreateNode(() => new TimerNode {
+            overlayController?.CreateNode(() => new TimerOverlayNode {
                 Size = new Vector2(300.0f, 64.0f),
                 Position = initialPosition,
                 TimerTimersOverlayConfig = ModuleTimersOverlayConfig,
