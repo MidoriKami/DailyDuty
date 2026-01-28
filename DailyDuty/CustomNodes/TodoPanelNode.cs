@@ -132,7 +132,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         if (Config.AttachToQuestList) {
             var todoAddon = RaptureAtkUnitManager.Instance()->GetAddonByName("_ToDoList");
             if (todoAddon is not null) {
-                Position = todoAddon->Position + todoAddon->RootSize * todoAddon->Scale - new Vector2(Width, 0.0f);
+                Position = todoAddon->Position + todoAddon->RootSize * todoAddon->Scale - new Vector2(Width, 0.0f) * Config.Scale;
             }
         }
         
@@ -140,6 +140,7 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         frameFront.Alpha = Config.Alpha;
         frame.Alpha = Config.Alpha;
+        Scale = new Vector2(Config.Scale, Config.Scale);
         backgroundImage.Alpha = Config.Alpha;
 
         titleText.String = Config.Label;

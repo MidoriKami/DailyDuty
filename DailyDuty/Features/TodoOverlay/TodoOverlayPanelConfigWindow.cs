@@ -98,6 +98,26 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                         },
                     ],
                 },
+                new HorizontalFlexNode {
+                    Height = 28.0f,
+                    AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
+                    InitialNodes = [
+                        new TextNode {
+                            String = "Scale",
+                            AlignmentType = AlignmentType.Left,
+                        },
+                        new SliderNode {
+                            Range = 50..300,
+                            DecimalPlaces = 2,
+                            Step = 5,
+                            Value = (int) ( config.Scale * 100 ),
+                            OnValueChanged = newValue => {
+                                config.Scale = newValue / 100.0f;
+                                moduleTodoOverlayConfig.MarkDirty();
+                            },
+                        },
+                    ],
+                },
                 new CheckboxNode {
                     String = "Hide Frame",
                     Height = 28.0f,

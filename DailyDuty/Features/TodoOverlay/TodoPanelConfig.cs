@@ -8,6 +8,7 @@ namespace DailyDuty.Features.TodoOverlay;
 
 public class TodoPanelConfig {
     public Vector2? Position;
+    public float Scale = 1.0f;
     public string Label = "New Panel";
     public bool IsCollapsed = false;
     public bool ShowFrame = true;
