@@ -47,7 +47,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
             Title = "Duty Roulette Selection",
             Options = module.ModuleConfig.TrackedRoulettes,
             GetLabelFunc = item => item.Name.ToString(),
-            FilterFunc = item => item.ContentRouletteRoleBonus.RowId is not 0,
+            FilterFunc = item => item.ContentType.RowId is 1,
             OnEdited = module.ModuleConfig.MarkDirty,
         };
         
