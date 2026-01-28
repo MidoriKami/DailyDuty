@@ -111,7 +111,7 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
 
     private AtkComponentListItemRenderer* GetPopulatorMethod(AtkUnitBase* addon) {
         var contentsFinder = (AddonContentsFinder*) addon;
-        return contentsFinder->DutyList->GetItemRendererByNodeId(6);
+        return contentsFinder->DutyList->GetComponentItemRendererById(6);
     }
 
     private bool ShouldModifyElementMethod(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
