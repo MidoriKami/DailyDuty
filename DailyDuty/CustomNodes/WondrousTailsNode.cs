@@ -30,7 +30,7 @@ public class WondrousTailsNode : SimpleComponentNode {
 		background.AttachNode(this);
 						
 		foreground = new SimpleImageNode {
-			Size = new Vector2(22.0f, 22.0f),
+			Size = new Vector2(24.0f, 24.0f),
 			TexturePath = "ui/uld/WeeklyBingo.tex",
 			TextureCoordinates = new Vector2(95.0f, 63.0f),
 			TextureSize = new Vector2(24.0f, 24.0f),
