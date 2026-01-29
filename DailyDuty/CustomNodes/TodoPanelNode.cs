@@ -163,7 +163,11 @@ public unsafe class TodoPanelNode : OverlayNode {
             .OrderBy(module => module.Name)
             .ToList();
 
-        IsVisible = warningModules.Count is not 0 || Config.Modules.Count is 0;
+        var shouldHideInDuties = ModuleTodoOverlayConfig.HideInDuties && Services.Condition.IsBoundByDuty;
+        var shouldHideInQuestEvent = ModuleTodoOverlayConfig.HideDuringQuests && Services.Condition.IsInCutsceneOrQuestEvent;
+        var shouldHideNoWarnings = !(warningModules.Count is not 0 || Config.Modules.Count is 0);
+        
+        IsVisible = !shouldHideNoWarnings && !shouldHideInQuestEvent && !shouldHideInDuties;
 
         if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry)) {
             warningList.Width = MathF.Max(50.0f, warningList.Nodes.Sum(node => node.IsVisible ? node.Width : 0.0f));
