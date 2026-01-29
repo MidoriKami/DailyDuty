@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
+using Lumina.Excel.Sheets;
+using Lumina.Text.ReadOnly;
 using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.HuntMarksWeekly;
@@ -47,5 +50,24 @@ public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
         }
 
         return incomplete;
+    }
+    
+    protected override TodoTooltip GetTooltip() => new() {
+        TooltipText = GetMissingObjectives(),
+        ClickAction = PayloadId.OpenChallengeLog,
+    };
+
+    private ReadOnlySeString GetMissingObjectives() {
+        var result = string.Empty;
+        
+        foreach (var warningId in ModuleConfig.TrackedHuntMarks.Where(huntBill => !MobHunt.Instance()->IsBillComplete((byte) huntBill))) {
+            if (!Services.DataManager.GetExcelSheet<MobHuntOrderType>().TryGetRow(warningId, out var contentNote)) continue;
+            
+            result += contentNote.EventItem.ValueNullable?.Name.ToString() + "\n";
+        }
+
+        result = result.Trim('\n');
+        
+        return result;
     }
 }
