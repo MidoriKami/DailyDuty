@@ -13,7 +13,7 @@ namespace DailyDuty.Features.WondrousTails;
 public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Wondrous Tails",
-        FileName = "MiniCactpot",
+        FileName = "WondrousTails",
         Type = ModuleType.Daily,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),
