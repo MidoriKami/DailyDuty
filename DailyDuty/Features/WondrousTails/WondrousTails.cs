@@ -14,7 +14,7 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Wondrous Tails",
         FileName = "WondrousTails",
-        Type = ModuleType.Daily,
+        Type = ModuleType.Weekly,
         ChangeLog = [
             new ChangeLogInfo(1, "Initial Re-Implementation"),
         ],
