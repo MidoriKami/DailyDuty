@@ -135,6 +135,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new CheckboxNode {
                     String = "Pin to Quest List",
+                    TextTooltip = "Only one panel can be pinned to the quest list at a time.",
                     Height = 28.0f,
                     IsChecked = config.AttachToQuestList,
                     OnClick = newValue => {
