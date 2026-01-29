@@ -31,7 +31,7 @@ public class MaskedCarnivaleConfigNode(MaskedCarnivale module) : ConfigNodeBase<
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = new LuminaMultiSelectWindow<Addon> {
             InternalName = "CarnavaleSelection",
-            Title = "Masked Carnival Selection",
+            Title = "Masked Carnivale Selection",
             Options = module.ModuleConfig.TrackedTasks,
             GetLabelFunc = item => item.Text.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,
