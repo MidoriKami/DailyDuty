@@ -14,7 +14,7 @@ public class HuntMarksWeeklyDataNode(HuntMarksWeekly module) : DataNodeBase<Hunt
     protected override NodeBase BuildDataNode()
         => listNode = new ListNode<MobHuntOrderType, MobHuntOrderTypeListItemNode> {
             OptionsList = Services.DataManager.GetExcelSheet<MobHuntOrderType>()
-                .Where(row => row is { RowId: not 0, EventItem.ValueNullable.Name.ByteLength: > 0, Type: 1 })
+                .Where(row => row is { RowId: not 0, EventItem.ValueNullable.Name.ByteLength: > 0, Type: 2 })
                 .ToList(),
             ItemSpacing = 1.0f,
         };
