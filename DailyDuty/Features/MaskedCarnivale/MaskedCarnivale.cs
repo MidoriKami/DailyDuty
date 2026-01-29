@@ -34,6 +34,11 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
     
     protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AozContentResultPostSetup);
+
+        // Fix for configs that don't have these data entries, newly generated configs will default with them.
+        ModuleData.TaskData.TryAdd(12449, false);
+        ModuleData.TaskData.TryAdd(12448, false);
+        ModuleData.TaskData.TryAdd(12447, false);
     }
 
     protected override void OnModuleDisable() {
