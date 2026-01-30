@@ -2,7 +2,6 @@
 using System.Numerics;
 using DailyDuty.CustomNodes;
 using DailyDuty.Utilities;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -24,11 +23,9 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Allowances Remaining",
                     },
                     allowancesRemaining = new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Allowances Not Updated",
                     },
                 ], 
@@ -38,11 +35,9 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Highest Score",
                     },
                     highestScore = new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Highest Score Not Updated",
                     },
                 ],
@@ -54,12 +49,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
                         String = "Fashion Report Available",
-                        AlignmentType = AlignmentType.Left,
                         Height = 32.0f,
                     },
                     fashionReportAvailable = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
-                        AlignmentType = AlignmentType.Left,
                         String = "Available Not Updated",
                     },
                 ],

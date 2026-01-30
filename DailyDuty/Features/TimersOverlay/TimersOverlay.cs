@@ -4,6 +4,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
+using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -30,7 +31,7 @@ public unsafe class TimersOverlay : FeatureBase {
     public override NodeBase DisplayNode => new TimersOverlayConfigNode(this);
 
     protected override void OnFeatureLoad() {
-        ModuleTimersOverlayConfig = Utilities.Config.LoadCharacterConfig<TimersOverlayConfig>($"{ModuleInfo.FileName}.config.json");
+        ModuleTimersOverlayConfig = Config.LoadCharacterConfig<TimersOverlayConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleTimersOverlayConfig is null) throw new Exception("Failed to load config file");
         
         ModuleTimersOverlayConfig.FileName = ModuleInfo.FileName;

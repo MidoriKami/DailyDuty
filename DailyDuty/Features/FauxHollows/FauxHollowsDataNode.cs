@@ -21,12 +21,10 @@ public class FauxHollowsDataNode(FauxHollows module) : DataNodeBase<FauxHollows>
                     new TextNode {
                         Size = new Vector2(250.0f, 28.0f),
                         TextFlags = TextFlags.Ellipsis,
-                        AlignmentType = AlignmentType.Left,
                         String = "Current Completion Count",
                     },
                     statusNode = new TextNode {
                         Size = new Vector2(100.0f, 28.0f),
-                        AlignmentType = AlignmentType.Left,
                         String = "Status not Updated",
                     },
                 ],

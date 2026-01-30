@@ -1,5 +1,4 @@
 ﻿using DailyDuty.CustomNodes;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -20,11 +19,9 @@ public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>
                 InitialNodes = [
                     new TextNode {
                         String = "Last Map Gathered",
-                        AlignmentType = AlignmentType.Left,
                     },
                     lastGatheredTime = new TextNode {
                         String = "Attempts Not Updated",
-                        AlignmentType = AlignmentType.Left,
                     },
                 ],
             },

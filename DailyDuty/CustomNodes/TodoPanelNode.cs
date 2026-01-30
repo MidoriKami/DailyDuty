@@ -58,7 +58,6 @@ public unsafe class TodoPanelNode : OverlayNode {
         titleText = new TextNode {
             FontType = FontType.TrumpGothic,
             FontSize = 23,
-            AlignmentType = AlignmentType.Left,
             TextColor = ColorHelper.GetColor(50),
             TextOutlineColor = ColorHelper.GetColor(54),
             TextFlags = TextFlags.Edge,
@@ -203,7 +202,6 @@ public unsafe class TodoPanelNode : OverlayNode {
         var newNode = new TodoListEntryNode {
             Height = 24.0f,
             TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
-            AlignmentType = AlignmentType.Left,
             Module = data,
             String = data.Name,
             Config = Config,

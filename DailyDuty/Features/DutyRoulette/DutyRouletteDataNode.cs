@@ -28,7 +28,6 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
                     new TextNode {
                         Width = 325.0f,
                         TextFlags = TextFlags.Ellipsis,
-                        AlignmentType = AlignmentType.Left,
                         String = roulette.Name.ToString(),
                     },
                     statusNode = new TextNode {

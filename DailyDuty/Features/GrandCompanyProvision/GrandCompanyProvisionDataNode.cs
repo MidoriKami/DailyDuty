@@ -30,13 +30,11 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
                     new TextNode {
                         Width = 200.0f,
                         String = $"{classJob.NameEnglish}",
-                        AlignmentType = AlignmentType.Left,
                         TextFlags = TextFlags.Ellipsis,
                     },
                     statusNode = new TextNode {
                         Width = 100.0f,
                         String = $"{classJob.NameEnglish} Data Not Set",
-                        AlignmentType = AlignmentType.Left,
                     },
                 ],
             });

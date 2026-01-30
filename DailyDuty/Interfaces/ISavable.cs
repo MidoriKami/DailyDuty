@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Interfaces;
 
@@ -19,6 +20,6 @@ public abstract class Savable {
             return;
         }
 
-        Utilities.Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
+        Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
     }
 }

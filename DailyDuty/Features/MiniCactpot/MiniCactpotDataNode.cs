@@ -1,5 +1,4 @@
 ﻿using DailyDuty.CustomNodes;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -20,11 +19,9 @@ public class MiniCactpotDataNode(MiniCactpot module) : DataNodeBase<MiniCactpot>
                 InitialNodes = [
                     new TextNode {
                         String = "Attempts Available",
-                        AlignmentType = AlignmentType.Left,
                     },
                     attemptsNode = new TextNode {
                         String = "Attempts Not Updated",
-                        AlignmentType = AlignmentType.Left,
                     },
                 ],
             },

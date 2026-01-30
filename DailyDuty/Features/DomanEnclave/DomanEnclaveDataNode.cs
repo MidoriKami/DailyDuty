@@ -26,10 +26,8 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 InitialNodes = [
                     new TextNode {
                         String = "Current Max Allowance",
-                        AlignmentType = AlignmentType.Left,
                     },
                     allowanceText = new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Allowances Not Updated",
                     },
                 ], 
@@ -40,10 +38,8 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 InitialNodes = [
                     new TextNode {
                         String = "Donated This Week",
-                        AlignmentType = AlignmentType.Left,
                     },
                     donatedText = new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Donated Not Updated",
                     },
                 ],
@@ -54,10 +50,8 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 InitialNodes = [
                     new TextNode {
                         String = "Allowance Remaining",
-                        AlignmentType = AlignmentType.Left,
                     },
                     allowanceRemaining = new TextNode {
-                        AlignmentType = AlignmentType.Left,
                         String = "Remaining Not Updated",
                     },
                 ],

@@ -1,6 +1,5 @@
 ﻿using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -20,11 +19,9 @@ public unsafe class CustomDeliveryDataNode(CustomDelivery module) : DataNodeBase
                 InitialNodes = [
                     new TextNode {
                         String = "Allowances Remaining",
-                        AlignmentType = AlignmentType.Left,
                     },
                     allowancesTextNode = new TextNode {
                         String = "Allowances Not Updated",
-                        AlignmentType = AlignmentType.Left,
                     },
                 ],
             },

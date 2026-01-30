@@ -22,7 +22,6 @@ public unsafe class ContentsNoteListItemNode : ListItemNode<ContentsNote> {
         iconNode.AttachNode(this);
         
         labelNode = new TextNode {
-            AlignmentType = AlignmentType.Left,
             TextFlags = TextFlags.Ellipsis,
         };
         labelNode.AttachNode(this);

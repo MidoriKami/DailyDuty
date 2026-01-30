@@ -4,6 +4,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
+using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Overlay;
@@ -27,7 +28,7 @@ public unsafe class TodoOverlay : FeatureBase {
     public override NodeBase DisplayNode => new TodoOverlayConfigNode(this);
 
     protected override void OnFeatureLoad() {
-        ModuleTodoOverlayConfig = Utilities.Config.LoadCharacterConfig<TodoOverlayConfig>($"{ModuleInfo.FileName}.config.json");
+        ModuleTodoOverlayConfig = Config.LoadCharacterConfig<TodoOverlayConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleTodoOverlayConfig is null) throw new Exception("Failed to load config file");
         
         ModuleTodoOverlayConfig.FileName = ModuleInfo.FileName;

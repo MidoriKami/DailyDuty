@@ -1,5 +1,4 @@
 ﻿using DailyDuty.CustomNodes;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -25,11 +24,8 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 InitialNodes = [
                     new TextNode {
                         String = "Book Obtained",
-                        AlignmentType = AlignmentType.Left,
                     },
-                    hasBook = new TextNode {
-                        AlignmentType = AlignmentType.Left,
-                    },
+                    hasBook = new TextNode(),
                 ],
             },
             new HorizontalFlexNode {
@@ -38,11 +34,8 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 InitialNodes = [
                     new TextNode {
                         String = "Deadline",
-                        AlignmentType = AlignmentType.Left,
                     },
-                    deadline = new TextNode {
-                        AlignmentType = AlignmentType.Left,
-                    },
+                    deadline = new TextNode(),
                 ],
             },
             new HorizontalFlexNode {
@@ -51,11 +44,8 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 InitialNodes = [
                     new TextNode {
                         String = "Second Chance Points",
-                        AlignmentType = AlignmentType.Left,
                     },
-                    secondChance = new TextNode {
-                        AlignmentType = AlignmentType.Left,
-                    },
+                    secondChance = new TextNode(),
                 ],
             },
             new HorizontalFlexNode {
@@ -64,11 +54,8 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 InitialNodes = [
                     new TextNode {
                         String = "Placed Stickers",
-                        AlignmentType = AlignmentType.Left,
                     },
-                    placedStickers = new TextNode {
-                        AlignmentType = AlignmentType.Left,
-                    },
+                    placedStickers = new TextNode(),
                 ],
             },
             new HorizontalFlexNode {
@@ -77,11 +64,8 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 InitialNodes = [
                     new TextNode {
                         String = "New Book Available",
-                        AlignmentType = AlignmentType.Left,
                     },
-                    newBookAvailable = new TextNode {
-                        AlignmentType = AlignmentType.Left,
-                    },
+                    newBookAvailable = new TextNode(),
                 ],
             },
             new HorizontalFlexNode {
@@ -90,11 +74,8 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 InitialNodes = [
                     new TextNode {
                         String = "Book Expired",
-                        AlignmentType = AlignmentType.Left,
                     },
-                    isExpired = new TextNode {
-                        AlignmentType = AlignmentType.Left,
-                    },
+                    isExpired = new TextNode(),
                 ],
             },
         ],

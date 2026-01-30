@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DailyDuty.Utilities;
 
 namespace DailyDuty.Classes;
 
@@ -12,8 +13,8 @@ public class SystemConfig {
     public HashSet<string> EnabledModules = [];
     
     public static SystemConfig Load()
-        => Utilities.Config.LoadCharacterConfig<SystemConfig>("system.config.json");
+        => Config.LoadCharacterConfig<SystemConfig>("system.config.json");
 
     public void Save()
-        => Utilities.Config.SaveCharacterConfig(this, "system.config.json");
+        => Config.SaveCharacterConfig(this, "system.config.json");
 }

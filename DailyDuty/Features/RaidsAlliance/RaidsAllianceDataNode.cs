@@ -29,7 +29,6 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
                     new TextNode {
                         Width = 325.0f,
                         TextFlags = TextFlags.Ellipsis,
-                        AlignmentType = AlignmentType.Left,
                         String = text,
                     },
                     statusNode = new TextNode {
