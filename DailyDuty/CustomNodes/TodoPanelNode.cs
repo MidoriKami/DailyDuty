@@ -161,7 +161,6 @@ public unsafe class TodoPanelNode : OverlayNode {
         backgroundImage.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
         
         warningList.IsVisible = !Config.IsCollapsed;
-        warningList.ItemSpacing = Config.ItemSpacing;
 
         var warningModules = Config.Modules.Select(moduleName => System.ModuleManager.GetModule(moduleName))
             .OfType<ModuleBase>()
@@ -175,7 +174,8 @@ public unsafe class TodoPanelNode : OverlayNode {
         
         IsVisible = !shouldHideNoWarnings && !shouldHideInQuestEvent && !shouldHideInDuties;
 
-        if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry)) {
+        if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry) || Math.Abs(warningList.ItemSpacing - Config.ItemSpacing) > 0.1f) {
+            warningList.ItemSpacing = Config.ItemSpacing;
             warningList.Width = MathF.Max(50.0f, warningList.Nodes.Sum(node => node.IsVisible ? node.Width : 0.0f));
             warningList.RecalculateLayout();
 
