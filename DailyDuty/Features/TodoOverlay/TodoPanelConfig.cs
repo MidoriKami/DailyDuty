@@ -18,6 +18,7 @@ public class TodoPanelConfig {
     public Vector4 OutlineColor = ColorHelper.GetColor(53);
     public int ItemSpacing = 6;
     public float Alpha = 1.0f;
+    public float ButtonAlpha = 1.0f;
     public bool AttachToQuestList = false;
 
     [JsonIgnore] public bool EnableMoving;

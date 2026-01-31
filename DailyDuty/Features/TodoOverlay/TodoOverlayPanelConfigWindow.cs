@@ -103,6 +103,24 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
+                            String = "Button Alpha",
+                            AlignmentType = AlignmentType.Left,
+                        },
+                        new SliderNode {
+                            Range = 15..100,
+                            Value = (int) ( config.ButtonAlpha * 100 ),
+                            OnValueChanged = newValue => {
+                                config.ButtonAlpha = newValue / 100.0f;
+                                moduleTodoOverlayConfig.MarkDirty();
+                            },
+                        },
+                    ],
+                },
+                new HorizontalFlexNode {
+                    Height = 28.0f,
+                    AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
+                    InitialNodes = [
+                        new TextNode {
                             String = "Scale",
                             AlignmentType = AlignmentType.Left,
                         },

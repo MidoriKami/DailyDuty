@@ -146,6 +146,8 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         frameFront.Alpha = Config.Alpha;
         frame.Alpha = Config.Alpha;
+        collapseButton.Alpha = Config.ButtonAlpha;
+        configButton.Alpha = Config.ButtonAlpha;
         Scale = new Vector2(Config.Scale, Config.Scale);
         backgroundImage.Alpha = Config.Alpha;
 
@@ -198,23 +200,12 @@ public unsafe class TodoPanelNode : OverlayNode {
         configWindow.Toggle();
     }
     
-    private TodoListEntryNode BuildTodoEntry(ModuleBase data) {
-        var newNode = new TodoListEntryNode {
-            Height = 24.0f,
-            TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
-            Module = data,
-            String = data.Name,
-            Config = Config,
-        };
-
-        if (data.Tooltip is { TooltipText.IsEmpty: false } ) {
-            newNode.TextTooltip = data.Tooltip.TooltipText;
-
-            if (data.Tooltip is { ClickAction: not PayloadId.Unset }) {
-
-            }
-        }
-        
-        return newNode;
-    }
+    private TodoListEntryNode BuildTodoEntry(ModuleBase data) => new() {
+        Height = 24.0f,
+        TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
+        Module = data,
+        String = data.Name,
+        Config = Config,
+        TextTooltip = ":)",
+    };
 }
