@@ -42,6 +42,10 @@ public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(1);
 
+    public override void Reset() {
+        ModuleData.AllowancesRemaining = 3;
+    }
+
     protected override CompletionStatus GetCompletionStatus()
         => ModuleData.AllowancesRemaining is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     
