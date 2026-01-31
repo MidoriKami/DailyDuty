@@ -116,7 +116,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         horizontalLine.Position = new Vector2(8.0f, titleText.Bounds.Bottom + 2.0f);
 
         warningList.Width = Width - 32.0f;
-        warningList.Position = new Vector2(16.0f, horizontalLine.Bounds.Bottom + 12.0f);
+        warningList.Position = new Vector2(16.0f, horizontalLine.Bounds.Bottom + 4.0f);
         warningList.RecalculateLayout();
     }
 
