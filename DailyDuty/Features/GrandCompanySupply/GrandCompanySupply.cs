@@ -40,6 +40,12 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(1);
 
+    public override void Reset() {
+        foreach (var entry in ModuleData.ClassJobStatus.Keys) {
+            ModuleData.ClassJobStatus[entry] = false;
+        }
+    }
+
     protected override void OnModuleUpdate() {
         var agent = AgentGrandCompanySupply.Instance();
         if (!agent->IsAgentActive()) return;
