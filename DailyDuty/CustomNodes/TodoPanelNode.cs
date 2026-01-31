@@ -190,8 +190,7 @@ public unsafe class TodoPanelNode : OverlayNode {
     }
     
     private void OpenConfig() {
-        configWindow?.Dispose();
-        configWindow = new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {
+        configWindow ??= new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {
             Size = new Vector2(575.0f, 500.0f),
             InternalName = "TodoListPanelConfig",
             Title = $"{Config.Label} Panel Config",
