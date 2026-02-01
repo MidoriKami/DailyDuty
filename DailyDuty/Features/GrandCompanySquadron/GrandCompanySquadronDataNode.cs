@@ -52,7 +52,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Time Remanining",
+                        String = "Mission Time Remaining",
                     },
                     missionTimeRemaining = new TextNode(),
                 ],

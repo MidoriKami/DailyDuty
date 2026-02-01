@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Drawing;
-using System.Numerics;
 using DailyDuty.Enums;
-using Dalamud.Interface;
 
 namespace DailyDuty.Extensions;
 
@@ -16,18 +13,8 @@ public static class CompletionStatusExtensions {
             CompletionStatus.InProgress => "In Progress",
             CompletionStatus.Complete => "Complete",
             CompletionStatus.Suppressed => "Suppressed",
+            CompletionStatus.ResultsAvailable => "Results Available",
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
-        };
-        
-        public Vector4 Color => status switch {
-            CompletionStatus.Unknown => KnownColor.Gray.Vector(),
-            CompletionStatus.Disabled => KnownColor.Gray.Vector(),
-            CompletionStatus.Incomplete => KnownColor.Red.Vector(),
-            CompletionStatus.Unavailable => KnownColor.Orange.Vector(),
-            CompletionStatus.InProgress => KnownColor.Aqua.Vector(),
-            CompletionStatus.Complete => KnownColor.Green.Vector(),
-            CompletionStatus.Suppressed => KnownColor.MediumPurple.Vector(),
-            _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
         };
     }
 }

@@ -56,12 +56,16 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(7);
 
-    public override void Reset()
-        => ModuleData.MissionCompleted = false;
+    public override void Reset() {
+        ModuleData.MissionCompleted = false;
+        ModuleData.MissionStarted = false;
+        ModuleData.MissionCompleteTime = DateTime.MinValue;
+    }
 
     protected override CompletionStatus GetCompletionStatus() {
         if (ModuleData.MissionCompleted) return CompletionStatus.Complete;
-        if (ModuleData.MissionStarted) return CompletionStatus.InProgress;
+        if (ModuleData.MissionStarted && DateTime.UtcNow < ModuleData.MissionCompleteTime) return CompletionStatus.InProgress;
+        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return CompletionStatus.ResultsAvailable;
 
         return CompletionStatus.Incomplete;
     }
@@ -135,13 +139,6 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
                 ModuleData.MissionCompleted = gcAgent->ExpeditionData->MissionInfo[0].Available is 0;
                 ModuleData.MarkDirty();
             }
-        }
-
-        if (ModuleData.MissionCompleteTime > DateTime.UtcNow) {
-            ModuleData.TimeUntilMissionComplete = ModuleData.MissionCompleteTime - DateTime.UtcNow;
-        }
-        else {
-            ModuleData.TimeUntilMissionComplete = TimeSpan.MinValue;
         }
     }
 }

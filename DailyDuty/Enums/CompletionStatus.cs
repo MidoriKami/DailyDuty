@@ -8,4 +8,5 @@ public enum CompletionStatus {
     InProgress,
     Complete,
     Suppressed,
+    ResultsAvailable,
 }
