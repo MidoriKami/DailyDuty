@@ -200,7 +200,7 @@ public unsafe class TodoPanelNode : OverlayNode {
     }
     
     private TodoListEntryNode BuildTodoEntry(ModuleBase data) => new() {
-        Height = 24.0f,
+        Height = 18.0f,
         TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
         Module = data,
         String = data.Name,
