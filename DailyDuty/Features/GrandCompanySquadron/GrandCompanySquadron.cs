@@ -78,8 +78,8 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
         ModuleData.MissionCompleteTime = DateTime.MinValue;
         ModuleData.MarkDirty();
 
-        if (args.Addon.AtkValues.ElementAt(4).TryGet(out ReadOnlySeString? missionName)) return;
-        if (args.Addon.AtkValues.ElementAt(2).TryGet(out int? missionSuccessful) || missionSuccessful is not 1) return;
+        if (!args.Addon.AtkValues.ElementAt(4).TryGet(out ReadOnlySeString? missionName)) return;
+        if (!args.Addon.AtkValues.ElementAt(2).TryGet(out int? missionSuccessful) || missionSuccessful is not 1) return;
 
         var missionData = Services.DataManager.GetExcelSheet<GcArmyExpedition>()
             .FirstOrNull(entry => entry.Name == missionName);
