@@ -11,7 +11,7 @@ public abstract class FeatureBase {
     public Action? OpenConfigAction { get; set; }
     public abstract NodeBase DisplayNode { get; }
     
-    protected bool IsEnabled { get; private set; }
+    public bool IsEnabled { get; private set; }
 
     public void Load()
         => OnFeatureLoad();

@@ -20,6 +20,9 @@ public unsafe class ModuleManager : IDisposable {
     private readonly bool frameworkLoggingEnabled = true;
     private static Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
     
+    public Action? OnFeatureEnabled { get; set; }
+    public Action? OnFeatureDisabled { get; set; }
+    
     public Action? OnLoadComplete { get; set; }
 
     public void Dispose() {
@@ -114,7 +117,7 @@ public unsafe class ModuleManager : IDisposable {
         LoadedModules = null;
     }
     
-    public static void TryEnableModule(LoadedModule module) {
+    public void TryEnableModule(LoadedModule module) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
@@ -132,6 +135,7 @@ public unsafe class ModuleManager : IDisposable {
             Services.PluginLog.Info($"Successfully Enabled {module.Name}");
             System.SystemConfig.EnabledModules.Add(module.Name);
             System.SystemConfig.Save();
+            OnFeatureEnabled?.Invoke();
         }
         catch (Exception e) {
             module.State = LoadedState.Errored;
@@ -149,7 +153,7 @@ public unsafe class ModuleManager : IDisposable {
         }
     }
 
-    public static void TryDisableModification(LoadedModule modification, bool removeFromList = true) {
+    public void TryDisableModification(LoadedModule modification, bool removeFromList = true) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
@@ -164,6 +168,7 @@ public unsafe class ModuleManager : IDisposable {
             Services.PluginLog.Info($"Disabling {modification.Name}");
             modification.FeatureBase.Disable();
             modification.FeatureBase.OpenConfigAction = null;
+            OnFeatureDisabled?.Invoke();
         }
         catch (Exception e) {
             modification.State = LoadedState.Errored;

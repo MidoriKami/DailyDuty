@@ -78,9 +78,15 @@ public unsafe class TimersOverlay : FeatureBase {
         };
         
         RebuildTimers();
+        
+        System.ModuleManager.OnFeatureEnabled += RebuildTimers;
+        System.ModuleManager.OnFeatureDisabled += RebuildTimers;
     }
 
     protected override void OnFeatureDisable() {
+        System.ModuleManager.OnFeatureEnabled -= RebuildTimers;
+        System.ModuleManager.OnFeatureDisabled -= RebuildTimers;
+        
         moduleSelectionWindow?.Dispose();
         moduleSelectionWindow = null;
         
@@ -105,6 +111,7 @@ public unsafe class TimersOverlay : FeatureBase {
         foreach (var (index, option) in ModuleTimersOverlayConfig.EnabledTimers.Index()) {
             var loadedModule = System.ModuleManager.LoadedModules?.FirstOrDefault(loadedModule => loadedModule.Name == option);
             if (loadedModule?.FeatureBase is not ModuleBase module) continue;
+            if (!module.IsEnabled) continue;
             
             Vector2 initialPosition;
 

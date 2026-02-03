@@ -81,10 +81,10 @@ public class ModuleOptionNode : SelectableNode {
     
     private void ToggleModification(bool shouldEnableModification) {
         if (shouldEnableModification && Module.State is LoadedState.Disabled) {
-            ModuleManager.TryEnableModule(Module);
+            System.ModuleManager.TryEnableModule(Module);
         }
         else if (!shouldEnableModification && Module.State is LoadedState.Enabled) {
-            ModuleManager.TryDisableModification(Module);
+            System.ModuleManager.TryDisableModification(Module);
         }
 
         UpdateDisabledState();
