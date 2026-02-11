@@ -31,10 +31,10 @@ public unsafe class Levequest : Module<LevequestConfig, DataBase> {
         => TimeSpan.FromHours(12);
 
     protected override CompletionStatus GetCompletionStatus() => ModuleConfig.ComparisonMode switch {
-        ComparisonMode.Below when ModuleConfig.NotificationThreshold < RemainingAllowances => CompletionStatus.Complete,
-        ComparisonMode.Equal when ModuleConfig.NotificationThreshold == RemainingAllowances => CompletionStatus.Complete,
-        ComparisonMode.Above when ModuleConfig.NotificationThreshold > RemainingAllowances => CompletionStatus.Complete,
-        _ => CompletionStatus.Incomplete,
+        ComparisonMode.Above => RemainingAllowances > ModuleConfig.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete,
+        ComparisonMode.Below => RemainingAllowances < ModuleConfig.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete,
+        ComparisonMode.Equal => RemainingAllowances != ModuleConfig.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete,
+        _ => CompletionStatus.Unknown,
     };
 
     private static int RemainingAllowances => QuestManager.Instance()->NumLeveAllowances;
