@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/14.0.1">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
-        <Version>6.0.0.8</Version>
+        <Version>6.0.0.9</Version>
     </PropertyGroup>
 
     <ItemGroup>
