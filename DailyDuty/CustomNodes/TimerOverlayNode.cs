@@ -97,7 +97,7 @@ public sealed class TimerOverlayNode : OverlayNode {
         var percentage = 1.0f - (float) (timeRemaining / timerPeriod);
         percentage = Math.Clamp(percentage, 0.0f, 1.0f);
 
-        progressBarNode.Progress = percentage;
+        progressBarNode.Progress = 1 - percentage;
         progressBarNode.BarColor = TimerTimersOverlayConfig.TimerData[Module.Name].Color;
         timeRemainingNode.String = timeRemaining.FormatTimespan(TimerTimersOverlayConfig.HideTimerSeconds);
         EnableMoving = TimerTimersOverlayConfig.EnableMovingTimers;
