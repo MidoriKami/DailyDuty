@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Enums;
+using DailyDuty.Extensions;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using FFXIVClientStructs.FFXIV.Client.Game;
