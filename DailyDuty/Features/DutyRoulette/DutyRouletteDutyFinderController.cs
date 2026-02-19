@@ -65,6 +65,15 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
             
             infoTextNode?.ShowClickableCursor = shouldShow;
             infoTextNode?.IsVisible = shouldShow;
+            infoTextNode?.String = new SeStringBuilder()
+                .PushColorRgba(module.ModuleConfig.IncompleteColor)
+                .Append("Incomplete Task")
+                .PopColor()
+                .Append("        ")
+                .PushColorRgba(module.ModuleConfig.CompleteColor)
+                .Append("Complete Task")
+                .PopColor()
+                .ToReadOnlySeString();
             
             if (!shouldShow) {
                 infoTextNode?.RemoveNodeFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
