@@ -1,6 +1,9 @@
-﻿using DailyDuty.CustomNodes;
+﻿using System.Drawing;
+using DailyDuty.CustomNodes;
 using DailyDuty.Windows;
+using Dalamud.Interface;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Color;
 using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Features.DutyRoulette;
@@ -10,6 +13,9 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
     private LuminaMultiSelectWindow<ContentRoulette>? luminaSelectionWindow;
 
     protected override void BuildNode(ScrollingListNode container) {
+        var originalIncompleteColor = module.ModuleConfig.IncompleteColor;
+        var originalCompleteColor = module.ModuleConfig.CompleteColor;
+        
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
@@ -27,6 +33,40 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 OnClick = newValue => {
                     module.ModuleConfig.ColorContentFinder = newValue;
                     module.ModuleConfig.MarkDirty();
+                },
+            },
+            new ColorEditNode {
+                Height = 28.0f,
+                CurrentColor = originalIncompleteColor,
+                DefaultColor = KnownColor.OrangeRed.Vector(),
+                String = "Incomplete Color",
+                OnColorCancelled = () => {
+                    module.ModuleConfig.IncompleteColor = originalIncompleteColor;
+                    module.ModuleConfig.MarkDirty();
+                },
+                OnColorConfirmed = color => {
+                    module.ModuleConfig.IncompleteColor = color;
+                    module.ModuleConfig.MarkDirty();
+                },
+                OnColorPreviewed = color => {
+                    module.ModuleConfig.IncompleteColor = color;
+                },
+            },
+            new ColorEditNode {
+                Height = 28.0f,
+                CurrentColor = originalCompleteColor,
+                DefaultColor = KnownColor.LimeGreen.Vector(),
+                String = "Complete Color",
+                OnColorCancelled = () => {
+                    module.ModuleConfig.CompleteColor = originalCompleteColor;
+                    module.ModuleConfig.MarkDirty();
+                },
+                OnColorConfirmed = color => {
+                    module.ModuleConfig.CompleteColor = color;
+                    module.ModuleConfig.MarkDirty();
+                },
+                OnColorPreviewed = color => {
+                    module.ModuleConfig.CompleteColor = color;
                 },
             },
             new CategoryHeaderNode {
