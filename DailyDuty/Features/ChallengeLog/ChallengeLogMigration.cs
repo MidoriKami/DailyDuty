@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dalamud.Game.Text;
 using Newtonsoft.Json.Linq;
 
@@ -8,7 +9,7 @@ public static class ChallengeLogMigration {
     public static ChallengeLogConfig Migrate(JObject data) => new() {
         EnableContentFinderWarning = data["EnableContentFinderWarning"]?.ToObject<bool>() ?? true,
         EnableWarningSound = data["EnableWarningSound"]?.ToObject<bool>() ?? true,
-        WarningEntries = data["WarningEntries"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToHashSet() ?? [],
+        WarningEntries = data["WarningEntries"]?.ToObject<HashSet<uint>>() ?? [],
         TrackedEntries = data["TaskConfig"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToHashSet() ?? [],
         
         // Base Properties
