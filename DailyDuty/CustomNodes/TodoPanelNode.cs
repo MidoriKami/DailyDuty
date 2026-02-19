@@ -166,7 +166,7 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         var warningModules = Config.Modules.Select(moduleName => System.ModuleManager.GetModule(moduleName))
             .OfType<ModuleBase>()
-            .Where(module => module is { ModuleStatus: CompletionStatus.Incomplete, IsEnabled: true })
+            .Where(module => module is { ModuleStatus: CompletionStatus.Incomplete or CompletionStatus.ResultsAvailable, IsEnabled: true })
             .OrderBy(module => module.Name)
             .ToList();
 
