@@ -9,19 +9,19 @@ public abstract class ConfigNodeBase : SimpleComponentNode;
 
 public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
     
-    private readonly TabBarNode tabBar;
     private readonly NotificationSettingsNode<T> notificationSettings;
     private readonly ScrollingListNode configNode;
+    private readonly VerticalLineNode verticalLineNode;
 
     protected ConfigNodeBase(T module) {
-        tabBar = new TabBarNode();
-        tabBar.AddTab("Notification", OnNotificationTabSelected);
-        tabBar.AddTab("Settings", OnSettingsTabSelected);
-        tabBar.AttachNode(this);
-
         notificationSettings = new NotificationSettingsNode<T>(module);
         notificationSettings.AttachNode(this);
-    
+
+        verticalLineNode = new VerticalLineNode {
+            Alpha = 0.5f,
+        };
+        verticalLineNode.AttachNode(this);
+        
         configNode = new ScrollingListNode {
             AutoHideScrollBar = true,
             IsVisible = false,
@@ -41,25 +41,17 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 
-        tabBar.Size = new Vector2(Width, 24.0f);
-        tabBar.Position = new Vector2(0.0f, 0.0f);
+        var regionSize = Width / 2.0f - 6.0f;
         
-        notificationSettings.Size = Size - new Vector2(0.0f, 28.0f);
-        notificationSettings.Position = new Vector2(0.0f, 28.0f);
-        
-        configNode.Size = Size - new Vector2(0.0f, 28.0f);
-        configNode.Position = new Vector2(0.0f, 28.0f);
+        verticalLineNode.Size = new Vector2(Height - 28.0f, 4.0f);
+        verticalLineNode.Position = new Vector2(regionSize + 4.0f, 28.0f);
+
+        notificationSettings.Size = new Vector2(regionSize, Height);
+        notificationSettings.Position = new Vector2(0.0f, 0.0f);
+
+        configNode.Size = new Vector2(regionSize, Height);
+        configNode.Position = new Vector2(regionSize + 6.0f, 0.0f);
         configNode.RecalculateLayout();
-    }
-    
-    private void OnNotificationTabSelected() {
-        notificationSettings.IsVisible = true;
-        configNode.IsVisible = false;
-    }
-    
-    private void OnSettingsTabSelected() {
-        notificationSettings.IsVisible = false;
-        configNode.IsVisible = true;
     }
     
     protected abstract void BuildNode(ScrollingListNode container);
@@ -79,5 +71,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
                 Height = 32.0f,
             });
         }
+
+        container.IsVisible = true;
     }
 }

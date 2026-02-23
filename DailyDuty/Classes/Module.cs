@@ -86,7 +86,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
                 Module = this,
                 InternalName = $"{GetType().Name}ConfigWindow",
                 Title = $"{ModuleInfo.DisplayName} Config",
-                Size = new Vector2(400.0f, 500.0f),
+                Size = new Vector2(800.0f, 475.0f),
             };
             
             configWindow.Toggle();
