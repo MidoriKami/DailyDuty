@@ -4,7 +4,6 @@ using System.Numerics;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
-using Dalamud.Utility;
 using Newtonsoft.Json.Linq;
 using Data = DailyDuty.Utilities.Data;
 
@@ -131,11 +130,12 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (DateTime.UtcNow <= ModuleData.NextReset) return;
 
+        OnModuleUpdate();
+        Reset();
+        
         if (ModuleConfig.ResetMessage) {
             PrintStatusMessage(StatusMessageType.Reset);
         }
-
-        Reset();
         
         var nextReset = GetNextResetDateTime();
         Services.PluginLog.Debug($"Resetting {ModuleInfo.DisplayName}, next reset at {nextReset.ToLocalTime().GetDisplayString()}");
@@ -148,25 +148,17 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
 
     private void PrintStatusMessage(StatusMessageType type) {
-        var customMessage = type switch {
-            StatusMessageType.Login => ModuleConfig.CustomStatusMessage,
-            StatusMessageType.ZoneChanged => ModuleConfig.CustomStatusMessage,
-            StatusMessageType.Reset => ModuleConfig.CustomResetMessage,
-            _ => string.Empty,
-        };
-
-        var statusMessage = ModuleStatusMessage;
-        
-        if (!customMessage.IsNullOrEmpty()) {
-            statusMessage.Message = customMessage;
-        }
-        
         Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending {type.ToString()} Message");
         Services.ChatGui.PrintPayloadMessage(
             ModuleConfig.MessageChatChannel, 
-            statusMessage.PayloadId, 
+            ModuleStatusMessage.PayloadId, 
             ModuleInfo.DisplayName, 
-            statusMessage.Message
+            type switch {
+                StatusMessageType.Login => LoginMessage,
+                StatusMessageType.ZoneChanged => StatusMessage,
+                StatusMessageType.Reset => ResetMessage,
+                _ => string.Empty,
+            }
         );
     }
 
@@ -176,4 +168,17 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
         return GetCompletionStatus();
     }
+
+    private string StatusMessage 
+        => ModuleConfig.CustomStatusMessage is not "" 
+               ? ModuleConfig.CustomStatusMessage 
+               : ModuleStatusMessage.Message;
+
+    private string LoginMessage
+        => StatusMessage;
+    
+    private string ResetMessage
+        => ModuleConfig.CustomResetMessage is not ""
+           ? ModuleConfig.CustomResetMessage
+           : $"Resetting {ModuleInfo.DisplayName}";
 }

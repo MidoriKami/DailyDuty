@@ -38,8 +38,6 @@ public abstract unsafe class ModuleBase : FeatureBase {
     protected abstract void OnModuleBaseUpdate();
     
     protected sealed override void OnFeatureUpdate() {
-        OnModuleBaseUpdate();
-
         ModuleStatus = GetModuleStatus();
 
         if (ModuleStatus is not CompletionStatus.Complete) {
@@ -68,5 +66,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} data");
             DataBase.Save();
         }
+        
+        OnModuleBaseUpdate();
     }
 }
