@@ -11,6 +11,10 @@ public class TodoTooltip {
         TooltipText = text,
     };
 
+    public static implicit operator TodoTooltip(ReadOnlySeString text) => new() {
+        TooltipText = text,
+    };
+
     public static implicit operator TodoTooltip(StatusMessage message) => new() {
         TooltipText = message.Message,
     };

@@ -51,11 +51,8 @@ public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
 
         return incomplete;
     }
-    
-    protected override TodoTooltip GetTooltip() => new() {
-        TooltipText = GetMissingObjectives(),
-        ClickAction = PayloadId.OpenChallengeLog,
-    };
+
+    protected override TodoTooltip GetTooltip() => GetMissingObjectives();
 
     private ReadOnlySeString GetMissingObjectives() {
         var result = string.Empty;
