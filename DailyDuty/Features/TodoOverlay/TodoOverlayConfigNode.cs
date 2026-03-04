@@ -117,7 +117,9 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     Size = new Vector2(32.0f, 32.0f),
                     Icon = ButtonIcon.Add,
                     OnClick = () => {
-                        module.ModuleTodoOverlayConfig.Panels.Add(new TodoPanelConfig());
+                        module.ModuleTodoOverlayConfig.Panels.Add(new TodoPanelConfig {
+                            EnableMoving = true,
+                        });
                         module.ModuleTodoOverlayConfig.MarkDirty();
                         module.RebuildPanels();
                         RebuildList();
