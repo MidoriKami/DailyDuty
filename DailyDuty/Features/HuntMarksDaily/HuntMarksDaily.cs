@@ -52,7 +52,8 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
         return incomplete;
     }
 
-    protected override TodoTooltip GetTooltip() => GetMissingObjectives();
+    protected override TodoTooltip GetTooltip() 
+        => GetMissingObjectives();
 
     private ReadOnlySeString GetMissingObjectives() {
         var result = string.Empty;
