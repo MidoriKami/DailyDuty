@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using DailyDuty.CustomNodes;
-using DailyDuty.Windows;
 using Dalamud.Interface;
 using KamiToolKit.Nodes;
 using KamiToolKit.Premade.Color;
@@ -10,7 +9,6 @@ namespace DailyDuty.Features.DutyRoulette;
 
 public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(module) {
     private readonly DutyRoulette module = module;
-    private LuminaMultiSelectWindow<ContentRoulette>? luminaSelectionWindow;
 
     protected override void BuildNode(ScrollingListNode container) {
         var originalIncompleteColor = module.ModuleConfig.IncompleteColor;
@@ -72,25 +70,13 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
             new CategoryHeaderNode {
                 String = "Tracked Duty Finder Entries",
             },
-            new TextButtonNode {
-                Height = 28.0f,
-                String = "Edit Tracked Duty Roulettes",
-                OnClick = OpenMainTrackingWindow,
+            new LuminaMultiSelectNode<ContentRoulette> {
+                GetLabelFunc = item => item.Name.ToString(),
+                FilterFunc = item => item.ContentType.RowId is 1,
+                OnEdited = module.ModuleConfig.MarkDirty,
+                Options = module.ModuleConfig.TrackedRoulettes,
+                Height = 190.0f,
             },
         ]);
-    }
-    
-    private void OpenMainTrackingWindow() {
-        luminaSelectionWindow?.Dispose();
-        luminaSelectionWindow = new LuminaMultiSelectWindow<ContentRoulette> {
-            InternalName = "ContentsNoteSelection",
-            Title = "Duty Roulette Selection",
-            Options = module.ModuleConfig.TrackedRoulettes,
-            GetLabelFunc = item => item.Name.ToString(),
-            FilterFunc = item => item.ContentType.RowId is 1,
-            OnEdited = module.ModuleConfig.MarkDirty,
-        };
-        
-        luminaSelectionWindow.Open();
     }
 }

@@ -20,12 +20,15 @@ public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRo
         scrollable.FitWidth = true;
         scrollable.FitContents = true;
 
-        foreach (var option in Services.DataManager.GetExcelSheet<T>().Where(option => FilterFunc?.Invoke(option) ?? true)) {
-            if (GetLabelFunc?.Invoke(option) is not { Length: > 0 } name) continue;
-            
+        var optionEntries = Services.DataManager.GetExcelSheet<T>()
+            .Where(option => FilterFunc?.Invoke(option) ?? true)
+            .Where(option => GetLabelFunc?.Invoke(option) is { Length: > 0 })
+            .OrderBy(option => GetLabelFunc?.Invoke(option));
+
+        foreach (var option in optionEntries) {
             scrollable.AddNode(new CheckboxNode {
                 Height = 28.0f,
-                String = name,
+                String = GetLabelFunc?.Invoke(option),
                 IsChecked = Options.Contains(option.RowId),
                 OnClick = newValue => OnOptionEdited(option, newValue),
             });
