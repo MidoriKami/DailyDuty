@@ -235,5 +235,12 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
         }
         
         scrollingList.RecalculateLayout();
+        
+        AddNode(new TextButtonNode {
+            Size = new Vector2(200.0f, 24.0f),
+            Position = new Vector2(ContentStartPosition.X + listNode.Width / 2.0f - 200.0f / 2.0f, ContentStartPosition.Y + ContentSize.Y - 32.0f),
+            String = "Open Main Config",
+            OnClick = () => System.ConfigurationWindow.Toggle(),
+        });
     }
 }
