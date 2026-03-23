@@ -6,6 +6,6 @@ namespace DailyDuty.Extensions;
 
 public static unsafe class AgentReceiveEventArgsExtensions {
     extension(AgentReceiveEventArgs eventArgs) {
-        public Span<AtkValue> AtkValueSpan => new Span<AtkValue>((AtkValue*) eventArgs.AtkValues, (int) eventArgs.ValueCount);
+        public Span<AtkValue> AtkValueSpan => new((AtkValue*) eventArgs.AtkValues, (int) eventArgs.ValueCount);
     }
 }
