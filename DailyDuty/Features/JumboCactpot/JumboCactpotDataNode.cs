@@ -8,10 +8,10 @@ using KamiToolKit.Nodes;
 
 namespace DailyDuty.Features.JumboCactpot;
 
-public class JumboCactpotDataNode(JumpCactpot module) : DataNodeBase<JumpCactpot>(module) {
+public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactpot>(module) {
 
     private readonly Dictionary<int, TextNode> statusNodes = [];
-    private readonly JumpCactpot module = module;
+    private readonly JumboCactpot module = module;
 
     protected override NodeBase BuildDataNode() {
         var verticalListNode = new VerticalListNode {

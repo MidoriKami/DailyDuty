@@ -11,7 +11,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Features.JumboCactpot;
 
-public unsafe class JumpCactpot : Module<ConfigBase, JumboCactpotData> {
+public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Jumbo Cactpot",
         FileName = "JumboCactpot",
