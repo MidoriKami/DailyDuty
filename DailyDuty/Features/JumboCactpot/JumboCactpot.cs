@@ -3,11 +3,10 @@ using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
-using Dalamud.Hooking;
+using Dalamud.Game.Agent;
+using Dalamud.Game.Agent.AgentArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace DailyDuty.Features.JumboCactpot;
 
@@ -23,17 +22,14 @@ public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     };
 
     public override DataNodeBase DataNode => new JumboCactpotDataNode(this);
-    private Hook<AgentInterface.Delegates.ReceiveEvent>? onReceiveEventHook;
     private int ticketData = -1;
 
     protected override void OnModuleEnable() {
-        onReceiveEventHook = Services.Hooker.HookFromAddress<AgentInterface.Delegates.ReceiveEvent>(AgentModule.Instance()->GetAgentByInternalId(AgentId.LotteryWeekly)->VirtualTable->ReceiveEvent, OnReceiveEvent);
-        onReceiveEventHook?.Enable();
+        Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, OnLotteryEvent);
     }
 
     protected override void OnModuleDisable() {
-        onReceiveEventHook?.Dispose();
-        onReceiveEventHook = null;
+        Services.AgentLifecycle.UnregisterListener(OnLotteryEvent);
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
@@ -69,39 +65,32 @@ public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
         }
     }
     
-    private AtkValue* OnReceiveEvent(AgentInterface* agent, AtkValue* returnValue, AtkValue* args, uint argCount, ulong sender) {
-    	var result = onReceiveEventHook!.Original(agent, returnValue, args, argCount, sender);
+    private void OnLotteryEvent(AgentEvent type, AgentArgs args) {
+        if (args is not AgentReceiveEventArgs receiveArgs) return;
 
-        try {
-            var data = args->Int;
+        var data = receiveArgs.AtkValueSpan[0].Int;
 
-            switch (sender) {
-                // Message is from JumboCactpot
-                case 0 when data >= 0:
-                    ticketData = data;
-                    break;
+        switch (receiveArgs.EventKind) {
+            // Message is from JumboCactpot
+            case 0 when data >= 0:
+                ticketData = data;
+                break;
 
-                // Message is from SelectYesNo
-                case 5:
-                    switch (data) {
-                        case -1:
-                        case 1:
-                            ticketData = -1;
-                            break;
+            // Message is from SelectYesNo
+            case 5:
+                switch (data) {
+                    case -1:
+                    case 1:
+                        ticketData = -1;
+                        break;
 
-                        case 0 when ticketData >= 0:
-                            ModuleData.Tickets.Add(ticketData);
-                            ticketData = -1;
-                            ModuleData.MarkDirty();
-                            break;
-                    }
-                    break;
-            }
+                    case 0 when ticketData >= 0:
+                        ModuleData.Tickets.Add(ticketData);
+                        ticketData = -1;
+                        ModuleData.MarkDirty();
+                        break;
+                }
+                break;
         }
-        catch (Exception e) {
-            Services.PluginLog.Error(e, "Exception processing JumboCactpot Event");
-        }
-
-        return result;
     }
 }
