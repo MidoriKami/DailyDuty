@@ -18,13 +18,17 @@ public unsafe class ModuleManager : IDisposable {
     public bool IsLoadComplete { get; private set; }
 
     private readonly bool frameworkLoggingEnabled = true;
-    private static Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
+    private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
     
     public Action? OnFeatureEnabled { get; set; }
     public Action? OnFeatureDisabled { get; set; }
     
     public Action? OnLoadComplete { get; set; }
 
+    public ModuleManager() {
+        frameworkEventHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
+    }
+    
     public void Dispose() {
         frameworkEventHook?.Dispose();
         frameworkEventHook = null;
@@ -33,8 +37,7 @@ public unsafe class ModuleManager : IDisposable {
     }
 
     public void LoadModules() {
-        frameworkEventHook ??= Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
-        frameworkEventHook.Enable();
+        frameworkEventHook?.Enable();
         
         IsUnloading = false;
         
