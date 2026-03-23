@@ -11,7 +11,6 @@
     <PropertyGroup>
         <Author>MidoriKami</Author>
         <Name>DailyDuty</Name>
-        <InternalName>dailyduty</InternalName>
         <Punchline>Easily Track Daily and Weekly tasks</Punchline>
         <Description>Automatically track and complete many daily and weekly tasks</Description>
         <RepoUrl>https://github.com/MidoriKami/DailyDuty</RepoUrl>
