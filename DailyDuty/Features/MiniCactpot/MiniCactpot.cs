@@ -23,13 +23,11 @@ public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
 
     public override DataNodeBase DataNode => new MiniCactpotDataNode(this);
 
-    protected override void OnModuleEnable() {
-         Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
-    }
+    protected override void OnModuleEnable()
+        => Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
 
-    protected override void OnModuleDisable() {
-         Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
-    }
+    protected override void OnModuleDisable()
+        => Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = $"{ModuleData.AllowancesRemaining} Attempts Remaining",
