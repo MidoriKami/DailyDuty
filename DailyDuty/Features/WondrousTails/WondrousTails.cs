@@ -4,6 +4,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
+using DailyDuty.Extensions;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -43,6 +44,11 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     }
 
     protected override StatusMessage GetStatusMessage() => this switch {
+        { IsNewBookAvailable: true } when ModuleConfig.UnclaimedBookWarning  => new StatusMessage {
+            Message = "New Book Available",
+            PayloadId = PayloadId.IdyllshireTeleport,
+        },
+        
         { PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.StickerAvailableNotice && IsStickerAvailable => new StatusMessage {
             Message = "Sticker Available",
             PayloadId = PayloadId.OpenWondrousTailsBook,
@@ -51,11 +57,6 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
         { SecondChancePoints: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.ShuffleAvailableNotice => new StatusMessage {
             Message = "Shuffle Available",
             PayloadId = PayloadId.OpenWondrousTailsBook,
-        },
-        
-        { IsNewBookAvailable: true } when ModuleConfig.UnclaimedBookWarning  => new StatusMessage {
-            Message = "New Book Available",
-            PayloadId = PayloadId.IdyllshireTeleport,
         },
         
         _ => new StatusMessage {
