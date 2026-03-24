@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Windows;
 using Dalamud.Game.Command;
@@ -33,7 +34,7 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         System.ModuleManager = new ModuleManager();
 
         if (Services.ClientState.IsLoggedIn) {
-            Services.Framework.RunOnFrameworkThread(OnLogin);
+            OnLogin();
         }
         
         Services.ClientState.Login += OnLogin;
@@ -75,13 +76,13 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         KamiToolKitLibrary.Dispose();
     }
 
-    private static void OnLogin() {
+    private static void OnLogin() => Task.Run(() => {
         System.SystemConfig = SystemConfig.Load();
         System.ModuleManager.LoadModules();
-    }
-    
-    private static void OnLogout(int type, int code) {
+    });
+
+    private static void OnLogout(int type, int code) => Task.Run(() => {
         System.ModuleManager.UnloadModules();
         System.SystemConfig = null;
-    }
+    });
 }
