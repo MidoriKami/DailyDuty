@@ -32,7 +32,13 @@ public unsafe class TodoOverlay : FeatureBase {
         if (ModuleTodoOverlayConfig is null) throw new Exception("Failed to load config file");
         
         ModuleTodoOverlayConfig.FileName = ModuleInfo.FileName;
-        System.ModuleManager.OnLoadComplete += RebuildPanels;
+
+        if (System.ModuleManager.IsLoadComplete) {
+            RebuildPanels();
+        }
+        else {
+            System.ModuleManager.OnLoadComplete += RebuildPanels;
+        }
     }
 
     protected override void OnFeatureUnload() {

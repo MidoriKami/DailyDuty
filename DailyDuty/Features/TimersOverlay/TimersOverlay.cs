@@ -35,7 +35,13 @@ public unsafe class TimersOverlay : FeatureBase {
         if (ModuleTimersOverlayConfig is null) throw new Exception("Failed to load config file");
         
         ModuleTimersOverlayConfig.FileName = ModuleInfo.FileName;
-        System.ModuleManager.OnLoadComplete += RebuildTimers;
+
+        if (System.ModuleManager.IsLoadComplete) {
+            RebuildTimers();
+        }
+        else {
+            System.ModuleManager.OnLoadComplete += RebuildTimers;
+        }
     }
 
     protected override void OnFeatureUnload() {
