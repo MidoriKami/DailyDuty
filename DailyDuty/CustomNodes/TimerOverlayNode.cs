@@ -8,7 +8,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Overlay;
+using KamiToolKit.Overlay.UiOverlay;
 
 namespace DailyDuty.CustomNodes;
 

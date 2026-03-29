@@ -5,6 +5,7 @@ using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 
 namespace DailyDuty.CustomNodes;
 

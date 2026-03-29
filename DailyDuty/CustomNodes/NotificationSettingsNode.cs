@@ -3,6 +3,7 @@ using System.Linq;
 using DailyDuty.Classes;
 using Dalamud.Game.Text;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 using XivChatTypeExtensions = DailyDuty.Extensions.XivChatTypeExtensions;
 
 namespace DailyDuty.CustomNodes;

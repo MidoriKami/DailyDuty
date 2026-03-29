@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 using Lumina.Excel;
 
 namespace DailyDuty.CustomNodes;

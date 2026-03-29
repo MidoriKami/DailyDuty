@@ -8,7 +8,7 @@ using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Color;
+using KamiToolKit.Premade.Node.Color;
 
 namespace DailyDuty.Features.TodoOverlay;
 

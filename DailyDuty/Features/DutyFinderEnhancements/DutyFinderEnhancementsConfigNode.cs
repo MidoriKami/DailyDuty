@@ -2,7 +2,8 @@
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Color;
+using KamiToolKit.Premade.Node.Color;
+using KamiToolKit.Premade.Node.Simple;
 
 namespace DailyDuty.Features.DutyFinderEnhancements;
 

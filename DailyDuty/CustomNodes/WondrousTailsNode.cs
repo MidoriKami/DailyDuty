@@ -2,6 +2,7 @@
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 
 namespace DailyDuty.CustomNodes;
 

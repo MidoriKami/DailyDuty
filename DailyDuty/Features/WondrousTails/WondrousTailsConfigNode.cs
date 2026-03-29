@@ -2,7 +2,7 @@
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Color;
+using KamiToolKit.Premade.Node.Color;
 
 namespace DailyDuty.Features.WondrousTails;
 

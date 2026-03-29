@@ -7,7 +7,7 @@ using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
-using KamiToolKit.Overlay;
+using KamiToolKit.Overlay.UiOverlay;
 
 namespace DailyDuty.Features.TodoOverlay;
 

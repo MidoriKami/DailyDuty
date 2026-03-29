@@ -8,7 +8,7 @@ using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
-using KamiToolKit.Overlay;
+using KamiToolKit.Overlay.UiOverlay;
 
 namespace DailyDuty.Features.TimersOverlay;
 

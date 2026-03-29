@@ -3,6 +3,7 @@ using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
+using KamiToolKit.Premade.Node.Simple;
 
 namespace DailyDuty.Features.TodoOverlay;
 

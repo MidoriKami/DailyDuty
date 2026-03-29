@@ -4,7 +4,6 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Extensions;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;

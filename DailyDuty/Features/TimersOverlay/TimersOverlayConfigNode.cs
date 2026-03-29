@@ -7,7 +7,7 @@ using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Color;
+using KamiToolKit.Premade.Node.Color;
 
 namespace DailyDuty.Features.TimersOverlay;
 
