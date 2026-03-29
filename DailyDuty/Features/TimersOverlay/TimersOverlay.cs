@@ -107,7 +107,7 @@ public unsafe class TimersOverlay : FeatureBase {
         }
     }
     
-    private void RebuildTimers() {
+    private void RebuildTimers() => Services.Framework.RunOnFrameworkThread(() => {
         if (!System.ModuleManager.IsLoadComplete) return;
         System.ModuleManager.OnLoadComplete -= RebuildTimers;
 
@@ -118,7 +118,7 @@ public unsafe class TimersOverlay : FeatureBase {
             var loadedModule = System.ModuleManager.LoadedModules?.FirstOrDefault(loadedModule => loadedModule.Name == option);
             if (loadedModule?.FeatureBase is not ModuleBase module) continue;
             if (!module.IsEnabled) continue;
-            
+
             Vector2 initialPosition;
 
             if (ModuleTimersOverlayConfig.TimerData.TryGetValue(option, out var data)) {
@@ -127,16 +127,16 @@ public unsafe class TimersOverlay : FeatureBase {
             else {
                 var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 2.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
                 var offset = new Vector2(0.0f, 68.0f) * index;
-                
+            
                 initialPosition = position + offset;
             }
-            
-            overlayController?.CreateNode(() => new TimerOverlayNode {
+
+            overlayController?.AddNode(new TimerOverlayNode {
                 Size = new Vector2(300.0f, 64.0f),
                 Position = initialPosition,
                 TimerTimersOverlayConfig = ModuleTimersOverlayConfig,
                 Module = module,
             });
         }
-    }
+    });
 }

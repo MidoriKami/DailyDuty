@@ -63,7 +63,7 @@ public unsafe class TodoOverlay : FeatureBase {
         }
     }
     
-    public void RebuildPanels() {
+    public void RebuildPanels() => Services.Framework.RunOnFrameworkThread(() => {
         if (!System.ModuleManager.IsLoadComplete) return;
         System.ModuleManager.OnLoadComplete -= RebuildPanels;
 
@@ -75,17 +75,17 @@ public unsafe class TodoOverlay : FeatureBase {
             if (option.Position is null) {
                 var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 4.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
                 var offset = new Vector2(300.0f, 0.0f) * index;
-                
+            
                 option.Position = position + offset;
                 ModuleTodoOverlayConfig.MarkDirty();
             }
-            
-            overlayController?.CreateNode(() => new TodoPanelNode {
+
+            overlayController?.AddNode(new TodoPanelNode {
                 Position = option.Position.Value,
                 Size = new Vector2(200.0f, 200.0f),
                 Config = option,
                 ModuleTodoOverlayConfig = ModuleTodoOverlayConfig,
             });
         }
-    }
+    });
 }
