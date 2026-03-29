@@ -35,6 +35,8 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         if (Services.ClientState.IsLoggedIn) {
             OnLogin();
+
+            System.ModuleManager.OnLoadComplete += () => System.ConfigurationWindow.DebugOpen();
         }
         
         Services.ClientState.Login += OnLogin;
@@ -42,10 +44,6 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
         Services.PluginInterface.UiBuilder.OpenConfigUi += System.ConfigurationWindow.Toggle;
         Services.PluginInterface.UiBuilder.OpenMainUi += System.ConfigurationWindow.Toggle;
-        
-        if (Services.ClientState.IsLoggedIn) {
-            System.ConfigurationWindow.DebugOpen();
-        }
     }
 
     private static void OnCommandReceived(string command, string arguments) {
