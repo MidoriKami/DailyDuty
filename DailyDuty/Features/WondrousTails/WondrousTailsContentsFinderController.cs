@@ -30,42 +30,30 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
     public WondrousTailsContentsFinderController(WondrousTails module) {
         this.module = module;
 
-        listController = new NativeListController("ContentsFinder") {
+        listController = new NativeListController {
+            AddonName = "ContentsFinder",
             GetPopulatorNode = GetPopulatorMethod,
             ShouldModifyElement = ShouldModifyElementMethod,
             UpdateElement = UpdateElementMethod,
             ResetElement = ResetElementMethod,
         };
-        
         listController.Enable();
         
-        addonController = new AddonController<AddonContentsFinder>("ContentsFinder");
-        addonController.OnAttach += ContentsFinderSetup;
-        addonController.OnRefresh += ContentsFinderRefresh;
-        addonController.OnDetach += _ => {
-            foreach (var imageNode in imageNodes.Values) {
-                imageNode.Dispose();
-            }
-            
-            imageNodes.Clear();
-            
-            infoTailsNode?.Dispose();
-            infoTailsNode = null;
-            
-            infoTextNode?.Dispose();
-            infoTextNode = null;
+        addonController = new AddonController<AddonContentsFinder> {
+            AddonName = "ContentsFinder",
+            OnSetup = SetupContentsFinder,
+            OnRefresh = RefreshContentsFinder,
+            OnFinalize = FinalizeContentsFinder,
         };
-        
         addonController.Enable();
     }
-
 
     public void Dispose() {
         listController.Dispose();
         addonController.Dispose();
     }
-    
-    private void ContentsFinderSetup(AddonContentsFinder* addon) {
+
+    private void SetupContentsFinder(AddonContentsFinder* addon) {
         wondrousTailsDuties.Clear();
 
         foreach (var index in Enumerable.Range(0, 16)) {
@@ -98,8 +86,8 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
         };
         infoTailsNode.AttachNode(infoTextNode);
     }
-    
-    private void ContentsFinderRefresh(AddonContentsFinder* addon) {
+
+    private void RefreshContentsFinder(AddonContentsFinder* addon) {
         var shouldShow = listController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is not 0;
 
         infoTextNode?.ShowClickableCursor = shouldShow;
@@ -107,6 +95,19 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
         infoTailsNode?.IsVisible = shouldShow && module.ModuleConfig.CloverIndicator;
 
         addon->UpdateCollisionNodeList(false);
+    }
+
+    private void FinalizeContentsFinder(AddonContentsFinder* _) {
+        foreach (var imageNode in imageNodes.Values) {
+            imageNode.Dispose();
+        }
+        imageNodes.Clear();
+
+        infoTailsNode?.Dispose();
+        infoTailsNode = null;
+
+        infoTextNode?.Dispose();
+        infoTextNode = null;
     }
 
     private AtkComponentListItemRenderer* GetPopulatorMethod(AtkUnitBase* addon) {

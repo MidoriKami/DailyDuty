@@ -22,75 +22,78 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
     public DutyRouletteDutyFinderController(DutyRoulette module) {
         this.module = module;
 
-        listController = new NativeListController("ContentsFinder") {
+        listController = new NativeListController {
+            AddonName = "ContentsFinder",
             GetPopulatorNode = GetPopulatorMethod,
             ShouldModifyElement = ShouldModifyElementMethod,
             UpdateElement = UpdateElementMethod,
             ResetElement = ResetElementMethod,
         };
-        
         listController.Enable();
-        
-        addonController = new AddonController<AddonContentsFinder>("ContentsFinder");
-        addonController.OnAttach += addon => {
-            var targetResNode = addon->GetNodeById(56);
-            if (targetResNode is null) return;
-            
-            infoTextNode = new TextNode {
-                Position = new Vector2(16.0f, targetResNode->GetYFloat() + 2.0f),
-                Size = new Vector2(250.0f, 18.0f),
-                AlignmentType = AlignmentType.Center,
-                String = new SeStringBuilder()
-                    .PushColorRgba(module.ModuleConfig.IncompleteColor)
-                    .Append("Incomplete Task")
-                    .PopColor()
-                    .Append("        ")
-                    .PushColorRgba(module.ModuleConfig.CompleteColor)
-                    .Append("Complete Task")
-                    .PopColor()
-                    .ToReadOnlySeString(),
-                TextTooltip = "[DailyDuty] Duty Roulette Feature",
-                IsVisible = false,
-            };
-            infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
-        };
 
-        addonController.OnDetach += _ => {
-            infoTextNode?.Dispose();
-            infoTextNode = null;
-        };
-
-        addonController.OnRefresh += addon => {
-            var shouldShow = listController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
-            
-            infoTextNode?.ShowClickableCursor = shouldShow;
-            infoTextNode?.IsVisible = shouldShow;
-            infoTextNode?.String = new SeStringBuilder()
-                .PushColorRgba(module.ModuleConfig.IncompleteColor)
-                .Append("Incomplete Task")
-                .PopColor()
-                .Append("        ")
-                .PushColorRgba(module.ModuleConfig.CompleteColor)
-                .Append("Complete Task")
-                .PopColor()
-                .ToReadOnlySeString();
-            
-            if (!shouldShow) {
-                infoTextNode?.RemoveNodeFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
-            }
-            else {
-                infoTextNode?.AddNodeFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
-            }
-            
-            addon->UpdateCollisionNodeList(false);
-        };
-        
+        addonController = new AddonController<AddonContentsFinder> {
+            AddonName = "ContentsFinder",
+            OnSetup = SetupContentsFinder,
+            OnRefresh = RefreshContentsFinder,
+            OnFinalize = FinalizeContentsFinder,
+        }; 
         addonController.Enable();
     }
 
     public void Dispose() {
         listController.Dispose();
         addonController.Dispose();
+    }
+
+    private void SetupContentsFinder(AddonContentsFinder* addon) {
+        var targetResNode = addon->GetNodeById(56);
+        if (targetResNode is null) return;
+
+        infoTextNode = new TextNode {
+            Position = new Vector2(16.0f, targetResNode->GetYFloat() + 2.0f),
+            Size = new Vector2(250.0f, 18.0f),
+            AlignmentType = AlignmentType.Center,
+            String = new SeStringBuilder().PushColorRgba(module.ModuleConfig.IncompleteColor)
+                .Append("Incomplete Task")
+                .PopColor()
+                .Append("        ")
+                .PushColorRgba(module.ModuleConfig.CompleteColor)
+                .Append("Complete Task")
+                .PopColor()
+                .ToReadOnlySeString(),
+            TextTooltip = "[DailyDuty] Duty Roulette Feature",
+            IsVisible = false,
+        };
+        infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
+    }
+
+    private void RefreshContentsFinder(AddonContentsFinder* addon) {
+        var shouldShow = listController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
+
+        infoTextNode?.ShowClickableCursor = shouldShow;
+        infoTextNode?.IsVisible = shouldShow;
+        infoTextNode?.String = new SeStringBuilder().PushColorRgba(module.ModuleConfig.IncompleteColor)
+            .Append("Incomplete Task")
+            .PopColor()
+            .Append("        ")
+            .PushColorRgba(module.ModuleConfig.CompleteColor)
+            .Append("Complete Task")
+            .PopColor()
+            .ToReadOnlySeString();
+
+        if (!shouldShow) {
+            infoTextNode?.RemoveNodeFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
+        }
+        else {
+            infoTextNode?.AddNodeFlags(NodeFlags.RespondToMouse, NodeFlags.EmitsEvents);
+        }
+
+        addon->UpdateCollisionNodeList(false);
+    }
+    
+    private void FinalizeContentsFinder(AddonContentsFinder* _) {
+        infoTextNode?.Dispose();
+        infoTextNode = null;
     }
 
     private static AtkComponentListItemRenderer* GetPopulatorMethod(AtkUnitBase* addon) {

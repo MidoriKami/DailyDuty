@@ -31,7 +31,9 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
     
     protected override void OnFeatureLoad() {
         ModuleDutyFinderEnhancementsConfig = Config.LoadCharacterConfig<DutyFinderEnhancementsConfig>($"{ModuleInfo.FileName}.config.json");
-        if (ModuleDutyFinderEnhancementsConfig is null) throw new Exception("Failed to load config file");
+        if (ModuleDutyFinderEnhancementsConfig is null) {
+            throw new Exception("Failed to load config file");
+        }
         
         ModuleDutyFinderEnhancementsConfig.FileName = ModuleInfo.FileName;
     }
@@ -41,57 +43,61 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
     }
 
     protected override void OnFeatureEnable() {
-        addonController = new AddonController<AddonContentsFinder>("ContentsFinder");
-
-        addonController.OnAttach += addon => {
-            var targetNode = addon->DutyList->CategoryItemRendererList->AtkComponentListItemRenderer->ComponentNode;
-            if (targetNode is null) return;
-            
-            timerTextNode = new TextNode {
-                Position = new Vector2(targetNode->X, targetNode->Y),
-                Size = new Vector2(targetNode->Width, targetNode->Height),
-                AlignmentType = AlignmentType.Center,
-                TextTooltip = "[DailyDuty] Time until next daily reset",
-                String = "0:00:00:00",
-                TextColor = ModuleDutyFinderEnhancementsConfig.Color,
-                IsVisible = false,
-            };
-            timerTextNode.AttachNode(targetNode);
-            
-            openDailyDutyButton = new TextButtonNode {
-                Position = new Vector2(50.0f, 622.0f),
-                Size = new Vector2(130.0f, 28.0f),
-                IsVisible = true,
-                String = "Open DailyDuty",
-            };
-            openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
-            openDailyDutyButton.AttachNode(addon->RootNode);
+        addonController = new AddonController<AddonContentsFinder> {
+            AddonName = "ContentsFinder",
+            OnSetup = SetupContentsFinder,
+            OnUpdate = UpdateContentsFinder,
+            OnFinalize = FinalizeContentsFinder,
         };
-
-        addonController.OnDetach += _ => {
-            timerTextNode?.Dispose();
-            timerTextNode = null;
-            
-            openDailyDutyButton?.Dispose();
-            openDailyDutyButton = null;
-        };
-        
-        addonController.OnUpdate += addon => {
-            var nextReset = Time.NextDailyReset();
-            var timeRemaining = nextReset - DateTime.UtcNow;
-
-            timerTextNode?.String = timeRemaining.FormatTimeSpanShort(ModuleDutyFinderEnhancementsConfig.HideSeconds);
-            timerTextNode?.TextColor = ModuleDutyFinderEnhancementsConfig.Color;
-
-            if (timerTextNode?.IsVisible != addon->SelectedRadioButton is 0) {
-                timerTextNode?.IsVisible = addon->SelectedRadioButton is 0;
-                addon->UpdateCollisionNodeList(false);
-            }
-
-            openDailyDutyButton?.IsVisible = ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton;
-        };
-        
         addonController.Enable();
+    }
+
+    private void FinalizeContentsFinder(AddonContentsFinder* _) {
+        timerTextNode?.Dispose();
+        timerTextNode = null;
+
+        openDailyDutyButton?.Dispose();
+        openDailyDutyButton = null;
+    }
+
+    private void UpdateContentsFinder(AddonContentsFinder* addon) {
+        var nextReset = Time.NextDailyReset();
+        var timeRemaining = nextReset - DateTime.UtcNow;
+
+        timerTextNode?.String = timeRemaining.FormatTimeSpanShort(ModuleDutyFinderEnhancementsConfig.HideSeconds);
+        timerTextNode?.TextColor = ModuleDutyFinderEnhancementsConfig.Color;
+
+        if (timerTextNode?.IsVisible != addon->SelectedRadioButton is 0) {
+            timerTextNode?.IsVisible = addon->SelectedRadioButton is 0;
+            addon->UpdateCollisionNodeList(false);
+        }
+
+        openDailyDutyButton?.IsVisible = ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton;
+    }
+
+    private void SetupContentsFinder(AddonContentsFinder* addon) {
+        var targetNode = addon->DutyList->CategoryItemRendererList->AtkComponentListItemRenderer->ComponentNode;
+        if (targetNode is null) return;
+
+        timerTextNode = new TextNode {
+            Position = new Vector2(targetNode->X, targetNode->Y),
+            Size = new Vector2(targetNode->Width, targetNode->Height),
+            AlignmentType = AlignmentType.Center,
+            TextTooltip = "[DailyDuty] Time until next daily reset",
+            String = "0:00:00:00",
+            TextColor = ModuleDutyFinderEnhancementsConfig.Color,
+            IsVisible = false,
+        };
+        timerTextNode.AttachNode(targetNode);
+
+        openDailyDutyButton = new TextButtonNode {
+            Position = new Vector2(50.0f, 622.0f), 
+            Size = new Vector2(130.0f, 28.0f), 
+            IsVisible = true, 
+            String = "Open DailyDuty",
+        };
+        openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
+        openDailyDutyButton.AttachNode(addon->RootNode);
     }
 
     protected override void OnFeatureDisable() {
