@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -15,14 +16,14 @@ namespace DailyDuty.Features.DutyRoulette;
 
 public unsafe class DutyRouletteDutyFinderController : IDisposable {
     private readonly DutyRoulette module;
-    private readonly NativeListController listController;
+    private readonly NativeListController<AddonContentsFinder, ContentsFinderListItem> listController;
     private readonly AddonController<AddonContentsFinder> addonController;
     private TextNode? infoTextNode;
 
     public DutyRouletteDutyFinderController(DutyRoulette module) {
         this.module = module;
 
-        listController = new NativeListController {
+        listController = new NativeListController<AddonContentsFinder, ContentsFinderListItem> {
             AddonName = "ContentsFinder",
             GetPopulatorNode = GetPopulatorMethod,
             ShouldModifyElement = ShouldModifyElementMethod,
@@ -96,40 +97,31 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
         infoTextNode = null;
     }
 
-    private static AtkComponentListItemRenderer* GetPopulatorMethod(AtkUnitBase* addon) {
-        var contentsFinder = (AddonContentsFinder*) addon;
-        return contentsFinder->DutyList->GetComponentItemRendererById(6);
+    private static AtkComponentListItemRenderer* GetPopulatorMethod(AddonContentsFinder* addonContentsFinder)
+        => addonContentsFinder->DutyList->GetComponentItemRendererById(6);
+
+    private bool ShouldModifyElementMethod(AddonContentsFinder* addonContentsFinder, ContentsFinderListItem listItem) {
+        if (!module.ModuleConfig.ColorContentFinder) return false;
+        if (listItem.ContentType is not ContentsId.ContentsType.Roulette) return false;
+
+        return module.ModuleConfig.TrackedRoulettes.Contains(listItem.GetContentId().Id);
+    }
+    
+    private void UpdateElementMethod(AddonContentsFinder* addonContentsFinder, ContentsFinderListItem listItem) {
+        if (listItem.ContentType is not  ContentsId.ContentsType.Roulette) return;
+
+        var rouletteInfo = Services.DataManager
+            .GetExcelSheet<ContentRoulette>()
+            .GetRow(listItem.GetContentId().Id);
+        
+        if (InstanceContent.Instance()->IsRouletteComplete((byte)rouletteInfo.RowId)) {
+            listItem.DutyNameTextNode->TextColor = module.ModuleConfig.CompleteColor.ToByteColor();
+        }
+        else {
+            listItem.DutyNameTextNode->TextColor = module.ModuleConfig.IncompleteColor.ToByteColor();
+        }
     }
 
-    private bool ShouldModifyElementMethod(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
-        var contentData = GetContentData(listItemData.ItemInfo);
-    
-        if (!module.ModuleConfig.ColorContentFinder) return false;
-        if (contentData.ContentType is not ContentsId.ContentsType.Roulette) return false;
-        
-        return module.ModuleConfig.TrackedRoulettes.Contains(contentData.Id);
-    }
-    
-    private void UpdateElementMethod(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
-        var dutyNameTextNode = (AtkTextNode*) nodeList[3];
-        var contentData = GetContentData(listItemData.ItemInfo);
-        var contentRoulette = Services.DataManager.GetExcelSheet<ContentRoulette>().GetRow(contentData.Id);
-    
-        var isRouletteCompleted = InstanceContent.Instance()->IsRouletteComplete((byte) contentRoulette.RowId);
-        dutyNameTextNode->TextColor = isRouletteCompleted ? module.ModuleConfig.CompleteColor.ToByteColor() : module.ModuleConfig.IncompleteColor.ToByteColor();
-    }
-    
-    private static void ResetElementMethod(AtkUnitBase* unitBase, ListItemData listItemData, AtkResNode** nodeList) {
-        var dutyNameTextNode = (AtkTextNode*) nodeList[3];
-        var levelTextNode = (AtkTextNode*) nodeList[4];
-        
-        dutyNameTextNode->TextColor = levelTextNode->TextColor;
-    }
-    
-    private static ContentsId GetContentData(AtkComponentListItemPopulator.ListItemInfo* listItemInfo) {
-        var contentId = listItemInfo->ListItem->UIntValues[1];
-        var contentEntry = AgentContentsFinder.Instance()->ContentList[contentId - 1];
-        var contentData = contentEntry.Value->Id;
-        return contentData;
-    }
+    private static void ResetElementMethod(AddonContentsFinder* addonContentsFinder, ContentsFinderListItem listItemInfo)
+        => listItemInfo.DutyNameTextNode->TextColor = listItemInfo.LevelTextNode->TextColor;
 }
