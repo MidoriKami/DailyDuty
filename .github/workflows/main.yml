@@ -15,64 +15,10 @@ env:
 
 jobs:
   update-repo:
-    if: >-
-      contains(github.event.head_commit.message, 'Version') && 
-      !contains(github.event.head_commit.message, 'Testing')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout this repo
-        uses: actions/checkout@v6.0.2
+    if: contains(github.event.head_commit.message, 'Version')
 
-      - name: Checkout fork of external repo
-        uses: actions/checkout@v6.0.2
-        with:
-          repository: MidoriKami/DalamudPluginsD17
-          fetch-depth: '1'
-          path: external
-          token: ${{ secrets.PAT_FOR_PR }}
-
-      - name: Configure git and create branch
-        run: |
-          cd external
-          git remote add goatcorp https://github.com/goatcorp/DalamudPluginsD17.git
-          git fetch goatcorp
-          git checkout -b ${{ env.PLUGIN_NAME }} goatcorp/main
-
-      - name: Configure git author
-        run: |
-          cd external
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-
-      - name: Update manifest.toml
-        run: |
-          cd external
-          pip install toml
-          python - <<EOF
-          import toml
-          from pathlib import Path
-          
-          manifest_path = Path("stable/${{ env.INTERNAL_NAME }}/manifest.toml")
-          data = toml.load(manifest_path)
-          
-          # Update commit and changelog
-          data["plugin"]["commit"] = "${GITHUB_SHA}"
-          
-          with manifest_path.open("w") as f:
-              toml.dump(data, f)
-          EOF
-          git add stable/${{ env.INTERNAL_NAME }}/manifest.toml
-          git commit -m "${{ env.PLUGIN_NAME }}"          
-
-      - name: Push branch to fork
-        run: |
-          cd external
-          git push origin -f HEAD:${{ env.PLUGIN_NAME }}
-
-  update-testing-repo:
-    if: >-
-      contains(github.event.head_commit.message, 'Version') && 
-      contains(github.event.head_commit.message, 'Testing')
+    env:
+      BRANCH_TARGET: ${{ case( contains(github.event.head_commit.message, 'Testing'), 'testing/live', 'stable' ) }}
 
     runs-on: ubuntu-latest
     steps:
@@ -108,7 +54,7 @@ jobs:
           import toml
           from pathlib import Path
           
-          manifest_path = Path("testing/live/${{ env.INTERNAL_NAME }}/manifest.toml")
+          manifest_path = Path("${{ env.BRANCH_TARGET }}/${{ env.INTERNAL_NAME }}/manifest.toml")
           data = toml.load(manifest_path)
           
           # Update commit and changelog
@@ -117,7 +63,7 @@ jobs:
           with manifest_path.open("w") as f:
               toml.dump(data, f)
           EOF
-          git add testing/live/${{ env.INTERNAL_NAME }}/manifest.toml
+          git add ${{ env.BRANCH_TARGET }}/${{ env.INTERNAL_NAME }}/manifest.toml
           git commit -m "${{ env.PLUGIN_NAME }}"          
 
       - name: Push branch to fork
