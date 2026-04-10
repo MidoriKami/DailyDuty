@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Which Game Modification is causing the issue**
+**Which Module is causing the issue**
 Options name that is suspected to be the cause.
 
 **Describe the bug**
