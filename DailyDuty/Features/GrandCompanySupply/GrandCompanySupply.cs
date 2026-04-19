@@ -16,9 +16,6 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         DisplayName = "Grand Company Supply",
         FileName = "GrandCompanySupply",
         Type = ModuleType.Daily,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
     };
 

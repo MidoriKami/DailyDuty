@@ -15,9 +15,6 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
         DisplayName = "Treasure Map",
         FileName = "TreasureMap",
         Type = ModuleType.Special,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 

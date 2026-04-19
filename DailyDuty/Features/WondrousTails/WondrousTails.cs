@@ -15,9 +15,6 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
         DisplayName = "Wondrous Tails",
         FileName = "WondrousTails",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 

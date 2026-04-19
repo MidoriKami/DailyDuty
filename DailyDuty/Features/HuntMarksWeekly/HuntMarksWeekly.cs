@@ -16,9 +16,6 @@ public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
         DisplayName = "Hunt Marks Weekly",
         FileName = "HuntMarksWeekly",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Teleport", "Tickets" ],
     };
 

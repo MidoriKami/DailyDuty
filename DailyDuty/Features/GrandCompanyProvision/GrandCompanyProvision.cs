@@ -16,9 +16,6 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         DisplayName = "Grand Company Provision",
         FileName = "GrandCompanyProvision",
         Type = ModuleType.Daily,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
     };
 

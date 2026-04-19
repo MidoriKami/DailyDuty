@@ -20,9 +20,6 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
         DisplayName = "Masked Carnivale",
         FileName = "MaskedCarnivale",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Teleport", "Tickets", "Seals" ],
     };
 

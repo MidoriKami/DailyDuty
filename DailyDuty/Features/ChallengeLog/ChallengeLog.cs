@@ -19,9 +19,6 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         DisplayName = "Challenge Log",
         FileName = "ChallengeLog",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Achievements", "Exp" ],
     };
 

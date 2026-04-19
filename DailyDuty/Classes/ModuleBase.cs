@@ -1,7 +1,6 @@
 ﻿using System;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using KamiToolKit;
@@ -12,8 +11,6 @@ public abstract unsafe class ModuleBase : FeatureBase {
     
     public abstract ConfigBase ConfigBase { get; }
     public abstract DataBase DataBase { get; }
-
-    public ChangelogWindow? ChangelogWindow { get; set; }
 
     public override NodeBase DisplayNode => DataNode;
     public virtual DataNodeBase DataNode => new GenericDataNodeBase(this);

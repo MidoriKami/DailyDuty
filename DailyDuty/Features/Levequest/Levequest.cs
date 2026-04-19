@@ -12,9 +12,6 @@ public unsafe class Levequest : Module<LevequestConfig, DataBase> {
         DisplayName = "Levequest",
         FileName = "Levequest",
         Type = ModuleType.Special,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 

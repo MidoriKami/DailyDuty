@@ -13,9 +13,6 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
         DisplayName = "Fashion Report",
         FileName = "FashionReport",
         Type = ModuleType.Special,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Gold Saucer", "Gold", "Saucer", "MGP" ],
     };
 

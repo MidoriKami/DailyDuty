@@ -12,9 +12,6 @@ public class ServerInfoBar : FeatureBase {
         DisplayName = "Server Info Bar",
         FileName = "DTR",
         Type = ModuleType.GeneralFeatures,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation")
-        ],
         Tags = [ "DTR" ],
     };
 

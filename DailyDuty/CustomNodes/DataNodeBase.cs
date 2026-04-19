@@ -2,7 +2,6 @@
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
@@ -20,11 +19,8 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     private readonly TabBarNode tabBarNode;
     private readonly CategoryHeaderNode categoryHeaderNode;
 
-    private readonly SimpleComponentNode footerNode;
     private readonly NodeBase dataNode;
-    private readonly TextButtonNode changeLogButtonNode;
     private readonly TextButtonNode snoozeButtonNode;
-    private readonly TextNode versionNode;
 
     private readonly SimpleComponentNode dataContentSection;
     private readonly GenericDataNode statusDisplayNode;
@@ -53,28 +49,13 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataNode = GetDataNode();
         dataNode.AttachNode(dataContentSection);
 
-        footerNode = new SimpleComponentNode();
-        footerNode.AttachNode(this);
-        
-        changeLogButtonNode = new TextButtonNode {
-            String = "Changelog",
-            OnClick = OpenChangeLogClicked,
-        };
-        changeLogButtonNode.AttachNode(footerNode);
-
         snoozeButtonNode = new TextButtonNode {
             String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze",
             IsEnabled = module.DataBase.NextReset != DateTime.MaxValue,
             OnClick = SnoozeClicked,
             TextTooltip = module.ConfigBase.Suppressed ? string.Empty : "Suppresses notification until the next reset",
         };
-        snoozeButtonNode.AttachNode(footerNode);
-
-        versionNode = new TextNode {
-            AlignmentType = AlignmentType.BottomRight,
-            String = $"Version {module.ModuleInfo.Version}",
-        };
-        versionNode.AttachNode(footerNode);
+        snoozeButtonNode.AttachNode(this);
         
         OnStatusSelected();
     }
@@ -82,17 +63,16 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
         
-        var buttonSize = new Vector2(130.0f, 28.0f);
         const float padding = 4.0f;
         var widthPadded = Width - padding * 2.0f;
 
         tabBarNode.Size = new Vector2(widthPadded, 20.0f);
         tabBarNode.Position = new Vector2(padding, 0.0f);
-        
-        footerNode.Size = new Vector2(widthPadded, 24.0f);
-        footerNode.Position = new Vector2(padding, Height - footerNode.Height - padding);
 
-        statusDisplayNode.Size = new Vector2(widthPadded, Height - tabBarNode.Bounds.Bottom - footerNode.Height - padding * 3.0f);
+        snoozeButtonNode.Size = new Vector2(widthPadded, 26.0f);
+        snoozeButtonNode.Position = new Vector2(padding, Height - snoozeButtonNode.Height);
+        
+        statusDisplayNode.Size = new Vector2(widthPadded, Height - tabBarNode.Bounds.Bottom - snoozeButtonNode.Height - padding * 3.0f);
         statusDisplayNode.Position = new Vector2(padding, tabBarNode.Bounds.Bottom + padding);
 
         dataContentSection.Size = statusDisplayNode.Size;
@@ -107,15 +87,6 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         if (dataNode is LayoutListNode layoutNode) {
             layoutNode.RecalculateLayout();
         }
-        
-        changeLogButtonNode.Size = buttonSize;
-        changeLogButtonNode.Position = Vector2.Zero;
-        
-        snoozeButtonNode.Size = buttonSize;
-        snoozeButtonNode.Position = new Vector2(footerNode.Width / 2.0f - buttonSize.X / 2.0f, 0.0f);
-
-        versionNode.Size = buttonSize;
-        versionNode.Position = new Vector2(footerNode.Width - buttonSize.X, 0.0f);
     }
 
     public override void Update() {
@@ -136,17 +107,6 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         statusDisplayNode.IsVisible = true;
         
         TabSelected?.Invoke(DataNodeTab.Status);
-    }
-    
-    private void OpenChangeLogClicked() {
-        module.ChangelogWindow ??= new ChangelogWindow {
-            InternalName = "DailyDutyChangelog",
-            Title = "Changelog",
-            Size = new Vector2(450.0f, 400.0f),
-            Module = module,
-        };
-        
-        module.ChangelogWindow.Toggle();
     }
 
     private void SnoozeClicked() {

@@ -19,9 +19,6 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
         DisplayName = "Raids Normal",
         FileName = "RaidsNormal",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Tomestones", "Raids", "Exp", "Hardcore" ],
     };
 

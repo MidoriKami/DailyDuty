@@ -26,9 +26,6 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
         DisplayName = "Grand Company Squadron",
         FileName = "GrandCompanySquadron",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
     };
 

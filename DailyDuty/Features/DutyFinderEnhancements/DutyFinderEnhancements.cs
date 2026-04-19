@@ -16,9 +16,6 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
         DisplayName = "Duty Finder Enhancements",
         FileName = "DutyFinderEnhancements",
         Type = ModuleType.GeneralFeatures,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Countdown", "Reset" ],
     };
 

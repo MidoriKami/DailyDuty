@@ -15,9 +15,6 @@ public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
         DisplayName = "Jumbo Cactpot",
         FileName = "JumboCactpot",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "MGP" ],
     };
 

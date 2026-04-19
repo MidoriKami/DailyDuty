@@ -12,9 +12,6 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
         DisplayName = "Custom Delivery",
         FileName = "CustomDelivery",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 

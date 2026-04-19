@@ -12,9 +12,6 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
         DisplayName = "Tribal Quests",
         FileName = "TribalQuests",
         Type = ModuleType.Daily,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 

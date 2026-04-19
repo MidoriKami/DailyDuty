@@ -13,9 +13,6 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         DisplayName = "Faux Hollows",
         FileName = "FauxHollows",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Poetics" ],
     };
 

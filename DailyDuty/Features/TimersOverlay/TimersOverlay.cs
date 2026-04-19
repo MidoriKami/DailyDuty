@@ -18,9 +18,6 @@ public unsafe class TimersOverlay : FeatureBase {
         DisplayName = "Timers Overlay",
         FileName = "Timers",
         Type = ModuleType.GeneralFeatures,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Countdown", "Reset" ],
     };
 

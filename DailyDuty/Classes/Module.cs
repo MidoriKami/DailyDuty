@@ -69,9 +69,6 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     }
 
     protected sealed override void OnFeatureUnload() {
-        ChangelogWindow?.Dispose();
-        ChangelogWindow = null;
-        
         ModuleData = null!;
         ModuleConfig = null!;
     }

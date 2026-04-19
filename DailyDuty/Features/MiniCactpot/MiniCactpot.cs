@@ -15,9 +15,6 @@ public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
         DisplayName = "Mini Cactpot",
         FileName = "MiniCactpot",
         Type = ModuleType.Daily,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "DoH", "DoL", "Exp" ],
     };
 

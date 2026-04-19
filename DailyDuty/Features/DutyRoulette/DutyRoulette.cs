@@ -17,9 +17,6 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         DisplayName = "Duty Roulette",
         FileName = "DutyRoulette",
         Type = ModuleType.Daily,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Exp", "Gil" ],
     };
 

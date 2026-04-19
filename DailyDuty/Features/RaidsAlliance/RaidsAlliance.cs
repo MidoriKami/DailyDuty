@@ -19,9 +19,6 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
         DisplayName = "Raids Alliance",
         FileName = "RaidsAlliance",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Tomestones", "Raids", "Exp", "Hardcore" ],
     };
 

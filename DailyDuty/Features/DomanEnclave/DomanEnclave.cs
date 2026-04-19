@@ -12,9 +12,6 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
         DisplayName = "Doman Enclave",
         FileName = "DomanEnclave",
         Type = ModuleType.Weekly,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Money", "Gil" ],
     };
 

@@ -16,9 +16,6 @@ public unsafe class TodoOverlay : FeatureBase {
         DisplayName = "Todo List Overlay",
         FileName = "TodoList",
         Type = ModuleType.GeneralFeatures,
-        ChangeLog = [
-            new ChangeLogInfo(1, "Initial Re-Implementation"),
-        ],
         Tags = [ "Tasks", "List" ],
     };
 
