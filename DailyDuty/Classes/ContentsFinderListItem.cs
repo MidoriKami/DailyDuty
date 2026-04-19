@@ -9,9 +9,6 @@ public unsafe class ContentsFinderListItem : ListItemData {
     public AtkTextNode* DutyNameTextNode => GetNode<AtkTextNode>(3);
     public AtkTextNode* LevelTextNode => GetNode<AtkTextNode>(4);
 
-    public uint NodeId 
-        => ItemInfo->ListItem->Renderer->OwnerNode->NodeId;
-    
     public Contents* GetDutyInfo()
         => AgentContentsFinder.Instance()->ContentList[GetNumber(1) - 1].Value;
 
