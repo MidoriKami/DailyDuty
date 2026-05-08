@@ -8,7 +8,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using FFXIVClientStructs.FFXIV.Component.GUI;
+using FFXIVClientStructs.Interop;
 using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Classes;
@@ -21,7 +21,7 @@ public unsafe class PayloadController : IDisposable {
             payloads.Add(payload, RegisterPayload(payload));
         }
     }
-    
+
     public void Dispose() {
         foreach (var registeredPayload in payloads) {
             Services.ChatGui.RemoveChatLinkHandler((uint)registeredPayload.Key);
@@ -31,27 +31,27 @@ public unsafe class PayloadController : IDisposable {
     public DalamudLinkPayload GetPayload(PayloadId id)
         => payloads.TryGetValue(id, out var value) ? value : throw new Exception("Tried to get payload that isn't registered.");
 
-    private static DalamudLinkPayload RegisterPayload(PayloadId id) 
+    private static DalamudLinkPayload RegisterPayload(PayloadId id)
         => AddHandler(id, GetDelegateForPayload(id));
 
-    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload) 
+    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload)
         => (_, _) => InvokePayload(payload);
 
     public static void InvokePayload(PayloadId payloadId) {
         switch (payloadId) {
-            case PayloadId.OpenWondrousTailsBook: 
-                OpenWondrousTailsBook(); 
+            case PayloadId.OpenWondrousTailsBook:
+                OpenWondrousTailsBook();
                 break;
-            
-            case PayloadId.IdyllshireTeleport: 
-                Teleport(75); 
+
+            case PayloadId.IdyllshireTeleport:
+                Teleport(75);
                 break;
-            
-            case PayloadId.DomanEnclaveTeleport: 
-                Teleport(127); 
+
+            case PayloadId.DomanEnclaveTeleport:
+                Teleport(127);
                 break;
-            
-            case PayloadId.OpenDutyFinderRoulette: 
+
+            case PayloadId.OpenDutyFinderRoulette:
                 OpenDutyFinderRoulette();
                 break;
 
@@ -112,17 +112,17 @@ public unsafe class PayloadController : IDisposable {
         => Services.ChatGui.AddChatLinkHandler((uint) payloadId, action);
 
     private static void ClearDutyFinderSelection() {
-        var returnValue = stackalloc AtkValue[1];
-        var command = stackalloc AtkValue[2];
+        using var returnValue = new RentedAtkValues(1);
+        using var command = new RentedAtkValues(2);
         command[0].SetInt(12);
         command[1].SetInt(1);
-                
-        AgentContentsFinder.Instance()->ReceiveEvent(returnValue, command, 2, 0);
+
+        AgentContentsFinder.Instance()->ReceiveEvent(returnValue, command, (uint) command.Span.Length, 0);
     }
 
     private static void Teleport(uint id) {
         if (!Services.DataManager.GetExcelSheet<Aetheryte>().TryGetRow(id, out var aetheryte)) return;
-        
+
         Services.ChatGui.PrintTaggedMessage($"Teleporting to {aetheryte.PlaceName.Value.Name.ToString()}", "Teleport");
         Telepo.Instance()->Teleport(id, 0);
     }
