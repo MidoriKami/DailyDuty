@@ -5,6 +5,7 @@ using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
+using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 
@@ -34,7 +35,7 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     protected override void OnModuleDisable() {
         contentsFinderController?.Dispose();
         contentsFinderController = null;
-        
+
         dutyController?.Dispose();
         dutyController = null;
     }
@@ -44,17 +45,17 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
             Message = "New Book Available",
             PayloadId = PayloadId.IdyllshireTeleport,
         },
-        
+
         { PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.StickerAvailableNotice && IsStickerAvailable => new StatusMessage {
             Message = "Sticker Available",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
-        
+
         { SecondChancePoints: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.ShuffleAvailableNotice => new StatusMessage {
             Message = "Shuffle Available",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
-        
+
         _ => new StatusMessage {
             Message = $"{9 - PlacedStickers} Stickers Remaining",
             PayloadId = PayloadId.OpenWondrousTailsBook,
@@ -64,9 +65,12 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     protected override void OnModuleUpdate() {
         base.OnModuleUpdate();
 
+        // Skip if this is being called from initialization, this state isn't required for module status.
+        if (!ThreadSafety.IsMainThread) return;
+
         var lastNearKhloe = closeToKhloe;
         var lastCastingTeleport = castingTeleport;
-        
+
         const int idyllshireTerritoryType = 478;
         const uint khloeAliapohDataId = 1017653;
         if (Services.ClientState.TerritoryType is idyllshireTerritoryType && IsEnabled) {
@@ -79,7 +83,7 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
 
                 var noLongerNearKhloe = lastNearKhloe && !closeToKhloe;
                 var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && castingTeleport;
-                
+
                 if ((noLongerNearKhloe || startedTeleportingAway) && this is { PlayerHasBook: false, IsNewBookAvailable: true }) {
                     Services.ChatGui.PrintTaggedMessage("Wait! You forgot your Wondrous Tails book!", ModuleInfo.DisplayName);
                     UIGlobals.PlayChatSoundEffect(11);
@@ -117,7 +121,7 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
 
     public bool IsBookExpired
         => PlayerState.Instance()->IsWeeklyBingoExpired();
-    
-    private bool IsStickerAvailable 
+
+    private bool IsStickerAvailable
     	=> Enumerable.Range(0, 16).Select(index => PlayerState.Instance()->GetWeeklyBingoTaskStatus(index)).Any(taskStatus => taskStatus is PlayerState.WeeklyBingoTaskStatus.Claimable);
 }
