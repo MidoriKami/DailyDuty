@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/15.0.0">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
-        <Version>6.0.2.2</Version>
+        <Version>6.0.2.3</Version>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
     </ItemGroup>
-    
+
     <PropertyGroup>
         <Author>MidoriKami</Author>
         <Name>DailyDuty</Name>
