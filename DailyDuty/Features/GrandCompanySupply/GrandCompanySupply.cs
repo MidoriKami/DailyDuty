@@ -24,13 +24,13 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
 
     protected override GrandCompanySupplyConfig MigrateConfig(JObject objectData)
         => GrandCompanySupplyMigration.Migrate(objectData);
-    
+
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Deliveries Available";
-    
-    protected override TodoTooltip GetTooltip() 
+        => $"{GetIncompleteCount()} Delivery(s) Incomplete";
+
+    protected override TodoTooltip GetTooltip()
         => string.Join("\n", GetIncompleteJobs());
-    
+
     public override DateTime GetNextResetDateTime()
         => Time.NextGrandCompanyReset();
 
@@ -62,7 +62,7 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         foreach (var job in ModuleConfig.TrackedClasses.Where(pair => pair.Value)) {
             if (!ModuleData.ClassJobStatus[job.Key]) return CompletionStatus.Incomplete;
         }
-        
+
         return CompletionStatus.Complete;
     }
 
@@ -70,7 +70,7 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         => ModuleConfig.TrackedClasses
             .Where(pair => pair.Value)
             .Count(job => !ModuleData.ClassJobStatus[job.Key]);
-    
+
     private IEnumerable<string> GetIncompleteJobs()
         => ModuleConfig.TrackedClasses
             .Where(pair => pair.Value)

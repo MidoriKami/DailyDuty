@@ -29,13 +29,13 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
 
     protected override RaidsNormalConfig MigrateConfig(JObject objectData)
         => RaidsNormalMigration.Migrate(objectData);
-    
+
     protected override void OnModuleEnable() {
         Services.GameInventory.ItemAdded += OnItemEvent;
         Services.GameInventory.ItemChanged += OnItemEvent;
 
         validNormalRaids = Services.DataManager.LimitedNormalRaidDuties.Select(cfc => cfc.RowId).ToList();
-        
+
         UpdateTrackedTasks();
     }
 
@@ -48,7 +48,7 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Limited Normal Raids Available",
+        Message = $"{GetIncompleteCount()} Normal Raid(s) Incomplete",
         PayloadId = PayloadId.OpenDutyFinderRaid,
     };
 
@@ -82,7 +82,7 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
                 count++;
             }
         }
-        
+
         return count;
     }
 
@@ -91,16 +91,16 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
     	if (data.Item.ContainerType is not (GameInventoryType.Inventory1 or GameInventoryType.Inventory2 or GameInventoryType.Inventory3 or GameInventoryType.Inventory4)) return;
 
         var currentDuty = GameMain.Instance()->CurrentContentFinderConditionId;
-        
+
         // If we are not in a tracked zone, return
         if (!ModuleConfig.TrackedTasks.ContainsKey(currentDuty)) return;
- 
+
     	// If we can't get the exd data for this item, return
     	var item = Services.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId);
     	if (item.RowId is 0) return;
-    	
+
     	Services.PluginLog.Debug($"InventoryEvent: {type}: {item.Name}");
- 
+
     	// If the item is a limited type that we care about, mark as completed
     	switch (item.ItemUICategory.RowId) {
     		case 34: // Head
@@ -121,7 +121,7 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
         var agent = AgentContentsFinder.Instance();
         if (agent is not null && agent->IsAgentActive()) {
             var selectedDuty = agent->SelectedDuty.Id;
-            
+
             if (!ModuleData.TaskStatus.TryGetValue(selectedDuty, out var value)) return;
             var numRewards = agent->NumCollectedRewards;
 
@@ -134,7 +134,7 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
 
     private void UpdateTrackedTasks() {
         if (validNormalRaids is null) return;
-        
+
         // Remove any tasks that are now invalid.
         foreach (var key in ModuleConfig.TrackedTasks.Keys.ToList()) {
             if (!validNormalRaids.Contains(key)) {
@@ -154,14 +154,14 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
                 ModuleData.TaskStatus.Remove(key);
             }
         }
-        
+
         // Add new blank entries for valid tasks.
         foreach (var validRaid in validNormalRaids) {
             ModuleData.TaskStatus.TryAdd(validRaid, false);
         }
         ModuleData.MarkDirty();
     }
-    
+
     private IEnumerable<string> GetIncompleteTasks()
         => ModuleConfig.TrackedTasks
             .Where(task => task.Value)

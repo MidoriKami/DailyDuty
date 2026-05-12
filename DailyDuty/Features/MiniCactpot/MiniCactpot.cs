@@ -27,7 +27,7 @@ public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
         => Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleData.AllowancesRemaining} Attempts Remaining",
+        Message = $"{ModuleData.AllowancesRemaining} Ticket(s) Remaining",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 
@@ -43,7 +43,7 @@ public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
 
     protected override CompletionStatus GetCompletionStatus()
         => ModuleData.AllowancesRemaining is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
-    
+
     private void LotteryDailyPreSetup(AddonEvent eventType, AddonArgs addonInfo) {
         ModuleData.AllowancesRemaining -= 1;
         ModuleData.MarkDirty();

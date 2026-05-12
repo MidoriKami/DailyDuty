@@ -17,9 +17,9 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
 
     public override DataNodeBase DataNode => new CustomDeliveryDataNode(this);
     public override ConfigNodeBase ConfigNode => new CustomDeliveryConfigNode(this);
-    
+
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Custom Deliveries Available";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Custom Delivery(s) left to reach Threshold";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();

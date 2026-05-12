@@ -32,11 +32,11 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         => ModuleData.FauxHollowsCompletions = 0;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = "Unreal Trial Available",
+        Message = "Unreal Trial Incomplete",
         PayloadId = PayloadId.IdyllshireTeleport,
     };
 
-    public override DateTime GetNextResetDateTime() 
+    public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
 
     protected override CompletionStatus GetCompletionStatus() => ModuleConfig.IncludeRetelling switch {
@@ -44,7 +44,7 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         false when ModuleData.FauxHollowsCompletions is 1 => CompletionStatus.Complete,
         _ => CompletionStatus.Incomplete,
     };
-    
+
     private void WeeklyPuzzlePreSetup(AddonEvent type, AddonArgs args) {
         ModuleData.FauxHollowsCompletions++;
         ModuleData.MarkDirty();

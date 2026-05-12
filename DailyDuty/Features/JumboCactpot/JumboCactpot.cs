@@ -30,7 +30,7 @@ public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{3 - ModuleData.Tickets.Count} Tickets Available",
+        Message = $"{3 - ModuleData.Tickets.Count} Ticket(s) Remaining",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 
@@ -49,19 +49,19 @@ public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
 
     public override void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         if (gameObject->BaseId is not 1010446) return;
-        
+
         ModuleData.Tickets.Clear();
 
         for(var i = 0; i < 3; ++i) {
             var ticketValue = sceneData[i + 2];
 
             if (ticketValue != 10000) {
-                ModuleData.Tickets.Add((int)ticketValue); 
+                ModuleData.Tickets.Add((int)ticketValue);
                 ModuleData.MarkDirty();
             }
         }
     }
-    
+
     private void OnLotteryEvent(AgentEvent type, AgentArgs args) {
         if (args is not AgentReceiveEventArgs receiveArgs) return;
 

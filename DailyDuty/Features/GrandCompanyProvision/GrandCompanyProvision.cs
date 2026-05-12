@@ -26,7 +26,7 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         => GrandCompanyProvisionMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Deliveries Available";
+        => $"{GetIncompleteCount()} Delivery(s) Incomplete";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextGrandCompanyReset();
@@ -34,7 +34,7 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(1);
 
-    protected override TodoTooltip GetTooltip() 
+    protected override TodoTooltip GetTooltip()
         => string.Join("\n", GetIncompleteJobs());
 
     public override void Reset() {
@@ -62,7 +62,7 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         foreach (var job in ModuleConfig.TrackedClasses.Where(pair => pair.Value)) {
             if (!ModuleData.ClassJobStatus[job.Key]) return CompletionStatus.Incomplete;
         }
-        
+
         return CompletionStatus.Complete;
     }
 

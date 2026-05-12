@@ -27,7 +27,7 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
 
     protected override MaskedCarnivaleConfig MigrateConfig(JObject objectData)
         => MaskedCarnivaleMigration.Migrate(objectData);
-    
+
     protected override void OnModuleEnable() {
         Services.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AozContentResultPostSetup);
 
@@ -42,7 +42,7 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Challenges Remaining",
+        Message = $"{GetIncompleteCount()} Challenge(s) Incomplete",
         PayloadId = PayloadId.UldahTeleport,
     };
 
@@ -65,7 +65,7 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
 
     protected override CompletionStatus GetCompletionStatus()
         => GetIncompleteCount() is not 0 ? CompletionStatus.Incomplete : CompletionStatus.Complete;
-    
+
     private int GetIncompleteCount() {
         var count = 0;
 
@@ -83,7 +83,7 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
             ModuleData.TaskData.TryAdd(12449, false);
             ModuleData.TaskData.TryAdd(12448, false);
             ModuleData.TaskData.TryAdd(12447, false);
-            
+
         	foreach (var (addonId, taskStatus) in ModuleData.TaskData) {
         		var status = addonId switch {
         			12449 => AgentAozContentBriefing.Instance()->IsWeeklyChallengeComplete(AozWeeklyChallenge.Novice),
@@ -102,10 +102,10 @@ public unsafe class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarniv
 
     private void AozContentResultPostSetup(AddonEvent eventType, AddonArgs addonInfo) {
     	var addon = (AtkUnitBase*) addonInfo.Addon.Address;
-        
+
     	if (addon->AtkValues[112] is not { Type: AtkValueType.UInt, UInt: var completionIndex }) throw new Exception("Type Mismatch Exception");
     	if (addon->AtkValues[114] is not { Type: AtkValueType.Bool, Byte: var completionStatus }) throw new Exception("Type Mismatch Exception");
-        
+
     	var addonId = completionIndex switch {
     		0 => 12449,
     		1 => 12448,

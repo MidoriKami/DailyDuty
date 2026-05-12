@@ -23,7 +23,7 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     private bool gatheringStarted;
 
     protected override StatusMessage GetStatusMessage()
-        => "Map Available";
+        => "Treasure Map Gatherable";
 
     public override DateTime GetNextResetDateTime() {
         if (ModuleData.LastMapGatheredTime == DateTime.MinValue) return DateTime.MaxValue;
@@ -45,13 +45,13 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
         if (Services.Condition[ConditionFlag.ExecutingGatheringAction] && !gatheringStarted) {
             gatheringStarted = true;
             OnGatheringStart();
-        } 
+        }
         else if (!Services.Condition[ConditionFlag.ExecutingGatheringAction] && gatheringStarted) {
             gatheringStarted = false;
             OnGatheringStop();
         }
     }
-        
+
     private void OnGatheringStart() {
         inventoryMaps.Clear();
         inventoryMaps = GetInventoryTreasureMaps().ToList();
@@ -77,7 +77,7 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
             }
         }
     }
-    
+
     private static bool IsItemInInventory(uint itemId)
         => InventoryManager.Instance()->GetInventoryItemCount(itemId) > 0;
 }

@@ -37,11 +37,11 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Duty Roulette(s) incomplete",
+        Message = $"{GetIncompleteCount()} Roulette(s) Incomplete",
         PayloadId = PayloadId.OpenDutyFinderRoulette,
     };
 
-    public override DateTime GetNextResetDateTime() 
+    public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();
 
     public override TimeSpan GetResetPeriod()
@@ -51,7 +51,7 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         if (ModuleConfig.CompleteWhenCapped && GetLimitedTomestonesCount() == GetLimitedTomestonesLimit()) {
             return  CompletionStatus.Complete;
         }
-        
+
         return GetIncompleteCount() is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 

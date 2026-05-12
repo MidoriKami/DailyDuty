@@ -21,15 +21,15 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = ModuleConfig.CompletionMode switch {
-            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} Allowances Available",
-            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} Allowances Available",
+            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} Allowances Remaining",
+            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} Allowances Remaining",
             FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} Highest Score",
             _ => string.Empty,
         },
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 
-    public override DateTime GetNextResetDateTime() 
+    public override DateTime GetNextResetDateTime()
         => Time.NextFashionReportReset();
 
     public override TimeSpan GetResetPeriod()
@@ -57,12 +57,12 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
                 ModuleData.HighestWeeklyScore = (int) sceneData[0];
                 ModuleData.MarkDirty();
                 break;
-            
+
             case 2:
                 ModuleData.HighestWeeklyScore = Math.Max((int) sceneData[0], ModuleData.HighestWeeklyScore);
                 ModuleData.MarkDirty();
                 break;
-            
+
             case 5:
                 ModuleData.AllowancesRemaining = (int) sceneData[0];
                 ModuleData.MarkDirty();
@@ -70,6 +70,6 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
         }
     }
 
-    private static bool IsFashionReportAvailable 
+    private static bool IsFashionReportAvailable
         => DateTime.UtcNow > Time.NextWeeklyReset().AddDays(-4) && DateTime.UtcNow < Time.NextWeeklyReset();
 }

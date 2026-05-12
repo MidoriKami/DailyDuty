@@ -19,7 +19,7 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new TribalQuestsConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances} Quests Remaining";
+        => $"{RemainingAllowances} Quest(s) left to reach Threshold";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

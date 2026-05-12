@@ -26,7 +26,7 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
         => HuntMarksDailyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Hunt Bills Available";
+        => $"{GetIncompleteCount()} Hunt Bill(s) Incomplete";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();
@@ -49,20 +49,20 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
         return incomplete;
     }
 
-    protected override TodoTooltip GetTooltip() 
+    protected override TodoTooltip GetTooltip()
         => GetMissingObjectives();
 
     private ReadOnlySeString GetMissingObjectives() {
         var result = string.Empty;
-        
+
         foreach (var warningId in ModuleConfig.TrackedHuntMarks.Where(huntBill => !MobHunt.Instance()->IsBillComplete((byte) huntBill))) {
             if (!Services.DataManager.GetExcelSheet<MobHuntOrderType>().TryGetRow(warningId, out var contentNote)) continue;
-            
+
             result += contentNote.EventItem.ValueNullable?.Name.ToString() + "\n";
         }
 
         result = result.Trim('\n');
-        
+
         return result;
     }
 }

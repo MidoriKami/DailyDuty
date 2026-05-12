@@ -24,9 +24,9 @@ public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
 
     protected override HuntMarksWeeklyConfig MigrateConfig(JObject objectData)
         => HuntMarksWeeklyMigration.Migrate(objectData);
-    
+
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Hunt Bills Available";
+        => $"{GetIncompleteCount()} Hunt Bill(s) Incomplete";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
@@ -49,20 +49,20 @@ public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
         return incomplete;
     }
 
-    protected override TodoTooltip GetTooltip() 
+    protected override TodoTooltip GetTooltip()
         => GetMissingObjectives();
 
     private ReadOnlySeString GetMissingObjectives() {
         var result = string.Empty;
-        
+
         foreach (var warningId in ModuleConfig.TrackedHuntMarks.Where(huntBill => !MobHunt.Instance()->IsBillComplete((byte) huntBill))) {
             if (!Services.DataManager.GetExcelSheet<MobHuntOrderType>().TryGetRow(warningId, out var contentNote)) continue;
-            
+
             result += contentNote.EventItem.ValueNullable?.Name.ToString() + "\n";
         }
 
         result = result.Trim('\n');
-        
+
         return result;
     }
 }

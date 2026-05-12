@@ -22,7 +22,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
         PayloadId = PayloadId.DomanEnclaveTeleport,
     };
 
-    public override DateTime GetNextResetDateTime() 
+    public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
 
     public override TimeSpan GetResetPeriod()
@@ -38,10 +38,10 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
 
     protected override void OnModuleUpdate() {
         var allowance = DomanEnclaveManager.Instance()->State.Allowance;
-        var donated = DomanEnclaveManager.Instance()->State.Donated; 
-        
+        var donated = DomanEnclaveManager.Instance()->State.Donated;
+
         if (allowance is 0) return;
-        
+
         if (ModuleData.WeeklyAllowance != allowance) {
             ModuleData.WeeklyAllowance = allowance;
             ModuleData.MarkDirty();

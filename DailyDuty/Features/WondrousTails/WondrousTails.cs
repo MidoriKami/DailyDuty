@@ -57,7 +57,7 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
         },
 
         _ => new StatusMessage {
-            Message = $"{9 - PlacedStickers} Stickers Remaining",
+            Message = $"{9 - PlacedStickers} Sticker(s) Remaining",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
     };

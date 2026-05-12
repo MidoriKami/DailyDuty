@@ -35,7 +35,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
         Services.GameInventory.ItemChanged += OnItemEvent;
 
         validAllianceRaids = Services.DataManager.LimitedAllianceRaidDuties.Select(cfc => cfc.RowId).ToList();
-        
+
         UpdateTrackedTasks();
     }
 
@@ -48,7 +48,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Alliance Raid Available",
+        Message = $"{GetIncompleteCount()} Alliance Raid(s) Incomplete",
         PayloadId = PayloadId.OpenDutyFinderAllianceRaid,
     };
 
@@ -82,7 +82,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
                 count++;
             }
         }
-        
+
         return count;
     }
 
@@ -91,16 +91,16 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
     	if (data.Item.ContainerType is not (GameInventoryType.Inventory1 or GameInventoryType.Inventory2 or GameInventoryType.Inventory3 or GameInventoryType.Inventory4)) return;
 
         var currentDuty = GameMain.Instance()->CurrentContentFinderConditionId;
-        
+
         // If we are not in a tracked zone, return
         if (!ModuleConfig.TrackedTasks.ContainsKey(currentDuty)) return;
- 
+
     	// If we can't get the exd data for this item, return
     	var item = Services.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId);
     	if (item.RowId is 0) return;
-    	
+
     	Services.PluginLog.Debug($"InventoryEvent: {type}: {item.Name}");
- 
+
     	// If the item is a limited type that we care about, mark as completed
     	switch (item.ItemUICategory.RowId) {
     		case 34: // Head
@@ -121,7 +121,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
         var agent = AgentContentsFinder.Instance();
         if (agent is not null && agent->IsAgentActive()) {
             var selectedDuty = agent->SelectedDuty.Id;
-            
+
             if (!ModuleData.TaskStatus.TryGetValue(selectedDuty, out var value)) return;
             var numRewards = agent->NumCollectedRewards;
 
@@ -131,10 +131,10 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
             }
         }
     }
-    
+
     private void UpdateTrackedTasks() {
         if (validAllianceRaids is null) return;
-        
+
         // Remove any tasks that are now invalid.
         foreach (var key in ModuleConfig.TrackedTasks.Keys.ToList()) {
             if (!validAllianceRaids.Contains(key)) {
@@ -154,7 +154,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
                 ModuleData.TaskStatus.Remove(key);
             }
         }
-        
+
         // Add new blank entries for valid tasks.
         foreach (var validRaid in validAllianceRaids) {
             ModuleData.TaskStatus.TryAdd(validRaid, false);

@@ -48,7 +48,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log entrie(s) Incomplete",
+        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log(s) Incomplete",
         PayloadId = PayloadId.OpenChallengeLog,
     };
 
@@ -62,15 +62,15 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
 
     private ReadOnlySeString GetMissingObjectives() {
         var result = string.Empty;
-        
+
         foreach (var warningId in ModuleConfig.TrackedEntries.Where(warningId => !IsContentNoteComplete(warningId))) {
             if (!Services.DataManager.GetExcelSheet<ContentsNote>().TryGetRow(warningId, out var contentNote)) continue;
-            
+
             result += contentNote.Name.ToString() + "\n";
         }
 
         result = result.Trim('\n');
-        
+
         return result;
     }
 
