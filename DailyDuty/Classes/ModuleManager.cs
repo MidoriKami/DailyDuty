@@ -19,31 +19,31 @@ public unsafe class ModuleManager : IDisposable {
 
     private readonly bool frameworkLoggingEnabled = true;
     private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
-    
+
     public Action? OnFeatureEnabled { get; set; }
     public Action? OnFeatureDisabled { get; set; }
-    
+
     public Action? OnLoadComplete { get; set; }
 
     public ModuleManager() {
         frameworkEventHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
     }
-    
+
     public void Dispose() {
         frameworkEventHook?.Dispose();
         frameworkEventHook = null;
-        
+
         UnloadModules();
     }
 
     public void LoadModules() {
         frameworkEventHook?.Enable();
-        
+
         IsUnloading = false;
-        
+
         var allModules = GetModuleTypes();
         LoadedModules = [];
-        
+
         foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
             Services.PluginInterface.Inject(module);
 
@@ -69,10 +69,10 @@ public unsafe class ModuleManager : IDisposable {
         try {
             if (frameworkLoggingEnabled) {
                 Services.PluginLog.Debug($"[FrameworkEvent]\n" +
-                                         $"Scene: {scene}, Flags: {sceneFlags}, EventId: {eventId.ContentId}-{eventId.EntryId}-{eventId.EntryId} DataCount: {sceneDataCount}\n" +
+                                         $"Scene: {scene}, Flags: {sceneFlags}, EventId: {eventId.ContentId}-{eventId.EntryId}-{eventId.Id} DataCount: {sceneDataCount}\n" +
                                          string.Join("\n", Enumerable.Range(0, sceneDataCount).Select(index => $"[{index}] {sceneData[index]}")));
             }
-            
+
             foreach (var loadedModule in LoadedModules ?? []) {
                 if (loadedModule.FeatureBase is not ModuleBase module) continue;
 
@@ -94,14 +94,14 @@ public unsafe class ModuleManager : IDisposable {
         IsLoadComplete = false;
 
         frameworkEventHook?.Disable();
-        
+
         if (LoadedModules is null) {
             Services.PluginLog.Debug("No modules loaded");
             return;
         }
-        
+
         Services.PluginLog.Debug("Disposing Module Manager, now disabling all Modules");
-        
+
         foreach (var loadedModule in LoadedModules) {
             if (loadedModule.State is LoadedState.Enabled) {
                 try {
@@ -113,19 +113,19 @@ public unsafe class ModuleManager : IDisposable {
                     Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
                 }
             }
-            
+
             loadedModule.FeatureBase.Unload();
         }
 
         LoadedModules = null;
     }
-    
+
     public void TryEnableModule(LoadedModule module) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
         }
-        
+
         if (module.State is LoadedState.Errored) {
             Services.PluginLog.Error($"[{module.Name}] Attempted to enable errored module");
             return;
@@ -144,7 +144,7 @@ public unsafe class ModuleManager : IDisposable {
             module.State = LoadedState.Errored;
             module.ErrorMessage = "Failed to load, this module has been disabled.";
             Services.PluginLog.Error(e, $"Error while enabling {module.Name}, attempting to disable");
-            
+
             try {
                 module.FeatureBase.Disable();
                 Services.PluginLog.Information($"Successfully disabled erroring module {module.Name}");
@@ -186,7 +186,7 @@ public unsafe class ModuleManager : IDisposable {
             }
         }
     }
-    
+
     public static IEnumerable<LoadedModule> GetModules()
         => System.ModuleManager.LoadedModules?
                .Where(module => module.FeatureBase.ModuleInfo.Type is not (ModuleType.GeneralFeatures or ModuleType.Hidden)) ?? [];
