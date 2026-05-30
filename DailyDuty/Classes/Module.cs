@@ -150,17 +150,20 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
     private void PrintStatusMessage(StatusMessageType type) {
         Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending {type.ToString()} Message");
-        Services.ChatGui.PrintPayloadMessage(
-            ModuleConfig.MessageChatChannel,
-            ModuleStatusMessage.PayloadId,
-            ModuleInfo.DisplayName,
-            type switch {
-                StatusMessageType.Login => LoginMessage,
-                StatusMessageType.ZoneChanged => StatusMessage,
-                StatusMessageType.Reset => ResetMessage,
-                _ => string.Empty,
-            }
-        );
+
+        Services.Framework.Run(() => {
+            Services.ChatGui.PrintPayloadMessage(
+                ModuleConfig.MessageChatChannel,
+                ModuleStatusMessage.PayloadId,
+                ModuleInfo.DisplayName,
+                type switch {
+                    StatusMessageType.Login => LoginMessage,
+                    StatusMessageType.ZoneChanged => StatusMessage,
+                    StatusMessageType.Reset => ResetMessage,
+                    _ => string.Empty,
+                }
+            );
+        });
     }
 
     protected override CompletionStatus GetModuleStatus() {
