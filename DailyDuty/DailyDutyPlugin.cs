@@ -52,6 +52,26 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
         return Task.CompletedTask;
     }
 
+    public async ValueTask DisposeAsync() {
+        Services.PluginInterface.UiBuilder.OpenConfigUi -= System.ConfigurationWindow.Toggle;
+        Services.PluginInterface.UiBuilder.OpenMainUi -= System.ConfigurationWindow.Toggle;
+
+        Services.ClientState.Login -= OnLogin;
+        Services.ClientState.Logout -= OnLogout;
+
+        Services.CommandManager.RemoveHandler("/dd");
+        Services.CommandManager.RemoveHandler("/dailyduty");
+
+        System.PayloadController.Dispose();
+
+        if (!Services.Framework.IsFrameworkUnloading) {
+            await System.ConfigurationWindow.DisposeAsync();
+            await System.ModuleManager.DisposeAsync();
+        }
+
+        await Services.Framework.RunOnFrameworkThread(KamiToolKitLibrary.Dispose);
+    }
+
     private static void OnCommandReceived(string command, string arguments) {
         if (command is not ("/dailyduty" or "/dd")) return;
 
@@ -74,23 +94,5 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
             await System.ModuleManager.UnloadModules();
             System.SystemConfig = null;
         });
-    }
-
-    public async ValueTask DisposeAsync() {
-        Services.PluginInterface.UiBuilder.OpenConfigUi -= System.ConfigurationWindow.Toggle;
-        Services.PluginInterface.UiBuilder.OpenMainUi -= System.ConfigurationWindow.Toggle;
-
-        Services.ClientState.Login -= OnLogin;
-        Services.ClientState.Logout -= OnLogout;
-
-        Services.CommandManager.RemoveHandler("/dd");
-        Services.CommandManager.RemoveHandler("/dailyduty");
-
-        await System.ConfigurationWindow.DisposeAsync();
-
-        System.PayloadController.Dispose();
-        await System.ModuleManager.DisposeAsync();
-
-        await Services.Framework.Run(KamiToolKitLibrary.Dispose);
     }
 }
