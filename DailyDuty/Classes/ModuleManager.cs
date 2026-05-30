@@ -53,11 +53,13 @@ public class ModuleManager : IAsyncDisposable {
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
 
             LoadedModules.Add(newLoadedModule);
-            await module.Load();
+            moduleTasks.Add(Task.Run(async () => {
+                await module.Load();
 
-            if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
-                moduleTasks.Add(Task.Run(() => TryEnableModule(newLoadedModule)));
-            }
+                if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
+                    await Task.Run(() => TryEnableModule(newLoadedModule));
+                }
+            }));
         }
 
         await Task.WhenAll(moduleTasks);
@@ -110,18 +112,20 @@ public class ModuleManager : IAsyncDisposable {
         List<Task> tasks = [];
 
         foreach (var loadedModule in LoadedModules) {
-            if (loadedModule.State is LoadedState.Enabled) {
-                try {
-                    Services.PluginLog.Info($"Disabling {loadedModule.Name}");
-                    tasks.Add(Task.Run(loadedModule.FeatureBase.Disable));
-                    Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
+            tasks.Add(Task.Run(async () => {
+                if (loadedModule.State is LoadedState.Enabled) {
+                    try {
+                        Services.PluginLog.Info($"Disabling {loadedModule.Name}");
+                        await Task.Run(loadedModule.FeatureBase.Disable);
+                        Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
+                    }
+                    catch (Exception e) {
+                        Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
+                    }
                 }
-                catch (Exception e) {
-                    Services.PluginLog.Error(e, $"Error while unloading modification {loadedModule.Name}");
-                }
-            }
 
-            tasks.Add(Task.Run(loadedModule.FeatureBase.Unload));
+                await Task.Run(loadedModule.FeatureBase.Unload);
+            }));
         }
 
         await Task.WhenAll(tasks);
