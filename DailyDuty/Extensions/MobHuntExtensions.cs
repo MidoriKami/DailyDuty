@@ -21,7 +21,7 @@ public static class MobHuntExtensions {
                 _ => false,
             };
         }
-        
+
         private bool IsEliteMarkComplete(uint targetRow, int markId) {
             var eliteTargetInfo = Services.DataManager.GetSubrowExcelSheet<MobHuntOrder>().GetSubrow(targetRow, 0);
             return huntStruct.CurrentKills[markId][0] == eliteTargetInfo.NeededKills;
@@ -29,7 +29,7 @@ public static class MobHuntExtensions {
 
         private bool IsNormalMarkComplete(uint targetRow, int markId) {
             foreach (var index in Enumerable.Range(0, 5)) {
-                var huntData = Services.DataManager.GetSubrowExcelSheet<MobHuntOrder>().GetSubrow(targetRow, (ushort) index);
+                var huntData = Services.DataManager.GetSubrowExcelSheet<MobHuntOrder>().GetSubrow(targetRow, (ushort)index);
 
                 if (huntStruct.CurrentKills[markId][index] != huntData.NeededKills) return false;
             }

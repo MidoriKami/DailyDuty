@@ -12,7 +12,7 @@ public static class GrandCompanyProvisionMigration {
             [17] = true,
             [18] = true,
         },
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

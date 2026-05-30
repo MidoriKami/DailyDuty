@@ -112,7 +112,7 @@ public static class WondrousTailsResolver {
 
         return cfcInstanceContent.RowId == instanceContent.RowId;
     }
-    
+
     private static IEnumerable<InstanceContent> AsInstanceContent(this IEnumerable<ContentFinderCondition> enumerable)
         => enumerable.Select(cfc => cfc.Content.GetValueOrDefault<InstanceContent>())
             .Where(instanceContent => instanceContent.HasValue)

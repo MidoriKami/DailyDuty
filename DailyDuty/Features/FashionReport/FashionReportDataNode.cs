@@ -28,7 +28,7 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                     allowancesRemaining = new TextNode {
                         String = "Allowances Not Updated",
                     },
-                ], 
+                ],
             },
             new HorizontalFlexNode {
                 Height = 32.0f,
@@ -67,7 +67,7 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
         highestScore?.String = module.ModuleData.HighestWeeklyScore.ToString();
         fashionReportAvailable?.String = IsFashionReportAvailable ? "Available" : "Not Available";
     }
-    
-    private static bool IsFashionReportAvailable 
+
+    private static bool IsFashionReportAvailable
         => DateTime.UtcNow > Time.NextWeeklyReset().AddDays(-4) && DateTime.UtcNow < Time.NextWeeklyReset();
 }

@@ -6,7 +6,7 @@ using KamiToolKit.Nodes;
 namespace DailyDuty.Features.TreasureMap;
 
 public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>(module) {
-    
+
     private TextNode? lastGatheredTime;
     private readonly TreasureMap module = module;
 
@@ -34,7 +34,7 @@ public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>
         var dateTime = module.ModuleData.LastMapGatheredTime;
         var shortDate = dateTime.ToLocalTime().ToShortDateString();
         var shortTime = dateTime.ToLocalTime().ToShortTimeString();
-        
+
         lastGatheredTime?.String = $"{shortDate} {shortTime}";
     }
 }

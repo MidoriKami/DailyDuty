@@ -9,7 +9,7 @@ namespace DailyDuty.Features.CustomDelivery;
 public unsafe class CustomDeliveryDataNode(CustomDelivery module) : DataNodeBase<CustomDelivery>(module) {
 
     private TextNode? allowancesTextNode;
-    
+
     protected override NodeBase BuildDataNode() => new VerticalListNode {
         FitWidth = true,
         InitialNodes = [

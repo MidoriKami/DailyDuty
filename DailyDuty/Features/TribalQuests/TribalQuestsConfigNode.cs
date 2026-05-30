@@ -32,7 +32,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
                 },
             ],
         });
-        
+
         container.AddNode(new HorizontalFlexNode {
             Height = 28.0f,
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,

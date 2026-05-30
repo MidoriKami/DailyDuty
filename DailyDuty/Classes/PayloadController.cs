@@ -109,7 +109,7 @@ public unsafe class PayloadController : IDisposable {
     }
 
     private static DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
-        => Services.ChatGui.AddChatLinkHandler((uint) payloadId, action);
+        => Services.ChatGui.AddChatLinkHandler((uint)payloadId, action);
 
     private static void ClearDutyFinderSelection() {
         using var returnValue = new RentedAtkValues(1);
@@ -117,7 +117,7 @@ public unsafe class PayloadController : IDisposable {
         command[0].SetInt(12);
         command[1].SetInt(1);
 
-        AgentContentsFinder.Instance()->ReceiveEvent(returnValue, command, (uint) command.Span.Length, 0);
+        AgentContentsFinder.Instance()->ReceiveEvent(returnValue, command, (uint)command.Span.Length, 0);
     }
 
     private static void Teleport(uint id) {

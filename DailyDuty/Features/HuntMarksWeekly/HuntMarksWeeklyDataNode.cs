@@ -8,9 +8,9 @@ using Lumina.Excel.Sheets;
 namespace DailyDuty.Features.HuntMarksWeekly;
 
 public class HuntMarksWeeklyDataNode(HuntMarksWeekly module) : DataNodeBase<HuntMarksWeekly>(module) {
-    
+
     private ListNode<MobHuntOrderType, MobHuntOrderTypeListItemNode>? listNode;
-    
+
     protected override NodeBase BuildDataNode()
         => listNode = new ListNode<MobHuntOrderType, MobHuntOrderTypeListItemNode> {
             OptionsList = Services.DataManager.GetExcelSheet<MobHuntOrderType>()
@@ -21,8 +21,7 @@ public class HuntMarksWeeklyDataNode(HuntMarksWeekly module) : DataNodeBase<Hunt
 
     public override void Update() {
         base.Update();
-        
+
         listNode?.Update();
     }
 }
-

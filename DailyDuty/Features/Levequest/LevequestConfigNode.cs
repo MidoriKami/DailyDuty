@@ -32,7 +32,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
                 },
             ],
         });
-        
+
         container.AddNode(new HorizontalFlexNode {
             Height = 28.0f,
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,

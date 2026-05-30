@@ -20,13 +20,13 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
         var originalTextColor = config.TextColor;
         var originalOutlineColor = config.OutlineColor;
         HorizontalFlexNode flexNode;
-        
+
         AddNode(flexNode = new HorizontalFlexNode {
             AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
             Position = ContentStartPosition,
             Size = ContentSize,
         });
-        
+
         flexNode.AddNode(listNode = new VerticalListNode {
             FitWidth = true,
             FitContents = true,
@@ -90,7 +90,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                         },
                         new SliderNode {
                             Range = 10..100,
-                            Value = (int) ( config.Alpha * 100 ),
+                            Value = (int)(config.Alpha * 100),
                             OnValueChanged = newValue => {
                                 config.Alpha = newValue / 100.0f;
                                 moduleTodoOverlayConfig.MarkDirty();
@@ -108,7 +108,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                         },
                         new SliderNode {
                             Range = 15..100,
-                            Value = (int) ( config.ButtonAlpha * 100 ),
+                            Value = (int)(config.ButtonAlpha * 100),
                             OnValueChanged = newValue => {
                                 config.ButtonAlpha = newValue / 100.0f;
                                 moduleTodoOverlayConfig.MarkDirty();
@@ -128,7 +128,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                             Range = 50..300,
                             DecimalPlaces = 2,
                             Step = 5,
-                            Value = (int) ( config.Scale * 100 ),
+                            Value = (int)(config.Scale * 100),
                             OnValueChanged = newValue => {
                                 config.Scale = newValue / 100.0f;
                                 moduleTodoOverlayConfig.MarkDirty();
@@ -165,18 +165,18 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     Height = 28.0f,
                     String = "Text Color",
                     DefaultColor = ColorHelper.GetColor(1),
-                     CurrentColor = config.TextColor,
-                     OnColorPreviewed = color => {
-                         config.TextColor = color;
-                     },
-                     OnColorCancelled = () => {
-                         config.TextColor = originalTextColor;
-                         moduleTodoOverlayConfig.MarkDirty();
-                     },
-                     OnColorConfirmed = color => {
-                         config.TextColor = color;
-                         moduleTodoOverlayConfig.MarkDirty();
-                     },
+                    CurrentColor = config.TextColor,
+                    OnColorPreviewed = color => {
+                        config.TextColor = color;
+                    },
+                    OnColorCancelled = () => {
+                        config.TextColor = originalTextColor;
+                        moduleTodoOverlayConfig.MarkDirty();
+                    },
+                    OnColorConfirmed = color => {
+                        config.TextColor = color;
+                        moduleTodoOverlayConfig.MarkDirty();
+                    },
                 },
                 new ColorEditNode {
                     Height = 28.0f,
@@ -197,13 +197,13 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
             ],
         });
-        
+
         listNode.RecalculateLayout();
 
         ScrollingListNode scrollingList;
-        
+
         var verticalListNode = new VerticalListNode {
-            FitWidth =  true,
+            FitWidth = true,
             ItemSpacing = 4.0f,
             Width = ContentSize.X / 2.0f,
             InitialNodes = [
@@ -233,9 +233,9 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
             });
         }
-        
+
         scrollingList.RecalculateLayout();
-        
+
         AddNode(new TextButtonNode {
             Size = new Vector2(200.0f, 24.0f),
             Position = new Vector2(ContentStartPosition.X + listNode.Width / 2.0f - 200.0f / 2.0f, ContentStartPosition.Y + ContentSize.Y - 32.0f),

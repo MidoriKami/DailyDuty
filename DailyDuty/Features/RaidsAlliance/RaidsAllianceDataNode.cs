@@ -16,7 +16,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
         var verticalListNode = new VerticalListNode {
             FitWidth = true,
         };
-        
+
         foreach (var (cfc, _) in module.ModuleData.TaskStatus) {
             var text = Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(cfc).Name.ToString();
 
@@ -41,7 +41,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
 
             statusNodes.Add(cfc, statusNode);
         }
-        
+
         return verticalListNode;
     }
 

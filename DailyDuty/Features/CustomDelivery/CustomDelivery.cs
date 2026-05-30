@@ -12,7 +12,7 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
         DisplayName = "Custom Delivery",
         FileName = "CustomDelivery",
         Type = ModuleType.Weekly,
-        Tags = [ "DoH", "DoL", "Exp" ],
+        Tags = ["DoH", "DoL", "Exp"],
     };
 
     public override DataNodeBase DataNode => new CustomDeliveryDataNode(this);

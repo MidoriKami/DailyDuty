@@ -13,7 +13,7 @@ public static class AddonLifecycleExtensions {
             if (loggedModules.Length is 0) {
                 loggedModules = [
                     AddonEvent.PostSetup, AddonEvent.PostOpen,
-                    AddonEvent.PostClose, AddonEvent.PostShow, 
+                    AddonEvent.PostClose, AddonEvent.PostShow,
                     AddonEvent.PostHide, AddonEvent.PostRefresh,
                     AddonEvent.PostRequestedUpdate, AddonEvent.PreFinalize,
                 ];
@@ -41,7 +41,7 @@ public static class AddonLifecycleExtensions {
             case AddonReceiveEventArgs receiveEventArgs:
                 Services.PluginLog.Debug($"[{args.AddonName}] {(AtkEventType)receiveEventArgs.AtkEventType}: {receiveEventArgs.EventParam}");
                 break;
-            
+
             default:
                 Services.PluginLog.Debug($"{args.AddonName} called {type.ToString().Replace("Post", string.Empty)}");
                 break;

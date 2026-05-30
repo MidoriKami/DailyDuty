@@ -13,7 +13,7 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
         DisplayName = "Fashion Report",
         FileName = "FashionReport",
         Type = ModuleType.Special,
-        Tags = [ "Gold Saucer", "Gold", "Saucer", "MGP" ],
+        Tags = ["Gold Saucer", "Gold", "Saucer", "MGP"],
     };
 
     public override DataNodeBase DataNode => new FashionReportDataNode(this);
@@ -53,18 +53,18 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
 
         switch (scene) {
             case 1:
-                ModuleData.AllowancesRemaining = (int) sceneData[1];
-                ModuleData.HighestWeeklyScore = (int) sceneData[0];
+                ModuleData.AllowancesRemaining = (int)sceneData[1];
+                ModuleData.HighestWeeklyScore = (int)sceneData[0];
                 ModuleData.MarkDirty();
                 break;
 
             case 2:
-                ModuleData.HighestWeeklyScore = Math.Max((int) sceneData[0], ModuleData.HighestWeeklyScore);
+                ModuleData.HighestWeeklyScore = Math.Max((int)sceneData[0], ModuleData.HighestWeeklyScore);
                 ModuleData.MarkDirty();
                 break;
 
             case 5:
-                ModuleData.AllowancesRemaining = (int) sceneData[0];
+                ModuleData.AllowancesRemaining = (int)sceneData[0];
                 ModuleData.MarkDirty();
                 break;
         }

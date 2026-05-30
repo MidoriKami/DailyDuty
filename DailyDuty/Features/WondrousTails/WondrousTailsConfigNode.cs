@@ -11,7 +11,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
 
     protected override void BuildNode(ScrollingListNode container) {
         var originalColor = module.ModuleConfig.DutyFinderColor;
-        
+
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
@@ -78,7 +78,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
                     module.ModuleConfig.MarkDirty();
                 }
             },
-            new ResNode{ Height = 4.0f },
+            new ResNode { Height = 4.0f },
             new CheckboxNode {
                 Height = 28.0f,
                 String = "Show Clover Indicator",

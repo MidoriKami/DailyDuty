@@ -4,9 +4,9 @@ using DailyDuty.Classes;
 namespace DailyDuty.Features.ChallengeLog;
 
 public class ChallengeLogConfig : ConfigBase {
-	public bool EnableContentFinderWarning = true;
-	public bool EnableWarningSound = true;
-    
-	public HashSet<uint> WarningEntries = [];
+    public bool EnableContentFinderWarning = true;
+    public bool EnableWarningSound = true;
+
+    public HashSet<uint> WarningEntries = [];
     public HashSet<uint> TrackedEntries = [];
 }

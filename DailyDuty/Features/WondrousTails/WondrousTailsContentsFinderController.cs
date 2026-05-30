@@ -26,7 +26,7 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
     private readonly Dictionary<uint, List<uint>> wondrousTailsDuties = [];
     private TextNode? infoTextNode;
     private WondrousTailsNode? infoTailsNode;
-    
+
     public WondrousTailsContentsFinderController(WondrousTails module) {
         this.module = module;
 
@@ -38,7 +38,7 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             ResetElement = ResetElementMethod,
         };
         listController.Enable();
-        
+
         addonController = new AddonController<AddonContentsFinder> {
             AddonName = "ContentsFinder",
             OnSetup = SetupContentsFinder,
@@ -80,8 +80,8 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
         infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
 
         infoTailsNode = new WondrousTailsNode {
-            Size = new Vector2(18.0f, 18.0f), 
-            Position = new Vector2(35.0f, -4.0f), 
+            Size = new Vector2(18.0f, 18.0f),
+            Position = new Vector2(35.0f, -4.0f),
             IsTaskAvailable = true,
         };
         infoTailsNode.AttachNode(infoTextNode);
@@ -119,22 +119,22 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
 
         return IsTailsTask(listItem.ContentsFinderCondition);
     }
-    
+
     private void UpdateElementMethod(AddonContentsFinder* addonContentsFinder, ContentsFinderListItem listItem) {
         var contentFinderCondition = listItem.ContentsFinderCondition;
 
         // If clover is enabled
         if (module.ModuleConfig.CloverIndicator) {
-			
+
             // And it is attached already, update it
             if (imageNodes.TryGetValue(listItem.NodeId, out var node)) {
                 node.IsVisible = true;
                 node.IsTaskAvailable = IsTaskAvailable(contentFinderCondition);
             }
-			
+
             // else make it and attach it
             else {
-                listItem.DutyNameTextNode->Width = (ushort) (listItem.DutyNameTextNode->Width - 24.0f);
+                listItem.DutyNameTextNode->Width = (ushort)(listItem.DutyNameTextNode->Width - 24.0f);
 
                 var newNode = new WondrousTailsNode {
                     Size = new Vector2(24.0f, 24.0f),
@@ -159,11 +159,11 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             listItem.DutyNameTextNode->TextColor = listItem.LevelTextNode->TextColor;
         }
     }
-    
+
     private void ResetElementMethod(AddonContentsFinder* addonContentsFinder, ContentsFinderListItem listItem) {
         // Remove node
         if (imageNodes.TryGetValue(listItem.NodeId, out var node)) {
-            listItem.DutyNameTextNode->Width = (ushort) (listItem.DutyNameTextNode->Width + 24.0f);
+            listItem.DutyNameTextNode->Width = (ushort)(listItem.DutyNameTextNode->Width + 24.0f);
 
             imageNodes.Remove(listItem.NodeId);
             node.Dispose();
@@ -175,14 +175,14 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
 
     private bool IsTailsTask(ContentFinderCondition cfc)
         => wondrousTailsDuties.Values.Any(dutyList => dutyList.Contains(cfc.RowId));
-    
+
     private bool IsTaskAvailable(ContentFinderCondition cfc) {
         var taskState = GetStatusForDuty(cfc.RowId);
         return taskState is PlayerState.WeeklyBingoTaskStatus.Claimable or PlayerState.WeeklyBingoTaskStatus.Open;
     }
-    
-    private PlayerState.WeeklyBingoTaskStatus? GetStatusForDuty(uint cfc) { 
-        foreach(var (taskId, dutyList) in wondrousTailsDuties) {
+
+    private PlayerState.WeeklyBingoTaskStatus? GetStatusForDuty(uint cfc) {
+        foreach (var (taskId, dutyList) in wondrousTailsDuties) {
             if (dutyList.Contains(cfc)) {
                 return PlayerState.Instance()->GetWeeklyBingoTaskStatus((int)taskId);
             }

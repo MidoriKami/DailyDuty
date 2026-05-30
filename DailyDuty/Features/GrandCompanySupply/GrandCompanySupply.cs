@@ -16,7 +16,7 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         DisplayName = "Grand Company Supply",
         FileName = "GrandCompanySupply",
         Type = ModuleType.Daily,
-        Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
+        Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
     };
 
     public override DataNodeBase DataNode => new GrandCompanySupplyDataNode(this);

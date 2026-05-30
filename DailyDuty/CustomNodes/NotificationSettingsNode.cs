@@ -10,14 +10,14 @@ namespace DailyDuty.CustomNodes;
 
 public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleBase {
     private readonly TabbedVerticalListNode listNode;
-    
+
     public NotificationSettingsNode(T module) {
         listNode = new TabbedVerticalListNode {
             FitWidth = true,
             ItemVerticalSpacing = 4.0f,
         };
         listNode.AttachNode(this);
-        
+
         listNode.AddNode([
             new CategoryHeaderNode {
                 String = "Notification Settings",
@@ -88,7 +88,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             },
         ]);
     }
-    
+
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 

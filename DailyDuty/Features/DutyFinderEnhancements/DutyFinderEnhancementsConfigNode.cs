@@ -9,16 +9,16 @@ namespace DailyDuty.Features.DutyFinderEnhancements;
 
 public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
     private readonly VerticalListNode listNode;
-    
+
     public DutyFinderEnhancementsConfigNode(DutyFinderEnhancements module) {
         var originalColor = module.ModuleDutyFinderEnhancementsConfig.Color;
-        
+
         listNode = new VerticalListNode {
             FitWidth = true,
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String= "Timer Configuration",
+                    String = "Timer Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -48,7 +48,7 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    String= "DailyDuty Button Configuration",
+                    String = "DailyDuty Button Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -62,11 +62,11 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                 },
             ],
         };
-        
+
         listNode.RecalculateLayout();
         listNode.AttachNode(this);
     }
-    
+
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 

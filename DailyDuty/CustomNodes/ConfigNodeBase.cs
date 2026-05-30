@@ -9,7 +9,7 @@ namespace DailyDuty.CustomNodes;
 public abstract class ConfigNodeBase : SimpleComponentNode;
 
 public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
-    
+
     private readonly NotificationSettingsNode<T> notificationSettings;
     private readonly ScrollingListNode configNode;
     private readonly VerticalLineNode verticalLineNode;
@@ -22,7 +22,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
             Alpha = 0.5f,
         };
         verticalLineNode.AttachNode(this);
-        
+
         configNode = new ScrollingListNode {
             AutoHideScrollBar = true,
             IsVisible = false,
@@ -34,16 +34,16 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.AddNode(new CategoryHeaderNode {
             String = "Module Settings",
         });
-        
+
         AttachDataNode(configNode);
         configNode.AttachNode(this);
     }
-    
+
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 
         var regionSize = Width / 2.0f - 6.0f;
-        
+
         verticalLineNode.Size = new Vector2(Height - 28.0f, 4.0f);
         verticalLineNode.Position = new Vector2(regionSize + 4.0f, 28.0f);
 
@@ -54,15 +54,15 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.Position = new Vector2(regionSize + 6.0f, 0.0f);
         configNode.RecalculateLayout();
     }
-    
+
     protected abstract void BuildNode(ScrollingListNode container);
-    
+
     private void AttachDataNode(ScrollingListNode container) {
         var preCount = container.Nodes.Count;
-        
+
         BuildNode(container);
         container.RecalculateLayout();
-        
+
         var postCount = container.Nodes.Count;
 
         if (preCount == postCount) {

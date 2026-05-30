@@ -13,10 +13,10 @@ public static class FashionReportModeExtensions {
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }
-    
+
     public static FashionReportMode Parse(string chatType) {
         var result = Enum.GetValues<FashionReportMode>().Where(type => type.Description == chatType).FirstOrDefault();
-        
+
         return result == default ? FashionReportMode.All : result;
     }
 }

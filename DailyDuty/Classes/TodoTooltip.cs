@@ -6,7 +6,7 @@ namespace DailyDuty.Classes;
 public class TodoTooltip {
     public PayloadId ClickAction = PayloadId.Unset;
     public ReadOnlySeString TooltipText = string.Empty;
-    
+
     public static implicit operator TodoTooltip(string text) => new() {
         TooltipText = text,
     };

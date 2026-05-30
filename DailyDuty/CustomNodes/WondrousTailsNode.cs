@@ -10,9 +10,9 @@ public class WondrousTailsNode : SimpleComponentNode {
 
     private readonly ImageNode foreground;
 
-	public WondrousTailsNode() {
+    public WondrousTailsNode() {
         DisableCollisionNode = true;
-        
+
         ImageNode background = new SimpleImageNode {
             Size = new Vector2(22.0f, 22.0f),
             Position = Vector2.One,
@@ -27,22 +27,22 @@ public class WondrousTailsNode : SimpleComponentNode {
         background.ShowClickableCursor = true;
         background.AddNodeFlags(NodeFlags.HasCollision, NodeFlags.IsTopNode);
         background.TextTooltip = "[DailyDuty] This duty is a Wondrous Tails task";
-        
-		background.AttachNode(this);
-						
-		foreground = new SimpleImageNode {
-			Size = new Vector2(24.0f, 24.0f),
-			TexturePath = "ui/uld/WeeklyBingo.tex",
-			TextureCoordinates = new Vector2(95.0f, 63.0f),
-			TextureSize = new Vector2(24.0f, 24.0f),
-			WrapMode = WrapMode.Tile,
-			ImageNodeFlags = 0,
-		};
-		foreground.AttachNode(this);
-	}
 
-	public bool IsTaskAvailable {
-		get => foreground.IsVisible;
-		set => foreground.IsVisible = value;
-	}
+        background.AttachNode(this);
+
+        foreground = new SimpleImageNode {
+            Size = new Vector2(24.0f, 24.0f),
+            TexturePath = "ui/uld/WeeklyBingo.tex",
+            TextureCoordinates = new Vector2(95.0f, 63.0f),
+            TextureSize = new Vector2(24.0f, 24.0f),
+            WrapMode = WrapMode.Tile,
+            ImageNodeFlags = 0,
+        };
+        foreground.AttachNode(this);
+    }
+
+    public bool IsTaskAvailable {
+        get => foreground.IsVisible;
+        set => foreground.IsVisible = value;
+    }
 }

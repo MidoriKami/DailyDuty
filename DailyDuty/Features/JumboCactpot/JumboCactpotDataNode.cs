@@ -17,11 +17,11 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
         var verticalListNode = new VerticalListNode {
             FitWidth = true,
         };
-        
+
         foreach (var index in Enumerable.Range(0, 3)) {
 
             TextNode statusNode;
-            
+
             verticalListNode.AddNode([
                 new HorizontalFlexNode {
                     Height = 32.0f,
@@ -38,10 +38,10 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                     ],
                 },
             ]);
-            
+
             statusNodes.Add(index, statusNode);
         }
-        
+
         return verticalListNode;
     }
 

@@ -16,7 +16,7 @@ public class OptionsNode : SimpleComponentNode {
 
     public IReadOnlyList<ModuleOptionNode> Nodes => optionNodes;
     public ReadOnlyCollection<TreeListCategoryNode> CategoryNodes => optionsList.ContentNode.CategoryNodes;
-    
+
     public OptionsNode() {
         optionsList = new ScrollingAreaNode<TreeListNode> {
             ContentHeight = 1000.0f,
@@ -33,7 +33,7 @@ public class OptionsNode : SimpleComponentNode {
 
     public void SetOptions(List<LoadedModule>? modules) {
         if (modules is null) return;
-        
+
         var categoryGroups = modules.GroupBy(module => module.FeatureBase.ModuleInfo.Type);
         uint optionIndex = 0;
 
@@ -56,10 +56,10 @@ public class OptionsNode : SimpleComponentNode {
                 newCategoryNode.AddNode(newOptionNode);
                 optionNodes.Add(newOptionNode);
             }
-            
+
             optionsList.ContentNode.AddCategoryNode(newCategoryNode);
         }
-        
+
         optionsList.ContentHeight = optionsList.ContentNode.CategoryNodes.Sum(node => node.Height) + 20.0f;
     }
 

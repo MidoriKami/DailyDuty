@@ -26,36 +26,36 @@ public class ModuleBrowserWindow : NativeAddon {
 
     protected override unsafe void OnSetup(AtkUnitBase* addon, Span<AtkValue> _) {
         statusNode = null;
-        
+
         mainContainerNode = new SimpleComponentNode {
             Position = ContentStartPosition,
             Size = ContentSize,
         };
         mainContainerNode.AttachNode(this);
-        
+
         searchNode = new SearchNode {
             Size = new Vector2(mainContainerNode.Width, 28.0f),
             OnSearchUpdated = OnSearchUpdated,
         };
-        
+
         optionsNode = new OptionsNode {
             Position = new Vector2(0.0f, searchNode.Bounds.Bottom + 4.0f),
             Size = new Vector2(mainContainerNode.Width * 2.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 4.0f),
             OptionClicked = OnOptionClicked,
             CategoryToggled = OnCategoryToggled,
         };
-        
+
         optionsNode.AttachNode(mainContainerNode);
         searchNode.AttachNode(mainContainerNode);
-        
+
         optionsNode.SetOptions(System.ModuleManager.LoadedModules);
-        
+
         contentsNode = new SimpleComponentNode {
             Size = new Vector2(mainContainerNode.Width * 3.0f / 5.0f - 8.0f, mainContainerNode.Height - searchNode.Bounds.Bottom - 8.0f),
             Position = new Vector2(mainContainerNode.Width * 2.0f / 5.0f + 4.0f, searchNode.Bounds.Bottom + 4.0f),
         };
         contentsNode.AttachNode(mainContainerNode);
-        
+
         selectOptionLabelNode = new TextNode {
             Size = contentsNode.Size,
             FontSize = 14,
@@ -67,7 +67,7 @@ public class ModuleBrowserWindow : NativeAddon {
 
     protected override unsafe void OnUpdate(AtkUnitBase* addon) {
         if (System.ModuleManager.IsUnloading) return;
-        
+
         foreach (var node in optionsNode?.Nodes ?? []) {
             node.Update();
         }
@@ -79,16 +79,16 @@ public class ModuleBrowserWindow : NativeAddon {
 
     private void OnSearchUpdated(ReadOnlySeString searchTerm) {
         List<ModuleOptionNode> validOptions = [];
-        
+
         foreach (var node in optionsNode?.Nodes ?? []) {
             var isTarget = node.ModuleInfo.IsMatch(searchTerm.ToString());
             node.IsVisible = isTarget;
-            
+
             if (isTarget) {
                 validOptions.Add(node);
             }
         }
-        
+
         foreach (var categoryNode in optionsNode?.CategoryNodes ?? []) {
             categoryNode.IsVisible = validOptions.Any(option => option.ModuleInfo.Type.Description == categoryNode.String.ToString());
             categoryNode.RecalculateLayout();
@@ -104,12 +104,12 @@ public class ModuleBrowserWindow : NativeAddon {
     private void OnOptionClicked(ModuleOptionNode option) {
         if (mainContainerNode is null) return;
         if (selectedOption == option) return;
-        
+
         UnselectCurrentOption();
 
         selectedOption = option;
         selectedOption.IsSelected = true;
-        
+
         if (option.Module.FeatureBase is ModuleBase module) {
             AttachStatusNode(module.DataNode);
         }
@@ -142,7 +142,7 @@ public class ModuleBrowserWindow : NativeAddon {
         SelectOptionNode(node);
 
         node.SelectTab(dataTabSelected);
-        
+
         node.TabSelected = tab => {
             dataTabSelected = tab;
         };
@@ -156,12 +156,12 @@ public class ModuleBrowserWindow : NativeAddon {
         statusNode = option;
         selectOptionLabelNode?.IsVisible = false;
     }
-    
+
     private void UnselectCurrentOption() {
         selectedOption?.IsSelected = false;
         selectedOption?.IsHovered = false;
         selectedOption = null;
-        
+
         statusNode?.Dispose();
         statusNode = null;
 

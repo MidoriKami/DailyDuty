@@ -17,12 +17,12 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
         var verticalListNode = new VerticalListNode {
             FitWidth = true,
         };
-        
+
         foreach (var (job, _) in module.ModuleData.ClassJobStatus) {
             var classJob = Services.DataManager.GetExcelSheet<ClassJob>().GetRow(job);
 
             TextNode statusNode;
-            
+
             verticalListNode.AddNode(new HorizontalFlexNode {
                 Height = 32.0f,
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
@@ -38,10 +38,10 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
                     },
                 ],
             });
-            
+
             statusNodes.TryAdd(job, statusNode);
         }
-        
+
         return verticalListNode;
     }
 

@@ -35,12 +35,7 @@ public class TimersOverlay : FeatureBase {
 
         ModuleTimersOverlayConfig.FileName = ModuleInfo.FileName;
 
-        // if (System.ModuleManager.IsLoadComplete) { // todo: check this
-        //     await Services.Framework.Run(RebuildTimers);
-        // }
-        // else {
         System.ModuleManager.OnLoadComplete += RebuildTimers;
-        // }
     }
 
     protected override Task OnFeatureUnload() {

@@ -12,11 +12,11 @@ public static class EnumExtensions {
             if (enumValue.GetAttribute<DescriptionAttribute>() is { } attribute) {
                 return attribute.Description;
             }
-            
+
             return enumValue.ToString();
         }
     }
-    
+
     public static T Parse<T>(this string stringValue, T defaultValue) where T : Enum {
         foreach (Enum enumValue in Enum.GetValues(typeof(T))) {
             if (enumValue.Description == stringValue) {

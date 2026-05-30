@@ -11,7 +11,7 @@ public class StatusMessage {
         Message = message,
         PayloadId = PayloadId.Unset,
     };
-    
+
     public static implicit operator StatusMessage(ReadOnlySeString message) => new() {
         Message = message.ToString(),
         PayloadId = PayloadId.Unset,

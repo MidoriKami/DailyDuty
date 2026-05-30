@@ -22,7 +22,7 @@ public class TodoListEntryNode : TextNode {
         TextOutlineColor = Config.OutlineColor;
 
         if (Module.Tooltip is not null) {
-            
+
             // The tooltip has been changed
             if (TextTooltip != string.Empty && TextTooltip != Module.Tooltip.TooltipText) {
                 TextTooltip = Module.Tooltip.TooltipText;

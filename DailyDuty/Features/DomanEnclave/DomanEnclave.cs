@@ -12,7 +12,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
         DisplayName = "Doman Enclave",
         FileName = "DomanEnclave",
         Type = ModuleType.Weekly,
-        Tags = [ "Money", "Gil" ],
+        Tags = ["Money", "Gil"],
     };
 
     public override DataNodeBase DataNode => new DomanEnclaveDataNode(this);

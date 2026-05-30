@@ -2,8 +2,8 @@
 
 public enum ModuleType {
     GeneralFeatures,
-	Daily,
-	Weekly,
-	Special,
+    Daily,
+    Weekly,
+    Special,
     Hidden,
 }

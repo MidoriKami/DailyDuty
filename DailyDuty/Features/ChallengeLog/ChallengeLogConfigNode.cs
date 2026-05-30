@@ -9,7 +9,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
     private readonly ChallengeLog module = module;
 
     private LuminaMultiSelectWindow<ContentsNote>? luminaSelectionWindow;
-    
+
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new CheckboxNode {
@@ -52,7 +52,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
 
     protected override void Dispose(bool disposing, bool isNativeDestructor) {
         base.Dispose(disposing, isNativeDestructor);
-        
+
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = null;
     }
@@ -66,10 +66,10 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
             GetLabelFunc = item => item.Name.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,
         };
-        
+
         luminaSelectionWindow.Open();
     }
-    
+
     private void OpenDutyFinderWarningEntries() {
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = new LuminaMultiSelectWindow<ContentsNote> {
@@ -79,7 +79,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
             GetLabelFunc = item => item.Name.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,
         };
-        
+
         luminaSelectionWindow.Open();
     }
 }

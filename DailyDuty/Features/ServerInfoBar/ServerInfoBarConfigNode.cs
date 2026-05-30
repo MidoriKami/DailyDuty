@@ -14,7 +14,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String= "Feature Configuration",
+                    String = "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -55,11 +55,11 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
             ],
         };
-        
+
         listNode.RecalculateLayout();
         listNode.AttachNode(this);
     }
-    
+
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
 

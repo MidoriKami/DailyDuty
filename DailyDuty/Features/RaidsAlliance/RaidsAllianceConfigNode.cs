@@ -7,7 +7,7 @@ namespace DailyDuty.Features.RaidsAlliance;
 
 public class RaidsAllianceConfigNode(RaidsAlliance module) : ConfigNodeBase<RaidsAlliance>(module) {
     private readonly RaidsAlliance module = module;
-    
+
     protected override void BuildNode(ScrollingListNode container) {
         if (module.ModuleConfig.TrackedTasks.Count is 0) {
             container.AddNode(new HorizontalListNode {
@@ -25,10 +25,10 @@ public class RaidsAllianceConfigNode(RaidsAlliance module) : ConfigNodeBase<Raid
 
             return;
         }
-        
+
         foreach (var (raid, raidStatus) in module.ModuleConfig.TrackedTasks) {
             if (!Services.DataManager.GetExcelSheet<ContentFinderCondition>().TryGetRow(raid, out var row)) continue;
-            
+
             container.AddNode([
                 new CheckboxNode {
                     Height = 28.0f,

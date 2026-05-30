@@ -16,7 +16,7 @@ public class RaidsNormalDataNode(RaidsNormal module) : DataNodeBase<RaidsNormal>
         var verticalListNode = new VerticalListNode {
             FitWidth = true,
         };
-        
+
         foreach (var (cfc, _) in module.ModuleData.TaskStatus) {
             var text = Services.DataManager.GetExcelSheet<ContentFinderCondition>().GetRow(cfc).Name.ToString();
 
@@ -41,7 +41,7 @@ public class RaidsNormalDataNode(RaidsNormal module) : DataNodeBase<RaidsNormal>
 
             statusNodes.Add(cfc, statusNode);
         }
-        
+
         return verticalListNode;
     }
 

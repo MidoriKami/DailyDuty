@@ -12,7 +12,7 @@ public unsafe class WondrousTailsDutyController : IDisposable {
 
     public WondrousTailsDutyController(WondrousTails module) {
         this.module = module;
-        
+
         Services.DutyState.DutyStarted += OnDutyStarted;
         Services.DutyState.DutyCompleted += OnDutyCompleted;
 
@@ -33,25 +33,25 @@ public unsafe class WondrousTailsDutyController : IDisposable {
         => OnDutyStarted(args.TerritoryType.RowId);
 
     private void OnDutyStarted(uint e) {
-    	if (!module.ModuleConfig.InstanceNotifications) return;
+        if (!module.ModuleConfig.InstanceNotifications) return;
         if (!module.PlayerHasBook || module.IsBookExpired) return;
-    	if (module.ModuleStatus is CompletionStatus.Complete) return;
+        if (module.ModuleStatus is CompletionStatus.Complete) return;
 
-    	var taskState = GetStatusForTerritory(e);
+        var taskState = GetStatusForTerritory(e);
 
-    	switch (taskState) {
-    		case PlayerState.WeeklyBingoTaskStatus.Claimed when module is { PlacedStickers: > 0, SecondChancePoints: > 0 }:
+        switch (taskState) {
+            case PlayerState.WeeklyBingoTaskStatus.Claimed when module is { PlacedStickers: > 0, SecondChancePoints: > 0 }:
                 PrintMessage($"{module.SecondChancePoints} Rerolls Available");
-    			break;
-            
-    		case PlayerState.WeeklyBingoTaskStatus.Claimable:
-    			PrintMessage("Sticker is already available for this duty, be sure to claim it!");
-    			break;
-            
-    		case PlayerState.WeeklyBingoTaskStatus.Open:
-    			PrintMessage("Completing this duty will reward you with a sticker");
-    			break;
-    	}
+                break;
+
+            case PlayerState.WeeklyBingoTaskStatus.Claimable:
+                PrintMessage("Sticker is already available for this duty, be sure to claim it!");
+                break;
+
+            case PlayerState.WeeklyBingoTaskStatus.Open:
+                PrintMessage("Completing this duty will reward you with a sticker");
+                break;
+        }
     }
 
     private void OnDutyCompleted(uint e) {
@@ -61,30 +61,30 @@ public unsafe class WondrousTailsDutyController : IDisposable {
 
         var taskState = GetStatusForTerritory(e);
 
-    	switch (taskState) {
-    		case PlayerState.WeeklyBingoTaskStatus.Claimable:
-    		case PlayerState.WeeklyBingoTaskStatus.Open:
-    			PrintMessage("Stickers Claimable");
-    			break;
-    	}
+        switch (taskState) {
+            case PlayerState.WeeklyBingoTaskStatus.Claimable:
+            case PlayerState.WeeklyBingoTaskStatus.Open:
+                PrintMessage("Stickers Claimable");
+                break;
+        }
     }
-    
+
     private static PlayerState.WeeklyBingoTaskStatus? GetStatusForTerritory(uint territory) {
-    	foreach (var index in Enumerable.Range(0, 16)) {
-    		var territoriesForSlot = Services.DataManager.GetTerritoriesForOrderData(PlayerState.Instance()->WeeklyBingoOrderData[index]);
+        foreach (var index in Enumerable.Range(0, 16)) {
+            var territoriesForSlot = Services.DataManager.GetTerritoriesForOrderData(PlayerState.Instance()->WeeklyBingoOrderData[index]);
 
-    		if (territoriesForSlot.Any(terr => terr.RowId == territory)) {
-    			return PlayerState.Instance()->GetWeeklyBingoTaskStatus(index);
-    		}
-    	}
+            if (territoriesForSlot.Any(terr => terr.RowId == territory)) {
+                return PlayerState.Instance()->GetWeeklyBingoTaskStatus(index);
+            }
+        }
 
-    	return null;
+        return null;
     }
-    
+
     private void PrintMessage(string message)
         => Services.ChatGui.PrintPayloadMessage(
-            module.ModuleConfig.MessageChatChannel, 
-            PayloadId.OpenWondrousTailsBook, 
-            "WondrousTails", 
+            module.ModuleConfig.MessageChatChannel,
+            PayloadId.OpenWondrousTailsBook,
+            "WondrousTails",
             message);
 }

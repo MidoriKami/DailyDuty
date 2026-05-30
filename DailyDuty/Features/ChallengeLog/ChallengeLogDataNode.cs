@@ -10,7 +10,7 @@ namespace DailyDuty.Features.ChallengeLog;
 public class ChallengeLogDataNode(ChallengeLog module) : DataNodeBase<ChallengeLog>(module) {
 
     private ListNode<ContentsNote, ContentsNoteListItemNode>? listNode;
-    
+
     protected override NodeBase BuildDataNode()
         => listNode = new ListNode<ContentsNote, ContentsNoteListItemNode> {
             OptionsList = Services.DataManager.GetExcelSheet<ContentsNote>()
@@ -21,7 +21,7 @@ public class ChallengeLogDataNode(ChallengeLog module) : DataNodeBase<ChallengeL
 
     public override void Update() {
         base.Update();
-        
+
         listNode?.Update();
     }
 }

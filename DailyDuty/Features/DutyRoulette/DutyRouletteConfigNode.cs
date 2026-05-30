@@ -13,7 +13,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
     protected override void BuildNode(ScrollingListNode container) {
         var originalIncompleteColor = module.ModuleConfig.IncompleteColor;
         var originalCompleteColor = module.ModuleConfig.CompleteColor;
-        
+
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,

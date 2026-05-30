@@ -30,7 +30,7 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                     allowanceText = new TextNode {
                         String = "Allowances Not Updated",
                     },
-                ], 
+                ],
             },
             new HorizontalFlexNode {
                 Height = 32.0f,

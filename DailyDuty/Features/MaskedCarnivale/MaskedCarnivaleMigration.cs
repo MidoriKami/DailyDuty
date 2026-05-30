@@ -7,7 +7,7 @@ namespace DailyDuty.Features.MaskedCarnivale;
 public static class MaskedCarnivaleMigration {
     public static MaskedCarnivaleConfig Migrate(JObject data) => new() {
         TrackedTasks = data["TaskConfig"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToList() ?? [],
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

@@ -16,7 +16,7 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
         DisplayName = "Hunt Marks Daily",
         FileName = "HuntMarksDaily",
         Type = ModuleType.Daily,
-        Tags = [ "Teleport", "Tickets" ],
+        Tags = ["Teleport", "Tickets"],
     };
 
     public override ConfigNodeBase ConfigNode => new HuntMarksDailyConfigNode(this);
@@ -55,7 +55,7 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
     private ReadOnlySeString GetMissingObjectives() {
         var result = string.Empty;
 
-        foreach (var warningId in ModuleConfig.TrackedHuntMarks.Where(huntBill => !MobHunt.Instance()->IsBillComplete((byte) huntBill))) {
+        foreach (var warningId in ModuleConfig.TrackedHuntMarks.Where(huntBill => !MobHunt.Instance()->IsBillComplete((byte)huntBill))) {
             if (!Services.DataManager.GetExcelSheet<MobHuntOrderType>().TryGetRow(warningId, out var contentNote)) continue;
 
             result += contentNote.EventItem.ValueNullable?.Name.ToString() + "\n";

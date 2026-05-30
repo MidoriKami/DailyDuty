@@ -47,7 +47,7 @@ public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IE
 
             foreach (var option in Services.DataManager.GetExcelSheet<T>().Where(option => FilterFunc?.Invoke(option) ?? true)) {
                 if (GetLabelFunc?.Invoke(option) is not { Length: > 0 } name) continue;
-            
+
                 scrollingListNode.AddNode(new CheckboxNode {
                     Height = 28.0f,
                     String = name,
@@ -55,7 +55,7 @@ public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IE
                     OnClick = newValue => OnOptionEdited(option, newValue),
                 });
             }
-            
+
             scrollingListNode.RecalculateLayout();
         }
     }

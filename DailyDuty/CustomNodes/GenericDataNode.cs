@@ -9,7 +9,7 @@ namespace DailyDuty.CustomNodes;
 
 public class GenericDataNode : SimpleComponentNode {
     private readonly VerticalListNode layoutContainerNode;
-    
+
     private readonly TextNode statusTextNode;
     private readonly TextNode resetTimeTextNode;
     private readonly TextNode timeRemainingTextNode;

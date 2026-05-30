@@ -16,7 +16,7 @@ public static class ComparisonModeExtensions {
 
     public static ComparisonMode Parse(string comparisonMode) {
         var result = Enum.GetValues<ComparisonMode>().Where(type => type.Description == comparisonMode).FirstOrDefault();
-        
+
         return result == default ? ComparisonMode.Below : result;
     }
 }

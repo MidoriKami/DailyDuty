@@ -7,7 +7,7 @@ namespace DailyDuty.Features.HuntMarksDaily;
 public static class HuntMarksDailyMigration {
     public static HuntMarksDailyConfig Migrate(JObject data) => new() {
         TrackedHuntMarks = data["TaskConfig"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToList() ?? [],
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

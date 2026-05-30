@@ -7,7 +7,7 @@ namespace DailyDuty.Features.HuntMarksWeekly;
 public static class HuntMarksWeeklyMigration {
     public static HuntMarksWeeklyConfig Migrate(JObject data) => new() {
         TrackedHuntMarks = data["TaskConfig"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToList() ?? [],
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

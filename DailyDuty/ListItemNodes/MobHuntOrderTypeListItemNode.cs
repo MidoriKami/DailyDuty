@@ -15,18 +15,18 @@ public unsafe class MobHuntOrderTypeListItemNode : ListItemNode<MobHuntOrderType
 
     public MobHuntOrderTypeListItemNode() {
         DisableInteractions();
-        
+
         iconNode = new IconImageNode {
             FitTexture = true,
             ShowClickableCursor = true,
         };
         iconNode.AttachNode(this);
-        
+
         labelNode = new TextNode {
             TextFlags = TextFlags.Ellipsis,
         };
         labelNode.AttachNode(this);
-        
+
         statusNode = new TextNode {
             AlignmentType = AlignmentType.Right,
         };
@@ -50,12 +50,12 @@ public unsafe class MobHuntOrderTypeListItemNode : ListItemNode<MobHuntOrderType
         iconNode.IconId = itemData.EventItem.Value.Icon;
         iconNode.ItemTooltip = itemData.EventItem.RowId;
         labelNode.String = itemData.EventItem.Value.Name;
-        statusNode.String = MobHunt.Instance()->IsBillComplete((byte) itemData.RowId) ? "Complete" : "Incomplete";
+        statusNode.String = MobHunt.Instance()->IsBillComplete((byte)itemData.RowId) ? "Complete" : "Incomplete";
     }
 
     public override void Update() {
         base.Update();
 
-        statusNode.String = MobHunt.Instance()->IsBillComplete((byte) ItemData.RowId) ? "Complete" : "Incomplete";
+        statusNode.String = MobHunt.Instance()->IsBillComplete((byte)ItemData.RowId) ? "Complete" : "Incomplete";
     }
 }

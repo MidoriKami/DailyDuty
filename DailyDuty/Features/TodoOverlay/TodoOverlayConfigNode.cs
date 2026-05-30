@@ -13,7 +13,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
     private readonly VerticalListNode configNode;
     private readonly ScrollingListNode listNode;
     private TodoOverlayPanelConfigWindow? panelConfigWindow;
-    
+
     public TodoOverlayConfigNode(TodoOverlay module) {
         this.module = module;
 
@@ -22,7 +22,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String= "Feature Configuration",
+                    String = "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -44,7 +44,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    String= "Overlay Panels",
+                    String = "Overlay Panels",
                     Alignment = AlignmentType.Bottom,
                 },
                 listNode = new ScrollingListNode {
@@ -59,14 +59,14 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
     }
 
     private void RebuildList() {
-        
+
         listNode.Clear();
 
         foreach (var panel in module.ModuleTodoOverlayConfig.Panels) {
             NodeBase entry;
             CircleButtonNode removeButton;
             TextNode labelTextNode;
-            
+
             listNode.AddNode([
                 entry = new HorizontalListNode {
                     FitHeight = true,
@@ -99,7 +99,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     ],
                 },
             ]);
-            
+
             removeButton.OnClick = () => {
                 module.ModuleTodoOverlayConfig.Panels.Remove(panel);
                 module.ModuleTodoOverlayConfig.MarkDirty();
@@ -133,7 +133,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                 },
             ],
         });
-        
+
         listNode.RecalculateLayout();
     }
 
@@ -141,10 +141,10 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
         base.OnSizeChanged();
 
         const float featureConfigSize = 150.0f;
-        
+
         configNode.Size = new Vector2(Width, featureConfigSize);
         listNode.Size = new Vector2(Width, Height - featureConfigSize - 48.0f);
-        
+
         configNode.RecalculateLayout();
         listNode.RecalculateLayout();
     }

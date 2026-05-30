@@ -15,7 +15,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
     private readonly TimersOverlay module;
     private readonly VerticalListNode listNode;
     private readonly ScrollingListNode colorEdit;
-    
+
     public TimersOverlayConfigNode(TimersOverlay module) {
         this.module = module;
         listNode = new VerticalListNode {
@@ -23,7 +23,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String= "Feature Configuration",
+                    String = "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
@@ -77,7 +77,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                     IsChecked = module.ModuleTimersOverlayConfig.EnableMovingTimers,
                     OnClick = newValue => module.ModuleTimersOverlayConfig.EnableMovingTimers = newValue,
                 },
-                new ResNode{ Height = 1.0f },
+                new ResNode { Height = 1.0f },
                 new HorizontalFlexNode {
                     Height = 28.0f,
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth | FlexFlags.CenterHorizontally,
@@ -99,7 +99,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
             ],
         };
-        
+
         listNode.RecalculateLayout();
         listNode.AttachNode(this);
 
@@ -107,23 +107,23 @@ public class TimersOverlayConfigNode : UpdatableNode {
             ItemSpacing = 4.0f,
             AutoHideScrollBar = true,
         };
-        
+
         colorEdit.FitWidth = true;
         colorEdit.AttachNode(this);
     }
 
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
-        
+
         listNode.Size = new Vector2(Width, listNode.Nodes.Sum(node => node.IsVisible ? node.Height + listNode.ItemSpacing : 0.0f));
         listNode.RecalculateLayout();
-        
+
         colorEdit.Size = new Vector2(Width, Height - listNode.Height - 4.0f);
         colorEdit.Position = new Vector2(0.0f, listNode.Bounds.Bottom + 4.0f);
     }
 
     private int? lastModuleCount;
-    
+
     public override void Update() {
         if (lastModuleCount is null || module.ModuleTimersOverlayConfig.EnabledTimers.Count != lastModuleCount) {
             RebuildOptionsList();
@@ -136,7 +136,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
 
         foreach (var name in module.ModuleTimersOverlayConfig.EnabledTimers) {
             var config = module.ModuleTimersOverlayConfig.TimerData[name];
-            
+
             var originalColor = config.Color;
             colorEdit.AddNode(new ColorEditNode {
                 Height = 28.0f,
@@ -156,7 +156,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
             });
         }
-        
+
         colorEdit.RecalculateLayout();
     }
 }

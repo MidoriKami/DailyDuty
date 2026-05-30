@@ -14,7 +14,7 @@ public static class DutyRouletteMigration {
         CompleteColor = data["CompleteColor"]?.ToObject<Vector4>() ?? KnownColor.LimeGreen.Vector(),
         IncompleteColor = data["IncompleteColor"]?.ToObject<Vector4>() ?? KnownColor.OrangeRed.Vector(),
         TrackedRoulettes = data["TaskConfig"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToList() ?? [],
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

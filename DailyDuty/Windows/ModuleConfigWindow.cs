@@ -10,7 +10,7 @@ public class ModuleConfigWindow<T> : NativeAddon where T : ModuleBase {
     public required T Module { get; init; }
 
     private ConfigNodeBase? configNode;
-    
+
     protected override unsafe void OnSetup(AtkUnitBase* addon, Span<AtkValue> _) {
         configNode = Module.ConfigNode;
         configNode.Position = ContentStartPosition;

@@ -12,7 +12,7 @@ public unsafe class Levequest : Module<LevequestConfig, DataBase> {
         DisplayName = "Levequest",
         FileName = "Levequest",
         Type = ModuleType.Special,
-        Tags = [ "DoH", "DoL", "Exp" ],
+        Tags = ["DoH", "DoL", "Exp"],
     };
 
     public override DataNodeBase DataNode => new LevequestDataNode(this);

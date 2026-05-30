@@ -12,7 +12,7 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
         DisplayName = "Tribal Quests",
         FileName = "TribalQuests",
         Type = ModuleType.Daily,
-        Tags = [ "DoH", "DoL", "Exp" ],
+        Tags = ["DoH", "DoL", "Exp"],
     };
 
     public override DataNodeBase DataNode => new TribalQuestsDataNode(this);
@@ -34,5 +34,5 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
         _ => CompletionStatus.Unknown,
     };
 
-    private static int RemainingAllowances => (int) QuestManager.Instance()->GetBeastTribeAllowance();
+    private static int RemainingAllowances => (int)QuestManager.Instance()->GetBeastTribeAllowance();
 }

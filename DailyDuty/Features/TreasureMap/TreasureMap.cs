@@ -15,7 +15,7 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
         DisplayName = "Treasure Map",
         FileName = "TreasureMap",
         Type = ModuleType.Special,
-        Tags = [ "DoH", "DoL", "Exp" ],
+        Tags = ["DoH", "DoL", "Exp"],
     };
 
     public override DataNodeBase DataNode => new TreasureMapDataNode(this);
@@ -58,16 +58,16 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     }
 
     private void OnGatheringStop() {
-    	var newInventoryMaps = GetInventoryTreasureMaps().ToList();
+        var newInventoryMaps = GetInventoryTreasureMaps().ToList();
 
-    	if (newInventoryMaps.Count > inventoryMaps.Count) {
+        if (newInventoryMaps.Count > inventoryMaps.Count) {
             ModuleData.LastMapGatheredTime = DateTime.UtcNow;
             ModuleData.NextReset = ModuleData.LastMapGatheredTime + TimeSpan.FromHours(18);
             ModuleConfig.Suppressed = false;
 
             ModuleData.MarkDirty();
             ModuleConfig.MarkDirty();
-    	}
+        }
     }
 
     private static IEnumerable<uint> GetInventoryTreasureMaps() {

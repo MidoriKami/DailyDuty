@@ -7,7 +7,7 @@ namespace DailyDuty.Features.RaidsNormal;
 public static class RaidsNormalMigration {
     public static RaidsNormalConfig Migrate(JObject data) => new() {
         TrackedTasks = data["TaskConfig"]?.ToDictionary(token => token.Value<uint>("RowId"), token => token.Value<bool>("Enabled")) ?? [],
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

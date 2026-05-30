@@ -22,7 +22,7 @@ public class GrandCompanySupplyDataNode(GrandCompanySupply module) : DataNodeBas
             var classJob = Services.DataManager.GetExcelSheet<ClassJob>().GetRow(job);
 
             TextNode statusNode;
-            
+
             container.AddNode(new HorizontalFlexNode {
                 Height = 32.0f,
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
@@ -38,7 +38,7 @@ public class GrandCompanySupplyDataNode(GrandCompanySupply module) : DataNodeBas
                     },
                 ],
             });
-            
+
             statusNodes.TryAdd(job, statusNode);
         }
 

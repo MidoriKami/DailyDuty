@@ -32,7 +32,7 @@ public class CustomDeliveryConfigNode(CustomDelivery module) : ConfigNodeBase<Cu
                 },
             ],
         });
-        
+
         container.AddNode(new HorizontalFlexNode {
             Height = 28.0f,
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,

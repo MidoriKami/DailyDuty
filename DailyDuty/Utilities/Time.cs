@@ -42,7 +42,7 @@ public static class Time {
     }
 
     public class DatacenterException : Exception;
-    
+
     public static unsafe DateTime NextJumboCactpotReset() {
         var worldId = AgentLobby.Instance()->LobbyData.HomeWorldId;
         var world = Services.DataManager.GetExcelSheet<World>().GetRow(worldId);
@@ -60,7 +60,7 @@ public static class Time {
 
             // Australia
             4 => NextDayOfWeek(DayOfWeek.Saturday, 9),
-            
+
             // Cloud
             7 => NextDayOfWeek(DayOfWeek.Sunday, 2),
 

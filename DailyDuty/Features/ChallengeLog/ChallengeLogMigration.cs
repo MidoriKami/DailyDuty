@@ -11,7 +11,7 @@ public static class ChallengeLogMigration {
         EnableWarningSound = data["EnableWarningSound"]?.ToObject<bool>() ?? true,
         WarningEntries = data["WarningEntries"]?.ToObject<HashSet<uint>>() ?? [],
         TrackedEntries = data["TaskConfig"]?.Where(token => token.Value<bool>("Enabled")).Select(token => token.Value<uint>("RowId")).ToHashSet() ?? [],
-        
+
         // Base Properties
         OnLoginMessage = data["OnLoginMessage"]?.ToObject<bool>() ?? true,
         OnZoneChangeMessage = data["OnZoneChangeMessage"]?.ToObject<bool>() ?? true,

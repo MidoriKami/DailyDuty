@@ -25,12 +25,12 @@ public unsafe class TodoPanelNode : OverlayNode {
     private readonly VerticalListNode warningList;
     private readonly CircleButtonNode configButton;
     private readonly CircleButtonNode collapseButton;
-    
+
     private TodoOverlayPanelConfigWindow? configWindow;
 
     public required TodoPanelConfig Config { get; init; }
     public required TodoOverlayConfig ModuleTodoOverlayConfig { get; init; }
-    
+
     public TodoPanelNode() {
         frame = new WindowBackgroundNode(false) {
             Position = Vector2.Zero,
@@ -39,7 +39,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             PartsRenderType = 19,
         };
         frame.AttachNode(this);
-        
+
         backgroundImage = new SimpleImageNode {
             WrapMode = WrapMode.Stretch,
             TexturePath = "ui/uld/WindowA_Gradation.tex",
@@ -47,7 +47,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             TextureSize = new Vector2(24.0f, 24.0f),
         };
         backgroundImage.AttachNode(this);
-        
+
         frameFront = new WindowBackgroundNode(true) {
             Position = Vector2.Zero,
             Offsets = new Vector4(64.0f, 32.0f, 32.0f, 32.0f),
@@ -88,7 +88,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             },
         };
         collapseButton.AttachNode(this);
-        
+
         OnMoveComplete = _ => {
             Config?.Position = Position;
             ModuleTodoOverlayConfig?.MarkDirty();
@@ -100,7 +100,7 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         frame.Size = Size;
         frameFront.Size = Size;
-        
+
         backgroundImage.Size = new Vector2(Width - 8.0f, Height - 16.0f);
         backgroundImage.Position = new Vector2(4.0f, 4.0f);
 
@@ -112,7 +112,7 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         collapseButton.Size = new Vector2(32.0f, 32.0f);
         collapseButton.Position = new Vector2(Width - 36.0f - configButton.Width, 7.0f);
-        
+
         horizontalLine.Size = new Vector2(Width - 16.0f, 4.0f);
         horizontalLine.Position = new Vector2(8.0f, titleText.Bounds.Bottom + 2.0f);
 
@@ -123,7 +123,7 @@ public unsafe class TodoPanelNode : OverlayNode {
 
     protected override void Dispose(bool disposing, bool isNativeDestructor) {
         base.Dispose(disposing, isNativeDestructor);
-        
+
         configWindow?.Dispose();
         configWindow = null;
     }
@@ -142,7 +142,7 @@ public unsafe class TodoPanelNode : OverlayNode {
                 }
             }
         }
-        
+
         EnableMoving = Config.EnableMoving;
 
         frameFront.Alpha = Config.Alpha;
@@ -162,7 +162,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         frameFront.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
         frame.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
         backgroundImage.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
-        
+
         warningList.IsVisible = !Config.IsCollapsed;
 
         var warningModules = Config.Modules.Select(moduleName => System.ModuleManager.GetModule(moduleName))
@@ -174,7 +174,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         var shouldHideInDuties = ModuleTodoOverlayConfig.HideInDuties && Services.Condition.IsBoundByDuty;
         var shouldHideInQuestEvent = ModuleTodoOverlayConfig.HideDuringQuests && Services.Condition.IsInCutsceneOrQuestEvent;
         var shouldHideNoWarnings = !(warningModules.Count is not 0 || Config.Modules.Count is 0);
-        
+
         IsVisible = !shouldHideNoWarnings && !shouldHideInQuestEvent && !shouldHideInDuties;
 
         if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry) || Math.Abs(warningList.ItemSpacing - Config.ItemSpacing) > 0.1f) {
@@ -189,7 +189,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             node.Update();
         }
     }
-    
+
     private void OpenConfig() {
         configWindow ??= new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {
             Size = new Vector2(575.0f, 500.0f),
@@ -199,7 +199,7 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         configWindow.Toggle();
     }
-    
+
     private TodoListEntryNode BuildTodoEntry(ModuleBase data) => new() {
         Height = 18.0f,
         TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,

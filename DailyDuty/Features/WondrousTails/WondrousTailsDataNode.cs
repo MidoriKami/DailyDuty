@@ -85,7 +85,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
         base.Update();
 
         var bookDeadline = module.Deadline.ToLocalTime();
-        
+
         hasBook?.String = module.PlayerHasBook.ToString();
         deadline?.String = $"{bookDeadline.ToShortDateString()} {bookDeadline.ToShortTimeString()}";
         secondChance?.String = module.SecondChancePoints.ToString();

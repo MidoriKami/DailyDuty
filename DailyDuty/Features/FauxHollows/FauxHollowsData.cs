@@ -3,5 +3,5 @@
 namespace DailyDuty.Features.FauxHollows;
 
 public class FauxHollowsData : DataBase {
-	public int FauxHollowsCompletions;
+    public int FauxHollowsCompletions;
 }

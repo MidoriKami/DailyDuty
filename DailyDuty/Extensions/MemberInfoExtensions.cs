@@ -17,6 +17,7 @@ public static class MemberInfoExtensions {
                 case MemberTypes.Field:
                     ((FieldInfo)memberInfo).SetValue(forObject, value);
                     break;
+
                 case MemberTypes.Property:
                     ((PropertyInfo)memberInfo).SetValue(forObject, value);
                     break;

@@ -4,9 +4,9 @@ using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Features.MaskedCarnivale;
 
-public class MaskedCarnivaleConfigNode(MaskedCarnivale module) : ConfigNodeBase<MaskedCarnivale>(module){
+public class MaskedCarnivaleConfigNode(MaskedCarnivale module) : ConfigNodeBase<MaskedCarnivale>(module) {
     private readonly MaskedCarnivale module = module;
-    
+
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new LuminaMultiSelectNode<Addon> {
@@ -16,6 +16,6 @@ public class MaskedCarnivaleConfigNode(MaskedCarnivale module) : ConfigNodeBase<
                 Options = module.ModuleConfig.TrackedTasks,
                 Height = 360.0f,
             },
-        ]);   
+        ]);
     }
 }

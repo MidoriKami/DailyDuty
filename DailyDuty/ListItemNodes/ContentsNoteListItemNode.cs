@@ -15,17 +15,17 @@ public unsafe class ContentsNoteListItemNode : ListItemNode<ContentsNote>, IList
 
     public ContentsNoteListItemNode() {
         DisableInteractions();
-        
+
         iconNode = new IconImageNode {
             FitTexture = true,
         };
         iconNode.AttachNode(this);
-        
+
         labelNode = new TextNode {
             TextFlags = TextFlags.Ellipsis,
         };
         labelNode.AttachNode(this);
-        
+
         statusNode = new TextNode {
             AlignmentType = AlignmentType.Right,
         };
@@ -46,7 +46,7 @@ public unsafe class ContentsNoteListItemNode : ListItemNode<ContentsNote>, IList
     }
 
     protected override void SetNodeData(ContentsNote itemData) {
-        iconNode.IconId = (uint) itemData.Icon;
+        iconNode.IconId = (uint)itemData.Icon;
         labelNode.String = itemData.Name;
         statusNode.String = "Unknown Status";
     }

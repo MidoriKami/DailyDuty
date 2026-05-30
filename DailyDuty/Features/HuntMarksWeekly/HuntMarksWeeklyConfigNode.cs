@@ -6,7 +6,7 @@ namespace DailyDuty.Features.HuntMarksWeekly;
 
 public class HuntMarksWeeklyConfigNode(HuntMarksWeekly module) : ConfigNodeBase<HuntMarksWeekly>(module) {
     private readonly HuntMarksWeekly module = module;
-    
+
     protected override void BuildNode(ScrollingListNode container) {
         container.AddNode([
             new LuminaMultiSelectNode<MobHuntOrderType> {

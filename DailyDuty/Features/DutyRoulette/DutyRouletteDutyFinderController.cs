@@ -37,7 +37,7 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
             OnSetup = SetupContentsFinder,
             OnRefresh = RefreshContentsFinder,
             OnFinalize = FinalizeContentsFinder,
-        }; 
+        };
         addonController.Enable();
     }
 
@@ -91,7 +91,7 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
 
         addon->UpdateCollisionNodeList(false);
     }
-    
+
     private void FinalizeContentsFinder(AddonContentsFinder* _) {
         infoTextNode?.Dispose();
         infoTextNode = null;
@@ -106,14 +106,14 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
 
         return module.ModuleConfig.TrackedRoulettes.Contains(listItem.GetContentId().Id);
     }
-    
+
     private void UpdateElementMethod(AddonContentsFinder* addonContentsFinder, ContentsFinderListItem listItem) {
-        if (listItem.ContentType is not  ContentsType.Roulette) return;
+        if (listItem.ContentType is not ContentsType.Roulette) return;
 
         var rouletteInfo = Services.DataManager
             .GetExcelSheet<ContentRoulette>()
             .GetRow(listItem.GetContentId().Id);
-        
+
         if (InstanceContent.Instance()->IsRouletteComplete((byte)rouletteInfo.RowId)) {
             listItem.DutyNameTextNode->TextColor = module.ModuleConfig.CompleteColor.ToByteColor();
         }
