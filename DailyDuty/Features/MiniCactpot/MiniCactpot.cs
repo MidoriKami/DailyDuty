@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -10,21 +11,27 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.Features.MiniCactpot;
 
-public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
+public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Mini Cactpot",
         FileName = "MiniCactpot",
         Type = ModuleType.Daily,
-        Tags = [ "DoH", "DoL", "Exp" ],
+        Tags = ["DoH", "DoL", "Exp"],
     };
 
     public override DataNodeBase DataNode => new MiniCactpotDataNode(this);
 
-    protected override void OnModuleEnable()
-        => Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
+    protected override async Task OnModuleEnable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
+        });
+    }
 
-    protected override void OnModuleDisable()
-        => Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
+        });
+    }
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = $"{ModuleData.AllowancesRemaining} Ticket(s) Remaining",
@@ -49,11 +56,11 @@ public unsafe class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
         ModuleData.MarkDirty();
     }
 
-    public override void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
+    public override unsafe void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         if (gameObject->BaseId is not 1010445) return;
 
         if (sceneDataCount is 5) {
-            ModuleData.AllowancesRemaining = (int) sceneData[4];
+            ModuleData.AllowancesRemaining = (int)sceneData[4];
         }
         else {
             ModuleData.AllowancesRemaining = 0;

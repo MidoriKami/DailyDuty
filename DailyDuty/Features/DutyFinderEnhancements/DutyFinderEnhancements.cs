@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
@@ -11,45 +12,50 @@ using KamiToolKit.Nodes;
 
 namespace DailyDuty.Features.DutyFinderEnhancements;
 
-public unsafe class DutyFinderEnhancements : FeatureBase {
+public class DutyFinderEnhancements : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Duty Finder Enhancements",
         FileName = "DutyFinderEnhancements",
         Type = ModuleType.GeneralFeatures,
-        Tags = [ "Countdown", "Reset" ],
+        Tags = ["Countdown", "Reset"],
     };
 
     public DutyFinderEnhancementsConfig ModuleDutyFinderEnhancementsConfig = null!;
     private AddonController<AddonContentsFinder>? addonController;
     private TextNode? timerTextNode;
     private TextButtonNode? openDailyDutyButton;
-    
+
     public override NodeBase DisplayNode => new DutyFinderEnhancementsConfigNode(this);
-    
-    protected override void OnFeatureLoad() {
-        ModuleDutyFinderEnhancementsConfig = Config.LoadCharacterConfig<DutyFinderEnhancementsConfig>($"{ModuleInfo.FileName}.config.json");
+
+    protected override async Task OnFeatureLoad() {
+        ModuleDutyFinderEnhancementsConfig = await Config.LoadCharacterConfig<DutyFinderEnhancementsConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleDutyFinderEnhancementsConfig is null) {
             throw new Exception("Failed to load config file");
         }
-        
+
         ModuleDutyFinderEnhancementsConfig.FileName = ModuleInfo.FileName;
     }
 
-    protected override void OnFeatureUnload() {
+    protected override Task OnFeatureUnload() {
         ModuleDutyFinderEnhancementsConfig = null!;
+
+        return Task.CompletedTask;
     }
 
-    protected override void OnFeatureEnable() {
-        addonController = new AddonController<AddonContentsFinder> {
-            AddonName = "ContentsFinder",
-            OnSetup = SetupContentsFinder,
-            OnUpdate = UpdateContentsFinder,
-            OnFinalize = FinalizeContentsFinder,
-        };
-        addonController.Enable();
+    protected override async Task OnFeatureEnable() {
+        unsafe {
+            addonController = new AddonController<AddonContentsFinder> {
+                AddonName = "ContentsFinder",
+                OnSetup = SetupContentsFinder,
+                OnUpdate = UpdateContentsFinder,
+                OnFinalize = FinalizeContentsFinder,
+            };
+        }
+
+        await Services.Framework.Run(addonController.Enable);
     }
 
-    private void FinalizeContentsFinder(AddonContentsFinder* _) {
+    private unsafe void FinalizeContentsFinder(AddonContentsFinder* _) {
         timerTextNode?.Dispose();
         timerTextNode = null;
 
@@ -57,7 +63,7 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
         openDailyDutyButton = null;
     }
 
-    private void UpdateContentsFinder(AddonContentsFinder* addon) {
+    private unsafe void UpdateContentsFinder(AddonContentsFinder* addon) {
         var nextReset = Time.NextDailyReset();
         var timeRemaining = nextReset - DateTime.UtcNow;
 
@@ -72,7 +78,7 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
         openDailyDutyButton?.IsVisible = ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton;
     }
 
-    private void SetupContentsFinder(AddonContentsFinder* addon) {
+    private unsafe void SetupContentsFinder(AddonContentsFinder* addon) {
         var targetNode = addon->DutyList->CategoryItemRendererList->AtkComponentListItemRenderer->ComponentNode;
         if (targetNode is null) return;
 
@@ -88,20 +94,22 @@ public unsafe class DutyFinderEnhancements : FeatureBase {
         timerTextNode.AttachNode(targetNode);
 
         openDailyDutyButton = new TextButtonNode {
-            Position = new Vector2(50.0f, 622.0f), 
-            Size = new Vector2(130.0f, 28.0f), 
-            IsVisible = true, 
+            Position = new Vector2(50.0f, 622.0f),
+            Size = new Vector2(130.0f, 28.0f),
+            IsVisible = true,
             String = "Open DailyDuty",
         };
         openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
         openDailyDutyButton.AttachNode(addon->RootNode);
     }
 
-    protected override void OnFeatureDisable() {
-        addonController?.Dispose();
-        addonController = null;
+    protected override async Task OnFeatureDisable() {
+        await Services.Framework.Run(() => {
+            addonController?.Dispose();
+            timerTextNode?.Dispose();
+        });
 
-        timerTextNode?.Dispose();
+        addonController = null;
         timerTextNode = null;
     }
 

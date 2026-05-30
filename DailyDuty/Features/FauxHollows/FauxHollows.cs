@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -13,17 +14,23 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         DisplayName = "Faux Hollows",
         FileName = "FauxHollows",
         Type = ModuleType.Weekly,
-        Tags = [ "Poetics" ],
+        Tags = ["Poetics"],
     };
 
     public override DataNodeBase DataNode => new FauxHollowsDataNode(this);
     public override ConfigNodeBase ConfigNode => new FauxHollowsConfigNode(this);
 
-    protected override void OnModuleEnable()
-        => Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
+    protected override async Task OnModuleEnable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
+        });
+    }
 
-    protected override void OnModuleDisable()
-        => Services.AddonLifecycle.UnregisterListener(WeeklyPuzzlePreSetup);
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.UnregisterListener(WeeklyPuzzlePreSetup);
+        });
+    }
 
     public override TimeSpan GetResetPeriod()
         => TimeSpan.FromDays(7);

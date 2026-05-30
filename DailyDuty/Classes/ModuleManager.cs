@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using DailyDuty.Enums;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
@@ -10,11 +11,11 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.Classes;
 
-public unsafe class ModuleManager : IDisposable {
+public class ModuleManager : IAsyncDisposable {
 
     public List<LoadedModule>? LoadedModules { get; private set; }
     private FrozenDictionary<string, LoadedModule>? loadedModulesByName;
-    public bool IsUnloading {get; private set; }
+    public bool IsUnloading { get; private set; }
     public bool IsLoadComplete { get; private set; }
 
     private readonly bool frameworkLoggingEnabled = true;
@@ -25,18 +26,18 @@ public unsafe class ModuleManager : IDisposable {
 
     public Action? OnLoadComplete { get; set; }
 
-    public ModuleManager() {
+    public unsafe ModuleManager() {
         frameworkEventHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
     }
 
-    public void Dispose() {
+    public async ValueTask DisposeAsync() {
         frameworkEventHook?.Dispose();
         frameworkEventHook = null;
 
-        UnloadModules();
+        await UnloadModules();
     }
 
-    public void LoadModules() {
+    public async Task LoadModules() {
         frameworkEventHook?.Enable();
 
         IsUnloading = false;
@@ -44,26 +45,30 @@ public unsafe class ModuleManager : IDisposable {
         var allModules = GetModuleTypes();
         LoadedModules = [];
 
+        List<Task> moduleTasks = [];
+
         foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
             Services.PluginInterface.Inject(module);
 
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
 
             LoadedModules.Add(newLoadedModule);
-            module.Load();
+            await module.Load();
 
             if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
-                TryEnableModule(newLoadedModule);
+                moduleTasks.Add(Task.Run(() => TryEnableModule(newLoadedModule)));
             }
         }
+
+        await Task.WhenAll(moduleTasks);
 
         loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
         IsLoadComplete = true;
-        OnLoadComplete?.Invoke();
+        await Services.Framework.Run(() => OnLoadComplete?.Invoke());
     }
 
-    private void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
+    private unsafe void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         frameworkEventHook!.Original(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
 
         try {
@@ -89,7 +94,7 @@ public unsafe class ModuleManager : IDisposable {
         }
     }
 
-    public void UnloadModules() {
+    public async Task UnloadModules() {
         IsUnloading = true;
         IsLoadComplete = false;
 
@@ -102,11 +107,13 @@ public unsafe class ModuleManager : IDisposable {
 
         Services.PluginLog.Debug("Disposing Module Manager, now disabling all Modules");
 
+        List<Task> tasks = [];
+
         foreach (var loadedModule in LoadedModules) {
             if (loadedModule.State is LoadedState.Enabled) {
                 try {
                     Services.PluginLog.Info($"Disabling {loadedModule.Name}");
-                    loadedModule.FeatureBase.Disable();
+                    tasks.Add(Task.Run(loadedModule.FeatureBase.Disable));
                     Services.PluginLog.Info($"Successfully Disabled {loadedModule.Name}");
                 }
                 catch (Exception e) {
@@ -114,13 +121,15 @@ public unsafe class ModuleManager : IDisposable {
                 }
             }
 
-            loadedModule.FeatureBase.Unload();
+            tasks.Add(Task.Run(loadedModule.FeatureBase.Unload));
         }
+
+        await Task.WhenAll(tasks);
 
         LoadedModules = null;
     }
 
-    public void TryEnableModule(LoadedModule module) {
+    public async Task TryEnableModule(LoadedModule module) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
@@ -133,11 +142,11 @@ public unsafe class ModuleManager : IDisposable {
 
         try {
             Services.PluginLog.Info($"Enabling {module.Name}");
-            module.FeatureBase.Enable();
+            await module.FeatureBase.Enable();
             module.State = LoadedState.Enabled;
             Services.PluginLog.Info($"Successfully Enabled {module.Name}");
             System.SystemConfig.EnabledModules.Add(module.Name);
-            System.SystemConfig.Save();
+            await System.SystemConfig.Save();
             OnFeatureEnabled?.Invoke();
         }
         catch (Exception e) {
@@ -146,7 +155,7 @@ public unsafe class ModuleManager : IDisposable {
             Services.PluginLog.Error(e, $"Error while enabling {module.Name}, attempting to disable");
 
             try {
-                module.FeatureBase.Disable();
+                await module.FeatureBase.Disable();
                 Services.PluginLog.Information($"Successfully disabled erroring module {module.Name}");
             }
             catch (Exception fatal) {
@@ -156,7 +165,7 @@ public unsafe class ModuleManager : IDisposable {
         }
     }
 
-    public void TryDisableModification(LoadedModule modification, bool removeFromList = true) {
+    public async Task TryDisableModification(LoadedModule modification, bool removeFromList = true) {
         if (System.SystemConfig is null) {
             Services.PluginLog.Error("System Config Failed to Load.");
             return;
@@ -169,7 +178,7 @@ public unsafe class ModuleManager : IDisposable {
 
         try {
             Services.PluginLog.Info($"Disabling {modification.Name}");
-            modification.FeatureBase.Disable();
+            await modification.FeatureBase.Disable();
             modification.FeatureBase.OpenConfigAction = null;
             OnFeatureDisabled?.Invoke();
         }
@@ -182,7 +191,7 @@ public unsafe class ModuleManager : IDisposable {
 
             if (removeFromList) {
                 System.SystemConfig.EnabledModules.Remove(modification.Name);
-                System.SystemConfig.Save();
+                await System.SystemConfig.Save();
             }
         }
     }
@@ -202,7 +211,7 @@ public unsafe class ModuleManager : IDisposable {
         .GetTypes()
         .Where(type => type.IsSubclassOf(typeof(FeatureBase)))
         .Where(type => !type.IsAbstract)
-        .Select(type => (FeatureBase?) Activator.CreateInstance(type))
+        .Select(type => (FeatureBase?)Activator.CreateInstance(type))
         .Where(modification => modification?.ModuleInfo.Type is not ModuleType.Hidden)
         .OfType<FeatureBase>()
         .ToList();

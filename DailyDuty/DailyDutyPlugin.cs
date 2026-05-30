@@ -1,18 +1,22 @@
 ﻿using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Windows;
 using Dalamud.Game.Command;
+using Dalamud.IoC;
 using Dalamud.Plugin;
 using KamiToolKit;
 
 namespace DailyDuty;
 
-public sealed class DailyDutyPlugin : IDalamudPlugin {
-    public DailyDutyPlugin(IDalamudPluginInterface pluginInterface) {
-        pluginInterface.Create<Services>();
+public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
+    [PluginService] private static IDalamudPluginInterface PluginInterface { get; set; } = null!;
 
-        KamiToolKitLibrary.Initialize(pluginInterface, "DailyDuty");
+    public Task LoadAsync(CancellationToken cancellationToken) {
+        PluginInterface.Create<Services>();
+
+        KamiToolKitLibrary.Initialize(PluginInterface, "DailyDuty");
 
         System.ConfigurationWindow = new ModuleBrowserWindow {
             InternalName = "DailyDutyConfig",
@@ -24,12 +28,12 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
             HelpMessage = "Open DailyDuty Config Window",
             ShowInHelp = true,
         });
-        
+
         Services.CommandManager.AddHandler("/dailyduty", new CommandInfo(OnCommandReceived) {
             HelpMessage = "Open DailyDuty Config Window",
             ShowInHelp = true,
         });
-        
+
         System.PayloadController = new PayloadController();
         System.ModuleManager = new ModuleManager();
 
@@ -38,12 +42,14 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
 
             System.ModuleManager.OnLoadComplete += () => System.ConfigurationWindow.DebugOpen();
         }
-        
+
         Services.ClientState.Login += OnLogin;
         Services.ClientState.Logout += OnLogout;
 
         Services.PluginInterface.UiBuilder.OpenConfigUi += System.ConfigurationWindow.Toggle;
         Services.PluginInterface.UiBuilder.OpenMainUi += System.ConfigurationWindow.Toggle;
+
+        return Task.CompletedTask;
     }
 
     private static void OnCommandReceived(string command, string arguments) {
@@ -56,31 +62,35 @@ public sealed class DailyDutyPlugin : IDalamudPlugin {
         }
     }
 
-    public void Dispose() {
-        Services.PluginInterface.UiBuilder.OpenConfigUi -= System.ConfigurationWindow.Toggle;
-        Services.PluginInterface.UiBuilder.OpenMainUi -= System.ConfigurationWindow.Toggle;
-        
-        Services.ClientState.Login -= OnLogin;
-        Services.ClientState.Logout -= OnLogout;
-        
-        Services.CommandManager.RemoveHandler("/dd");
-        Services.CommandManager.RemoveHandler("/dailyduty");
-        
-        System.ConfigurationWindow.Dispose();
-        
-        System.PayloadController.Dispose();
-        System.ModuleManager.Dispose();
-        
-        KamiToolKitLibrary.Dispose();
+    private static void OnLogin() {
+        Task.Run(async () => {
+            System.SystemConfig = await SystemConfig.Load();
+            await System.ModuleManager.LoadModules();
+        });
     }
 
-    private static void OnLogin() => Task.Run(() => {
-        System.SystemConfig = SystemConfig.Load();
-        System.ModuleManager.LoadModules();
-    });
+    private static void OnLogout(int type, int code) {
+        Task.Run(async () => {
+            await System.ModuleManager.UnloadModules();
+            System.SystemConfig = null;
+        });
+    }
 
-    private static void OnLogout(int type, int code) => Task.Run(() => {
-        System.ModuleManager.UnloadModules();
-        System.SystemConfig = null;
-    });
+    public async ValueTask DisposeAsync() {
+        Services.PluginInterface.UiBuilder.OpenConfigUi -= System.ConfigurationWindow.Toggle;
+        Services.PluginInterface.UiBuilder.OpenMainUi -= System.ConfigurationWindow.Toggle;
+
+        Services.ClientState.Login -= OnLogin;
+        Services.ClientState.Logout -= OnLogout;
+
+        Services.CommandManager.RemoveHandler("/dd");
+        Services.CommandManager.RemoveHandler("/dailyduty");
+
+        await System.ConfigurationWindow.DisposeAsync();
+
+        System.PayloadController.Dispose();
+        await System.ModuleManager.DisposeAsync();
+
+        await Services.Framework.Run(KamiToolKitLibrary.Dispose);
+    }
 }

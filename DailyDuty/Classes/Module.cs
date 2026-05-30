@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Numerics;
+using System.Threading.Tasks;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using DailyDuty.Windows;
@@ -18,25 +19,25 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
     public override ConfigBase ConfigBase => ModuleConfig;
     public override DataBase DataBase => ModuleData;
-    
+
     protected abstract CompletionStatus GetCompletionStatus();
-    protected virtual void OnModuleEnable() { }
-    protected virtual void OnModuleDisable() { }
+    protected virtual Task OnModuleEnable() => Task.CompletedTask;
+    protected virtual Task OnModuleDisable() => Task.CompletedTask;
     protected virtual void OnModuleUpdate() { }
 
     protected virtual T? MigrateConfig(JObject objectData) => null;
 
-    protected sealed override void OnFeatureLoad() {
+    protected sealed override async Task OnFeatureLoad() {
         if (!TryMigrateConfig()) {
-            ModuleConfig = Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
+            ModuleConfig = await Config.LoadCharacterConfig<T>($"{ModuleInfo.FileName}.config.json");
             if (ModuleConfig is null) throw new Exception("Failed to load config file");
-        
+
             ModuleConfig.FileName = ModuleInfo.FileName;
         }
-        
-        ModuleData = Data.LoadCharacterData<TU>($"{ModuleInfo.FileName}.data.json");
+
+        ModuleData = await Data.LoadCharacterData<TU>($"{ModuleInfo.FileName}.data.json");
         if (ModuleData is null) throw new Exception("Failed to load data file");
-        
+
         ModuleData.FileName = ModuleInfo.FileName;
     }
 
@@ -45,7 +46,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     private bool TryMigrateConfig() {
         try {
             var fileInfo = new FileInfo(Path.Combine(Config.CharacterConfigPath, $"{ModuleInfo.FileName}.config.json"));
-        
+
             if (fileInfo is { Exists: true }) {
                 var fileText = File.ReadAllText(fileInfo.FullName);
                 var jObject = JObject.Parse(fileText);
@@ -53,7 +54,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
                 // Note if MigrationResult is null, the users old config will be nuked.
                 if (jObject.ContainsKey("ModuleEnabled") && MigrateConfig(jObject) is { } migrationResult) {
                     Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Successfully migrated config file");
-                
+
                     ModuleConfig = migrationResult;
                     ModuleConfig.FileName = ModuleInfo.FileName;
                     ModuleConfig.Save();
@@ -68,13 +69,16 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         return false;
     }
 
-    protected sealed override void OnFeatureUnload() {
+    protected sealed override Task OnFeatureUnload() {
         ModuleData = null!;
         ModuleConfig = null!;
+
+        return Task.CompletedTask;
     }
 
-    protected sealed override void OnFeatureEnable() {
-        OnModuleEnable();
+    protected sealed override async Task OnFeatureEnable() {
+        await OnModuleEnable();
+
         OnFeatureUpdate();
         SendLoginMessage();
 
@@ -85,23 +89,23 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
                 Title = $"{ModuleInfo.DisplayName} Config",
                 Size = new Vector2(800.0f, 475.0f),
             };
-            
+
             configWindow.Toggle();
         };
     }
 
-    protected sealed override void OnFeatureDisable() {
-        OnModuleDisable();
-        
+    protected sealed override async Task OnFeatureDisable() {
+        await OnModuleDisable();
+
         OpenConfigAction = null;
-        
-        configWindow?.Dispose();
+
+        await Services.Framework.Run(() => configWindow?.DisposeAsync());
         configWindow = null;
     }
-    
+
     protected sealed override void OnModuleBaseUpdate() {
         TryReset();
-        
+
         OnModuleUpdate();
     }
 
@@ -110,7 +114,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
-        
+
         PrintStatusMessage(StatusMessageType.ZoneChanged);
     }
 
@@ -119,24 +123,24 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (ModuleStatus is not (CompletionStatus.Incomplete or CompletionStatus.Unknown)) return;
         if (Services.Condition.IsBoundByDuty) return;
-        
+
         PrintStatusMessage(StatusMessageType.Login);
     }
-    
+
     private void TryReset() {
         if (ModuleInfo.Type is ModuleType.GeneralFeatures) return;
         if (DateTime.UtcNow <= ModuleData.NextReset) return;
 
         OnModuleUpdate();
         Reset();
-        
+
         if (ModuleConfig.ResetMessage) {
             PrintStatusMessage(StatusMessageType.Reset);
         }
-        
+
         var nextReset = GetNextResetDateTime();
         Services.PluginLog.Debug($"Resetting {ModuleInfo.DisplayName}, next reset at {nextReset.ToLocalTime().GetDisplayString()}");
-        
+
         ModuleData.NextReset = nextReset;
         ModuleData.Save();
 
@@ -147,9 +151,9 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     private void PrintStatusMessage(StatusMessageType type) {
         Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending {type.ToString()} Message");
         Services.ChatGui.PrintPayloadMessage(
-            ModuleConfig.MessageChatChannel, 
-            ModuleStatusMessage.PayloadId, 
-            ModuleInfo.DisplayName, 
+            ModuleConfig.MessageChatChannel,
+            ModuleStatusMessage.PayloadId,
+            ModuleInfo.DisplayName,
             type switch {
                 StatusMessageType.Login => LoginMessage,
                 StatusMessageType.ZoneChanged => StatusMessage,
@@ -166,16 +170,16 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
         return GetCompletionStatus();
     }
 
-    private string StatusMessage 
-        => ModuleConfig.CustomStatusMessage is not "" 
-               ? ModuleConfig.CustomStatusMessage 
+    private string StatusMessage
+        => ModuleConfig.CustomStatusMessage is not ""
+               ? ModuleConfig.CustomStatusMessage
                : ModuleStatusMessage.Message;
 
     private string LoginMessage
         => StatusMessage;
-    
+
     private string ResetMessage
         => ModuleConfig.CustomResetMessage is not ""
-           ? ModuleConfig.CustomResetMessage
-           : $"Resetting {ModuleInfo.DisplayName}";
+               ? ModuleConfig.CustomResetMessage
+               : $"Resetting {ModuleInfo.DisplayName}";
 }

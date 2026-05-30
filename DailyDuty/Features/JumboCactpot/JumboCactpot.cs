@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -10,23 +11,27 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
 namespace DailyDuty.Features.JumboCactpot;
 
-public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
+public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Jumbo Cactpot",
         FileName = "JumboCactpot",
         Type = ModuleType.Weekly,
-        Tags = [ "MGP" ],
+        Tags = ["MGP"],
     };
 
     public override DataNodeBase DataNode => new JumboCactpotDataNode(this);
     private int ticketData = -1;
 
-    protected override void OnModuleEnable() {
-        Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, OnLotteryEvent);
+    protected override async Task OnModuleEnable() {
+        await Services.Framework.Run(() => {
+            Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, OnLotteryEvent);
+        });
     }
 
-    protected override void OnModuleDisable() {
-        Services.AgentLifecycle.UnregisterListener(OnLotteryEvent);
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            Services.AgentLifecycle.UnregisterListener(OnLotteryEvent);
+        });
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
@@ -47,12 +52,12 @@ public unsafe class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     protected override CompletionStatus GetCompletionStatus()
         => ModuleData.Tickets.Count is 3 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
-    public override void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
+    public override unsafe void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         if (gameObject->BaseId is not 1010446) return;
 
         ModuleData.Tickets.Clear();
 
-        for(var i = 0; i < 3; ++i) {
+        for (var i = 0; i < 3; ++i) {
             var ticketValue = sceneData[i + 2];
 
             if (ticketValue != 10000) {

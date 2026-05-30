@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -21,24 +22,28 @@ namespace DailyDuty.Features.GrandCompanySquadron;
 /// <summary>
 /// This module needs to be completely redesigned.
 /// </summary>
-public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData> {
+public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Grand Company Squadron",
         FileName = "GrandCompanySquadron",
         Type = ModuleType.Weekly,
-        Tags = [ "GrandCompany", "GC", "Gil", "Company Seals", "Seals" ],
+        Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
     };
 
     public override DataNodeBase DataNode => new GrandCompanySquadronDataNode(this);
 
-    protected override void OnModuleEnable() {
-        Services.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
-        Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.GcArmyExpedition, AgentGcArmyExpeditionReceiveEvent);
+    protected override async Task OnModuleEnable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
+            Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.GcArmyExpedition, AgentGcArmyExpeditionReceiveEvent);
+        });
     }
 
-    protected override void OnModuleDisable() {
-        Services.AddonLifecycle.UnregisterListener(GcArmyExpeditionResultPreFinalize);
-        Services.AgentLifecycle.UnregisterListener(AgentGcArmyExpeditionReceiveEvent);
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.UnregisterListener(GcArmyExpeditionResultPreFinalize);
+            Services.AgentLifecycle.UnregisterListener(AgentGcArmyExpeditionReceiveEvent);
+        });
     }
 
     protected override StatusMessage GetStatusMessage() {
@@ -66,11 +71,11 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
 
         return CompletionStatus.Incomplete;
     }
-    
+
     private void GcArmyExpeditionResultPreFinalize(AddonEvent type, AddonArgs args) {
         // Note: there may be a NPCInteract Scene that includes the specific data needed to do this much more efficiently.
         // But I have to wait 18 hours to even check :skull:
-        
+
         ModuleData.MissionStarted = false;
         ModuleData.MissionCompleteTime = DateTime.MinValue;
         ModuleData.MarkDirty();
@@ -91,10 +96,10 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
         ModuleData.MissionCompleted = true;
         ModuleData.MarkDirty();
     }
-    
+
     private void AgentGcArmyExpeditionReceiveEvent(AgentEvent type, AgentArgs args) {
         if (args is not AgentReceiveEventArgs eventArgs) return;
-        if (eventArgs.EventKind is not 1) return; // SelectYesNo Callback
+        if (eventArgs.EventKind is not 1) return;           // SelectYesNo Callback
         if (eventArgs.AtkValueSpan[0].Int is not 0) return; // Yes selected
 
         ModuleData.MissionStarted = true;
@@ -102,7 +107,7 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
         ModuleData.MarkDirty();
     }
 
-    public override void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
+    public override unsafe void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         if (gameObject->BaseId is not 0xF845C) return;
         if (scene is not 1) return;
         if (sceneDataCount is not 7) return;
@@ -124,13 +129,13 @@ public unsafe class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadr
         else {
             ModuleData.MissionStarted = false;
         }
-        
+
         ModuleData.MarkDirty();
     }
 
-    protected override void OnModuleUpdate() {
+    protected override unsafe void OnModuleUpdate() {
         var gcAgent = AgentGcArmyExpedition.Instance();
-		
+
         if (gcAgent->IsAgentActive() && gcAgent->SelectedTab is 2) {
             if (ModuleData.MissionCompleted != gcAgent->ExpeditionData->MissionInfo[0].Available is 0) {
                 ModuleData.MissionCompleted = gcAgent->ExpeditionData->MissionInfo[0].Available is 0;

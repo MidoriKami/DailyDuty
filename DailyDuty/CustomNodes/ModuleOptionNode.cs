@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -19,7 +20,7 @@ public class ModuleOptionNode : SelectableNode {
 
     public ModuleOptionNode() {
         checkboxNode = new CheckboxNode {
-            OnClick = ToggleModification,
+            OnClick = shouldEnable => Task.Run(() => ToggleModification(shouldEnable)),
         };
         checkboxNode.AttachNode(this);
 
@@ -35,7 +36,7 @@ public class ModuleOptionNode : SelectableNode {
             AlignmentType = AlignmentType.BottomLeft,
         };
         modificationNameNode.AttachNode(this);
-        
+
         statusTextNode = new TextNode {
             FontType = FontType.Axis,
             TextFlags = TextFlags.Ellipsis,
@@ -43,7 +44,7 @@ public class ModuleOptionNode : SelectableNode {
             TextColor = ColorHelper.GetColor(3),
         };
         statusTextNode.AttachNode(this);
-        
+
         configButtonNode = new CircleButtonNode {
             Icon = ButtonIcon.GearCog,
             TextTooltip = "Open Configuration",
@@ -56,19 +57,19 @@ public class ModuleOptionNode : SelectableNode {
     }
 
     public ModuleInfo ModuleInfo => Module.FeatureBase.ModuleInfo;
-    
+
     public required LoadedModule Module {
         get;
         set {
             field = value;
             modificationNameNode.String = value.FeatureBase.ModuleInfo.DisplayName;
-            
+
             RefreshConfigWindowButton();
 
             checkboxNode.IsChecked = value.State is LoadedState.Enabled;
 
             UpdateDisabledState();
-            
+
             if (Module.FeatureBase is ModuleBase) {
                 modificationNameNode.Height = Height / 2.0f;
                 modificationNameNode.AlignmentType = AlignmentType.BottomLeft;
@@ -79,18 +80,18 @@ public class ModuleOptionNode : SelectableNode {
             }
         }
     }
-    
-    private void ToggleModification(bool shouldEnableModification) {
+
+    private async Task ToggleModification(bool shouldEnableModification) {
         if (shouldEnableModification && Module.State is LoadedState.Disabled) {
-            System.ModuleManager.TryEnableModule(Module);
+            await System.ModuleManager.TryEnableModule(Module);
         }
         else if (!shouldEnableModification && Module.State is LoadedState.Enabled) {
-            System.ModuleManager.TryDisableModification(Module);
+            await System.ModuleManager.TryDisableModification(Module);
         }
 
         UpdateDisabledState();
-        
-        OnClick?.Invoke(this);
+
+        await Services.Framework.Run(() => OnClick?.Invoke(this));
         RefreshConfigWindowButton();
     }
 
@@ -121,7 +122,7 @@ public class ModuleOptionNode : SelectableNode {
 
         modificationNameNode.Size = new Vector2(Width - Height * 2.0f, Height / 2.0f);
         modificationNameNode.Position = new Vector2(checkboxNode.Bounds.Right + 4.0f, 0.0f);
-        
+
         statusTextNode.Size = new Vector2(Width - Height * 2.5f, Height / 2.0f);
         statusTextNode.Position = new Vector2(Height / 2.0f + checkboxNode.Bounds.Right + 4.0f, Height / 2.0f);
 

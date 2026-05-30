@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -12,12 +13,12 @@ using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 
 namespace DailyDuty.Features.DutyRoulette;
 
-public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
+public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Duty Roulette",
         FileName = "DutyRoulette",
         Type = ModuleType.Daily,
-        Tags = [ "Exp", "Gil" ],
+        Tags = ["Exp", "Gil"],
     };
 
     private DutyRouletteDutyFinderController? rouletteController;
@@ -27,12 +28,17 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     protected override DutyRouletteConfig MigrateConfig(JObject objectData)
         => DutyRouletteMigration.Migrate(objectData);
 
-    protected override void OnModuleEnable() {
-        rouletteController = new DutyRouletteDutyFinderController(this);
+    protected override async Task OnModuleEnable() {
+        await Services.Framework.Run(() => {
+            rouletteController = new DutyRouletteDutyFinderController(this);
+        });
     }
 
-    protected override void OnModuleDisable() {
-        rouletteController?.Dispose();
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            rouletteController?.Dispose();
+        });
+
         rouletteController = null;
     }
 
@@ -49,7 +55,7 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
 
     protected override CompletionStatus GetCompletionStatus() {
         if (ModuleConfig.CompleteWhenCapped && GetLimitedTomestonesCount() == GetLimitedTomestonesLimit()) {
-            return  CompletionStatus.Complete;
+            return CompletionStatus.Complete;
         }
 
         return GetIncompleteCount() is 0 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
@@ -60,7 +66,7 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         ClickAction = PayloadId.OpenDutyFinderRoulette,
     };
 
-    private IEnumerable<ContentRoulette> GetIncompleteTasks()
+    private unsafe IEnumerable<ContentRoulette> GetIncompleteTasks()
         => ModuleConfig.TrackedRoulettes
             .Select(id => Services.DataManager.GetExcelSheet<ContentRoulette>().GetRow(id))
             .Where(row => !InstanceContent.Instance()->IsRouletteComplete((byte)row.RowId));
@@ -68,6 +74,6 @@ public unsafe class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     private int GetIncompleteCount()
         => GetIncompleteTasks().Count();
 
-    private static int GetLimitedTomestonesCount() => InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
+    private static unsafe int GetLimitedTomestonesCount() => InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
     private static int GetLimitedTomestonesLimit() => InventoryManager.GetLimitedTomestoneWeeklyLimit();
 }

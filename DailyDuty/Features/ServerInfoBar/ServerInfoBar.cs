@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
@@ -12,38 +13,42 @@ public class ServerInfoBar : FeatureBase {
         DisplayName = "Server Info Bar",
         FileName = "DTR",
         Type = ModuleType.GeneralFeatures,
-        Tags = [ "DTR" ],
+        Tags = ["DTR"],
     };
 
     public ServerInfoBarConfig ModuleConfig = null!;
     public override NodeBase DisplayNode => new ServerInfoBarConfigNode(this);
-    
+
     private IDtrBarEntry? daily;
     private IDtrBarEntry? weekly;
     private IDtrBarEntry? combo;
 
-    protected override void OnFeatureLoad() {
-        ModuleConfig = Config.LoadCharacterConfig<ServerInfoBarConfig>($"{ModuleInfo.FileName}.config.json");
+    protected override async Task OnFeatureLoad() {
+        ModuleConfig = await Config.LoadCharacterConfig<ServerInfoBarConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleConfig is null) throw new Exception("Failed to load config file");
-        
+
         ModuleConfig.FileName = ModuleInfo.FileName;
     }
 
-    protected override void OnFeatureUnload() {
+    protected override Task OnFeatureUnload() {
         ModuleConfig = null!;
+
+        return Task.CompletedTask;
     }
 
-    protected override void OnFeatureEnable() { }
+    protected override Task OnFeatureEnable() => Task.CompletedTask;
 
-    protected override void OnFeatureDisable() {
+    protected override Task OnFeatureDisable() {
         daily?.Remove();
         daily = null;
-		
+
         weekly?.Remove();
         weekly = null;
-		
+
         combo?.Remove();
         combo = null;
+
+        return Task.CompletedTask;
     }
 
     protected override void OnFeatureUpdate() {
@@ -53,13 +58,13 @@ public class ServerInfoBar : FeatureBase {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
             ModuleConfig.Save();
         }
-        
+
         var nextDailyReset = Time.NextDailyReset();
         var nextWeeklyReset = Time.NextWeeklyReset();
 
         var timeUntilDailyReset = nextDailyReset - DateTime.UtcNow;
         var timeUntilWeeklyReset = nextWeeklyReset - DateTime.UtcNow;
-		
+
         if (daily is null && config.SoloDaily) {
             daily = Services.DtrBar.Get("DailyDuty - Daily Timer");
             daily.OnClick = _ => System.ConfigurationWindow.Toggle();
@@ -76,19 +81,19 @@ public class ServerInfoBar : FeatureBase {
             weekly.OnClick = _ => System.ConfigurationWindow.Toggle();
             weekly.Tooltip = "Click to Open Configuration";
         }
-		
+
         if (weekly is not null && !config.SoloWeekly) {
             weekly.Remove();
             weekly = null;
         }
-		
+
         if (combo is null && config.Combo) {
             combo = Services.DtrBar.Get("DailyDuty - Combo Timer");
             combo.OnClick = OnComboClick;
             combo.Tooltip = "Left Click to Change Mode\n" +
                             "Right Click to Open Configuration";
         }
-		
+
         if (combo is not null && !config.Combo) {
             combo.Remove();
             combo = null;
@@ -107,10 +112,10 @@ public class ServerInfoBar : FeatureBase {
             }
         }
     }
-    
+
     private void OnComboClick(DtrInteractionEvent obj) {
         if (ModuleConfig is not { } config) return;
-        
+
         switch (obj.ClickType) {
             case MouseClickType.Left:
                 config.CurrentMode = config.CurrentMode is DtrMode.Daily ? DtrMode.Weekly : DtrMode.Daily;

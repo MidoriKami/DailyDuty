@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -19,7 +20,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         DisplayName = "Challenge Log",
         FileName = "ChallengeLog",
         Type = ModuleType.Weekly,
-        Tags = [ "Achievements", "Exp" ],
+        Tags = ["Achievements", "Exp"],
     };
 
     private Stopwatch? contentsFinderStopwatch;
@@ -29,12 +30,17 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     protected override ChallengeLogConfig MigrateConfig(JObject objectData)
         => ChallengeLogMigration.Migrate(objectData);
 
-    protected override void OnModuleEnable() {
-        Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
+    protected override async Task OnModuleEnable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
+        });
     }
 
-    protected override void OnModuleDisable() {
-        Services.AddonLifecycle.UnregisterListener(OnContentsFinderOpen);
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            Services.AddonLifecycle.UnregisterListener(OnContentsFinderOpen);
+        });
+
         contentsFinderStopwatch = null;
     }
 

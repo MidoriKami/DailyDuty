@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -19,7 +20,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
         DisplayName = "Raids Alliance",
         FileName = "RaidsAlliance",
         Type = ModuleType.Weekly,
-        Tags = [ "Tomestones", "Raids", "Exp", "Hardcore" ],
+        Tags = ["Tomestones", "Raids", "Exp", "Hardcore"],
     };
 
     private List<uint>? validAllianceRaids;
@@ -30,21 +31,25 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
     protected override RaidsAllianceConfig MigrateConfig(JObject objectData)
         => RaidsAllianceMigration.Migrate(objectData);
 
-    protected override void OnModuleEnable() {
+    protected override Task OnModuleEnable() {
         Services.GameInventory.ItemAdded += OnItemEvent;
         Services.GameInventory.ItemChanged += OnItemEvent;
 
         validAllianceRaids = Services.DataManager.LimitedAllianceRaidDuties.Select(cfc => cfc.RowId).ToList();
 
         UpdateTrackedTasks();
+
+        return Task.CompletedTask;
     }
 
-    protected override void OnModuleDisable() {
+    protected override Task OnModuleDisable() {
         Services.GameInventory.ItemAdded -= OnItemEvent;
         Services.GameInventory.ItemChanged -= OnItemEvent;
 
         validAllianceRaids?.Clear();
         validAllianceRaids = null;
+
+        return Task.CompletedTask;
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
@@ -87,32 +92,32 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
     }
 
     private void OnItemEvent(GameInventoryEvent type, InventoryEventArgs data) {
-    	// If the item event is not for main inventory, we don't care.
-    	if (data.Item.ContainerType is not (GameInventoryType.Inventory1 or GameInventoryType.Inventory2 or GameInventoryType.Inventory3 or GameInventoryType.Inventory4)) return;
+        // If the item event is not for main inventory, we don't care.
+        if (data.Item.ContainerType is not (GameInventoryType.Inventory1 or GameInventoryType.Inventory2 or GameInventoryType.Inventory3 or GameInventoryType.Inventory4)) return;
 
         var currentDuty = GameMain.Instance()->CurrentContentFinderConditionId;
 
         // If we are not in a tracked zone, return
         if (!ModuleConfig.TrackedTasks.ContainsKey(currentDuty)) return;
 
-    	// If we can't get the exd data for this item, return
-    	var item = Services.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId);
-    	if (item.RowId is 0) return;
+        // If we can't get the exd data for this item, return
+        var item = Services.DataManager.GetExcelSheet<Item>().GetRow(data.Item.ItemId);
+        if (item.RowId is 0) return;
 
-    	Services.PluginLog.Debug($"InventoryEvent: {type}: {item.Name}");
+        Services.PluginLog.Debug($"InventoryEvent: {type}: {item.Name}");
 
-    	// If the item is a limited type that we care about, mark as completed
-    	switch (item.ItemUICategory.RowId) {
-    		case 34: // Head
-    		case 35: // Body
-    		case 36: // Legs
-    		case 37: // Hands
-    		case 38: // Feet
-    		case 61 when item.ItemAction.RowId == 0: // Miscellany with no itemAction
+        // If the item is a limited type that we care about, mark as completed
+        switch (item.ItemUICategory.RowId) {
+            case 34:                                 // Head
+            case 35:                                 // Body
+            case 36:                                 // Legs
+            case 37:                                 // Hands
+            case 38:                                 // Feet
+            case 61 when item.ItemAction.RowId == 0: // Miscellany with no itemAction
                 ModuleData.TaskStatus[currentDuty] = true;
                 ModuleData.MarkDirty();
-    			break;
-    	}
+                break;
+        }
     }
 
     protected override void OnModuleUpdate() {

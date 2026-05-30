@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using DailyDuty.Utilities;
 
 namespace DailyDuty.Interfaces;
@@ -14,12 +15,12 @@ public abstract class Savable {
 
     public virtual void Save() {
         SavePending = false;
-        
+
         if (FileName == string.Empty) {
             Services.PluginLog.Error("Tried to save a config with no file name set");
             return;
         }
 
-        Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}");
+        Task.Run(() => Config.SaveCharacterConfig(this, $"{FileName}{FileExtension}"));
     }
 }

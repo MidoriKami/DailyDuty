@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Dalamud.Plugin.Services;
 using KamiToolKit;
 
@@ -7,50 +8,50 @@ namespace DailyDuty.Classes;
 public abstract class FeatureBase {
     public abstract ModuleInfo ModuleInfo { get; }
     public string Name => ModuleInfo.DisplayName;
-    
+
     public Action? OpenConfigAction { get; set; }
     public abstract NodeBase DisplayNode { get; }
-    
+
     public bool IsEnabled { get; private set; }
 
-    public void Load()
-        => OnFeatureLoad();
+    public async Task Load()
+        => await OnFeatureLoad();
 
-    public void Unload()
-        => OnFeatureUnload();
+    public async Task Unload()
+        => await OnFeatureUnload();
 
-    public void Enable() {
+    public async Task Enable() {
         IsEnabled = true;
-        
-        OnFeatureEnable();
+
+        await OnFeatureEnable();
 
         Services.Framework.Update += Update;
         Services.ClientState.TerritoryChanged += TerritoryChanged;
     }
 
-    public void Disable() {
+    public async Task Disable() {
         IsEnabled = false;
-        
-        OnFeatureDisable();
-        
+
         Services.Framework.Update -= Update;
         Services.ClientState.TerritoryChanged -= TerritoryChanged;
+
+        await OnFeatureDisable();
     }
-    
+
     private void Update(IFramework framework)
         => OnFeatureUpdate();
-    
+
     private void TerritoryChanged(uint u)
         => OnTerritoryChanged();
 
     protected abstract void OnFeatureUpdate();
     protected virtual void OnTerritoryChanged() { }
 
-    protected abstract void OnFeatureLoad();
-    protected abstract void OnFeatureUnload();
-    
-    protected abstract void OnFeatureEnable();
-    protected abstract void OnFeatureDisable();
-    
+    protected abstract Task OnFeatureLoad();
+    protected abstract Task OnFeatureUnload();
+
+    protected abstract Task OnFeatureEnable();
+    protected abstract Task OnFeatureDisable();
+
     public virtual void ProcessCommand(string args) { }
 }

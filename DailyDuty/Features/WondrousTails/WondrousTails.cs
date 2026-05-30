@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
@@ -11,12 +12,12 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 
 namespace DailyDuty.Features.WondrousTails;
 
-public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
+public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = "Wondrous Tails",
         FileName = "WondrousTails",
         Type = ModuleType.Weekly,
-        Tags = [ "DoH", "DoL", "Exp" ],
+        Tags = ["DoH", "DoL", "Exp"],
     };
 
     private WondrousTailsDutyController? dutyController;
@@ -27,13 +28,18 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override DataNodeBase DataNode => new WondrousTailsDataNode(this);
     public override ConfigNodeBase ConfigNode => new WondrousTailsConfigNode(this);
 
-    protected override void OnModuleEnable() {
+    protected override async Task OnModuleEnable() {
         dutyController = new WondrousTailsDutyController(this);
-        contentsFinderController = new WondrousTailsContentsFinderController(this);
+
+        await Services.Framework.Run(() => {
+            contentsFinderController = new WondrousTailsContentsFinderController(this);
+        });
     }
 
-    protected override void OnModuleDisable() {
-        contentsFinderController?.Dispose();
+    protected override async Task OnModuleDisable() {
+        await Services.Framework.Run(() => {
+            contentsFinderController?.Dispose();
+        });
         contentsFinderController = null;
 
         dutyController?.Dispose();
@@ -41,7 +47,7 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     }
 
     protected override StatusMessage GetStatusMessage() => this switch {
-        { IsNewBookAvailable: true } when ModuleConfig.UnclaimedBookWarning  => new StatusMessage {
+        { IsNewBookAvailable: true } when ModuleConfig.UnclaimedBookWarning => new StatusMessage {
             Message = "New Book Available",
             PayloadId = PayloadId.IdyllshireTeleport,
         },
@@ -104,24 +110,24 @@ public unsafe class WondrousTails : Module<WondrousTailsConfig, DataBase> {
         return PlacedStickers is 9 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
     }
 
-    public bool PlayerHasBook
+    public unsafe bool PlayerHasBook
         => PlayerState.Instance()->HasWeeklyBingoJournal;
 
-    public DateTime Deadline
+    public unsafe DateTime Deadline
         => DateTimeOffset.FromUnixTimeSeconds(PlayerState.Instance()->GetWeeklyBingoExpireUnixTimestamp()).DateTime;
 
-    public uint SecondChancePoints
+    public unsafe uint SecondChancePoints
         => PlayerState.Instance()->WeeklyBingoNumSecondChancePoints;
 
-    public int PlacedStickers
+    public unsafe int PlacedStickers
         => PlayerState.Instance()->WeeklyBingoNumPlacedStickers;
 
     public bool IsNewBookAvailable
         => DateTime.UtcNow > Deadline - TimeSpan.FromDays(7);
 
-    public bool IsBookExpired
+    public unsafe bool IsBookExpired
         => PlayerState.Instance()->IsWeeklyBingoExpired();
 
-    private bool IsStickerAvailable
-    	=> Enumerable.Range(0, 16).Select(index => PlayerState.Instance()->GetWeeklyBingoTaskStatus(index)).Any(taskStatus => taskStatus is PlayerState.WeeklyBingoTaskStatus.Claimable);
+    private unsafe bool IsStickerAvailable
+        => Enumerable.Range(0, 16).Select(index => PlayerState.Instance()->GetWeeklyBingoTaskStatus(index)).Any(taskStatus => taskStatus is PlayerState.WeeklyBingoTaskStatus.Claimable);
 }

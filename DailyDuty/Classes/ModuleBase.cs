@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
@@ -8,20 +9,20 @@ using KamiToolKit;
 namespace DailyDuty.Classes;
 
 public abstract unsafe class ModuleBase : FeatureBase {
-    
+
     public abstract ConfigBase ConfigBase { get; }
     public abstract DataBase DataBase { get; }
 
     public override NodeBase DisplayNode => DataNode;
     public virtual DataNodeBase DataNode => new GenericDataNodeBase(this);
     public virtual ConfigNodeBase ConfigNode => new GenericConfigNodeBase(this);
-    
+
     public CompletionStatus ModuleStatus { get; private set; }
     public StatusMessage ModuleStatusMessage { get; private set; } = new();
     public TodoTooltip? Tooltip { get; private set; }
-    
-    protected override void OnFeatureEnable() { }
-    protected override void OnFeatureDisable() { }
+
+    protected override Task OnFeatureEnable() => Task.CompletedTask;
+    protected override Task OnFeatureDisable() => Task.CompletedTask;
 
     protected abstract CompletionStatus GetModuleStatus();
     protected abstract StatusMessage GetStatusMessage();
@@ -31,15 +32,15 @@ public abstract unsafe class ModuleBase : FeatureBase {
     protected virtual TodoTooltip? GetTooltip() => null;
 
     public virtual void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) { }
-    
+
     protected abstract void OnModuleBaseUpdate();
-    
+
     protected sealed override void OnFeatureUpdate() {
         ModuleStatus = GetModuleStatus();
 
         if (ModuleStatus is not CompletionStatus.Complete) {
             ModuleStatusMessage = GetStatusMessage();
-            
+
             if (GetTooltip() is { } tooltip) {
                 Tooltip = tooltip;
             }
@@ -53,7 +54,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
         else {
             Tooltip = null;
         }
-        
+
         if (ConfigBase.SavePending) {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} config");
             ConfigBase.Save();
@@ -63,7 +64,7 @@ public abstract unsafe class ModuleBase : FeatureBase {
             Services.PluginLog.Debug($"Saving {ModuleInfo.DisplayName} data");
             DataBase.Save();
         }
-        
+
         OnModuleBaseUpdate();
     }
 }
