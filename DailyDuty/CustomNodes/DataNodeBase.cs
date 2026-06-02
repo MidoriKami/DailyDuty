@@ -109,7 +109,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         TabSelected?.Invoke(DataNodeTab.Status);
     }
 
-    private void SnoozeClicked() {
+    protected virtual void SnoozeClicked() {
         module.ConfigBase.Suppressed = !module.ConfigBase.Suppressed;
 
         snoozeButtonNode.String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze";
