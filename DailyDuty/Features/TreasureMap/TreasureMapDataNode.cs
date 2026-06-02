@@ -1,4 +1,5 @@
-﻿using DailyDuty.CustomNodes;
+﻿using System;
+using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -27,6 +28,16 @@ public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>
             },
         ],
     };
+
+    protected override void SnoozeClicked() {
+        base.SnoozeClicked();
+
+        if (module.ModuleConfig.Suppressed) {
+            module.ModuleData.LastMapGatheredTime = DateTime.UtcNow;
+            module.ModuleData.NextReset = module.ModuleData.LastMapGatheredTime + TimeSpan.FromHours(18);
+            module.ModuleData.MarkDirty();
+        }
+    }
 
     public override void Update() {
         base.Update();
