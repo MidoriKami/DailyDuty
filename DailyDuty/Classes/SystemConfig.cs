@@ -10,9 +10,13 @@ public class SystemConfig {
 
     public HashSet<string> EnabledModules = [];
 
-    public static async Task<SystemConfig> Load()
-        => await Config.LoadCharacterConfig<SystemConfig>("system.config.json");
+    public static async Task<SystemConfig> Load() {
+        Services.PluginLog.Debug("Loading system.config.json");
+        return await Config.LoadCharacterConfig<SystemConfig>("system.config.json");
+    }
 
-    public async Task Save()
-        => await Config.SaveCharacterConfig(this, "system.config.json");
+    public async Task Save() {
+        Services.PluginLog.Debug("Saving system.config.json");
+        await Config.SaveCharacterConfig(this, "system.config.json");
+    }
 }
