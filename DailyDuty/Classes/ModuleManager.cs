@@ -18,7 +18,6 @@ public class ModuleManager : IAsyncDisposable {
     public bool IsUnloading { get; private set; }
     public bool IsLoadComplete { get; private set; }
 
-    private readonly bool frameworkLoggingEnabled = true;
     private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
 
     public Action? OnFeatureEnabled { get; set; }
@@ -74,7 +73,7 @@ public class ModuleManager : IAsyncDisposable {
         frameworkEventHook!.Original(thisPtr, gameObject, eventId, scene, sceneFlags, sceneData, sceneDataCount);
 
         try {
-            if (frameworkLoggingEnabled) {
+            if (System.SystemConfig?.EnableSceneEventLogging ?? false) {
                 Services.PluginLog.Debug($"[FrameworkEvent]\n" +
                                          $"Scene: {scene}, Flags: {sceneFlags}, EventId: {eventId.ContentId}-{eventId.EntryId}-{eventId.Id} DataCount: {sceneDataCount}\n" +
                                          string.Join("\n", Enumerable.Range(0, sceneDataCount).Select(index => $"[{index}] {sceneData[index]}")));

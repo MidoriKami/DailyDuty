@@ -6,10 +6,7 @@ namespace DailyDuty.Classes;
 
 public class SystemConfig {
     public int Version = 3;
-    public string CharacterName = "Unknown Name";
-    public string CharacterWorld = "Unknown World";
-    public ulong ContentId;
-    public string? LodestoneId;
+    public bool EnableSceneEventLogging;
 
     public HashSet<string> EnabledModules = [];
 

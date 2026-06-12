@@ -75,9 +75,16 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
     private static void OnCommandReceived(string command, string arguments) {
         if (command is not ("/dailyduty" or "/dd")) return;
 
-        switch (arguments) {
-            case null or "":
+        switch (arguments.Split(" ")) {
+            case [ "" ] or [] or null:
                 System.ConfigurationWindow.Toggle();
+                break;
+
+            case [ "logevents" ] when System.SystemConfig is not null:
+                System.SystemConfig.EnableSceneEventLogging = !System.SystemConfig.EnableSceneEventLogging;
+                Services.ChatGui.Print($"Event logging is now {(System.SystemConfig.EnableSceneEventLogging ? "Enabled" : "Disabled")}", "DailyDuty");
+                Services.PluginLog.Info($"Event is now {(System.SystemConfig.EnableSceneEventLogging ? "Enabled" : "Disabled")}");
+                Task.Run(System.SystemConfig.Save);
                 break;
         }
     }
