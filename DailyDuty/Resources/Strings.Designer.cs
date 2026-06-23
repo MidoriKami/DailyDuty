@@ -1958,5 +1958,23 @@ namespace Resources {
                 return ResourceManager.GetString("WondrousTails_DutyFinderTooltip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load, this module has been disabled..
+        /// </summary>
+        internal static string ModuleManager_LoadFailed {
+            get {
+                return ResourceManager.GetString("ModuleManager_LoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Critical Error: Module failed to load, and errored again while unloading..
+        /// </summary>
+        internal static string ModuleManager_CriticalError {
+            get {
+                return ResourceManager.GetString("ModuleManager_CriticalError", resourceCulture);
+            }
+        }
     }
 }

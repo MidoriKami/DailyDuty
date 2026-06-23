@@ -669,4 +669,10 @@
   <data name="WondrousTails_DutyFinderTooltip" xml:space="preserve">
     <value>[DailyDuty] 天书奇谈功能</value>
   </data>
+  <data name="ModuleManager_LoadFailed" xml:space="preserve">
+    <value>加载失败，此模块已被禁用。</value>
+  </data>
+  <data name="ModuleManager_CriticalError" xml:space="preserve">
+    <value>严重错误：模块加载失败，且在卸载过程中再次报错。</value>
+  </data>
 </root>
