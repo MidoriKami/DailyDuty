@@ -9,6 +9,7 @@ using KamiToolKit.Controllers;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
+using Resources;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
@@ -62,7 +63,7 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
                 .Append(Strings.DutyRoulette_CompleteTask)
                 .PopColor()
                 .ToReadOnlySeString(),
-            TextTooltip = "[DailyDuty] Duty Roulette Feature",
+            TextTooltip = Strings.DutyRoulette_DutyFinderTooltip,
             IsVisible = false,
         };
         infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);

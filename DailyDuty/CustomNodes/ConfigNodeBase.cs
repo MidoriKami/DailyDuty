@@ -32,7 +32,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.ItemSpacing = 4.0f;
 
         configNode.AddNode(new CategoryHeaderNode {
-            String = Strings.Module_Settings,
+            String = Strings.ConfigNodeBase_ModuleSettings,
         });
 
         AttachDataNode(configNode);
@@ -67,7 +67,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
         if (preCount == postCount) {
             container.AddNode(new TextNode {
-                String = Strings.No_options_available_for_this_module,
+                String = Strings.ConfigNodeBase_NoOptions,
                 AlignmentType = AlignmentType.Bottom,
                 Height = 32.0f,
             });

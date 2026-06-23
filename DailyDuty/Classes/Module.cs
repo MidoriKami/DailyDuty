@@ -86,7 +86,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
             configWindow ??= new ModuleConfigWindow<Module<T, TU>> {
                 Module = this,
                 InternalName = $"{GetType().Name}ConfigWindow",
-                Title = $"{ModuleInfo.DisplayName} {Strings.Config}",
+                Title = $"{ModuleInfo.DisplayName} {Strings.DailyDutyPlugin_Config}",
                 Size = new Vector2(800.0f, 475.0f),
             };
 

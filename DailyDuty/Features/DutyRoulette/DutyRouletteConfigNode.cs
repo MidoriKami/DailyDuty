@@ -38,7 +38,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 Height = 28.0f,
                 CurrentColor = originalIncompleteColor,
                 DefaultColor = KnownColor.OrangeRed.Vector(),
-                String = Strings.Incomplete_Color,
+                String = Strings.DutyRoulette_IncompleteColor,
                 OnColorCancelled = () => {
                     module.ModuleConfig.IncompleteColor = originalIncompleteColor;
                     module.ModuleConfig.MarkDirty();
@@ -55,7 +55,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 Height = 28.0f,
                 CurrentColor = originalCompleteColor,
                 DefaultColor = KnownColor.LimeGreen.Vector(),
-                String = Strings.Complete_Color,
+                String = Strings.DutyRoulette_CompleteColor,
                 OnColorCancelled = () => {
                     module.ModuleConfig.CompleteColor = originalCompleteColor;
                     module.ModuleConfig.MarkDirty();

@@ -49,7 +49,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.Alignment,
+                            String = Strings.TodoOverlay_Alignment,
                             AlignmentType = AlignmentType.Left,
                         },
                         new TextDropDownNode {
@@ -122,7 +122,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.Scale,
+                            String = Strings.TimersOverlay_Scale,
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {

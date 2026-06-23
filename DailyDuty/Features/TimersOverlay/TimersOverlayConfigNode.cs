@@ -74,7 +74,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.TimersOverlay_EnableMovingTimers,
+                    String = Strings.TimersOverlay_EnableMoving,
                     IsChecked = module.ModuleTimersOverlayConfig.EnableMovingTimers,
                     OnClick = newValue => module.ModuleTimersOverlayConfig.EnableMovingTimers = newValue,
                 },
@@ -84,7 +84,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth | FlexFlags.CenterHorizontally,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.Scale,
+                            String = Strings.TimersOverlay_Scale,
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {

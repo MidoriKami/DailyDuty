@@ -9,7 +9,7 @@ namespace DailyDuty.Features.Levequest;
 
 public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Levequest,
+        DisplayName = Strings.Levequest_DisplayName,
         FileName = "Levequest",
         Type = ModuleType.Special,
         Tags = ["DoH", "DoL", "Exp"],

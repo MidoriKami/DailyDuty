@@ -91,7 +91,7 @@ public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
                 var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && castingTeleport;
 
                 if ((noLongerNearKhloe || startedTeleportingAway) && this is { PlayerHasBook: false, IsNewBookAvailable: true }) {
-                    Services.ChatGui.PrintTaggedMessage(Strings.Wait__You_forgot_your_Wondrous_Tails_book_, ModuleInfo.DisplayName);
+                    Services.ChatGui.PrintTaggedMessage(Strings.WondrousTails_ForgotBook, ModuleInfo.DisplayName);
                     UIGlobals.PlayChatSoundEffect(11);
                 }
             }

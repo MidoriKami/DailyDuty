@@ -61,29 +61,29 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [DailyDuty] This duty is a Wondrous Tails task.
+        ///   Looks up a localized string similar to WondrousTailsNode_DutyNotification.
         /// </summary>
-        internal static string _DailyDuty__This_duty_is_a_Wondrous_Tails_task {
+        internal static string WondrousTailsNode_DutyNotification {
             get {
-                return ResourceManager.GetString("[DailyDuty] This duty is a Wondrous Tails task", resourceCulture);
+                return ResourceManager.GetString("WondrousTailsNode_DutyNotification", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to [DailyDuty] Time until next daily reset.
         /// </summary>
-        internal static string _DailyDuty__Time_until_next_daily_reset {
+        internal static string GenericDataNode_NextReset {
             get {
-                return ResourceManager.GetString("[DailyDuty] Time until next daily reset", resourceCulture);
+                return ResourceManager.GetString("GenericDataNode_NextReset", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Above.
+        ///   Looks up a localized string similar to ComparisonMode_Above.
         /// </summary>
-        internal static string Above {
+        internal static string ComparisonMode_Above {
             get {
-                return ResourceManager.GetString("Above", resourceCulture);
+                return ResourceManager.GetString("ComparisonMode_Above", resourceCulture);
             }
         }
         
@@ -92,7 +92,7 @@ namespace Resources {
         /// </summary>
         internal static string Levequest_AcceptedNotUpdated {
             get {
-                return ResourceManager.GetString("Accepted Not Updated", resourceCulture);
+                return ResourceManager.GetString("Levequest_AcceptedNotUpdated", resourceCulture);
             }
         }
         
@@ -101,25 +101,25 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_AddPanel {
             get {
-                return ResourceManager.GetString("Add Panel", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_AddPanel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alignment.
+        ///   Looks up a localized string similar to TodoOverlay_Alignment.
         /// </summary>
-        internal static string Alignment {
+        internal static string TodoOverlay_Alignment {
             get {
-                return ResourceManager.GetString("Alignment", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_Alignment", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All Attempts Used.
+        ///   Looks up a localized string similar to FashionReportMode_AllAttemptsUsed.
         /// </summary>
-        internal static string All_Attempts_Used {
+        internal static string FashionReportMode_AllAttemptsUsed {
             get {
-                return ResourceManager.GetString("All Attempts Used", resourceCulture);
+                return ResourceManager.GetString("FashionReportMode_AllAttemptsUsed", resourceCulture);
             }
         }
         
@@ -128,7 +128,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_AllianceRaidIncomplete {
             get {
-                return ResourceManager.GetString("Alliance Raid(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_AllianceRaidIncomplete", resourceCulture);
             }
         }
         
@@ -137,7 +137,7 @@ namespace Resources {
         /// </summary>
         internal static string CustomDelivery_AllowanceAmount {
             get {
-                return ResourceManager.GetString("Allowance Amount", resourceCulture);
+                return ResourceManager.GetString("CustomDelivery_AllowanceAmount", resourceCulture);
             }
         }
         
@@ -146,7 +146,7 @@ namespace Resources {
         /// </summary>
         internal static string DomanEnclave_AllowanceRemaining {
             get {
-                return ResourceManager.GetString("Allowance Remaining", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_AllowanceRemaining", resourceCulture);
             }
         }
         
@@ -155,7 +155,7 @@ namespace Resources {
         /// </summary>
         internal static string CustomDelivery_AllowancesNotUpdated {
             get {
-                return ResourceManager.GetString("Allowances Not Updated", resourceCulture);
+                return ResourceManager.GetString("CustomDelivery_AllowancesNotUpdated", resourceCulture);
             }
         }
         
@@ -164,7 +164,7 @@ namespace Resources {
         /// </summary>
         internal static string CustomDelivery_AllowancesRemaining {
             get {
-                return ResourceManager.GetString("Allowances Remaining", resourceCulture);
+                return ResourceManager.GetString("CustomDelivery_AllowancesRemaining", resourceCulture);
             }
         }
         
@@ -173,7 +173,7 @@ namespace Resources {
         /// </summary>
         internal static string MiniCactpot_AttemptsAvailable {
             get {
-                return ResourceManager.GetString("Attempts Available", resourceCulture);
+                return ResourceManager.GetString("MiniCactpot_AttemptsAvailable", resourceCulture);
             }
         }
         
@@ -182,34 +182,34 @@ namespace Resources {
         /// </summary>
         internal static string MiniCactpot_AttemptsNotUpdated {
             get {
-                return ResourceManager.GetString("Attempts Not Updated", resourceCulture);
+                return ResourceManager.GetString("MiniCactpot_AttemptsNotUpdated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Available.
+        ///   Looks up a localized string similar to FashionReport_AvailableStatus.
         /// </summary>
-        internal static string Available {
+        internal static string FashionReport_AvailableStatus {
             get {
-                return ResourceManager.GetString("Available", resourceCulture);
+                return ResourceManager.GetString("FashionReport_AvailableStatus", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Available Not Updated.
+        ///   Looks up a localized string similar to FashionReport_AvailableStatus Not Updated.
         /// </summary>
         internal static string FashionReport_AvailableNotUpdated {
             get {
-                return ResourceManager.GetString("Available Not Updated", resourceCulture);
+                return ResourceManager.GetString("FashionReport_AvailableNotUpdated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Available Now.
+        ///   Looks up a localized string similar to FashionReport_AvailableStatus Now.
         /// </summary>
         internal static string GenericDataNode_AvailableNow {
             get {
-                return ResourceManager.GetString("Available Now", resourceCulture);
+                return ResourceManager.GetString("GenericDataNode_AvailableNow", resourceCulture);
             }
         }
         
@@ -218,16 +218,16 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_BackgroundAlpha {
             get {
-                return ResourceManager.GetString("Background Alpha", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_BackgroundAlpha", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Below.
+        ///   Looks up a localized string similar to ComparisonMode_Below.
         /// </summary>
-        internal static string Below {
+        internal static string ComparisonMode_Below {
             get {
-                return ResourceManager.GetString("Below", resourceCulture);
+                return ResourceManager.GetString("ComparisonMode_Below", resourceCulture);
             }
         }
         
@@ -236,7 +236,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_BookExpired {
             get {
-                return ResourceManager.GetString("Book Expired", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_BookExpired", resourceCulture);
             }
         }
         
@@ -245,7 +245,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_BookObtained {
             get {
-                return ResourceManager.GetString("Book Obtained", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_BookObtained", resourceCulture);
             }
         }
         
@@ -254,7 +254,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_ButtonAlpha {
             get {
-                return ResourceManager.GetString("Button Alpha", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_ButtonAlpha", resourceCulture);
             }
         }
         
@@ -263,7 +263,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_DisplayName {
             get {
-                return ResourceManager.GetString("Challenge Log", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_DisplayName", resourceCulture);
             }
         }
         
@@ -272,7 +272,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_DutyWarningSelection {
             get {
-                return ResourceManager.GetString("Challenge Log Duty Finder Warning Selection", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_DutyWarningSelection", resourceCulture);
             }
         }
         
@@ -281,7 +281,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_ChallengeLogIncomplete {
             get {
-                return ResourceManager.GetString("Challenge Log(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_ChallengeLogIncomplete", resourceCulture);
             }
         }
         
@@ -290,7 +290,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_TrackingSelection {
             get {
-                return ResourceManager.GetString("Challenge Log Tracking Selection", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_TrackingSelection", resourceCulture);
             }
         }
         
@@ -299,7 +299,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_ChallengeIncomplete {
             get {
-                return ResourceManager.GetString("Challenge(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_ChallengeIncomplete", resourceCulture);
             }
         }
         
@@ -308,7 +308,7 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_ChatChannel {
             get {
-                return ResourceManager.GetString("Chat Channel", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_ChatChannel", resourceCulture);
             }
         }
         
@@ -317,7 +317,7 @@ namespace Resources {
         /// </summary>
         internal static string ServerInfoBar_ClickOpenConfig {
             get {
-                return ResourceManager.GetString("Click to Open Configuration", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_ClickOpenConfig", resourceCulture);
             }
         }
         
@@ -326,25 +326,25 @@ namespace Resources {
         /// </summary>
         internal static string DutyRoulette_ColorRoulette {
             get {
-                return ResourceManager.GetString("Color Duty Roulette", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_ColorRoulette", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Complete.
+        ///   Looks up a localized string similar to CompletionStatus_Complete.
         /// </summary>
-        internal static string Complete {
+        internal static string CompletionStatus_Complete {
             get {
-                return ResourceManager.GetString("Complete", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_Complete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Complete Color.
+        ///   Looks up a localized string similar to CompletionStatus_Complete Color.
         /// </summary>
-        internal static string Complete_Color {
+        internal static string DutyRoulette_CompleteColor {
             get {
-                return ResourceManager.GetString("Complete Color", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_CompleteColor", resourceCulture);
             }
         }
         
@@ -353,16 +353,16 @@ namespace Resources {
         /// </summary>
         internal static string FashionReport_CompletionMode {
             get {
-                return ResourceManager.GetString("Completion Mode", resourceCulture);
+                return ResourceManager.GetString("FashionReport_CompletionMode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Config.
+        ///   Looks up a localized string similar to ModuleTypes_DailyDutyPlugin_Config.
         /// </summary>
-        internal static string Config {
+        internal static string DailyDutyPlugin_Config {
             get {
-                return ResourceManager.GetString("Config", resourceCulture);
+                return ResourceManager.GetString("DailyDutyPlugin_Config", resourceCulture);
             }
         }
         
@@ -371,7 +371,7 @@ namespace Resources {
         /// </summary>
         internal static string FauxHollows_CompletionCount {
             get {
-                return ResourceManager.GetString("Current Completion Count", resourceCulture);
+                return ResourceManager.GetString("FauxHollows_CompletionCount", resourceCulture);
             }
         }
         
@@ -380,7 +380,7 @@ namespace Resources {
         /// </summary>
         internal static string DomanEnclave_CurrentMaxAllowance {
             get {
-                return ResourceManager.GetString("Current Max Allowance", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_CurrentMaxAllowance", resourceCulture);
             }
         }
         
@@ -389,7 +389,7 @@ namespace Resources {
         /// </summary>
         internal static string CustomDelivery_DisplayName {
             get {
-                return ResourceManager.GetString("Custom Delivery", resourceCulture);
+                return ResourceManager.GetString("CustomDelivery_DisplayName", resourceCulture);
             }
         }
         
@@ -398,7 +398,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_CustomDeliveryIncomplete {
             get {
-                return ResourceManager.GetString("Custom Delivery(s) left to reach Threshold", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_CustomDeliveryIncomplete", resourceCulture);
             }
         }
         
@@ -407,7 +407,7 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_CustomReset {
             get {
-                return ResourceManager.GetString("Custom Reset Message", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_CustomReset", resourceCulture);
             }
         }
         
@@ -416,88 +416,88 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_CustomStatus {
             get {
-                return ResourceManager.GetString("Custom Status Message", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_CustomStatus", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Daily.
+        ///   Looks up a localized string similar to ModuleTypes_Daily.
         /// </summary>
-        internal static string Daily {
+        internal static string ModuleTypes_Daily {
             get {
-                return ResourceManager.GetString("Daily", resourceCulture);
+                return ResourceManager.GetString("ModuleTypes_Daily", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Daily Duty Configuration.
+        ///   Looks up a localized string similar to ModuleTypes_DailyDutyPlugin_Configuration.
         /// </summary>
-        internal static string Daily_Duty_Configuration {
+        internal static string DailyDutyPlugin_Configuration {
             get {
-                return ResourceManager.GetString("Daily Duty Configuration", resourceCulture);
+                return ResourceManager.GetString("DailyDutyPlugin_Configuration", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Daily Reset.
+        ///   Looks up a localized string similar to Additional_DailyReset.
         /// </summary>
         internal static string Additional_DailyReset {
             get {
-                return ResourceManager.GetString("Daily Reset", resourceCulture);
+                return ResourceManager.GetString("Additional_DailyReset", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Daily Timer.
+        ///   Looks up a localized string similar to ModuleTypes_Daily Timer.
         /// </summary>
         internal static string ServerInfoBar_DailyTimer {
             get {
-                return ResourceManager.GetString("Daily Timer", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_DailyTimer", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DailyDuty Button Configuration.
+        ///   Looks up a localized string similar to ModuleTypes_DailyDuty Button Configuration.
         /// </summary>
         internal static string DutyFinderEnhancements_ButtonConfig {
             get {
-                return ResourceManager.GetString("DailyDuty Button Configuration", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_ButtonConfig", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data.
+        ///   Looks up a localized string similar to DataNodeBase_Data.
         /// </summary>
-        internal static string Data {
+        internal static string DataNodeBase_Data {
             get {
-                return ResourceManager.GetString("Data", resourceCulture);
+                return ResourceManager.GetString("DataNodeBase_Data", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Not Set.
+        ///   Looks up a localized string similar to Additional_DataNotSet.
         /// </summary>
-        internal static string Data_Not_Set {
+        internal static string Additional_DataNotSet {
             get {
-                return ResourceManager.GetString("Data Not Set", resourceCulture);
+                return ResourceManager.GetString("Additional_DataNotSet", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deadline.
+        ///   Looks up a localized string similar to WondrousTails_DeadlineLabel.
         /// </summary>
         internal static string WondrousTails_Deadline {
             get {
-                return ResourceManager.GetString("Deadline", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_Deadline", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Debug.
+        ///   Looks up a localized string similar to ModuleTypes_Debug.
         /// </summary>
-        internal static string Debug {
+        internal static string ModuleTypes_Debug {
             get {
-                return ResourceManager.GetString("Debug", resourceCulture);
+                return ResourceManager.GetString("ModuleTypes_Debug", resourceCulture);
             }
         }
         
@@ -506,16 +506,16 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_DeliveryIncomplete {
             get {
-                return ResourceManager.GetString("Delivery(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_DeliveryIncomplete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disabled.
+        ///   Looks up a localized string similar to CompletionStatus_Disabled.
         /// </summary>
-        internal static string Disabled {
+        internal static string CompletionStatus_Disabled {
             get {
-                return ResourceManager.GetString("Disabled", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_Disabled", resourceCulture);
             }
         }
         
@@ -524,7 +524,7 @@ namespace Resources {
         /// </summary>
         internal static string DomanEnclave_DisplayName {
             get {
-                return ResourceManager.GetString("Doman Enclave", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_DisplayName", resourceCulture);
             }
         }
         
@@ -533,7 +533,7 @@ namespace Resources {
         /// </summary>
         internal static string DomanEnclave_DonatedNotUpdated {
             get {
-                return ResourceManager.GetString("Donated Not Updated", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_DonatedNotUpdated", resourceCulture);
             }
         }
         
@@ -542,7 +542,7 @@ namespace Resources {
         /// </summary>
         internal static string DomanEnclave_DonatedThisWeek {
             get {
-                return ResourceManager.GetString("Donated This Week", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_DonatedThisWeek", resourceCulture);
             }
         }
         
@@ -551,7 +551,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyFinderEnhancements_DisplayName {
             get {
-                return ResourceManager.GetString("Duty Finder Enhancements", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_DisplayName", resourceCulture);
             }
         }
         
@@ -560,7 +560,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_DutyFinderIntegration {
             get {
-                return ResourceManager.GetString("Duty Finder Integration", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_DutyFinderIntegration", resourceCulture);
             }
         }
         
@@ -569,7 +569,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyRoulette_DisplayName {
             get {
-                return ResourceManager.GetString("Duty Roulette", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_DisplayName", resourceCulture);
             }
         }
         
@@ -578,7 +578,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_EditDutyEntries {
             get {
-                return ResourceManager.GetString("Edit Duty Finder Warning Entries", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_EditDutyEntries", resourceCulture);
             }
         }
         
@@ -587,7 +587,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_EditTrackedEntries {
             get {
-                return ResourceManager.GetString("Edit Tracked Challenge Log Entries", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_EditTrackedEntries", resourceCulture);
             }
         }
         
@@ -596,7 +596,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_DutyFinderWarning {
             get {
-                return ResourceManager.GetString("Enable Duty Finder Warning", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_DutyFinderWarning", resourceCulture);
             }
         }
         
@@ -605,7 +605,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_DutyFinderWarningSound {
             get {
-                return ResourceManager.GetString("Enable Duty Finder Warning Sound", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_DutyFinderWarningSound", resourceCulture);
             }
         }
         
@@ -614,7 +614,7 @@ namespace Resources {
         /// </summary>
         internal static string GenericDataNode_EnableModule {
             get {
-                return ResourceManager.GetString("Enable module to initialize", resourceCulture);
+                return ResourceManager.GetString("GenericDataNode_EnableModule", resourceCulture);
             }
         }
         
@@ -623,25 +623,25 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_EnableMoving {
             get {
-                return ResourceManager.GetString("Enable Moving", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_EnableMoving", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Enable Moving Timers.
         /// </summary>
-        internal static string TimersOverlay_EnableMovingTimers {
+        internal static string TimersOverlay_EnableMoving {
             get {
-                return ResourceManager.GetString("Enable Moving Timers", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_EnableMoving", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enabled.
+        ///   Looks up a localized string similar to EventLogging_State.
         /// </summary>
-        internal static string Enabled {
+        internal static string EventLogging_Enabled {
             get {
-                return ResourceManager.GetString("Enabled", resourceCulture);
+                return ResourceManager.GetString("EventLogging_Enabled", resourceCulture);
             }
         }
         
@@ -650,16 +650,16 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_EntryColor {
             get {
-                return ResourceManager.GetString("Entry Color", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_EntryColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event logging is now.
+        ///   Looks up a localized string similar to EventLogging_Status.
         /// </summary>
-        internal static string Event_logging_is_now {
+        internal static string EventLogging_Status {
             get {
-                return ResourceManager.GetString("Event logging is now", resourceCulture);
+                return ResourceManager.GetString("EventLogging_Status", resourceCulture);
             }
         }
         
@@ -668,7 +668,7 @@ namespace Resources {
         /// </summary>
         internal static string FashionReport_DisplayName {
             get {
-                return ResourceManager.GetString("Fashion Report", resourceCulture);
+                return ResourceManager.GetString("FashionReport_DisplayName", resourceCulture);
             }
         }
         
@@ -677,7 +677,7 @@ namespace Resources {
         /// </summary>
         internal static string FashionReport_Available {
             get {
-                return ResourceManager.GetString("Fashion Report Available", resourceCulture);
+                return ResourceManager.GetString("FashionReport_Available", resourceCulture);
             }
         }
         
@@ -686,7 +686,7 @@ namespace Resources {
         /// </summary>
         internal static string FauxHollows_DisplayName {
             get {
-                return ResourceManager.GetString("Faux Hollows", resourceCulture);
+                return ResourceManager.GetString("FauxHollows_DisplayName", resourceCulture);
             }
         }
         
@@ -695,25 +695,25 @@ namespace Resources {
         /// </summary>
         internal static string ServerInfoBar_FeatureConfig {
             get {
-                return ResourceManager.GetString("Feature Configuration", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_FeatureConfig", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Features.
+        ///   Looks up a localized string similar to ModuleTypes_Features.
         /// </summary>
-        internal static string Features {
+        internal static string ModuleTypes_Features {
             get {
-                return ResourceManager.GetString("Features", resourceCulture);
+                return ResourceManager.GetString("ModuleTypes_Features", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to gil Remaining.
+        ///   Looks up a localized string similar to Additional_GilRemaining.
         /// </summary>
         internal static string Additional_GilRemaining {
             get {
-                return ResourceManager.GetString("gil Remaining", resourceCulture);
+                return ResourceManager.GetString("Additional_GilRemaining", resourceCulture);
             }
         }
         
@@ -722,7 +722,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanyProvision_DisplayName {
             get {
-                return ResourceManager.GetString("Grand Company Provision", resourceCulture);
+                return ResourceManager.GetString("GrandCompanyProvision_DisplayName", resourceCulture);
             }
         }
         
@@ -731,7 +731,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySquadron_DisplayName {
             get {
-                return ResourceManager.GetString("Grand Company Squadron", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySquadron_DisplayName", resourceCulture);
             }
         }
         
@@ -740,7 +740,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySupply_DisplayName {
             get {
-                return ResourceManager.GetString("Grand Company Supply", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySupply_DisplayName", resourceCulture);
             }
         }
         
@@ -749,7 +749,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_HideFrame {
             get {
-                return ResourceManager.GetString("Hide Frame", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_HideFrame", resourceCulture);
             }
         }
         
@@ -758,7 +758,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_HideInDuties {
             get {
-                return ResourceManager.GetString("Hide in Duties", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_HideInDuties", resourceCulture);
             }
         }
         
@@ -767,7 +767,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_HideInQuests {
             get {
-                return ResourceManager.GetString("Hide in Quest Events", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_HideInQuests", resourceCulture);
             }
         }
         
@@ -776,7 +776,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyFinderEnhancements_HideSeconds {
             get {
-                return ResourceManager.GetString("Hide Seconds", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_HideSeconds", resourceCulture);
             }
         }
         
@@ -785,7 +785,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_HideSeconds {
             get {
-                return ResourceManager.GetString("Hide Timer Seconds", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_HideSeconds", resourceCulture);
             }
         }
         
@@ -794,7 +794,7 @@ namespace Resources {
         /// </summary>
         internal static string FashionReport_HighestScore {
             get {
-                return ResourceManager.GetString("Highest Score", resourceCulture);
+                return ResourceManager.GetString("FashionReport_HighestScore", resourceCulture);
             }
         }
         
@@ -803,7 +803,7 @@ namespace Resources {
         /// </summary>
         internal static string FashionReport_ScoreNotUpdated {
             get {
-                return ResourceManager.GetString("Highest Score Not Updated", resourceCulture);
+                return ResourceManager.GetString("FashionReport_ScoreNotUpdated", resourceCulture);
             }
         }
         
@@ -812,7 +812,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_HuntBillIncomplete {
             get {
-                return ResourceManager.GetString("Hunt Bill(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_HuntBillIncomplete", resourceCulture);
             }
         }
         
@@ -821,7 +821,7 @@ namespace Resources {
         /// </summary>
         internal static string HuntMarksDaily_DisplayName {
             get {
-                return ResourceManager.GetString("Hunt Marks Daily", resourceCulture);
+                return ResourceManager.GetString("HuntMarksDaily_DisplayName", resourceCulture);
             }
         }
         
@@ -830,25 +830,25 @@ namespace Resources {
         /// </summary>
         internal static string HuntMarksWeekly_DisplayName {
             get {
-                return ResourceManager.GetString("Hunt Marks Weekly", resourceCulture);
+                return ResourceManager.GetString("HuntMarksWeekly_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Important.
+        ///   Looks up a localized string similar to TodoPanelNode_Important.
         /// </summary>
-        internal static string Important {
+        internal static string TodoPanelNode_Important {
             get {
-                return ResourceManager.GetString("Important", resourceCulture);
+                return ResourceManager.GetString("TodoPanelNode_Important", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In Progress.
+        ///   Looks up a localized string similar to CompletionStatus_InProgress.
         /// </summary>
-        internal static string In_Progress {
+        internal static string CompletionStatus_InProgress {
             get {
-                return ResourceManager.GetString("In Progress", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_InProgress", resourceCulture);
             }
         }
         
@@ -857,25 +857,25 @@ namespace Resources {
         /// </summary>
         internal static string FauxHollows_IncludeRetelling {
             get {
-                return ResourceManager.GetString("Include Retelling", resourceCulture);
+                return ResourceManager.GetString("FauxHollows_IncludeRetelling", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incomplete.
+        ///   Looks up a localized string similar to CompletionStatus_Incomplete.
         /// </summary>
-        internal static string Incomplete {
+        internal static string CompletionStatus_Incomplete {
             get {
-                return ResourceManager.GetString("Incomplete", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_Incomplete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incomplete Color.
+        ///   Looks up a localized string similar to CompletionStatus_Incomplete Color.
         /// </summary>
-        internal static string Incomplete_Color {
+        internal static string DutyRoulette_IncompleteColor {
             get {
-                return ResourceManager.GetString("Incomplete Color", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_IncompleteColor", resourceCulture);
             }
         }
         
@@ -884,7 +884,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_InstanceNotifications {
             get {
-                return ResourceManager.GetString("Instance Notifications", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_InstanceNotifications", resourceCulture);
             }
         }
         
@@ -893,7 +893,7 @@ namespace Resources {
         /// </summary>
         internal static string JumboCactpot_DisplayName {
             get {
-                return ResourceManager.GetString("Jumbo Cactpot", resourceCulture);
+                return ResourceManager.GetString("JumboCactpot_DisplayName", resourceCulture);
             }
         }
         
@@ -902,7 +902,7 @@ namespace Resources {
         /// </summary>
         internal static string TreasureMap_LastGathered {
             get {
-                return ResourceManager.GetString("Last Map Gathered", resourceCulture);
+                return ResourceManager.GetString("TreasureMap_LastGathered", resourceCulture);
             }
         }
         
@@ -911,16 +911,16 @@ namespace Resources {
         /// </summary>
         internal static string ServerInfoBar_LeftClickChange {
             get {
-                return ResourceManager.GetString("Left Click to Change Mode", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_LeftClickChange", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Levequest.
         /// </summary>
-        internal static string Levequest {
+        internal static string Levequest_DisplayName {
             get {
-                return ResourceManager.GetString("Levequest", resourceCulture);
+                return ResourceManager.GetString("Levequest_DisplayName", resourceCulture);
             }
         }
         
@@ -929,7 +929,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_LevequestIncomplete {
             get {
-                return ResourceManager.GetString("Levequest(s) left to reach Threshold", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_LevequestIncomplete", resourceCulture);
             }
         }
         
@@ -938,7 +938,7 @@ namespace Resources {
         /// </summary>
         internal static string Levequest_Accepted {
             get {
-                return ResourceManager.GetString("Levequests Accepted", resourceCulture);
+                return ResourceManager.GetString("Levequest_Accepted", resourceCulture);
             }
         }
         
@@ -947,7 +947,7 @@ namespace Resources {
         /// </summary>
         internal static string Levequest_Available {
             get {
-                return ResourceManager.GetString("Levequests Available", resourceCulture);
+                return ResourceManager.GetString("Levequest_Available", resourceCulture);
             }
         }
         
@@ -956,7 +956,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyRoulette_MarkCompleteTomecapped {
             get {
-                return ResourceManager.GetString("Mark Complete When Weekly Tomecapped", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_MarkCompleteTomecapped", resourceCulture);
             }
         }
         
@@ -965,7 +965,7 @@ namespace Resources {
         /// </summary>
         internal static string MaskedCarnivale_DisplayName {
             get {
-                return ResourceManager.GetString("Masked Carnivale", resourceCulture);
+                return ResourceManager.GetString("MaskedCarnivale_DisplayName", resourceCulture);
             }
         }
         
@@ -974,7 +974,7 @@ namespace Resources {
         /// </summary>
         internal static string MiniCactpot_DisplayName {
             get {
-                return ResourceManager.GetString("Mini Cactpot", resourceCulture);
+                return ResourceManager.GetString("MiniCactpot_DisplayName", resourceCulture);
             }
         }
         
@@ -983,7 +983,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySquadron_MissionCompleted {
             get {
-                return ResourceManager.GetString("Mission Completed", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySquadron_MissionCompleted", resourceCulture);
             }
         }
         
@@ -992,7 +992,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySquadron_CompletionTime {
             get {
-                return ResourceManager.GetString("Mission Completion Time", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySquadron_CompletionTime", resourceCulture);
             }
         }
         
@@ -1001,7 +1001,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_MissionNotStarted {
             get {
-                return ResourceManager.GetString("Mission Not Started", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_MissionNotStarted", resourceCulture);
             }
         }
         
@@ -1010,7 +1010,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_MissionResultsReady {
             get {
-                return ResourceManager.GetString("Mission Results Ready", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_MissionResultsReady", resourceCulture);
             }
         }
         
@@ -1019,7 +1019,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySquadron_MissionStarted {
             get {
-                return ResourceManager.GetString("Mission Started", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySquadron_MissionStarted", resourceCulture);
             }
         }
         
@@ -1028,16 +1028,16 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySquadron_TimeRemaining {
             get {
-                return ResourceManager.GetString("Mission Time Remaining", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySquadron_TimeRemaining", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Module Data.
+        ///   Looks up a localized string similar to DataNodeBase_DataNodeBase_ModuleData.
         /// </summary>
-        internal static string Module_Data {
+        internal static string DataNodeBase_ModuleData {
             get {
-                return ResourceManager.GetString("Module Data", resourceCulture);
+                return ResourceManager.GetString("DataNodeBase_ModuleData", resourceCulture);
             }
         }
         
@@ -1046,16 +1046,16 @@ namespace Resources {
         /// </summary>
         internal static string ModuleOptionNode_FailedToLoad {
             get {
-                return ResourceManager.GetString("Module Failed To Load", resourceCulture);
+                return ResourceManager.GetString("ModuleOptionNode_FailedToLoad", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Module Settings.
+        ///   Looks up a localized string similar to ModuleTypes_DailyDutyPlugin_ConfigNodeBase_ModuleSettings.
         /// </summary>
-        internal static string Module_Settings {
+        internal static string ConfigNodeBase_ModuleSettings {
             get {
-                return ResourceManager.GetString("Module Settings", resourceCulture);
+                return ResourceManager.GetString("ConfigNodeBase_ModuleSettings", resourceCulture);
             }
         }
         
@@ -1064,7 +1064,7 @@ namespace Resources {
         /// </summary>
         internal static string GenericDataNode_ModuleStatus {
             get {
-                return ResourceManager.GetString("Module Status", resourceCulture);
+                return ResourceManager.GetString("GenericDataNode_ModuleStatus", resourceCulture);
             }
         }
         
@@ -1073,25 +1073,16 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_NewBookAvailable {
             get {
-                return ResourceManager.GetString("New Book Available", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_NewBookAvailable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next Reset.
+        ///   Looks up a localized string similar to ModuleTypes_DailyDutyPlugin_ConfigNodeBase_NoOptions.
         /// </summary>
-        internal static string GenericDataNode_NextReset {
+        internal static string ConfigNodeBase_NoOptions {
             get {
-                return ResourceManager.GetString("Next Reset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No options available for this module.
-        /// </summary>
-        internal static string No_options_available_for_this_module {
-            get {
-                return ResourceManager.GetString("No options available for this module", resourceCulture);
+                return ResourceManager.GetString("ConfigNodeBase_NoOptions", resourceCulture);
             }
         }
         
@@ -1100,7 +1091,7 @@ namespace Resources {
         /// </summary>
         internal static string Raids_NoneLimited {
             get {
-                return ResourceManager.GetString("No raids are currently limited.", resourceCulture);
+                return ResourceManager.GetString("Raids_NoneLimited", resourceCulture);
             }
         }
         
@@ -1109,25 +1100,25 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_NormalRaidIncomplete {
             get {
-                return ResourceManager.GetString("Normal Raid(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_NormalRaidIncomplete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Available.
+        ///   Looks up a localized string similar to FashionReport_NotAvailable.
         /// </summary>
-        internal static string Not_Available {
+        internal static string FashionReport_NotAvailable {
             get {
-                return ResourceManager.GetString("Not Available", resourceCulture);
+                return ResourceManager.GetString("FashionReport_NotAvailable", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Equal.
+        ///   Looks up a localized string similar to ComparisonMode_NotEqual.
         /// </summary>
-        internal static string Not_Equal {
+        internal static string ComparisonMode_NotEqual {
             get {
-                return ResourceManager.GetString("Not Equal", resourceCulture);
+                return ResourceManager.GetString("ComparisonMode_NotEqual", resourceCulture);
             }
         }
         
@@ -1136,7 +1127,7 @@ namespace Resources {
         /// </summary>
         internal static string GrandCompanySquadron_NotStarted {
             get {
-                return ResourceManager.GetString("Not Started", resourceCulture);
+                return ResourceManager.GetString("GrandCompanySquadron_NotStarted", resourceCulture);
             }
         }
         
@@ -1145,16 +1136,16 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_NotificationSettings {
             get {
-                return ResourceManager.GetString("Notification Settings", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_NotificationSettings", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One Attempt Used.
+        ///   Looks up a localized string similar to FashionReportMode_OneAttemptUsed.
         /// </summary>
-        internal static string One_Attempt_Used {
+        internal static string FashionReportMode_OneAttemptUsed {
             get {
-                return ResourceManager.GetString("One Attempt Used", resourceCulture);
+                return ResourceManager.GetString("FashionReportMode_OneAttemptUsed", resourceCulture);
             }
         }
         
@@ -1163,7 +1154,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_OnlyOnePinned {
             get {
-                return ResourceManager.GetString("Only one panel can be pinned to the quest list at a time.", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_OnlyOnePinned", resourceCulture);
             }
         }
         
@@ -1172,7 +1163,7 @@ namespace Resources {
         /// </summary>
         internal static string ModuleOptionNode_OpenConfig {
             get {
-                return ResourceManager.GetString("Open Configuration", resourceCulture);
+                return ResourceManager.GetString("ModuleOptionNode_OpenConfig", resourceCulture);
             }
         }
         
@@ -1181,16 +1172,16 @@ namespace Resources {
         /// </summary>
         internal static string DutyFinderEnhancements_OpenDailyDuty {
             get {
-                return ResourceManager.GetString("Open DailyDuty", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_OpenDailyDuty", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open DailyDuty Config Window.
+        ///   Looks up a localized string similar to ModuleTypes_DailyDutyPlugin_OpenConfigWindow.
         /// </summary>
-        internal static string Open_DailyDuty_Config_Window {
+        internal static string DailyDutyPlugin_OpenConfigWindow {
             get {
-                return ResourceManager.GetString("Open DailyDuty Config Window", resourceCulture);
+                return ResourceManager.GetString("DailyDutyPlugin_OpenConfigWindow", resourceCulture);
             }
         }
         
@@ -1199,25 +1190,25 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_OpenMainConfig {
             get {
-                return ResourceManager.GetString("Open Main Config", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_OpenMainConfig", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Other.
+        ///   Looks up a localized string similar to ModuleTypes_Other.
         /// </summary>
-        internal static string Other {
+        internal static string ModuleTypes_Other {
             get {
-                return ResourceManager.GetString("Other", resourceCulture);
+                return ResourceManager.GetString("ModuleTypes_Other", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Overlay from DailyDuty plugin.
+        ///   Looks up a localized string similar to TimerOverlayNode_OverlayTooltip.
         /// </summary>
-        internal static string Overlay_from_DailyDuty_plugin {
+        internal static string TimerOverlayNode_OverlayTooltip {
             get {
-                return ResourceManager.GetString("Overlay from DailyDuty plugin", resourceCulture);
+                return ResourceManager.GetString("TimerOverlayNode_OverlayTooltip", resourceCulture);
             }
         }
         
@@ -1226,7 +1217,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_Panels {
             get {
-                return ResourceManager.GetString("Overlay Panels", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_Panels", resourceCulture);
             }
         }
         
@@ -1235,7 +1226,7 @@ namespace Resources {
         /// </summary>
         internal static string PanelConfig_Config {
             get {
-                return ResourceManager.GetString("Panel Config", resourceCulture);
+                return ResourceManager.GetString("PanelConfig_Config", resourceCulture);
             }
         }
         
@@ -1244,7 +1235,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_PinToQuestList {
             get {
-                return ResourceManager.GetString("Pin to Quest List", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_PinToQuestList", resourceCulture);
             }
         }
         
@@ -1253,7 +1244,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_PlacedStickers {
             get {
-                return ResourceManager.GetString("Placed Stickers", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_PlacedStickers", resourceCulture);
             }
         }
         
@@ -1262,7 +1253,7 @@ namespace Resources {
         /// </summary>
         internal static string ModuleBrowserWindow_SelectOption {
             get {
-                return ResourceManager.GetString("Please select an option on the left", resourceCulture);
+                return ResourceManager.GetString("ModuleBrowserWindow_SelectOption", resourceCulture);
             }
         }
         
@@ -1271,7 +1262,7 @@ namespace Resources {
         /// </summary>
         internal static string TribalQuests_QuestAmount {
             get {
-                return ResourceManager.GetString("Quest Amount", resourceCulture);
+                return ResourceManager.GetString("TribalQuests_QuestAmount", resourceCulture);
             }
         }
         
@@ -1280,7 +1271,7 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_QuestIncomplete {
             get {
-                return ResourceManager.GetString("Quest(s) left to reach Threshold", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_QuestIncomplete", resourceCulture);
             }
         }
         
@@ -1289,7 +1280,7 @@ namespace Resources {
         /// </summary>
         internal static string RaidsAlliance_DisplayName {
             get {
-                return ResourceManager.GetString("Raids Alliance", resourceCulture);
+                return ResourceManager.GetString("RaidsAlliance_DisplayName", resourceCulture);
             }
         }
         
@@ -1298,7 +1289,7 @@ namespace Resources {
         /// </summary>
         internal static string RaidsNormal_DisplayName {
             get {
-                return ResourceManager.GetString("Raids Normal", resourceCulture);
+                return ResourceManager.GetString("RaidsNormal_DisplayName", resourceCulture);
             }
         }
         
@@ -1307,7 +1298,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_RecolorEntries {
             get {
-                return ResourceManager.GetString("Recolor Duty Finder Entries", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_RecolorEntries", resourceCulture);
             }
         }
         
@@ -1316,7 +1307,7 @@ namespace Resources {
         /// </summary>
         internal static string DomanEnclave_RemainingNotUpdated {
             get {
-                return ResourceManager.GetString("Remaining Not Updated", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_RemainingNotUpdated", resourceCulture);
             }
         }
         
@@ -1325,16 +1316,16 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_Resetting {
             get {
-                return ResourceManager.GetString("Resetting", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_Resetting", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Results Available.
+        ///   Looks up a localized string similar to CompletionStatus_ResultsAvailable.
         /// </summary>
-        internal static string Results_Available {
+        internal static string CompletionStatus_ResultsAvailable {
             get {
-                return ResourceManager.GetString("Results Available", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_ResultsAvailable", resourceCulture);
             }
         }
         
@@ -1343,7 +1334,7 @@ namespace Resources {
         /// </summary>
         internal static string ServerInfoBar_RightClickOpenConfig {
             get {
-                return ResourceManager.GetString("Right Click to Open Configuration", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_RightClickOpenConfig", resourceCulture);
             }
         }
         
@@ -1352,25 +1343,25 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_RouletteIncomplete {
             get {
-                return ResourceManager.GetString("Roulette(s) Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_RouletteIncomplete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scale.
+        ///   Looks up a localized string similar to TimersOverlay_Scale.
         /// </summary>
-        internal static string Scale {
+        internal static string TimersOverlay_Scale {
             get {
-                return ResourceManager.GetString("Scale", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_Scale", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scored Over 80.
+        ///   Looks up a localized string similar to FashionReportMode_ScoredOver80.
         /// </summary>
-        internal static string Scored_Over_80 {
+        internal static string FashionReportMode_ScoredOver80 {
             get {
-                return ResourceManager.GetString("Scored Over 80", resourceCulture);
+                return ResourceManager.GetString("FashionReportMode_ScoredOver80", resourceCulture);
             }
         }
         
@@ -1379,7 +1370,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_SecondChancePoints {
             get {
-                return ResourceManager.GetString("Second Chance Points", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_SecondChancePoints", resourceCulture);
             }
         }
         
@@ -1388,7 +1379,7 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_LoginStatus {
             get {
-                return ResourceManager.GetString("Send status on login", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_LoginStatus", resourceCulture);
             }
         }
         
@@ -1397,7 +1388,7 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_ResetStatus {
             get {
-                return ResourceManager.GetString("Send status on module reset", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_ResetStatus", resourceCulture);
             }
         }
         
@@ -1406,7 +1397,7 @@ namespace Resources {
         /// </summary>
         internal static string NotificationSettingsNode_ZoneStatus {
             get {
-                return ResourceManager.GetString("Send status on zone change", resourceCulture);
+                return ResourceManager.GetString("NotificationSettingsNode_ZoneStatus", resourceCulture);
             }
         }
         
@@ -1415,7 +1406,7 @@ namespace Resources {
         /// </summary>
         internal static string ServerInfoBar_DisplayName {
             get {
-                return ResourceManager.GetString("Server Info Bar", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_DisplayName", resourceCulture);
             }
         }
         
@@ -1424,7 +1415,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyFinderEnhancements_ShowOpenButton {
             get {
-                return ResourceManager.GetString("Show \"Open DailyDuty\" Button", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_ShowOpenButton", resourceCulture);
             }
         }
         
@@ -1433,7 +1424,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_ShowClover {
             get {
-                return ResourceManager.GetString("Show Clover Indicator", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_ShowClover", resourceCulture);
             }
         }
         
@@ -1442,7 +1433,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_ShowCountdown {
             get {
-                return ResourceManager.GetString("Show Countdown Text", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_ShowCountdown", resourceCulture);
             }
         }
         
@@ -1451,7 +1442,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_ShowLabel {
             get {
-                return ResourceManager.GetString("Show Module Label", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_ShowLabel", resourceCulture);
             }
         }
         
@@ -1460,7 +1451,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_ShuffleAvailable {
             get {
-                return ResourceManager.GetString("Shuffle Available", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_ShuffleAvailable", resourceCulture);
             }
         }
         
@@ -1469,52 +1460,52 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_ShuffleNotification {
             get {
-                return ResourceManager.GetString("Shuffle Available Notification", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_ShuffleNotification", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Snooze.
         /// </summary>
-        internal static string Snooze {
+        internal static string DataNodeBase_Snooze {
             get {
-                return ResourceManager.GetString("Snooze", resourceCulture);
+                return ResourceManager.GetString("DataNodeBase_Snooze", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status.
+        ///   Looks up a localized string similar to DataNodeBase_DataNodeBase_Status.
         /// </summary>
-        internal static string Status {
+        internal static string DataNodeBase_Status {
             get {
-                return ResourceManager.GetString("Status", resourceCulture);
+                return ResourceManager.GetString("DataNodeBase_Status", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status is unavailable, visit the Doman Enclave to update.
+        ///   Looks up a localized string similar to DataNodeBase_DataNodeBase_Status is unavailable, visit the Doman Enclave to update.
         /// </summary>
         internal static string DomanEnclave_UnavailableStatus {
             get {
-                return ResourceManager.GetString("Status is unavailable, visit the Doman Enclave to update", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_UnavailableStatus", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status not Updated.
+        ///   Looks up a localized string similar to DataNodeBase_DataNodeBase_Status not Updated.
         /// </summary>
         internal static string DutyRoulette_NotUpdated {
             get {
-                return ResourceManager.GetString("Status not Updated", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_NotUpdated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Status unknown, visit the enclave to update.
+        ///   Looks up a localized string similar to DataNodeBase_DataNodeBase_Status unknown, visit the enclave to update.
         /// </summary>
         internal static string DomanEnclave_UnknownStatus {
             get {
-                return ResourceManager.GetString("Status unknown, visit the enclave to update", resourceCulture);
+                return ResourceManager.GetString("DomanEnclave_UnknownStatus", resourceCulture);
             }
         }
         
@@ -1523,7 +1514,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_StickerAvailable {
             get {
-                return ResourceManager.GetString("Sticker Available", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_StickerAvailable", resourceCulture);
             }
         }
         
@@ -1532,7 +1523,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_StickerNotification {
             get {
-                return ResourceManager.GetString("Sticker Available Notification", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_StickerNotification", resourceCulture);
             }
         }
         
@@ -1541,43 +1532,43 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_StickerRemaining {
             get {
-                return ResourceManager.GetString("Sticker(s) Remaining", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_StickerRemaining", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Suppressed.
+        ///   Looks up a localized string similar to CompletionStatus_Suppressed.
         /// </summary>
-        internal static string Suppressed {
+        internal static string CompletionStatus_Suppressed {
             get {
-                return ResourceManager.GetString("Suppressed", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_Suppressed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Suppresses notification until the next reset.
+        ///   Looks up a localized string similar to DataNodeBase_DataNodeBase_SnoozeTooltip.
         /// </summary>
-        internal static string Suppresses_notification_until_the_next_reset {
+        internal static string DataNodeBase_SnoozeTooltip {
             get {
-                return ResourceManager.GetString("Suppresses notification until the next reset", resourceCulture);
+                return ResourceManager.GetString("DataNodeBase_SnoozeTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Teleport.
         /// </summary>
-        internal static string Teleport {
+        internal static string Teleport_Teleport {
             get {
-                return ResourceManager.GetString("Teleport", resourceCulture);
+                return ResourceManager.GetString("Teleport_Teleport", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Teleporting to.
+        ///   Looks up a localized string similar to Teleport_TeleportingTo.
         /// </summary>
-        internal static string Teleporting_to {
+        internal static string Teleport_TeleportingTo {
             get {
-                return ResourceManager.GetString("Teleporting to", resourceCulture);
+                return ResourceManager.GetString("Teleport_TeleportingTo", resourceCulture);
             }
         }
         
@@ -1586,7 +1577,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyFinderEnhancements_TextColor {
             get {
-                return ResourceManager.GetString("Text Color", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_TextColor", resourceCulture);
             }
         }
         
@@ -1595,43 +1586,43 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_OutlineColor {
             get {
-                return ResourceManager.GetString("Text Outline Color", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_OutlineColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket.
+        ///   Looks up a localized string similar to JumboCactpot_Ticket.
         /// </summary>
-        internal static string Ticket {
+        internal static string JumboCactpot_Ticket {
             get {
-                return ResourceManager.GetString("Ticket", resourceCulture);
+                return ResourceManager.GetString("JumboCactpot_Ticket", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket not Claimed.
+        ///   Looks up a localized string similar to JumboCactpot_Ticket not Claimed.
         /// </summary>
         internal static string JumboCactpot_TicketNotClaimed {
             get {
-                return ResourceManager.GetString("Ticket not Claimed", resourceCulture);
+                return ResourceManager.GetString("JumboCactpot_TicketNotClaimed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket Not Updated.
+        ///   Looks up a localized string similar to JumboCactpot_Ticket Not Updated.
         /// </summary>
         internal static string JumboCactpot_TicketNotUpdated {
             get {
-                return ResourceManager.GetString("Ticket Not Updated", resourceCulture);
+                return ResourceManager.GetString("JumboCactpot_TicketNotUpdated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ticket(s) Remaining.
+        ///   Looks up a localized string similar to JumboCactpot_Ticket(s) Remaining.
         /// </summary>
         internal static string StatusMessages_TicketRemaining {
             get {
-                return ResourceManager.GetString("Ticket(s) Remaining", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_TicketRemaining", resourceCulture);
             }
         }
         
@@ -1640,7 +1631,7 @@ namespace Resources {
         /// </summary>
         internal static string GenericDataNode_TimeRemaining {
             get {
-                return ResourceManager.GetString("Time Remaining", resourceCulture);
+                return ResourceManager.GetString("GenericDataNode_TimeRemaining", resourceCulture);
             }
         }
         
@@ -1649,7 +1640,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyFinderEnhancements_TimerConfig {
             get {
-                return ResourceManager.GetString("Timer Configuration", resourceCulture);
+                return ResourceManager.GetString("DutyFinderEnhancements_TimerConfig", resourceCulture);
             }
         }
         
@@ -1658,7 +1649,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_Selection {
             get {
-                return ResourceManager.GetString("Timer Selection", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_Selection", resourceCulture);
             }
         }
         
@@ -1667,7 +1658,7 @@ namespace Resources {
         /// </summary>
         internal static string TimersOverlay_DisplayName {
             get {
-                return ResourceManager.GetString("Timers Overlay", resourceCulture);
+                return ResourceManager.GetString("TimersOverlay_DisplayName", resourceCulture);
             }
         }
         
@@ -1676,7 +1667,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoListOverlay_DisplayName {
             get {
-                return ResourceManager.GetString("Todo List Overlay", resourceCulture);
+                return ResourceManager.GetString("TodoListOverlay_DisplayName", resourceCulture);
             }
         }
         
@@ -1685,7 +1676,7 @@ namespace Resources {
         /// </summary>
         internal static string ServerInfoBar_ToggleableTimer {
             get {
-                return ResourceManager.GetString("Toggleable Timer", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_ToggleableTimer", resourceCulture);
             }
         }
         
@@ -1694,7 +1685,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_TrackedEntries {
             get {
-                return ResourceManager.GetString("Tracked Challenge Log Entries", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_TrackedEntries", resourceCulture);
             }
         }
         
@@ -1703,7 +1694,7 @@ namespace Resources {
         /// </summary>
         internal static string DutyRoulette_TrackedEntries {
             get {
-                return ResourceManager.GetString("Tracked Duty Finder Entries", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_TrackedEntries", resourceCulture);
             }
         }
         
@@ -1712,7 +1703,7 @@ namespace Resources {
         /// </summary>
         internal static string ChallengeLog_TrackedDutyEntries {
             get {
-                return ResourceManager.GetString("Tracked Duty Finder Warning Entries", resourceCulture);
+                return ResourceManager.GetString("ChallengeLog_TrackedDutyEntries", resourceCulture);
             }
         }
         
@@ -1721,7 +1712,7 @@ namespace Resources {
         /// </summary>
         internal static string TreasureMap_DisplayName {
             get {
-                return ResourceManager.GetString("Treasure Map", resourceCulture);
+                return ResourceManager.GetString("TreasureMap_DisplayName", resourceCulture);
             }
         }
         
@@ -1730,7 +1721,7 @@ namespace Resources {
         /// </summary>
         internal static string TreasureMap_Gatherable {
             get {
-                return ResourceManager.GetString("Treasure Map Gatherable", resourceCulture);
+                return ResourceManager.GetString("TreasureMap_Gatherable", resourceCulture);
             }
         }
         
@@ -1739,7 +1730,7 @@ namespace Resources {
         /// </summary>
         internal static string TribalQuests_DisplayName {
             get {
-                return ResourceManager.GetString("Tribal Quests", resourceCulture);
+                return ResourceManager.GetString("TribalQuests_DisplayName", resourceCulture);
             }
         }
         
@@ -1748,16 +1739,16 @@ namespace Resources {
         /// </summary>
         internal static string TribalQuests_Available {
             get {
-                return ResourceManager.GetString("Tribal Quests Available", resourceCulture);
+                return ResourceManager.GetString("TribalQuests_Available", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unavailable.
+        ///   Looks up a localized string similar to CompletionStatus_Unavailable.
         /// </summary>
-        internal static string Unavailable {
+        internal static string CompletionStatus_Unavailable {
             get {
-                return ResourceManager.GetString("Unavailable", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_Unavailable", resourceCulture);
             }
         }
         
@@ -1766,16 +1757,16 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_UnclaimedNotification {
             get {
-                return ResourceManager.GetString("Unclaimed Book Notification", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_UnclaimedNotification", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown.
+        ///   Looks up a localized string similar to CompletionStatus_Unknown.
         /// </summary>
-        internal static string Unknown {
+        internal static string CompletionStatus_Unknown {
             get {
-                return ResourceManager.GetString("Unknown", resourceCulture);
+                return ResourceManager.GetString("CompletionStatus_Unknown", resourceCulture);
             }
         }
         
@@ -1784,16 +1775,16 @@ namespace Resources {
         /// </summary>
         internal static string StatusMessages_UnrealTrialIncomplete {
             get {
-                return ResourceManager.GetString("Unreal Trial Incomplete", resourceCulture);
+                return ResourceManager.GetString("StatusMessages_UnrealTrialIncomplete", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Unsnooze.
         /// </summary>
-        internal static string Unsnooze {
+        internal static string DataNodeBase_Unsnooze {
             get {
-                return ResourceManager.GetString("Unsnooze", resourceCulture);
+                return ResourceManager.GetString("DataNodeBase_Unsnooze", resourceCulture);
             }
         }
         
@@ -1802,16 +1793,16 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_VerticalSpacing {
             get {
-                return ResourceManager.GetString("Vertical Spacing", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_VerticalSpacing", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Wait! You forgot your Wondrous Tails book!.
         /// </summary>
-        internal static string Wait__You_forgot_your_Wondrous_Tails_book_ {
+        internal static string WondrousTails_ForgotBook {
             get {
-                return ResourceManager.GetString("Wait! You forgot your Wondrous Tails book!", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_ForgotBook", resourceCulture);
             }
         }
         
@@ -1820,34 +1811,34 @@ namespace Resources {
         /// </summary>
         internal static string CustomDelivery_WarningTrigger {
             get {
-                return ResourceManager.GetString("Warning Trigger", resourceCulture);
+                return ResourceManager.GetString("CustomDelivery_WarningTrigger", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weekly.
+        ///   Looks up a localized string similar to ModuleTypes_Weekly.
         /// </summary>
-        internal static string Weekly {
+        internal static string ModuleTypes_Weekly {
             get {
-                return ResourceManager.GetString("Weekly", resourceCulture);
+                return ResourceManager.GetString("ModuleTypes_Weekly", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weekly Reset.
+        ///   Looks up a localized string similar to Additional_WeeklyReset.
         /// </summary>
         internal static string Additional_WeeklyReset {
             get {
-                return ResourceManager.GetString("Weekly Reset", resourceCulture);
+                return ResourceManager.GetString("Additional_WeeklyReset", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Weekly Timer.
+        ///   Looks up a localized string similar to ModuleTypes_Weekly Timer.
         /// </summary>
         internal static string ServerInfoBar_WeeklyTimer {
             get {
-                return ResourceManager.GetString("Weekly Timer", resourceCulture);
+                return ResourceManager.GetString("ServerInfoBar_WeeklyTimer", resourceCulture);
             }
         }
         
@@ -1856,25 +1847,25 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_DisplayName {
             get {
-                return ResourceManager.GetString("Wondrous Tails", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Incomplete Task.
+        ///   Looks up a localized string similar to CompletionStatus_Incomplete Task.
         /// </summary>
         internal static string DutyRoulette_IncompleteTask {
             get {
-                return ResourceManager.GetString("Incomplete Task", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_IncompleteTask", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Complete Task.
+        ///   Looks up a localized string similar to CompletionStatus_Complete Task.
         /// </summary>
         internal static string DutyRoulette_CompleteTask {
             get {
-                return ResourceManager.GetString("Complete Task", resourceCulture);
+                return ResourceManager.GetString("DutyRoulette_CompleteTask", resourceCulture);
             }
         }
         
@@ -1883,7 +1874,7 @@ namespace Resources {
         /// </summary>
         internal static string TodoOverlay_NewPanel {
             get {
-                return ResourceManager.GetString("New Panel", resourceCulture);
+                return ResourceManager.GetString("TodoOverlay_NewPanel", resourceCulture);
             }
         }
         
@@ -1892,7 +1883,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_StickerAlreadyAvailable {
             get {
-                return ResourceManager.GetString("Sticker is already available for this duty, be sure to claim it!", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_StickerAlreadyAvailable", resourceCulture);
             }
         }
         
@@ -1901,7 +1892,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_CompletingDutyReward {
             get {
-                return ResourceManager.GetString("Completing this duty will reward you with a sticker", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_CompletingDutyReward", resourceCulture);
             }
         }
         
@@ -1910,7 +1901,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_RerollsAvailable {
             get {
-                return ResourceManager.GetString("Rerolls Available", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_RerollsAvailable", resourceCulture);
             }
         }
         
@@ -1919,7 +1910,7 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_StickersClaimable {
             get {
-                return ResourceManager.GetString("Stickers Claimable", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_StickersClaimable", resourceCulture);
             }
         }
         
@@ -1928,16 +1919,43 @@ namespace Resources {
         /// </summary>
         internal static string WondrousTails_Duty {
             get {
-                return ResourceManager.GetString("Wondrous Tails Duty", resourceCulture);
+                return ResourceManager.GetString("WondrousTails_Duty", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown Status.
+        ///   Looks up a localized string similar to CompletionStatus_Unknown Status.
         /// </summary>
-        internal static string Unknown_Status {
+        internal static string GenericDataNode_UnknownStatus {
             get {
-                return ResourceManager.GetString("Unknown Status", resourceCulture);
+                return ResourceManager.GetString("GenericDataNode_UnknownStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search . . ..
+        /// </summary>
+        internal static string SearchNode_Placeholder {
+            get {
+                return ResourceManager.GetString("SearchNode_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [DailyDuty] Duty Roulette Feature.
+        /// </summary>
+        internal static string DutyRoulette_DutyFinderTooltip {
+            get {
+                return ResourceManager.GetString("DutyRoulette_DutyFinderTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [DailyDuty] Wondrous Tails Feature.
+        /// </summary>
+        internal static string WondrousTails_DutyFinderTooltip {
+            get {
+                return ResourceManager.GetString("WondrousTails_DutyFinderTooltip", resourceCulture);
             }
         }
     }

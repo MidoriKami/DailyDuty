@@ -105,61 +105,61 @@
   <data name="WondrousTails_DisplayName" xml:space="preserve">
     <value>天书奇谈</value>
   </data>
-  <data name="Daily" xml:space="preserve">
+  <data name="ModuleTypes_Daily" xml:space="preserve">
     <value>每日</value>
   </data>
-  <data name="Weekly" xml:space="preserve">
+  <data name="ModuleTypes_Weekly" xml:space="preserve">
     <value>每周</value>
   </data>
-  <data name="Other" xml:space="preserve">
+  <data name="ModuleTypes_Other" xml:space="preserve">
     <value>其他</value>
   </data>
-  <data name="Features" xml:space="preserve">
+  <data name="ModuleTypes_Features" xml:space="preserve">
     <value>功能</value>
   </data>
-  <data name="Debug" xml:space="preserve">
+  <data name="ModuleTypes_Debug" xml:space="preserve">
     <value>调试</value>
   </data>
-  <data name="Unknown" xml:space="preserve">
+  <data name="CompletionStatus_Unknown" xml:space="preserve">
     <value>未知</value>
   </data>
-  <data name="Disabled" xml:space="preserve">
+  <data name="CompletionStatus_Disabled" xml:space="preserve">
     <value>已禁用</value>
   </data>
-  <data name="Incomplete" xml:space="preserve">
+  <data name="CompletionStatus_Incomplete" xml:space="preserve">
     <value>未完成</value>
   </data>
-  <data name="Unavailable" xml:space="preserve">
+  <data name="CompletionStatus_Unavailable" xml:space="preserve">
     <value>不可用</value>
   </data>
-  <data name="In Progress" xml:space="preserve">
+  <data name="CompletionStatus_InProgress" xml:space="preserve">
     <value>进行中</value>
   </data>
-  <data name="Complete" xml:space="preserve">
+  <data name="CompletionStatus_Complete" xml:space="preserve">
     <value>已完成</value>
   </data>
-  <data name="Suppressed" xml:space="preserve">
+  <data name="CompletionStatus_Suppressed" xml:space="preserve">
     <value>已阻止</value>
   </data>
-  <data name="Results Available" xml:space="preserve">
+  <data name="CompletionStatus_ResultsAvailable" xml:space="preserve">
     <value>结果可领取</value>
   </data>
-  <data name="Below" xml:space="preserve">
+  <data name="ComparisonMode_Below" xml:space="preserve">
     <value>低于</value>
   </data>
-  <data name="Not Equal" xml:space="preserve">
+  <data name="ComparisonMode_NotEqual" xml:space="preserve">
     <value>不等于</value>
   </data>
-  <data name="Above" xml:space="preserve">
+  <data name="ComparisonMode_Above" xml:space="preserve">
     <value>高于</value>
   </data>
-  <data name="All Attempts Used" xml:space="preserve">
+  <data name="FashionReportMode_AllAttemptsUsed" xml:space="preserve">
     <value>所有机会已用完</value>
   </data>
-  <data name="One Attempt Used" xml:space="preserve">
+  <data name="FashionReportMode_OneAttemptUsed" xml:space="preserve">
     <value>已使用一次机会</value>
   </data>
-  <data name="Scored Over 80" xml:space="preserve">
+  <data name="FashionReportMode_ScoredOver80" xml:space="preserve">
     <value>得分超过80</value>
   </data>
   <data name="GenericDataNode_ModuleStatus" xml:space="preserve">
@@ -198,28 +198,28 @@
   <data name="NotificationSettingsNode_ChatChannel" xml:space="preserve">
     <value>聊天频道</value>
   </data>
-  <data name="Module Settings" xml:space="preserve">
+  <data name="ConfigNodeBase_ModuleSettings" xml:space="preserve">
     <value>模块设置</value>
   </data>
-  <data name="No options available for this module" xml:space="preserve">
+  <data name="ConfigNodeBase_NoOptions" xml:space="preserve">
     <value>此模块没有可用选项</value>
   </data>
-  <data name="Module Data" xml:space="preserve">
+  <data name="DataNodeBase_ModuleData" xml:space="preserve">
     <value>模块数据</value>
   </data>
-  <data name="Status" xml:space="preserve">
+  <data name="DataNodeBase_Status" xml:space="preserve">
     <value>状态</value>
   </data>
-  <data name="Data" xml:space="preserve">
+  <data name="DataNodeBase_Data" xml:space="preserve">
     <value>数据</value>
   </data>
-  <data name="Snooze" xml:space="preserve">
+  <data name="DataNodeBase_Snooze" xml:space="preserve">
     <value>暂停提醒</value>
   </data>
-  <data name="Unsnooze" xml:space="preserve">
+  <data name="DataNodeBase_Unsnooze" xml:space="preserve">
     <value>恢复提醒</value>
   </data>
-  <data name="Suppresses notification until the next reset" xml:space="preserve">
+  <data name="DataNodeBase_SnoozeTooltip" xml:space="preserve">
     <value>暂停提醒直至下次重置</value>
   </data>
   <data name="ModuleBrowserWindow_SelectOption" xml:space="preserve">
@@ -231,19 +231,19 @@
   <data name="ModuleOptionNode_OpenConfig" xml:space="preserve">
     <value>打开设置</value>
   </data>
-  <data name="Important" xml:space="preserve">
+  <data name="TodoPanelNode_Important" xml:space="preserve">
     <value>重要</value>
   </data>
-  <data name="[DailyDuty] This duty is a Wondrous Tails task" xml:space="preserve">
+  <data name="WondrousTailsNode_DutyNotification" xml:space="preserve">
     <value>[DailyDuty] 此副本为天书奇谈任务</value>
   </data>
-  <data name="Overlay from DailyDuty plugin" xml:space="preserve">
+  <data name="TimerOverlayNode_OverlayTooltip" xml:space="preserve">
     <value>来自DailyDuty插件的悬浮窗</value>
   </data>
-  <data name="Daily Duty Configuration" xml:space="preserve">
+  <data name="DailyDutyPlugin_Configuration" xml:space="preserve">
     <value>DailyDuty 配置</value>
   </data>
-  <data name="Open DailyDuty Config Window" xml:space="preserve">
+  <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
     <value>打开DailyDuty配置窗口</value>
   </data>
   <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
@@ -264,7 +264,7 @@
   <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
     <value>DailyDuty 按钮设置</value>
   </data>
-  <data name="Show &quot;Open DailyDuty&quot; Button" xml:space="preserve">
+  <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
     <value>显示"打开DailyDuty"按钮</value>
   </data>
   <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
@@ -303,10 +303,10 @@
   <data name="TimersOverlay_ShowCountdown" xml:space="preserve">
     <value>显示倒计时文字</value>
   </data>
-  <data name="TimersOverlay_EnableMovingTimers" xml:space="preserve">
+  <data name="TimersOverlay_EnableMoving" xml:space="preserve">
     <value>启用计时器移动</value>
   </data>
-  <data name="Scale" xml:space="preserve">
+  <data name="TimersOverlay_Scale" xml:space="preserve">
     <value>缩放</value>
   </data>
   <data name="TimersOverlay_Selection" xml:space="preserve">
@@ -318,7 +318,7 @@
   <data name="TodoOverlay_AddPanel" xml:space="preserve">
     <value>添加面板</value>
   </data>
-  <data name="Alignment" xml:space="preserve">
+  <data name="TodoOverlay_Alignment" xml:space="preserve">
     <value>对齐方式</value>
   </data>
   <data name="TodoOverlay_VerticalSpacing" xml:space="preserve">
@@ -411,10 +411,10 @@
   <data name="DutyRoulette_ColorRoulette" xml:space="preserve">
     <value>随机任务着色</value>
   </data>
-  <data name="Incomplete Color" xml:space="preserve">
+  <data name="DutyRoulette_IncompleteColor" xml:space="preserve">
     <value>未完成着色</value>
   </data>
-  <data name="Complete Color" xml:space="preserve">
+  <data name="DutyRoulette_CompleteColor" xml:space="preserve">
     <value>已完成着色</value>
   </data>
   <data name="DutyRoulette_TrackedEntries" xml:space="preserve">
@@ -438,10 +438,10 @@
   <data name="FashionReport_AvailableNotUpdated" xml:space="preserve">
     <value>开放状态尚未更新</value>
   </data>
-  <data name="Available" xml:space="preserve">
+  <data name="FashionReport_AvailableStatus" xml:space="preserve">
     <value>可用</value>
   </data>
-  <data name="Not Available" xml:space="preserve">
+  <data name="FashionReport_NotAvailable" xml:space="preserve">
     <value>不可用</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
@@ -465,7 +465,7 @@
   <data name="GrandCompanySquadron_NotStarted" xml:space="preserve">
     <value>尚未开始</value>
   </data>
-  <data name="Ticket" xml:space="preserve">
+  <data name="JumboCactpot_Ticket" xml:space="preserve">
     <value>仙人仙彩</value>
   </data>
   <data name="JumboCactpot_TicketNotUpdated" xml:space="preserve">
@@ -603,22 +603,22 @@
   <data name="StatusMessages_Resetting" xml:space="preserve">
     <value>正在重置</value>
   </data>
-  <data name="Data Not Set" xml:space="preserve">
+  <data name="Additional_DataNotSet" xml:space="preserve">
     <value>数据未设置</value>
   </data>
-  <data name="Teleporting to" xml:space="preserve">
+  <data name="Teleport_TeleportingTo" xml:space="preserve">
     <value>正在传送至</value>
   </data>
-  <data name="Teleport" xml:space="preserve">
+  <data name="Teleport_Teleport" xml:space="preserve">
     <value>传送</value>
   </data>
-  <data name="Event logging is now" xml:space="preserve">
+  <data name="EventLogging_Status" xml:space="preserve">
     <value>事件日志现已</value>
   </data>
-  <data name="Enabled" xml:space="preserve">
+  <data name="EventLogging_Enabled" xml:space="preserve">
     <value>已启用</value>
   </data>
-  <data name="Config" xml:space="preserve">
+  <data name="DailyDutyPlugin_Config" xml:space="preserve">
     <value>配置</value>
   </data>
   <data name="PanelConfig_Config" xml:space="preserve">
@@ -657,7 +657,16 @@
   <data name="WondrousTails_Duty" xml:space="preserve">
     <value>天书奇谈副本</value>
   </data>
-  <data name="UnknownStatus" xml:space="preserve">
+  <data name="GenericDataNode_UnknownStatus" xml:space="preserve">
     <value>未知状态</value>
+  </data>
+  <data name="SearchNode_Placeholder" xml:space="preserve">
+    <value>搜索 . . .</value>
+  </data>
+  <data name="DutyRoulette_DutyFinderTooltip" xml:space="preserve">
+    <value>[DailyDuty] 随机任务功能</value>
+  </data>
+  <data name="WondrousTails_DutyFinderTooltip" xml:space="preserve">
+    <value>[DailyDuty] 天书奇谈功能</value>
   </data>
 </root>

@@ -26,7 +26,7 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
         System.ConfigurationWindow = new ModuleBrowserWindow {
             InternalName = "DailyDutyConfig",
-            Title = Strings.Daily_Duty_Configuration,
+            Title = Strings.DailyDutyPlugin_Configuration,
             Size = new Vector2(700.0f, 600.0f),
         };
 
@@ -88,9 +88,9 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
             case [ "logevents" ] when System.SystemConfig is not null:
                 System.SystemConfig.EnableSceneEventLogging = !System.SystemConfig.EnableSceneEventLogging;
-                var enabled = Strings.Enabled;
-                var disabled = Strings.Disabled;
-                var message = Strings.Event_logging_is_now;
+                var enabled = Strings.EventLogging_Enabled;
+                var disabled = Strings.CompletionStatus_Disabled;
+                var message = Strings.EventLogging_Status;
                 Services.ChatGui.Print($"{message} {(System.SystemConfig.EnableSceneEventLogging ? enabled : disabled)}", "DailyDuty");
                 Services.PluginLog.Info($"Event is now {(System.SystemConfig.EnableSceneEventLogging ? "Enabled" : "Disabled")}");
                 Task.Run(System.SystemConfig.Save);

@@ -86,7 +86,7 @@ public class DutyFinderEnhancements : FeatureBase {
             Position = new Vector2(targetNode->X, targetNode->Y),
             Size = new Vector2(targetNode->Width, targetNode->Height),
             AlignmentType = AlignmentType.Center,
-            TextTooltip = Strings._DailyDuty__Time_until_next_daily_reset,
+            TextTooltip = Strings.GenericDataNode_NextReset,
             String = "0:00:00:00",
             TextColor = ModuleDutyFinderEnhancementsConfig.Color,
             IsVisible = false,

@@ -63,7 +63,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             TextColor = ColorHelper.GetColor(50),
             TextOutlineColor = ColorHelper.GetColor(54),
             TextFlags = TextFlags.Edge,
-            String = Strings.Important,
+            String = Strings.TodoPanelNode_Important,
         };
         titleText.AttachNode(this);
 

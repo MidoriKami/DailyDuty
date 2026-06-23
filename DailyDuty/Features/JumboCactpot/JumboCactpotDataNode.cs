@@ -29,7 +29,7 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = $"{Strings.Ticket} #{index + 1}",
+                            String = $"{Strings.JumboCactpot_Ticket} #{index + 1}",
                             AlignmentType = AlignmentType.Left,
                         },
                         statusNode = new TextNode {

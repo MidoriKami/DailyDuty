@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using KamiToolKit.Premade.Node.Simple;
 using Lumina.Text.ReadOnly;
+using Resources;
 
 namespace DailyDuty.CustomNodes;
 
@@ -18,7 +19,7 @@ public class SearchNode : SimpleComponentNode {
 
         searchContainerNode.AddNode(new TextInputNode {
             OnInputReceived = OnSearchBoxInputReceived,
-            PlaceholderString = "Search . . .",
+            PlaceholderString = Strings.SearchNode_Placeholder,
             AutoSelectAll = true,
         });
     }

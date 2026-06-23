@@ -7,14 +7,14 @@ namespace DailyDuty.Extensions;
 public static class CompletionStatusExtensions {
     extension(CompletionStatus status) {
         public string Description => status switch {
-            CompletionStatus.Unknown => Strings.Unknown,
-            CompletionStatus.Disabled => Strings.Disabled,
-            CompletionStatus.Incomplete => Strings.Incomplete,
-            CompletionStatus.Unavailable => Strings.Unavailable,
-            CompletionStatus.InProgress => Strings.In_Progress,
-            CompletionStatus.Complete => Strings.Complete,
-            CompletionStatus.Suppressed => Strings.Suppressed,
-            CompletionStatus.ResultsAvailable => Strings.Results_Available,
+            CompletionStatus.Unknown => Strings.CompletionStatus_Unknown,
+            CompletionStatus.Disabled => Strings.CompletionStatus_Disabled,
+            CompletionStatus.Incomplete => Strings.CompletionStatus_Incomplete,
+            CompletionStatus.Unavailable => Strings.CompletionStatus_Unavailable,
+            CompletionStatus.InProgress => Strings.CompletionStatus_InProgress,
+            CompletionStatus.Complete => Strings.CompletionStatus_Complete,
+            CompletionStatus.Suppressed => Strings.CompletionStatus_Suppressed,
+            CompletionStatus.ResultsAvailable => Strings.CompletionStatus_ResultsAvailable,
             _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
         };
     }

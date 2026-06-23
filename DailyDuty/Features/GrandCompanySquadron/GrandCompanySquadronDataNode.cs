@@ -72,7 +72,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
             missionTimeRemaining?.String = Strings.GrandCompanySquadron_NotStarted;
         }
         else if (module.ModuleData.TimeUntilMissionComplete < TimeSpan.Zero) {
-            missionTimeRemaining?.String = Strings.Results_Available;
+            missionTimeRemaining?.String = Strings.CompletionStatus_ResultsAvailable;
         }
         else {
             missionTimeRemaining?.String = (module.ModuleData.MissionCompleteTime - DateTime.UtcNow).FormatTimespan();

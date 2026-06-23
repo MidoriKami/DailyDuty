@@ -52,7 +52,7 @@ public class RaidsNormalDataNode(RaidsNormal module) : DataNodeBase<RaidsNormal>
         foreach (var (index, statusNode) in statusNodes) {
             if (!module.ModuleData.TaskStatus.TryGetValue(index, out var taskComplete)) continue;
 
-            statusNode.String = taskComplete ? Strings.Complete : Strings.Incomplete;
+            statusNode.String = taskComplete ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
         }
     }
 }

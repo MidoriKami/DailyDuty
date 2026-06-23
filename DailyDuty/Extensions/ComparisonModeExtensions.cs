@@ -8,9 +8,9 @@ namespace DailyDuty.Extensions;
 public static class ComparisonModeExtensions {
     extension(ComparisonMode mode) {
         public string Description => mode switch {
-            ComparisonMode.Below => Strings.Below,
-            ComparisonMode.Equal => Strings.Not_Equal,
-            ComparisonMode.Above => Strings.Above,
+            ComparisonMode.Below => Strings.ComparisonMode_Below,
+            ComparisonMode.Equal => Strings.ComparisonMode_NotEqual,
+            ComparisonMode.Above => Strings.ComparisonMode_Above,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }

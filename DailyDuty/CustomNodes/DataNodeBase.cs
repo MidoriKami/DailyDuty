@@ -29,9 +29,9 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         this.module = module;
 
         tabBarNode = new TabBarNode();
-        tabBarNode.AddTab(Strings.Status, OnStatusSelected);
-        tabBarNode.AddTab(Strings.Data, OnDataSelected);
-        tabBarNode.SelectTab(Strings.Status);
+        tabBarNode.AddTab(Strings.DataNodeBase_Status, OnStatusSelected);
+        tabBarNode.AddTab(Strings.DataNodeBase_Data, OnDataSelected);
+        tabBarNode.SelectTab(Strings.DataNodeBase_Status);
         tabBarNode.AttachNode(this);
 
         statusDisplayNode = new GenericDataNode();
@@ -41,7 +41,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataContentSection.AttachNode(this);
 
         categoryHeaderNode = new CategoryHeaderNode {
-            String = Strings.Module_Data,
+            String = Strings.DataNodeBase_ModuleData,
             Alignment = AlignmentType.Bottom,
         };
         categoryHeaderNode.AttachNode(dataContentSection);
@@ -50,10 +50,10 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataNode.AttachNode(dataContentSection);
 
         snoozeButtonNode = new TextButtonNode {
-            String = module.ConfigBase.Suppressed ? Strings.Unsnooze : Strings.Snooze,
+            String = module.ConfigBase.Suppressed ? Strings.DataNodeBase_Unsnooze : Strings.DataNodeBase_Snooze,
             IsEnabled = module.DataBase.NextReset != DateTime.MaxValue,
             OnClick = SnoozeClicked,
-            TextTooltip = module.ConfigBase.Suppressed ? string.Empty : Strings.Suppresses_notification_until_the_next_reset,
+            TextTooltip = module.ConfigBase.Suppressed ? string.Empty : Strings.DataNodeBase_SnoozeTooltip,
         };
         snoozeButtonNode.AttachNode(this);
 
@@ -112,9 +112,9 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     protected virtual void SnoozeClicked() {
         module.ConfigBase.Suppressed = !module.ConfigBase.Suppressed;
 
-        snoozeButtonNode.String = module.ConfigBase.Suppressed ? Strings.Unsnooze : Strings.Snooze;
+        snoozeButtonNode.String = module.ConfigBase.Suppressed ? Strings.DataNodeBase_Unsnooze : Strings.DataNodeBase_Snooze;
         if (!module.ConfigBase.Suppressed) {
-            snoozeButtonNode.TextTooltip = Strings.Suppresses_notification_until_the_next_reset;
+            snoozeButtonNode.TextTooltip = Strings.DataNodeBase_SnoozeTooltip;
         }
         else {
             snoozeButtonNode.HideTooltip();
@@ -135,12 +135,12 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     public sealed override void SelectTab(DataNodeTab tab) {
         switch (tab) {
             case DataNodeTab.Status:
-                tabBarNode.SelectTab(Strings.Status);
+                tabBarNode.SelectTab(Strings.DataNodeBase_Status);
                 OnStatusSelected();
                 break;
 
             case DataNodeTab.Data:
-                tabBarNode.SelectTab(Strings.Data);
+                tabBarNode.SelectTab(Strings.DataNodeBase_Data);
                 OnDataSelected();
                 break;
         }

@@ -35,7 +35,7 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
                     },
                     statusNode = new TextNode {
                         Width = 100.0f,
-                        String = $"{classJob.NameEnglish} {Strings.Data_Not_Set}",
+                        String = $"{classJob.NameEnglish} {Strings.Additional_DataNotSet}",
                     },
                 ],
             });
@@ -50,7 +50,7 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
         base.Update();
 
         foreach (var (job, node) in statusNodes) {
-            node.String = module.ModuleData.ClassJobStatus[job] ? Strings.Complete : Strings.Incomplete;
+            node.String = module.ModuleData.ClassJobStatus[job] ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
         }
     }
 

@@ -8,9 +8,9 @@ namespace DailyDuty.Extensions;
 public static class FashionReportModeExtensions {
     extension(FashionReportMode mode) {
         public string Description => mode switch {
-            FashionReportMode.All => Strings.All_Attempts_Used,
-            FashionReportMode.Single => Strings.One_Attempt_Used,
-            FashionReportMode.Plus80 => Strings.Scored_Over_80,
+            FashionReportMode.All => Strings.FashionReportMode_AllAttemptsUsed,
+            FashionReportMode.Single => Strings.FashionReportMode_OneAttemptUsed,
+            FashionReportMode.Plus80 => Strings.FashionReportMode_ScoredOver80,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }

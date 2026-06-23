@@ -66,7 +66,7 @@ public sealed class TimerOverlayNode : OverlayNode {
             TextOutlineColor = KnownColor.Black.Vector(),
             AlignmentType = AlignmentType.Center,
             String = "?",
-            TextTooltip = Strings.Overlay_from_DailyDuty_plugin,
+            TextTooltip = Strings.TimerOverlayNode_OverlayTooltip,
         };
         tooltipNode.AttachNode(this);
 

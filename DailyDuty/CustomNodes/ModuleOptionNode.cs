@@ -98,7 +98,7 @@ public class ModuleOptionNode : SelectableNode {
     public void Update() {
         if (Module.FeatureBase is ModuleBase module) {
             statusTextNode.IsVisible = true;
-            statusTextNode.String = $"{Strings.Status}: {module.ModuleStatus.Description}";
+            statusTextNode.String = $"{Strings.DataNodeBase_Status}: {module.ModuleStatus.Description}";
             modificationNameNode.Height = Height / 2.0f;
         }
         else {

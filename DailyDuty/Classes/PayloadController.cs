@@ -123,7 +123,7 @@ public unsafe class PayloadController : IDisposable {
     private static void Teleport(uint id) {
         if (!Services.DataManager.GetExcelSheet<Aetheryte>().TryGetRow(id, out var aetheryte)) return;
 
-        Services.ChatGui.PrintTaggedMessage($"{Strings.Teleporting_to} {aetheryte.PlaceName.Value.Name.ToString()}", Strings.Teleport);
+        Services.ChatGui.PrintTaggedMessage($"{Strings.Teleport_TeleportingTo} {aetheryte.PlaceName.Value.Name.ToString()}", Strings.Teleport_Teleport);
         Telepo.Instance()->Teleport(id, 0);
     }
 }

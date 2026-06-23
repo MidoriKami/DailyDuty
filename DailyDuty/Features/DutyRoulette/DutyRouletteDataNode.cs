@@ -51,7 +51,7 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
         foreach (var (rowId, textNode) in statusNodes) {
             var isComplete = InstanceContent.Instance()->IsRouletteComplete((byte)rowId);
 
-            textNode.String = isComplete ? Strings.Complete : Strings.Incomplete;
+            textNode.String = isComplete ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
         }
     }
 }

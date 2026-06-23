@@ -27,7 +27,7 @@ public class WondrousTailsNode : SimpleComponentNode {
 
         background.ShowClickableCursor = true;
         background.AddNodeFlags(NodeFlags.HasCollision, NodeFlags.IsTopNode);
-        background.TextTooltip = Strings._DailyDuty__This_duty_is_a_Wondrous_Tails_task;
+        background.TextTooltip = Strings.WondrousTailsNode_DutyNotification;
 
         background.AttachNode(this);
 

@@ -48,12 +48,12 @@ public unsafe class ContentsNoteListItemNode : ListItemNode<ContentsNote>, IList
     protected override void SetNodeData(ContentsNote itemData) {
         iconNode.IconId = (uint)itemData.Icon;
         labelNode.String = itemData.Name;
-        statusNode.String = Strings.Unknown_Status;
+        statusNode.String = Strings.CompletionStatus_Unknown;
     }
 
     public override void Update() {
         base.Update();
 
-        statusNode.String = ContentsNoteModule.Instance()->IsContentNoteComplete((int)ItemData.RowId) ? Strings.Complete : Strings.Incomplete;
+        statusNode.String = ContentsNoteModule.Instance()->IsContentNoteComplete((int)ItemData.RowId) ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
     }
 }

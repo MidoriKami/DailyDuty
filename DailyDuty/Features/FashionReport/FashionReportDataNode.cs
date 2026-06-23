@@ -66,7 +66,7 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
 
         allowancesRemaining?.String = module.ModuleData.AllowancesRemaining.ToString();
         highestScore?.String = module.ModuleData.HighestWeeklyScore.ToString();
-        fashionReportAvailable?.String = IsFashionReportAvailable ? Strings.Available : Strings.Not_Available;
+        fashionReportAvailable?.String = IsFashionReportAvailable ? Strings.FashionReport_AvailableStatus : Strings.FashionReport_NotAvailable;
     }
 
     private static bool IsFashionReportAvailable
