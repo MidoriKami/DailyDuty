@@ -97,7 +97,7 @@
     <value>待办事项悬浮窗</value>
   </data>
   <data name="TreasureMap_DisplayName" xml:space="preserve">
-    <value>藏宝图</value>
+    <value>宝物地图</value>
   </data>
   <data name="TribalQuests_DisplayName" xml:space="preserve">
     <value>友好部族任务</value>
@@ -493,10 +493,10 @@
     <value>当前没有周获取限制的大型任务。</value>
   </data>
   <data name="TreasureMap_LastGathered" xml:space="preserve">
-    <value>上次采集藏宝图时间</value>
+    <value>上次采集宝物地图时间</value>
   </data>
   <data name="TreasureMap_Gatherable" xml:space="preserve">
-    <value>可采集藏宝图</value>
+    <value>可采集宝物地图</value>
   </data>
   <data name="TribalQuests_QuestAmount" xml:space="preserve">
     <value>可接任务数量</value>
