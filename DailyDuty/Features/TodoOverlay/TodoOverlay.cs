@@ -15,7 +15,7 @@ namespace DailyDuty.Features.TodoOverlay;
 
 public class TodoOverlay : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Todo_List_Overlay,
+        DisplayName = Strings.TodoListOverlay_DisplayName,
         FileName = "TodoList",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Tasks", "List"],

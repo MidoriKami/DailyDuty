@@ -39,7 +39,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     String = config.Label,
                     OnInputReceived = input => {
                         config.Label = input.ToString();
-                        WindowNode?.SetTitle($"{config.Label} {Strings.Panel_Config}");
+                        WindowNode?.SetTitle($"{config.Label} {Strings.PanelConfig_Config}");
                         labelTextNode?.String = config.Label;
                         moduleTodoOverlayConfig.MarkDirty();
                     },
@@ -67,7 +67,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.Vertical_Spacing,
+                            String = Strings.TodoOverlay_VerticalSpacing,
                             AlignmentType = AlignmentType.Left,
                         },
                         new NumericInputNode {
@@ -86,7 +86,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.Background_Alpha,
+                            String = Strings.TodoOverlay_BackgroundAlpha,
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {
@@ -104,7 +104,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.Button_Alpha,
+                            String = Strings.TodoOverlay_ButtonAlpha,
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {
@@ -138,7 +138,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     ],
                 },
                 new CheckboxNode {
-                    String = Strings.Hide_Frame,
+                    String = Strings.TodoOverlay_HideFrame,
                     Height = 28.0f,
                     IsChecked = !config.ShowFrame,
                     OnClick = newValue => {
@@ -147,14 +147,14 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     },
                 },
                 new CheckboxNode {
-                    String = Strings.Enable_Moving,
+                    String = Strings.TodoOverlay_EnableMoving,
                     Height = 28.0f,
                     IsChecked = config.EnableMoving,
                     OnClick = newValue => config.EnableMoving = newValue,
                 },
                 new CheckboxNode {
-                    String = Strings.Pin_to_Quest_List,
-                    TextTooltip = Strings.Only_one_panel_can_be_pinned_to_the_quest_list_at_a_time_,
+                    String = Strings.TodoOverlay_PinToQuestList,
+                    TextTooltip = Strings.TodoOverlay_OnlyOnePinned,
                     Height = 28.0f,
                     IsChecked = config.AttachToQuestList,
                     OnClick = newValue => {
@@ -164,7 +164,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new ColorEditNode {
                     Height = 28.0f,
-                    String = Strings.Text_Color,
+                    String = Strings.DutyFinderEnhancements_TextColor,
                     DefaultColor = ColorHelper.GetColor(1),
                     CurrentColor = config.TextColor,
                     OnColorPreviewed = color => {
@@ -181,7 +181,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new ColorEditNode {
                     Height = 28.0f,
-                    String = Strings.Text_Outline_Color,
+                    String = Strings.TodoOverlay_OutlineColor,
                     DefaultColor = ColorHelper.GetColor(53),
                     CurrentColor = config.OutlineColor,
                     OnColorPreviewed = color => {
@@ -240,7 +240,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
         AddNode(new TextButtonNode {
             Size = new Vector2(200.0f, 24.0f),
             Position = new Vector2(ContentStartPosition.X + listNode.Width / 2.0f - 200.0f / 2.0f, ContentStartPosition.Y + ContentSize.Y - 32.0f),
-            String = Strings.Open_Main_Config,
+            String = Strings.TodoOverlay_OpenMainConfig,
             OnClick = () => System.ConfigurationWindow.Toggle(),
         });
     }

@@ -22,11 +22,11 @@ public class FauxHollowsDataNode(FauxHollows module) : DataNodeBase<FauxHollows>
                     new TextNode {
                         Size = new Vector2(250.0f, 28.0f),
                         TextFlags = TextFlags.Ellipsis,
-                        String = Strings.Current_Completion_Count,
+                        String = Strings.FauxHollows_CompletionCount,
                     },
                     statusNode = new TextNode {
                         Size = new Vector2(100.0f, 28.0f),
-                        String = Strings.Status_not_Updated,
+                        String = Strings.DutyRoulette_NotUpdated,
                     },
                 ],
             },

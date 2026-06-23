@@ -24,10 +24,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Allowances_Remaining,
+                        String = Strings.CustomDelivery_AllowancesRemaining,
                     },
                     allowancesRemaining = new TextNode {
-                        String = Strings.Allowances_Not_Updated,
+                        String = Strings.CustomDelivery_AllowancesNotUpdated,
                     },
                 ],
             },
@@ -36,10 +36,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Highest_Score,
+                        String = Strings.FashionReport_HighestScore,
                     },
                     highestScore = new TextNode {
-                        String = Strings.Highest_Score_Not_Updated,
+                        String = Strings.FashionReport_ScoreNotUpdated,
                     },
                 ],
             },
@@ -49,12 +49,12 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 InitialNodes = [
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
-                        String = Strings.Fashion_Report_Available,
+                        String = Strings.FashionReport_Available,
                         Height = 32.0f,
                     },
                     fashionReportAvailable = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
-                        String = Strings.Available_Not_Updated,
+                        String = Strings.FashionReport_AvailableNotUpdated,
                     },
                 ],
             },

@@ -184,5 +184,5 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     private string ResetMessage
         => ModuleConfig.CustomResetMessage is not ""
                ? ModuleConfig.CustomResetMessage
-               : $"{Strings.Resetting} {ModuleInfo.DisplayName}";
+               : $"{Strings.StatusMessages_Resetting} {ModuleInfo.DisplayName}";
 }

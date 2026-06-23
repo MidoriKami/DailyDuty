@@ -19,7 +19,7 @@ public class RaidsAllianceConfigNode(RaidsAlliance module) : ConfigNodeBase<Raid
                         LineSpacing = 14,
                         TextFlags = TextFlags.WordWrap | TextFlags.MultiLine,
                         AlignmentType = AlignmentType.Center,
-                        String = Strings.No_raids_are_currently_limited_,
+                        String = Strings.Raids_NoneLimited,
                     },
                 ],
             });

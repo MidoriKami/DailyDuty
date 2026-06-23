@@ -17,7 +17,7 @@ namespace DailyDuty.Features.MaskedCarnivale;
 
 public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Masked_Carnivale,
+        DisplayName = Strings.MaskedCarnivale_DisplayName,
         FileName = "MaskedCarnivale",
         Type = ModuleType.Weekly,
         Tags = ["Teleport", "Tickets", "Seals"],
@@ -47,7 +47,7 @@ public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.Challenge_s__Incomplete}",
+        Message = $"{GetIncompleteCount()} {Strings.StatusMessages_ChallengeIncomplete}",
         PayloadId = PayloadId.UldahTeleport,
     };
 

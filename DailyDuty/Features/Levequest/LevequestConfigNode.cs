@@ -18,7 +18,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.Allowance_Amount,
+                    String = Strings.CustomDelivery_AllowanceAmount,
                     AlignmentType = AlignmentType.Left,
                 },
                 new SliderNode {
@@ -39,7 +39,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.Warning_Trigger,
+                    String = Strings.CustomDelivery_WarningTrigger,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

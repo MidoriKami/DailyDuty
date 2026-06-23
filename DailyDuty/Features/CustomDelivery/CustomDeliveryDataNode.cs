@@ -19,10 +19,10 @@ public unsafe class CustomDeliveryDataNode(CustomDelivery module) : DataNodeBase
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Allowances_Remaining,
+                        String = Strings.CustomDelivery_AllowancesRemaining,
                     },
                     allowancesTextNode = new TextNode {
-                        String = Strings.Allowances_Not_Updated,
+                        String = Strings.CustomDelivery_AllowancesNotUpdated,
                     },
                 ],
             },

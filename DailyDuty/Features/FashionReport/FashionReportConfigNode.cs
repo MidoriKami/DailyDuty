@@ -18,7 +18,7 @@ public class FashionReportConfigNode(FashionReport module) : ConfigNodeBase<Fash
             InitialNodes = [
                 new TextNode {
                     Size = new Vector2(150.0f, 28.0f),
-                    String = Strings.Completion_Mode,
+                    String = Strings.FashionReport_CompletionMode,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

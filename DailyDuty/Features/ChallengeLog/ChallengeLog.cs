@@ -17,7 +17,7 @@ namespace DailyDuty.Features.ChallengeLog;
 
 public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Challenge_Log,
+        DisplayName = Strings.ChallengeLog_DisplayName,
         FileName = "ChallengeLog",
         Type = ModuleType.Weekly,
         Tags = ["Achievements", "Exp"],
@@ -54,7 +54,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} {Strings.Challenge_Log_s__Incomplete}",
+        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} {Strings.StatusMessages_ChallengeLogIncomplete}",
         PayloadId = PayloadId.OpenChallengeLog,
     };
 

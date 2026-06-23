@@ -23,7 +23,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Mission_Completed,
+                        String = Strings.GrandCompanySquadron_MissionCompleted,
                     },
                     missionCompleted = new TextNode(),
                 ],
@@ -33,7 +33,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Mission_Started,
+                        String = Strings.GrandCompanySquadron_MissionStarted,
                     },
                     missionStarted = new TextNode(),
                 ],
@@ -43,7 +43,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Mission_Completion_Time,
+                        String = Strings.GrandCompanySquadron_CompletionTime,
                     },
                     missionCompleteTime = new TextNode(),
                 ],
@@ -53,7 +53,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Mission_Time_Remaining,
+                        String = Strings.GrandCompanySquadron_TimeRemaining,
                     },
                     missionTimeRemaining = new TextNode(),
                 ],
@@ -69,7 +69,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
         missionCompleteTime?.String = $"{module.ModuleData.MissionCompleteTime.ToShortDateString()} {module.ModuleData.MissionCompleteTime.ToShortTimeString()}";
 
         if (module.ModuleData.TimeUntilMissionComplete == TimeSpan.MinValue) {
-            missionTimeRemaining?.String = Strings.Not_Started;
+            missionTimeRemaining?.String = Strings.GrandCompanySquadron_NotStarted;
         }
         else if (module.ModuleData.TimeUntilMissionComplete < TimeSpan.Zero) {
             missionTimeRemaining?.String = Strings.Results_Available;

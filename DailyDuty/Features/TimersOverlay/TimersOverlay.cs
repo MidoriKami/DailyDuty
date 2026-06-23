@@ -17,7 +17,7 @@ namespace DailyDuty.Features.TimersOverlay;
 public class TimersOverlay : FeatureBase {
 
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Timers_Overlay,
+        DisplayName = Strings.TimersOverlay_DisplayName,
         FileName = "Timers",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Countdown", "Reset"],
@@ -57,7 +57,7 @@ public class TimersOverlay : FeatureBase {
                         .ToList(),
                     SelectedOptions = ModuleTimersOverlayConfig.EnabledTimers,
                     InternalName = "TimersSelection",
-                    Title = Strings.Timer_Selection,
+                    Title = Strings.TimersOverlay_Selection,
                     OnEdited = () => {
                         foreach (var (index, option) in ModuleTimersOverlayConfig.EnabledTimers.Index()) {
                             if (!ModuleTimersOverlayConfig.TimerData.ContainsKey(option)) {

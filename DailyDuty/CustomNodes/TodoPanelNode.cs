@@ -195,7 +195,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         configWindow ??= new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {
             Size = new Vector2(575.0f, 500.0f),
             InternalName = "TodoListPanelConfig",
-            Title = $"{Config.Label} {Strings.Panel_Config}",
+            Title = $"{Config.Label} {Strings.PanelConfig_Config}",
         };
 
         configWindow.Toggle();

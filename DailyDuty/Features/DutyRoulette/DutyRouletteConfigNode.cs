@@ -18,7 +18,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Mark_Complete_When_Weekly_Tomecapped,
+                String = Strings.DutyRoulette_MarkCompleteTomecapped,
                 IsChecked = module.ModuleConfig.CompleteWhenCapped,
                 OnClick = newValue => {
                     module.ModuleConfig.CompleteWhenCapped = newValue;
@@ -27,7 +27,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Color_Duty_Roulette,
+                String = Strings.DutyRoulette_ColorRoulette,
                 IsChecked = module.ModuleConfig.ColorContentFinder,
                 OnClick = newValue => {
                     module.ModuleConfig.ColorContentFinder = newValue;
@@ -69,7 +69,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.Tracked_Duty_Finder_Entries,
+                String = Strings.DutyRoulette_TrackedEntries,
             },
             new LuminaMultiSelectNode<ContentRoulette> {
                 GetLabelFunc = item => item.Name.ToString(),

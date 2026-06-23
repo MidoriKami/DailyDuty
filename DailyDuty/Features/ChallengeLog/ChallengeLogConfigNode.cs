@@ -15,7 +15,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Enable_Duty_Finder_Warning,
+                String = Strings.ChallengeLog_DutyFinderWarning,
                 IsChecked = module.ModuleConfig.EnableContentFinderWarning,
                 OnClick = newValue => {
                     module.ModuleConfig.EnableContentFinderWarning = newValue;
@@ -24,7 +24,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Enable_Duty_Finder_Warning_Sound,
+                String = Strings.ChallengeLog_DutyFinderWarningSound,
                 IsChecked = module.ModuleConfig.EnableWarningSound,
                 OnClick = newValue => {
                     module.ModuleConfig.EnableWarningSound = newValue;
@@ -32,20 +32,20 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.Tracked_Challenge_Log_Entries,
+                String = Strings.ChallengeLog_TrackedEntries,
             },
             new TextButtonNode {
                 Height = 28.0f,
-                String = Strings.Edit_Tracked_Challenge_Log_Entries,
+                String = Strings.ChallengeLog_EditTrackedEntries,
                 OnClick = OpenMainTrackingWindow,
             },
             new CategoryHeaderNode {
-                String = Strings.Tracked_Duty_Finder_Warning_Entries,
+                String = Strings.ChallengeLog_TrackedDutyEntries,
                 Height = 40.0f,
             },
             new TextButtonNode {
                 Height = 28.0f,
-                String = Strings.Edit_Duty_Finder_Warning_Entries,
+                String = Strings.ChallengeLog_EditDutyEntries,
                 OnClick = OpenDutyFinderWarningEntries,
             },
         ]);
@@ -62,7 +62,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = new LuminaMultiSelectWindow<ContentsNote> {
             InternalName = "ContentsNoteSelection",
-            Title = Strings.Challenge_Log_Tracking_Selection,
+            Title = Strings.ChallengeLog_TrackingSelection,
             Options = module.ModuleConfig.TrackedEntries,
             GetLabelFunc = item => item.Name.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,
@@ -75,7 +75,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = new LuminaMultiSelectWindow<ContentsNote> {
             InternalName = "ContentsNoteSelection",
-            Title = Strings.Challenge_Log_Duty_Finder_Warning_Selection,
+            Title = Strings.ChallengeLog_DutyWarningSelection,
             Options = module.ModuleConfig.WarningEntries,
             GetLabelFunc = item => item.Name.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,

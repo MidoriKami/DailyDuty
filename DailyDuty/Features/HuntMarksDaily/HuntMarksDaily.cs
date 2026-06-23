@@ -13,7 +13,7 @@ namespace DailyDuty.Features.HuntMarksDaily;
 
 public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Hunt_Marks_Daily,
+        DisplayName = Strings.HuntMarksDaily_DisplayName,
         FileName = "HuntMarksDaily",
         Type = ModuleType.Daily,
         Tags = ["Teleport", "Tickets"],
@@ -26,7 +26,7 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
         => HuntMarksDailyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} {Strings.Hunt_Bill_s__Incomplete}";
+        => $"{GetIncompleteCount()} {Strings.StatusMessages_HuntBillIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

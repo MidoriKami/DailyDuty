@@ -16,7 +16,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Instance_Notifications,
+                String = Strings.WondrousTails_InstanceNotifications,
                 IsChecked = module.ModuleConfig.InstanceNotifications,
                 OnClick = newValue => {
                     module.ModuleConfig.InstanceNotifications = newValue;
@@ -25,7 +25,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Sticker_Available_Notification,
+                String = Strings.WondrousTails_StickerNotification,
                 IsChecked = module.ModuleConfig.StickerAvailableNotice,
                 OnClick = newValue => {
                     module.ModuleConfig.StickerAvailableNotice = newValue;
@@ -34,7 +34,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Unclaimed_Book_Notification,
+                String = Strings.WondrousTails_UnclaimedNotification,
                 IsChecked = module.ModuleConfig.UnclaimedBookWarning,
                 OnClick = newValue => {
                     module.ModuleConfig.UnclaimedBookWarning = newValue;
@@ -43,7 +43,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Shuffle_Available_Notification,
+                String = Strings.WondrousTails_ShuffleNotification,
                 IsChecked = module.ModuleConfig.ShuffleAvailableNotice,
                 OnClick = newValue => {
                     module.ModuleConfig.ShuffleAvailableNotice = newValue;
@@ -51,11 +51,11 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.Duty_Finder_Integration,
+                String = Strings.WondrousTails_DutyFinderIntegration,
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Recolor_Duty_Finder_Entries,
+                String = Strings.WondrousTails_RecolorEntries,
                 IsChecked = module.ModuleConfig.ColorDutyFinderText,
                 OnClick = newValue => {
                     module.ModuleConfig.ColorDutyFinderText = newValue;
@@ -65,7 +65,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             new ColorEditNode {
                 Height = 28.0f,
                 CurrentColor = module.ModuleConfig.DutyFinderColor,
-                String = Strings.Entry_Color,
+                String = Strings.WondrousTails_EntryColor,
                 DefaultColor = KnownColor.Yellow.Vector(),
                 OnColorPreviewed = color => {
                     module.ModuleConfig.DutyFinderColor = color;
@@ -82,7 +82,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             new ResNode { Height = 4.0f },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Show_Clover_Indicator,
+                String = Strings.WondrousTails_ShowClover,
                 IsChecked = module.ModuleConfig.CloverIndicator,
                 OnClick = newValue => {
                     module.ModuleConfig.CloverIndicator = newValue;

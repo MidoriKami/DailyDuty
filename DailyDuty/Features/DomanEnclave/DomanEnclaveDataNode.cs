@@ -26,10 +26,10 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Current_Max_Allowance,
+                        String = Strings.DomanEnclave_CurrentMaxAllowance,
                     },
                     allowanceText = new TextNode {
-                        String = Strings.Allowances_Not_Updated,
+                        String = Strings.CustomDelivery_AllowancesNotUpdated,
                     },
                 ],
             },
@@ -38,10 +38,10 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Donated_This_Week,
+                        String = Strings.DomanEnclave_DonatedThisWeek,
                     },
                     donatedText = new TextNode {
-                        String = Strings.Donated_Not_Updated,
+                        String = Strings.DomanEnclave_DonatedNotUpdated,
                     },
                 ],
             },
@@ -50,17 +50,17 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Allowance_Remaining,
+                        String = Strings.DomanEnclave_AllowanceRemaining,
                     },
                     allowanceRemaining = new TextNode {
-                        String = Strings.Remaining_Not_Updated,
+                        String = Strings.DomanEnclave_RemainingNotUpdated,
                     },
                 ],
             },
             warningText = new TextNode {
                 Height = 32.0f,
                 MultiplyColor = KnownColor.Orange.Vector().Fade(0.40f).AsVector3(),
-                String = Strings.Status_is_unavailable__visit_the_Doman_Enclave_to_update,
+                String = Strings.DomanEnclave_UnavailableStatus,
                 AlignmentType = AlignmentType.Center,
             },
         ],

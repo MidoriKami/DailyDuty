@@ -18,7 +18,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.Quest_Amount,
+                    String = Strings.TribalQuests_QuestAmount,
                     AlignmentType = AlignmentType.Left,
                 },
                 new SliderNode {
@@ -39,7 +39,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.Warning_Trigger,
+                    String = Strings.CustomDelivery_WarningTrigger,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

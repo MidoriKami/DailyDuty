@@ -35,7 +35,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = Strings.Status_not_Updated,
+                        String = Strings.DutyRoulette_NotUpdated,
                     },
                 ],
             });

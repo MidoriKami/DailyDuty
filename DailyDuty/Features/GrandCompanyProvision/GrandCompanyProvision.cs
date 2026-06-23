@@ -13,7 +13,7 @@ namespace DailyDuty.Features.GrandCompanyProvision;
 
 public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, GrandCompanyProvisionData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Grand_Company_Provision,
+        DisplayName = Strings.GrandCompanyProvision_DisplayName,
         FileName = "GrandCompanyProvision",
         Type = ModuleType.Daily,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -26,7 +26,7 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         => GrandCompanyProvisionMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} {Strings.Delivery_s__Incomplete}";
+        => $"{GetIncompleteCount()} {Strings.StatusMessages_DeliveryIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextGrandCompanyReset();

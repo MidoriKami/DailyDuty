@@ -13,7 +13,7 @@ namespace DailyDuty.Features.JumboCactpot;
 
 public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Jumbo_Cactpot,
+        DisplayName = Strings.JumboCactpot_DisplayName,
         FileName = "JumboCactpot",
         Type = ModuleType.Weekly,
         Tags = ["MGP"],
@@ -35,7 +35,7 @@ public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{3 - ModuleData.Tickets.Count} {Strings.Ticket_s__Remaining}",
+        Message = $"{3 - ModuleData.Tickets.Count} {Strings.StatusMessages_TicketRemaining}",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 

@@ -14,7 +14,7 @@ namespace DailyDuty.Features.DutyFinderEnhancements;
 
 public class DutyFinderEnhancements : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Duty_Finder_Enhancements,
+        DisplayName = Strings.DutyFinderEnhancements_DisplayName,
         FileName = "DutyFinderEnhancements",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Countdown", "Reset"],
@@ -97,7 +97,7 @@ public class DutyFinderEnhancements : FeatureBase {
             Position = new Vector2(50.0f, 622.0f),
             Size = new Vector2(130.0f, 28.0f),
             IsVisible = true,
-            String = Strings.Open_DailyDuty,
+            String = Strings.DutyFinderEnhancements_OpenDailyDuty,
         };
         openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
         openDailyDutyButton.AttachNode(addon->RootNode);

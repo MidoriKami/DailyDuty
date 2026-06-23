@@ -9,7 +9,7 @@ namespace DailyDuty.Features.TribalQuests;
 
 public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Tribal_Quests,
+        DisplayName = Strings.TribalQuests_DisplayName,
         FileName = "TribalQuests",
         Type = ModuleType.Daily,
         Tags = ["DoH", "DoL", "Exp"],
@@ -19,7 +19,7 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new TribalQuestsConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances} {Strings.Quest_s__left_to_reach_Threshold}";
+        => $"{RemainingAllowances} {Strings.StatusMessages_QuestIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

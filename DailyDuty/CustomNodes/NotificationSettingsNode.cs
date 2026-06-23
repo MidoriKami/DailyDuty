@@ -20,10 +20,10 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
 
         listNode.AddNode([
             new CategoryHeaderNode {
-                String = Strings.Notification_Settings,
+                String = Strings.NotificationSettingsNode_NotificationSettings,
             },
             new CheckboxNode {
-                String = Strings.Send_status_on_login,
+                String = Strings.NotificationSettingsNode_LoginStatus,
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.OnLoginMessage,
                 OnClick = value => {
@@ -32,7 +32,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CheckboxNode {
-                String = Strings.Send_status_on_zone_change,
+                String = Strings.NotificationSettingsNode_ZoneStatus,
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.OnZoneChangeMessage,
                 OnClick = value => {
@@ -41,7 +41,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CheckboxNode {
-                String = Strings.Send_status_on_module_reset,
+                String = Strings.NotificationSettingsNode_ResetStatus,
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.ResetMessage,
                 OnClick = value => {
@@ -50,22 +50,22 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.Custom_Status_Message,
+                String = Strings.NotificationSettingsNode_CustomStatus,
             },
             new TextInputNode {
                 Height = 28.0f,
                 String = module.ConfigBase.CustomStatusMessage,
-                PlaceholderString = Strings.Custom_Status_Message,
+                PlaceholderString = Strings.NotificationSettingsNode_CustomStatus,
                 OnInputReceived = value => {
                     module.ConfigBase.CustomStatusMessage = value.ToString();
                     module.ConfigBase.MarkDirty();
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.Custom_Reset_Message,
+                String = Strings.NotificationSettingsNode_CustomReset,
             },
             new TextInputNode {
-                PlaceholderString = Strings.Custom_Reset_Message,
+                PlaceholderString = Strings.NotificationSettingsNode_CustomReset,
                 Height = 28.0f,
                 String = module.ConfigBase.CustomResetMessage,
                 OnInputReceived = value => {
@@ -74,7 +74,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.Chat_Channel,
+                String = Strings.NotificationSettingsNode_ChatChannel,
             },
             new TextDropDownNode {
                 Height = 24.0f,

@@ -33,7 +33,7 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                             AlignmentType = AlignmentType.Left,
                         },
                         statusNode = new TextNode {
-                            String = Strings.Ticket_Not_Updated,
+                            String = Strings.JumboCactpot_TicketNotUpdated,
                             AlignmentType = AlignmentType.Left,
                         },
                     ],
@@ -54,7 +54,7 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                 statusNode.String = module.ModuleData.Tickets[index].ToString();
             }
             else {
-                statusNode.String = Strings.Ticket_not_Claimed;
+                statusNode.String = Strings.JumboCactpot_TicketNotClaimed;
             }
         }
     }

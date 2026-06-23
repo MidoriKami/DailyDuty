@@ -15,7 +15,7 @@ namespace DailyDuty.Features.DutyRoulette;
 
 public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Duty_Roulette,
+        DisplayName = Strings.DutyRoulette_DisplayName,
         FileName = "DutyRoulette",
         Type = ModuleType.Daily,
         Tags = ["Exp", "Gil"],
@@ -43,7 +43,7 @@ public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.Roulette_s__Incomplete}",
+        Message = $"{GetIncompleteCount()} {Strings.StatusMessages_RouletteIncomplete}",
         PayloadId = PayloadId.OpenDutyFinderRoulette,
     };
 

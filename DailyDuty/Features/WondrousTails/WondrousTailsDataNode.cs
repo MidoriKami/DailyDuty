@@ -24,7 +24,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Book_Obtained,
+                        String = Strings.WondrousTails_BookObtained,
                     },
                     hasBook = new TextNode(),
                 ],
@@ -34,7 +34,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Deadline,
+                        String = Strings.WondrousTails_Deadline,
                     },
                     deadline = new TextNode(),
                 ],
@@ -44,7 +44,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Second_Chance_Points,
+                        String = Strings.WondrousTails_SecondChancePoints,
                     },
                     secondChance = new TextNode(),
                 ],
@@ -54,7 +54,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Placed_Stickers,
+                        String = Strings.WondrousTails_PlacedStickers,
                     },
                     placedStickers = new TextNode(),
                 ],
@@ -64,7 +64,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.New_Book_Available,
+                        String = Strings.WondrousTails_NewBookAvailable,
                     },
                     newBookAvailable = new TextNode(),
                 ],
@@ -74,7 +74,7 @@ public class WondrousTailsDataNode(WondrousTails module) : DataNodeBase<Wondrous
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Book_Expired,
+                        String = Strings.WondrousTails_BookExpired,
                     },
                     isExpired = new TextNode(),
                 ],

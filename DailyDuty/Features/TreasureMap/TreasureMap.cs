@@ -12,7 +12,7 @@ namespace DailyDuty.Features.TreasureMap;
 
 public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Treasure_Map,
+        DisplayName = Strings.TreasureMap_DisplayName,
         FileName = "TreasureMap",
         Type = ModuleType.Special,
         Tags = ["DoH", "DoL", "Exp"],
@@ -23,7 +23,7 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     private bool gatheringStarted;
 
     protected override StatusMessage GetStatusMessage()
-        => Strings.Treasure_Map_Gatherable;
+        => Strings.TreasureMap_Gatherable;
 
     public override DateTime GetNextResetDateTime() {
         if (ModuleData.LastMapGatheredTime == DateTime.MinValue) return DateTime.MaxValue;

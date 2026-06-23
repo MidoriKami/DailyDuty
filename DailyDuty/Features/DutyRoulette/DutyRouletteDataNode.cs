@@ -34,7 +34,7 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = Strings.Status_not_Updated,
+                        String = Strings.DutyRoulette_NotUpdated,
                     },
                 ],
             });

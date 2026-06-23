@@ -13,7 +13,7 @@ namespace DailyDuty.Features.MiniCactpot;
 
 public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Mini_Cactpot,
+        DisplayName = Strings.MiniCactpot_DisplayName,
         FileName = "MiniCactpot",
         Type = ModuleType.Daily,
         Tags = ["DoH", "DoL", "Exp"],
@@ -34,7 +34,7 @@ public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleData.AllowancesRemaining} {Strings.Ticket_s__Remaining}",
+        Message = $"{ModuleData.AllowancesRemaining} {Strings.StatusMessages_TicketRemaining}",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 

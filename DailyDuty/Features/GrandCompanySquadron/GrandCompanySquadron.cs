@@ -24,7 +24,7 @@ namespace DailyDuty.Features.GrandCompanySquadron;
 /// </summary>
 public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Grand_Company_Squadron,
+        DisplayName = Strings.GrandCompanySquadron_DisplayName,
         FileName = "GrandCompanySquadron",
         Type = ModuleType.Weekly,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -47,9 +47,9 @@ public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData>
     }
 
     protected override StatusMessage GetStatusMessage() {
-        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return Strings.Mission_Results_Ready;
+        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return Strings.StatusMessages_MissionResultsReady;
 
-        return Strings.Mission_Not_Started;
+        return Strings.StatusMessages_MissionNotStarted;
     }
 
     public override DateTime GetNextResetDateTime()

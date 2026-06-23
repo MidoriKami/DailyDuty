@@ -21,11 +21,11 @@ public unsafe class LevequestDataNode(Levequest module) : DataNodeBase<Levequest
                 InitialNodes = [
                     new TextNode {
                         Width = 200.0f,
-                        String = Strings.Levequests_Available,
+                        String = Strings.Levequest_Available,
                     },
                     allowancesNode = new TextNode {
                         Width = 100.0f,
-                        String = Strings.Available_Not_Updated,
+                        String = Strings.FashionReport_AvailableNotUpdated,
                     },
                 ],
             },
@@ -34,10 +34,10 @@ public unsafe class LevequestDataNode(Levequest module) : DataNodeBase<Levequest
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Levequests_Accepted,
+                        String = Strings.Levequest_Accepted,
                     },
                     acceptedNode = new TextNode {
-                        String = Strings.Accepted_Not_Updated,
+                        String = Strings.Levequest_AcceptedNotUpdated,
                     },
                 ],
             },

@@ -9,7 +9,7 @@ namespace DailyDuty.Features.DomanEnclave;
 
 public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Doman_Enclave,
+        DisplayName = Strings.DomanEnclave_DisplayName,
         FileName = "DomanEnclave",
         Type = ModuleType.Weekly,
         Tags = ["Money", "Gil"],
@@ -18,7 +18,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override DataNodeBase DataNode => new DomanEnclaveDataNode(this);
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = ModuleStatus is CompletionStatus.Unknown ? Strings.Status_unknown__visit_the_enclave_to_update : $"{RemainingAllowance:N0} {Strings.gil_Remaining}",
+        Message = ModuleStatus is CompletionStatus.Unknown ? Strings.DomanEnclave_UnknownStatus : $"{RemainingAllowance:N0} {Strings.Additional_GilRemaining}",
         PayloadId = PayloadId.DomanEnclaveTeleport,
     };
 

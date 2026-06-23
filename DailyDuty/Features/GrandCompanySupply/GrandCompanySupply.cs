@@ -13,7 +13,7 @@ namespace DailyDuty.Features.GrandCompanySupply;
 
 public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandCompanySupplyData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Grand_Company_Supply,
+        DisplayName = Strings.GrandCompanySupply_DisplayName,
         FileName = "GrandCompanySupply",
         Type = ModuleType.Daily,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -26,7 +26,7 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         => GrandCompanySupplyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} {Strings.Delivery_s__Incomplete}";
+        => $"{GetIncompleteCount()} {Strings.StatusMessages_DeliveryIncomplete}";
 
     protected override TodoTooltip GetTooltip()
         => string.Join("\n", GetIncompleteJobs());

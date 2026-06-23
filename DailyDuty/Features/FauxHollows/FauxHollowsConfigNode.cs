@@ -11,7 +11,7 @@ public class FauxHollowsConfigNode(FauxHollows module) : ConfigNodeBase<FauxHoll
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.Include_Retelling,
+                String = Strings.FauxHollows_IncludeRetelling,
                 IsChecked = module.ModuleConfig.IncludeRetelling,
                 OnClick = newValue => {
                     module.ModuleConfig.IncludeRetelling = newValue;

@@ -17,7 +17,7 @@ namespace DailyDuty.Features.RaidsAlliance;
 
 public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Raids_Alliance,
+        DisplayName = Strings.RaidsAlliance_DisplayName,
         FileName = "RaidsAlliance",
         Type = ModuleType.Weekly,
         Tags = ["Tomestones", "Raids", "Exp", "Hardcore"],
@@ -53,7 +53,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.Alliance_Raid_s__Incomplete}",
+        Message = $"{GetIncompleteCount()} {Strings.StatusMessages_AllianceRaidIncomplete}",
         PayloadId = PayloadId.OpenDutyFinderAllianceRaid,
     };
 

@@ -19,10 +19,10 @@ public class MiniCactpotDataNode(MiniCactpot module) : DataNodeBase<MiniCactpot>
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Attempts_Available,
+                        String = Strings.MiniCactpot_AttemptsAvailable,
                     },
                     attemptsNode = new TextNode {
-                        String = Strings.Attempts_Not_Updated,
+                        String = Strings.MiniCactpot_AttemptsNotUpdated,
                     },
                 ],
             },

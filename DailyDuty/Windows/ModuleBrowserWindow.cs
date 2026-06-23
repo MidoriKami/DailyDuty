@@ -59,7 +59,7 @@ public class ModuleBrowserWindow : NativeAddon {
         selectOptionLabelNode = new TextNode {
             Size = contentsNode.Size,
             FontSize = 14,
-            String = Strings.Please_select_an_option_on_the_left,
+            String = Strings.ModuleBrowserWindow_SelectOption,
             AlignmentType = AlignmentType.Center,
         };
         selectOptionLabelNode.AttachNode(contentsNode);

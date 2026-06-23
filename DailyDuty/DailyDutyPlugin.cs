@@ -31,12 +31,12 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
         };
 
         Services.CommandManager.AddHandler("/dd", new CommandInfo(OnCommandReceived) {
-            HelpMessage = Strings.Open_DailyDuty_Config_Window,
+            HelpMessage = Strings.DutyFinderEnhancements_OpenDailyDuty,
             ShowInHelp = true,
         });
 
         Services.CommandManager.AddHandler("/dailyduty", new CommandInfo(OnCommandReceived) {
-            HelpMessage = Strings.Open_DailyDuty_Config_Window,
+            HelpMessage = Strings.DutyFinderEnhancements_OpenDailyDuty,
             ShowInHelp = true,
         });
 

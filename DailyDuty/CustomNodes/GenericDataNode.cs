@@ -19,7 +19,7 @@ public class GenericDataNode : SimpleComponentNode {
             FitWidth = true,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.Module_Status,
+                    String = Strings.GenericDataNode_ModuleStatus,
                     Alignment = AlignmentType.Bottom,
                 },
                 statusTextNode = new TextNode {
@@ -29,7 +29,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = Strings.Next_Reset,
+                    String = Strings.GenericDataNode_NextReset,
                     Alignment = AlignmentType.Bottom,
                 },
                 resetTimeTextNode = new TextNode {
@@ -39,7 +39,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = Strings.Time_Remaining,
+                    String = Strings.GenericDataNode_TimeRemaining,
                     Alignment = AlignmentType.Bottom,
                 },
                 timeRemainingTextNode = new TextNode {
@@ -65,12 +65,12 @@ public class GenericDataNode : SimpleComponentNode {
         statusTextNode.String = module.ModuleStatus.Description;
 
         if (resetTime == DateTime.MaxValue) {
-            resetTimeTextNode.String = Strings.Available_Now;
+            resetTimeTextNode.String = Strings.GenericDataNode_AvailableNow;
             timeRemainingTextNode.String = "0.00:00:00";
         }
         else if (resetTime <= DateTime.UtcNow) {
-            resetTimeTextNode.String = Strings.Enable_module_to_initialize;
-            timeRemainingTextNode.String = Strings.Enable_module_to_initialize;
+            resetTimeTextNode.String = Strings.GenericDataNode_EnableModule;
+            timeRemainingTextNode.String = Strings.GenericDataNode_EnableModule;
         }
         else {
             resetTimeTextNode.String = resetTime.ToLocalTime().GetDisplayString();

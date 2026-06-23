@@ -10,7 +10,7 @@ namespace DailyDuty.Features.FashionReport;
 
 public unsafe class FashionReport : Module<FashionReportConfig, FashionReportData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Fashion_Report,
+        DisplayName = Strings.FashionReport_DisplayName,
         FileName = "FashionReport",
         Type = ModuleType.Special,
         Tags = ["Gold Saucer", "Gold", "Saucer", "MGP"],
@@ -21,9 +21,9 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = ModuleConfig.CompletionMode switch {
-            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} {Strings.Allowances_Remaining}",
-            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} {Strings.Allowances_Remaining}",
-            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} {Strings.Highest_Score}",
+            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} {Strings.CustomDelivery_AllowancesRemaining}",
+            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} {Strings.CustomDelivery_AllowancesRemaining}",
+            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} {Strings.FashionReport_HighestScore}",
             _ => string.Empty,
         },
         PayloadId = PayloadId.GoldSaucerTeleport,

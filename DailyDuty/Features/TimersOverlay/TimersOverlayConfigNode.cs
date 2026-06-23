@@ -24,12 +24,12 @@ public class TimersOverlayConfigNode : UpdatableNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.Feature_Configuration,
+                    String = Strings.ServerInfoBar_FeatureConfig,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Hide_in_Duties,
+                    String = Strings.TimersOverlay_HideInDuties,
                     IsChecked = module.ModuleTimersOverlayConfig.HideInDuties,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.HideInDuties = newValue;
@@ -38,7 +38,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Hide_in_Quest_Events,
+                    String = Strings.TimersOverlay_HideInQuests,
                     IsChecked = module.ModuleTimersOverlayConfig.HideInQuestEvents,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.HideInQuestEvents = newValue;
@@ -47,7 +47,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Hide_Timer_Seconds,
+                    String = Strings.TimersOverlay_HideSeconds,
                     IsChecked = module.ModuleTimersOverlayConfig.HideTimerSeconds,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.HideTimerSeconds = newValue;
@@ -56,7 +56,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Show_Module_Label,
+                    String = Strings.TimersOverlay_ShowLabel,
                     IsChecked = module.ModuleTimersOverlayConfig.ShowLabel,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.ShowLabel = newValue;
@@ -65,7 +65,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Show_Countdown_Text,
+                    String = Strings.TimersOverlay_ShowCountdown,
                     IsChecked = module.ModuleTimersOverlayConfig.ShowCountdownText,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.ShowCountdownText = newValue;
@@ -74,7 +74,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Enable_Moving_Timers,
+                    String = Strings.TimersOverlay_EnableMovingTimers,
                     IsChecked = module.ModuleTimersOverlayConfig.EnableMovingTimers,
                     OnClick = newValue => module.ModuleTimersOverlayConfig.EnableMovingTimers = newValue,
                 },

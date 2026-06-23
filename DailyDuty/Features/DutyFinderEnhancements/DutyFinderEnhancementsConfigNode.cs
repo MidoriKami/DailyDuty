@@ -19,12 +19,12 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.Timer_Configuration,
+                    String = Strings.DutyFinderEnhancements_TimerConfig,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Hide_Seconds,
+                    String = Strings.DutyFinderEnhancements_HideSeconds,
                     IsChecked = module.ModuleDutyFinderEnhancementsConfig.HideSeconds,
                     OnClick = newValue => {
                         module.ModuleDutyFinderEnhancementsConfig.HideSeconds = newValue;
@@ -35,7 +35,7 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     Height = 28.0f,
                     CurrentColor = originalColor,
                     DefaultColor = ColorHelper.GetColor(8),
-                    String = Strings.Text_Color,
+                    String = Strings.DutyFinderEnhancements_TextColor,
                     OnColorCancelled = () => {
                         module.ModuleDutyFinderEnhancementsConfig.Color = originalColor;
                         module.ModuleDutyFinderEnhancementsConfig.MarkDirty();
@@ -49,12 +49,12 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    String = Strings.DailyDuty_Button_Configuration,
+                    String = Strings.DutyFinderEnhancements_ButtonConfig,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Show__Open_DailyDuty__Button,
+                    String = Strings.DutyFinderEnhancements_ShowOpenButton,
                     IsChecked = module.ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton,
                     OnClick = newValue => {
                         module.ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton = newValue;

@@ -71,7 +71,7 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             AlignmentType = AlignmentType.Center,
             String = new SeStringBuilder()
                 .PushColorRgba(module.ModuleConfig.DutyFinderColor)
-                .Append("Wondrous Tails Duty")
+                .Append(Strings.WondrousTails_Duty)
                 .PopColor()
                 .ToReadOnlySeString(),
             TextTooltip = "[DailyDuty] Wondrous Tails Feature",

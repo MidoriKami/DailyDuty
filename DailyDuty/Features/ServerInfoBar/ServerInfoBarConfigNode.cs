@@ -15,12 +15,12 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.Feature_Configuration,
+                    String = Strings.ServerInfoBar_FeatureConfig,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Hide_Seconds,
+                    String = Strings.DutyFinderEnhancements_HideSeconds,
                     IsChecked = module.ModuleConfig.HideSeconds,
                     OnClick = newValue => {
                         module.ModuleConfig.HideSeconds = newValue;
@@ -29,7 +29,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Toggleable_Timer,
+                    String = Strings.ServerInfoBar_ToggleableTimer,
                     IsChecked = module.ModuleConfig.Combo,
                     OnClick = newValue => {
                         module.ModuleConfig.Combo = newValue;
@@ -38,7 +38,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Daily_Timer,
+                    String = Strings.ServerInfoBar_DailyTimer,
                     IsChecked = module.ModuleConfig.SoloDaily,
                     OnClick = newValue => {
                         module.ModuleConfig.SoloDaily = newValue;
@@ -47,7 +47,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.Weekly_Timer,
+                    String = Strings.ServerInfoBar_WeeklyTimer,
                     IsChecked = module.ModuleConfig.SoloWeekly,
                     OnClick = newValue => {
                         module.ModuleConfig.SoloWeekly = newValue;

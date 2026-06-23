@@ -19,7 +19,7 @@ public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new LevequestConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.Levequest_s__left_to_reach_Threshold}";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.StatusMessages_LevequestIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextLeveAllowanceReset();

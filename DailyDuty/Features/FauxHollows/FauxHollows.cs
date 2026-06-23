@@ -11,7 +11,7 @@ namespace DailyDuty.Features.FauxHollows;
 
 public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Faux_Hollows,
+        DisplayName = Strings.FauxHollows_DisplayName,
         FileName = "FauxHollows",
         Type = ModuleType.Weekly,
         Tags = ["Poetics"],
@@ -39,7 +39,7 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         => ModuleData.FauxHollowsCompletions = 0;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = Strings.Unreal_Trial_Incomplete,
+        Message = Strings.StatusMessages_UnrealTrialIncomplete,
         PayloadId = PayloadId.IdyllshireTeleport,
     };
 

@@ -27,7 +27,7 @@ public class ModuleOptionNode : SelectableNode {
         erroringImageNode = new IconImageNode {
             IconId = 61502,
             FitTexture = true,
-            TextTooltip = Strings.Module_Failed_To_Load,
+            TextTooltip = Strings.ModuleOptionNode_FailedToLoad,
         };
         erroringImageNode.AttachNode(this);
 
@@ -47,7 +47,7 @@ public class ModuleOptionNode : SelectableNode {
 
         configButtonNode = new CircleButtonNode {
             Icon = ButtonIcon.GearCog,
-            TextTooltip = Strings.Open_Configuration,
+            TextTooltip = Strings.ModuleOptionNode_OpenConfig,
             OnClick = () => {
                 Module?.FeatureBase.OpenConfigAction?.Invoke();
                 OnClick?.Invoke(this);

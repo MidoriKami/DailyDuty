@@ -14,7 +14,7 @@ namespace DailyDuty.Features.WondrousTails;
 
 public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Wondrous_Tails,
+        DisplayName = Strings.WondrousTails_DisplayName,
         FileName = "WondrousTails",
         Type = ModuleType.Weekly,
         Tags = ["DoH", "DoL", "Exp"],
@@ -48,22 +48,22 @@ public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
 
     protected override StatusMessage GetStatusMessage() => this switch {
         { IsNewBookAvailable: true } when ModuleConfig.UnclaimedBookWarning => new StatusMessage {
-            Message = Strings.New_Book_Available,
+            Message = Strings.WondrousTails_NewBookAvailable,
             PayloadId = PayloadId.IdyllshireTeleport,
         },
 
         { PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.StickerAvailableNotice && IsStickerAvailable => new StatusMessage {
-            Message = Strings.Sticker_Available,
+            Message = Strings.WondrousTails_StickerAvailable,
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
 
         { SecondChancePoints: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.ShuffleAvailableNotice => new StatusMessage {
-            Message = Strings.Shuffle_Available,
+            Message = Strings.WondrousTails_ShuffleAvailable,
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
 
         _ => new StatusMessage {
-            Message = $"{9 - PlacedStickers} {Strings.Sticker_s__Remaining}",
+            Message = $"{9 - PlacedStickers} {Strings.StatusMessages_StickerRemaining}",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
     };

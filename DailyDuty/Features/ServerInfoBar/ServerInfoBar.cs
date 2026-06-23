@@ -10,7 +10,7 @@ namespace DailyDuty.Features.ServerInfoBar;
 
 public class ServerInfoBar : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Server_Info_Bar,
+        DisplayName = Strings.ServerInfoBar_DisplayName,
         FileName = "DTR",
         Type = ModuleType.GeneralFeatures,
         Tags = ["DTR"],
@@ -68,7 +68,7 @@ public class ServerInfoBar : FeatureBase {
         if (daily is null && config.SoloDaily) {
             daily = Services.DtrBar.Get("DailyDuty - Daily Timer");
             daily.OnClick = _ => System.ConfigurationWindow.Toggle();
-            daily.Tooltip = Strings.Click_to_Open_Configuration;
+            daily.Tooltip = Strings.ServerInfoBar_ClickOpenConfig;
         }
 
         if (daily is not null && !config.SoloDaily) {
@@ -79,7 +79,7 @@ public class ServerInfoBar : FeatureBase {
         if (weekly is null && config.SoloWeekly) {
             weekly = Services.DtrBar.Get("DailyDuty - Weekly Timer");
             weekly.OnClick = _ => System.ConfigurationWindow.Toggle();
-            weekly.Tooltip = Strings.Click_to_Open_Configuration;
+            weekly.Tooltip = Strings.ServerInfoBar_ClickOpenConfig;
         }
 
         if (weekly is not null && !config.SoloWeekly) {
@@ -90,8 +90,8 @@ public class ServerInfoBar : FeatureBase {
         if (combo is null && config.Combo) {
             combo = Services.DtrBar.Get("DailyDuty - Combo Timer");
             combo.OnClick = OnComboClick;
-            combo.Tooltip = Strings.Left_Click_to_Change_Mode + "\n" +
-                            Strings.Right_Click_to_Open_Configuration;
+            combo.Tooltip = Strings.ServerInfoBar_LeftClickChange + "\n" +
+                            Strings.ServerInfoBar_RightClickOpenConfig;
         }
 
         if (combo is not null && !config.Combo) {
@@ -99,16 +99,16 @@ public class ServerInfoBar : FeatureBase {
             combo = null;
         }
 
-        daily?.Text = $"{Strings.Daily_Reset}: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
+        daily?.Text = $"{Strings.Additional_DailyReset}: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
 
-        weekly?.Text = $"{Strings.Weekly_Reset}: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
+        weekly?.Text = $"{Strings.Additional_WeeklyReset}: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
 
         if (combo is not null) {
             if (config.CurrentMode is DtrMode.Daily) {
-                combo.Text = $"{Strings.Daily_Reset}: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
+                combo.Text = $"{Strings.Additional_DailyReset}: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
             }
             else {
-                combo.Text = $"{Strings.Weekly_Reset}: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
+                combo.Text = $"{Strings.Additional_WeeklyReset}: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
             }
         }
     }

@@ -17,7 +17,7 @@ namespace DailyDuty.Features.RaidsNormal;
 
 public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Raids_Normal,
+        DisplayName = Strings.RaidsNormal_DisplayName,
         FileName = "RaidsNormal",
         Type = ModuleType.Weekly,
         Tags = ["Tomestones", "Raids", "Exp", "Hardcore"],
@@ -53,7 +53,7 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.Normal_Raid_s__Incomplete}",
+        Message = $"{GetIncompleteCount()} {Strings.StatusMessages_NormalRaidIncomplete}",
         PayloadId = PayloadId.OpenDutyFinderRaid,
     };
 

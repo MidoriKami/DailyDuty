@@ -19,10 +19,10 @@ public unsafe class TribalQuestsDataNode(TribalQuests module) : DataNodeBase<Tri
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Tribal_Quests_Available,
+                        String = Strings.TribalQuests_Available,
                     },
                     allowancesNode = new TextNode {
-                        String = Strings.Available_Not_Updated,
+                        String = Strings.FashionReport_AvailableNotUpdated,
                     },
                 ],
             }

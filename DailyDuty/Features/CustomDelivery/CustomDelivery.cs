@@ -9,7 +9,7 @@ namespace DailyDuty.Features.CustomDelivery;
 
 public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.Custom_Delivery,
+        DisplayName = Strings.CustomDelivery_DisplayName,
         FileName = "CustomDelivery",
         Type = ModuleType.Weekly,
         Tags = ["DoH", "DoL", "Exp"],
@@ -19,7 +19,7 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new CustomDeliveryConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.Custom_Delivery_s__left_to_reach_Threshold}";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.StatusMessages_CustomDeliveryIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();

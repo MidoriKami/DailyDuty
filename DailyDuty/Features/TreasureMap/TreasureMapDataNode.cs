@@ -20,10 +20,10 @@ public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.Last_Map_Gathered,
+                        String = Strings.TreasureMap_LastGathered,
                     },
                     lastGatheredTime = new TextNode {
-                        String = Strings.Attempts_Not_Updated,
+                        String = Strings.MiniCactpot_AttemptsNotUpdated,
                     },
                 ],
             },
