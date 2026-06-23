@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace DailyDuty.Features.DutyRoulette;
 
 public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Duty Roulette", Strings.Culture) ?? "Duty Roulette",
+        DisplayName = Strings.Duty_Roulette,
         FileName = "DutyRoulette",
         Type = ModuleType.Daily,
         Tags = ["Exp", "Gil"],
@@ -44,7 +43,7 @@ public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Roulette(s) Incomplete", Strings.Culture) ?? "Roulette(s) Incomplete"}",
+        Message = $"{GetIncompleteCount()} {Strings.Roulette_s__Incomplete}",
         PayloadId = PayloadId.OpenDutyFinderRoulette,
     };
 

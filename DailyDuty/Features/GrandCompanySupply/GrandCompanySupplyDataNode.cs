@@ -1,4 +1,3 @@
-using Resources;
 using System.Collections.Generic;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -36,7 +35,7 @@ public class GrandCompanySupplyDataNode(GrandCompanySupply module) : DataNodeBas
                     },
                     statusNode = new TextNode {
                         Width = 100.0f,
-                        String = $"{classJob.NameEnglish} {Strings.ResourceManager.GetString("Data Not Set", Strings.Culture) ?? "Data Not Set"}",
+                        String = $"{classJob.NameEnglish} {Strings.Data_Not_Set}",
                     },
                 ],
             });
@@ -51,7 +50,7 @@ public class GrandCompanySupplyDataNode(GrandCompanySupply module) : DataNodeBas
         base.Update();
 
         foreach (var (job, node) in statusNodes) {
-            node.String = module.ModuleData.ClassJobStatus[job] ? Strings.ResourceManager.GetString("Complete", Strings.Culture) ?? "Complete" : Strings.ResourceManager.GetString("Incomplete", Strings.Culture) ?? "Incomplete";
+            node.String = module.ModuleData.ClassJobStatus[job] ? Strings.Complete : Strings.Incomplete;
         }
     }
 }

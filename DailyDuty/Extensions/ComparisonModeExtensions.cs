@@ -1,4 +1,3 @@
-using Resources;
 using System;
 using System.Linq;
 using DailyDuty.Classes;
@@ -9,9 +8,9 @@ namespace DailyDuty.Extensions;
 public static class ComparisonModeExtensions {
     extension(ComparisonMode mode) {
         public string Description => mode switch {
-            ComparisonMode.Below => Strings.ResourceManager.GetString("Below", Strings.Culture) ?? "Below",
-            ComparisonMode.Equal => Strings.ResourceManager.GetString("Not Equal", Strings.Culture) ?? "Not Equal",
-            ComparisonMode.Above => Strings.ResourceManager.GetString("Above", Strings.Culture) ?? "Above",
+            ComparisonMode.Below => Strings.Below,
+            ComparisonMode.Equal => Strings.Not_Equal,
+            ComparisonMode.Above => Strings.Above,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }

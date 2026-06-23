@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -15,7 +14,7 @@ namespace DailyDuty.Features.DutyFinderEnhancements;
 
 public class DutyFinderEnhancements : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Duty Finder Enhancements", Strings.Culture) ?? "Duty Finder Enhancements",
+        DisplayName = Strings.Duty_Finder_Enhancements,
         FileName = "DutyFinderEnhancements",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Countdown", "Reset"],
@@ -87,7 +86,7 @@ public class DutyFinderEnhancements : FeatureBase {
             Position = new Vector2(targetNode->X, targetNode->Y),
             Size = new Vector2(targetNode->Width, targetNode->Height),
             AlignmentType = AlignmentType.Center,
-            TextTooltip = Strings.ResourceManager.GetString("[DailyDuty] Time until next daily reset", Strings.Culture) ?? "[DailyDuty] Time until next daily reset",
+            TextTooltip = Strings._DailyDuty__Time_until_next_daily_reset,
             String = "0:00:00:00",
             TextColor = ModuleDutyFinderEnhancementsConfig.Color,
             IsVisible = false,
@@ -98,7 +97,7 @@ public class DutyFinderEnhancements : FeatureBase {
             Position = new Vector2(50.0f, 622.0f),
             Size = new Vector2(130.0f, 28.0f),
             IsVisible = true,
-            String = Strings.ResourceManager.GetString("Open DailyDuty", Strings.Culture) ?? "Open DailyDuty",
+            String = Strings.Open_DailyDuty,
         };
         openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
         openDailyDutyButton.AttachNode(addon->RootNode);

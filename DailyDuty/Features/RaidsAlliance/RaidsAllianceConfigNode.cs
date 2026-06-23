@@ -1,4 +1,3 @@
-using Resources;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -20,7 +19,7 @@ public class RaidsAllianceConfigNode(RaidsAlliance module) : ConfigNodeBase<Raid
                         LineSpacing = 14,
                         TextFlags = TextFlags.WordWrap | TextFlags.MultiLine,
                         AlignmentType = AlignmentType.Center,
-                        String = Strings.ResourceManager.GetString("No raids are currently limited.", Strings.Culture) ?? "No raids are currently limited.",
+                        String = Strings.No_raids_are_currently_limited_,
                     },
                 ],
             });

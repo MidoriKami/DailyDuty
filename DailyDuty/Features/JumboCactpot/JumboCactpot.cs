@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
@@ -14,7 +13,7 @@ namespace DailyDuty.Features.JumboCactpot;
 
 public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Jumbo Cactpot", Strings.Culture) ?? "Jumbo Cactpot",
+        DisplayName = Strings.Jumbo_Cactpot,
         FileName = "JumboCactpot",
         Type = ModuleType.Weekly,
         Tags = ["MGP"],
@@ -36,7 +35,7 @@ public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{3 - ModuleData.Tickets.Count} {Strings.ResourceManager.GetString("Ticket(s) Remaining", Strings.Culture) ?? "Ticket(s) Remaining"}",
+        Message = $"{3 - ModuleData.Tickets.Count} {Strings.Ticket_s__Remaining}",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 

@@ -1,4 +1,3 @@
-using Resources;
 using System;
 using System.Linq;
 using DailyDuty.Classes;
@@ -19,7 +18,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.ResourceManager.GetString("Allowance Amount", Strings.Culture) ?? "Allowance Amount",
+                    String = Strings.Allowance_Amount,
                     AlignmentType = AlignmentType.Left,
                 },
                 new SliderNode {
@@ -40,7 +39,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.ResourceManager.GetString("Warning Trigger", Strings.Culture) ?? "Warning Trigger",
+                    String = Strings.Warning_Trigger,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

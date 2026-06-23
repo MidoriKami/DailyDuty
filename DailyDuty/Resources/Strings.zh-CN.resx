@@ -56,7 +56,7 @@
   <data name="Timers Overlay" xml:space="preserve"><value>计时器悬浮窗</value></data>
   <data name="Todo List Overlay" xml:space="preserve"><value>待办事项悬浮窗</value></data>
   <data name="Treasure Map" xml:space="preserve"><value>藏宝图</value></data>
-  <data name="Tribal Quests" xml:space="preserve"><value>蛮族任务</value></data>
+  <data name="Tribal Quests" xml:space="preserve"><value>友好部族任务</value></data>
   <data name="Wondrous Tails" xml:space="preserve"><value>天书奇谈</value></data>
   <!-- Module Types -->
   <data name="Daily" xml:space="preserve"><value>每日</value></data>
@@ -78,8 +78,8 @@
   <data name="Not Equal" xml:space="preserve"><value>不等于</value></data>
   <data name="Above" xml:space="preserve"><value>高于</value></data>
   <!-- Fashion Report Modes -->
-  <data name="All Attempts Used" xml:space="preserve"><value>所有次数已用完</value></data>
-  <data name="One Attempt Used" xml:space="preserve"><value>已使用一次</value></data>
+  <data name="All Attempts Used" xml:space="preserve"><value>所有机会已用完</value></data>
+  <data name="One Attempt Used" xml:space="preserve"><value>已使用一次机会</value></data>
   <data name="Scored Over 80" xml:space="preserve"><value>得分超过80</value></data>
   <!-- GenericDataNode -->
   <data name="Module Status" xml:space="preserve"><value>模块状态</value></data>
@@ -195,7 +195,7 @@
   <data name="Available" xml:space="preserve"><value>可用</value></data>
   <data name="Not Available" xml:space="preserve"><value>不可用</value></data>
   <!-- FauxHollows -->
-  <data name="Include Retelling" xml:space="preserve"><value>包含异闻复述</value></data>
+  <data name="Include Retelling" xml:space="preserve"><value>包含额外机会</value></data>
   <data name="Current Completion Count" xml:space="preserve"><value>本周已完成次数</value></data>
   <!-- GrandCompanySquadron -->
   <data name="Mission Completed" xml:space="preserve"><value>任务已完成</value></data>
@@ -204,12 +204,13 @@
   <data name="Mission Time Remaining" xml:space="preserve"><value>任务剩余时间</value></data>
   <data name="Not Started" xml:space="preserve"><value>尚未开始</value></data>
   <!-- JumboCactpot -->
-  <data name="Ticket Not Updated" xml:space="preserve"><value>彩票信息尚未更新</value></data>
-  <data name="Ticket not Claimed" xml:space="preserve"><value>彩票尚未领取</value></data>
+  <data name="Ticket" xml:space="preserve"><value>仙人仙彩</value></data>
+  <data name="Ticket Not Updated" xml:space="preserve"><value>仙人仙彩信息尚未更新</value></data>
+  <data name="Ticket not Claimed" xml:space="preserve"><value>仙人仙彩尚未领取</value></data>
   <!-- Levequest -->
-  <data name="Levequests Available" xml:space="preserve"><value>可受理符任务数</value></data>
-  <data name="Levequests Accepted" xml:space="preserve"><value>已受理符任务数</value></data>
-  <data name="Accepted Not Updated" xml:space="preserve"><value>已受理符任务数尚未更新</value></data>
+  <data name="Levequests Available" xml:space="preserve"><value>可接受理符任务数</value></data>
+  <data name="Levequests Accepted" xml:space="preserve"><value>已接受理符任务数</value></data>
+  <data name="Accepted Not Updated" xml:space="preserve"><value>已接受理符任务数尚未更新</value></data>
   <!-- MiniCactpot -->
   <data name="Attempts Available" xml:space="preserve"><value>剩余游玩次数</value></data>
   <data name="Attempts Not Updated" xml:space="preserve"><value>游玩次数尚未更新</value></data>

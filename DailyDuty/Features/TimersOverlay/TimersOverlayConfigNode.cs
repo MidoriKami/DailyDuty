@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -25,12 +24,12 @@ public class TimersOverlayConfigNode : UpdatableNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("Feature Configuration", Strings.Culture) ?? "Feature Configuration",
+                    String = Strings.Feature_Configuration,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Hide in Duties", Strings.Culture) ?? "Hide in Duties",
+                    String = Strings.Hide_in_Duties,
                     IsChecked = module.ModuleTimersOverlayConfig.HideInDuties,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.HideInDuties = newValue;
@@ -39,7 +38,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Hide in Quest Events", Strings.Culture) ?? "Hide in Quest Events",
+                    String = Strings.Hide_in_Quest_Events,
                     IsChecked = module.ModuleTimersOverlayConfig.HideInQuestEvents,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.HideInQuestEvents = newValue;
@@ -48,7 +47,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Hide Timer Seconds", Strings.Culture) ?? "Hide Timer Seconds",
+                    String = Strings.Hide_Timer_Seconds,
                     IsChecked = module.ModuleTimersOverlayConfig.HideTimerSeconds,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.HideTimerSeconds = newValue;
@@ -57,7 +56,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Show Module Label", Strings.Culture) ?? "Show Module Label",
+                    String = Strings.Show_Module_Label,
                     IsChecked = module.ModuleTimersOverlayConfig.ShowLabel,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.ShowLabel = newValue;
@@ -66,7 +65,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Show Countdown Text", Strings.Culture) ?? "Show Countdown Text",
+                    String = Strings.Show_Countdown_Text,
                     IsChecked = module.ModuleTimersOverlayConfig.ShowCountdownText,
                     OnClick = newValue => {
                         module.ModuleTimersOverlayConfig.ShowCountdownText = newValue;
@@ -75,7 +74,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Enable Moving Timers", Strings.Culture) ?? "Enable Moving Timers",
+                    String = Strings.Enable_Moving_Timers,
                     IsChecked = module.ModuleTimersOverlayConfig.EnableMovingTimers,
                     OnClick = newValue => module.ModuleTimersOverlayConfig.EnableMovingTimers = newValue,
                 },
@@ -85,7 +84,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth | FlexFlags.CenterHorizontally,
                     InitialNodes = [
                         new TextNode {
-                            String = Strings.ResourceManager.GetString("Scale", Strings.Culture) ?? "Scale",
+                            String = Strings.Scale,
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {

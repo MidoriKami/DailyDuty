@@ -1,4 +1,3 @@
-using Resources;
 using System;
 using System.Linq;
 using DailyDuty.Classes;
@@ -19,7 +18,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.ResourceManager.GetString("Quest Amount", Strings.Culture) ?? "Quest Amount",
+                    String = Strings.Quest_Amount,
                     AlignmentType = AlignmentType.Left,
                 },
                 new SliderNode {
@@ -40,7 +39,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = Strings.ResourceManager.GetString("Warning Trigger", Strings.Culture) ?? "Warning Trigger",
+                    String = Strings.Warning_Trigger,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

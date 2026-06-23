@@ -1,4 +1,3 @@
-using Resources;
 using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -28,7 +27,7 @@ public class WondrousTailsNode : SimpleComponentNode {
 
         background.ShowClickableCursor = true;
         background.AddNodeFlags(NodeFlags.HasCollision, NodeFlags.IsTopNode);
-        background.TextTooltip = Strings.ResourceManager.GetString("[DailyDuty] This duty is a Wondrous Tails task", Strings.Culture) ?? "[DailyDuty] This duty is a Wondrous Tails task";
+        background.TextTooltip = Strings._DailyDuty__This_duty_is_a_Wondrous_Tails_task;
 
         background.AttachNode(this);
 

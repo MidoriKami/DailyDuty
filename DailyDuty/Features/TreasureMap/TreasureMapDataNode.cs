@@ -1,4 +1,3 @@
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -21,10 +20,10 @@ public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.ResourceManager.GetString("Last Map Gathered", Strings.Culture) ?? "Last Map Gathered",
+                        String = Strings.Last_Map_Gathered,
                     },
                     lastGatheredTime = new TextNode {
-                        String = Strings.ResourceManager.GetString("Attempts Not Updated", Strings.Culture) ?? "Attempts Not Updated",
+                        String = Strings.Attempts_Not_Updated,
                     },
                 ],
             },

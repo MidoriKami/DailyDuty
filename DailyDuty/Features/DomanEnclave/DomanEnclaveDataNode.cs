@@ -1,4 +1,3 @@
-using Resources;
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
@@ -27,10 +26,10 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.ResourceManager.GetString("Current Max Allowance", Strings.Culture) ?? "Current Max Allowance",
+                        String = Strings.Current_Max_Allowance,
                     },
                     allowanceText = new TextNode {
-                        String = Strings.ResourceManager.GetString("Allowances Not Updated", Strings.Culture) ?? "Allowances Not Updated",
+                        String = Strings.Allowances_Not_Updated,
                     },
                 ],
             },
@@ -39,10 +38,10 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.ResourceManager.GetString("Donated This Week", Strings.Culture) ?? "Donated This Week",
+                        String = Strings.Donated_This_Week,
                     },
                     donatedText = new TextNode {
-                        String = Strings.ResourceManager.GetString("Donated Not Updated", Strings.Culture) ?? "Donated Not Updated",
+                        String = Strings.Donated_Not_Updated,
                     },
                 ],
             },
@@ -51,17 +50,17 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.ResourceManager.GetString("Allowance Remaining", Strings.Culture) ?? "Allowance Remaining",
+                        String = Strings.Allowance_Remaining,
                     },
                     allowanceRemaining = new TextNode {
-                        String = Strings.ResourceManager.GetString("Remaining Not Updated", Strings.Culture) ?? "Remaining Not Updated",
+                        String = Strings.Remaining_Not_Updated,
                     },
                 ],
             },
             warningText = new TextNode {
                 Height = 32.0f,
                 MultiplyColor = KnownColor.Orange.Vector().Fade(0.40f).AsVector3(),
-                String = Strings.ResourceManager.GetString("Status is unavailable, visit the Doman Enclave to update", Strings.Culture) ?? "Status is unavailable, visit the Doman Enclave to update",
+                String = Strings.Status_is_unavailable__visit_the_Doman_Enclave_to_update,
                 AlignmentType = AlignmentType.Center,
             },
         ],

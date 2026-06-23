@@ -1,4 +1,3 @@
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
@@ -20,7 +19,7 @@ public class GenericDataNode : SimpleComponentNode {
             FitWidth = true,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("Module Status", Strings.Culture) ?? "Module Status",
+                    String = Strings.Module_Status,
                     Alignment = AlignmentType.Bottom,
                 },
                 statusTextNode = new TextNode {
@@ -30,7 +29,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("Next Reset", Strings.Culture) ?? "Next Reset",
+                    String = Strings.Next_Reset,
                     Alignment = AlignmentType.Bottom,
                 },
                 resetTimeTextNode = new TextNode {
@@ -40,7 +39,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("Time Remaining", Strings.Culture) ?? "Time Remaining",
+                    String = Strings.Time_Remaining,
                     Alignment = AlignmentType.Bottom,
                 },
                 timeRemainingTextNode = new TextNode {
@@ -66,12 +65,12 @@ public class GenericDataNode : SimpleComponentNode {
         statusTextNode.String = module.ModuleStatus.Description;
 
         if (resetTime == DateTime.MaxValue) {
-            resetTimeTextNode.String = Strings.ResourceManager.GetString("Available Now", Strings.Culture) ?? "Available Now";
+            resetTimeTextNode.String = Strings.Available_Now;
             timeRemainingTextNode.String = "0.00:00:00";
         }
         else if (resetTime <= DateTime.UtcNow) {
-            resetTimeTextNode.String = Strings.ResourceManager.GetString("Enable module to initialize", Strings.Culture) ?? "Enable module to initialize";
-            timeRemainingTextNode.String = Strings.ResourceManager.GetString("Enable module to initialize", Strings.Culture) ?? "Enable module to initialize";
+            resetTimeTextNode.String = Strings.Enable_module_to_initialize;
+            timeRemainingTextNode.String = Strings.Enable_module_to_initialize;
         }
         else {
             resetTimeTextNode.String = resetTime.ToLocalTime().GetDisplayString();

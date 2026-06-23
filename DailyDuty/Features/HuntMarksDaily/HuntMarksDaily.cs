@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Linq;
 using DailyDuty.Classes;
@@ -14,7 +13,7 @@ namespace DailyDuty.Features.HuntMarksDaily;
 
 public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Hunt Marks Daily", Strings.Culture) ?? "Hunt Marks Daily",
+        DisplayName = Strings.Hunt_Marks_Daily,
         FileName = "HuntMarksDaily",
         Type = ModuleType.Daily,
         Tags = ["Teleport", "Tickets"],
@@ -27,7 +26,7 @@ public unsafe class HuntMarksDaily : Module<HuntMarksDailyConfig, DataBase> {
         => HuntMarksDailyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Hunt Bill(s) Incomplete", Strings.Culture) ?? "Hunt Bill(s) Incomplete"}";
+        => $"{GetIncompleteCount()} {Strings.Hunt_Bill_s__Incomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

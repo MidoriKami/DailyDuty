@@ -1,4 +1,3 @@
-using Resources;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -22,11 +21,11 @@ public unsafe class LevequestDataNode(Levequest module) : DataNodeBase<Levequest
                 InitialNodes = [
                     new TextNode {
                         Width = 200.0f,
-                        String = Strings.ResourceManager.GetString("Levequests Available", Strings.Culture) ?? "Levequests Available",
+                        String = Strings.Levequests_Available,
                     },
                     allowancesNode = new TextNode {
                         Width = 100.0f,
-                        String = Strings.ResourceManager.GetString("Available Not Updated", Strings.Culture) ?? "Available Not Updated",
+                        String = Strings.Available_Not_Updated,
                     },
                 ],
             },
@@ -35,10 +34,10 @@ public unsafe class LevequestDataNode(Levequest module) : DataNodeBase<Levequest
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = Strings.ResourceManager.GetString("Levequests Accepted", Strings.Culture) ?? "Levequests Accepted",
+                        String = Strings.Levequests_Accepted,
                     },
                     acceptedNode = new TextNode {
-                        String = Strings.ResourceManager.GetString("Accepted Not Updated", Strings.Culture) ?? "Accepted Not Updated",
+                        String = Strings.Accepted_Not_Updated,
                     },
                 ],
             },

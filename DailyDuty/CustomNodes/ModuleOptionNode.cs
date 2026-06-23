@@ -1,4 +1,3 @@
-using Resources;
 using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
@@ -28,7 +27,7 @@ public class ModuleOptionNode : SelectableNode {
         erroringImageNode = new IconImageNode {
             IconId = 61502,
             FitTexture = true,
-            TextTooltip = Strings.ResourceManager.GetString("Module Failed To Load", Strings.Culture) ?? "Module Failed To Load",
+            TextTooltip = Strings.Module_Failed_To_Load,
         };
         erroringImageNode.AttachNode(this);
 
@@ -48,7 +47,7 @@ public class ModuleOptionNode : SelectableNode {
 
         configButtonNode = new CircleButtonNode {
             Icon = ButtonIcon.GearCog,
-            TextTooltip = Strings.ResourceManager.GetString("Open Configuration", Strings.Culture) ?? "Open Configuration",
+            TextTooltip = Strings.Open_Configuration,
             OnClick = () => {
                 Module?.FeatureBase.OpenConfigAction?.Invoke();
                 OnClick?.Invoke(this);
@@ -99,7 +98,7 @@ public class ModuleOptionNode : SelectableNode {
     public void Update() {
         if (Module.FeatureBase is ModuleBase module) {
             statusTextNode.IsVisible = true;
-            statusTextNode.String = $"{Strings.ResourceManager.GetString("Status", Strings.Culture) ?? "Status"}: {module.ModuleStatus.Description}";
+            statusTextNode.String = $"{Strings.Status}: {module.ModuleStatus.Description}";
             modificationNameNode.Height = Height / 2.0f;
         }
         else {

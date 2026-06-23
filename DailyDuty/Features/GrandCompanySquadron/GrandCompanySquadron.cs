@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +24,7 @@ namespace DailyDuty.Features.GrandCompanySquadron;
 /// </summary>
 public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Grand Company Squadron", Strings.Culture) ?? "Grand Company Squadron",
+        DisplayName = Strings.Grand_Company_Squadron,
         FileName = "GrandCompanySquadron",
         Type = ModuleType.Weekly,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -48,9 +47,9 @@ public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData>
     }
 
     protected override StatusMessage GetStatusMessage() {
-        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return Strings.ResourceManager.GetString("Mission Results Ready", Strings.Culture) ?? "Mission Results Ready";
+        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return Strings.Mission_Results_Ready;
 
-        return Strings.ResourceManager.GetString("Mission Not Started", Strings.Culture) ?? "Mission Not Started";
+        return Strings.Mission_Not_Started;
     }
 
     public override DateTime GetNextResetDateTime()

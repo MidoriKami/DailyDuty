@@ -1,4 +1,3 @@
-using Resources;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -16,12 +15,12 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("Feature Configuration", Strings.Culture) ?? "Feature Configuration",
+                    String = Strings.Feature_Configuration,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Hide Seconds", Strings.Culture) ?? "Hide Seconds",
+                    String = Strings.Hide_Seconds,
                     IsChecked = module.ModuleConfig.HideSeconds,
                     OnClick = newValue => {
                         module.ModuleConfig.HideSeconds = newValue;
@@ -30,7 +29,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Toggleable Timer", Strings.Culture) ?? "Toggleable Timer",
+                    String = Strings.Toggleable_Timer,
                     IsChecked = module.ModuleConfig.Combo,
                     OnClick = newValue => {
                         module.ModuleConfig.Combo = newValue;
@@ -39,7 +38,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Daily Timer", Strings.Culture) ?? "Daily Timer",
+                    String = Strings.Daily_Timer,
                     IsChecked = module.ModuleConfig.SoloDaily,
                     OnClick = newValue => {
                         module.ModuleConfig.SoloDaily = newValue;
@@ -48,7 +47,7 @@ public class ServerInfoBarConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Weekly Timer", Strings.Culture) ?? "Weekly Timer",
+                    String = Strings.Weekly_Timer,
                     IsChecked = module.ModuleConfig.SoloWeekly,
                     OnClick = newValue => {
                         module.ModuleConfig.SoloWeekly = newValue;

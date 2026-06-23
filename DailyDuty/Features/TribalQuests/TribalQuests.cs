@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -10,7 +9,7 @@ namespace DailyDuty.Features.TribalQuests;
 
 public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Tribal Quests", Strings.Culture) ?? "Tribal Quests",
+        DisplayName = Strings.Tribal_Quests,
         FileName = "TribalQuests",
         Type = ModuleType.Daily,
         Tags = ["DoH", "DoL", "Exp"],
@@ -20,7 +19,7 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new TribalQuestsConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances} {Strings.ResourceManager.GetString("Quest(s) left to reach Threshold", Strings.Culture) ?? "Quest(s) left to reach Threshold"}";
+        => $"{RemainingAllowances} {Strings.Quest_s__left_to_reach_Threshold}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

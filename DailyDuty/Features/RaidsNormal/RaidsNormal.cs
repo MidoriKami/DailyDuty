@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace DailyDuty.Features.RaidsNormal;
 
 public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Raids Normal", Strings.Culture) ?? "Raids Normal",
+        DisplayName = Strings.Raids_Normal,
         FileName = "RaidsNormal",
         Type = ModuleType.Weekly,
         Tags = ["Tomestones", "Raids", "Exp", "Hardcore"],
@@ -54,7 +53,7 @@ public unsafe class RaidsNormal : Module<RaidsNormalConfig, RaidsNormalData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Normal Raid(s) Incomplete", Strings.Culture) ?? "Normal Raid(s) Incomplete"}",
+        Message = $"{GetIncompleteCount()} {Strings.Normal_Raid_s__Incomplete}",
         PayloadId = PayloadId.OpenDutyFinderRaid,
     };
 

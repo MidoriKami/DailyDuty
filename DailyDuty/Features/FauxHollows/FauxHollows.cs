@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
@@ -12,7 +11,7 @@ namespace DailyDuty.Features.FauxHollows;
 
 public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Faux Hollows", Strings.Culture) ?? "Faux Hollows",
+        DisplayName = Strings.Faux_Hollows,
         FileName = "FauxHollows",
         Type = ModuleType.Weekly,
         Tags = ["Poetics"],
@@ -40,7 +39,7 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         => ModuleData.FauxHollowsCompletions = 0;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = Strings.ResourceManager.GetString("Unreal Trial Incomplete", Strings.Culture) ?? "Unreal Trial Incomplete",
+        Message = Strings.Unreal_Trial_Incomplete,
         PayloadId = PayloadId.IdyllshireTeleport,
     };
 

@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace DailyDuty.Features.ChallengeLog;
 
 public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Challenge Log", Strings.Culture) ?? "Challenge Log",
+        DisplayName = Strings.Challenge_Log,
         FileName = "ChallengeLog",
         Type = ModuleType.Weekly,
         Tags = ["Achievements", "Exp"],
@@ -55,7 +54,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} {Strings.ResourceManager.GetString("Challenge Log(s) Incomplete", Strings.Culture) ?? "Challenge Log(s) Incomplete"}",
+        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} {Strings.Challenge_Log_s__Incomplete}",
         PayloadId = PayloadId.OpenChallengeLog,
     };
 

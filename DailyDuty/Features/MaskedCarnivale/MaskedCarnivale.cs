@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace DailyDuty.Features.MaskedCarnivale;
 
 public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Masked Carnivale", Strings.Culture) ?? "Masked Carnivale",
+        DisplayName = Strings.Masked_Carnivale,
         FileName = "MaskedCarnivale",
         Type = ModuleType.Weekly,
         Tags = ["Teleport", "Tickets", "Seals"],
@@ -48,7 +47,7 @@ public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Challenge(s) Incomplete", Strings.Culture) ?? "Challenge(s) Incomplete"}",
+        Message = $"{GetIncompleteCount()} {Strings.Challenge_s__Incomplete}",
         PayloadId = PayloadId.UldahTeleport,
     };
 

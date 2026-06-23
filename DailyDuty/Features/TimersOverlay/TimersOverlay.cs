@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace DailyDuty.Features.TimersOverlay;
 public class TimersOverlay : FeatureBase {
 
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Timers Overlay", Strings.Culture) ?? "Timers Overlay",
+        DisplayName = Strings.Timers_Overlay,
         FileName = "Timers",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Countdown", "Reset"],
@@ -58,7 +57,7 @@ public class TimersOverlay : FeatureBase {
                         .ToList(),
                     SelectedOptions = ModuleTimersOverlayConfig.EnabledTimers,
                     InternalName = "TimersSelection",
-                    Title = Strings.ResourceManager.GetString("Timer Selection", Strings.Culture) ?? "Timer Selection",
+                    Title = Strings.Timer_Selection,
                     OnEdited = () => {
                         foreach (var (index, option) in ModuleTimersOverlayConfig.EnabledTimers.Index()) {
                             if (!ModuleTimersOverlayConfig.TimerData.ContainsKey(option)) {

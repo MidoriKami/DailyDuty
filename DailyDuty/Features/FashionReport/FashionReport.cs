@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -11,7 +10,7 @@ namespace DailyDuty.Features.FashionReport;
 
 public unsafe class FashionReport : Module<FashionReportConfig, FashionReportData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Fashion Report", Strings.Culture) ?? "Fashion Report",
+        DisplayName = Strings.Fashion_Report,
         FileName = "FashionReport",
         Type = ModuleType.Special,
         Tags = ["Gold Saucer", "Gold", "Saucer", "MGP"],
@@ -22,9 +21,9 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = ModuleConfig.CompletionMode switch {
-            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} {Strings.ResourceManager.GetString("Allowances Remaining", Strings.Culture) ?? "Allowances Remaining"}",
-            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} {Strings.ResourceManager.GetString("Allowances Remaining", Strings.Culture) ?? "Allowances Remaining"}",
-            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} {Strings.ResourceManager.GetString("Highest Score", Strings.Culture) ?? "Highest Score"}",
+            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} {Strings.Allowances_Remaining}",
+            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} {Strings.Allowances_Remaining}",
+            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} {Strings.Highest_Score}",
             _ => string.Empty,
         },
         PayloadId = PayloadId.GoldSaucerTeleport,

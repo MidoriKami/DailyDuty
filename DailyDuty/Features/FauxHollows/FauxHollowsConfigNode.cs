@@ -1,4 +1,3 @@
-using Resources;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using KamiToolKit.Nodes;
@@ -12,7 +11,7 @@ public class FauxHollowsConfigNode(FauxHollows module) : ConfigNodeBase<FauxHoll
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.ResourceManager.GetString("Include Retelling", Strings.Culture) ?? "Include Retelling",
+                String = Strings.Include_Retelling,
                 IsChecked = module.ModuleConfig.IncludeRetelling,
                 OnClick = newValue => {
                     module.ModuleConfig.IncludeRetelling = newValue;

@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -16,7 +15,7 @@ namespace DailyDuty.Features.TodoOverlay;
 
 public class TodoOverlay : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Todo List Overlay", Strings.Culture) ?? "Todo List Overlay",
+        DisplayName = Strings.Todo_List_Overlay,
         FileName = "TodoList",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Tasks", "List"],

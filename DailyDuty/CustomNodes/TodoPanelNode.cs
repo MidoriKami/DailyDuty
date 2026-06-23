@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -64,7 +63,7 @@ public unsafe class TodoPanelNode : OverlayNode {
             TextColor = ColorHelper.GetColor(50),
             TextOutlineColor = ColorHelper.GetColor(54),
             TextFlags = TextFlags.Edge,
-            String = Strings.ResourceManager.GetString("Important", Strings.Culture) ?? "Important",
+            String = Strings.Important,
         };
         titleText.AttachNode(this);
 
@@ -196,7 +195,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         configWindow ??= new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {
             Size = new Vector2(575.0f, 500.0f),
             InternalName = "TodoListPanelConfig",
-            Title = $"{Config.Label} {Strings.ResourceManager.GetString("Panel Config", Strings.Culture) ?? "Panel Config"}",
+            Title = $"{Config.Label} {Strings.Panel_Config}",
         };
 
         configWindow.Toggle();

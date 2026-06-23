@@ -1,4 +1,3 @@
-using Resources;
 using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -33,7 +32,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.ItemSpacing = 4.0f;
 
         configNode.AddNode(new CategoryHeaderNode {
-            String = Strings.ResourceManager.GetString("Module Settings", Strings.Culture) ?? "Module Settings",
+            String = Strings.Module_Settings,
         });
 
         AttachDataNode(configNode);
@@ -68,7 +67,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
         if (preCount == postCount) {
             container.AddNode(new TextNode {
-                String = Strings.ResourceManager.GetString("No options available for this module", Strings.Culture) ?? "No options available for this module",
+                String = Strings.No_options_available_for_this_module,
                 AlignmentType = AlignmentType.Bottom,
                 Height = 32.0f,
             });

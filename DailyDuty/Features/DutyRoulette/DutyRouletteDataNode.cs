@@ -1,4 +1,3 @@
-using Resources;
 using System.Collections.Generic;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -35,7 +34,7 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = Strings.ResourceManager.GetString("Status not Updated", Strings.Culture) ?? "Status not Updated",
+                        String = Strings.Status_not_Updated,
                     },
                 ],
             });
@@ -52,7 +51,7 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
         foreach (var (rowId, textNode) in statusNodes) {
             var isComplete = InstanceContent.Instance()->IsRouletteComplete((byte)rowId);
 
-            textNode.String = isComplete ? Strings.ResourceManager.GetString("Complete", Strings.Culture) ?? "Complete" : Strings.ResourceManager.GetString("Incomplete", Strings.Culture) ?? "Incomplete";
+            textNode.String = isComplete ? Strings.Complete : Strings.Incomplete;
         }
     }
 }

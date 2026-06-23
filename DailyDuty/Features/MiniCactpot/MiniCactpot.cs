@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
@@ -14,7 +13,7 @@ namespace DailyDuty.Features.MiniCactpot;
 
 public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Mini Cactpot", Strings.Culture) ?? "Mini Cactpot",
+        DisplayName = Strings.Mini_Cactpot,
         FileName = "MiniCactpot",
         Type = ModuleType.Daily,
         Tags = ["DoH", "DoL", "Exp"],
@@ -35,7 +34,7 @@ public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleData.AllowancesRemaining} {Strings.ResourceManager.GetString("Ticket(s) Remaining", Strings.Culture) ?? "Ticket(s) Remaining"}",
+        Message = $"{ModuleData.AllowancesRemaining} {Strings.Ticket_s__Remaining}",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 

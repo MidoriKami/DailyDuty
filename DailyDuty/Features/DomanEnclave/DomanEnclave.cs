@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -10,7 +9,7 @@ namespace DailyDuty.Features.DomanEnclave;
 
 public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Doman Enclave", Strings.Culture) ?? "Doman Enclave",
+        DisplayName = Strings.Doman_Enclave,
         FileName = "DomanEnclave",
         Type = ModuleType.Weekly,
         Tags = ["Money", "Gil"],
@@ -19,7 +18,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override DataNodeBase DataNode => new DomanEnclaveDataNode(this);
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = ModuleStatus is CompletionStatus.Unknown ? Strings.ResourceManager.GetString("Status unknown, visit the enclave to update", Strings.Culture) ?? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} {Strings.ResourceManager.GetString("gil Remaining", Strings.Culture) ?? "gil Remaining"}",
+        Message = ModuleStatus is CompletionStatus.Unknown ? Strings.Status_unknown__visit_the_enclave_to_update : $"{RemainingAllowance:N0} {Strings.gil_Remaining}",
         PayloadId = PayloadId.DomanEnclaveTeleport,
     };
 

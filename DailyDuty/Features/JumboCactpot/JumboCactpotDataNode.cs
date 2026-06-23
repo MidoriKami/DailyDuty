@@ -1,4 +1,3 @@
-using Resources;
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
@@ -30,11 +29,11 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = $"{Strings.ResourceManager.GetString("Ticket", Strings.Culture) ?? "Ticket"} #{index + 1}",
+                            String = $"{Strings.Ticket} #{index + 1}",
                             AlignmentType = AlignmentType.Left,
                         },
                         statusNode = new TextNode {
-                            String = Strings.ResourceManager.GetString("Ticket Not Updated", Strings.Culture) ?? "Ticket Not Updated",
+                            String = Strings.Ticket_Not_Updated,
                             AlignmentType = AlignmentType.Left,
                         },
                     ],
@@ -55,7 +54,7 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                 statusNode.String = module.ModuleData.Tickets[index].ToString();
             }
             else {
-                statusNode.String = Strings.ResourceManager.GetString("Ticket not Claimed", Strings.Culture) ?? "Ticket not Claimed";
+                statusNode.String = Strings.Ticket_not_Claimed;
             }
         }
     }

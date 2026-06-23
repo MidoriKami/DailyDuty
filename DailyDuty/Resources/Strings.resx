@@ -204,6 +204,7 @@
   <data name="Mission Time Remaining" xml:space="preserve"><value>Mission Time Remaining</value></data>
   <data name="Not Started" xml:space="preserve"><value>Not Started</value></data>
   <!-- JumboCactpot -->
+  <data name="Ticket" xml:space="preserve"><value>Ticket</value></data>
   <data name="Ticket Not Updated" xml:space="preserve"><value>Ticket Not Updated</value></data>
   <data name="Ticket not Claimed" xml:space="preserve"><value>Ticket not Claimed</value></data>
   <!-- Levequest -->

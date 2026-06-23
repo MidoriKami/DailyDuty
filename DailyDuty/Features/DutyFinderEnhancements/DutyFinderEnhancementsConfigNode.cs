@@ -1,4 +1,3 @@
-using Resources;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -20,12 +19,12 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("Timer Configuration", Strings.Culture) ?? "Timer Configuration",
+                    String = Strings.Timer_Configuration,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Hide Seconds", Strings.Culture) ?? "Hide Seconds",
+                    String = Strings.Hide_Seconds,
                     IsChecked = module.ModuleDutyFinderEnhancementsConfig.HideSeconds,
                     OnClick = newValue => {
                         module.ModuleDutyFinderEnhancementsConfig.HideSeconds = newValue;
@@ -36,7 +35,7 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     Height = 28.0f,
                     CurrentColor = originalColor,
                     DefaultColor = ColorHelper.GetColor(8),
-                    String = Strings.ResourceManager.GetString("Text Color", Strings.Culture) ?? "Text Color",
+                    String = Strings.Text_Color,
                     OnColorCancelled = () => {
                         module.ModuleDutyFinderEnhancementsConfig.Color = originalColor;
                         module.ModuleDutyFinderEnhancementsConfig.MarkDirty();
@@ -50,12 +49,12 @@ public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    String = Strings.ResourceManager.GetString("DailyDuty Button Configuration", Strings.Culture) ?? "DailyDuty Button Configuration",
+                    String = Strings.DailyDuty_Button_Configuration,
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = Strings.ResourceManager.GetString("Show \"Open DailyDuty\" Button", Strings.Culture) ?? "Show \"Open DailyDuty\" Button",
+                    String = Strings.Show__Open_DailyDuty__Button,
                     IsChecked = module.ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton,
                     OnClick = newValue => {
                         module.ModuleDutyFinderEnhancementsConfig.OpenDailyDutyButton = newValue;

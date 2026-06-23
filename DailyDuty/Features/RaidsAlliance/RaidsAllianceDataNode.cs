@@ -1,4 +1,3 @@
-using Resources;
 using System.Collections.Generic;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -36,7 +35,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = Strings.ResourceManager.GetString("Status not Updated", Strings.Culture) ?? "Status not Updated",
+                        String = Strings.Status_not_Updated,
                     },
                 ],
             });
@@ -53,7 +52,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
         foreach (var (index, statusNode) in statusNodes) {
             if (!module.ModuleData.TaskStatus.TryGetValue(index, out var taskComplete)) continue;
 
-            statusNode.String = taskComplete ? Strings.ResourceManager.GetString("Complete", Strings.Culture) ?? "Complete" : Strings.ResourceManager.GetString("Incomplete", Strings.Culture) ?? "Incomplete";
+            statusNode.String = taskComplete ? Strings.Complete : Strings.Incomplete;
         }
     }
 }

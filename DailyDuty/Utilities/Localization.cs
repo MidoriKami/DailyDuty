@@ -1,6 +1,5 @@
 using System.Globalization;
 using KamiToolKit;
-using Resources;
 
 namespace DailyDuty.Utilities;
 

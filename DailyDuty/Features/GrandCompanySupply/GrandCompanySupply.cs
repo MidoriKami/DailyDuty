@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace DailyDuty.Features.GrandCompanySupply;
 
 public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandCompanySupplyData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Grand Company Supply", Strings.Culture) ?? "Grand Company Supply",
+        DisplayName = Strings.Grand_Company_Supply,
         FileName = "GrandCompanySupply",
         Type = ModuleType.Daily,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -27,7 +26,7 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         => GrandCompanySupplyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Delivery(s) Incomplete", Strings.Culture) ?? "Delivery(s) Incomplete"}";
+        => $"{GetIncompleteCount()} {Strings.Delivery_s__Incomplete}";
 
     protected override TodoTooltip GetTooltip()
         => string.Join("\n", GetIncompleteJobs());

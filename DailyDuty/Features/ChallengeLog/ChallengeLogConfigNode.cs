@@ -1,4 +1,3 @@
-using Resources;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Windows;
@@ -16,7 +15,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.ResourceManager.GetString("Enable Duty Finder Warning", Strings.Culture) ?? "Enable Duty Finder Warning",
+                String = Strings.Enable_Duty_Finder_Warning,
                 IsChecked = module.ModuleConfig.EnableContentFinderWarning,
                 OnClick = newValue => {
                     module.ModuleConfig.EnableContentFinderWarning = newValue;
@@ -25,7 +24,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = Strings.ResourceManager.GetString("Enable Duty Finder Warning Sound", Strings.Culture) ?? "Enable Duty Finder Warning Sound",
+                String = Strings.Enable_Duty_Finder_Warning_Sound,
                 IsChecked = module.ModuleConfig.EnableWarningSound,
                 OnClick = newValue => {
                     module.ModuleConfig.EnableWarningSound = newValue;
@@ -33,20 +32,20 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
                 },
             },
             new CategoryHeaderNode {
-                String = Strings.ResourceManager.GetString("Tracked Challenge Log Entries", Strings.Culture) ?? "Tracked Challenge Log Entries",
+                String = Strings.Tracked_Challenge_Log_Entries,
             },
             new TextButtonNode {
                 Height = 28.0f,
-                String = Strings.ResourceManager.GetString("Edit Tracked Challenge Log Entries", Strings.Culture) ?? "Edit Tracked Challenge Log Entries",
+                String = Strings.Edit_Tracked_Challenge_Log_Entries,
                 OnClick = OpenMainTrackingWindow,
             },
             new CategoryHeaderNode {
-                String = Strings.ResourceManager.GetString("Tracked Duty Finder Warning Entries", Strings.Culture) ?? "Tracked Duty Finder Warning Entries",
+                String = Strings.Tracked_Duty_Finder_Warning_Entries,
                 Height = 40.0f,
             },
             new TextButtonNode {
                 Height = 28.0f,
-                String = Strings.ResourceManager.GetString("Edit Duty Finder Warning Entries", Strings.Culture) ?? "Edit Duty Finder Warning Entries",
+                String = Strings.Edit_Duty_Finder_Warning_Entries,
                 OnClick = OpenDutyFinderWarningEntries,
             },
         ]);
@@ -63,7 +62,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = new LuminaMultiSelectWindow<ContentsNote> {
             InternalName = "ContentsNoteSelection",
-            Title = Strings.ResourceManager.GetString("Challenge Log Tracking Selection", Strings.Culture) ?? "Challenge Log Tracking Selection",
+            Title = Strings.Challenge_Log_Tracking_Selection,
             Options = module.ModuleConfig.TrackedEntries,
             GetLabelFunc = item => item.Name.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,
@@ -76,7 +75,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
         luminaSelectionWindow?.Dispose();
         luminaSelectionWindow = new LuminaMultiSelectWindow<ContentsNote> {
             InternalName = "ContentsNoteSelection",
-            Title = Strings.ResourceManager.GetString("Challenge Log Duty Finder Warning Selection", Strings.Culture) ?? "Challenge Log Duty Finder Warning Selection",
+            Title = Strings.Challenge_Log_Duty_Finder_Warning_Selection,
             Options = module.ModuleConfig.WarningEntries,
             GetLabelFunc = item => item.Name.ToString(),
             OnEdited = module.ModuleConfig.MarkDirty,

@@ -1600,6 +1600,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticket.
+        /// </summary>
+        internal static string Ticket {
+            get {
+                return ResourceManager.GetString("Ticket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticket not Claimed.
         /// </summary>
         internal static string Ticket_not_Claimed {

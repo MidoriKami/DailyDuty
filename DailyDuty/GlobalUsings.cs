@@ -1,1 +1,2 @@
-﻿global using DailyDuty.Extensions;
+global using DailyDuty.Extensions;
+global using Resources;

@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -10,7 +9,7 @@ namespace DailyDuty.Features.Levequest;
 
 public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Levequest", Strings.Culture) ?? "Levequest",
+        DisplayName = Strings.Levequest,
         FileName = "Levequest",
         Type = ModuleType.Special,
         Tags = ["DoH", "DoL", "Exp"],
@@ -20,7 +19,7 @@ public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new LevequestConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.ResourceManager.GetString("Levequest(s) left to reach Threshold", Strings.Culture) ?? "Levequest(s) left to reach Threshold"}";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.Levequest_s__left_to_reach_Threshold}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextLeveAllowanceReset();

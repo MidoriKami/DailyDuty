@@ -1,4 +1,3 @@
-using Resources;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -19,7 +18,7 @@ public class FashionReportConfigNode(FashionReport module) : ConfigNodeBase<Fash
             InitialNodes = [
                 new TextNode {
                     Size = new Vector2(150.0f, 28.0f),
-                    String = Strings.ResourceManager.GetString("Completion Mode", Strings.Culture) ?? "Completion Mode",
+                    String = Strings.Completion_Mode,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

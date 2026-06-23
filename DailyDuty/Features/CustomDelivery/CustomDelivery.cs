@@ -1,5 +1,4 @@
 using DailyDuty.Utilities;
-using Resources;
 using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
@@ -10,7 +9,7 @@ namespace DailyDuty.Features.CustomDelivery;
 
 public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = Strings.ResourceManager.GetString("Custom Delivery", Strings.Culture) ?? "Custom Delivery",
+        DisplayName = Strings.Custom_Delivery,
         FileName = "CustomDelivery",
         Type = ModuleType.Weekly,
         Tags = ["DoH", "DoL", "Exp"],
@@ -20,7 +19,7 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new CustomDeliveryConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.ResourceManager.GetString("Custom Delivery(s) left to reach Threshold", Strings.Culture) ?? "Custom Delivery(s) left to reach Threshold"}";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.Custom_Delivery_s__left_to_reach_Threshold}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();
