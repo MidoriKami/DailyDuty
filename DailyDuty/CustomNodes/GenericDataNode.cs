@@ -1,4 +1,5 @@
-﻿using System;
+using Resources;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -19,7 +20,7 @@ public class GenericDataNode : SimpleComponentNode {
             FitWidth = true,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = "Module Status",
+                    String = Strings.ResourceManager.GetString("Module Status", Strings.Culture) ?? "Module Status",
                     Alignment = AlignmentType.Bottom,
                 },
                 statusTextNode = new TextNode {
@@ -29,7 +30,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = "Next Reset",
+                    String = Strings.ResourceManager.GetString("Next Reset", Strings.Culture) ?? "Next Reset",
                     Alignment = AlignmentType.Bottom,
                 },
                 resetTimeTextNode = new TextNode {
@@ -39,7 +40,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = "Time Remaining",
+                    String = Strings.ResourceManager.GetString("Time Remaining", Strings.Culture) ?? "Time Remaining",
                     Alignment = AlignmentType.Bottom,
                 },
                 timeRemainingTextNode = new TextNode {
@@ -65,12 +66,12 @@ public class GenericDataNode : SimpleComponentNode {
         statusTextNode.String = module.ModuleStatus.Description;
 
         if (resetTime == DateTime.MaxValue) {
-            resetTimeTextNode.String = "Available Now";
+            resetTimeTextNode.String = Strings.ResourceManager.GetString("Available Now", Strings.Culture) ?? "Available Now";
             timeRemainingTextNode.String = "0.00:00:00";
         }
         else if (resetTime <= DateTime.UtcNow) {
-            resetTimeTextNode.String = "Enable module to initialize";
-            timeRemainingTextNode.String = "Enable module to initialize";
+            resetTimeTextNode.String = Strings.ResourceManager.GetString("Enable module to initialize", Strings.Culture) ?? "Enable module to initialize";
+            timeRemainingTextNode.String = Strings.ResourceManager.GetString("Enable module to initialize", Strings.Culture) ?? "Enable module to initialize";
         }
         else {
             resetTimeTextNode.String = resetTime.ToLocalTime().GetDisplayString();

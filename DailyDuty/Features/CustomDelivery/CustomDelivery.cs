@@ -1,15 +1,16 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.CustomDelivery;
 
 public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Custom Delivery",
+        DisplayName = Strings.ResourceManager.GetString("Custom Delivery", Strings.Culture) ?? "Custom Delivery",
         FileName = "CustomDelivery",
         Type = ModuleType.Weekly,
         Tags = ["DoH", "DoL", "Exp"],
@@ -19,7 +20,7 @@ public unsafe class CustomDelivery : Module<CustomDeliveryConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new CustomDeliveryConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Custom Delivery(s) left to reach Threshold";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.ResourceManager.GetString("Custom Delivery(s) left to reach Threshold", Strings.Culture) ?? "Custom Delivery(s) left to reach Threshold"}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();

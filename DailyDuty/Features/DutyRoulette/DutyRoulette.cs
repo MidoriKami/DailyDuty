@@ -1,11 +1,12 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
 using Newtonsoft.Json.Linq;
@@ -15,7 +16,7 @@ namespace DailyDuty.Features.DutyRoulette;
 
 public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Duty Roulette",
+        DisplayName = Strings.ResourceManager.GetString("Duty Roulette", Strings.Culture) ?? "Duty Roulette",
         FileName = "DutyRoulette",
         Type = ModuleType.Daily,
         Tags = ["Exp", "Gil"],
@@ -43,7 +44,7 @@ public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Roulette(s) Incomplete",
+        Message = $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Roulette(s) Incomplete", Strings.Culture) ?? "Roulette(s) Incomplete"}",
         PayloadId = PayloadId.OpenDutyFinderRoulette,
     };
 

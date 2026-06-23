@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using DailyDuty.Utilities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DailyDuty.Classes;
 

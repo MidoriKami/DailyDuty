@@ -1,4 +1,4 @@
-﻿<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/MidoriKami/DailyDuty.git</PackageProjectUrl>
         <Version>6.0.3.3</Version>
@@ -17,4 +17,24 @@
         <Tags>utility;gil;tasks;dailies;tracking;todo</Tags>
         <AcceptsFeedback>false</AcceptsFeedback>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <ResXGenerator_NullForgivingOperators>true</ResXGenerator_NullForgivingOperators>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Strings.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+        <CustomToolNamespace>Resources</CustomToolNamespace>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\Strings.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Strings.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>

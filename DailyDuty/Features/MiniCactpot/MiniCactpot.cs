@@ -1,9 +1,10 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
@@ -13,7 +14,7 @@ namespace DailyDuty.Features.MiniCactpot;
 
 public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Mini Cactpot",
+        DisplayName = Strings.ResourceManager.GetString("Mini Cactpot", Strings.Culture) ?? "Mini Cactpot",
         FileName = "MiniCactpot",
         Type = ModuleType.Daily,
         Tags = ["DoH", "DoL", "Exp"],
@@ -34,7 +35,7 @@ public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleData.AllowancesRemaining} Ticket(s) Remaining",
+        Message = $"{ModuleData.AllowancesRemaining} {Strings.ResourceManager.GetString("Ticket(s) Remaining", Strings.Culture) ?? "Ticket(s) Remaining"}",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 

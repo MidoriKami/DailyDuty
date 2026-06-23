@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using DailyDuty.Utilities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DailyDuty.Interfaces;
-using DailyDuty.Utilities;
 using Lumina.Excel;
 
 namespace DailyDuty.Classes;

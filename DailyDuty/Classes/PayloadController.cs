@@ -1,4 +1,5 @@
-﻿using System;
+using Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Enums;
@@ -123,7 +124,7 @@ public unsafe class PayloadController : IDisposable {
     private static void Teleport(uint id) {
         if (!Services.DataManager.GetExcelSheet<Aetheryte>().TryGetRow(id, out var aetheryte)) return;
 
-        Services.ChatGui.PrintTaggedMessage($"Teleporting to {aetheryte.PlaceName.Value.Name.ToString()}", "Teleport");
+        Services.ChatGui.PrintTaggedMessage($"{Strings.ResourceManager.GetString("Teleporting to", Strings.Culture) ?? "Teleporting to"} {aetheryte.PlaceName.Value.Name.ToString()}", Strings.ResourceManager.GetString("Teleport", Strings.Culture) ?? "Teleport");
         Telepo.Instance()->Teleport(id, 0);
     }
 }

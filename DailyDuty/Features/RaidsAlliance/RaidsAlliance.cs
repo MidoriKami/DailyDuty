@@ -1,11 +1,12 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Inventory;
 using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -17,7 +18,7 @@ namespace DailyDuty.Features.RaidsAlliance;
 
 public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Raids Alliance",
+        DisplayName = Strings.ResourceManager.GetString("Raids Alliance", Strings.Culture) ?? "Raids Alliance",
         FileName = "RaidsAlliance",
         Type = ModuleType.Weekly,
         Tags = ["Tomestones", "Raids", "Exp", "Hardcore"],
@@ -53,7 +54,7 @@ public unsafe class RaidsAlliance : Module<RaidsAllianceConfig, RaidsAllianceDat
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Alliance Raid(s) Incomplete",
+        Message = $"{GetIncompleteCount()} {Strings.ResourceManager.GetString("Alliance Raid(s) Incomplete", Strings.Culture) ?? "Alliance Raid(s) Incomplete"}",
         PayloadId = PayloadId.OpenDutyFinderAllianceRaid,
     };
 

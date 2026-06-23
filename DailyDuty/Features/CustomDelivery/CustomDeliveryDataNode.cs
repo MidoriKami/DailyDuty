@@ -1,4 +1,6 @@
-﻿using DailyDuty.CustomNodes;
+using Resources;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiToolKit;
 using KamiToolKit.Enums;
@@ -18,10 +20,10 @@ public unsafe class CustomDeliveryDataNode(CustomDelivery module) : DataNodeBase
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Allowances Remaining",
+                        String = Strings.ResourceManager.GetString("Allowances Remaining", Strings.Culture) ?? "Allowances Remaining",
                     },
                     allowancesTextNode = new TextNode {
-                        String = "Allowances Not Updated",
+                        String = Strings.ResourceManager.GetString("Allowances Not Updated", Strings.Culture) ?? "Allowances Not Updated",
                     },
                 ],
             },

@@ -1,8 +1,9 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Gui.Dtr;
 using KamiToolKit;
 
@@ -10,7 +11,7 @@ namespace DailyDuty.Features.ServerInfoBar;
 
 public class ServerInfoBar : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Server Info Bar",
+        DisplayName = Strings.ResourceManager.GetString("Server Info Bar", Strings.Culture) ?? "Server Info Bar",
         FileName = "DTR",
         Type = ModuleType.GeneralFeatures,
         Tags = ["DTR"],
@@ -68,7 +69,7 @@ public class ServerInfoBar : FeatureBase {
         if (daily is null && config.SoloDaily) {
             daily = Services.DtrBar.Get("DailyDuty - Daily Timer");
             daily.OnClick = _ => System.ConfigurationWindow.Toggle();
-            daily.Tooltip = "Click to Open Configuration";
+            daily.Tooltip = Strings.ResourceManager.GetString("Click to Open Configuration", Strings.Culture) ?? "Click to Open Configuration";
         }
 
         if (daily is not null && !config.SoloDaily) {
@@ -79,7 +80,7 @@ public class ServerInfoBar : FeatureBase {
         if (weekly is null && config.SoloWeekly) {
             weekly = Services.DtrBar.Get("DailyDuty - Weekly Timer");
             weekly.OnClick = _ => System.ConfigurationWindow.Toggle();
-            weekly.Tooltip = "Click to Open Configuration";
+            weekly.Tooltip = Strings.ResourceManager.GetString("Click to Open Configuration", Strings.Culture) ?? "Click to Open Configuration";
         }
 
         if (weekly is not null && !config.SoloWeekly) {
@@ -90,8 +91,8 @@ public class ServerInfoBar : FeatureBase {
         if (combo is null && config.Combo) {
             combo = Services.DtrBar.Get("DailyDuty - Combo Timer");
             combo.OnClick = OnComboClick;
-            combo.Tooltip = "Left Click to Change Mode\n" +
-                            "Right Click to Open Configuration";
+            combo.Tooltip = Strings.ResourceManager.GetString("Left Click to Change Mode", Strings.Culture) ?? "Left Click to Change Mode" + "\n" +
+                            Strings.ResourceManager.GetString("Right Click to Open Configuration", Strings.Culture) ?? "Right Click to Open Configuration";
         }
 
         if (combo is not null && !config.Combo) {
@@ -99,16 +100,16 @@ public class ServerInfoBar : FeatureBase {
             combo = null;
         }
 
-        daily?.Text = $"Daily Reset: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
+        daily?.Text = $"{Strings.ResourceManager.GetString("Daily Reset", Strings.Culture) ?? "Daily Reset"}: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
 
-        weekly?.Text = $"Weekly Reset: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
+        weekly?.Text = $"{Strings.ResourceManager.GetString("Weekly Reset", Strings.Culture) ?? "Weekly Reset"}: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
 
         if (combo is not null) {
             if (config.CurrentMode is DtrMode.Daily) {
-                combo.Text = $"Daily Reset: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
+                combo.Text = $"{Strings.ResourceManager.GetString("Daily Reset", Strings.Culture) ?? "Daily Reset"}: {timeUntilDailyReset.FormatTimespan(config.HideSeconds)}";
             }
             else {
-                combo.Text = $"Weekly Reset: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
+                combo.Text = $"{Strings.ResourceManager.GetString("Weekly Reset", Strings.Culture) ?? "Weekly Reset"}: {timeUntilWeeklyReset.FormatTimespan(config.HideSeconds)}";
             }
         }
     }

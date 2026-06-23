@@ -1,15 +1,16 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.DomanEnclave;
 
 public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Doman Enclave",
+        DisplayName = Strings.ResourceManager.GetString("Doman Enclave", Strings.Culture) ?? "Doman Enclave",
         FileName = "DomanEnclave",
         Type = ModuleType.Weekly,
         Tags = ["Money", "Gil"],
@@ -18,7 +19,7 @@ public unsafe class DomanEnclave : Module<ConfigBase, DomanEnclaveData> {
     public override DataNodeBase DataNode => new DomanEnclaveDataNode(this);
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = ModuleStatus is CompletionStatus.Unknown ? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} gil Remaining",
+        Message = ModuleStatus is CompletionStatus.Unknown ? Strings.ResourceManager.GetString("Status unknown, visit the enclave to update", Strings.Culture) ?? "Status unknown, visit the enclave to update" : $"{RemainingAllowance:N0} {Strings.ResourceManager.GetString("gil Remaining", Strings.Culture) ?? "gil Remaining"}",
         PayloadId = PayloadId.DomanEnclaveTeleport,
     };
 

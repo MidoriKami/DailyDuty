@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+using Resources;
+using System.Drawing;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using KamiToolKit.Nodes;
@@ -15,7 +17,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Instance Notifications",
+                String = Strings.ResourceManager.GetString("Instance Notifications", Strings.Culture) ?? "Instance Notifications",
                 IsChecked = module.ModuleConfig.InstanceNotifications,
                 OnClick = newValue => {
                     module.ModuleConfig.InstanceNotifications = newValue;
@@ -24,7 +26,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Sticker Available Notification",
+                String = Strings.ResourceManager.GetString("Sticker Available Notification", Strings.Culture) ?? "Sticker Available Notification",
                 IsChecked = module.ModuleConfig.StickerAvailableNotice,
                 OnClick = newValue => {
                     module.ModuleConfig.StickerAvailableNotice = newValue;
@@ -33,7 +35,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Unclaimed Book Notification",
+                String = Strings.ResourceManager.GetString("Unclaimed Book Notification", Strings.Culture) ?? "Unclaimed Book Notification",
                 IsChecked = module.ModuleConfig.UnclaimedBookWarning,
                 OnClick = newValue => {
                     module.ModuleConfig.UnclaimedBookWarning = newValue;
@@ -42,7 +44,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Shuffle Available Notification",
+                String = Strings.ResourceManager.GetString("Shuffle Available Notification", Strings.Culture) ?? "Shuffle Available Notification",
                 IsChecked = module.ModuleConfig.ShuffleAvailableNotice,
                 OnClick = newValue => {
                     module.ModuleConfig.ShuffleAvailableNotice = newValue;
@@ -50,11 +52,11 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
                 },
             },
             new CategoryHeaderNode {
-                String = "Duty Finder Integration",
+                String = Strings.ResourceManager.GetString("Duty Finder Integration", Strings.Culture) ?? "Duty Finder Integration",
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Recolor Duty Finder Entries",
+                String = Strings.ResourceManager.GetString("Recolor Duty Finder Entries", Strings.Culture) ?? "Recolor Duty Finder Entries",
                 IsChecked = module.ModuleConfig.ColorDutyFinderText,
                 OnClick = newValue => {
                     module.ModuleConfig.ColorDutyFinderText = newValue;
@@ -64,7 +66,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             new ColorEditNode {
                 Height = 28.0f,
                 CurrentColor = module.ModuleConfig.DutyFinderColor,
-                String = "Entry Color",
+                String = Strings.ResourceManager.GetString("Entry Color", Strings.Culture) ?? "Entry Color",
                 DefaultColor = KnownColor.Yellow.Vector(),
                 OnColorPreviewed = color => {
                     module.ModuleConfig.DutyFinderColor = color;
@@ -81,7 +83,7 @@ public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<Wond
             new ResNode { Height = 4.0f },
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Show Clover Indicator",
+                String = Strings.ResourceManager.GetString("Show Clover Indicator", Strings.Culture) ?? "Show Clover Indicator",
                 IsChecked = module.ModuleConfig.CloverIndicator,
                 OnClick = newValue => {
                     module.ModuleConfig.CloverIndicator = newValue;

@@ -1,4 +1,6 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
@@ -38,7 +40,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     String = config.Label,
                     OnInputReceived = input => {
                         config.Label = input.ToString();
-                        WindowNode?.SetTitle($"{config.Label} Panel Config");
+                        WindowNode?.SetTitle($"{config.Label} {Strings.ResourceManager.GetString("Panel Config", Strings.Culture) ?? "Panel Config"}");
                         labelTextNode?.String = config.Label;
                         moduleTodoOverlayConfig.MarkDirty();
                     },
@@ -48,7 +50,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = "Alignment",
+                            String = Strings.ResourceManager.GetString("Alignment", Strings.Culture) ?? "Alignment",
                             AlignmentType = AlignmentType.Left,
                         },
                         new TextDropDownNode {
@@ -66,7 +68,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = "Vertical Spacing",
+                            String = Strings.ResourceManager.GetString("Vertical Spacing", Strings.Culture) ?? "Vertical Spacing",
                             AlignmentType = AlignmentType.Left,
                         },
                         new NumericInputNode {
@@ -85,7 +87,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = "Background Alpha",
+                            String = Strings.ResourceManager.GetString("Background Alpha", Strings.Culture) ?? "Background Alpha",
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {
@@ -103,7 +105,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = "Button Alpha",
+                            String = Strings.ResourceManager.GetString("Button Alpha", Strings.Culture) ?? "Button Alpha",
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {
@@ -121,7 +123,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = "Scale",
+                            String = Strings.ResourceManager.GetString("Scale", Strings.Culture) ?? "Scale",
                             AlignmentType = AlignmentType.Left,
                         },
                         new SliderNode {
@@ -137,7 +139,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     ],
                 },
                 new CheckboxNode {
-                    String = "Hide Frame",
+                    String = Strings.ResourceManager.GetString("Hide Frame", Strings.Culture) ?? "Hide Frame",
                     Height = 28.0f,
                     IsChecked = !config.ShowFrame,
                     OnClick = newValue => {
@@ -146,14 +148,14 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                     },
                 },
                 new CheckboxNode {
-                    String = "Enable Moving",
+                    String = Strings.ResourceManager.GetString("Enable Moving", Strings.Culture) ?? "Enable Moving",
                     Height = 28.0f,
                     IsChecked = config.EnableMoving,
                     OnClick = newValue => config.EnableMoving = newValue,
                 },
                 new CheckboxNode {
-                    String = "Pin to Quest List",
-                    TextTooltip = "Only one panel can be pinned to the quest list at a time.",
+                    String = Strings.ResourceManager.GetString("Pin to Quest List", Strings.Culture) ?? "Pin to Quest List",
+                    TextTooltip = Strings.ResourceManager.GetString("Only one panel can be pinned to the quest list at a time.", Strings.Culture) ?? "Only one panel can be pinned to the quest list at a time.",
                     Height = 28.0f,
                     IsChecked = config.AttachToQuestList,
                     OnClick = newValue => {
@@ -163,7 +165,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new ColorEditNode {
                     Height = 28.0f,
-                    String = "Text Color",
+                    String = Strings.ResourceManager.GetString("Text Color", Strings.Culture) ?? "Text Color",
                     DefaultColor = ColorHelper.GetColor(1),
                     CurrentColor = config.TextColor,
                     OnColorPreviewed = color => {
@@ -180,7 +182,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 },
                 new ColorEditNode {
                     Height = 28.0f,
-                    String = "Text Outline Color",
+                    String = Strings.ResourceManager.GetString("Text Outline Color", Strings.Culture) ?? "Text Outline Color",
                     DefaultColor = ColorHelper.GetColor(53),
                     CurrentColor = config.OutlineColor,
                     OnColorPreviewed = color => {
@@ -239,7 +241,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
         AddNode(new TextButtonNode {
             Size = new Vector2(200.0f, 24.0f),
             Position = new Vector2(ContentStartPosition.X + listNode.Width / 2.0f - 200.0f / 2.0f, ContentStartPosition.Y + ContentSize.Y - 32.0f),
-            String = "Open Main Config",
+            String = Strings.ResourceManager.GetString("Open Main Config", Strings.Culture) ?? "Open Main Config",
             OnClick = () => System.ConfigurationWindow.Toggle(),
         });
     }

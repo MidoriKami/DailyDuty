@@ -1,4 +1,5 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using DailyDuty.Interfaces;
 
 namespace DailyDuty.Classes;

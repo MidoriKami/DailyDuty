@@ -1,4 +1,5 @@
-﻿using System;
+using Resources;
+using System;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
@@ -29,9 +30,9 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         this.module = module;
 
         tabBarNode = new TabBarNode();
-        tabBarNode.AddTab("Status", OnStatusSelected);
-        tabBarNode.AddTab("Data", OnDataSelected);
-        tabBarNode.SelectTab("Status");
+        tabBarNode.AddTab(Strings.ResourceManager.GetString("Status", Strings.Culture) ?? "Status", OnStatusSelected);
+        tabBarNode.AddTab(Strings.ResourceManager.GetString("Data", Strings.Culture) ?? "Data", OnDataSelected);
+        tabBarNode.SelectTab(Strings.ResourceManager.GetString("Status", Strings.Culture) ?? "Status");
         tabBarNode.AttachNode(this);
 
         statusDisplayNode = new GenericDataNode();
@@ -41,7 +42,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataContentSection.AttachNode(this);
 
         categoryHeaderNode = new CategoryHeaderNode {
-            String = "Module Data",
+            String = Strings.ResourceManager.GetString("Module Data", Strings.Culture) ?? "Module Data",
             Alignment = AlignmentType.Bottom,
         };
         categoryHeaderNode.AttachNode(dataContentSection);
@@ -50,10 +51,10 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         dataNode.AttachNode(dataContentSection);
 
         snoozeButtonNode = new TextButtonNode {
-            String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze",
+            String = module.ConfigBase.Suppressed ? Strings.ResourceManager.GetString("Unsnooze", Strings.Culture) ?? "Unsnooze" : Strings.ResourceManager.GetString("Snooze", Strings.Culture) ?? "Snooze",
             IsEnabled = module.DataBase.NextReset != DateTime.MaxValue,
             OnClick = SnoozeClicked,
-            TextTooltip = module.ConfigBase.Suppressed ? string.Empty : "Suppresses notification until the next reset",
+            TextTooltip = module.ConfigBase.Suppressed ? string.Empty : Strings.ResourceManager.GetString("Suppresses notification until the next reset", Strings.Culture) ?? "Suppresses notification until the next reset",
         };
         snoozeButtonNode.AttachNode(this);
 
@@ -112,9 +113,9 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     protected virtual void SnoozeClicked() {
         module.ConfigBase.Suppressed = !module.ConfigBase.Suppressed;
 
-        snoozeButtonNode.String = module.ConfigBase.Suppressed ? "Unsnooze" : "Snooze";
+        snoozeButtonNode.String = module.ConfigBase.Suppressed ? Strings.ResourceManager.GetString("Unsnooze", Strings.Culture) ?? "Unsnooze" : Strings.ResourceManager.GetString("Snooze", Strings.Culture) ?? "Snooze";
         if (!module.ConfigBase.Suppressed) {
-            snoozeButtonNode.TextTooltip = "Suppresses notification until the next reset";
+            snoozeButtonNode.TextTooltip = Strings.ResourceManager.GetString("Suppresses notification until the next reset", Strings.Culture) ?? "Suppresses notification until the next reset";
         }
         else {
             snoozeButtonNode.HideTooltip();
@@ -135,12 +136,12 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     public sealed override void SelectTab(DataNodeTab tab) {
         switch (tab) {
             case DataNodeTab.Status:
-                tabBarNode.SelectTab("Status");
+                tabBarNode.SelectTab(Strings.ResourceManager.GetString("Status", Strings.Culture) ?? "Status");
                 OnStatusSelected();
                 break;
 
             case DataNodeTab.Data:
-                tabBarNode.SelectTab("Data");
+                tabBarNode.SelectTab(Strings.ResourceManager.GetString("Data", Strings.Culture) ?? "Data");
                 OnDataSelected();
                 break;
         }

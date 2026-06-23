@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using Resources;
+using System.Collections.Generic;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -33,7 +35,7 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = "Status not Updated",
+                        String = Strings.ResourceManager.GetString("Status not Updated", Strings.Culture) ?? "Status not Updated",
                     },
                 ],
             });
@@ -50,7 +52,7 @@ public unsafe class DutyRouletteDataNode(DutyRoulette module) : DataNodeBase<Dut
         foreach (var (rowId, textNode) in statusNodes) {
             var isComplete = InstanceContent.Instance()->IsRouletteComplete((byte)rowId);
 
-            textNode.String = isComplete ? "Complete" : "Incomplete";
+            textNode.String = isComplete ? Strings.ResourceManager.GetString("Complete", Strings.Culture) ?? "Complete" : Strings.ResourceManager.GetString("Incomplete", Strings.Culture) ?? "Incomplete";
         }
     }
 }

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <!-- Module Display Names -->
+  <data name="Challenge Log" xml:space="preserve"><value>挑战笔记</value></data>
+  <data name="Custom Delivery" xml:space="preserve"><value>老主顾交易</value></data>
+  <data name="Doman Enclave" xml:space="preserve"><value>多玛飞地</value></data>
+  <data name="Duty Finder Enhancements" xml:space="preserve"><value>任务搜索器增强</value></data>
+  <data name="Duty Roulette" xml:space="preserve"><value>随机任务</value></data>
+  <data name="Fashion Report" xml:space="preserve"><value>时尚品鉴</value></data>
+  <data name="Faux Hollows" xml:space="preserve"><value>幻巧拼图</value></data>
+  <data name="Grand Company Provision" xml:space="preserve"><value>大国防联军筹备补给品</value></data>
+  <data name="Grand Company Squadron" xml:space="preserve"><value>大国防联军冒险者分队</value></data>
+  <data name="Grand Company Supply" xml:space="preserve"><value>大国防联军筹备军需品</value></data>
+  <data name="Hunt Marks Daily" xml:space="preserve"><value>每日怪物狩猎</value></data>
+  <data name="Hunt Marks Weekly" xml:space="preserve"><value>每周怪物狩猎</value></data>
+  <data name="Jumbo Cactpot" xml:space="preserve"><value>仙人仙彩</value></data>
+  <data name="Levequest" xml:space="preserve"><value>理符任务</value></data>
+  <data name="Masked Carnivale" xml:space="preserve"><value>假面狂欢</value></data>
+  <data name="Mini Cactpot" xml:space="preserve"><value>仙人微彩</value></data>
+  <data name="Raids Alliance" xml:space="preserve"><value>团队任务</value></data>
+  <data name="Raids Normal" xml:space="preserve"><value>大型任务</value></data>
+  <data name="Server Info Bar" xml:space="preserve"><value>服务器信息栏</value></data>
+  <data name="Timers Overlay" xml:space="preserve"><value>计时器悬浮窗</value></data>
+  <data name="Todo List Overlay" xml:space="preserve"><value>待办事项悬浮窗</value></data>
+  <data name="Treasure Map" xml:space="preserve"><value>藏宝图</value></data>
+  <data name="Tribal Quests" xml:space="preserve"><value>蛮族任务</value></data>
+  <data name="Wondrous Tails" xml:space="preserve"><value>天书奇谈</value></data>
+  <!-- Module Types -->
+  <data name="Daily" xml:space="preserve"><value>每日</value></data>
+  <data name="Weekly" xml:space="preserve"><value>每周</value></data>
+  <data name="Other" xml:space="preserve"><value>其他</value></data>
+  <data name="Features" xml:space="preserve"><value>功能</value></data>
+  <data name="Debug" xml:space="preserve"><value>调试</value></data>
+  <!-- Completion Status -->
+  <data name="Unknown" xml:space="preserve"><value>未知</value></data>
+  <data name="Disabled" xml:space="preserve"><value>已禁用</value></data>
+  <data name="Incomplete" xml:space="preserve"><value>未完成</value></data>
+  <data name="Unavailable" xml:space="preserve"><value>不可用</value></data>
+  <data name="In Progress" xml:space="preserve"><value>进行中</value></data>
+  <data name="Complete" xml:space="preserve"><value>已完成</value></data>
+  <data name="Suppressed" xml:space="preserve"><value>已阻止</value></data>
+  <data name="Results Available" xml:space="preserve"><value>结果可领取</value></data>
+  <!-- Comparison Modes -->
+  <data name="Below" xml:space="preserve"><value>低于</value></data>
+  <data name="Not Equal" xml:space="preserve"><value>不等于</value></data>
+  <data name="Above" xml:space="preserve"><value>高于</value></data>
+  <!-- Fashion Report Modes -->
+  <data name="All Attempts Used" xml:space="preserve"><value>所有次数已用完</value></data>
+  <data name="One Attempt Used" xml:space="preserve"><value>已使用一次</value></data>
+  <data name="Scored Over 80" xml:space="preserve"><value>得分超过80</value></data>
+  <!-- GenericDataNode -->
+  <data name="Module Status" xml:space="preserve"><value>模块状态</value></data>
+  <data name="Next Reset" xml:space="preserve"><value>下次重置</value></data>
+  <data name="Time Remaining" xml:space="preserve"><value>剩余时间</value></data>
+  <data name="Available Now" xml:space="preserve"><value>现在可用</value></data>
+  <data name="Enable module to initialize" xml:space="preserve"><value>启用模块后即可初始化</value></data>
+  <!-- NotificationSettingsNode -->
+  <data name="Notification Settings" xml:space="preserve"><value>通知设置</value></data>
+  <data name="Send status on login" xml:space="preserve"><value>登录时发送状态通知</value></data>
+  <data name="Send status on zone change" xml:space="preserve"><value>切换区域时发送状态通知</value></data>
+  <data name="Send status on module reset" xml:space="preserve"><value>模块重置时发送状态通知</value></data>
+  <data name="Custom Status Message" xml:space="preserve"><value>自定义状态消息</value></data>
+  <data name="Custom Reset Message" xml:space="preserve"><value>自定义重置消息</value></data>
+  <data name="Chat Channel" xml:space="preserve"><value>聊天频道</value></data>
+  <!-- ConfigNodeBase -->
+  <data name="Module Settings" xml:space="preserve"><value>模块设置</value></data>
+  <data name="No options available for this module" xml:space="preserve"><value>此模块没有可用选项</value></data>
+  <!-- DataNodeBase -->
+  <data name="Module Data" xml:space="preserve"><value>模块数据</value></data>
+  <data name="Status" xml:space="preserve"><value>状态</value></data>
+  <data name="Data" xml:space="preserve"><value>数据</value></data>
+  <data name="Snooze" xml:space="preserve"><value>暂停提醒</value></data>
+  <data name="Unsnooze" xml:space="preserve"><value>恢复提醒</value></data>
+  <data name="Suppresses notification until the next reset" xml:space="preserve"><value>暂停提醒直至下次重置</value></data>
+  <!-- ModuleBrowserWindow -->
+  <data name="Please select an option on the left" xml:space="preserve"><value>请在左侧选择一个选项</value></data>
+  <!-- ModuleOptionNode -->
+  <data name="Module Failed To Load" xml:space="preserve"><value>模块加载失败</value></data>
+  <data name="Open Configuration" xml:space="preserve"><value>打开设置</value></data>
+  <!-- TodoPanelNode -->
+  <data name="Important" xml:space="preserve"><value>重要</value></data>
+  <!-- WondrousTailsNode -->
+  <data name="[DailyDuty] This duty is a Wondrous Tails task" xml:space="preserve"><value>[DailyDuty] 此副本为天书奇谈任务</value></data>
+  <!-- TimerOverlayNode -->
+  <data name="Overlay from DailyDuty plugin" xml:space="preserve"><value>来自DailyDuty插件的悬浮窗</value></data>
+  <!-- DailyDutyPlugin -->
+  <data name="Daily Duty Configuration" xml:space="preserve"><value>DailyDuty 配置</value></data>
+  <data name="Open DailyDuty Config Window" xml:space="preserve"><value>打开DailyDuty配置窗口</value></data>
+  <!-- DutyFinderEnhancements -->
+  <data name="[DailyDuty] Time until next daily reset" xml:space="preserve"><value>[DailyDuty] 距离下次每日重置</value></data>
+  <data name="Open DailyDuty" xml:space="preserve"><value>打开DailyDuty</value></data>
+  <data name="Timer Configuration" xml:space="preserve"><value>计时器设置</value></data>
+  <data name="Hide Seconds" xml:space="preserve"><value>隐藏秒数</value></data>
+  <data name="Text Color" xml:space="preserve"><value>文字颜色</value></data>
+  <data name="DailyDuty Button Configuration" xml:space="preserve"><value>DailyDuty 按钮设置</value></data>
+  <data name="Show &quot;Open DailyDuty&quot; Button" xml:space="preserve"><value>显示"打开DailyDuty"按钮</value></data>
+  <!-- ServerInfoBar -->
+  <data name="Feature Configuration" xml:space="preserve"><value>功能设置</value></data>
+  <data name="Toggleable Timer" xml:space="preserve"><value>可切换的计时器</value></data>
+  <data name="Daily Timer" xml:space="preserve"><value>每日计时器</value></data>
+  <data name="Weekly Timer" xml:space="preserve"><value>每周计时器</value></data>
+  <data name="Click to Open Configuration" xml:space="preserve"><value>点击打开配置</value></data>
+  <data name="Left Click to Change Mode" xml:space="preserve"><value>左键单击切换模式</value></data>
+  <data name="Right Click to Open Configuration" xml:space="preserve"><value>右键单击打开配置</value></data>
+  <!-- TimersOverlay -->
+  <data name="Hide in Duties" xml:space="preserve"><value>副本中隐藏</value></data>
+  <data name="Hide in Quest Events" xml:space="preserve"><value>任务事件中隐藏</value></data>
+  <data name="Hide Timer Seconds" xml:space="preserve"><value>隐藏计时器秒数</value></data>
+  <data name="Show Module Label" xml:space="preserve"><value>显示模块标签</value></data>
+  <data name="Show Countdown Text" xml:space="preserve"><value>显示倒计时文字</value></data>
+  <data name="Enable Moving Timers" xml:space="preserve"><value>启用计时器移动</value></data>
+  <data name="Scale" xml:space="preserve"><value>缩放</value></data>
+  <data name="Timer Selection" xml:space="preserve"><value>计时器选择</value></data>
+  <!-- TodoOverlay -->
+  <data name="Overlay Panels" xml:space="preserve"><value>悬浮窗面板</value></data>
+  <data name="Add Panel" xml:space="preserve"><value>添加面板</value></data>
+  <data name="Alignment" xml:space="preserve"><value>对齐方式</value></data>
+  <data name="Vertical Spacing" xml:space="preserve"><value>垂直间距</value></data>
+  <data name="Background Alpha" xml:space="preserve"><value>背景不透明度</value></data>
+  <data name="Button Alpha" xml:space="preserve"><value>按钮不透明度</value></data>
+  <data name="Hide Frame" xml:space="preserve"><value>隐藏外框</value></data>
+  <data name="Enable Moving" xml:space="preserve"><value>允许移动</value></data>
+  <data name="Pin to Quest List" xml:space="preserve"><value>固定至任务列表</value></data>
+  <data name="Only one panel can be pinned to the quest list at a time." xml:space="preserve"><value>同一时间只能有一个面板固定至任务列表。</value></data>
+  <data name="Text Outline Color" xml:space="preserve"><value>文字描边色</value></data>
+  <data name="Open Main Config" xml:space="preserve"><value>打开主配置</value></data>
+  <!-- ChallengeLog -->
+  <data name="Enable Duty Finder Warning" xml:space="preserve"><value>启用任务搜索器提示</value></data>
+  <data name="Enable Duty Finder Warning Sound" xml:space="preserve"><value>启用任务搜索器提示音效</value></data>
+  <data name="Tracked Challenge Log Entries" xml:space="preserve"><value>已追踪的挑战笔记项目</value></data>
+  <data name="Edit Tracked Challenge Log Entries" xml:space="preserve"><value>编辑已追踪的挑战笔记项目</value></data>
+  <data name="Tracked Duty Finder Warning Entries" xml:space="preserve"><value>已追踪的任务搜索器提示项目</value></data>
+  <data name="Edit Duty Finder Warning Entries" xml:space="preserve"><value>编辑任务搜索器提示项目</value></data>
+  <data name="Challenge Log Tracking Selection" xml:space="preserve"><value>挑战笔记追踪项目选择</value></data>
+  <data name="Challenge Log Duty Finder Warning Selection" xml:space="preserve"><value>挑战笔记任务搜索器提示项目选择</value></data>
+  <!-- CustomDelivery -->
+  <data name="Allowance Amount" xml:space="preserve"><value>可交付次数</value></data>
+  <data name="Warning Trigger" xml:space="preserve"><value>提醒触发条件</value></data>
+  <data name="Allowances Remaining" xml:space="preserve"><value>剩余可交付次数</value></data>
+  <data name="Allowances Not Updated" xml:space="preserve"><value>可交付次数未更新</value></data>
+  <!-- DomanEnclave -->
+  <data name="Current Max Allowance" xml:space="preserve"><value>当前最大可捐赠额度</value></data>
+  <data name="Donated This Week" xml:space="preserve"><value>本周已捐赠额</value></data>
+  <data name="Allowance Remaining" xml:space="preserve"><value>剩余可捐赠额度</value></data>
+  <data name="Donated Not Updated" xml:space="preserve"><value>已捐赠额未更新</value></data>
+  <data name="Remaining Not Updated" xml:space="preserve"><value>剩余额度未更新</value></data>
+  <data name="Status is unavailable, visit the Doman Enclave to update" xml:space="preserve"><value>状态不可用，请前往多玛飞地以更新数据</value></data>
+  <data name="Status unknown, visit the enclave to update" xml:space="preserve"><value>状态未知，请前往多玛飞地以更新数据</value></data>
+  <!-- DutyRoulette -->
+  <data name="Mark Complete When Weekly Tomecapped" xml:space="preserve"><value>每周神典石达到上限时标记为已完成</value></data>
+  <data name="Color Duty Roulette" xml:space="preserve"><value>随机任务着色</value></data>
+  <data name="Incomplete Color" xml:space="preserve"><value>未完成着色</value></data>
+  <data name="Complete Color" xml:space="preserve"><value>已完成着色</value></data>
+  <data name="Tracked Duty Finder Entries" xml:space="preserve"><value>已追踪的任务搜索器项目</value></data>
+  <data name="Status not Updated" xml:space="preserve"><value>状态尚未更新</value></data>
+  <!-- FashionReport -->
+  <data name="Completion Mode" xml:space="preserve"><value>完成判定模式</value></data>
+  <data name="Highest Score" xml:space="preserve"><value>最高得分</value></data>
+  <data name="Highest Score Not Updated" xml:space="preserve"><value>最高得分尚未更新</value></data>
+  <data name="Fashion Report Available" xml:space="preserve"><value>时尚品鉴已开放</value></data>
+  <data name="Available Not Updated" xml:space="preserve"><value>开放状态尚未更新</value></data>
+  <data name="Available" xml:space="preserve"><value>可用</value></data>
+  <data name="Not Available" xml:space="preserve"><value>不可用</value></data>
+  <!-- FauxHollows -->
+  <data name="Include Retelling" xml:space="preserve"><value>包含异闻复述</value></data>
+  <data name="Current Completion Count" xml:space="preserve"><value>本周已完成次数</value></data>
+  <!-- GrandCompanySquadron -->
+  <data name="Mission Completed" xml:space="preserve"><value>任务已完成</value></data>
+  <data name="Mission Started" xml:space="preserve"><value>任务已开始</value></data>
+  <data name="Mission Completion Time" xml:space="preserve"><value>任务完成时间</value></data>
+  <data name="Mission Time Remaining" xml:space="preserve"><value>任务剩余时间</value></data>
+  <data name="Not Started" xml:space="preserve"><value>尚未开始</value></data>
+  <!-- JumboCactpot -->
+  <data name="Ticket Not Updated" xml:space="preserve"><value>彩票信息尚未更新</value></data>
+  <data name="Ticket not Claimed" xml:space="preserve"><value>彩票尚未领取</value></data>
+  <!-- Levequest -->
+  <data name="Levequests Available" xml:space="preserve"><value>可受理符任务数</value></data>
+  <data name="Levequests Accepted" xml:space="preserve"><value>已受理符任务数</value></data>
+  <data name="Accepted Not Updated" xml:space="preserve"><value>已受理符任务数尚未更新</value></data>
+  <!-- MiniCactpot -->
+  <data name="Attempts Available" xml:space="preserve"><value>剩余游玩次数</value></data>
+  <data name="Attempts Not Updated" xml:space="preserve"><value>游玩次数尚未更新</value></data>
+  <!-- Raids -->
+  <data name="No raids are currently limited." xml:space="preserve"><value>当前没有周获取限制的大型任务。</value></data>
+  <!-- TreasureMap -->
+  <data name="Last Map Gathered" xml:space="preserve"><value>上次采集藏宝图时间</value></data>
+  <data name="Treasure Map Gatherable" xml:space="preserve"><value>可采集藏宝图</value></data>
+  <!-- TribalQuests -->
+  <data name="Quest Amount" xml:space="preserve"><value>可接任务数量</value></data>
+  <data name="Tribal Quests Available" xml:space="preserve"><value>可接蛮族任务数</value></data>
+  <!-- WondrousTails -->
+  <data name="Instance Notifications" xml:space="preserve"><value>副本进入通知</value></data>
+  <data name="Sticker Available Notification" xml:space="preserve"><value>可贴贴纸通知</value></data>
+  <data name="Unclaimed Book Notification" xml:space="preserve"><value>未领取天书通知</value></data>
+  <data name="Shuffle Available Notification" xml:space="preserve"><value>可重抽通知</value></data>
+  <data name="Duty Finder Integration" xml:space="preserve"><value>任务搜索器联动</value></data>
+  <data name="Recolor Duty Finder Entries" xml:space="preserve"><value>任务搜索器项目着色</value></data>
+  <data name="Entry Color" xml:space="preserve"><value>条目颜色</value></data>
+  <data name="Show Clover Indicator" xml:space="preserve"><value>显示幸运草标记</value></data>
+  <data name="Book Obtained" xml:space="preserve"><value>已获得天书</value></data>
+  <data name="Deadline" xml:space="preserve"><value>有效期限</value></data>
+  <data name="Second Chance Points" xml:space="preserve"><value>重试点数</value></data>
+  <data name="Placed Stickers" xml:space="preserve"><value>已贴贴纸数</value></data>
+  <data name="New Book Available" xml:space="preserve"><value>新天书可领取</value></data>
+  <data name="Book Expired" xml:space="preserve"><value>天书已过期</value></data>
+  <data name="Sticker Available" xml:space="preserve"><value>可贴贴纸</value></data>
+  <data name="Shuffle Available" xml:space="preserve"><value>可重抽</value></data>
+  <data name="Wait! You forgot your Wondrous Tails book!" xml:space="preserve"><value>等等！你还没领取天书奇谈！</value></data>
+  <!-- Status Messages -->
+  <data name="Challenge Log(s) Incomplete" xml:space="preserve"><value>项挑战笔记未完成</value></data>
+  <data name="Custom Delivery(s) left to reach Threshold" xml:space="preserve"><value>次老主顾交易即可达到报酬上限</value></data>
+  <data name="Roulette(s) Incomplete" xml:space="preserve"><value>项随机任务未完成</value></data>
+  <data name="Unreal Trial Incomplete" xml:space="preserve"><value>幻巧战未完成</value></data>
+  <data name="Delivery(s) Incomplete" xml:space="preserve"><value>次老主顾交易未完成</value></data>
+  <data name="Hunt Bill(s) Incomplete" xml:space="preserve"><value>张怪物通缉令未完成</value></data>
+  <data name="Ticket(s) Remaining" xml:space="preserve"><value>张彩票未使用</value></data>
+  <data name="Levequest(s) left to reach Threshold" xml:space="preserve"><value>个理符任务即可达到报酬上限</value></data>
+  <data name="Challenge(s) Incomplete" xml:space="preserve"><value>项挑战未完成</value></data>
+  <data name="Alliance Raid(s) Incomplete" xml:space="preserve"><value>项团队任务未完成</value></data>
+  <data name="Normal Raid(s) Incomplete" xml:space="preserve"><value>项大型任务未完成</value></data>
+  <data name="Mission Results Ready" xml:space="preserve"><value>任务结果已就绪</value></data>
+  <data name="Mission Not Started" xml:space="preserve"><value>尚未开始任务</value></data>
+  <data name="Quest(s) left to reach Threshold" xml:space="preserve"><value>项任务即可达到报酬上限</value></data>
+  <data name="Sticker(s) Remaining" xml:space="preserve"><value>张贴纸未贴</value></data>
+  <data name="Resetting" xml:space="preserve"><value>正在重置</value></data>
+  <!-- Data Not Set -->
+  <data name="Data Not Set" xml:space="preserve"><value>数据未设置</value></data>
+  <!-- Teleport -->
+  <data name="Teleporting to" xml:space="preserve"><value>正在传送至</value></data>
+  <data name="Teleport" xml:space="preserve"><value>传送</value></data>
+  <!-- Event logging -->
+  <data name="Event logging is now" xml:space="preserve"><value>事件日志现已</value></data>
+  <data name="Enabled" xml:space="preserve"><value>已启用</value></data>
+  <!-- Config -->
+  <data name="Config" xml:space="preserve"><value>配置</value></data>
+  <!-- Panel Config -->
+  <data name="Panel Config" xml:space="preserve"><value>面板设置</value></data>
+  <!-- Additional -->
+  <data name="gil Remaining" xml:space="preserve"><value>金币剩余</value></data>
+  <data name="Daily Reset" xml:space="preserve"><value>每日重置时间</value></data>
+  <data name="Weekly Reset" xml:space="preserve"><value>每周重置时间</value></data>
+</root>

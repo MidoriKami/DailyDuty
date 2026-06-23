@@ -1,10 +1,11 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.Agent;
@@ -24,7 +25,7 @@ namespace DailyDuty.Features.GrandCompanySquadron;
 /// </summary>
 public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Grand Company Squadron",
+        DisplayName = Strings.ResourceManager.GetString("Grand Company Squadron", Strings.Culture) ?? "Grand Company Squadron",
         FileName = "GrandCompanySquadron",
         Type = ModuleType.Weekly,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -47,9 +48,9 @@ public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData>
     }
 
     protected override StatusMessage GetStatusMessage() {
-        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return "Mission Results Ready";
+        if (ModuleData.MissionStarted && DateTime.UtcNow >= ModuleData.MissionCompleteTime) return Strings.ResourceManager.GetString("Mission Results Ready", Strings.Culture) ?? "Mission Results Ready";
 
-        return "Mission Not Started";
+        return Strings.ResourceManager.GetString("Mission Not Started", Strings.Culture) ?? "Mission Not Started";
     }
 
     public override DateTime GetNextResetDateTime()

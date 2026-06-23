@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+using Resources;
+using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -52,7 +54,7 @@ public class MaskedCarnivaleDataNode(MaskedCarnivale module) : DataNodeBase<Mask
         foreach (var (index, statusNode) in statusNodes) {
             if (!module.ModuleData.TaskData.TryGetValue(index, out var taskComplete)) continue;
 
-            statusNode.String = taskComplete ? "Complete" : "Incomplete";
+            statusNode.String = taskComplete ? Strings.ResourceManager.GetString("Complete", Strings.Culture) ?? "Complete" : Strings.ResourceManager.GetString("Incomplete", Strings.Culture) ?? "Incomplete";
         }
     }
 }

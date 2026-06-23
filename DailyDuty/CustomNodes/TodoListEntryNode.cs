@@ -1,4 +1,5 @@
-﻿using DailyDuty.Classes;
+using DailyDuty.Utilities;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Features.TodoOverlay;
 using FFXIVClientStructs.FFXIV.Component.GUI;

@@ -1,11 +1,12 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -14,7 +15,7 @@ namespace DailyDuty.Features.WondrousTails;
 
 public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Wondrous Tails",
+        DisplayName = Strings.ResourceManager.GetString("Wondrous Tails", Strings.Culture) ?? "Wondrous Tails",
         FileName = "WondrousTails",
         Type = ModuleType.Weekly,
         Tags = ["DoH", "DoL", "Exp"],
@@ -48,22 +49,22 @@ public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
 
     protected override StatusMessage GetStatusMessage() => this switch {
         { IsNewBookAvailable: true } when ModuleConfig.UnclaimedBookWarning => new StatusMessage {
-            Message = "New Book Available",
+            Message = Strings.ResourceManager.GetString("New Book Available", Strings.Culture) ?? "New Book Available",
             PayloadId = PayloadId.IdyllshireTeleport,
         },
 
         { PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.StickerAvailableNotice && IsStickerAvailable => new StatusMessage {
-            Message = "Sticker Available",
+            Message = Strings.ResourceManager.GetString("Sticker Available", Strings.Culture) ?? "Sticker Available",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
 
         { SecondChancePoints: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, IsBookExpired: false } when ModuleConfig.ShuffleAvailableNotice => new StatusMessage {
-            Message = "Shuffle Available",
+            Message = Strings.ResourceManager.GetString("Shuffle Available", Strings.Culture) ?? "Shuffle Available",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
 
         _ => new StatusMessage {
-            Message = $"{9 - PlacedStickers} Sticker(s) Remaining",
+            Message = $"{9 - PlacedStickers} {Strings.ResourceManager.GetString("Sticker(s) Remaining", Strings.Culture) ?? "Sticker(s) Remaining"}",
             PayloadId = PayloadId.OpenWondrousTailsBook,
         },
     };
@@ -91,7 +92,7 @@ public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
                 var startedTeleportingAway = lastNearKhloe && !lastCastingTeleport && castingTeleport;
 
                 if ((noLongerNearKhloe || startedTeleportingAway) && this is { PlayerHasBook: false, IsNewBookAvailable: true }) {
-                    Services.ChatGui.PrintTaggedMessage("Wait! You forgot your Wondrous Tails book!", ModuleInfo.DisplayName);
+                    Services.ChatGui.PrintTaggedMessage(Strings.ResourceManager.GetString("Wait! You forgot your Wondrous Tails book!", Strings.Culture) ?? "Wait! You forgot your Wondrous Tails book!", ModuleInfo.DisplayName);
                     UIGlobals.PlayChatSoundEffect(11);
                 }
             }

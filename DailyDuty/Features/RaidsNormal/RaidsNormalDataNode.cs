@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using Resources;
+using System.Collections.Generic;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -34,7 +36,7 @@ public class RaidsNormalDataNode(RaidsNormal module) : DataNodeBase<RaidsNormal>
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = "Status not Updated",
+                        String = Strings.ResourceManager.GetString("Status not Updated", Strings.Culture) ?? "Status not Updated",
                     },
                 ],
             });
@@ -51,7 +53,7 @@ public class RaidsNormalDataNode(RaidsNormal module) : DataNodeBase<RaidsNormal>
         foreach (var (index, statusNode) in statusNodes) {
             if (!module.ModuleData.TaskStatus.TryGetValue(index, out var taskComplete)) continue;
 
-            statusNode.String = taskComplete ? "Complete" : "Incomplete";
+            statusNode.String = taskComplete ? Strings.ResourceManager.GetString("Complete", Strings.Culture) ?? "Complete" : Strings.ResourceManager.GetString("Incomplete", Strings.Culture) ?? "Incomplete";
         }
     }
 }

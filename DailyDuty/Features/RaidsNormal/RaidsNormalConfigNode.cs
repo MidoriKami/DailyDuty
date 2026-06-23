@@ -1,4 +1,6 @@
-﻿using DailyDuty.CustomNodes;
+using Resources;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
@@ -18,7 +20,7 @@ public class RaidsNormalConfigNode(RaidsNormal module) : ConfigNodeBase<RaidsNor
                         LineSpacing = 14,
                         TextFlags = TextFlags.WordWrap | TextFlags.MultiLine,
                         AlignmentType = AlignmentType.Center,
-                        String = "No raids are currently limited.",
+                        String = Strings.ResourceManager.GetString("No raids are currently limited.", Strings.Culture) ?? "No raids are currently limited.",
                     },
                 ],
             });

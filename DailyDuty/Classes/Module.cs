@@ -1,9 +1,10 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using System.IO;
 using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using Newtonsoft.Json.Linq;
 using Data = DailyDuty.Utilities.Data;
@@ -86,7 +87,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
             configWindow ??= new ModuleConfigWindow<Module<T, TU>> {
                 Module = this,
                 InternalName = $"{GetType().Name}ConfigWindow",
-                Title = $"{ModuleInfo.DisplayName} Config",
+                Title = $"{ModuleInfo.DisplayName} {Strings.ResourceManager.GetString("Config", Strings.Culture) ?? "Config"}",
                 Size = new Vector2(800.0f, 475.0f),
             };
 
@@ -184,5 +185,5 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     private string ResetMessage
         => ModuleConfig.CustomResetMessage is not ""
                ? ModuleConfig.CustomResetMessage
-               : $"Resetting {ModuleInfo.DisplayName}";
+               : $"{Strings.ResourceManager.GetString("Resetting", Strings.Culture) ?? "Resetting"} {ModuleInfo.DisplayName}";
 }

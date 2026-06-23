@@ -1,8 +1,9 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 
@@ -10,7 +11,7 @@ namespace DailyDuty.Features.FashionReport;
 
 public unsafe class FashionReport : Module<FashionReportConfig, FashionReportData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Fashion Report",
+        DisplayName = Strings.ResourceManager.GetString("Fashion Report", Strings.Culture) ?? "Fashion Report",
         FileName = "FashionReport",
         Type = ModuleType.Special,
         Tags = ["Gold Saucer", "Gold", "Saucer", "MGP"],
@@ -21,9 +22,9 @@ public unsafe class FashionReport : Module<FashionReportConfig, FashionReportDat
 
     protected override StatusMessage GetStatusMessage() => new() {
         Message = ModuleConfig.CompletionMode switch {
-            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} Allowances Remaining",
-            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} Allowances Remaining",
-            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} Highest Score",
+            FashionReportMode.All => $"{ModuleData.AllowancesRemaining} {Strings.ResourceManager.GetString("Allowances Remaining", Strings.Culture) ?? "Allowances Remaining"}",
+            FashionReportMode.Single when ModuleData.AllowancesRemaining is 4 => $"{ModuleData.AllowancesRemaining} {Strings.ResourceManager.GetString("Allowances Remaining", Strings.Culture) ?? "Allowances Remaining"}",
+            FashionReportMode.Plus80 when ModuleData.HighestWeeklyScore <= 80 => $"{ModuleData.HighestWeeklyScore} {Strings.ResourceManager.GetString("Highest Score", Strings.Culture) ?? "Highest Score"}",
             _ => string.Empty,
         },
         PayloadId = PayloadId.GoldSaucerTeleport,

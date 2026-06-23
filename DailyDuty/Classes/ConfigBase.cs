@@ -1,4 +1,5 @@
-﻿using DailyDuty.Interfaces;
+using DailyDuty.Utilities;
+using DailyDuty.Interfaces;
 using Dalamud.Game.Text;
 
 namespace DailyDuty.Classes;

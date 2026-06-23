@@ -1,5 +1,7 @@
-﻿using System;
+using Resources;
+using System;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -17,7 +19,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = "Quest Amount",
+                    String = Strings.ResourceManager.GetString("Quest Amount", Strings.Culture) ?? "Quest Amount",
                     AlignmentType = AlignmentType.Left,
                 },
                 new SliderNode {
@@ -38,7 +40,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = "Warning Trigger",
+                    String = Strings.ResourceManager.GetString("Warning Trigger", Strings.Culture) ?? "Warning Trigger",
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

@@ -1,4 +1,6 @@
-﻿using DailyDuty.CustomNodes;
+using Resources;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -18,10 +20,10 @@ public class MiniCactpotDataNode(MiniCactpot module) : DataNodeBase<MiniCactpot>
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Attempts Available",
+                        String = Strings.ResourceManager.GetString("Attempts Available", Strings.Culture) ?? "Attempts Available",
                     },
                     attemptsNode = new TextNode {
-                        String = "Attempts Not Updated",
+                        String = Strings.ResourceManager.GetString("Attempts Not Updated", Strings.Culture) ?? "Attempts Not Updated",
                     },
                 ],
             },

@@ -1,4 +1,5 @@
-﻿using System;
+using Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
@@ -12,7 +13,7 @@ namespace DailyDuty.Features.TreasureMap;
 
 public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Treasure Map",
+        DisplayName = Strings.ResourceManager.GetString("Treasure Map", Strings.Culture) ?? "Treasure Map",
         FileName = "TreasureMap",
         Type = ModuleType.Special,
         Tags = ["DoH", "DoL", "Exp"],
@@ -23,7 +24,7 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     private bool gatheringStarted;
 
     protected override StatusMessage GetStatusMessage()
-        => "Treasure Map Gatherable";
+        => Strings.ResourceManager.GetString("Treasure Map Gatherable", Strings.Culture) ?? "Treasure Map Gatherable";
 
     public override DateTime GetNextResetDateTime() {
         if (ModuleData.LastMapGatheredTime == DateTime.MinValue) return DateTime.MaxValue;

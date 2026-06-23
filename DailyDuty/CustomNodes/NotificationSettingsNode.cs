@@ -1,4 +1,5 @@
-﻿using System;
+using Resources;
+using System;
 using System.Linq;
 using DailyDuty.Classes;
 using Dalamud.Game.Text;
@@ -20,10 +21,10 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
 
         listNode.AddNode([
             new CategoryHeaderNode {
-                String = "Notification Settings",
+                String = Strings.ResourceManager.GetString("Notification Settings", Strings.Culture) ?? "Notification Settings",
             },
             new CheckboxNode {
-                String = "Send status on login",
+                String = Strings.ResourceManager.GetString("Send status on login", Strings.Culture) ?? "Send status on login",
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.OnLoginMessage,
                 OnClick = value => {
@@ -32,7 +33,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CheckboxNode {
-                String = "Send status on zone change",
+                String = Strings.ResourceManager.GetString("Send status on zone change", Strings.Culture) ?? "Send status on zone change",
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.OnZoneChangeMessage,
                 OnClick = value => {
@@ -41,7 +42,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CheckboxNode {
-                String = "Send status on module reset",
+                String = Strings.ResourceManager.GetString("Send status on module reset", Strings.Culture) ?? "Send status on module reset",
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.ResetMessage,
                 OnClick = value => {
@@ -50,22 +51,22 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                String = "Custom Status Message",
+                String = Strings.ResourceManager.GetString("Custom Status Message", Strings.Culture) ?? "Custom Status Message",
             },
             new TextInputNode {
                 Height = 28.0f,
                 String = module.ConfigBase.CustomStatusMessage,
-                PlaceholderString = "Custom Status Message",
+                PlaceholderString = Strings.ResourceManager.GetString("Custom Status Message", Strings.Culture) ?? "Custom Status Message",
                 OnInputReceived = value => {
                     module.ConfigBase.CustomStatusMessage = value.ToString();
                     module.ConfigBase.MarkDirty();
                 },
             },
             new CategoryHeaderNode {
-                String = "Custom Reset Message",
+                String = Strings.ResourceManager.GetString("Custom Reset Message", Strings.Culture) ?? "Custom Reset Message",
             },
             new TextInputNode {
-                PlaceholderString = "Custom Reset Message",
+                PlaceholderString = Strings.ResourceManager.GetString("Custom Reset Message", Strings.Culture) ?? "Custom Reset Message",
                 Height = 28.0f,
                 String = module.ConfigBase.CustomResetMessage,
                 OnInputReceived = value => {
@@ -74,7 +75,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                String = "Chat Channel",
+                String = Strings.ResourceManager.GetString("Chat Channel", Strings.Culture) ?? "Chat Channel",
             },
             new TextDropDownNode {
                 Height = 24.0f,

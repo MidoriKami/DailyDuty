@@ -1,7 +1,9 @@
-﻿using System;
-using System.Numerics;
-using DailyDuty.CustomNodes;
 using DailyDuty.Utilities;
+using Resources;
+using System;
+using System.Numerics;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -23,10 +25,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Allowances Remaining",
+                        String = Strings.ResourceManager.GetString("Allowances Remaining", Strings.Culture) ?? "Allowances Remaining",
                     },
                     allowancesRemaining = new TextNode {
-                        String = "Allowances Not Updated",
+                        String = Strings.ResourceManager.GetString("Allowances Not Updated", Strings.Culture) ?? "Allowances Not Updated",
                     },
                 ],
             },
@@ -35,10 +37,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Highest Score",
+                        String = Strings.ResourceManager.GetString("Highest Score", Strings.Culture) ?? "Highest Score",
                     },
                     highestScore = new TextNode {
-                        String = "Highest Score Not Updated",
+                        String = Strings.ResourceManager.GetString("Highest Score Not Updated", Strings.Culture) ?? "Highest Score Not Updated",
                     },
                 ],
             },
@@ -48,12 +50,12 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 InitialNodes = [
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
-                        String = "Fashion Report Available",
+                        String = Strings.ResourceManager.GetString("Fashion Report Available", Strings.Culture) ?? "Fashion Report Available",
                         Height = 32.0f,
                     },
                     fashionReportAvailable = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
-                        String = "Available Not Updated",
+                        String = Strings.ResourceManager.GetString("Available Not Updated", Strings.Culture) ?? "Available Not Updated",
                     },
                 ],
             },
@@ -65,7 +67,7 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
 
         allowancesRemaining?.String = module.ModuleData.AllowancesRemaining.ToString();
         highestScore?.String = module.ModuleData.HighestWeeklyScore.ToString();
-        fashionReportAvailable?.String = IsFashionReportAvailable ? "Available" : "Not Available";
+        fashionReportAvailable?.String = IsFashionReportAvailable ? Strings.ResourceManager.GetString("Available", Strings.Culture) ?? "Available" : Strings.ResourceManager.GetString("Not Available", Strings.Culture) ?? "Not Available";
     }
 
     private static bool IsFashionReportAvailable

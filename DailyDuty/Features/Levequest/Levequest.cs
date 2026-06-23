@@ -1,15 +1,16 @@
-﻿using System;
+using DailyDuty.Utilities;
+using Resources;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.Levequest;
 
 public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Levequest",
+        DisplayName = Strings.ResourceManager.GetString("Levequest", Strings.Culture) ?? "Levequest",
         FileName = "Levequest",
         Type = ModuleType.Special,
         Tags = ["DoH", "DoL", "Exp"],
@@ -19,7 +20,7 @@ public unsafe class Levequest : Module<LevequestConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new LevequestConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} Levequest(s) left to reach Threshold";
+        => $"{RemainingAllowances - ModuleConfig.NotificationThreshold} {Strings.ResourceManager.GetString("Levequest(s) left to reach Threshold", Strings.Culture) ?? "Levequest(s) left to reach Threshold"}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextLeveAllowanceReset();

@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+using Resources;
+using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -22,12 +24,12 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
             ItemSpacing = 8.0f,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = "Feature Configuration",
+                    String = Strings.ResourceManager.GetString("Feature Configuration", Strings.Culture) ?? "Feature Configuration",
                     Alignment = AlignmentType.Bottom,
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = "Hide in Duties",
+                    String = Strings.ResourceManager.GetString("Hide in Duties", Strings.Culture) ?? "Hide in Duties",
                     IsChecked = module.ModuleTodoOverlayConfig.HideInDuties,
                     OnClick = newValue => {
                         module.ModuleTodoOverlayConfig.HideInDuties = newValue;
@@ -36,7 +38,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                 },
                 new CheckboxNode {
                     Height = 28.0f,
-                    String = "Hide in Quest Events",
+                    String = Strings.ResourceManager.GetString("Hide in Quest Events", Strings.Culture) ?? "Hide in Quest Events",
                     IsChecked = module.ModuleTodoOverlayConfig.HideDuringQuests,
                     OnClick = newValue => {
                         module.ModuleTodoOverlayConfig.HideDuringQuests = newValue;
@@ -44,7 +46,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     },
                 },
                 new CategoryHeaderNode {
-                    String = "Overlay Panels",
+                    String = Strings.ResourceManager.GetString("Overlay Panels", Strings.Culture) ?? "Overlay Panels",
                     Alignment = AlignmentType.Bottom,
                 },
                 listNode = new ScrollingListNode {
@@ -90,7 +92,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                                 panelConfigWindow = new TodoOverlayPanelConfigWindow(module.ModuleTodoOverlayConfig, panel, labelTextNode) {
                                     Size = new Vector2(575.0f, 500.0f),
                                     InternalName = "TodoListPanelConfig",
-                                    Title = $"{panel.Label} Panel Config",
+                                    Title = $"{panel.Label} {Strings.ResourceManager.GetString("Panel Config", Strings.Culture) ?? "Panel Config"}",
                                 };
 
                                 panelConfigWindow.Toggle();
@@ -128,7 +130,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                 },
                 new TextNode {
                     Size = new Vector2(300.0f, 32.0f),
-                    String = "Add Panel",
+                    String = Strings.ResourceManager.GetString("Add Panel", Strings.Culture) ?? "Add Panel",
                     AlignmentType = AlignmentType.Left,
                 },
             ],

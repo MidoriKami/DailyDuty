@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <!-- Module Display Names -->
+  <data name="Challenge Log" xml:space="preserve"><value>Challenge Log</value></data>
+  <data name="Custom Delivery" xml:space="preserve"><value>Custom Delivery</value></data>
+  <data name="Doman Enclave" xml:space="preserve"><value>Doman Enclave</value></data>
+  <data name="Duty Finder Enhancements" xml:space="preserve"><value>Duty Finder Enhancements</value></data>
+  <data name="Duty Roulette" xml:space="preserve"><value>Duty Roulette</value></data>
+  <data name="Fashion Report" xml:space="preserve"><value>Fashion Report</value></data>
+  <data name="Faux Hollows" xml:space="preserve"><value>Faux Hollows</value></data>
+  <data name="Grand Company Provision" xml:space="preserve"><value>Grand Company Provision</value></data>
+  <data name="Grand Company Squadron" xml:space="preserve"><value>Grand Company Squadron</value></data>
+  <data name="Grand Company Supply" xml:space="preserve"><value>Grand Company Supply</value></data>
+  <data name="Hunt Marks Daily" xml:space="preserve"><value>Hunt Marks Daily</value></data>
+  <data name="Hunt Marks Weekly" xml:space="preserve"><value>Hunt Marks Weekly</value></data>
+  <data name="Jumbo Cactpot" xml:space="preserve"><value>Jumbo Cactpot</value></data>
+  <data name="Levequest" xml:space="preserve"><value>Levequest</value></data>
+  <data name="Masked Carnivale" xml:space="preserve"><value>Masked Carnivale</value></data>
+  <data name="Mini Cactpot" xml:space="preserve"><value>Mini Cactpot</value></data>
+  <data name="Raids Alliance" xml:space="preserve"><value>Raids Alliance</value></data>
+  <data name="Raids Normal" xml:space="preserve"><value>Raids Normal</value></data>
+  <data name="Server Info Bar" xml:space="preserve"><value>Server Info Bar</value></data>
+  <data name="Timers Overlay" xml:space="preserve"><value>Timers Overlay</value></data>
+  <data name="Todo List Overlay" xml:space="preserve"><value>Todo List Overlay</value></data>
+  <data name="Treasure Map" xml:space="preserve"><value>Treasure Map</value></data>
+  <data name="Tribal Quests" xml:space="preserve"><value>Tribal Quests</value></data>
+  <data name="Wondrous Tails" xml:space="preserve"><value>Wondrous Tails</value></data>
+  <!-- Module Types -->
+  <data name="Daily" xml:space="preserve"><value>Daily</value></data>
+  <data name="Weekly" xml:space="preserve"><value>Weekly</value></data>
+  <data name="Other" xml:space="preserve"><value>Other</value></data>
+  <data name="Features" xml:space="preserve"><value>Features</value></data>
+  <data name="Debug" xml:space="preserve"><value>Debug</value></data>
+  <!-- Completion Status -->
+  <data name="Unknown" xml:space="preserve"><value>Unknown</value></data>
+  <data name="Disabled" xml:space="preserve"><value>Disabled</value></data>
+  <data name="Incomplete" xml:space="preserve"><value>Incomplete</value></data>
+  <data name="Unavailable" xml:space="preserve"><value>Unavailable</value></data>
+  <data name="In Progress" xml:space="preserve"><value>In Progress</value></data>
+  <data name="Complete" xml:space="preserve"><value>Complete</value></data>
+  <data name="Suppressed" xml:space="preserve"><value>Suppressed</value></data>
+  <data name="Results Available" xml:space="preserve"><value>Results Available</value></data>
+  <!-- Comparison Modes -->
+  <data name="Below" xml:space="preserve"><value>Below</value></data>
+  <data name="Not Equal" xml:space="preserve"><value>Not Equal</value></data>
+  <data name="Above" xml:space="preserve"><value>Above</value></data>
+  <!-- Fashion Report Modes -->
+  <data name="All Attempts Used" xml:space="preserve"><value>All Attempts Used</value></data>
+  <data name="One Attempt Used" xml:space="preserve"><value>One Attempt Used</value></data>
+  <data name="Scored Over 80" xml:space="preserve"><value>Scored Over 80</value></data>
+  <!-- GenericDataNode -->
+  <data name="Module Status" xml:space="preserve"><value>Module Status</value></data>
+  <data name="Next Reset" xml:space="preserve"><value>Next Reset</value></data>
+  <data name="Time Remaining" xml:space="preserve"><value>Time Remaining</value></data>
+  <data name="Available Now" xml:space="preserve"><value>Available Now</value></data>
+  <data name="Enable module to initialize" xml:space="preserve"><value>Enable module to initialize</value></data>
+  <!-- NotificationSettingsNode -->
+  <data name="Notification Settings" xml:space="preserve"><value>Notification Settings</value></data>
+  <data name="Send status on login" xml:space="preserve"><value>Send status on login</value></data>
+  <data name="Send status on zone change" xml:space="preserve"><value>Send status on zone change</value></data>
+  <data name="Send status on module reset" xml:space="preserve"><value>Send status on module reset</value></data>
+  <data name="Custom Status Message" xml:space="preserve"><value>Custom Status Message</value></data>
+  <data name="Custom Reset Message" xml:space="preserve"><value>Custom Reset Message</value></data>
+  <data name="Chat Channel" xml:space="preserve"><value>Chat Channel</value></data>
+  <!-- ConfigNodeBase -->
+  <data name="Module Settings" xml:space="preserve"><value>Module Settings</value></data>
+  <data name="No options available for this module" xml:space="preserve"><value>No options available for this module</value></data>
+  <!-- DataNodeBase -->
+  <data name="Module Data" xml:space="preserve"><value>Module Data</value></data>
+  <data name="Status" xml:space="preserve"><value>Status</value></data>
+  <data name="Data" xml:space="preserve"><value>Data</value></data>
+  <data name="Snooze" xml:space="preserve"><value>Snooze</value></data>
+  <data name="Unsnooze" xml:space="preserve"><value>Unsnooze</value></data>
+  <data name="Suppresses notification until the next reset" xml:space="preserve"><value>Suppresses notification until the next reset</value></data>
+  <!-- ModuleBrowserWindow -->
+  <data name="Please select an option on the left" xml:space="preserve"><value>Please select an option on the left</value></data>
+  <!-- ModuleOptionNode -->
+  <data name="Module Failed To Load" xml:space="preserve"><value>Module Failed To Load</value></data>
+  <data name="Open Configuration" xml:space="preserve"><value>Open Configuration</value></data>
+  <!-- TodoPanelNode -->
+  <data name="Important" xml:space="preserve"><value>Important</value></data>
+  <!-- WondrousTailsNode -->
+  <data name="[DailyDuty] This duty is a Wondrous Tails task" xml:space="preserve"><value>[DailyDuty] This duty is a Wondrous Tails task</value></data>
+  <!-- TimerOverlayNode -->
+  <data name="Overlay from DailyDuty plugin" xml:space="preserve"><value>Overlay from DailyDuty plugin</value></data>
+  <!-- DailyDutyPlugin -->
+  <data name="Daily Duty Configuration" xml:space="preserve"><value>Daily Duty Configuration</value></data>
+  <data name="Open DailyDuty Config Window" xml:space="preserve"><value>Open DailyDuty Config Window</value></data>
+  <!-- DutyFinderEnhancements -->
+  <data name="[DailyDuty] Time until next daily reset" xml:space="preserve"><value>[DailyDuty] Time until next daily reset</value></data>
+  <data name="Open DailyDuty" xml:space="preserve"><value>Open DailyDuty</value></data>
+  <data name="Timer Configuration" xml:space="preserve"><value>Timer Configuration</value></data>
+  <data name="Hide Seconds" xml:space="preserve"><value>Hide Seconds</value></data>
+  <data name="Text Color" xml:space="preserve"><value>Text Color</value></data>
+  <data name="DailyDuty Button Configuration" xml:space="preserve"><value>DailyDuty Button Configuration</value></data>
+  <data name="Show &quot;Open DailyDuty&quot; Button" xml:space="preserve"><value>Show "Open DailyDuty" Button</value></data>
+  <!-- ServerInfoBar -->
+  <data name="Feature Configuration" xml:space="preserve"><value>Feature Configuration</value></data>
+  <data name="Toggleable Timer" xml:space="preserve"><value>Toggleable Timer</value></data>
+  <data name="Daily Timer" xml:space="preserve"><value>Daily Timer</value></data>
+  <data name="Weekly Timer" xml:space="preserve"><value>Weekly Timer</value></data>
+  <data name="Click to Open Configuration" xml:space="preserve"><value>Click to Open Configuration</value></data>
+  <data name="Left Click to Change Mode" xml:space="preserve"><value>Left Click to Change Mode</value></data>
+  <data name="Right Click to Open Configuration" xml:space="preserve"><value>Right Click to Open Configuration</value></data>
+  <!-- TimersOverlay -->
+  <data name="Hide in Duties" xml:space="preserve"><value>Hide in Duties</value></data>
+  <data name="Hide in Quest Events" xml:space="preserve"><value>Hide in Quest Events</value></data>
+  <data name="Hide Timer Seconds" xml:space="preserve"><value>Hide Timer Seconds</value></data>
+  <data name="Show Module Label" xml:space="preserve"><value>Show Module Label</value></data>
+  <data name="Show Countdown Text" xml:space="preserve"><value>Show Countdown Text</value></data>
+  <data name="Enable Moving Timers" xml:space="preserve"><value>Enable Moving Timers</value></data>
+  <data name="Scale" xml:space="preserve"><value>Scale</value></data>
+  <data name="Timer Selection" xml:space="preserve"><value>Timer Selection</value></data>
+  <!-- TodoOverlay -->
+  <data name="Overlay Panels" xml:space="preserve"><value>Overlay Panels</value></data>
+  <data name="Add Panel" xml:space="preserve"><value>Add Panel</value></data>
+  <data name="Alignment" xml:space="preserve"><value>Alignment</value></data>
+  <data name="Vertical Spacing" xml:space="preserve"><value>Vertical Spacing</value></data>
+  <data name="Background Alpha" xml:space="preserve"><value>Background Alpha</value></data>
+  <data name="Button Alpha" xml:space="preserve"><value>Button Alpha</value></data>
+  <data name="Hide Frame" xml:space="preserve"><value>Hide Frame</value></data>
+  <data name="Enable Moving" xml:space="preserve"><value>Enable Moving</value></data>
+  <data name="Pin to Quest List" xml:space="preserve"><value>Pin to Quest List</value></data>
+  <data name="Only one panel can be pinned to the quest list at a time." xml:space="preserve"><value>Only one panel can be pinned to the quest list at a time.</value></data>
+  <data name="Text Outline Color" xml:space="preserve"><value>Text Outline Color</value></data>
+  <data name="Open Main Config" xml:space="preserve"><value>Open Main Config</value></data>
+  <!-- ChallengeLog -->
+  <data name="Enable Duty Finder Warning" xml:space="preserve"><value>Enable Duty Finder Warning</value></data>
+  <data name="Enable Duty Finder Warning Sound" xml:space="preserve"><value>Enable Duty Finder Warning Sound</value></data>
+  <data name="Tracked Challenge Log Entries" xml:space="preserve"><value>Tracked Challenge Log Entries</value></data>
+  <data name="Edit Tracked Challenge Log Entries" xml:space="preserve"><value>Edit Tracked Challenge Log Entries</value></data>
+  <data name="Tracked Duty Finder Warning Entries" xml:space="preserve"><value>Tracked Duty Finder Warning Entries</value></data>
+  <data name="Edit Duty Finder Warning Entries" xml:space="preserve"><value>Edit Duty Finder Warning Entries</value></data>
+  <data name="Challenge Log Tracking Selection" xml:space="preserve"><value>Challenge Log Tracking Selection</value></data>
+  <data name="Challenge Log Duty Finder Warning Selection" xml:space="preserve"><value>Challenge Log Duty Finder Warning Selection</value></data>
+  <!-- CustomDelivery -->
+  <data name="Allowance Amount" xml:space="preserve"><value>Allowance Amount</value></data>
+  <data name="Warning Trigger" xml:space="preserve"><value>Warning Trigger</value></data>
+  <data name="Allowances Remaining" xml:space="preserve"><value>Allowances Remaining</value></data>
+  <data name="Allowances Not Updated" xml:space="preserve"><value>Allowances Not Updated</value></data>
+  <!-- DomanEnclave -->
+  <data name="Current Max Allowance" xml:space="preserve"><value>Current Max Allowance</value></data>
+  <data name="Donated This Week" xml:space="preserve"><value>Donated This Week</value></data>
+  <data name="Allowance Remaining" xml:space="preserve"><value>Allowance Remaining</value></data>
+  <data name="Donated Not Updated" xml:space="preserve"><value>Donated Not Updated</value></data>
+  <data name="Remaining Not Updated" xml:space="preserve"><value>Remaining Not Updated</value></data>
+  <data name="Status is unavailable, visit the Doman Enclave to update" xml:space="preserve"><value>Status is unavailable, visit the Doman Enclave to update</value></data>
+  <data name="Status unknown, visit the enclave to update" xml:space="preserve"><value>Status unknown, visit the enclave to update</value></data>
+  <!-- DutyRoulette -->
+  <data name="Mark Complete When Weekly Tomecapped" xml:space="preserve"><value>Mark Complete When Weekly Tomecapped</value></data>
+  <data name="Color Duty Roulette" xml:space="preserve"><value>Color Duty Roulette</value></data>
+  <data name="Incomplete Color" xml:space="preserve"><value>Incomplete Color</value></data>
+  <data name="Complete Color" xml:space="preserve"><value>Complete Color</value></data>
+  <data name="Tracked Duty Finder Entries" xml:space="preserve"><value>Tracked Duty Finder Entries</value></data>
+  <data name="Status not Updated" xml:space="preserve"><value>Status not Updated</value></data>
+  <!-- FashionReport -->
+  <data name="Completion Mode" xml:space="preserve"><value>Completion Mode</value></data>
+  <data name="Highest Score" xml:space="preserve"><value>Highest Score</value></data>
+  <data name="Highest Score Not Updated" xml:space="preserve"><value>Highest Score Not Updated</value></data>
+  <data name="Fashion Report Available" xml:space="preserve"><value>Fashion Report Available</value></data>
+  <data name="Available Not Updated" xml:space="preserve"><value>Available Not Updated</value></data>
+  <data name="Available" xml:space="preserve"><value>Available</value></data>
+  <data name="Not Available" xml:space="preserve"><value>Not Available</value></data>
+  <!-- FauxHollows -->
+  <data name="Include Retelling" xml:space="preserve"><value>Include Retelling</value></data>
+  <data name="Current Completion Count" xml:space="preserve"><value>Current Completion Count</value></data>
+  <!-- GrandCompanySquadron -->
+  <data name="Mission Completed" xml:space="preserve"><value>Mission Completed</value></data>
+  <data name="Mission Started" xml:space="preserve"><value>Mission Started</value></data>
+  <data name="Mission Completion Time" xml:space="preserve"><value>Mission Completion Time</value></data>
+  <data name="Mission Time Remaining" xml:space="preserve"><value>Mission Time Remaining</value></data>
+  <data name="Not Started" xml:space="preserve"><value>Not Started</value></data>
+  <!-- JumboCactpot -->
+  <data name="Ticket Not Updated" xml:space="preserve"><value>Ticket Not Updated</value></data>
+  <data name="Ticket not Claimed" xml:space="preserve"><value>Ticket not Claimed</value></data>
+  <!-- Levequest -->
+  <data name="Levequests Available" xml:space="preserve"><value>Levequests Available</value></data>
+  <data name="Levequests Accepted" xml:space="preserve"><value>Levequests Accepted</value></data>
+  <data name="Accepted Not Updated" xml:space="preserve"><value>Accepted Not Updated</value></data>
+  <!-- MiniCactpot -->
+  <data name="Attempts Available" xml:space="preserve"><value>Attempts Available</value></data>
+  <data name="Attempts Not Updated" xml:space="preserve"><value>Attempts Not Updated</value></data>
+  <!-- Raids -->
+  <data name="No raids are currently limited." xml:space="preserve"><value>No raids are currently limited.</value></data>
+  <!-- TreasureMap -->
+  <data name="Last Map Gathered" xml:space="preserve"><value>Last Map Gathered</value></data>
+  <data name="Treasure Map Gatherable" xml:space="preserve"><value>Treasure Map Gatherable</value></data>
+  <!-- TribalQuests -->
+  <data name="Quest Amount" xml:space="preserve"><value>Quest Amount</value></data>
+  <data name="Tribal Quests Available" xml:space="preserve"><value>Tribal Quests Available</value></data>
+  <!-- WondrousTails -->
+  <data name="Instance Notifications" xml:space="preserve"><value>Instance Notifications</value></data>
+  <data name="Sticker Available Notification" xml:space="preserve"><value>Sticker Available Notification</value></data>
+  <data name="Unclaimed Book Notification" xml:space="preserve"><value>Unclaimed Book Notification</value></data>
+  <data name="Shuffle Available Notification" xml:space="preserve"><value>Shuffle Available Notification</value></data>
+  <data name="Duty Finder Integration" xml:space="preserve"><value>Duty Finder Integration</value></data>
+  <data name="Recolor Duty Finder Entries" xml:space="preserve"><value>Recolor Duty Finder Entries</value></data>
+  <data name="Entry Color" xml:space="preserve"><value>Entry Color</value></data>
+  <data name="Show Clover Indicator" xml:space="preserve"><value>Show Clover Indicator</value></data>
+  <data name="Book Obtained" xml:space="preserve"><value>Book Obtained</value></data>
+  <data name="Deadline" xml:space="preserve"><value>Deadline</value></data>
+  <data name="Second Chance Points" xml:space="preserve"><value>Second Chance Points</value></data>
+  <data name="Placed Stickers" xml:space="preserve"><value>Placed Stickers</value></data>
+  <data name="New Book Available" xml:space="preserve"><value>New Book Available</value></data>
+  <data name="Book Expired" xml:space="preserve"><value>Book Expired</value></data>
+  <data name="Sticker Available" xml:space="preserve"><value>Sticker Available</value></data>
+  <data name="Shuffle Available" xml:space="preserve"><value>Shuffle Available</value></data>
+  <data name="Wait! You forgot your Wondrous Tails book!" xml:space="preserve"><value>Wait! You forgot your Wondrous Tails book!</value></data>
+  <!-- Status Messages -->
+  <data name="Challenge Log(s) Incomplete" xml:space="preserve"><value>Challenge Log(s) Incomplete</value></data>
+  <data name="Custom Delivery(s) left to reach Threshold" xml:space="preserve"><value>Custom Delivery(s) left to reach Threshold</value></data>
+  <data name="Roulette(s) Incomplete" xml:space="preserve"><value>Roulette(s) Incomplete</value></data>
+  <data name="Unreal Trial Incomplete" xml:space="preserve"><value>Unreal Trial Incomplete</value></data>
+  <data name="Delivery(s) Incomplete" xml:space="preserve"><value>Delivery(s) Incomplete</value></data>
+  <data name="Hunt Bill(s) Incomplete" xml:space="preserve"><value>Hunt Bill(s) Incomplete</value></data>
+  <data name="Ticket(s) Remaining" xml:space="preserve"><value>Ticket(s) Remaining</value></data>
+  <data name="Levequest(s) left to reach Threshold" xml:space="preserve"><value>Levequest(s) left to reach Threshold</value></data>
+  <data name="Challenge(s) Incomplete" xml:space="preserve"><value>Challenge(s) Incomplete</value></data>
+  <data name="Alliance Raid(s) Incomplete" xml:space="preserve"><value>Alliance Raid(s) Incomplete</value></data>
+  <data name="Normal Raid(s) Incomplete" xml:space="preserve"><value>Normal Raid(s) Incomplete</value></data>
+  <data name="Mission Results Ready" xml:space="preserve"><value>Mission Results Ready</value></data>
+  <data name="Mission Not Started" xml:space="preserve"><value>Mission Not Started</value></data>
+  <data name="Quest(s) left to reach Threshold" xml:space="preserve"><value>Quest(s) left to reach Threshold</value></data>
+  <data name="Sticker(s) Remaining" xml:space="preserve"><value>Sticker(s) Remaining</value></data>
+  <data name="Resetting" xml:space="preserve"><value>Resetting</value></data>
+  <!-- Data Not Set -->
+  <data name="Data Not Set" xml:space="preserve"><value>Data Not Set</value></data>
+  <!-- Teleport -->
+  <data name="Teleporting to" xml:space="preserve"><value>Teleporting to</value></data>
+  <data name="Teleport" xml:space="preserve"><value>Teleport</value></data>
+  <!-- Event logging -->
+  <data name="Event logging is now" xml:space="preserve"><value>Event logging is now</value></data>
+  <data name="Enabled" xml:space="preserve"><value>Enabled</value></data>
+  <!-- Config -->
+  <data name="Config" xml:space="preserve"><value>Config</value></data>
+  <!-- Panel Config -->
+  <data name="Panel Config" xml:space="preserve"><value>Panel Config</value></data>
+  <!-- Additional -->
+  <data name="gil Remaining" xml:space="preserve"><value>gil Remaining</value></data>
+  <data name="Daily Reset" xml:space="preserve"><value>Daily Reset</value></data>
+  <data name="Weekly Reset" xml:space="preserve"><value>Weekly Reset</value></data>
+</root>

@@ -1,4 +1,6 @@
-﻿using System;
+using Resources;
+using System;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
@@ -22,7 +24,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Completed",
+                        String = Strings.ResourceManager.GetString("Mission Completed", Strings.Culture) ?? "Mission Completed",
                     },
                     missionCompleted = new TextNode(),
                 ],
@@ -32,7 +34,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Started",
+                        String = Strings.ResourceManager.GetString("Mission Started", Strings.Culture) ?? "Mission Started",
                     },
                     missionStarted = new TextNode(),
                 ],
@@ -42,7 +44,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Completion Time",
+                        String = Strings.ResourceManager.GetString("Mission Completion Time", Strings.Culture) ?? "Mission Completion Time",
                     },
                     missionCompleteTime = new TextNode(),
                 ],
@@ -52,7 +54,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Time Remaining",
+                        String = Strings.ResourceManager.GetString("Mission Time Remaining", Strings.Culture) ?? "Mission Time Remaining",
                     },
                     missionTimeRemaining = new TextNode(),
                 ],
@@ -68,10 +70,10 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
         missionCompleteTime?.String = $"{module.ModuleData.MissionCompleteTime.ToShortDateString()} {module.ModuleData.MissionCompleteTime.ToShortTimeString()}";
 
         if (module.ModuleData.TimeUntilMissionComplete == TimeSpan.MinValue) {
-            missionTimeRemaining?.String = "Not Started";
+            missionTimeRemaining?.String = Strings.ResourceManager.GetString("Not Started", Strings.Culture) ?? "Not Started";
         }
         else if (module.ModuleData.TimeUntilMissionComplete < TimeSpan.Zero) {
-            missionTimeRemaining?.String = "Results Available";
+            missionTimeRemaining?.String = Strings.ResourceManager.GetString("Results Available", Strings.Culture) ?? "Results Available";
         }
         else {
             missionTimeRemaining?.String = (module.ModuleData.MissionCompleteTime - DateTime.UtcNow).FormatTimespan();

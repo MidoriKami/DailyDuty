@@ -1,5 +1,7 @@
-﻿using System;
+using Resources;
+using System;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Extensions;
@@ -7,9 +9,9 @@ namespace DailyDuty.Extensions;
 public static class FashionReportModeExtensions {
     extension(FashionReportMode mode) {
         public string Description => mode switch {
-            FashionReportMode.All => "All Attempts Used",
-            FashionReportMode.Single => "One Attempt Used",
-            FashionReportMode.Plus80 => "Scored Over 80",
+            FashionReportMode.All => Strings.ResourceManager.GetString("All Attempts Used", Strings.Culture) ?? "All Attempts Used",
+            FashionReportMode.Single => Strings.ResourceManager.GetString("One Attempt Used", Strings.Culture) ?? "One Attempt Used",
+            FashionReportMode.Plus80 => Strings.ResourceManager.GetString("Scored Over 80", Strings.Culture) ?? "Scored Over 80",
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }

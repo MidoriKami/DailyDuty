@@ -1,4 +1,6 @@
-﻿using System;
+using Resources;
+using System;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
@@ -19,10 +21,10 @@ public class TreasureMapDataNode(TreasureMap module) : DataNodeBase<TreasureMap>
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Last Map Gathered",
+                        String = Strings.ResourceManager.GetString("Last Map Gathered", Strings.Culture) ?? "Last Map Gathered",
                     },
                     lastGatheredTime = new TextNode {
-                        String = "Attempts Not Updated",
+                        String = Strings.ResourceManager.GetString("Attempts Not Updated", Strings.Culture) ?? "Attempts Not Updated",
                     },
                 ],
             },
