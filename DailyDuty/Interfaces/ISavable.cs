@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using DailyDuty.Utilities;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace DailyDuty.Interfaces;
 

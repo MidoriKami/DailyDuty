@@ -1,9 +1,9 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -14,7 +14,7 @@ namespace DailyDuty.Features.DutyFinderEnhancements;
 
 public class DutyFinderEnhancements : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Duty Finder Enhancements",
+        DisplayName = Strings.DutyFinderEnhancements_DisplayName,
         FileName = "DutyFinderEnhancements",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Countdown", "Reset"],
@@ -86,7 +86,7 @@ public class DutyFinderEnhancements : FeatureBase {
             Position = new Vector2(targetNode->X, targetNode->Y),
             Size = new Vector2(targetNode->Width, targetNode->Height),
             AlignmentType = AlignmentType.Center,
-            TextTooltip = "[DailyDuty] Time until next daily reset",
+            TextTooltip = Strings.GenericDataNode_NextReset,
             String = "0:00:00:00",
             TextColor = ModuleDutyFinderEnhancementsConfig.Color,
             IsVisible = false,
@@ -97,7 +97,7 @@ public class DutyFinderEnhancements : FeatureBase {
             Position = new Vector2(50.0f, 622.0f),
             Size = new Vector2(130.0f, 28.0f),
             IsVisible = true,
-            String = "Open DailyDuty",
+            String = Strings.DutyFinderEnhancements_OpenDailyDuty,
         };
         openDailyDutyButton.AddEvent(AtkEventType.ButtonClick, () => System.ConfigurationWindow.Toggle());
         openDailyDutyButton.AttachNode(addon->RootNode);

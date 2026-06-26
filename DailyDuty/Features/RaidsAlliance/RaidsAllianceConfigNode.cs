@@ -1,4 +1,5 @@
-﻿using DailyDuty.CustomNodes;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
@@ -18,7 +19,7 @@ public class RaidsAllianceConfigNode(RaidsAlliance module) : ConfigNodeBase<Raid
                         LineSpacing = 14,
                         TextFlags = TextFlags.WordWrap | TextFlags.MultiLine,
                         AlignmentType = AlignmentType.Center,
-                        String = "No raids are currently limited.",
+                        String = Strings.Raids_NoneLimited,
                     },
                 ],
             });

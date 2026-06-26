@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -34,7 +35,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
                     statusNode = new TextNode {
                         Width = 50.0f,
                         AlignmentType = AlignmentType.Right,
-                        String = "Status not Updated",
+                        String = Strings.DutyRoulette_NotUpdated,
                     },
                 ],
             });
@@ -51,7 +52,7 @@ public class RaidsAllianceDataNode(RaidsAlliance module) : DataNodeBase<RaidsAll
         foreach (var (index, statusNode) in statusNodes) {
             if (!module.ModuleData.TaskStatus.TryGetValue(index, out var taskComplete)) continue;
 
-            statusNode.String = taskComplete ? "Complete" : "Incomplete";
+            statusNode.String = taskComplete ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
         }
     }
 }

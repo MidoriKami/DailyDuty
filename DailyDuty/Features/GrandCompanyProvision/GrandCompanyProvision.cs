@@ -1,10 +1,10 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
 using Newtonsoft.Json.Linq;
@@ -13,7 +13,7 @@ namespace DailyDuty.Features.GrandCompanyProvision;
 
 public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, GrandCompanyProvisionData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Grand Company Provision",
+        DisplayName = Strings.GrandCompanyProvision_DisplayName,
         FileName = "GrandCompanyProvision",
         Type = ModuleType.Daily,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -26,7 +26,7 @@ public unsafe class GrandCompanyProvision : Module<GrandCompanyProvisionConfig, 
         => GrandCompanyProvisionMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Delivery(s) Incomplete";
+        => $"{GetIncompleteCount()} {Strings.StatusMessages_DeliveryIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextGrandCompanyReset();

@@ -1,11 +1,11 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -15,7 +15,7 @@ namespace DailyDuty.Features.TodoOverlay;
 
 public class TodoOverlay : FeatureBase {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Todo List Overlay",
+        DisplayName = Strings.TodoListOverlay_DisplayName,
         FileName = "TodoList",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Tasks", "List"],

@@ -1,4 +1,5 @@
-﻿using DailyDuty.CustomNodes;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiToolKit;
 using KamiToolKit.Enums;
@@ -20,11 +21,11 @@ public unsafe class LevequestDataNode(Levequest module) : DataNodeBase<Levequest
                 InitialNodes = [
                     new TextNode {
                         Width = 200.0f,
-                        String = "Levequests Available",
+                        String = Strings.Levequest_Available,
                     },
                     allowancesNode = new TextNode {
                         Width = 100.0f,
-                        String = "Available Not Updated",
+                        String = Strings.FashionReport_AvailableNotUpdated,
                     },
                 ],
             },
@@ -33,10 +34,10 @@ public unsafe class LevequestDataNode(Levequest module) : DataNodeBase<Levequest
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Levequests Accepted",
+                        String = Strings.Levequest_Accepted,
                     },
                     acceptedNode = new TextNode {
-                        String = "Accepted Not Updated",
+                        String = Strings.Levequest_AcceptedNotUpdated,
                     },
                 ],
             },

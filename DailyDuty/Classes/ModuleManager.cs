@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using DailyDuty.Enums;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
+using Resources;
 
 namespace DailyDuty.Classes;
 
@@ -154,7 +155,7 @@ public class ModuleManager : IAsyncDisposable {
         }
         catch (Exception e) {
             module.State = LoadedState.Errored;
-            module.ErrorMessage = "Failed to load, this module has been disabled.";
+            module.ErrorMessage = Strings.ModuleManager_LoadFailed;
             Services.PluginLog.Error(e, $"Error while enabling {module.Name}, attempting to disable");
 
             try {
@@ -162,7 +163,7 @@ public class ModuleManager : IAsyncDisposable {
                 Services.PluginLog.Information($"Successfully disabled erroring module {module.Name}");
             }
             catch (Exception fatal) {
-                module.ErrorMessage = "Critical Error: Module failed to load, and errored again while unloading.";
+                module.ErrorMessage = Strings.ModuleManager_CriticalError;
                 Services.PluginLog.Error(fatal, $"Critical Error while trying to unload erroring module: {module.Name}");
             }
         }

@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
@@ -48,12 +48,12 @@ public unsafe class ContentsNoteListItemNode : ListItemNode<ContentsNote>, IList
     protected override void SetNodeData(ContentsNote itemData) {
         iconNode.IconId = (uint)itemData.Icon;
         labelNode.String = itemData.Name;
-        statusNode.String = "Unknown Status";
+        statusNode.String = Strings.CompletionStatus_Unknown;
     }
 
     public override void Update() {
         base.Update();
 
-        statusNode.String = ContentsNoteModule.Instance()->IsContentNoteComplete((int)ItemData.RowId) ? "Complete" : "Incomplete";
+        statusNode.String = ContentsNoteModule.Instance()->IsContentNoteComplete((int)ItemData.RowId) ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
     }
 }

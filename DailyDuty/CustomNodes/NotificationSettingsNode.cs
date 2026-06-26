@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using DailyDuty.Classes;
 using Dalamud.Game.Text;
@@ -20,10 +20,10 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
 
         listNode.AddNode([
             new CategoryHeaderNode {
-                String = "Notification Settings",
+                String = Strings.NotificationSettingsNode_NotificationSettings,
             },
             new CheckboxNode {
-                String = "Send status on login",
+                String = Strings.NotificationSettingsNode_LoginStatus,
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.OnLoginMessage,
                 OnClick = value => {
@@ -32,7 +32,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CheckboxNode {
-                String = "Send status on zone change",
+                String = Strings.NotificationSettingsNode_ZoneStatus,
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.OnZoneChangeMessage,
                 OnClick = value => {
@@ -41,7 +41,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CheckboxNode {
-                String = "Send status on module reset",
+                String = Strings.NotificationSettingsNode_ResetStatus,
                 Height = 24.0f,
                 IsChecked = module.ConfigBase.ResetMessage,
                 OnClick = value => {
@@ -50,22 +50,22 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                String = "Custom Status Message",
+                String = Strings.NotificationSettingsNode_CustomStatus,
             },
             new TextInputNode {
                 Height = 28.0f,
                 String = module.ConfigBase.CustomStatusMessage,
-                PlaceholderString = "Custom Status Message",
+                PlaceholderString = Strings.NotificationSettingsNode_CustomStatus,
                 OnInputReceived = value => {
                     module.ConfigBase.CustomStatusMessage = value.ToString();
                     module.ConfigBase.MarkDirty();
                 },
             },
             new CategoryHeaderNode {
-                String = "Custom Reset Message",
+                String = Strings.NotificationSettingsNode_CustomReset,
             },
             new TextInputNode {
-                PlaceholderString = "Custom Reset Message",
+                PlaceholderString = Strings.NotificationSettingsNode_CustomReset,
                 Height = 28.0f,
                 String = module.ConfigBase.CustomResetMessage,
                 OnInputReceived = value => {
@@ -74,7 +74,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
                 },
             },
             new CategoryHeaderNode {
-                String = "Chat Channel",
+                String = Strings.NotificationSettingsNode_ChatChannel,
             },
             new TextDropDownNode {
                 Height = 24.0f,

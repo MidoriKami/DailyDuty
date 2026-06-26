@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
@@ -22,7 +23,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Completed",
+                        String = Strings.GrandCompanySquadron_MissionCompleted,
                     },
                     missionCompleted = new TextNode(),
                 ],
@@ -32,7 +33,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Started",
+                        String = Strings.GrandCompanySquadron_MissionStarted,
                     },
                     missionStarted = new TextNode(),
                 ],
@@ -42,7 +43,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Completion Time",
+                        String = Strings.GrandCompanySquadron_CompletionTime,
                     },
                     missionCompleteTime = new TextNode(),
                 ],
@@ -52,7 +53,7 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Mission Time Remaining",
+                        String = Strings.GrandCompanySquadron_TimeRemaining,
                     },
                     missionTimeRemaining = new TextNode(),
                 ],
@@ -68,10 +69,10 @@ public class GrandCompanySquadronDataNode(GrandCompanySquadron module) : DataNod
         missionCompleteTime?.String = $"{module.ModuleData.MissionCompleteTime.ToShortDateString()} {module.ModuleData.MissionCompleteTime.ToShortTimeString()}";
 
         if (module.ModuleData.TimeUntilMissionComplete == TimeSpan.MinValue) {
-            missionTimeRemaining?.String = "Not Started";
+            missionTimeRemaining?.String = Strings.GrandCompanySquadron_NotStarted;
         }
         else if (module.ModuleData.TimeUntilMissionComplete < TimeSpan.Zero) {
-            missionTimeRemaining?.String = "Results Available";
+            missionTimeRemaining?.String = Strings.CompletionStatus_ResultsAvailable;
         }
         else {
             missionTimeRemaining?.String = (module.ModuleData.MissionCompleteTime - DateTime.UtcNow).FormatTimespan();

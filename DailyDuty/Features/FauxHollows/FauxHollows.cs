@@ -1,9 +1,9 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 
@@ -11,7 +11,7 @@ namespace DailyDuty.Features.FauxHollows;
 
 public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Faux Hollows",
+        DisplayName = Strings.FauxHollows_DisplayName,
         FileName = "FauxHollows",
         Type = ModuleType.Weekly,
         Tags = ["Poetics"],
@@ -39,7 +39,7 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
         => ModuleData.FauxHollowsCompletions = 0;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = "Unreal Trial Incomplete",
+        Message = Strings.StatusMessages_UnrealTrialIncomplete,
         PayloadId = PayloadId.IdyllshireTeleport,
     };
 

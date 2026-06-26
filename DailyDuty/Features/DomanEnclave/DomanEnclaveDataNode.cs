@@ -1,5 +1,6 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -25,10 +26,10 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Current Max Allowance",
+                        String = Strings.DomanEnclave_CurrentMaxAllowance,
                     },
                     allowanceText = new TextNode {
-                        String = "Allowances Not Updated",
+                        String = Strings.CustomDelivery_AllowancesNotUpdated,
                     },
                 ],
             },
@@ -37,10 +38,10 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Donated This Week",
+                        String = Strings.DomanEnclave_DonatedThisWeek,
                     },
                     donatedText = new TextNode {
-                        String = "Donated Not Updated",
+                        String = Strings.DomanEnclave_DonatedNotUpdated,
                     },
                 ],
             },
@@ -49,17 +50,17 @@ public class DomanEnclaveDataNode(DomanEnclave module) : DataNodeBase<DomanEncla
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Allowance Remaining",
+                        String = Strings.DomanEnclave_AllowanceRemaining,
                     },
                     allowanceRemaining = new TextNode {
-                        String = "Remaining Not Updated",
+                        String = Strings.DomanEnclave_RemainingNotUpdated,
                     },
                 ],
             },
             warningText = new TextNode {
                 Height = 32.0f,
                 MultiplyColor = KnownColor.Orange.Vector().Fade(0.40f).AsVector3(),
-                String = "Status is unavailable, visit the Doman Enclave to update",
+                String = Strings.DomanEnclave_UnavailableStatus,
                 AlignmentType = AlignmentType.Center,
             },
         ],

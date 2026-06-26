@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
@@ -66,7 +66,7 @@ public sealed class TimerOverlayNode : OverlayNode {
             TextOutlineColor = KnownColor.Black.Vector(),
             AlignmentType = AlignmentType.Center,
             String = "?",
-            TextTooltip = "Overlay from DailyDuty plugin",
+            TextTooltip = Strings.TimerOverlayNode_OverlayTooltip,
         };
         tooltipNode.AttachNode(this);
 

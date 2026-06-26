@@ -1,4 +1,5 @@
-﻿using DailyDuty.CustomNodes;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Features.FauxHollows;
@@ -10,7 +11,7 @@ public class FauxHollowsConfigNode(FauxHollows module) : ConfigNodeBase<FauxHoll
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Include Retelling",
+                String = Strings.FauxHollows_IncludeRetelling,
                 IsChecked = module.ModuleConfig.IncludeRetelling,
                 OnClick = newValue => {
                     module.ModuleConfig.IncludeRetelling = newValue;

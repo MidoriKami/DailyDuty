@@ -1,4 +1,5 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -17,7 +17,7 @@ namespace DailyDuty.Features.TimersOverlay;
 public class TimersOverlay : FeatureBase {
 
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Timers Overlay",
+        DisplayName = Strings.TimersOverlay_DisplayName,
         FileName = "Timers",
         Type = ModuleType.GeneralFeatures,
         Tags = ["Countdown", "Reset"],
@@ -57,7 +57,7 @@ public class TimersOverlay : FeatureBase {
                         .ToList(),
                     SelectedOptions = ModuleTimersOverlayConfig.EnabledTimers,
                     InternalName = "TimersSelection",
-                    Title = "Timer Selection",
+                    Title = Strings.TimersOverlay_Selection,
                     OnEdited = () => {
                         foreach (var (index, option) in ModuleTimersOverlayConfig.EnabledTimers.Index()) {
                             if (!ModuleTimersOverlayConfig.TimerData.ContainsKey(option)) {

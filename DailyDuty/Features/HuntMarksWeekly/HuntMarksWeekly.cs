@@ -1,9 +1,9 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
@@ -13,7 +13,7 @@ namespace DailyDuty.Features.HuntMarksWeekly;
 
 public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Hunt Marks Weekly",
+        DisplayName = Strings.HuntMarksWeekly_DisplayName,
         FileName = "HuntMarksWeekly",
         Type = ModuleType.Weekly,
         Tags = ["Teleport", "Tickets"],
@@ -26,7 +26,7 @@ public unsafe class HuntMarksWeekly : Module<HuntMarksWeeklyConfig, DataBase> {
         => HuntMarksWeeklyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Hunt Bill(s) Incomplete";
+        => $"{GetIncompleteCount()} {Strings.StatusMessages_HuntBillIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextWeeklyReset();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -59,7 +59,7 @@ public class ModuleBrowserWindow : NativeAddon {
         selectOptionLabelNode = new TextNode {
             Size = contentsNode.Size,
             FontSize = 14,
-            String = "Please select an option on the left",
+            String = Strings.ModuleBrowserWindow_SelectOption,
             AlignmentType = AlignmentType.Center,
         };
         selectOptionLabelNode.AttachNode(contentsNode);

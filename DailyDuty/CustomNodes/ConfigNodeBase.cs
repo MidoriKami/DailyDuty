@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
@@ -32,7 +32,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         configNode.ItemSpacing = 4.0f;
 
         configNode.AddNode(new CategoryHeaderNode {
-            String = "Module Settings",
+            String = Strings.ConfigNodeBase_ModuleSettings,
         });
 
         AttachDataNode(configNode);
@@ -67,7 +67,7 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
         if (preCount == postCount) {
             container.AddNode(new TextNode {
-                String = "No options available for this module",
+                String = Strings.ConfigNodeBase_NoOptions,
                 AlignmentType = AlignmentType.Bottom,
                 Height = 32.0f,
             });

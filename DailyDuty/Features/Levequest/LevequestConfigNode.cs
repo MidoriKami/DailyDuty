@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -17,7 +18,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = "Allowance Amount",
+                    String = Strings.CustomDelivery_AllowanceAmount,
                     AlignmentType = AlignmentType.Left,
                 },
                 new SliderNode {
@@ -38,7 +39,7 @@ public class LevequestConfigNode(Levequest module) : ConfigNodeBase<Levequest>(m
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
             InitialNodes = [
                 new TextNode {
-                    String = "Warning Trigger",
+                    String = Strings.CustomDelivery_WarningTrigger,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

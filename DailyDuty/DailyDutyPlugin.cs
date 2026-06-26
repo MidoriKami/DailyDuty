@@ -1,12 +1,14 @@
-﻿using System.Numerics;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
+using DailyDuty.Utilities;
 using DailyDuty.Windows;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using KamiToolKit;
+using static DailyDuty.Utilities.Localization;
 
 namespace DailyDuty;
 
@@ -17,20 +19,24 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
         PluginInterface.Create<Services>();
 
         KamiToolKitLibrary.Initialize(PluginInterface, "DailyDuty");
+        KamiToolKitLibrary.SetResourceManager(Strings.ResourceManager);
+
+        Localization.SetCultureInfo(PluginInterface.UiLanguage);
+        PluginInterface.LanguageChanged += Localization.SetCultureInfo;
 
         System.ConfigurationWindow = new ModuleBrowserWindow {
             InternalName = "DailyDutyConfig",
-            Title = "Daily Duty Configuration",
+            Title = Strings.DailyDutyPlugin_Configuration,
             Size = new Vector2(700.0f, 600.0f),
         };
 
         Services.CommandManager.AddHandler("/dd", new CommandInfo(OnCommandReceived) {
-            HelpMessage = "Open DailyDuty Config Window",
+            HelpMessage = Strings.DutyFinderEnhancements_OpenDailyDuty,
             ShowInHelp = true,
         });
 
         Services.CommandManager.AddHandler("/dailyduty", new CommandInfo(OnCommandReceived) {
-            HelpMessage = "Open DailyDuty Config Window",
+            HelpMessage = Strings.DutyFinderEnhancements_OpenDailyDuty,
             ShowInHelp = true,
         });
 
@@ -82,7 +88,10 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
             case [ "logevents" ] when System.SystemConfig is not null:
                 System.SystemConfig.EnableSceneEventLogging = !System.SystemConfig.EnableSceneEventLogging;
-                Services.ChatGui.Print($"Event logging is now {(System.SystemConfig.EnableSceneEventLogging ? "Enabled" : "Disabled")}", "DailyDuty");
+                var enabled = Strings.EventLogging_Enabled;
+                var disabled = Strings.CompletionStatus_Disabled;
+                var message = Strings.EventLogging_Status;
+                Services.ChatGui.Print($"{message} {(System.SystemConfig.EnableSceneEventLogging ? enabled : disabled)}", "DailyDuty");
                 Services.PluginLog.Info($"Event is now {(System.SystemConfig.EnableSceneEventLogging ? "Enabled" : "Disabled")}");
                 Task.Run(System.SystemConfig.Save);
                 break;

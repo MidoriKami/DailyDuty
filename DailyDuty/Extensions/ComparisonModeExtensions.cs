@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Extensions;
@@ -7,9 +8,9 @@ namespace DailyDuty.Extensions;
 public static class ComparisonModeExtensions {
     extension(ComparisonMode mode) {
         public string Description => mode switch {
-            ComparisonMode.Below => "Below",
-            ComparisonMode.Equal => "Not Equal",
-            ComparisonMode.Above => "Above",
+            ComparisonMode.Below => Strings.ComparisonMode_Below,
+            ComparisonMode.Equal => Strings.ComparisonMode_NotEqual,
+            ComparisonMode.Above => Strings.ComparisonMode_Above,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }

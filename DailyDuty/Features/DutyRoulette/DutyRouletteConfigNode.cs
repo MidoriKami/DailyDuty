@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+using System.Drawing;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using KamiToolKit.Nodes;
@@ -17,7 +18,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Mark Complete When Weekly Tomecapped",
+                String = Strings.DutyRoulette_MarkCompleteTomecapped,
                 IsChecked = module.ModuleConfig.CompleteWhenCapped,
                 OnClick = newValue => {
                     module.ModuleConfig.CompleteWhenCapped = newValue;
@@ -26,7 +27,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
             },
             new CheckboxNode {
                 Height = 28.0f,
-                String = "Color Duty Roulette",
+                String = Strings.DutyRoulette_ColorRoulette,
                 IsChecked = module.ModuleConfig.ColorContentFinder,
                 OnClick = newValue => {
                     module.ModuleConfig.ColorContentFinder = newValue;
@@ -37,7 +38,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 Height = 28.0f,
                 CurrentColor = originalIncompleteColor,
                 DefaultColor = KnownColor.OrangeRed.Vector(),
-                String = "Incomplete Color",
+                String = Strings.DutyRoulette_IncompleteColor,
                 OnColorCancelled = () => {
                     module.ModuleConfig.IncompleteColor = originalIncompleteColor;
                     module.ModuleConfig.MarkDirty();
@@ -54,7 +55,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 Height = 28.0f,
                 CurrentColor = originalCompleteColor,
                 DefaultColor = KnownColor.LimeGreen.Vector(),
-                String = "Complete Color",
+                String = Strings.DutyRoulette_CompleteColor,
                 OnColorCancelled = () => {
                     module.ModuleConfig.CompleteColor = originalCompleteColor;
                     module.ModuleConfig.MarkDirty();
@@ -68,7 +69,7 @@ public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRo
                 },
             },
             new CategoryHeaderNode {
-                String = "Tracked Duty Finder Entries",
+                String = Strings.DutyRoulette_TrackedEntries,
             },
             new LuminaMultiSelectNode<ContentRoulette> {
                 GetLabelFunc = item => item.Name.ToString(),

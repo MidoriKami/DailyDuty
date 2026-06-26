@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -28,11 +29,11 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                     AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                     InitialNodes = [
                         new TextNode {
-                            String = $"Ticket #{index + 1}",
+                            String = $"{Strings.JumboCactpot_Ticket} #{index + 1}",
                             AlignmentType = AlignmentType.Left,
                         },
                         statusNode = new TextNode {
-                            String = "Ticket Not Updated",
+                            String = Strings.JumboCactpot_TicketNotUpdated,
                             AlignmentType = AlignmentType.Left,
                         },
                     ],
@@ -53,7 +54,7 @@ public class JumboCactpotDataNode(JumboCactpot module) : DataNodeBase<JumboCactp
                 statusNode.String = module.ModuleData.Tickets[index].ToString();
             }
             else {
-                statusNode.String = "Ticket not Claimed";
+                statusNode.String = Strings.JumboCactpot_TicketNotClaimed;
             }
         }
     }

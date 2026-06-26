@@ -1,10 +1,10 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using Lumina.Excel.Sheets;
 using Newtonsoft.Json.Linq;
@@ -13,7 +13,7 @@ namespace DailyDuty.Features.GrandCompanySupply;
 
 public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandCompanySupplyData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Grand Company Supply",
+        DisplayName = Strings.GrandCompanySupply_DisplayName,
         FileName = "GrandCompanySupply",
         Type = ModuleType.Daily,
         Tags = ["GrandCompany", "GC", "Gil", "Company Seals", "Seals"],
@@ -26,7 +26,7 @@ public unsafe class GrandCompanySupply : Module<GrandCompanySupplyConfig, GrandC
         => GrandCompanySupplyMigration.Migrate(objectData);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{GetIncompleteCount()} Delivery(s) Incomplete";
+        => $"{GetIncompleteCount()} {Strings.StatusMessages_DeliveryIncomplete}";
 
     protected override TodoTooltip GetTooltip()
         => string.Join("\n", GetIncompleteJobs());

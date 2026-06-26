@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
@@ -41,15 +41,15 @@ public unsafe class WondrousTailsDutyController : IDisposable {
 
         switch (taskState) {
             case PlayerState.WeeklyBingoTaskStatus.Claimed when module is { PlacedStickers: > 0, SecondChancePoints: > 0 }:
-                PrintMessage($"{module.SecondChancePoints} Rerolls Available");
+                PrintMessage($"{module.SecondChancePoints} {Strings.WondrousTails_RerollsAvailable}");
                 break;
 
             case PlayerState.WeeklyBingoTaskStatus.Claimable:
-                PrintMessage("Sticker is already available for this duty, be sure to claim it!");
+                PrintMessage(Strings.WondrousTails_StickerAlreadyAvailable);
                 break;
 
             case PlayerState.WeeklyBingoTaskStatus.Open:
-                PrintMessage("Completing this duty will reward you with a sticker");
+                PrintMessage(Strings.WondrousTails_CompletingDutyReward);
                 break;
         }
     }
@@ -64,7 +64,7 @@ public unsafe class WondrousTailsDutyController : IDisposable {
         switch (taskState) {
             case PlayerState.WeeklyBingoTaskStatus.Claimable:
             case PlayerState.WeeklyBingoTaskStatus.Open:
-                PrintMessage("Stickers Claimable");
+                PrintMessage(Strings.WondrousTails_StickersClaimable);
                 break;
         }
     }

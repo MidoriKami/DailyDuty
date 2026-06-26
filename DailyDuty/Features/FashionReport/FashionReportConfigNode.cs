@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Numerics;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -17,7 +18,7 @@ public class FashionReportConfigNode(FashionReport module) : ConfigNodeBase<Fash
             InitialNodes = [
                 new TextNode {
                     Size = new Vector2(150.0f, 28.0f),
-                    String = "Completion Mode",
+                    String = Strings.FashionReport_CompletionMode,
                     AlignmentType = AlignmentType.Left,
                 },
                 new TextDropDownNode {

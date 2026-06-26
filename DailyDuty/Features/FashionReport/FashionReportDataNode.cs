@@ -1,7 +1,8 @@
-﻿using System;
-using System.Numerics;
-using DailyDuty.CustomNodes;
 using DailyDuty.Utilities;
+using System;
+using System.Numerics;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using KamiToolKit;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -23,10 +24,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Allowances Remaining",
+                        String = Strings.CustomDelivery_AllowancesRemaining,
                     },
                     allowancesRemaining = new TextNode {
-                        String = "Allowances Not Updated",
+                        String = Strings.CustomDelivery_AllowancesNotUpdated,
                     },
                 ],
             },
@@ -35,10 +36,10 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Highest Score",
+                        String = Strings.FashionReport_HighestScore,
                     },
                     highestScore = new TextNode {
-                        String = "Highest Score Not Updated",
+                        String = Strings.FashionReport_ScoreNotUpdated,
                     },
                 ],
             },
@@ -48,12 +49,12 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
                 InitialNodes = [
                     new TextNode {
                         Size = new Vector2(225.0f, 28.0f),
-                        String = "Fashion Report Available",
+                        String = Strings.FashionReport_Available,
                         Height = 32.0f,
                     },
                     fashionReportAvailable = new TextNode {
                         Size = new Vector2(225.0f, 32.0f),
-                        String = "Available Not Updated",
+                        String = Strings.FashionReport_AvailableNotUpdated,
                     },
                 ],
             },
@@ -65,7 +66,7 @@ public class FashionReportDataNode(FashionReport module) : DataNodeBase<FashionR
 
         allowancesRemaining?.String = module.ModuleData.AllowancesRemaining.ToString();
         highestScore?.String = module.ModuleData.HighestWeeklyScore.ToString();
-        fashionReportAvailable?.String = IsFashionReportAvailable ? "Available" : "Not Available";
+        fashionReportAvailable?.String = IsFashionReportAvailable ? Strings.FashionReport_AvailableStatus : Strings.FashionReport_NotAvailable;
     }
 
     private static bool IsFashionReportAvailable

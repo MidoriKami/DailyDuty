@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
@@ -34,7 +35,7 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
                     },
                     statusNode = new TextNode {
                         Width = 100.0f,
-                        String = $"{classJob.NameEnglish} Data Not Set",
+                        String = $"{classJob.NameEnglish} {Strings.Additional_DataNotSet}",
                     },
                 ],
             });
@@ -49,7 +50,7 @@ public class GrandCompanyProvisionDataNode(GrandCompanyProvision module) : DataN
         base.Update();
 
         foreach (var (job, node) in statusNodes) {
-            node.String = module.ModuleData.ClassJobStatus[job] ? "Complete" : "Incomplete";
+            node.String = module.ModuleData.ClassJobStatus[job] ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
         }
     }
 

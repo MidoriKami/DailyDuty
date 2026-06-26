@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -13,6 +13,7 @@ using KamiToolKit.Controllers;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
+using Resources;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
 namespace DailyDuty.Features.WondrousTails;
@@ -71,10 +72,10 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             AlignmentType = AlignmentType.Center,
             String = new SeStringBuilder()
                 .PushColorRgba(module.ModuleConfig.DutyFinderColor)
-                .Append("Wondrous Tails Duty")
+                .Append(Strings.WondrousTails_Duty)
                 .PopColor()
                 .ToReadOnlySeString(),
-            TextTooltip = "[DailyDuty] Wondrous Tails Feature",
+            TextTooltip = Strings.WondrousTails_DutyFinderTooltip,
             IsVisible = false,
         };
         infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);

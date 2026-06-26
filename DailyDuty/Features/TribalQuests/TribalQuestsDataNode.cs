@@ -1,4 +1,5 @@
-﻿using DailyDuty.CustomNodes;
+using DailyDuty.Classes;
+using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiToolKit;
 using KamiToolKit.Enums;
@@ -18,10 +19,10 @@ public unsafe class TribalQuestsDataNode(TribalQuests module) : DataNodeBase<Tri
                 AlignmentFlags = FlexFlags.FitHeight | FlexFlags.FitWidth,
                 InitialNodes = [
                     new TextNode {
-                        String = "Tribal Quests Available",
+                        String = Strings.TribalQuests_Available,
                     },
                     allowancesNode = new TextNode {
-                        String = "Available Not Updated",
+                        String = Strings.FashionReport_AvailableNotUpdated,
                     },
                 ],
             }

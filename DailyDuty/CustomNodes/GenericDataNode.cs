@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -19,7 +19,7 @@ public class GenericDataNode : SimpleComponentNode {
             FitWidth = true,
             InitialNodes = [
                 new CategoryHeaderNode {
-                    String = "Module Status",
+                    String = Strings.GenericDataNode_ModuleStatus,
                     Alignment = AlignmentType.Bottom,
                 },
                 statusTextNode = new TextNode {
@@ -29,7 +29,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = "Next Reset",
+                    String = Strings.GenericDataNode_NextReset,
                     Alignment = AlignmentType.Bottom,
                 },
                 resetTimeTextNode = new TextNode {
@@ -39,7 +39,7 @@ public class GenericDataNode : SimpleComponentNode {
                 },
                 new ResNode { Height = 50.0f },
                 new CategoryHeaderNode {
-                    String = "Time Remaining",
+                    String = Strings.GenericDataNode_TimeRemaining,
                     Alignment = AlignmentType.Bottom,
                 },
                 timeRemainingTextNode = new TextNode {
@@ -65,12 +65,12 @@ public class GenericDataNode : SimpleComponentNode {
         statusTextNode.String = module.ModuleStatus.Description;
 
         if (resetTime == DateTime.MaxValue) {
-            resetTimeTextNode.String = "Available Now";
+            resetTimeTextNode.String = Strings.GenericDataNode_AvailableNow;
             timeRemainingTextNode.String = "0.00:00:00";
         }
         else if (resetTime <= DateTime.UtcNow) {
-            resetTimeTextNode.String = "Enable module to initialize";
-            timeRemainingTextNode.String = "Enable module to initialize";
+            resetTimeTextNode.String = Strings.GenericDataNode_EnableModule;
+            timeRemainingTextNode.String = Strings.GenericDataNode_EnableModule;
         }
         else {
             resetTimeTextNode.String = resetTime.ToLocalTime().GetDisplayString();

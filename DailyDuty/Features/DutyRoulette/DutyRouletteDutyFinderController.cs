@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -9,6 +9,7 @@ using KamiToolKit.Controllers;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
+using Resources;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
@@ -55,14 +56,14 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
             Size = new Vector2(250.0f, 18.0f),
             AlignmentType = AlignmentType.Center,
             String = new SeStringBuilder().PushColorRgba(module.ModuleConfig.IncompleteColor)
-                .Append("Incomplete Task")
+                .Append(Strings.DutyRoulette_IncompleteTask)
                 .PopColor()
                 .Append("        ")
                 .PushColorRgba(module.ModuleConfig.CompleteColor)
-                .Append("Complete Task")
+                .Append(Strings.DutyRoulette_CompleteTask)
                 .PopColor()
                 .ToReadOnlySeString(),
-            TextTooltip = "[DailyDuty] Duty Roulette Feature",
+            TextTooltip = Strings.DutyRoulette_DutyFinderTooltip,
             IsVisible = false,
         };
         infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
@@ -74,11 +75,11 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
         infoTextNode?.ShowClickableCursor = shouldShow;
         infoTextNode?.IsVisible = shouldShow;
         infoTextNode?.String = new SeStringBuilder().PushColorRgba(module.ModuleConfig.IncompleteColor)
-            .Append("Incomplete Task")
+            .Append(Strings.DutyRoulette_IncompleteTask)
             .PopColor()
             .Append("        ")
             .PushColorRgba(module.ModuleConfig.CompleteColor)
-            .Append("Complete Task")
+            .Append(Strings.DutyRoulette_CompleteTask)
             .PopColor()
             .ToReadOnlySeString();
 

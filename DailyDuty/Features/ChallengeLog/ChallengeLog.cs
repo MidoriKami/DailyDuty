@@ -1,11 +1,11 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -17,7 +17,7 @@ namespace DailyDuty.Features.ChallengeLog;
 
 public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Challenge Log",
+        DisplayName = Strings.ChallengeLog_DisplayName,
         FileName = "ChallengeLog",
         Type = ModuleType.Weekly,
         Tags = ["Achievements", "Exp"],
@@ -54,7 +54,7 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         => ModuleConfig.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} Challenge Log(s) Incomplete",
+        Message = $"{ModuleConfig.TrackedEntries.Count - ModuleConfig.TrackedEntries.Count(IsContentNoteComplete)} {Strings.StatusMessages_ChallengeLogIncomplete}",
         PayloadId = PayloadId.OpenChallengeLog,
     };
 

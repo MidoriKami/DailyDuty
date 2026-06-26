@@ -1,15 +1,15 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.Game;
 
 namespace DailyDuty.Features.TribalQuests;
 
 public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Tribal Quests",
+        DisplayName = Strings.TribalQuests_DisplayName,
         FileName = "TribalQuests",
         Type = ModuleType.Daily,
         Tags = ["DoH", "DoL", "Exp"],
@@ -19,7 +19,7 @@ public unsafe class TribalQuests : Module<TribalQuestsConfig, DataBase> {
     public override ConfigNodeBase ConfigNode => new TribalQuestsConfigNode(this);
 
     protected override StatusMessage GetStatusMessage()
-        => $"{RemainingAllowances} Quest(s) left to reach Threshold";
+        => $"{RemainingAllowances} {Strings.StatusMessages_QuestIncomplete}";
 
     public override DateTime GetNextResetDateTime()
         => Time.NextDailyReset();

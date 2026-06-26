@@ -1,9 +1,9 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Agent;
 using Dalamud.Game.Agent.AgentArgTypes;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
@@ -13,7 +13,7 @@ namespace DailyDuty.Features.JumboCactpot;
 
 public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Jumbo Cactpot",
+        DisplayName = Strings.JumboCactpot_DisplayName,
         FileName = "JumboCactpot",
         Type = ModuleType.Weekly,
         Tags = ["MGP"],
@@ -35,7 +35,7 @@ public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{3 - ModuleData.Tickets.Count} Ticket(s) Remaining",
+        Message = $"{3 - ModuleData.Tickets.Count} {Strings.StatusMessages_TicketRemaining}",
         PayloadId = PayloadId.GoldSaucerTeleport,
     };
 

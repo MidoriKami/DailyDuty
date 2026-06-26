@@ -1,11 +1,11 @@
-﻿using System;
+using DailyDuty.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using DailyDuty.Utilities;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -17,7 +17,7 @@ namespace DailyDuty.Features.MaskedCarnivale;
 
 public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData> {
     public override ModuleInfo ModuleInfo => new() {
-        DisplayName = "Masked Carnivale",
+        DisplayName = Strings.MaskedCarnivale_DisplayName,
         FileName = "MaskedCarnivale",
         Type = ModuleType.Weekly,
         Tags = ["Teleport", "Tickets", "Seals"],
@@ -47,7 +47,7 @@ public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData
     }
 
     protected override StatusMessage GetStatusMessage() => new() {
-        Message = $"{GetIncompleteCount()} Challenge(s) Incomplete",
+        Message = $"{GetIncompleteCount()} {Strings.StatusMessages_ChallengeIncomplete}",
         PayloadId = PayloadId.UldahTeleport,
     };
 

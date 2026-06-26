@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
@@ -27,7 +27,7 @@ public class ModuleOptionNode : SelectableNode {
         erroringImageNode = new IconImageNode {
             IconId = 61502,
             FitTexture = true,
-            TextTooltip = "Module Failed To Load",
+            TextTooltip = Strings.ModuleOptionNode_FailedToLoad,
         };
         erroringImageNode.AttachNode(this);
 
@@ -47,7 +47,7 @@ public class ModuleOptionNode : SelectableNode {
 
         configButtonNode = new CircleButtonNode {
             Icon = ButtonIcon.GearCog,
-            TextTooltip = "Open Configuration",
+            TextTooltip = Strings.ModuleOptionNode_OpenConfig,
             OnClick = () => {
                 Module?.FeatureBase.OpenConfigAction?.Invoke();
                 OnClick?.Invoke(this);
@@ -98,7 +98,7 @@ public class ModuleOptionNode : SelectableNode {
     public void Update() {
         if (Module.FeatureBase is ModuleBase module) {
             statusTextNode.IsVisible = true;
-            statusTextNode.String = $"Status: {module.ModuleStatus.Description}";
+            statusTextNode.String = $"{Strings.DataNodeBase_Status}: {module.ModuleStatus.Description}";
             modificationNameNode.Height = Height / 2.0f;
         }
         else {

@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Extensions;
@@ -7,9 +8,9 @@ namespace DailyDuty.Extensions;
 public static class FashionReportModeExtensions {
     extension(FashionReportMode mode) {
         public string Description => mode switch {
-            FashionReportMode.All => "All Attempts Used",
-            FashionReportMode.Single => "One Attempt Used",
-            FashionReportMode.Plus80 => "Scored Over 80",
+            FashionReportMode.All => Strings.FashionReportMode_AllAttemptsUsed,
+            FashionReportMode.Single => Strings.FashionReportMode_OneAttemptUsed,
+            FashionReportMode.Plus80 => Strings.FashionReportMode_ScoredOver80,
             _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null),
         };
     }
