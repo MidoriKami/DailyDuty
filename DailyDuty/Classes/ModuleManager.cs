@@ -8,7 +8,6 @@ using DailyDuty.Enums;
 using Dalamud.Hooking;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using Resources;
 
 namespace DailyDuty.Classes;
 

@@ -1,5 +1,4 @@
 using System;
-using DailyDuty.Classes;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Extensions;

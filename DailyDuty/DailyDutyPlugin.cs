@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
@@ -8,7 +8,6 @@ using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using KamiToolKit;
-using static DailyDuty.Utilities.Localization;
 
 namespace DailyDuty;
 

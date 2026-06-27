@@ -1,6 +1,5 @@
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 

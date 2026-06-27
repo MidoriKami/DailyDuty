@@ -4,7 +4,7 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 
 namespace DailyDuty.Classes;
 

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using DailyDuty.CustomNodes;
 using DailyDuty.ListItemNodes;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 

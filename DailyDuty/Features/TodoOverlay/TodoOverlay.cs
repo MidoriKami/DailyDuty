@@ -8,8 +8,8 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
-using KamiToolKit.Overlay.UiOverlay;
+using KamiToolKit.BaseTypes;
+using KamiToolKit.UiOverlay;
 
 namespace DailyDuty.Features.TodoOverlay;
 

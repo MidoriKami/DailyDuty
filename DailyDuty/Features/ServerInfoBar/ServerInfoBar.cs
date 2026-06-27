@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using Dalamud.Game.Gui.Dtr;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 
 namespace DailyDuty.Features.ServerInfoBar;
 

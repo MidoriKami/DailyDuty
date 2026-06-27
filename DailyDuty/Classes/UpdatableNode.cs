@@ -1,4 +1,4 @@
-﻿using KamiToolKit.Premade.Node.Simple;
+﻿using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.Classes;
 

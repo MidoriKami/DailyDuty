@@ -1,19 +1,16 @@
 using System.Numerics;
-using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.CustomNodes;
 
-public class WondrousTailsNode : SimpleComponentNode {
+public class WondrousTailsNode : ResNode {
 
     private readonly ImageNode foreground;
 
     public WondrousTailsNode() {
-        DisableCollisionNode = true;
-
         ImageNode background = new SimpleImageNode {
             Size = new Vector2(22.0f, 22.0f),
             Position = Vector2.One,

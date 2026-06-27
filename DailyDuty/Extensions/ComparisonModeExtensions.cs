@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DailyDuty.Classes;
 using DailyDuty.Enums;
 
 namespace DailyDuty.Extensions;

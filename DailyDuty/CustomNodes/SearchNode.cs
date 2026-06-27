@@ -1,9 +1,8 @@
 using System;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 using Lumina.Text.ReadOnly;
-using Resources;
 
 namespace DailyDuty.CustomNodes;
 

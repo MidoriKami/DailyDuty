@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Dalamud.Plugin.Services;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 
 namespace DailyDuty.Classes;
 
