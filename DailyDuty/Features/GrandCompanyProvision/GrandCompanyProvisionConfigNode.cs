@@ -1,4 +1,5 @@
 ﻿using DailyDuty.CustomNodes;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
@@ -7,11 +8,16 @@ namespace DailyDuty.Features.GrandCompanyProvision;
 public class GrandCompanyProvisionConfigNode(GrandCompanyProvision module) : ConfigNodeBase<GrandCompanyProvision>(module) {
     private readonly GrandCompanyProvision module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
+    protected override NodeBase BuildNode() {
+        var layoutNode = new VerticalListNode {
+            FitWidth = true,
+            ItemSpacing = 4.0f,
+        };
+
         foreach (var (job, _) in module.ModuleData.ClassJobStatus) {
             var classJob = Services.DataManager.GetExcelSheet<ClassJob>().GetRow(job);
 
-            container.AddNode(new CheckboxNode {
+            layoutNode.AddNode(new CheckboxNode {
                 String = classJob.NameEnglish.ToString(),
                 Height = 28.0f,
                 IsChecked = module.ModuleConfig.TrackedClasses[job],
@@ -21,5 +27,7 @@ public class GrandCompanyProvisionConfigNode(GrandCompanyProvision module) : Con
                 },
             });
         }
+
+        return layoutNode;
     }
 }

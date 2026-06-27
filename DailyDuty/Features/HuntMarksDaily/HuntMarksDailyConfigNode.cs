@@ -1,4 +1,5 @@
 ﻿using DailyDuty.CustomNodes;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
@@ -7,8 +8,10 @@ namespace DailyDuty.Features.HuntMarksDaily;
 public class HuntMarksDailyConfigNode(HuntMarksDaily module) : ConfigNodeBase<HuntMarksDaily>(module) {
     private readonly HuntMarksDaily module = module;
 
-    protected override void BuildNode(VerticalListNode container) {
-        container.AddNode([
+    protected override NodeBase BuildNode() => new VerticalListNode {
+        FitWidth = true,
+        ItemSpacing = 4.0f,
+        InitialNodes = [
             new LuminaMultiSelectNode<MobHuntOrderType> {
                 GetLabelFunc = item => item.EventItem.ValueNullable?.Name.ToString(),
                 OnEdited = module.ModuleConfig.MarkDirty,
@@ -16,6 +19,6 @@ public class HuntMarksDailyConfigNode(HuntMarksDaily module) : ConfigNodeBase<Hu
                 Options = module.ModuleConfig.TrackedHuntMarks,
                 Height = 360.0f,
             },
-        ]);
-    }
+        ],
+    };
 }

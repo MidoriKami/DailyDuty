@@ -4,24 +4,19 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
 using KamiToolKit.Classes;
+using KamiToolKit.Enums;
+using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node;
 
 namespace DailyDuty.CustomNodes;
 
-public class ModuleOptionNode : SelectableNode {
-    private readonly CheckboxNode checkboxNode;
-    private readonly IconImageNode erroringImageNode;
-    private readonly TextNode modificationNameNode;
-    private readonly TextNode statusTextNode;
-    private readonly CircleButtonNode configButtonNode;
+public class ModuleOptionNode : TreeListItemNode<LoadedModule>, ITreeListItemNode {
+
+    public static float ItemHeight => 36.0f;
 
     public ModuleOptionNode() {
-        checkboxNode = new CheckboxNode {
-            OnClick = shouldEnable => Task.Run(() => ToggleModification(shouldEnable)),
-        };
+        checkboxNode = new CheckboxNode();
         checkboxNode.AttachNode(this);
 
         erroringImageNode = new IconImageNode {
@@ -42,76 +37,19 @@ public class ModuleOptionNode : SelectableNode {
             TextFlags = TextFlags.Ellipsis,
             AlignmentType = AlignmentType.TopLeft,
             TextColor = ColorHelper.GetColor(3),
+            IsVisible = false,
         };
         statusTextNode.AttachNode(this);
 
         configButtonNode = new CircleButtonNode {
-            Icon = ButtonIcon.GearCog,
+            Icon = CircleButtonIcon.GearCog,
             TextTooltip = Strings.ModuleOptionNode_OpenConfig,
             OnClick = () => {
-                Module?.FeatureBase.OpenConfigAction?.Invoke();
+                ItemData?.FeatureBase.OpenConfigAction?.Invoke();
                 OnClick?.Invoke(this);
             },
         };
         configButtonNode.AttachNode(this);
-    }
-
-    public ModuleInfo ModuleInfo => Module.FeatureBase.ModuleInfo;
-
-    public required LoadedModule Module {
-        get;
-        set {
-            field = value;
-            modificationNameNode.String = value.FeatureBase.ModuleInfo.DisplayName;
-
-            RefreshConfigWindowButton();
-
-            checkboxNode.IsChecked = value.State is LoadedState.Enabled;
-
-            UpdateDisabledState();
-
-            if (Module.FeatureBase is ModuleBase) {
-                modificationNameNode.Height = Height / 2.0f;
-                modificationNameNode.AlignmentType = AlignmentType.BottomLeft;
-            }
-            else {
-                modificationNameNode.Height = Height;
-                modificationNameNode.AlignmentType = AlignmentType.Left;
-            }
-        }
-    }
-
-    private async Task ToggleModification(bool shouldEnableModification) {
-        if (shouldEnableModification && Module.State is LoadedState.Disabled) {
-            await System.ModuleManager.TryEnableModule(Module);
-        }
-        else if (!shouldEnableModification && Module.State is LoadedState.Enabled) {
-            await System.ModuleManager.TryDisableModification(Module);
-        }
-
-        UpdateDisabledState();
-
-        await Services.Framework.Run(() => OnClick?.Invoke(this));
-        RefreshConfigWindowButton();
-    }
-
-    public void Update() {
-        if (Module.FeatureBase is ModuleBase module) {
-            statusTextNode.IsVisible = true;
-            statusTextNode.String = $"{Strings.DataNodeBase_Status}: {module.ModuleStatus.Description}";
-            modificationNameNode.Height = Height / 2.0f;
-        }
-        else {
-            statusTextNode.IsVisible = false;
-            modificationNameNode.Height = Height;
-        }
-    }
-
-    private void RefreshConfigWindowButton() {
-        if (Module.FeatureBase.OpenConfigAction is not null) {
-            configButtonNode.IsVisible = true;
-            configButtonNode.IsEnabled = Module.State is LoadedState.Enabled;
-        }
     }
 
     protected override void OnSizeChanged() {
@@ -133,30 +71,99 @@ public class ModuleOptionNode : SelectableNode {
         erroringImageNode.Position = checkboxNode.Position + new Vector2(1.0f, 3.0f);
     }
 
-    private void UpdateDisabledState() {
-        if (Module.State is LoadedState.Errored) {
+    protected override void SetNodeData(LoadedModule itemData) {
+        checkboxNode.OnClick = null;
+        checkboxNode.IsEnabled = itemData.State is not LoadedState.Errored;
+        checkboxNode.IsChecked = itemData.State is LoadedState.Enabled;
+        checkboxNode.OnClick = shouldEnable => Task.Run(() => ToggleModification(shouldEnable));
+
+        erroringImageNode.IsVisible = itemData.State is LoadedState.Errored;
+        erroringImageNode.TextTooltip = itemData.ErrorMessage;
+
+        if (itemData.FeatureBase is ModuleBase module) {
+
+            if (itemData.State is LoadedState.Enabled) {
+                modificationNameNode.Height = Height / 2.0f;
+                modificationNameNode.AlignmentType = AlignmentType.BottomLeft;
+            }
+            else {
+                modificationNameNode.Height = Height;
+                modificationNameNode.AlignmentType = AlignmentType.Left;
+            }
+
+            statusTextNode.String = $"{Strings.DataNodeBase_Status}: {module.ModuleStatus.Description}";
+            statusTextNode.IsVisible = itemData.State is LoadedState.Enabled;
+        }
+        else {
+            modificationNameNode.Height = Height;
+            modificationNameNode.AlignmentType = AlignmentType.Left;
+
+            statusTextNode.IsVisible = false;
+        }
+
+        modificationNameNode.String = itemData.FeatureBase.ModuleInfo.DisplayName;
+
+        configButtonNode.IsEnabled = itemData.State is LoadedState.Enabled;
+        configButtonNode.IsVisible = itemData.FeatureBase.OpenConfigAction is not null;
+    }
+
+    private async Task ToggleModification(bool shouldEnableModification) {
+        if (ItemData is null) return;
+
+        if (shouldEnableModification && ItemData.State is LoadedState.Disabled) {
+            await System.ModuleManager.TryEnableModule(ItemData);
+        }
+        else if (!shouldEnableModification && ItemData.State is LoadedState.Enabled) {
+            await System.ModuleManager.TryDisableModification(ItemData);
+        }
+
+        if (ItemData.State is LoadedState.Errored) {
             checkboxNode.IsEnabled = false;
             erroringImageNode.IsVisible = true;
-            erroringImageNode.TextTooltip = Module.ErrorMessage;
+            erroringImageNode.TextTooltip = ItemData.ErrorMessage;
         }
         else {
             checkboxNode.IsEnabled = true;
             erroringImageNode.IsVisible = false;
         }
 
-        UpdateCollisionForNode(this);
+        unsafe {
+            var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode(this);
+            if (addon is not null) {
+                addon->UpdateCollisionNodeList(false);
+            }
+        }
 
-        checkboxNode.IsChecked = Module.State is LoadedState.Enabled;
-        configButtonNode.IsEnabled = Module.State is LoadedState.Enabled;
-        configButtonNode.IsVisible = Module.FeatureBase.OpenConfigAction is not null;
+        checkboxNode.IsChecked = ItemData.State is LoadedState.Enabled;
 
-        RefreshConfigWindowButton();
-    }
+        configButtonNode.IsEnabled = ItemData.State is LoadedState.Enabled;
+        configButtonNode.IsVisible = ItemData.FeatureBase.OpenConfigAction is not null;
 
-    private static unsafe void UpdateCollisionForNode(NodeBase node) {
-        var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode(node);
-        if (addon is not null) {
-            addon->UpdateCollisionNodeList(false);
+        await Services.Framework.Run(() => OnClick?.Invoke(this));
+
+        if (ItemData.FeatureBase.OpenConfigAction is not null) {
+            configButtonNode.IsVisible = true;
+            configButtonNode.IsEnabled = ItemData.State is LoadedState.Enabled;
+        }
+
+        if (ItemData.FeatureBase is ModuleBase module) {
+            if (ItemData.State is LoadedState.Enabled) {
+                modificationNameNode.Height = Height / 2.0f;
+                modificationNameNode.AlignmentType = AlignmentType.BottomLeft;
+            }
+            else {
+                modificationNameNode.Height = Height;
+                modificationNameNode.AlignmentType = AlignmentType.Left;
+            }
+
+            statusTextNode.IsVisible = ItemData.State is LoadedState.Enabled;
+            statusTextNode.String = $"{Strings.DataNodeBase_Status}: {module.ModuleStatus.Description}";
         }
     }
+
+    private readonly CheckboxNode checkboxNode;
+    private readonly IconImageNode erroringImageNode;
+    private readonly TextNode modificationNameNode;
+    private readonly TextNode statusTextNode;
+    private readonly CircleButtonNode configButtonNode;
 }

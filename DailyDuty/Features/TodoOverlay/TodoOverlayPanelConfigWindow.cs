@@ -209,6 +209,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                 scrollingList = new ScrollingNode<VerticalListNode> {
                     ContentNode = {
                         ItemSpacing = 4.0f,
+                        FitContents = true,
                     },
                     AutoHideScrollBar = true,
                     Size = new Vector2(ContentSize.X / 2.0f, ContentSize.Y),

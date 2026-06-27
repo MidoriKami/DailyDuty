@@ -99,7 +99,9 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
 
         OpenConfigAction = null;
 
-        await Services.Framework.Run(() => configWindow?.DisposeAsync());
+        await Task.WhenAll(
+            configWindow?.DisposeAsync().AsTask() ?? Task.CompletedTask
+        );
         configWindow = null;
     }
 

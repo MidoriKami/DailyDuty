@@ -1,4 +1,3 @@
-using DailyDuty.Utilities;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -11,16 +10,17 @@ using KamiToolKit.Classes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using KamiToolKit.Extensions;
-using KamiToolKit.Overlay.UiOverlay;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
+using KamiToolKit.UiOverlay;
 
 namespace DailyDuty.CustomNodes;
 
 public unsafe class TodoPanelNode : OverlayNode {
     public override OverlayLayer OverlayLayer => OverlayLayer.BehindUserInterface;
-    private readonly WindowBackgroundNode frame;
+
+    private readonly WindowBackgroundTextureNode frame;
     private readonly ImageNode backgroundImage;
-    private readonly WindowBackgroundNode frameFront;
+    private readonly WindowBackgroundTextureNode frameFront;
     private readonly TextNode titleText;
     private readonly HorizontalLineNode horizontalLine;
     private readonly VerticalListNode warningList;
@@ -33,7 +33,7 @@ public unsafe class TodoPanelNode : OverlayNode {
     public required TodoOverlayConfig ModuleTodoOverlayConfig { get; init; }
 
     public TodoPanelNode() {
-        frame = new WindowBackgroundNode(false) {
+        frame = new WindowBackgroundTextureNode(false) {
             Position = Vector2.Zero,
             Offsets = new Vector4(64.0f, 32.0f, 32.0f, 32.0f),
             NodeFlags = NodeFlags.Visible | NodeFlags.Fill,
@@ -49,7 +49,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         };
         backgroundImage.AttachNode(this);
 
-        frameFront = new WindowBackgroundNode(true) {
+        frameFront = new WindowBackgroundTextureNode(true) {
             Position = Vector2.Zero,
             Offsets = new Vector4(64.0f, 32.0f, 32.0f, 32.0f),
             NodeFlags = NodeFlags.Visible | NodeFlags.Fill,
@@ -72,17 +72,18 @@ public unsafe class TodoPanelNode : OverlayNode {
 
         warningList = new VerticalListNode {
             FitContents = true,
+            FitWidth = true,
         };
         warningList.AttachNode(this);
 
         configButton = new CircleButtonNode {
-            Icon = ButtonIcon.GearCog,
+            Icon = CircleButtonIcon.GearCog,
             OnClick = OpenConfig,
         };
         configButton.AttachNode(this);
 
         collapseButton = new CircleButtonNode {
-            Icon = ButtonIcon.Eye,
+            Icon = CircleButtonIcon.Eye,
             OnClick = () => {
                 Config?.IsCollapsed = !Config.IsCollapsed;
                 ModuleTodoOverlayConfig?.MarkDirty();
@@ -94,6 +95,16 @@ public unsafe class TodoPanelNode : OverlayNode {
             Config?.Position = Position;
             ModuleTodoOverlayConfig?.MarkDirty();
         };
+
+        if (warningList.Nodes.Count is 0 && System.ModuleManager.LoadedModules is {} modules) {
+            foreach (var loadedModule in modules.OrderBy(module => module.FeatureBase.ModuleInfo.DisplayName)) {
+                if (loadedModule.FeatureBase is ModuleBase module) {
+                    var entry = BuildTodoEntry(loadedModule, module);
+
+                    warningList.AddNode(entry);
+                }
+            }
+        }
     }
 
     protected override void OnSizeChanged() {
@@ -144,28 +155,6 @@ public unsafe class TodoPanelNode : OverlayNode {
             }
         }
 
-        EnableMoving = Config.EnableMoving;
-
-        frameFront.Alpha = Config.Alpha;
-        frame.Alpha = Config.Alpha;
-        collapseButton.Alpha = Config.ButtonAlpha;
-        configButton.Alpha = Config.ButtonAlpha;
-        Scale = new Vector2(Config.Scale, Config.Scale);
-        backgroundImage.Alpha = Config.Alpha;
-
-        titleText.String = Config.Label;
-
-        if (Config.Alignment != warningList.Alignment) {
-            warningList.Alignment = Config.Alignment;
-            warningList.RecalculateLayout();
-        }
-
-        frameFront.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
-        frame.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
-        backgroundImage.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
-
-        warningList.IsVisible = !Config.IsCollapsed;
-
         var warningModules = Config.Modules.Select(moduleName => System.ModuleManager.GetModule(moduleName))
             .OfType<ModuleBase>()
             .Where(module => module is { ModuleStatus: CompletionStatus.Incomplete or CompletionStatus.ResultsAvailable, IsEnabled: true })
@@ -177,17 +166,52 @@ public unsafe class TodoPanelNode : OverlayNode {
         var shouldHideNoWarnings = !(warningModules.Count is not 0 || Config.Modules.Count is 0);
 
         IsVisible = !shouldHideNoWarnings && !shouldHideInQuestEvent && !shouldHideInDuties;
+        EnableMoving = Config.EnableMoving;
+        Scale = new Vector2(Config.Scale, Config.Scale);
 
-        if (warningList.SyncWithListData(warningModules, node => node.Module, BuildTodoEntry) || Math.Abs(warningList.ItemSpacing - Config.ItemSpacing) > 0.1f) {
-            warningList.ItemSpacing = Config.ItemSpacing;
-            warningList.Width = MathF.Max(50.0f, warningList.Nodes.Sum(node => node.IsVisible ? node.Width : 0.0f));
-            warningList.RecalculateLayout();
+        frame.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
+        frame.Alpha = Config.Alpha;
 
-            Height = warningList.Bounds.Bottom + 18.0f;
+        frameFront.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
+        frameFront.Alpha = Config.Alpha;
+
+        collapseButton.Alpha = Config.ButtonAlpha;
+
+        configButton.Alpha = Config.ButtonAlpha;
+
+        backgroundImage.IsVisible = Config is { ShowFrame: true, IsCollapsed: false };
+        backgroundImage.Alpha = Config.Alpha;
+
+        titleText.String = Config.Label;
+
+        foreach (var entry in warningList.GetNodes<TodoListEntryNode>()) {
+            entry.IsVisible = entry.LoadedModule.State is LoadedState.Enabled && Config.Modules.Contains(entry.Module.ModuleInfo.DisplayName);
+            entry.TextColor = Config.TextColor;
+            entry.TextOutlineColor = Config.OutlineColor;
+
+            if (entry is { IsVisible: true, Module.Tooltip: { TooltipText: { IsEmpty: false } tooltipText} tooltipEntry }) {
+                entry.TextTooltip = tooltipText;
+                entry.ShowClickableCursor = tooltipEntry.ClickAction is not PayloadId.Unset;
+            }
+            else {
+                entry.ShowClickableCursor = false;
+            }
+
+            entry.AlignmentType = Config.Alignment switch {
+                VerticalListAlignment.Left => AlignmentType.Left,
+                VerticalListAlignment.Right => AlignmentType.Right,
+                _ => AlignmentType.Left,
+            };
         }
 
-        foreach (var node in warningList.GetNodes<TodoListEntryNode>()) {
-            node.Update();
+        warningList.Alignment = Config.Alignment;
+        warningList.IsVisible = !Config.IsCollapsed;
+        warningList.ItemSpacing = Config.ItemSpacing;
+        warningList.RecalculateLayout();
+
+        var newHeight = warningList.Bounds.Bottom + 4.0f;
+        if (Math.Abs(Height - newHeight) > 0.1f) {
+            Height = newHeight;
         }
     }
 
@@ -201,11 +225,12 @@ public unsafe class TodoPanelNode : OverlayNode {
         configWindow.Toggle();
     }
 
-    private TodoListEntryNode BuildTodoEntry(ModuleBase data) => new() {
+    private TodoListEntryNode BuildTodoEntry(LoadedModule loadedModule, ModuleBase module) => new() {
         Height = 18.0f,
         TextFlags = TextFlags.AutoAdjustNodeSize | TextFlags.Edge,
-        Module = data,
-        String = data.Name,
+        Module = module,
+        LoadedModule = loadedModule,
+        String = module.Name,
         Config = Config,
         TextTooltip = ":)",
     };

@@ -69,11 +69,8 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
         System.PayloadController.Dispose();
 
-        if (!Services.Framework.IsFrameworkUnloading) {
-            await System.ConfigurationWindow.DisposeAsync();
-            await System.ModuleManager.DisposeAsync();
-        }
-
+        await System.ConfigurationWindow.DisposeAsync();
+        await System.ModuleManager.DisposeAsync();
         await Services.Framework.RunOnFrameworkThread(KamiToolKitLibrary.Dispose);
     }
 

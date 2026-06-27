@@ -675,4 +675,7 @@
   <data name="ModuleManager_CriticalError" xml:space="preserve">
     <value>Critical Error: Module failed to load, and errored again while unloading.</value>
   </data>
+    <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
+        <value>[DailyDuty] Time Until Next Reset</value>
+    </data>
 </root>

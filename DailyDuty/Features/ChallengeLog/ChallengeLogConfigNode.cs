@@ -1,5 +1,6 @@
 using DailyDuty.CustomNodes;
 using DailyDuty.Windows;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
@@ -10,8 +11,10 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
 
     private LuminaMultiSelectWindow<ContentsNote>? luminaSelectionWindow;
 
-    protected override void BuildNode(VerticalListNode container) {
-        container.AddNode([
+    protected override NodeBase BuildNode() => new VerticalListNode {
+        FitWidth = true,
+        ItemSpacing = 4.0f,
+        InitialNodes = [
             new CheckboxNode {
                 Height = 28.0f,
                 String = Strings.ChallengeLog_DutyFinderWarning,
@@ -47,8 +50,8 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
                 String = Strings.ChallengeLog_EditDutyEntries,
                 OnClick = OpenDutyFinderWarningEntries,
             },
-        ]);
-    }
+        ],
+    };
 
     protected override void Dispose(bool disposing, bool isNativeDestructor) {
         base.Dispose(disposing, isNativeDestructor);

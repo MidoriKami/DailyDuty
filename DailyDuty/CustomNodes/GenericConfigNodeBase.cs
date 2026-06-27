@@ -1,8 +1,8 @@
 ﻿using DailyDuty.Classes;
-using KamiToolKit.Nodes;
+using KamiToolKit.BaseTypes;
 
 namespace DailyDuty.CustomNodes;
 
 public class GenericConfigNodeBase(ModuleBase module) : ConfigNodeBase<ModuleBase>(module) {
-    protected override void BuildNode(VerticalListNode container) { }
+    protected override NodeBase? BuildNode() => null;
 }

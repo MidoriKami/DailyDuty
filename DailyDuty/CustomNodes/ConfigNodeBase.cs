@@ -1,6 +1,8 @@
 using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiToolKit.BaseTypes;
+using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.CustomNodes;
@@ -9,9 +11,7 @@ public abstract class ConfigNodeBase : ResNode;
 
 public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
-    private readonly NotificationSettingsNode<T> notificationSettings;
-    private readonly ScrollingNode<VerticalListNode> configNode;
-    private readonly VerticalLineNode verticalLineNode;
+    protected abstract NodeBase? BuildNode();
 
     protected ConfigNodeBase(T module) {
         notificationSettings = new NotificationSettingsNode<T>(module);
@@ -22,22 +22,24 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         };
         verticalLineNode.AttachNode(this);
 
-        configNode = new ScrollingNode<VerticalListNode> {
-            ContentNode = {
-                FitContents = true,
-                FitWidth = true,
-                ItemSpacing = 4.0f,
-            },
-            AutoHideScrollBar = true,
+        headerNode = new CategoryHeaderNode {
+            String = Strings.ConfigNodeBase_ModuleSettings,
+        };
+        headerNode.AttachNode(this);
+
+        configContentNode = new ResNode {
             IsVisible = false,
         };
+        configContentNode.AttachNode(this);
 
-        configNode.ContentNode.AddNode(new CategoryHeaderNode {
-            String = Strings.ConfigNodeBase_ModuleSettings,
-        });
+        noOptionsTextNode = new TextNode {
+            String = Strings.ConfigNodeBase_NoOptions,
+            AlignmentType = AlignmentType.Top,
+            Height = 32.0f,
+        };
+        noOptionsTextNode.AttachNode(this);
 
-        AttachDataNode(configNode.ContentNode);
-        configNode.AttachNode(this);
+        AttachDataNode();
     }
 
     protected override void OnSizeChanged() {
@@ -51,29 +53,41 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         notificationSettings.Size = new Vector2(regionSize, Height);
         notificationSettings.Position = new Vector2(0.0f, 0.0f);
 
-        configNode.Size = new Vector2(regionSize, Height);
-        configNode.Position = new Vector2(regionSize + 6.0f, 0.0f);
-        configNode.RecalculateSizes();
+        headerNode.Size = new Vector2(regionSize, 40.0f);
+        headerNode.Position = new Vector2(regionSize + 6.0f, 0.0f);
+
+        configContentNode.Size = new Vector2(regionSize, Height - headerNode.Height);
+        configContentNode.Position = new Vector2(regionSize + 6.0f, headerNode.Bounds.Bottom);
+
+        noOptionsTextNode.Size = configContentNode.Size;
+        noOptionsTextNode.Position = configContentNode.Position;
+
+        builtNode?.Size = configContentNode.Size;
+        builtNode?.Position = new Vector2(0.0f, 0.0f);
+
+        if (builtNode is ILayoutListNode layoutNode) {
+            layoutNode.RecalculateLayout();
+        }
     }
 
-    protected abstract void BuildNode(VerticalListNode container);
+    private void AttachDataNode() {
+        builtNode = BuildNode();
 
-    private void AttachDataNode(VerticalListNode container) {
-        var preCount = container.Nodes.Count;
+        builtNode?.Size = configContentNode.Size;
+        builtNode?.AttachNode(configContentNode);
 
-        BuildNode(container);
-        container.RecalculateLayout();
-
-        var postCount = container.Nodes.Count;
-
-        if (preCount == postCount) {
-            container.AddNode(new TextNode {
-                String = Strings.ConfigNodeBase_NoOptions,
-                AlignmentType = AlignmentType.Bottom,
-                Height = 32.0f,
-            });
+        if (builtNode is ILayoutListNode layoutNode) {
+            layoutNode.RecalculateLayout();
         }
 
-        container.IsVisible = true;
+        noOptionsTextNode.IsVisible = builtNode is null;
+        configContentNode.IsVisible = builtNode is not null;
     }
+
+    private readonly NotificationSettingsNode<T> notificationSettings;
+    private readonly ResNode configContentNode;
+    private readonly VerticalLineNode verticalLineNode;
+    private readonly CategoryHeaderNode headerNode;
+    private readonly TextNode noOptionsTextNode;
+    private NodeBase? builtNode;
 }
