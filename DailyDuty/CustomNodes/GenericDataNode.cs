@@ -3,11 +3,10 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.CustomNodes;
 
-public class GenericDataNode : SimpleComponentNode {
+public class GenericDataNode : ResNode {
     private readonly VerticalListNode layoutContainerNode;
 
     private readonly TextNode statusTextNode;

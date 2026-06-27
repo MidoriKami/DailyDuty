@@ -2,11 +2,10 @@ using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.Features.DutyFinderEnhancements;
 
-public class DutyFinderEnhancementsConfigNode : SimpleComponentNode {
+public class DutyFinderEnhancementsConfigNode : ResNode {
     private readonly VerticalListNode listNode;
 
     public DutyFinderEnhancementsConfigNode(DutyFinderEnhancements module) {

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 using Lumina.Excel;
 
 namespace DailyDuty.CustomNodes;
 
-public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IExcelRow<T> {
+public class LuminaMultiSelectNode<T> : ResNode where T : struct, IExcelRow<T> {
     private readonly ScrollingNode<VerticalListNode> scrollingListNode;
 
     public LuminaMultiSelectNode() {

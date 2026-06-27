@@ -4,11 +4,10 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.Features.TodoOverlay;
 
-public class TodoOverlayConfigNode : SimpleComponentNode {
+public class TodoOverlayConfigNode : ResNode {
     private readonly TodoOverlay module;
 
     private readonly VerticalListNode configNode;

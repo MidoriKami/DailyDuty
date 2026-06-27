@@ -1,12 +1,11 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.CustomNodes;
 
-public sealed class CategoryHeaderNode : SimpleComponentNode {
+public sealed class CategoryHeaderNode : ResNode {
     private readonly CategoryTextNode labelNode;
     private readonly HorizontalLineNode lineNode;
 

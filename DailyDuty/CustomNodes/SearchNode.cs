@@ -1,12 +1,11 @@
 using System;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.CustomNodes;
 
-public class SearchNode : SimpleComponentNode {
+public class SearchNode : ResNode {
     private readonly HorizontalFlexNode searchContainerNode;
 
     public SearchNode() {

@@ -5,7 +5,6 @@ using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.CustomNodes;
 
@@ -22,7 +21,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
     private readonly NodeBase dataNode;
     private readonly TextButtonNode snoozeButtonNode;
 
-    private readonly SimpleComponentNode dataContentSection;
+    private readonly ResNode dataContentSection;
     private readonly GenericDataNode statusDisplayNode;
 
     protected DataNodeBase(T module) {
@@ -37,7 +36,7 @@ public abstract class DataNodeBase<T> : DataNodeBase where T : ModuleBase {
         statusDisplayNode = new GenericDataNode();
         statusDisplayNode.AttachNode(this);
 
-        dataContentSection = new SimpleComponentNode();
+        dataContentSection = new ResNode();
         dataContentSection.AttachNode(this);
 
         categoryHeaderNode = new CategoryHeaderNode {

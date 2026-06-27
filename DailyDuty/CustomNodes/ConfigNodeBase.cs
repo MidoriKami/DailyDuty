@@ -2,11 +2,10 @@ using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.CustomNodes;
 
-public abstract class ConfigNodeBase : SimpleComponentNode;
+public abstract class ConfigNodeBase : ResNode;
 
 public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 

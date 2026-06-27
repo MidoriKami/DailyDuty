@@ -1,11 +1,10 @@
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.Features.ServerInfoBar;
 
-public class ServerInfoBarConfigNode : SimpleComponentNode {
+public class ServerInfoBarConfigNode : ResNode {
     private readonly VerticalListNode listNode;
 
     public ServerInfoBarConfigNode(ServerInfoBar module) {
