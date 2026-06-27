@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Windows;
 
 public class MultiSelectWindow : NativeAddon {
     protected override unsafe void OnSetup(AtkUnitBase* addon, Span<AtkValue> _) {
-        var scrollable = new ScrollingListNode {
+        var scrollable = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                FitWidth = true,
+                FitContents = true,
+            },
             AutoHideScrollBar = true,
             Size = ContentSize,
             Position = ContentStartPosition,
         };
 
-        scrollable.FitWidth = true;
-        scrollable.FitContents = true;
-
         foreach (var option in Options) {
-            scrollable.AddNode(new CheckboxNode {
+            scrollable.ContentNode.AddNode(new CheckboxNode {
                 Height = 28.0f,
                 String = option,
                 IsChecked = SelectedOptions.Contains(option),
@@ -26,7 +27,7 @@ public class MultiSelectWindow : NativeAddon {
             });
         }
 
-        scrollable.RecalculateLayout();
+        scrollable.RecalculateSizes();
         scrollable.AttachNode(this);
     }
 

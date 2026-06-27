@@ -2,7 +2,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.CustomNodes;
 
@@ -11,7 +11,7 @@ public abstract class ConfigNodeBase : SimpleComponentNode;
 public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
     private readonly NotificationSettingsNode<T> notificationSettings;
-    private readonly ScrollingListNode configNode;
+    private readonly ScrollingNode<VerticalListNode> configNode;
     private readonly VerticalLineNode verticalLineNode;
 
     protected ConfigNodeBase(T module) {
@@ -23,19 +23,21 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
         };
         verticalLineNode.AttachNode(this);
 
-        configNode = new ScrollingListNode {
+        configNode = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                FitContents = true,
+                FitWidth = true,
+                ItemSpacing = 4.0f,
+            },
             AutoHideScrollBar = true,
             IsVisible = false,
         };
-        configNode.FitContents = true;
-        configNode.FitWidth = true;
-        configNode.ItemSpacing = 4.0f;
 
-        configNode.AddNode(new CategoryHeaderNode {
+        configNode.ContentNode.AddNode(new CategoryHeaderNode {
             String = Strings.ConfigNodeBase_ModuleSettings,
         });
 
-        AttachDataNode(configNode);
+        AttachDataNode(configNode.ContentNode);
         configNode.AttachNode(this);
     }
 
@@ -52,12 +54,12 @@ public abstract class ConfigNodeBase<T> : ConfigNodeBase where T : ModuleBase {
 
         configNode.Size = new Vector2(regionSize, Height);
         configNode.Position = new Vector2(regionSize + 6.0f, 0.0f);
-        configNode.RecalculateLayout();
+        configNode.RecalculateSizes();
     }
 
-    protected abstract void BuildNode(ScrollingListNode container);
+    protected abstract void BuildNode(VerticalListNode container);
 
-    private void AttachDataNode(ScrollingListNode container) {
+    private void AttachDataNode(VerticalListNode container) {
         var preCount = container.Nodes.Count;
 
         BuildNode(container);

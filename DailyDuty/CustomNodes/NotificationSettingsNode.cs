@@ -3,7 +3,7 @@ using System.Linq;
 using DailyDuty.Classes;
 using Dalamud.Game.Text;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 using XivChatTypeExtensions = DailyDuty.Extensions.XivChatTypeExtensions;
 
 namespace DailyDuty.CustomNodes;
@@ -14,7 +14,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
     public NotificationSettingsNode(T module) {
         listNode = new TabbedVerticalListNode {
             FitWidth = true,
-            ItemVerticalSpacing = 4.0f,
+            ItemSpacing = 4.0f,
         };
         listNode.AttachNode(this);
 
@@ -76,7 +76,7 @@ public class NotificationSettingsNode<T> : SimpleComponentNode where T : ModuleB
             new CategoryHeaderNode {
                 String = Strings.NotificationSettingsNode_ChatChannel,
             },
-            new TextDropDownNode {
+            new StringDropDownNode {
                 Height = 24.0f,
                 Options = Enum.GetValues<XivChatType>().Select(chatType => chatType.Description).ToList(),
                 SelectedOption = module.ConfigBase.MessageChatChannel.Description,

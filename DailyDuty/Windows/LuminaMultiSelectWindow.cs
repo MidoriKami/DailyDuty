@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Nodes;
 using Lumina.Excel;
 
@@ -11,14 +11,15 @@ namespace DailyDuty.Windows;
 public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRow<T> {
 
     protected override unsafe void OnSetup(AtkUnitBase* addon, Span<AtkValue> _) {
-        var scrollable = new ScrollingListNode {
+        var scrollable = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                FitWidth = true,
+                FitContents = true,
+            },
             AutoHideScrollBar = true,
             Size = ContentSize,
             Position = ContentStartPosition,
         };
-
-        scrollable.FitWidth = true;
-        scrollable.FitContents = true;
 
         var optionEntries = Services.DataManager.GetExcelSheet<T>()
             .Where(option => FilterFunc?.Invoke(option) ?? true)
@@ -26,7 +27,7 @@ public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRo
             .OrderBy(option => GetLabelFunc?.Invoke(option));
 
         foreach (var option in optionEntries) {
-            scrollable.AddNode(new CheckboxNode {
+            scrollable.ContentNode.AddNode(new CheckboxNode {
                 Height = 28.0f,
                 String = GetLabelFunc?.Invoke(option),
                 IsChecked = Options.Contains(option.RowId),
@@ -34,7 +35,7 @@ public class LuminaMultiSelectWindow<T> : NativeAddon where T : struct, IExcelRo
             });
         }
 
-        scrollable.RecalculateLayout();
+        scrollable.RecalculateSizes();
         scrollable.AttachNode(this);
     }
 

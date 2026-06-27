@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 using Lumina.Excel;
 
 namespace DailyDuty.CustomNodes;
 
 public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IExcelRow<T> {
-    private readonly ScrollingListNode scrollingListNode;
+    private readonly ScrollingNode<VerticalListNode> scrollingListNode;
 
     public LuminaMultiSelectNode() {
-        scrollingListNode = new ScrollingListNode {
+        scrollingListNode = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                FitWidth = true,
+                FitContents = true,
+            },
             AutoHideScrollBar = true,
-            FitWidth = true,
-            FitContents = true,
         };
 
         scrollingListNode.AttachNode(this);
@@ -24,7 +26,7 @@ public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IE
         base.OnSizeChanged();
 
         scrollingListNode.Size = Size;
-        scrollingListNode.RecalculateLayout();
+        scrollingListNode.RecalculateSizes();
     }
 
     private void OnOptionEdited(T option, bool newValue) {
@@ -48,7 +50,7 @@ public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IE
             foreach (var option in Services.DataManager.GetExcelSheet<T>().Where(option => FilterFunc?.Invoke(option) ?? true)) {
                 if (GetLabelFunc?.Invoke(option) is not { Length: > 0 } name) continue;
 
-                scrollingListNode.AddNode(new CheckboxNode {
+                scrollingListNode.ContentNode.AddNode(new CheckboxNode {
                     Height = 28.0f,
                     String = name,
                     IsChecked = Options.Contains(option.RowId),
@@ -56,7 +58,7 @@ public class LuminaMultiSelectNode<T> : SimpleComponentNode where T : struct, IE
                 });
             }
 
-            scrollingListNode.RecalculateLayout();
+            scrollingListNode.RecalculateSizes();
         }
     }
 

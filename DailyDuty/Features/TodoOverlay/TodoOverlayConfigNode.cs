@@ -1,10 +1,10 @@
 using System.Numerics;
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
+using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Simple;
+using KamiToolKit.Nodes.Simplified;
 
 namespace DailyDuty.Features.TodoOverlay;
 
@@ -12,7 +12,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
     private readonly TodoOverlay module;
 
     private readonly VerticalListNode configNode;
-    private readonly ScrollingListNode listNode;
+    private readonly ScrollingNode<VerticalListNode> listNode;
     private TodoOverlayPanelConfigWindow? panelConfigWindow;
 
     public TodoOverlayConfigNode(TodoOverlay module) {
@@ -48,9 +48,11 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     String = Strings.TodoOverlay_Panels,
                     Alignment = AlignmentType.Bottom,
                 },
-                listNode = new ScrollingListNode {
-                    FitWidth = true,
-                    ItemSpacing = 8.0f,
+                listNode = new ScrollingNode<VerticalListNode> {
+                    ContentNode = {
+                        FitWidth = true,
+                        ItemSpacing = 8.0f,
+                    },
                 },
             ],
         };
@@ -60,15 +62,14 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
     }
 
     private void RebuildList() {
-
-        listNode.Clear();
+        listNode.ContentNode.Clear();
 
         foreach (var panel in module.ModuleTodoOverlayConfig.Panels) {
             NodeBase entry;
             CircleButtonNode removeButton;
             TextNode labelTextNode;
 
-            listNode.AddNode([
+            listNode.ContentNode.AddNode([
                 entry = new HorizontalListNode {
                     FitHeight = true,
                     Height = 32.0f,
@@ -76,7 +77,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                     InitialNodes = [
                         removeButton = new CircleButtonNode {
                             Size = new Vector2(32.0f, 32.0f),
-                            Icon = ButtonIcon.Cross,
+                            Icon = CircleButtonIcon.Cross,
                         },
                         labelTextNode = new TextNode {
                             Size = new Vector2(300.0f, 32.0f),
@@ -85,7 +86,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                         },
                         new CircleButtonNode {
                             Size = new Vector2(32.0f, 32.0f),
-                            Icon = ButtonIcon.Edit,
+                            Icon = CircleButtonIcon.Edit,
                             OnClick = () => {
                                 panelConfigWindow?.Dispose();
                                 panelConfigWindow = new TodoOverlayPanelConfigWindow(module.ModuleTodoOverlayConfig, panel, labelTextNode) {
@@ -105,19 +106,19 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
                 module.ModuleTodoOverlayConfig.Panels.Remove(panel);
                 module.ModuleTodoOverlayConfig.MarkDirty();
                 module.RebuildPanels();
-                listNode.RemoveNode(entry);
-                listNode.RecalculateLayout();
+                listNode.ContentNode.RemoveNode(entry);
+                listNode.RecalculateSizes();
             };
         }
 
-        listNode.AddNode(new HorizontalListNode {
+        listNode.ContentNode.AddNode(new HorizontalListNode {
             FitHeight = true,
             Height = 32.0f,
             ItemSpacing = 6.0f,
             InitialNodes = [
                 new CircleButtonNode {
                     Size = new Vector2(32.0f, 32.0f),
-                    Icon = ButtonIcon.Add,
+                    Icon = CircleButtonIcon.Add,
                     OnClick = () => {
                         module.ModuleTodoOverlayConfig.Panels.Add(new TodoPanelConfig {
                             EnableMoving = true,
@@ -135,7 +136,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
             ],
         });
 
-        listNode.RecalculateLayout();
+        listNode.RecalculateSizes();
     }
 
     protected override void OnSizeChanged() {
@@ -147,7 +148,7 @@ public class TodoOverlayConfigNode : SimpleComponentNode {
         listNode.Size = new Vector2(Width, Height - featureConfigSize - 48.0f);
 
         configNode.RecalculateLayout();
-        listNode.RecalculateLayout();
+        listNode.RecalculateSizes();
     }
 
     protected override void Dispose(bool disposing, bool isNativeDestructor) {
