@@ -1,4 +1,3 @@
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
@@ -9,7 +8,7 @@ namespace DailyDuty.Features.RaidsAlliance;
 public class RaidsAllianceConfigNode(RaidsAlliance module) : ConfigNodeBase<RaidsAlliance>(module) {
     private readonly RaidsAlliance module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         if (module.ModuleConfig.TrackedTasks.Count is 0) {
             container.AddNode(new HorizontalListNode {
                 Height = 56.0f,

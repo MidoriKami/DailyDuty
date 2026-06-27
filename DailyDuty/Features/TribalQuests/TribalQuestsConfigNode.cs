@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -12,7 +11,7 @@ namespace DailyDuty.Features.TribalQuests;
 public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<TribalQuests>(module) {
     private readonly TribalQuests module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         container.AddNode(new HorizontalFlexNode {
             Height = 28.0f,
             AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.FitHeight | FlexFlags.FitWidth,
@@ -42,7 +41,7 @@ public class TribalQuestsConfigNode(TribalQuests module) : ConfigNodeBase<Tribal
                     String = Strings.CustomDelivery_WarningTrigger,
                     AlignmentType = AlignmentType.Left,
                 },
-                new TextDropDownNode {
+                new StringDropDownNode {
                     Options = Enum.GetValues<ComparisonMode>().Select(mode => mode.Description).ToList(),
                     SelectedOption = module.ModuleConfig.ComparisonMode.Description,
                     OnOptionSelected = newOption => {

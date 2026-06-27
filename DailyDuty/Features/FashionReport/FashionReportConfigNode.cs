@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -12,7 +11,7 @@ namespace DailyDuty.Features.FashionReport;
 public class FashionReportConfigNode(FashionReport module) : ConfigNodeBase<FashionReport>(module) {
     private readonly FashionReport module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         container.AddNode(new HorizontalListNode {
             Height = 28.0f,
             InitialNodes = [
@@ -21,7 +20,7 @@ public class FashionReportConfigNode(FashionReport module) : ConfigNodeBase<Fash
                     String = Strings.FashionReport_CompletionMode,
                     AlignmentType = AlignmentType.Left,
                 },
-                new TextDropDownNode {
+                new StringDropDownNode {
                     Size = new Vector2(200.0f, 28.0f),
                     Options = Enum.GetValues<FashionReportMode>().Select(mode => mode.Description).ToList(),
                     SelectedOption = module.ModuleConfig.CompletionMode.Description,

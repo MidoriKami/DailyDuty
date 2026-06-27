@@ -1,4 +1,3 @@
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Windows;
 using KamiToolKit.Nodes;
@@ -11,7 +10,7 @@ public class ChallengeLogConfigNode(ChallengeLog module) : ConfigNodeBase<Challe
 
     private LuminaMultiSelectWindow<ContentsNote>? luminaSelectionWindow;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         container.AddNode([
             new CheckboxNode {
                 Height = 28.0f,

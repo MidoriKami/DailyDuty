@@ -1,15 +1,13 @@
-using DailyDuty.Utilities;
 using System;
 using System.Linq;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
+using KamiToolKit.BaseTypes;
 using KamiToolKit.Classes;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Color;
 
 namespace DailyDuty.Features.TodoOverlay;
 
@@ -52,7 +50,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                             String = Strings.TodoOverlay_Alignment,
                             AlignmentType = AlignmentType.Left,
                         },
-                        new TextDropDownNode {
+                        new StringDropDownNode {
                             Options = Enum.GetValues<VerticalListAlignment>().Select(alignment => alignment.Description).ToList(),
                             SelectedOption = config.Alignment.Description,
                             OnOptionSelected = option => {
@@ -201,15 +199,17 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
 
         listNode.RecalculateLayout();
 
-        ScrollingListNode scrollingList;
+        ScrollingNode<VerticalListNode> scrollingList;
 
         var verticalListNode = new VerticalListNode {
             FitWidth = true,
             ItemSpacing = 4.0f,
             Width = ContentSize.X / 2.0f,
             InitialNodes = [
-                scrollingList = new ScrollingListNode {
-                    ItemSpacing = 4.0f,
+                scrollingList = new ScrollingNode<VerticalListNode> {
+                    ContentNode = {
+                        ItemSpacing = 4.0f,
+                    },
                     AutoHideScrollBar = true,
                     Size = new Vector2(ContentSize.X / 2.0f, ContentSize.Y),
                 },
@@ -218,7 +218,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
         flexNode.AddNode(verticalListNode);
 
         foreach (var module in ModuleManager.GetModules()) {
-            scrollingList.AddNode(new CheckboxNode {
+            scrollingList.ContentNode.AddNode(new CheckboxNode {
                 Height = 28.0f,
                 String = module.Name,
                 IsChecked = config.Modules.Contains(module.Name),
@@ -235,7 +235,7 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
             });
         }
 
-        scrollingList.RecalculateLayout();
+        scrollingList.RecalculateSizes();
 
         AddNode(new TextButtonNode {
             Size = new Vector2(200.0f, 24.0f),

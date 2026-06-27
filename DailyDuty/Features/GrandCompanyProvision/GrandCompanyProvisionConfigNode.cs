@@ -7,7 +7,7 @@ namespace DailyDuty.Features.GrandCompanyProvision;
 public class GrandCompanyProvisionConfigNode(GrandCompanyProvision module) : ConfigNodeBase<GrandCompanyProvision>(module) {
     private readonly GrandCompanyProvision module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         foreach (var (job, _) in module.ModuleData.ClassJobStatus) {
             var classJob = Services.DataManager.GetExcelSheet<ClassJob>().GetRow(job);
 

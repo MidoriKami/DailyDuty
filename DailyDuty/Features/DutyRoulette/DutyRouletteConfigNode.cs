@@ -1,9 +1,7 @@
 using System.Drawing;
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Color;
 using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Features.DutyRoulette;
@@ -11,7 +9,7 @@ namespace DailyDuty.Features.DutyRoulette;
 public class DutyRouletteConfigNode(DutyRoulette module) : ConfigNodeBase<DutyRoulette>(module) {
     private readonly DutyRoulette module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         var originalIncompleteColor = module.ModuleConfig.IncompleteColor;
         var originalCompleteColor = module.ModuleConfig.CompleteColor;
 

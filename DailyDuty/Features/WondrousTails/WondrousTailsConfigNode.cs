@@ -1,16 +1,14 @@
 using System.Drawing;
-using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using Dalamud.Interface;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Color;
 
 namespace DailyDuty.Features.WondrousTails;
 
 public class WondrousTailsConfigNode(WondrousTails module) : ConfigNodeBase<WondrousTails>(module) {
     private readonly WondrousTails module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         var originalColor = module.ModuleConfig.DutyFinderColor;
 
         container.AddNode([

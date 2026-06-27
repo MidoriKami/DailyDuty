@@ -7,7 +7,7 @@ namespace DailyDuty.Features.MaskedCarnivale;
 public class MaskedCarnivaleConfigNode(MaskedCarnivale module) : ConfigNodeBase<MaskedCarnivale>(module) {
     private readonly MaskedCarnivale module = module;
 
-    protected override void BuildNode(ScrollingListNode container) {
+    protected override void BuildNode(VerticalListNode container) {
         container.AddNode([
             new LuminaMultiSelectNode<Addon> {
                 GetLabelFunc = item => item.Text.ToString(),

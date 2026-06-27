@@ -1,4 +1,3 @@
-using DailyDuty.Utilities;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -8,14 +7,13 @@ using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
-using KamiToolKit.Premade.Node.Color;
 
 namespace DailyDuty.Features.TimersOverlay;
 
 public class TimersOverlayConfigNode : UpdatableNode {
     private readonly TimersOverlay module;
     private readonly VerticalListNode listNode;
-    private readonly ScrollingListNode colorEdit;
+    private readonly ScrollingNode<VerticalListNode> colorEdit;
 
     public TimersOverlayConfigNode(TimersOverlay module) {
         this.module = module;
@@ -104,12 +102,13 @@ public class TimersOverlayConfigNode : UpdatableNode {
         listNode.RecalculateLayout();
         listNode.AttachNode(this);
 
-        colorEdit = new ScrollingListNode {
-            ItemSpacing = 4.0f,
+        colorEdit = new ScrollingNode<VerticalListNode> {
+            ContentNode = {
+                ItemSpacing = 4.0f,
+                FitWidth = true,
+            },
             AutoHideScrollBar = true,
         };
-
-        colorEdit.FitWidth = true;
         colorEdit.AttachNode(this);
     }
 
@@ -133,13 +132,13 @@ public class TimersOverlayConfigNode : UpdatableNode {
     }
 
     private void RebuildOptionsList() {
-        colorEdit.Clear();
+        colorEdit.ContentNode.Clear();
 
         foreach (var name in module.ModuleTimersOverlayConfig.EnabledTimers) {
             var config = module.ModuleTimersOverlayConfig.TimerData[name];
 
             var originalColor = config.Color;
-            colorEdit.AddNode(new ColorEditNode {
+            colorEdit.ContentNode.AddNode(new ColorEditNode {
                 Height = 28.0f,
                 String = name,
                 CurrentColor = config.Color,
@@ -158,6 +157,6 @@ public class TimersOverlayConfigNode : UpdatableNode {
             });
         }
 
-        colorEdit.RecalculateLayout();
+        colorEdit.RecalculateSizes();
     }
 }
