@@ -106,6 +106,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
             ContentNode = {
                 ItemSpacing = 4.0f,
                 FitWidth = true,
+                FitContents = true,
             },
             AutoHideScrollBar = true,
         };
