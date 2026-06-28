@@ -87,11 +87,12 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                             String = Strings.TodoOverlay_BackgroundAlpha,
                             AlignmentType = AlignmentType.Left,
                         },
-                        new SliderNode {
-                            Range = 10..100,
-                            Value = (int)(config.Alpha * 100),
+                        new FloatSliderNode {
+                            Min = 0.10f,
+                            Max = 1.0f,
+                            Value = config.Alpha,
                             OnValueChanged = newValue => {
-                                config.Alpha = newValue / 100.0f;
+                                config.Alpha = newValue;
                                 moduleTodoOverlayConfig.MarkDirty();
                             },
                         },
@@ -105,11 +106,12 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                             String = Strings.TodoOverlay_ButtonAlpha,
                             AlignmentType = AlignmentType.Left,
                         },
-                        new SliderNode {
-                            Range = 15..100,
-                            Value = (int)(config.ButtonAlpha * 100),
+                        new FloatSliderNode {
+                            Min = 0.15f,
+                            Max = 1.0f,
+                            Value = config.ButtonAlpha,
                             OnValueChanged = newValue => {
-                                config.ButtonAlpha = newValue / 100.0f;
+                                config.ButtonAlpha = newValue;
                                 moduleTodoOverlayConfig.MarkDirty();
                             },
                         },
@@ -123,13 +125,13 @@ public class TodoOverlayPanelConfigWindow(TodoOverlayConfig moduleTodoOverlayCon
                             String = Strings.TimersOverlay_Scale,
                             AlignmentType = AlignmentType.Left,
                         },
-                        new SliderNode {
-                            Range = 50..300,
-                            DecimalPlaces = 2,
+                        new FloatSliderNode {
+                            Min = 0.5f,
+                            Max = 3.0f,
                             Step = 5,
-                            Value = (int)(config.Scale * 100),
+                            Value = config.Scale,
                             OnValueChanged = newValue => {
-                                config.Scale = newValue / 100.0f;
+                                config.Scale = newValue;
                                 moduleTodoOverlayConfig.MarkDirty();
                             },
                         },

@@ -85,12 +85,12 @@ public class TimersOverlayConfigNode : UpdatableNode {
                             String = Strings.TimersOverlay_Scale,
                             AlignmentType = AlignmentType.Left,
                         },
-                        new SliderNode {
-                            Range = 50..500,
-                            DecimalPlaces = 2,
-                            Value = (int)(module.ModuleTimersOverlayConfig.Scale * 100),
+                        new FloatSliderNode {
+                            Min = 0.5f,
+                            Max = 5.0f,
+                            Value = module.ModuleTimersOverlayConfig.Scale,
                             OnValueChanged = newValue => {
-                                module.ModuleTimersOverlayConfig.Scale = newValue / 100.0f;
+                                module.ModuleTimersOverlayConfig.Scale = newValue;
                                 module.ModuleTimersOverlayConfig.MarkDirty();
                             },
                         },
