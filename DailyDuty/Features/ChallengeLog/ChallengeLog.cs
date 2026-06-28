@@ -31,13 +31,13 @@ public class ChallengeLog : Module<ChallengeLogConfig, DataBase> {
         => ChallengeLogMigration.Migrate(objectData);
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.UnregisterListener(OnContentsFinderOpen);
         });
 

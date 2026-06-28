@@ -153,7 +153,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     private void PrintStatusMessage(StatusMessageType type) {
         Services.PluginLog.Debug($"[{ModuleInfo.DisplayName}] Sending {type.ToString()} Message");
 
-        Services.Framework.Run(() => {
+        Services.Framework.RunSafely(() => {
             Services.ChatGui.PrintPayloadMessage(
                 ModuleConfig.MessageChatChannel,
                 ModuleStatusMessage.PayloadId,

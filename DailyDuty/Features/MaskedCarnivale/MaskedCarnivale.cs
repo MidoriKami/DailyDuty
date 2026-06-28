@@ -30,7 +30,7 @@ public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData
         => MaskedCarnivaleMigration.Migrate(objectData);
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AozContentResultPostSetup);
         });
 
@@ -41,7 +41,7 @@ public class MaskedCarnivale : Module<MaskedCarnivaleConfig, MaskedCarnivaleData
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.UnregisterListener(AozContentResultPostSetup);
         });
     }

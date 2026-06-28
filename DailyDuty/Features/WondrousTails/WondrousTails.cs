@@ -31,13 +31,13 @@ public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
     protected override async Task OnModuleEnable() {
         dutyController = new WondrousTailsDutyController(this);
 
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             contentsFinderController = new WondrousTailsContentsFinderController(this);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             contentsFinderController?.Dispose();
         });
         contentsFinderController = null;

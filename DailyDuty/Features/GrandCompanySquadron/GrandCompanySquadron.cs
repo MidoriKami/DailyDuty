@@ -33,14 +33,14 @@ public class GrandCompanySquadron : Module<ConfigBase, GrandCompanySquadronData>
     public override DataNodeBase DataNode => new GrandCompanySquadronDataNode(this);
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
             Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.GcArmyExpedition, AgentGcArmyExpeditionReceiveEvent);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.UnregisterListener(GcArmyExpeditionResultPreFinalize);
             Services.AgentLifecycle.UnregisterListener(AgentGcArmyExpeditionReceiveEvent);
         });

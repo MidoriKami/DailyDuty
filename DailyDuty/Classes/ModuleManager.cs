@@ -66,7 +66,7 @@ public class ModuleManager : IAsyncDisposable {
         loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
         IsLoadComplete = true;
-        await Services.Framework.Run(() => OnLoadComplete?.Invoke());
+        await Services.Framework.RunSafely(() => OnLoadComplete?.Invoke());
     }
 
     private unsafe void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {

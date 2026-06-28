@@ -23,13 +23,13 @@ public class JumboCactpot : Module<ConfigBase, JumboCactpotData> {
     private int ticketData = -1;
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AgentLifecycle.RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, OnLotteryEvent);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AgentLifecycle.UnregisterListener(OnLotteryEvent);
         });
     }

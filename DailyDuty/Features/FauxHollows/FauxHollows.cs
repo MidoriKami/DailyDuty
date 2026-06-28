@@ -21,13 +21,13 @@ public class FauxHollows : Module<FauxHollowsConfig, FauxHollowsData> {
     public override ConfigNodeBase ConfigNode => new FauxHollowsConfigNode(this);
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.UnregisterListener(WeeklyPuzzlePreSetup);
         });
     }

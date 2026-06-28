@@ -22,13 +22,13 @@ public class MiniCactpot : Module<ConfigBase, MiniCactpotData> {
     public override DataNodeBase DataNode => new MiniCactpotDataNode(this);
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             Services.AddonLifecycle.UnregisterListener(LotteryDailyPreSetup);
         });
     }

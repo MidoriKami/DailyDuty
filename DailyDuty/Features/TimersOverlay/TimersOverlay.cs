@@ -79,7 +79,7 @@ public class TimersOverlay : FeatureBase {
             };
         }
 
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             overlayController = new OverlayController();
             RebuildTimers();
         });
@@ -92,7 +92,7 @@ public class TimersOverlay : FeatureBase {
         System.ModuleManager.OnFeatureEnabled -= RebuildTimers;
         System.ModuleManager.OnFeatureDisabled -= RebuildTimers;
 
-        await Services.Framework.Run(() => overlayController?.Dispose());
+        await Services.Framework.RunSafely(() => overlayController?.Dispose());
 
         await Task.WhenAll(moduleSelectionWindow?.DisposeAsync().AsTask() ?? Task.CompletedTask);
         moduleSelectionWindow = null;
@@ -112,7 +112,7 @@ public class TimersOverlay : FeatureBase {
         if (!System.ModuleManager.IsLoadComplete) return;
         System.ModuleManager.OnLoadComplete -= RebuildTimers;
 
-        await Services.Framework.Run(() => overlayController?.RemoveAllNodes());
+        await Services.Framework.RunSafely(() => overlayController?.RemoveAllNodes());
         if (!IsEnabled) return;
 
         var nodesToCreate = new List<(Vector2 Position, ModuleBase Module)>();
@@ -139,7 +139,7 @@ public class TimersOverlay : FeatureBase {
             nodesToCreate.Add((initialPosition, module));
         }
 
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             foreach (var node in nodesToCreate) {
                 overlayController?.AddNode(new TimerOverlayNode {
                     Size = new Vector2(300.0f, 64.0f),

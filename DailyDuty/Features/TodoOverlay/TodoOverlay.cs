@@ -47,14 +47,14 @@ public class TodoOverlay : FeatureBase {
     }
 
     protected override async Task OnFeatureEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             overlayController = new OverlayController();
             RebuildPanels();
         });
     }
 
     protected override async Task OnFeatureDisable() {
-        await Services.Framework.Run(() => overlayController?.Dispose());
+        await Services.Framework.RunSafely(() => overlayController?.Dispose());
         overlayController = null;
     }
 

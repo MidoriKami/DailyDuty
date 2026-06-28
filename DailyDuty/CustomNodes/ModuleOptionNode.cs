@@ -139,7 +139,7 @@ public class ModuleOptionNode : TreeListItemNode<LoadedModule>, ITreeListItemNod
         configButtonNode.IsEnabled = ItemData.State is LoadedState.Enabled;
         configButtonNode.IsVisible = ItemData.FeatureBase.OpenConfigAction is not null;
 
-        await Services.Framework.Run(() => OnClick?.Invoke(this));
+        await Services.Framework.RunSafely(() => OnClick?.Invoke(this));
 
         if (ItemData.FeatureBase.OpenConfigAction is not null) {
             configButtonNode.IsVisible = true;

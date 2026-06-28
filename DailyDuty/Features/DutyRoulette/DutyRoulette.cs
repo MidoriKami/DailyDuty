@@ -29,13 +29,13 @@ public class DutyRoulette : Module<DutyRouletteConfig, DataBase> {
         => DutyRouletteMigration.Migrate(objectData);
 
     protected override async Task OnModuleEnable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             rouletteController = new DutyRouletteDutyFinderController(this);
         });
     }
 
     protected override async Task OnModuleDisable() {
-        await Services.Framework.Run(() => {
+        await Services.Framework.RunSafely(() => {
             rouletteController?.Dispose();
         });
 
