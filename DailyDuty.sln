@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DailyDuty", "DailyDuty\Dail
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KamiToolKit", "KamiToolKit\KamiToolKit.csproj", "{75647C87-B98C-4302-A477-DC97E4C9DC03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KamiToolKit.Components", "KamiToolKit.Components\KamiToolKit.Components.csproj", "{2FD0CDF6-8D52-4B37-B7A9-9CBC4F03B67D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{75647C87-B98C-4302-A477-DC97E4C9DC03}.Debug|x64.Build.0 = Debug|x64
 		{75647C87-B98C-4302-A477-DC97E4C9DC03}.Release|x64.ActiveCfg = Debug|x64
 		{75647C87-B98C-4302-A477-DC97E4C9DC03}.Release|x64.Build.0 = Debug|x64
+		{2FD0CDF6-8D52-4B37-B7A9-9CBC4F03B67D}.Debug|x64.ActiveCfg = Debug|x64
+		{2FD0CDF6-8D52-4B37-B7A9-9CBC4F03B67D}.Debug|x64.Build.0 = Debug|x64
+		{2FD0CDF6-8D52-4B37-B7A9-9CBC4F03B67D}.Release|x64.ActiveCfg = Release|x64
+		{2FD0CDF6-8D52-4B37-B7A9-9CBC4F03B67D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

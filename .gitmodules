@@ -1,3 +1,6 @@
 [submodule "KamiToolKit"]
 	path = KamiToolKit
 	url = https://github.com/MidoriKami/KamiToolKit
+[submodule "KamiToolKit.Components"]
+	path = KamiToolKit.Components
+	url = https://github.com/MidoriKami/KamiToolKit.Components
