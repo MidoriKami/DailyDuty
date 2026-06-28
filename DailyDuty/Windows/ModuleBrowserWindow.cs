@@ -5,6 +5,7 @@ using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
+using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
 
@@ -15,6 +16,7 @@ public class ModuleBrowserWindow : NativeAddon {
 
     private ResNode? optionContainerNode;
     private TextNode? selectOptionLabelNode;
+    private TreeListNode<LoadedModule, ModuleOptionNode>? treeListNode;
 
     private Dictionary<LoadedModule, NodeBase>? moduleNodes;
 
@@ -48,7 +50,7 @@ public class ModuleBrowserWindow : NativeAddon {
                     Height = ContentSize.Y - 28.0f,
                     FitHeight = true,
                     InitialNodes = [
-                        new TreeListNode<LoadedModule, ModuleOptionNode> {
+                        treeListNode = new TreeListNode<LoadedModule, ModuleOptionNode> {
                             Width = ContentSize.X * 3.85f / 10.0f,
                             Options = allModuleOptions,
                             OnItemSelected = OnModuleSelected,
@@ -114,93 +116,16 @@ public class ModuleBrowserWindow : NativeAddon {
     }
 
     private void OnSearchUpdated(ReadOnlySeString searchTerm) {
-        // List<ModuleOptionNode> validOptions = [];
+        var regex = searchTerm.AsRegex();
 
-        // foreach (var node in optionsNode?.Nodes ?? []) {
-        //     var isTarget = node.ModuleInfo.IsMatch(searchTerm.ToString());
-        //     node.IsVisible = isTarget;
-        //
-        //     if (isTarget) {
-        //         validOptions.Add(node);
-        //     }
-        // }
-        //
-        // foreach (var categoryNode in optionsNode?.CategoryNodes ?? []) {
-        //     categoryNode.IsVisible = validOptions.Any(option => option.ModuleInfo.Type.Description == categoryNode.String.ToString());
-        //     categoryNode.RecalculateLayout();
-        // }
-        //
-        // if (validOptions.All(option => option != selectedOption)) {
-        //     UnselectCurrentOption();
-        // }
-        //
-        // optionsNode?.RecalculateLayout();
+        Dictionary<ReadOnlySeString, List<LoadedModule>> filteredModules = [];
+
+        foreach (var (header, modules) in allModuleOptions ?? []) {
+            if (modules.Any(module => regex.IsMatch(module.FeatureBase.ModuleInfo.DisplayName))) {
+                filteredModules.Add(header, modules.Where(module => regex.IsMatch(module.FeatureBase.ModuleInfo.DisplayName)).ToList());
+            }
+        }
+
+        treeListNode?.Options = filteredModules;
     }
-
-    // private void OnOptionClicked(ModuleOptionNode option) {
-    //     // // if (mainContainerNode is null) return;
-    //     // if (selectedOption == option) return;
-    //     //
-    //     // UnselectCurrentOption();
-    //     //
-    //     // selectedOption = option;
-    //     // selectedOption.IsSelected = true;
-    //
-    //     // if (option.Module.FeatureBase is ModuleBase module) {
-    //     //     AttachStatusNode(module.DataNode);
-    //     // }
-    //     // else if (option.Module.FeatureBase is not ModuleBase) {
-    //     //     AttachFeatureNode(option.Module.FeatureBase.DisplayNode);
-    //     // }
-    // }
-
-    // private void AttachFeatureNode(NodeBase node) {
-    //     if (contentsNode is null) return;
-    //
-    //     SelectOptionNode(node);
-    //
-    //     node.Size = contentsNode.Size;
-    //     node.AttachNode(contentsNode);
-    //
-    //     if (node is LayoutListNode layoutListNode) {
-    //         layoutListNode.RecalculateLayout();
-    //     }
-    // }
-
-    // private void OnCategoryToggled(bool isVisible, ModuleType category) {
-    //     // UnselectCurrentOption();
-    //     // optionsNode?.RecalculateLayout();
-    // }
-
-    // private void AttachStatusNode(DataNodeBase node) {
-    //     if (contentsNode is null) return;
-    //
-    //     SelectOptionNode(node);
-    //
-    //     node.SelectTab(dataTabSelected);
-    //
-    //     node.TabSelected = tab => {
-    //         dataTabSelected = tab;
-    //     };
-    //
-    //     node.Size = contentsNode.Size;
-    //     node.AttachNode(contentsNode);
-    // }
-
-    // private void SelectOptionNode(NodeBase option) {
-    //     statusNode?.Dispose();
-    //     statusNode = option;
-    //     selectOptionLabelNode?.IsVisible = false;
-    // }
-
-    // private void UnselectCurrentOption() {
-    //     // selectedOption?.IsSelected = false;
-    //     // selectedOption?.IsHovered = false;
-    //     // selectedOption = null;
-    //
-    //     // statusNode?.Dispose();
-    //     // statusNode = null;
-    //     //
-    //     // selectOptionLabelNode?.IsVisible = true;
-    // }
 }
