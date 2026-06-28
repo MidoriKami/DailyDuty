@@ -213,7 +213,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         warningList.ItemSpacing = Config.ItemSpacing;
         warningList.RecalculateLayout();
 
-        var newHeight = warningList.Bounds.Bottom + 4.0f;
+        var newHeight = warningList.Bounds.Bottom + 16.0f;
         if (Math.Abs(Height - newHeight) > 0.1f) {
             Height = newHeight;
         }
