@@ -185,7 +185,11 @@ public unsafe class TodoPanelNode : OverlayNode {
         titleText.String = Config.Label;
 
         foreach (var entry in warningList.GetNodes<TodoListEntryNode>()) {
-            entry.IsVisible = entry.LoadedModule.State is LoadedState.Enabled && Config.Modules.Contains(entry.Module.ModuleInfo.DisplayName);
+            var isEnabled = entry.LoadedModule.State is LoadedState.Enabled;
+            var isTracked = Config.Modules.Contains(entry.Module.ModuleInfo.DisplayName);
+            var isComplete = entry.Module.ModuleStatus is CompletionStatus.Complete;
+
+            entry.IsVisible = isEnabled && isTracked && !isComplete;
             entry.TextColor = Config.TextColor;
             entry.TextOutlineColor = Config.OutlineColor;
 
