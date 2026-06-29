@@ -52,6 +52,7 @@ public class ModuleBrowserWindow : NativeAddon {
                     InitialNodes = [
                         treeListNode = new TreeListNode<LoadedModule, ModuleOptionNode> {
                             Width = ContentSize.X * 3.85f / 10.0f,
+                            ItemSpacing = 2.0f,
                             Options = allModuleOptions,
                             OnItemSelected = OnModuleSelected,
                         },
