@@ -1,12 +1,12 @@
 using DailyDuty.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
-using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.UiOverlay;
@@ -26,18 +26,13 @@ public class TodoOverlay : FeatureBase {
     public TodoOverlayConfig ModuleTodoOverlayConfig = null!;
     public override NodeBase DisplayNode => new TodoOverlayConfigNode(this);
 
+    private Dictionary<TodoPanelConfig, TodoPanelNode>? panelNodes;
+
     protected override async Task OnFeatureLoad() {
         ModuleTodoOverlayConfig = await Config.LoadCharacterConfig<TodoOverlayConfig>($"{ModuleInfo.FileName}.config.json");
         if (ModuleTodoOverlayConfig is null) throw new Exception("Failed to load config file");
 
         ModuleTodoOverlayConfig.FileName = ModuleInfo.FileName;
-
-        // if (System.ModuleManager.IsLoadComplete) {
-        //     RebuildPanels();
-        // }
-        // else {
-        System.ModuleManager.OnLoadComplete += RebuildPanels;
-        // }
     }
 
     protected override Task OnFeatureUnload() {
@@ -47,6 +42,8 @@ public class TodoOverlay : FeatureBase {
     }
 
     protected override async Task OnFeatureEnable() {
+        panelNodes = [];
+
         await Services.Framework.RunSafely(() => {
             overlayController = new OverlayController();
             RebuildPanels();
@@ -56,6 +53,9 @@ public class TodoOverlay : FeatureBase {
     protected override async Task OnFeatureDisable() {
         await Services.Framework.RunSafely(() => overlayController?.Dispose());
         overlayController = null;
+
+        panelNodes?.Clear();
+        panelNodes = null;
     }
 
     protected override void OnFeatureUpdate() {
@@ -66,30 +66,43 @@ public class TodoOverlay : FeatureBase {
     }
 
     public unsafe void RebuildPanels() {
-        ThreadSafety.AssertMainThread();
+        if (!IsEnabled) {
+            overlayController?.RemoveAllNodes();
+            panelNodes?.Clear();
+            return;
+        }
 
-        if (!System.ModuleManager.IsLoadComplete) return;
-        System.ModuleManager.OnLoadComplete -= RebuildPanels;
+        if (panelNodes is null) return;
+        if (overlayController is null) return;
 
-        overlayController?.RemoveAllNodes();
-        if (!IsEnabled) return;
-
-        foreach (var (index, option) in ModuleTodoOverlayConfig.Panels.Index()) {
-
-            if (option.Position is null) {
-                var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 4.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
-                var offset = new Vector2(300.0f, 0.0f) * index;
-
-                option.Position = position + offset;
-                ModuleTodoOverlayConfig.MarkDirty();
+        // Remove no longer used panels.
+        foreach (var (panelConfig, panelNode) in panelNodes) {
+            if (!ModuleTodoOverlayConfig.Panels.Contains(panelConfig)) {
+                overlayController.RemoveNode(panelNode);
             }
+        }
 
-            overlayController?.AddNode(new TodoPanelNode {
-                Position = option.Position.Value,
-                Size = new Vector2(200.0f, 200.0f),
-                Config = option,
-                ModuleTodoOverlayConfig = ModuleTodoOverlayConfig,
-            });
+        // Add new panels.
+        foreach (var (index, option) in ModuleTodoOverlayConfig.Panels.Index()) {
+            if (!panelNodes.ContainsKey(option)) {
+                if (option.Position is null) {
+                    var position = new Vector2(AtkStage.Instance()->ScreenSize.Width / 4.0f, AtkStage.Instance()->ScreenSize.Height / 3.0f);
+                    var offset = new Vector2(300.0f, 0.0f) * index;
+
+                    option.Position = position + offset;
+                    ModuleTodoOverlayConfig.MarkDirty();
+                }
+
+                var newPanelNode = new TodoPanelNode {
+                    Position = option.Position.Value,
+                    Size = new Vector2(200.0f, 200.0f),
+                    Config = option,
+                    ModuleTodoOverlayConfig = ModuleTodoOverlayConfig,
+                };
+
+                overlayController.AddNode(newPanelNode);
+                panelNodes.Add(option, newPanelNode);
+            }
         }
     }
 }
