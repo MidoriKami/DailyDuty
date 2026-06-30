@@ -102,6 +102,7 @@ public class TimersOverlayConfigNode : UpdatableNode {
         listNode.RecalculateLayout();
         listNode.AttachNode(this);
 
+        // todo: make into a ListNode<T,TU>
         colorEdit = new ScrollingNode<VerticalListNode> {
             ContentNode = {
                 ItemSpacing = 4.0f,

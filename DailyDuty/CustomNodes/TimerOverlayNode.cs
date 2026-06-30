@@ -92,6 +92,8 @@ public sealed class TimerOverlayNode : OverlayNode {
     }
 
     protected override void OnUpdate() {
+        if (System.ModuleManager.IsUnloading) return;
+
         var timeRemaining = Module.DataBase.NextReset - DateTime.UtcNow;
         var timerPeriod = Module.GetResetPeriod();
         var percentage = 1.0f - (float)(timeRemaining / timerPeriod);
