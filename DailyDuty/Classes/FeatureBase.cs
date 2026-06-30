@@ -14,10 +14,10 @@ public abstract class FeatureBase {
 
     public bool IsEnabled { get; private set; }
 
-    public async Task Load()
+    public async Task LoadAsync()
         => await OnFeatureLoad();
 
-    public async Task Unload()
+    public async Task UnloadAsync()
         => await OnFeatureUnload();
 
     public async Task Enable() {
