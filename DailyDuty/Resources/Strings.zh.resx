@@ -684,6 +684,6 @@
     <value>严重错误：模块加载失败，且在卸载过程中再次报错。</value>
   </data>
   <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
-        <value>[DailyDuty] 距离下次每日重置</value>
+        <value>[DailyDuty] 距离下次重置</value>
     </data>
 </root>
