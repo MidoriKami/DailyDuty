@@ -16,14 +16,11 @@ public class ModuleManager : IAsyncDisposable {
     public List<LoadedModule>? LoadedModules { get; private set; }
     private FrozenDictionary<string, LoadedModule>? loadedModulesByName;
     public bool IsUnloading { get; private set; }
-    public bool IsLoadComplete { get; private set; }
 
     private Hook<EventFramework.Delegates.ProcessEventPlay>? frameworkEventHook;
 
     public Action? OnFeatureEnabled { get; set; }
     public Action? OnFeatureDisabled { get; set; }
-
-    public Action? OnLoadComplete { get; set; }
 
     public unsafe ModuleManager() {
         frameworkEventHook = Services.Hooker.HookFromAddress<EventFramework.Delegates.ProcessEventPlay>(EventFramework.MemberFunctionPointers.ProcessEventPlay, OnFrameworkEvent);
@@ -41,32 +38,38 @@ public class ModuleManager : IAsyncDisposable {
 
         IsUnloading = false;
 
-        var allModules = GetModuleTypes();
         LoadedModules = [];
+        List<Task> loadTasks = [];
+        List<Task> enableTasks = [];
 
-        List<Task> moduleTasks = [];
+        var orderedModules = GetAllModules()
+            .OrderBy(module => module.ModuleInfo.Type)
+            .ThenBy(module => module.Name);
 
-        foreach (var module in allModules.OrderBy(module => module.ModuleInfo.Type).ThenBy(module => module.Name)) {
+        // Load all modules before enabling any of them, so timers and others don't have to rebuild once load is done.
+        foreach (var module in orderedModules) {
             Services.PluginInterface.Inject(module);
 
             var newLoadedModule = new LoadedModule(module, LoadedState.Disabled);
-
             LoadedModules.Add(newLoadedModule);
-            moduleTasks.Add(Task.Run(async () => {
-                await module.Load();
 
-                if (System.SystemConfig?.EnabledModules.Contains(module.Name) ?? false) {
-                    await Task.Run(() => TryEnableModule(newLoadedModule));
-                }
-            }));
+            loadTasks.Add(module.LoadAsync());
         }
 
-        await Task.WhenAll(moduleTasks);
+        await Task.WhenAll(loadTasks);
+
+        // Then enable modules that want to be enabled.
+        foreach (var loadedModule in LoadedModules) {
+            if (System.SystemConfig?.EnabledModules.Contains(loadedModule.Name) ?? false) {
+                enableTasks.Add(TryEnableModule(loadedModule));
+            }
+        }
+
+        await Task.WhenAll(enableTasks);
 
         loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
-        IsLoadComplete = true;
-        await Services.Framework.RunSafely(() => OnLoadComplete?.Invoke());
+        await Services.Framework.RunSafely(() => System.ConfigurationWindow.DebugOpen());
     }
 
     private unsafe void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
@@ -97,7 +100,6 @@ public class ModuleManager : IAsyncDisposable {
 
     public async Task UnloadModules() {
         IsUnloading = true;
-        IsLoadComplete = false;
 
         frameworkEventHook?.Disable();
 
@@ -123,7 +125,7 @@ public class ModuleManager : IAsyncDisposable {
                     }
                 }
 
-                await Task.Run(loadedModule.FeatureBase.Unload);
+                await Task.Run(loadedModule.FeatureBase.UnloadAsync);
             }));
         }
 
@@ -209,7 +211,7 @@ public class ModuleManager : IAsyncDisposable {
         return module.FeatureBase as ModuleBase;
     }
 
-    private static List<FeatureBase> GetModuleTypes() => Assembly
+    private static List<FeatureBase> GetAllModules() => Assembly
         .GetCallingAssembly()
         .GetTypes()
         .Where(type => type.IsSubclassOf(typeof(FeatureBase)))

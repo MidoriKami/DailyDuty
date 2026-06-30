@@ -44,8 +44,6 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
         if (Services.ClientState.IsLoggedIn) {
             OnLogin();
-
-            System.ModuleManager.OnLoadComplete += () => System.ConfigurationWindow.DebugOpen();
         }
 
         Services.ClientState.Login += OnLogin;
