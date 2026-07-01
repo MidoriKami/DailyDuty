@@ -83,6 +83,7 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             Size = new Vector2(18.0f, 18.0f),
             Position = new Vector2(35.0f, -4.0f),
             IsTaskAvailable = true,
+            TextTooltip = Strings.WondrousTailsNode_DutyNotification,
         };
         infoTailsNode.AttachNode(infoTextNode);
     }

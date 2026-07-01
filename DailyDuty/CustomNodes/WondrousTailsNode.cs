@@ -21,11 +21,6 @@ public class WondrousTailsNode : ResNode {
             WrapMode = WrapMode.Tile,
             ImageNodeFlags = 0,
         };
-
-        background.ShowClickableCursor = true;
-        background.AddNodeFlags(NodeFlags.HasCollision, NodeFlags.IsTopNode);
-        background.TextTooltip = Strings.WondrousTailsNode_DutyNotification;
-
         background.AttachNode(this);
 
         foreground = new SimpleImageNode {
