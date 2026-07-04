@@ -9,7 +9,6 @@ using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
-using KamiToolKit.UiOverlay;
 
 namespace DailyDuty.Features.TodoOverlay;
 
@@ -21,7 +20,6 @@ public class TodoOverlay : FeatureBase {
         Tags = ["Tasks", "List"],
     };
 
-    private OverlayController? overlayController;
 
     public TodoOverlayConfig ModuleTodoOverlayConfig = null!;
     public override NodeBase DisplayNode => new TodoOverlayConfigNode(this);
@@ -44,15 +42,16 @@ public class TodoOverlay : FeatureBase {
     protected override async Task OnFeatureEnable() {
         panelNodes = [];
 
-        await Services.Framework.RunSafely(() => {
-            overlayController = new OverlayController();
-            RebuildPanels();
-        });
+        await Services.Framework.RunSafely(RebuildPanels);
     }
 
     protected override async Task OnFeatureDisable() {
-        await Services.Framework.RunSafely(() => overlayController?.Dispose());
-        overlayController = null;
+        await Services.Framework.RunSafely(() => {
+            foreach (var (_, node) in panelNodes ?? []) {
+                Services.NativeOverlay.RemoveNode(node, 4);
+                node.Dispose();
+            }
+        });
 
         panelNodes?.Clear();
         panelNodes = null;
@@ -67,18 +66,22 @@ public class TodoOverlay : FeatureBase {
 
     public unsafe void RebuildPanels() {
         if (!IsEnabled) {
-            overlayController?.RemoveAllNodes();
+            foreach (var (_, node) in panelNodes ?? []) {
+                Services.NativeOverlay.RemoveNode(node, 4);
+                node.Dispose();
+            }
+
             panelNodes?.Clear();
             return;
         }
 
         if (panelNodes is null) return;
-        if (overlayController is null) return;
 
         // Remove no longer used panels.
         foreach (var (panelConfig, panelNode) in panelNodes) {
             if (!ModuleTodoOverlayConfig.Panels.Contains(panelConfig)) {
-                overlayController.RemoveNode(panelNode);
+                Services.NativeOverlay.RemoveNode(panelNode, 4);
+                panelNode.Dispose();
             }
         }
 
@@ -100,7 +103,7 @@ public class TodoOverlay : FeatureBase {
                     ModuleTodoOverlayConfig = ModuleTodoOverlayConfig,
                 };
 
-                overlayController.AddNode(newPanelNode);
+                Services.NativeOverlay.AddNode(newPanelNode, 4);
                 panelNodes.Add(option, newPanelNode);
             }
         }

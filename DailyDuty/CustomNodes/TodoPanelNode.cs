@@ -4,6 +4,8 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Features.TodoOverlay;
+using Dalamud.Game.NativeUi;
+using Dalamud.Game.NativeWrapper;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
@@ -11,13 +13,10 @@ using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes.Simplified;
-using KamiToolKit.UiOverlay;
 
 namespace DailyDuty.CustomNodes;
 
-public unsafe class TodoPanelNode : OverlayNode {
-    public override OverlayLayer OverlayLayer => OverlayLayer.BehindUserInterface;
-
+public unsafe class TodoPanelNode : ResNode, IOverlayNode {
     private readonly WindowBackgroundTextureNode frame;
     private readonly ImageNode backgroundImage;
     private readonly WindowBackgroundTextureNode frameFront;
@@ -31,6 +30,8 @@ public unsafe class TodoPanelNode : OverlayNode {
 
     public required TodoPanelConfig Config { get; init; }
     public required TodoOverlayConfig ModuleTodoOverlayConfig { get; init; }
+
+    public nint NodePointer => this;
 
     public TodoPanelNode() {
         frame = new WindowBackgroundTextureNode(false) {
@@ -140,7 +141,7 @@ public unsafe class TodoPanelNode : OverlayNode {
         configWindow = null;
     }
 
-    protected override void OnUpdate() {
+    public void Update() {
         if (Config.AttachToQuestList) {
             var todoAddon = RaptureAtkUnitManager.Instance()->GetAddonByName("_ToDoList");
             if (todoAddon is not null) {
@@ -218,6 +219,12 @@ public unsafe class TodoPanelNode : OverlayNode {
             Height = newHeight;
         }
     }
+
+    public void PerformAttach(AtkUnitBasePtr atkUnitBase)
+        => AttachNode((AtkUnitBase*)atkUnitBase.Address);
+
+    public void PerformDetach(AtkUnitBasePtr atkUnitBase)
+        => DetachNode();
 
     private void OpenConfig() {
         configWindow ??= new TodoOverlayPanelConfigWindow(ModuleTodoOverlayConfig, Config) {

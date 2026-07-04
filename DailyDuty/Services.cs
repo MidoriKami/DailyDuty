@@ -22,4 +22,5 @@ public sealed class Services {
     [PluginService] public static IObjectTable ObjectTable { get; set; } = null!;
     [PluginService] public static IAgentLifecycle AgentLifecycle { get; set; } = null!;
     [PluginService] public static IReliableFileStorage ReliableFileStorage { get; set; } = null!;
+    [PluginService] public static INativeOverlay NativeOverlay { get; set; } = null!;
 }
