@@ -16,8 +16,6 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; set; } = null!;
 
     public Task LoadAsync(CancellationToken cancellationToken) {
-        ServiceExtension.InitializeAllServices();
-
         KamiToolKitLibrary.Initialize(PluginInterface, "DailyDuty");
         KamiToolKitLibrary.SetResourceManager(Strings.ResourceManager);
 
