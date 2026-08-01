@@ -8,6 +8,7 @@ namespace DailyDuty.Classes;
 public class SystemConfig {
     public int Version = 3;
     public bool EnableSceneEventLogging;
+    public bool IsDebugMode = false;
 
     public HashSet<string> EnabledModules = [];
 

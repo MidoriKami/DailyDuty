@@ -71,7 +71,9 @@ public class ModuleManager : IAsyncDisposable {
 
         loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
-        await IFramework.Get().RunSafely(() => System.ConfigurationWindow.DebugOpen());
+        if (System.SystemConfig.IsDebugMode) {
+            await IFramework.Get().RunSafely(() => System.ConfigurationWindow.DebugOpen());
+        }
     }
 
     private unsafe void OnFrameworkEvent(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {

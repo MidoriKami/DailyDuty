@@ -79,6 +79,17 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
                 System.ConfigurationWindow.Toggle();
                 break;
 
+            case ["debug"] when System.SystemConfig is not null:
+                System.SystemConfig.IsDebugMode = !System.SystemConfig.IsDebugMode;
+                IChatGui.Get().Print($"Debug mode is now {(System.SystemConfig.IsDebugMode ? "Enabled" : "Disabled")}", "DailyDuty");
+                IPluginLog.Get().Info($"Debug mode is now {(System.SystemConfig.IsDebugMode ? "Enabled" : "Disabled")}");
+                Task.Run(System.SystemConfig.Save);
+
+                if (!System.ConfigurationWindow.IsOpen) {
+                    System.ConfigurationWindow.Open();
+                }
+                break;
+
             case [ "logevents" ] when System.SystemConfig is not null:
                 System.SystemConfig.EnableSceneEventLogging = !System.SystemConfig.EnableSceneEventLogging;
                 var enabled = Strings.EventLogging_Enabled;
