@@ -1,17 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using DailyDuty.Enums;
+using Dalamud.Game.Chat;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using Lumina.Excel.Sheets;
+using Lumina.Extensions;
 
 namespace DailyDuty.Features.TreasureMap;
 
-public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
+public class TreasureMap : Module<ConfigBase, TreasureMapData> {
     public override ModuleInfo ModuleInfo => new() {
         DisplayName = Strings.TreasureMap_DisplayName,
         FileName = "TreasureMap",
@@ -20,8 +20,6 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     };
 
     public override DataNodeBase DataNode => new TreasureMapDataNode(this);
-    private List<uint> inventoryMaps = [];
-    private bool gatheringStarted;
 
     protected override StatusMessage GetStatusMessage()
         => Strings.TreasureMap_Gatherable;
@@ -42,43 +40,37 @@ public unsafe class TreasureMap : Module<ConfigBase, TreasureMapData> {
     protected override CompletionStatus GetCompletionStatus()
         => ModuleData.NextReset == DateTime.MaxValue ? CompletionStatus.Incomplete : CompletionStatus.Complete;
 
-    protected override void OnModuleUpdate() {
-        if (ICondition.Get()[ConditionFlag.ExecutingGatheringAction] && !gatheringStarted) {
-            gatheringStarted = true;
-            OnGatheringStart();
-        }
-        else if (!ICondition.Get()[ConditionFlag.ExecutingGatheringAction] && gatheringStarted) {
-            gatheringStarted = false;
-            OnGatheringStop();
-        }
+    protected override Task OnModuleEnable() {
+        IChatGui.Get().LogMessage += OnLogMessage;
+
+        return Task.CompletedTask;
     }
 
-    private void OnGatheringStart() {
-        inventoryMaps.Clear();
-        inventoryMaps = GetInventoryTreasureMaps().ToList();
+    protected override Task OnModuleDisable() {
+        IChatGui.Get().LogMessage -= OnLogMessage;
+
+        return Task.CompletedTask;
     }
 
-    private void OnGatheringStop() {
-        var newInventoryMaps = GetInventoryTreasureMaps().ToList();
+    private void OnLogMessage(ILogMessage message) {
+        if (!ICondition.Get()[ConditionFlag.ExecutingGatheringAction]) return;
 
-        if (newInventoryMaps.Count > inventoryMaps.Count) {
-            ModuleData.LastMapGatheredTime = DateTime.UtcNow;
-            ModuleData.NextReset = ModuleData.LastMapGatheredTime + TimeSpan.FromHours(18);
-            ModuleConfig.Suppressed = false;
+        // You obtain <kilo(lnum2,\,)> <ennoun(Item,3,lnum1,lnum2,1)>.
+        if (message.LogMessageId is not 1053) return;
+        if (!message.TryGetIntParameter(0, out var itemId) || itemId is 0) return;
 
-            ModuleData.MarkDirty();
-            ModuleConfig.MarkDirty();
-        }
+        var itemInfo = IDataManager.Get().GetExcelSheet<Item>().GetRow((uint) itemId);
+
+        var treasureHunt = IDataManager.Get().GetExcelSheet<TreasureHuntRank>().FirstOrNull(hunt => hunt.ItemName.RowId == itemId);
+        if (treasureHunt is null) return;
+
+        IPluginLog.Get().Debug($"Player gathered {itemInfo.Name} corresponding to TreasureHuntRank#{treasureHunt.Value.RowId}");
+
+        ModuleData.LastMapGatheredTime = DateTime.UtcNow;
+        ModuleData.NextReset = ModuleData.LastMapGatheredTime + TimeSpan.FromHours(18);
+        ModuleConfig.Suppressed = false;
+
+        ModuleData.MarkDirty();
+        ModuleConfig.MarkDirty();
     }
-
-    private static IEnumerable<uint> GetInventoryTreasureMaps() {
-        foreach (var treasureMap in IDataManager.Get().GetExcelSheet<TreasureHuntRank>().Where(map => map.ItemName.RowId is not 0)) {
-            if (IsItemInInventory(treasureMap.ItemName.RowId)) {
-                yield return treasureMap.ItemName.RowId;
-            }
-        }
-    }
-
-    private static bool IsItemInInventory(uint itemId)
-        => InventoryManager.Instance()->GetInventoryItemCount(itemId) > 0;
 }
