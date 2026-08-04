@@ -154,7 +154,7 @@ public abstract class Module<T, TU> : ModuleBase where T : ConfigBase, new() whe
     private void PrintStatusMessage(StatusMessageType type) {
         IPluginLog.Get().Debug($"[{ModuleInfo.DisplayName}] Sending {type.ToString()} Message");
 
-        IFramework.Get().RunSafely(() => {
+        IFramework.Get().Run(() => {
             IChatGui.Get().PrintPayloadMessage(
                 ModuleConfig.MessageChatChannel,
                 ModuleStatusMessage.PayloadId,

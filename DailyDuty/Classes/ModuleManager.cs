@@ -72,7 +72,7 @@ public class ModuleManager : IAsyncDisposable {
         loadedModulesByName = LoadedModules.ToFrozenDictionary(module => module.Name, module => module);
 
         if (System.SystemConfig.IsDebugMode) {
-            await IFramework.Get().RunSafely(() => System.ConfigurationWindow.DebugOpen());
+            await IFramework.Get().Run(() => System.ConfigurationWindow.DebugOpen());
         }
     }
 

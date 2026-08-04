@@ -53,7 +53,7 @@ public class DutyFinderEnhancements : FeatureBase {
             };
         }
 
-        await IFramework.Get().RunSafely(addonController.Enable);
+        await IFramework.Get().Run(addonController.Enable);
     }
 
     private unsafe void FinalizeContentsFinder(AddonContentsFinder* _) {
@@ -105,7 +105,7 @@ public class DutyFinderEnhancements : FeatureBase {
     }
 
     protected override async Task OnFeatureDisable() {
-        await IFramework.Get().RunSafely(() => {
+        await IFramework.Get().Run(() => {
             addonController?.Dispose();
             timerTextNode?.Dispose();
         });

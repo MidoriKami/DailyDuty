@@ -45,14 +45,14 @@ public class TodoOverlay : FeatureBase {
     protected override async Task OnFeatureEnable() {
         panelNodes = [];
 
-        await IFramework.Get().RunSafely(() => {
+        await IFramework.Get().Run(() => {
             overlayController = new OverlayController();
             RebuildPanels();
         });
     }
 
     protected override async Task OnFeatureDisable() {
-        await IFramework.Get().RunSafely(() => overlayController?.Dispose());
+        await IFramework.Get().Run(() => overlayController?.Dispose());
         overlayController = null;
 
         panelNodes?.Clear();

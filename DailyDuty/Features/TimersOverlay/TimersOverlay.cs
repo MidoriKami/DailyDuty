@@ -56,7 +56,7 @@ public class TimersOverlay : FeatureBase {
             timerNodes.Add(module, null);
         }
 
-        await IFramework.Get().RunSafely(() => {
+        await IFramework.Get().Run(() => {
             overlayController = new OverlayController();
         });
 
@@ -68,7 +68,7 @@ public class TimersOverlay : FeatureBase {
         System.ModuleManager.OnFeatureEnabled -= RebuildTimers;
         System.ModuleManager.OnFeatureDisabled -= RebuildTimers;
 
-        await IFramework.Get().RunSafely(() => overlayController?.Dispose());
+        await IFramework.Get().Run(() => overlayController?.Dispose());
         overlayController = null;
         timerNodes?.Clear();
         timerNodes = null;
@@ -120,7 +120,7 @@ public class TimersOverlay : FeatureBase {
 
     private async Task RebuildTimersTask() {
         if (!IsEnabled) {
-            await IFramework.Get().RunSafely(() => overlayController?.RemoveAllNodes());
+            await IFramework.Get().Run(() => overlayController?.RemoveAllNodes());
 
             foreach (var (key, _) in timerNodes ?? []) {
                 timerNodes?[key] = null;
@@ -132,7 +132,7 @@ public class TimersOverlay : FeatureBase {
         if (timerNodes is null) return;
         if (overlayController is null) return;
 
-        await IFramework.Get().RunSafely(() => {
+        await IFramework.Get().Run(() => {
             Vector2 screenSize;
             unsafe {
                 screenSize = AtkStage.Instance()->ScreenSize;
