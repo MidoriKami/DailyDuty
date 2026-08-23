@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="DailyDuty/DailyDuty.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="KamiToolKit.Components/KamiToolKit.Components.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="KamiToolKit/KamiToolKit.csproj">
+    <BuildType Project="Debug" />
+    <Platform Project="x64" />
+  </Project>
+</Solution>
