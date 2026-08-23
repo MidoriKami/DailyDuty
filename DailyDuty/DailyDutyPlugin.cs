@@ -68,7 +68,7 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
         await System.ConfigurationWindow.DisposeAsync();
         await System.ModuleManager.DisposeAsync();
-        await IFramework.Get().RunOnFrameworkThread(KamiToolKitLibrary.Dispose);
+        await IFramework.Get().Run(KamiToolKitLibrary.Dispose);
     }
 
     private static void OnCommandReceived(string command, string arguments) {
