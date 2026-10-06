@@ -615,7 +615,7 @@
     <value>データ未設定</value>
   </data>
   <data name="Teleport_TeleportingTo" xml:space="preserve">
-    <value> へテレポ</value>
+    <value>テレポ先</value>
   </data>
   <data name="Teleport_Teleport" xml:space="preserve">
     <value>テレポ</value>
