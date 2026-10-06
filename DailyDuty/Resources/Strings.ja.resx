@@ -42,648 +42,648 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ChallengeLog_DisplayName" xml:space="preserve">
-    <value>Challenge Log</value>
+    <value>攻略手帳</value>
   </data>
   <data name="CustomDelivery_DisplayName" xml:space="preserve">
-    <value>Custom Delivery</value>
+    <value>お得意様取引</value>
   </data>
   <data name="DomanEnclave_DisplayName" xml:space="preserve">
-    <value>Doman Enclave</value>
+    <value>ドマ町人地復興</value>
   </data>
   <data name="DutyFinderEnhancements_DisplayName" xml:space="preserve">
-    <value>Duty Finder Enhancements</value>
+    <value>コンテンツファインダー拡張</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
-    <value>Duty Roulette</value>
+    <value>コンテンツルーレット</value>
   </data>
   <data name="FashionReport_DisplayName" xml:space="preserve">
-    <value>Fashion Report</value>
+    <value>ファッションチェック</value>
   </data>
   <data name="FauxHollows_DisplayName" xml:space="preserve">
-    <value>Faux Hollows</value>
+    <value>ソーチョーの幻想盤</value>
   </data>
   <data name="GrandCompanyProvision_DisplayName" xml:space="preserve">
-    <value>Grand Company Provision</value>
+    <value>グランドカンパニー補給品調達</value>
   </data>
   <data name="GrandCompanySquadron_DisplayName" xml:space="preserve">
-    <value>Grand Company Squadron</value>
+    <value>グランドカンパニー小隊任務</value>
   </data>
   <data name="GrandCompanySupply_DisplayName" xml:space="preserve">
-    <value>Grand Company Supply</value>
+    <value>グランドカンパニー軍需品調達</value>
   </data>
   <data name="HuntMarksDaily_DisplayName" xml:space="preserve">
-    <value>Hunt Marks Daily</value>
+    <value>モブ手配書 (毎日)</value>
   </data>
   <data name="HuntMarksWeekly_DisplayName" xml:space="preserve">
-    <value>Hunt Marks Weekly</value>
+    <value>リスキー・モブ手配書 (毎週)</value>
   </data>
   <data name="JumboCactpot_DisplayName" xml:space="preserve">
-    <value>Jumbo Cactpot</value>
+    <value>ジャンボ・くじテンダー</value>
   </data>
   <data name="Levequest_DisplayName" xml:space="preserve">
-    <value>Levequest</value>
+    <value>ギルドリーヴ</value>
   </data>
   <data name="MaskedCarnivale_DisplayName" xml:space="preserve">
-    <value>Masked Carnivale</value>
+    <value>マスクカーニバル</value>
   </data>
   <data name="MiniCactpot_DisplayName" xml:space="preserve">
-    <value>Mini Cactpot</value>
+    <value>ミニ・くじテンダー</value>
   </data>
   <data name="RaidsAlliance_DisplayName" xml:space="preserve">
-    <value>Raids Alliance</value>
+    <value>アライアンスレイド</value>
   </data>
   <data name="RaidsNormal_DisplayName" xml:space="preserve">
-    <value>Raids Normal</value>
+    <value>ノーマルレイド</value>
   </data>
   <data name="ServerInfoBar_DisplayName" xml:space="preserve">
-    <value>Server Info Bar</value>
+    <value>サーバ情報バー</value>
   </data>
   <data name="TimersOverlay_DisplayName" xml:space="preserve">
-    <value>Timers Overlay</value>
+    <value>タイマーオーバーレイ</value>
   </data>
   <data name="TodoListOverlay_DisplayName" xml:space="preserve">
-    <value>Todo List Overlay</value>
+    <value>やることリストのオーバーレイ</value>
   </data>
   <data name="TreasureMap_DisplayName" xml:space="preserve">
-    <value>Treasure Map</value>
+    <value>トレジャーハント</value>
   </data>
   <data name="TribalQuests_DisplayName" xml:space="preserve">
-    <value>Tribal Quests</value>
+    <value>友好部族クエスト</value>
   </data>
   <data name="WondrousTails_DisplayName" xml:space="preserve">
-    <value>Wondrous Tails</value>
+    <value>クロの空想帳</value>
   </data>
   <data name="ModuleTypes_Daily" xml:space="preserve">
-    <value>Daily</value>
+    <value>デイリー</value>
   </data>
   <data name="ModuleTypes_Weekly" xml:space="preserve">
-    <value>Weekly</value>
+    <value>ウィークリー</value>
   </data>
   <data name="ModuleTypes_Other" xml:space="preserve">
-    <value>Other</value>
+    <value>その他</value>
   </data>
   <data name="ModuleTypes_Features" xml:space="preserve">
-    <value>Features</value>
+    <value>機能</value>
   </data>
   <data name="ModuleTypes_Debug" xml:space="preserve">
-    <value>Debug</value>
+    <value>デバッグ</value>
   </data>
   <data name="CompletionStatus_Unknown" xml:space="preserve">
-    <value>Unknown</value>
+    <value>不明</value>
   </data>
   <data name="CompletionStatus_Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>無効</value>
   </data>
   <data name="CompletionStatus_Incomplete" xml:space="preserve">
-    <value>Incomplete</value>
+    <value>未コンプリート</value>
   </data>
   <data name="CompletionStatus_Unavailable" xml:space="preserve">
-    <value>Unavailable</value>
+    <value>実行不可</value>
   </data>
   <data name="CompletionStatus_InProgress" xml:space="preserve">
-    <value>In Progress</value>
+    <value>実行中</value>
   </data>
   <data name="CompletionStatus_Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>コンプリート</value>
   </data>
   <data name="CompletionStatus_Suppressed" xml:space="preserve">
-    <value>Suppressed</value>
+    <value>一時停止中</value>
   </data>
   <data name="CompletionStatus_ResultsAvailable" xml:space="preserve">
-    <value>Results Available</value>
+    <value>結果を確認できます</value>
   </data>
   <data name="ComparisonMode_Below" xml:space="preserve">
-    <value>Below</value>
+    <value>以下</value>
   </data>
   <data name="ComparisonMode_NotEqual" xml:space="preserve">
-    <value>Not Equal</value>
+    <value>等しくない</value>
   </data>
   <data name="ComparisonMode_Above" xml:space="preserve">
-    <value>Above</value>
+    <value>以上</value>
   </data>
   <data name="FashionReportMode_AllAttemptsUsed" xml:space="preserve">
-    <value>All Attempts Used</value>
+    <value>すべての挑戦回数を使い切りました</value>
   </data>
   <data name="FashionReportMode_OneAttemptUsed" xml:space="preserve">
-    <value>One Attempt Used</value>
+    <value>1回挑戦しました</value>
   </data>
   <data name="FashionReportMode_ScoredOver80" xml:space="preserve">
-    <value>Scored Over 80</value>
+    <value>80点以上のスコア</value>
   </data>
   <data name="GenericDataNode_ModuleStatus" xml:space="preserve">
-    <value>Module Status</value>
+    <value>各項目のステータス</value>
   </data>
   <data name="GenericDataNode_NextReset" xml:space="preserve">
-    <value>Next Reset</value>
+    <value>次のリセット</value>
   </data>
   <data name="GenericDataNode_TimeRemaining" xml:space="preserve">
-    <value>Time Remaining</value>
+    <value>残り時間</value>
   </data>
   <data name="GenericDataNode_AvailableNow" xml:space="preserve">
-    <value>Available Now</value>
+    <value>利用可能</value>
   </data>
   <data name="GenericDataNode_EnableModule" xml:space="preserve">
-    <value>Enable module to initialize</value>
+    <value>モジュールの初期化を有効にする</value>
   </data>
   <data name="NotificationSettingsNode_NotificationSettings" xml:space="preserve">
-    <value>Notification Settings</value>
+    <value>通知設定</value>
   </data>
   <data name="NotificationSettingsNode_LoginStatus" xml:space="preserve">
-    <value>Send status on login</value>
+    <value>ログイン時にステータスを送信</value>
   </data>
   <data name="NotificationSettingsNode_ZoneStatus" xml:space="preserve">
-    <value>Send status on zone change</value>
+    <value>エリア移動後にステータスを送信する</value>
   </data>
   <data name="NotificationSettingsNode_ResetStatus" xml:space="preserve">
-    <value>Send status on module reset</value>
+    <value>モジュールのリセット時にステータスを送信する</value>
   </data>
   <data name="NotificationSettingsNode_CustomStatus" xml:space="preserve">
-    <value>Custom Status Message</value>
+    <value>カスタムステータスメッセージ</value>
   </data>
   <data name="NotificationSettingsNode_CustomReset" xml:space="preserve">
-    <value>Custom Reset Message</value>
+    <value>カスタムリセットメッセージ</value>
   </data>
   <data name="NotificationSettingsNode_ChatChannel" xml:space="preserve">
-    <value>Chat Channel</value>
+    <value>チャットチャンネル</value>
   </data>
   <data name="ConfigNodeBase_ModuleSettings" xml:space="preserve">
-    <value>Module Settings</value>
+    <value>モジュール設定</value>
   </data>
   <data name="ConfigNodeBase_NoOptions" xml:space="preserve">
-    <value>No options available for this module</value>
+    <value>このモジュールで利用可能なオプションはありません</value>
   </data>
   <data name="DataNodeBase_ModuleData" xml:space="preserve">
-    <value>Module Data</value>
+    <value>モジュールの情報</value>
   </data>
   <data name="DataNodeBase_Status" xml:space="preserve">
-    <value>Status</value>
+    <value>ステータス</value>
   </data>
   <data name="DataNodeBase_Data" xml:space="preserve">
-    <value>Data</value>
+    <value>データ</value>
   </data>
   <data name="DataNodeBase_Snooze" xml:space="preserve">
-    <value>Snooze</value>
+    <value>後で通知</value>
   </data>
   <data name="DataNodeBase_Unsnooze" xml:space="preserve">
-    <value>Unsnooze</value>
+    <value>通知を再開</value>
   </data>
   <data name="DataNodeBase_SnoozeTooltip" xml:space="preserve">
-    <value>Suppresses notification until the next reset</value>
+    <value>次回リセットまで通知を抑制</value>
   </data>
   <data name="ModuleBrowserWindow_SelectOption" xml:space="preserve">
-    <value>Please select an option on the left</value>
+    <value>左側からオプションを選択してください</value>
   </data>
   <data name="ModuleOptionNode_FailedToLoad" xml:space="preserve">
-    <value>Module Failed To Load</value>
+    <value>モジュールの読み込みに失敗しました</value>
   </data>
   <data name="ModuleOptionNode_OpenConfig" xml:space="preserve">
-    <value>Open Configuration</value>
+    <value>設定を開く</value>
   </data>
   <data name="TodoPanelNode_Important" xml:space="preserve">
-    <value>Important</value>
+    <value>重要</value>
   </data>
   <data name="WondrousTailsNode_DutyNotification" xml:space="preserve">
-    <value>[DailyDuty] This duty is a Wondrous Tails task</value>
+    <value>[DailyDuty] このコンテンツはクロの空想帳の対象です</value>
   </data>
   <data name="TimerOverlayNode_OverlayTooltip" xml:space="preserve">
-    <value>Overlay from DailyDuty plugin</value>
+    <value>DailyDutyプラグインのオーバーレイ</value>
   </data>
   <data name="DailyDutyPlugin_Configuration" xml:space="preserve">
-    <value>Daily Duty Configuration</value>
+    <value>DailyDuty設定</value>
   </data>
   <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
-    <value>Open DailyDuty Config Window</value>
+    <value>DailyDuty設定ウィンドウを開く</value>
   </data>
   <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
-    <value>[DailyDuty] Time until next daily reset</value>
+    <value>[DailyDuty] 次のデイリーリセットまでの時間</value>
   </data>
   <data name="DutyFinderEnhancements_OpenDailyDuty" xml:space="preserve">
-    <value>Open DailyDuty</value>
+    <value>DailyDutyを開く</value>
   </data>
   <data name="DutyFinderEnhancements_TimerConfig" xml:space="preserve">
-    <value>Timer Configuration</value>
+    <value>タイマー設定</value>
   </data>
   <data name="DutyFinderEnhancements_HideSeconds" xml:space="preserve">
-    <value>Hide Seconds</value>
+    <value>秒数を非表示</value>
   </data>
   <data name="DutyFinderEnhancements_TextColor" xml:space="preserve">
-    <value>Text Color</value>
+    <value>文字色</value>
   </data>
   <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
-    <value>DailyDuty Button Configuration</value>
+    <value>DailyDutyボタンの設定</value>
   </data>
   <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
-    <value>Show "Open DailyDuty" Button</value>
+    <value>「DailyDutyを開く」ボタンを表示</value>
   </data>
   <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
-    <value>Feature Configuration</value>
+    <value>モジュールの設定</value>
   </data>
   <data name="ServerInfoBar_ToggleableTimer" xml:space="preserve">
-    <value>Toggleable Timer</value>
+    <value>タイマーの切り替え</value>
   </data>
   <data name="ServerInfoBar_DailyTimer" xml:space="preserve">
-    <value>Daily Timer</value>
+    <value>デイリータイマー</value>
   </data>
   <data name="ServerInfoBar_WeeklyTimer" xml:space="preserve">
-    <value>Weekly Timer</value>
+    <value>ウィークリータイマー</value>
   </data>
   <data name="ServerInfoBar_ClickOpenConfig" xml:space="preserve">
-    <value>Click to Open Configuration</value>
+    <value>クリックして設定を開く</value>
   </data>
   <data name="ServerInfoBar_LeftClickChange" xml:space="preserve">
-    <value>Left Click to Change Mode</value>
+    <value>左クリックでモードを変更</value>
   </data>
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
-    <value>Right Click to Open Configuration</value>
+    <value>右クリックで設定を開く</value>
   </data>
   <data name="TimersOverlay_HideInDuties" xml:space="preserve">
-    <value>Hide in Duties</value>
+    <value>コンテンツ中は非表示</value>
   </data>
   <data name="TimersOverlay_HideInQuests" xml:space="preserve">
-    <value>Hide in Quest Events</value>
+    <value>クエストイベント中は非表示</value>
   </data>
   <data name="TimersOverlay_HideSeconds" xml:space="preserve">
-    <value>Hide Timer Seconds</value>
+    <value>タイマーの秒数を非表示</value>
   </data>
   <data name="TimersOverlay_ShowLabel" xml:space="preserve">
-    <value>Show Module Label</value>
+    <value>モジュールのラベルを表示</value>
   </data>
   <data name="TimersOverlay_ShowCountdown" xml:space="preserve">
-    <value>Show Countdown Text</value>
+    <value>カウントダウンテキストを表示</value>
   </data>
   <data name="TimersOverlay_EnableMoving" xml:space="preserve">
-    <value>Enable Moving Timers</value>
+    <value>移動タイマーを有効にする</value>
   </data>
   <data name="TimersOverlay_Scale" xml:space="preserve">
-    <value>Scale</value>
+    <value>大きさ</value>
   </data>
   <data name="TimersOverlay_Selection" xml:space="preserve">
-    <value>Timer Selection</value>
+    <value>タイマーの選択</value>
   </data>
   <data name="TodoOverlay_Panels" xml:space="preserve">
-    <value>Overlay Panels</value>
+    <value>オーバーレイパネル</value>
   </data>
   <data name="TodoOverlay_AddPanel" xml:space="preserve">
-    <value>Add Panel</value>
+    <value>パネルを追加</value>
   </data>
   <data name="TodoOverlay_Alignment" xml:space="preserve">
-    <value>Alignment</value>
+    <value>配置</value>
   </data>
   <data name="TodoOverlay_VerticalSpacing" xml:space="preserve">
-    <value>Vertical Spacing</value>
+    <value>縦方向の間隔</value>
   </data>
   <data name="TodoOverlay_BackgroundAlpha" xml:space="preserve">
-    <value>Background Alpha</value>
+    <value>背景の透明度</value>
   </data>
   <data name="TodoOverlay_ButtonAlpha" xml:space="preserve">
-    <value>Button Alpha</value>
+    <value>ボタンの透明度</value>
   </data>
   <data name="TodoOverlay_HideFrame" xml:space="preserve">
-    <value>Hide Frame</value>
+    <value>枠を非表示</value>
   </data>
   <data name="TodoOverlay_EnableMoving" xml:space="preserve">
-    <value>Enable Moving</value>
+    <value>移動を有効にする</value>
   </data>
   <data name="TodoOverlay_PinToQuestList" xml:space="preserve">
-    <value>Pin to Quest List</value>
+    <value>クエストリストにピン留めする</value>
   </data>
   <data name="TodoOverlay_OnlyOnePinned" xml:space="preserve">
-    <value>Only one panel can be pinned to the quest list at a time.</value>
+    <value>クエストリストに固定できるパネルは1つだけです。</value>
   </data>
   <data name="TodoOverlay_OutlineColor" xml:space="preserve">
-    <value>Text Outline Color</value>
+    <value>文字の縁取り色</value>
   </data>
   <data name="TodoOverlay_OpenMainConfig" xml:space="preserve">
-    <value>Open Main Config</value>
+    <value>メイン設定を開く</value>
   </data>
   <data name="ChallengeLog_DutyFinderWarning" xml:space="preserve">
-    <value>Enable Duty Finder Warning</value>
+    <value>コンテンツファインダー警告を有効にする</value>
   </data>
   <data name="ChallengeLog_DutyFinderWarningSound" xml:space="preserve">
-    <value>Enable Duty Finder Warning Sound</value>
+    <value>コンテンツファインダー警告音を有効にする</value>
   </data>
   <data name="ChallengeLog_TrackedEntries" xml:space="preserve">
-    <value>Tracked Challenge Log Entries</value>
+    <value>追跡中の攻略手帳項目</value>
   </data>
   <data name="ChallengeLog_EditTrackedEntries" xml:space="preserve">
-    <value>Edit Tracked Challenge Log Entries</value>
+    <value>追跡中の攻略手帳項目を編集</value>
   </data>
   <data name="ChallengeLog_TrackedDutyEntries" xml:space="preserve">
-    <value>Tracked Duty Finder Warning Entries</value>
+    <value>追跡中のコンテンツファインダー警告項目</value>
   </data>
   <data name="ChallengeLog_EditDutyEntries" xml:space="preserve">
-    <value>Edit Duty Finder Warning Entries</value>
+    <value>コンテンツファインダー警告項目を編集</value>
   </data>
   <data name="ChallengeLog_TrackingSelection" xml:space="preserve">
-    <value>Challenge Log Tracking Selection</value>
+    <value>攻略手帳の追跡項目を選択</value>
   </data>
   <data name="ChallengeLog_DutyWarningSelection" xml:space="preserve">
-    <value>Challenge Log Duty Finder Warning Selection</value>
+    <value>攻略手帳のコンテンツファインダー警告項目を選択</value>
   </data>
   <data name="CustomDelivery_AllowanceAmount" xml:space="preserve">
-    <value>Allowance Amount</value>
+    <value>受注権の残り回数</value>
   </data>
   <data name="CustomDelivery_WarningTrigger" xml:space="preserve">
-    <value>Warning Trigger</value>
+    <value>警告の発動条件</value>
   </data>
   <data name="CustomDelivery_AllowancesRemaining" xml:space="preserve">
-    <value>Allowances Remaining</value>
+    <value>残りの受注権</value>
   </data>
   <data name="CustomDelivery_AllowancesNotUpdated" xml:space="preserve">
-    <value>Allowances Not Updated</value>
+    <value>受注権数が更新されていません</value>
   </data>
   <data name="DomanEnclave_CurrentMaxAllowance" xml:space="preserve">
-    <value>Current Max Allowance</value>
+    <value>今の最大予算額</value>
   </data>
   <data name="DomanEnclave_DonatedThisWeek" xml:space="preserve">
-    <value>Donated This Week</value>
+    <value>今週の寄付額</value>
   </data>
   <data name="DomanEnclave_AllowanceRemaining" xml:space="preserve">
-    <value>Allowance Remaining</value>
+    <value>残りの予算額</value>
   </data>
   <data name="DomanEnclave_DonatedNotUpdated" xml:space="preserve">
-    <value>Donated Not Updated</value>
+    <value>寄付額が更新されていません</value>
   </data>
   <data name="DomanEnclave_RemainingNotUpdated" xml:space="preserve">
-    <value>Remaining Not Updated</value>
+    <value>ドマ町人地の残り予算額が更新されていません</value>
   </data>
   <data name="DomanEnclave_UnavailableStatus" xml:space="preserve">
-    <value>Status is unavailable, visit the Doman Enclave to update</value>
+    <value>ステータスを取得できません。ドマ町人地を訪れて更新してください</value>
   </data>
   <data name="DomanEnclave_UnknownStatus" xml:space="preserve">
-    <value>Status unknown, visit the enclave to update</value>
+    <value>ステータス不明。ドマ町人地を訪れて更新してください</value>
   </data>
   <data name="DutyRoulette_MarkCompleteTomecapped" xml:space="preserve">
-    <value>Mark Complete When Weekly Tomecapped</value>
+    <value>週制限トークンを上限まで貯めたら完了としてマーク</value>
   </data>
   <data name="DutyRoulette_ColorRoulette" xml:space="preserve">
-    <value>Color Duty Roulette</value>
+    <value>コンテンツルーレットを色分け</value>
   </data>
   <data name="DutyRoulette_IncompleteColor" xml:space="preserve">
-    <value>Incomplete Color</value>
+    <value>未完了時の色</value>
   </data>
   <data name="DutyRoulette_CompleteColor" xml:space="preserve">
-    <value>Complete Color</value>
+    <value>完了時の色</value>
   </data>
   <data name="DutyRoulette_TrackedEntries" xml:space="preserve">
-    <value>Tracked Duty Finder Entries</value>
+    <value>追跡中のコンテンツファインダー項目</value>
   </data>
   <data name="DutyRoulette_NotUpdated" xml:space="preserve">
-    <value>Status not Updated</value>
+    <value>ルーレットの情報が更新されていません</value>
   </data>
   <data name="FashionReport_CompletionMode" xml:space="preserve">
-    <value>Completion Mode</value>
+    <value>完了判定モード</value>
   </data>
   <data name="FashionReport_HighestScore" xml:space="preserve">
-    <value>Highest Score</value>
+    <value>最高得点</value>
   </data>
   <data name="FashionReport_ScoreNotUpdated" xml:space="preserve">
-    <value>Highest Score Not Updated</value>
+    <value>最高得点は更新されていません</value>
   </data>
   <data name="FashionReport_Available" xml:space="preserve">
-    <value>Fashion Report Available</value>
+    <value>ファッションチェック参加可能</value>
   </data>
   <data name="FashionReport_AvailableNotUpdated" xml:space="preserve">
-    <value>Available Not Updated</value>
+    <value>ファッションチェック参加不可</value>
   </data>
   <data name="FashionReport_AvailableStatus" xml:space="preserve">
-    <value>Available</value>
+    <value>参加可能</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>Not Available</value>
+    <value>参加不可</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
-    <value>Include Retelling</value>
+    <value>ボーナスチャンスを含める</value>
   </data>
   <data name="FauxHollows_CompletionCount" xml:space="preserve">
-    <value>Current Completion Count</value>
+    <value>現在の完了数</value>
   </data>
   <data name="GrandCompanySquadron_MissionCompleted" xml:space="preserve">
-    <value>Mission Completed</value>
+    <value>小隊任務完了</value>
   </data>
   <data name="GrandCompanySquadron_MissionStarted" xml:space="preserve">
-    <value>Mission Started</value>
+    <value>任務開始</value>
   </data>
   <data name="GrandCompanySquadron_CompletionTime" xml:space="preserve">
-    <value>Mission Completion Time</value>
+    <value>任務完了日時</value>
   </data>
   <data name="GrandCompanySquadron_TimeRemaining" xml:space="preserve">
-    <value>Mission Time Remaining</value>
+    <value>任務残り時間</value>
   </data>
   <data name="GrandCompanySquadron_NotStarted" xml:space="preserve">
-    <value>Not Started</value>
+    <value>未開始</value>
   </data>
   <data name="JumboCactpot_Ticket" xml:space="preserve">
-    <value>Ticket</value>
+    <value>くじ</value>
   </data>
   <data name="JumboCactpot_TicketNotUpdated" xml:space="preserve">
-    <value>Ticket Not Updated</value>
+    <value>ジャンボ・くじテンダーが更新されていません</value>
   </data>
   <data name="JumboCactpot_TicketNotClaimed" xml:space="preserve">
-    <value>Ticket not Claimed</value>
+    <value>ジャンボ・くじテンダー未受取</value>
   </data>
   <data name="Levequest_Available" xml:space="preserve">
-    <value>Levequests Available</value>
+    <value>ギルドリーヴ受注可能</value>
   </data>
   <data name="Levequest_Accepted" xml:space="preserve">
-    <value>Levequests Accepted</value>
+    <value>ギルドリーヴ受注済み</value>
   </data>
   <data name="Levequest_AcceptedNotUpdated" xml:space="preserve">
-    <value>Accepted Not Updated</value>
+    <value>受注状況が更新されていません</value>
   </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
-    <value>Attempts Available</value>
+    <value>挑戦可能回数あり</value>
   </data>
   <data name="MiniCactpot_AttemptsNotUpdated" xml:space="preserve">
-    <value>Attempts Not Updated</value>
+    <value>挑戦回数が更新されていません</value>
   </data>
   <data name="Raids_NoneLimited" xml:space="preserve">
-    <value>No raids are currently limited.</value>
+    <value>現在、制限されているレイドはありません。</value>
   </data>
   <data name="TreasureMap_LastGathered" xml:space="preserve">
-    <value>Last Map Gathered</value>
+    <value>前回の地図採集日時</value>
   </data>
   <data name="TreasureMap_Gatherable" xml:space="preserve">
-    <value>Treasure Map Gatherable</value>
+    <value>宝の地図採集可能</value>
   </data>
   <data name="TribalQuests_QuestAmount" xml:space="preserve">
-    <value>Quest Amount</value>
+    <value>クエスト数</value>
   </data>
   <data name="TribalQuests_Available" xml:space="preserve">
-    <value>Tribal Quests Available</value>
+    <value>利用可能な部族クエスト</value>
   </data>
   <data name="WondrousTails_InstanceNotifications" xml:space="preserve">
-    <value>Instance Notifications</value>
+    <value>インスタンス通知</value>
   </data>
   <data name="WondrousTails_StickerNotification" xml:space="preserve">
-    <value>Sticker Available Notification</value>
+    <value>印を付けられるときに通知</value>
   </data>
   <data name="WondrousTails_UnclaimedNotification" xml:space="preserve">
-    <value>Unclaimed Book Notification</value>
+    <value>未受取の空想帳通知</value>
   </data>
   <data name="WondrousTails_ShuffleNotification" xml:space="preserve">
-    <value>Shuffle Available Notification</value>
+    <value>シャッフル可能なときに通知</value>
   </data>
   <data name="WondrousTails_DutyFinderIntegration" xml:space="preserve">
-    <value>Duty Finder Integration</value>
+    <value>コンテンツファインダー連携</value>
   </data>
   <data name="WondrousTails_RecolorEntries" xml:space="preserve">
-    <value>Recolor Duty Finder Entries</value>
+    <value>コンテンツファインダーの項目を色分けする</value>
   </data>
   <data name="WondrousTails_EntryColor" xml:space="preserve">
-    <value>Entry Color</value>
+    <value>項目の色</value>
   </data>
   <data name="WondrousTails_ShowClover" xml:space="preserve">
-    <value>Show Clover Indicator</value>
+    <value>クローバーのインジケーターを表示</value>
   </data>
   <data name="WondrousTails_BookObtained" xml:space="preserve">
-    <value>Book Obtained</value>
+    <value>空想帳を入手済み</value>
   </data>
   <data name="WondrousTails_Deadline" xml:space="preserve">
-    <value>Deadline</value>
+    <value>有効期限</value>
   </data>
   <data name="WondrousTails_SecondChancePoints" xml:space="preserve">
-    <value>Second Chance Points</value>
+    <value>セカンドチャンスポイント</value>
   </data>
   <data name="WondrousTails_PlacedStickers" xml:space="preserve">
-    <value>Placed Stickers</value>
+    <value>貼った印の数</value>
   </data>
   <data name="WondrousTails_NewBookAvailable" xml:space="preserve">
-    <value>New Book Available</value>
+    <value>新しい空想帳を取得可能</value>
   </data>
   <data name="WondrousTails_BookExpired" xml:space="preserve">
-    <value>Book Expired</value>
+    <value>有効期限切れ</value>
   </data>
   <data name="WondrousTails_StickerAvailable" xml:space="preserve">
-    <value>Sticker Available</value>
+    <value>印貼付可能</value>
   </data>
   <data name="WondrousTails_ShuffleAvailable" xml:space="preserve">
-    <value>Shuffle Available</value>
+    <value>シャッフル可能</value>
   </data>
   <data name="WondrousTails_ForgotBook" xml:space="preserve">
-    <value>Wait! You forgot your Wondrous Tails book!</value>
+    <value>待って！クロの空想帳を受け取るのを忘れています！</value>
   </data>
   <data name="StatusMessages_ChallengeLogIncomplete" xml:space="preserve">
-    <value>Challenge Log(s) Incomplete</value>
+    <value>未達成の攻略手帳項目</value>
   </data>
   <data name="StatusMessages_CustomDeliveryIncomplete" xml:space="preserve">
-    <value>Custom Delivery(s) left to reach Threshold</value>
+    <value>上限に達するまで残りのお得意様取引件数</value>
   </data>
   <data name="StatusMessages_RouletteIncomplete" xml:space="preserve">
-    <value>Roulette(s) Incomplete</value>
+    <value>未完了のルーレット</value>
   </data>
   <data name="StatusMessages_UnrealTrialIncomplete" xml:space="preserve">
-    <value>Unreal Trial Incomplete</value>
+    <value>未クリアの幻討滅戦</value>
   </data>
   <data name="StatusMessages_DeliveryIncomplete" xml:space="preserve">
-    <value>Delivery(s) Incomplete</value>
+    <value>未納品の依頼数</value>
   </data>
   <data name="StatusMessages_HuntBillIncomplete" xml:space="preserve">
-    <value>Hunt Bill(s) Incomplete</value>
+    <value>未達成のモブハント手配書</value>
   </data>
   <data name="StatusMessages_TicketRemaining" xml:space="preserve">
-    <value>Ticket(s) Remaining</value>
+    <value>残りのチケット数</value>
   </data>
   <data name="StatusMessages_LevequestIncomplete" xml:space="preserve">
-    <value>Levequest(s) left to reach Threshold</value>
+    <value>上限に達するまで残りのギルドリーヴ数</value>
   </data>
   <data name="StatusMessages_ChallengeIncomplete" xml:space="preserve">
-    <value>Challenge(s) Incomplete</value>
+    <value>未達成の攻略手帳項目</value>
   </data>
   <data name="StatusMessages_AllianceRaidIncomplete" xml:space="preserve">
-    <value>Alliance Raid(s) Incomplete</value>
+    <value>未完了のアライアンスレイド</value>
   </data>
   <data name="StatusMessages_NormalRaidIncomplete" xml:space="preserve">
-    <value>Normal Raid(s) Incomplete</value>
+    <value>未完了のノーマルレイド</value>
   </data>
   <data name="StatusMessages_MissionResultsReady" xml:space="preserve">
-    <value>Mission Results Ready</value>
+    <value>任務の結果を確認できます</value>
   </data>
   <data name="StatusMessages_MissionNotStarted" xml:space="preserve">
-    <value>Mission Not Started</value>
+    <value>任務未開始</value>
   </data>
   <data name="StatusMessages_QuestIncomplete" xml:space="preserve">
-    <value>Quest(s) left to reach Threshold</value>
+    <value>上限に達するまで残りのクエスト数</value>
   </data>
   <data name="StatusMessages_StickerRemaining" xml:space="preserve">
-    <value>Sticker(s) Remaining</value>
+    <value>残りの印数</value>
   </data>
   <data name="StatusMessages_Resetting" xml:space="preserve">
-    <value>Resetting</value>
+    <value>リセット中</value>
   </data>
   <data name="Additional_DataNotSet" xml:space="preserve">
-    <value>Data Not Set</value>
+    <value>データ未設定</value>
   </data>
   <data name="Teleport_TeleportingTo" xml:space="preserve">
-    <value>Teleporting to</value>
+    <value> へテレポ</value>
   </data>
   <data name="Teleport_Teleport" xml:space="preserve">
-    <value>Teleport</value>
+    <value>テレポ</value>
   </data>
   <data name="EventLogging_Status" xml:space="preserve">
-    <value>Event logging is now</value>
+    <value>イベントログ記録は有効</value>
   </data>
   <data name="EventLogging_Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>有効</value>
   </data>
   <data name="DailyDutyPlugin_Config" xml:space="preserve">
-    <value>Config</value>
+    <value>設定</value>
   </data>
   <data name="PanelConfig_Config" xml:space="preserve">
-    <value>Panel Config</value>
+    <value>パネルの設定</value>
   </data>
   <data name="Additional_GilRemaining" xml:space="preserve">
-    <value>gil Remaining</value>
+    <value>残りのギル</value>
   </data>
   <data name="Additional_DailyReset" xml:space="preserve">
-    <value>Daily Reset</value>
+    <value>デイリーリセット</value>
   </data>
   <data name="Additional_WeeklyReset" xml:space="preserve">
-    <value>Weekly Reset</value>
+    <value>ウィークリーリセット</value>
   </data>
   <data name="DutyRoulette_IncompleteTask" xml:space="preserve">
-    <value>Incomplete Task</value>
+    <value>完了していないタスク</value>
   </data>
   <data name="DutyRoulette_CompleteTask" xml:space="preserve">
-    <value>Complete Task</value>
+    <value>完了したタスク</value>
   </data>
   <data name="TodoOverlay_NewPanel" xml:space="preserve">
-    <value>New Panel</value>
+    <value>新しいパネル</value>
   </data>
   <data name="WondrousTails_StickerAlreadyAvailable" xml:space="preserve">
-    <value>Sticker is already available for this duty, be sure to claim it!</value>
+    <value>このコンテンツの印はすでに受け取れます。忘れずに受け取ってください！</value>
   </data>
   <data name="WondrousTails_CompletingDutyReward" xml:space="preserve">
-    <value>Completing this duty will reward you with a sticker</value>
+    <value>このコンテンツをクリアすると印を獲得できます</value>
   </data>
   <data name="WondrousTails_RerollsAvailable" xml:space="preserve">
-    <value>Rerolls Available</value>
+    <value>リロール可能</value>
   </data>
   <data name="WondrousTails_StickersClaimable" xml:space="preserve">
-    <value>Stickers Claimable</value>
+    <value>印貼付可能</value>
   </data>
   <data name="WondrousTails_Duty" xml:space="preserve">
-    <value>Wondrous Tails Duty</value>
+    <value>クロの空想帳対象コンテンツ</value>
   </data>
   <data name="GenericDataNode_UnknownStatus" xml:space="preserve">
-    <value>Unknown Status</value>
+    <value>ステータス不明</value>
   </data>
   <data name="SearchNode_Placeholder" xml:space="preserve">
-    <value>Search . . .</value>
+    <value>検索...</value>
   </data>
   <data name="DutyRoulette_DutyFinderTooltip" xml:space="preserve">
-    <value>[DailyDuty] Duty Roulette Feature</value>
+    <value>[DailyDuty] コンテンツルーレット機能</value>
   </data>
   <data name="WondrousTails_DutyFinderTooltip" xml:space="preserve">
-    <value>[DailyDuty] Wondrous Tails Feature</value>
+    <value>[DailyDuty] クロの空想帳機能</value>
   </data>
   <data name="ModuleManager_LoadFailed" xml:space="preserve">
-    <value>Failed to load, this module has been disabled.</value>
+    <value>読み込みに失敗したため、このモジュールは無効になっています</value>
   </data>
   <data name="ModuleManager_CriticalError" xml:space="preserve">
-    <value>Critical Error: Module failed to load, and errored again while unloading.</value>
+    <value>重大なエラー：モジュールの読み込みに失敗し、アンロード中にもエラーが発生しました</value>
   </data>
   <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
-        <value>[DailyDuty] Time Until Next Reset</value>
+        <value>[DailyDuty] 次のリセットまでの時間</value>
     </data>
 </root>
