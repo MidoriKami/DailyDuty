@@ -15,8 +15,8 @@ namespace DailyDuty;
 public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; set; } = null!;
 
-    public Task LoadAsync(CancellationToken cancellationToken) {
-        KamiToolKitLibrary.Initialize(PluginInterface, "DailyDuty");
+    public async Task LoadAsync(CancellationToken cancellationToken) {
+        await KamiToolKitLibrary.InitializeAsync(PluginInterface, "DailyDuty");
         KamiToolKitLibrary.SetResourceManager(Strings.ResourceManager);
 
         Localization.SetCultureInfo(PluginInterface.UiLanguage);
@@ -50,8 +50,6 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
         PluginInterface.UiBuilder.OpenConfigUi += System.ConfigurationWindow.Toggle;
         PluginInterface.UiBuilder.OpenMainUi += System.ConfigurationWindow.Toggle;
-
-        return Task.CompletedTask;
     }
 
     public async ValueTask DisposeAsync() {
@@ -68,7 +66,7 @@ public sealed class DailyDutyPlugin : IAsyncDalamudPlugin {
 
         await System.ConfigurationWindow.DisposeAsync();
         await System.ModuleManager.DisposeAsync();
-        await IFramework.Get().Run(KamiToolKitLibrary.Dispose);
+        await KamiToolKitLibrary.DisposeAsync();
     }
 
     private static void OnCommandReceived(string command, string arguments) {
