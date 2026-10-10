@@ -5,6 +5,7 @@ using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.CustomNodes;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
@@ -12,9 +13,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Controllers;
 using KamiToolKit.Enums;
 using KamiToolKit.Extensions;
-using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
-using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
 namespace DailyDuty.Features.WondrousTails;
 
@@ -25,8 +24,6 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
 
     private readonly Dictionary<uint, WondrousTailsNode> imageNodes = [];
     private readonly Dictionary<uint, List<uint>> wondrousTailsDuties = [];
-    private TextNode? infoTextNode;
-    private WondrousTailsNode? infoTailsNode;
 
     public WondrousTailsContentsFinderController(WondrousTails module) {
         this.module = module;
@@ -43,7 +40,6 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
         addonController = new AddonController<AddonContentsFinder> {
             AddonName = "ContentsFinder",
             OnSetup = SetupContentsFinder,
-            OnRefresh = RefreshContentsFinder,
             OnFinalize = FinalizeContentsFinder,
         };
         addonController.Enable();
@@ -62,41 +58,6 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             var tailsDuties = IDataManager.Get().GetDutiesForOrderData(tailsTaskId).Select(cfc => cfc.RowId).ToList();
             wondrousTailsDuties.Add((uint)index, tailsDuties);
         }
-
-        var targetResNode = addon->GetNodeById(56);
-        if (targetResNode is null) return;
-
-        infoTextNode = new TextNode {
-            Position = new Vector2(16.0f, targetResNode->GetYFloat() + 2.0f),
-            Size = new Vector2(250.0f, 18.0f),
-            AlignmentType = AlignmentType.Center,
-            String = new SeStringBuilder()
-                .PushColorRgba(module.ModuleConfig.DutyFinderColor)
-                .Append(Strings.WondrousTails_Duty)
-                .PopColor()
-                .ToReadOnlySeString(),
-            TextTooltip = Strings.WondrousTails_DutyFinderTooltip,
-            IsVisible = false,
-        };
-        infoTextNode.AttachNode(targetResNode, NodePosition.AfterTarget);
-
-        infoTailsNode = new WondrousTailsNode {
-            Size = new Vector2(18.0f, 18.0f),
-            Position = new Vector2(35.0f, -4.0f),
-            IsTaskAvailable = true,
-            TextTooltip = Strings.WondrousTailsNode_DutyNotification,
-        };
-        infoTailsNode.AttachNode(infoTextNode);
-    }
-
-    private void RefreshContentsFinder(AddonContentsFinder* addon) {
-        var shouldShow = listController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is not 0;
-
-        infoTextNode?.ShowClickableCursor = shouldShow;
-        infoTextNode?.IsVisible = shouldShow;
-        infoTailsNode?.IsVisible = shouldShow && module.ModuleConfig.CloverIndicator;
-
-        addon->UpdateCollisionNodeList(false);
     }
 
     private void FinalizeContentsFinder(AddonContentsFinder* _) {
@@ -104,12 +65,6 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             imageNode.Dispose();
         }
         imageNodes.Clear();
-
-        infoTailsNode?.Dispose();
-        infoTailsNode = null;
-
-        infoTextNode?.Dispose();
-        infoTextNode = null;
     }
 
     private static AtkComponentListItemRenderer* GetPopulatorMethod(AddonContentsFinder* addonContentsFinder)
@@ -142,8 +97,24 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
                     Size = new Vector2(24.0f, 24.0f),
                     Position = new Vector2(listItem.DutyNameTextNode->X + listItem.DutyNameTextNode->Width, 0.0f),
                     IsTaskAvailable = IsTaskAvailable(contentFinderCondition),
+                    TextTooltip = Strings.WondrousTailsNode_DutyNotification,
                 };
                 newNode.AttachNode(listItem.DutyNameTextNode, NodePosition.AfterTarget);
+
+                listController.AddNode(listItem, newNode);
+
+                // On click open the wondrous tails book!
+                newNode.AddEvent(AtkEventType.MouseClick, () => {
+                    const uint wondrousTailsBookItemId = 2002023;
+
+                    if (InventoryManager.Instance()->GetInventoryItemCount(wondrousTailsBookItemId) == 1) {
+                        AgentInventoryContext.Instance()->UseItem(wondrousTailsBookItemId);
+                    }
+                });
+
+                newNode.AddLinkedEvent((AtkEventListener*)listItem.TryGetListItemRenderer(), 0,
+                    AtkEventType.MouseOver, AtkEventType.MouseOut, AtkEventType.MouseDown, AtkEventType.MouseUp
+                );
 
                 imageNodes.Add(listItem.NodeId, newNode);
             }
@@ -168,7 +139,7 @@ public unsafe class WondrousTailsContentsFinderController : IDisposable {
             listItem.DutyNameTextNode->Width = (ushort)(listItem.DutyNameTextNode->Width + 24.0f);
 
             imageNodes.Remove(listItem.NodeId);
-            node.Dispose();
+            listController.RemoveNode(node);
         }
 
         // Reset Color
