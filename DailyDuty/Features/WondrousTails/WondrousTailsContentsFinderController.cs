@@ -13,7 +13,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Controllers;
 using KamiToolKit.Enums;
 using KamiToolKit.Extensions;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
 
 namespace DailyDuty.Features.WondrousTails;
 

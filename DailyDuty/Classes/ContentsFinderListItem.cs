@@ -2,7 +2,7 @@
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
 
 namespace DailyDuty.Classes;
 

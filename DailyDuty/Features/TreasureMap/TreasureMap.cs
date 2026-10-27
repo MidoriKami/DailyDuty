@@ -6,7 +6,7 @@ using DailyDuty.Enums;
 using Dalamud.Game.Chat;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
 using Lumina.Extensions;
 
 namespace DailyDuty.Features.TreasureMap;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dalamud.Game.Text;
+using Dalamud.Game.Chat;
 using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Features.GrandCompanySupply;

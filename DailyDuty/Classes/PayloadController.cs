@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DailyDuty.Enums;
-using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.System.Framework;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.Interop;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
+using Dalamud.Game.Text;
 
 namespace DailyDuty.Classes;
 
@@ -35,8 +34,8 @@ public unsafe class PayloadController : IDisposable {
     private static DalamudLinkPayload RegisterPayload(PayloadId id)
         => AddHandler(id, GetDelegateForPayload(id));
 
-    private static Action<uint, SeString> GetDelegateForPayload(PayloadId payload)
-        => (_, _) => InvokePayload(payload);
+    private static Action<DalamudLinkPayload> GetDelegateForPayload(PayloadId payload)
+        => _ => InvokePayload(payload);
 
     public static void InvokePayload(PayloadId payloadId) {
         switch (payloadId) {
@@ -109,7 +108,7 @@ public unsafe class PayloadController : IDisposable {
         }
     }
 
-    private static DalamudLinkPayload AddHandler(PayloadId payloadId, Action<uint, SeString> action)
+    private static DalamudLinkPayload AddHandler(PayloadId payloadId, Action<DalamudLinkPayload> action)
         => IChatGui.Get().AddChatLinkHandler((uint)payloadId, action);
 
     private static void ClearDutyFinderSelection() {

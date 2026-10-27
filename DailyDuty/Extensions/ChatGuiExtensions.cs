@@ -1,56 +1,75 @@
 ﻿using System;
 using DailyDuty.Enums;
-using Dalamud.Game.Text;
-using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.Game.Text.SeStringHandling.Payloads;
+using Dalamud.Game.Chat;
 using Dalamud.Plugin.Services;
+using Dalamud.Utility;
+using Lumina.Text;
+using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Extensions;
 
 public static class ChatGuiExtensions {
     extension(IChatGui chatGui) {
-        public void PrintMessage(XivChatType channel, string moduleName, string message) => chatGui.Print(new XivChatEntry {
-            Type = channel,
+        public void PrintMessage(XivChatType channel, string moduleName, string message) => chatGui.Print(new PrintableChatMessage {
+            LogKind = channel,
             Message = new SeStringBuilder()
-                .AddUiForeground($"[{DailyDutyTag}] ", 45)
-                .AddUiForeground($"[{moduleName}] ", 62)
-                .AddText(message)
-                .Build(),
+                .PushColorType(45)
+                .Append($"[{DailyDutyTag}] ")
+                .PopColorType()
+                .PushColorType(62)
+                .Append($"[{moduleName}] ")
+                .PopColorType()
+                .Append(message)
+                .ToReadOnlySeString(),
         });
 
         /// <summary> Prints to Debug Channel </summary>
-        public void PrintTaggedMessage(string message, string tag) => chatGui.Print(new XivChatEntry {
-            Type = XivChatType.Debug,
+        public void PrintTaggedMessage(string message, string tag) => chatGui.Print(new PrintableChatMessage {
+            LogKind = XivChatType.Debug,
             Message = new SeStringBuilder()
-                .AddUiForeground($"[{DailyDutyTag}] ", 45)
-                .AddUiForeground($"[{tag}] ", 62)
-                .AddText(message)
-                .Build(),
+                .PushColorType(45)
+                .Append($"[{DailyDutyTag}] ")
+                .PopColorType()
+                .PushColorType(62)
+                .Append($"[{tag}] ")
+                .PopColorType()
+                .Append(message)
+                .ToReadOnlySeString(),
         });
 
-        public void PrintPayloadMessage(XivChatType channel, PayloadId payload, string moduleName, string message) => chatGui.Print(new XivChatEntry {
-            Type = channel,
+        public void PrintPayloadMessage(XivChatType channel, PayloadId payload, string moduleName, string message) => chatGui.Print(new PrintableChatMessage {
+            LogKind = channel,
             Message = BuildPayloadString(payload, moduleName, message),
         });
     }
 
     private static string DailyDutyTag => DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty";
 
-    private static SeString BuildPayloadString(PayloadId payloadId, string moduleName, string message) {
+    private static ReadOnlySeString BuildPayloadString(PayloadId payloadId, string moduleName, string message) {
         if (payloadId is not PayloadId.Unset) {
             return new SeStringBuilder()
-                .AddUiForeground($"[{DailyDutyTag}] ", 45)
-                .AddUiForeground($"[{moduleName}] ", 62)
-                .Add(System.PayloadController.GetPayload(payloadId))
-                .AddUiForeground(message, 576)
-                .Add(RawPayload.LinkTerminator)
-                .Build();
+                .PushColorType(45)
+                .Append($"[{DailyDutyTag}] ")
+                .PopColorType()
+                .PushColorType(62)
+                .Append($"[{moduleName}] ")
+                .PopColorType()
+                .PushDalamudLink(System.PayloadController.GetPayload(payloadId))
+                .PushColorType(576)
+                .Append(message)
+                .PopColorType()
+                .PopLink()
+                .ToReadOnlySeString();
         }
 
         return new SeStringBuilder()
-            .AddUiForeground($"[{DailyDutyTag}] ", 45)
-            .AddUiForeground($"[{moduleName}] ", 62)
-            .AddText(message)
-            .Build();
+            .PushColorType(45)
+            .Append($"[{DailyDutyTag}] ")
+            .PopColorType()
+            .PushColorType(62)
+            .Append($"[{moduleName}] ")
+            .PopColorType()
+            .Append(message)
+            .ToReadOnlySeString();
     }
 }

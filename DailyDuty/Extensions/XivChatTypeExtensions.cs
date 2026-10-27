@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Dalamud.Game.Text;
+using Dalamud.Game.Chat;
 
 namespace DailyDuty.Extensions;
 

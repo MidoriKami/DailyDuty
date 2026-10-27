@@ -80,7 +80,7 @@ public class WondrousTails : Module<WondrousTailsConfig, DataBase> {
 
         const int idyllshireTerritoryType = 478;
         const uint khloeAliapohDataId = 1017653;
-        if (IClientState.Get().TerritoryType is idyllshireTerritoryType && IsEnabled) {
+        if (IClientState.Get().TerritoryType.RowId is idyllshireTerritoryType && IsEnabled) {
             var khloe = IObjectTable.Get().FirstOrDefault(obj => obj.BaseId is khloeAliapohDataId);
 
             if (khloe is not null && IObjectTable.Get().LocalPlayer is { Position: var playerPosition }) {

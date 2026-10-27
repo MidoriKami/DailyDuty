@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using Dalamud.Game.Text;
+using Dalamud.Game.Chat;
 using Dalamud.Interface;
 using Newtonsoft.Json.Linq;
 

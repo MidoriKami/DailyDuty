@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using DailyDuty.Classes;
-using Dalamud.Game.Text;
+using Dalamud.Game.Chat;
 using KamiToolKit.Nodes;
 using XivChatTypeExtensions = DailyDuty.Extensions.XivChatTypeExtensions;
 

@@ -9,7 +9,7 @@ using KamiToolKit.Controllers;
 using KamiToolKit.Enums;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using SeStringBuilder = Lumina.Text.SeStringBuilder;
 

@@ -18,7 +18,7 @@ public unsafe class WondrousTailsDutyController : IDisposable {
         IDutyState.Get().DutyCompleted += OnDutyCompleted;
 
         if (IDutyState.Get().IsDutyStarted) {
-            OnDutyStarted(IClientState.Get().TerritoryType);
+            OnDutyStarted(IClientState.Get().TerritoryType.RowId);
         }
     }
 

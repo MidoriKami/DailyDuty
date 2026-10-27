@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.Sheets;
+using Dalamud.Excel.Sheets;
 
 namespace DailyDuty.Classes;
 

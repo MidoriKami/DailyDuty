@@ -1,7 +1,9 @@
-using System;
 using System.Threading.Tasks;
+using Dalamud.Excel.Sheets;
 using Dalamud.Plugin.Services;
 using KamiToolKit.BaseTypes;
+using Lumina.Excel;
+using Action = System.Action;
 
 namespace DailyDuty.Classes;
 
@@ -41,7 +43,7 @@ public abstract class FeatureBase {
     private void Update(IFramework framework)
         => OnFeatureUpdate();
 
-    private void TerritoryChanged(uint u)
+    private void TerritoryChanged(RowRef<TerritoryType> rowRef)
         => OnTerritoryChanged();
 
     protected abstract void OnFeatureUpdate();
