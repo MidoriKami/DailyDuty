@@ -10,8 +10,8 @@ using KamiToolKit.Enums;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Dalamud.Excel.Sheets;
+using Dalamud.Utility;
 using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
-using SeStringBuilder = Lumina.Text.SeStringBuilder;
 
 namespace DailyDuty.Features.DutyRoulette;
 
@@ -51,11 +51,14 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
         var targetResNode = addon->GetNodeById(56);
         if (targetResNode is null) return;
 
+        using var stringBuilder = new RentedSeStringBuilder();
+
         infoTextNode = new TextNode {
             Position = new Vector2(16.0f, targetResNode->GetYFloat() + 2.0f),
             Size = new Vector2(250.0f, 18.0f),
             AlignmentType = AlignmentType.Center,
-            String = new SeStringBuilder().PushColorRgba(module.ModuleConfig.IncompleteColor)
+            String = stringBuilder
+                .PushColorRgba(module.ModuleConfig.IncompleteColor)
                 .Append(Strings.DutyRoulette_IncompleteTask)
                 .PopColor()
                 .Append("        ")
@@ -71,10 +74,12 @@ public unsafe class DutyRouletteDutyFinderController : IDisposable {
 
     private void RefreshContentsFinder(AddonContentsFinder* addon) {
         var shouldShow = listController.ModifiedIndexes.Count is not 0 && addon->SelectedRadioButton is 0;
+        using var stringBuilder = new RentedSeStringBuilder();
 
         infoTextNode?.ShowClickableCursor = shouldShow;
         infoTextNode?.IsVisible = shouldShow;
-        infoTextNode?.String = new SeStringBuilder().PushColorRgba(module.ModuleConfig.IncompleteColor)
+        infoTextNode?.String = stringBuilder
+            .PushColorRgba(module.ModuleConfig.IncompleteColor)
             .Append(Strings.DutyRoulette_IncompleteTask)
             .PopColor()
             .Append("        ")
