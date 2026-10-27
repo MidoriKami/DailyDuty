@@ -15,12 +15,8 @@ public static class ChatGuiExtensions {
             chatGui.Print(new PrintableChatMessage {
                 LogKind = channel,
                 Message = stringBuilder
-                    .PushColorType(45)
-                    .Append($"[{DailyDutyTag}] ")
-                    .PopColorType()
-                    .PushColorType(62)
-                    .Append($"[{moduleName}] ")
-                    .PopColorType()
+                    .AppendTextColored($"[{DailyDutyTag}] ", 45)
+                    .AppendTextColored($"[{moduleName}] ", 62)
                     .Append(message)
                     .ToReadOnlySeString(),
             });
@@ -33,12 +29,8 @@ public static class ChatGuiExtensions {
             chatGui.Print(new PrintableChatMessage {
                 LogKind = XivChatType.Debug,
                 Message = stringBuilder
-                    .PushColorType(45)
-                    .Append($"[{DailyDutyTag}] ")
-                    .PopColorType()
-                    .PushColorType(62)
-                    .Append($"[{tag}] ")
-                    .PopColorType()
+                    .AppendTextColored($"[{DailyDutyTag}] ", 45)
+                    .AppendTextColored($"[{tag}] ", 62)
                     .Append(message)
                     .ToReadOnlySeString(),
             });
@@ -57,27 +49,15 @@ public static class ChatGuiExtensions {
 
         if (payloadId is not PayloadId.Unset) {
             return stringBuilder
-                .PushColorType(45)
-                .Append($"[{DailyDutyTag}] ")
-                .PopColorType()
-                .PushColorType(62)
-                .Append($"[{moduleName}] ")
-                .PopColorType()
-                .PushDalamudLink(System.PayloadController.GetPayload(payloadId))
-                .PushColorType(576)
-                .Append(message)
-                .PopColorType()
-                .PopLink()
+                .AppendTextColored($"[{DailyDutyTag}] ", 45)
+                .AppendTextColored($"[{moduleName}] ", 62)
+                .AppendLink(message, System.PayloadController.GetPayload(payloadId))
                 .ToReadOnlySeString();
         }
 
         return stringBuilder
-            .PushColorType(45)
-            .Append($"[{DailyDutyTag}] ")
-            .PopColorType()
-            .PushColorType(62)
-            .Append($"[{moduleName}] ")
-            .PopColorType()
+            .AppendTextColored($"[{DailyDutyTag}] ", 45)
+            .AppendTextColored($"[{moduleName}] ", 62)
             .Append(message)
             .ToReadOnlySeString();
     }
