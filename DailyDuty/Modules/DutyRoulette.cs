@@ -71,17 +71,15 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         });
     }
 
-    public override Task DisableAsync() {
-        listController?.Dispose();
+    public override async Task DisableAsync() {
+        await listController.DisposeAsyncSafe();
         listController = null;
 
-        addonController?.Dispose();
+        await addonController.DisposeAsyncSafe();
         addonController = null;
 
         openRoulettePayload?.Dispose();
         openRoulettePayload = null;
-
-        return Task.CompletedTask;
     }
 
     public override void BuildDataUi(NodeBuilder builder) => builder
