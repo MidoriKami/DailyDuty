@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -32,20 +33,8 @@ public class ConfigWindow : NativeAddon {
                     },
                     leftSplit => leftSplit
                         .TabbedContent(tabBuilder => tabBuilder
-                            .AddTab("Modules", modulesTab => modulesTab
-                                .TabbedContent(modulesTabBuilder => modulesTabBuilder
-                                    .AddTab("Daily", dailyTabBuilder => dailyTabBuilder
-                                        .Spacer(6.0f)
-                                        .List(System.Controller.DailyModules, OnModuleSelected, out dailyModulesNode, configureList => configureList.ItemSpacing = 4.0f))
-                                    .AddTab("Weekly", weeklyTabBuilder => weeklyTabBuilder
-                                        .Spacer(6.0f)
-                                        .List(System.Controller.WeeklyModules, OnModuleSelected, out weeklyModulesNode, configureList => configureList.ItemSpacing = 4.0f))
-                                    .AddTab("Other", otherTabBuilder => otherTabBuilder
-                                        .Spacer(6.0f)
-                                        .List(System.Controller.OtherModules, OnModuleSelected, out otherModulesNode, configureList => configureList.ItemSpacing = 4.0f)), tabChanged: OnTabChanged))
-                            .AddTab("Features", featuresBuilder => featuresBuilder
-                                .Spacer(6.0f)
-                                .List(System.Controller.Features, OnFeatureSelected, out featuresNode, configureList => configureList.ItemSpacing = 4.0f)), tabChanged: OnTabChanged),
+                            .AddTab("Modules", BuildModulesTab)
+                            .AddTab("Features", BuildFeaturesTab), tabChanged: OnTabChanged),
                     rightSplit => rightSplit
                         .AddNode(infoNode = new ConfigInfoNode())))
             .AttachNode(this);
@@ -85,7 +74,7 @@ public class ConfigWindow : NativeAddon {
         infoNode = null;
     }
 
-    private void OnTabChanged() {
+    private void ClearSelection() {
         dailyModulesNode?.ClearSelection();
         weeklyModulesNode?.ClearSelection();
         otherModulesNode?.ClearSelection();
@@ -95,6 +84,36 @@ public class ConfigWindow : NativeAddon {
 
         selectOptionTextNode?.IsVisible = true;
     }
+
+    private void OnTabChanged() => ClearSelection();
+
+    private void BuildModulesTab(NodeBuilder modulesTab) => modulesTab
+        .TabbedContent(modulesTabBuilder => modulesTabBuilder
+            .AddTab("Daily", dailyTabBuilder => dailyTabBuilder
+                .Spacer(6.0f)
+                .List(System.Controller.DailyModules, OnModuleSelected, out dailyModulesNode, configureList => {
+                    configureList.ItemSpacing = 4.0f;
+                    configureList.OnItemStateChanged += OnModuleStateChanged;
+                }))
+            .AddTab("Weekly", weeklyTabBuilder => weeklyTabBuilder
+                .Spacer(6.0f)
+                .List(System.Controller.WeeklyModules, OnModuleSelected, out weeklyModulesNode, configureList => {
+                    configureList.ItemSpacing = 4.0f;
+                    configureList.OnItemStateChanged += OnModuleStateChanged;
+                }))
+            .AddTab("Other", otherTabBuilder => otherTabBuilder
+                .Spacer(6.0f)
+                .List(System.Controller.OtherModules, OnModuleSelected, out otherModulesNode, configureList => {
+                    configureList.ItemSpacing = 4.0f;
+                    configureList.OnItemStateChanged += OnModuleStateChanged;
+                })), tabChanged: OnTabChanged);
+
+    private void BuildFeaturesTab(NodeBuilder featuresBuilder) => featuresBuilder
+        .Spacer(6.0f)
+        .List(System.Controller.Features, OnFeatureSelected, out featuresNode, configureList => {
+            configureList.ItemSpacing = 4.0f;
+            configureList.OnItemStateChanged += OnFeatureStateChanged;
+        });
 
     private void OnSearchUpdated(ReadOnlySeString searchString) {
         var regex = searchString.AsRegex();
@@ -127,6 +146,24 @@ public class ConfigWindow : NativeAddon {
         if (feature is not null) {
             infoNode?.SetFeatureInfo(feature);
             selectOptionTextNode?.IsVisible = false;
+        }
+    }
+
+    private void OnModuleStateChanged(ModuleListNode node, IModule module) {
+        if (infoNode?.CurrentItem == module) {
+            ClearSelection();
+        }
+        else if (module.LoadState is State.Enabled) {
+            OnModuleSelected(module);
+        }
+    }
+
+    private void OnFeatureStateChanged(FeatureListNode node, IFeature feature) {
+        if (infoNode?.CurrentItem == feature) {
+            ClearSelection();
+        }
+        else if (feature.LoadState is State.Enabled) {
+            OnFeatureSelected(feature);
         }
     }
 }
