@@ -13,8 +13,11 @@ public class ConfigInfoNode : ResNode, INativeUpdatable, ILayoutFiller {
 
     private NodeBase? attachedNode;
 
+    public IToggleable? CurrentItem { get; private set; }
+
     public void SetModuleInfo(IModule module) {
         attachedNode?.Dispose();
+        CurrentItem = module;
 
         attachedNode = new ModuleInfoNode(module) {
             Size = Size,
@@ -24,6 +27,7 @@ public class ConfigInfoNode : ResNode, INativeUpdatable, ILayoutFiller {
 
     public void SetFeatureInfo(IFeature feature) {
         attachedNode?.Dispose();
+        CurrentItem = feature;
 
         attachedNode = new FeatureInfoNode(feature) {
             Size = Size,
@@ -34,6 +38,7 @@ public class ConfigInfoNode : ResNode, INativeUpdatable, ILayoutFiller {
     public void Clear() {
         attachedNode?.Dispose();
         attachedNode = null;
+        CurrentItem = null;
     }
 
     public void Update() {

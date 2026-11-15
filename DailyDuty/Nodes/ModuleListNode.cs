@@ -69,6 +69,10 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
 
         moduleNameNode.String = itemData.Name;
         moduleNameNodeFull.String = itemData.Name;
+
+        var isEnabled = itemData.LoadState is State.Enabled;
+        EnableSelection = isEnabled;
+        EnableHighlight = isEnabled;
     }
 
     public override void Update() {
@@ -78,10 +82,14 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
             statusTextNode.String = $"{Strings.DataNodeBase_Status}: {ItemData.GetStatus().ToString()}";
             enabledContainer.IsVisible = true;
             disabledContainer.IsVisible = false;
+            EnableSelection = true;
+            EnableHighlight = true;
         }
         else {
             enabledContainer.IsVisible = false;
             disabledContainer.IsVisible = true;
+            EnableSelection = false;
+            EnableHighlight = false;
         }
     }
 
@@ -119,5 +127,7 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
         else {
             Task.Run(() => System.Controller.DisableModule(ItemData));
         }
+
+        OnStateChanged?.Invoke(this);
     }
 }

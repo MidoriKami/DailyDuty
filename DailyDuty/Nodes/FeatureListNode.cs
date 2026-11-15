@@ -65,5 +65,7 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
         else {
             Task.Run(() => System.Controller.DisableModule(ItemData));
         }
+
+        OnStateChanged?.Invoke(this);
     }
 }
