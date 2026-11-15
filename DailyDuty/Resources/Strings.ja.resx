@@ -449,8 +449,17 @@
   <data name="FashionReport_AvailableStatus" xml:space="preserve">
     <value>参加可能</value>
   </data>
+  <data name="FashionReport_NotAttempted" xml:space="preserve">
+    <value>まだ挑戦していません</value>
+  </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
     <value>参加不可</value>
+  </data>
+  <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
+    <value>残り挑戦回数</value>
+  </data>
+  <data name="FashionReport_ScoreTarget" xml:space="preserve">
+    <value>スコア目標</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
     <value>ボーナスチャンスを含める</value>

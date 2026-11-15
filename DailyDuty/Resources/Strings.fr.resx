@@ -449,8 +449,17 @@
   <data name="FashionReport_AvailableStatus" xml:space="preserve">
     <value>Disponible</value>
   </data>
+  <data name="FashionReport_NotAttempted" xml:space="preserve">
+    <value>Pas encore tenté</value>
+  </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
     <value>Indisponible</value>
+  </data>
+  <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
+    <value>Tentative(s) restante(s)</value>
+  </data>
+  <data name="FashionReport_ScoreTarget" xml:space="preserve">
+    <value>Objectif de score</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
     <value>Inclure la reformulation</value>

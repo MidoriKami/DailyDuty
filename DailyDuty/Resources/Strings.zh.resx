@@ -449,8 +449,17 @@
   <data name="FashionReport_AvailableStatus" xml:space="preserve">
     <value>可用</value>
   </data>
+  <data name="FashionReport_NotAttempted" xml:space="preserve">
+    <value>尚未尝试</value>
+  </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
     <value>不可用</value>
+  </data>
+  <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
+    <value>剩余机会</value>
+  </data>
+  <data name="FashionReport_ScoreTarget" xml:space="preserve">
+    <value>得分目标</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
     <value>包含额外机会</value>

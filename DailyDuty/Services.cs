@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Dalamud.Plugin.Services;
 
 namespace DailyDuty;
@@ -14,7 +14,7 @@ public static class ServiceExtension {
     /// Static class to hold the instance reference.
     /// </summary>
     private static class ServiceInstance<T> where T : class, IDalamudService {
-        public static T? Instance => field ??= DailyDutyPlugin.PluginInterface.GetService(typeof(T)) as T;
+        public static T? Instance => field ??= DailyDuty.PluginInterface.GetService(typeof(T)) as T;
     }
 
     /// <summary>

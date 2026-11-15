@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Enums;
+namespace DailyDuty.Enums;
 
 public enum CompletionStatus {
     Unknown,

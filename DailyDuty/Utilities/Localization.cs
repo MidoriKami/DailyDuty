@@ -3,7 +3,14 @@ using KamiToolKit;
 
 namespace DailyDuty.Utilities;
 
+/// <summary>
+/// Utility class for managing localization and culture settings.
+/// </summary>
 public static class Localization {
+    /// <summary>
+    /// Sets the current culture info based on the provided language code.
+    /// </summary>
+    /// <param name="language">The language code (e.g., "ja", "de", "fr").</param>
     public static void SetCultureInfo(object? language) {
         var languageName = language?.ToString();
 

@@ -1,24 +1,26 @@
-using DailyDuty.Utilities;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Dalamud.Plugin.Services;
+using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Classes;
 
-public class SystemConfig {
-    public int Version = 3;
+public class SystemConfig : FileBase<SystemConfig> {
+    protected override string FileName => "system.config.json";
+    public override int Version => 3;
+
     public bool EnableSceneEventLogging;
     public bool IsDebugMode = false;
 
     public HashSet<string> EnabledModules = [];
 
-    public static async Task<SystemConfig> Load() {
-        IPluginLog.Get().Debug("Loading system.config.json");
-        return await Config.LoadCharacterConfig<SystemConfig>("system.config.json");
-    }
+    protected override bool TryMigrateStep(ref int fileVersion, JObject jObject) {
+        switch (fileVersion) {
+            case < 3:
+                // Older configs may have version 0, 1, or 2 due to a bug.
+                // These configs remain structurally valid; bump directly to v3.
+                fileVersion = 3;
+                return true;
+        }
 
-    public async Task Save() {
-        IPluginLog.Get().Debug("Saving system.config.json");
-        await Config.SaveCharacterConfig(this, "system.config.json");
+        return base.TryMigrateStep(ref fileVersion, jObject);
     }
 }
