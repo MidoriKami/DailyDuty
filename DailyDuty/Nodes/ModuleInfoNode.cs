@@ -57,10 +57,6 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         }
 
         module.UpdateDataUi();
-
-        if (module is IUpdatingConfigurable updatingConfigurable) {
-            updatingConfigurable.UpdateConfigUi();
-        }
     }
 
     private static void UpdateTimerNode(TextNode? dateNode, TextNode? remainingNode, DateTime time) {

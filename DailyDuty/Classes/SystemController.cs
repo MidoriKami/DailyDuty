@@ -143,8 +143,6 @@ public class SystemController : IAsyncDisposable {
             default:
                 var isHandled = false;
                 foreach (var listener in CommandListeners) {
-                    if (listener is IToggleable { Enabled: false }) continue;
-
                     listener.OnCommand(arguments, ref isHandled);
                     if (isHandled) break;
                 }
