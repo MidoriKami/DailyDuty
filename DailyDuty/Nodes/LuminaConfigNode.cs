@@ -25,7 +25,6 @@ public class LuminaConfigNode<T> : ListItemNode<T>, IListItemNode where T : stru
 
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
-
         checkboxNode.Size = Size;
     }
 
@@ -40,6 +39,7 @@ public class LuminaConfigNode<T> : ListItemNode<T>, IListItemNode where T : stru
         }
 
         checkboxNode.OnChecked = _ => OnStateChanged?.Invoke(this);
+        checkboxNode.ItemTooltip = itemData.ItemId;
         checkboxNode.String = itemData.DisplayString;
     }
 }

@@ -138,6 +138,9 @@
   <data name="CompletionStatus_Complete" xml:space="preserve">
     <value>Complete</value>
   </data>
+  <data name="CompletionStatus_NotStarted" xml:space="preserve">
+    <value>Not Started</value>
+  </data>
   <data name="CompletionStatus_Suppressed" xml:space="preserve">
     <value>Suppressed</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="GenericDataNode_TimeRemaining" xml:space="preserve">
     <value>Time Remaining</value>
+  </data>
+  <data name="GenericDataNode_AvailableUntil" xml:space="preserve">
+    <value>Available Until</value>
   </data>
   <data name="GenericDataNode_AvailableNow" xml:space="preserve">
     <value>Available Now</value>
@@ -491,6 +497,12 @@
   </data>
   <data name="Levequest_AcceptedNotUpdated" xml:space="preserve">
     <value>Accepted Not Updated</value>
+  </data>
+  <data name="Levequest_AllowanceAmount" xml:space="preserve">
+    <value>Allowance Amount</value>
+  </data>
+  <data name="Levequest_WarningTrigger" xml:space="preserve">
+    <value>Warning Trigger</value>
   </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
     <value>Attempts Available</value>

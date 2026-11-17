@@ -17,6 +17,8 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
     public override CustomDeliveryData Data { get; protected set; } = null!;
     public override CustomDeliveryConfig Config { get; protected set; } = null!;
 
+    private TextNode? currentAllowances;
+
     public override async Task EnableAsync() {
         Data = await CustomDeliveryData.Load();
         Config = await CustomDeliveryConfig.Load();
@@ -60,8 +62,6 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
         message ?? "Module has been reset."
     );
-
-    private TextNode? currentAllowances;
 
     private static unsafe int RemainingAllowances
         => SatisfactionSupplyManager.Instance()->GetRemainingAllowances();

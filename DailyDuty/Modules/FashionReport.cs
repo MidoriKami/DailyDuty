@@ -42,6 +42,11 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
     }
 
     public override Task DisableAsync() {
+        scoreText = null;
+        attemptsText = null;
+        warningPage = null;
+        dataPage = null;
+
         teleportPayload?.Dispose();
         teleportPayload = null;
 
@@ -63,10 +68,8 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
         dataPage?.IsVisible = IsFashionReportAvailable;
         warningPage?.IsVisible = !IsFashionReportAvailable;
 
-        if (IsFashionReportAvailable) {
-            scoreText?.String = Data.HighestScore > 0 ? Data.HighestScore.ToString() : Strings.FashionReport_ScoreNotUpdated;
-            attemptsText?.String = Data.AttemptsRemaining.ToString();
-        }
+        scoreText?.String = Data.HighestScore > 0 ? Data.HighestScore.ToString() : Strings.FashionReport_ScoreNotUpdated;
+        attemptsText?.String = Data.AttemptsRemaining.ToString();
     }
 
     protected override TimeSpan GetSpecialResetPeriod()
@@ -103,7 +106,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
     }
 
     protected override CompletionStatus GetCompletionStatus() {
-        if (!IsFashionReportAvailable) return CompletionStatus.Unavailable;
+        if (!IsFashionReportAvailable) return CompletionStatus.Complete;
 
         return Config.CompletionMode switch {
             FashionReportMode.Single when Data.AttemptsRemaining < 4 => CompletionStatus.Complete,
@@ -112,6 +115,9 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
             _ => CompletionStatus.Incomplete,
         };
     }
+
+    protected override DateTime? GetWindowEndTimeOverride()
+        => IsFashionReportAvailable ? Time.NextWeeklyReset() : null;
 
     public unsafe void OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {
         if (gameObject->BaseId is not 1025176) return;

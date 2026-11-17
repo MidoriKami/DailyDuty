@@ -42,6 +42,12 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
     }
 
     public override Task DisableAsync() {
+        allowanceText = null;
+        donatedText = null;
+        remainingText = null;
+        dataPage = null;
+        warningPage = null;
+
         teleportPayload?.Dispose();
         teleportPayload = null;
 

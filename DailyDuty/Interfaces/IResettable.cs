@@ -32,4 +32,10 @@ public interface IResettable {
     /// Gets the DateTime of the next reset for this module.
     /// </summary>
     DateTime GetNextResetTime();
+
+    /// <summary>
+    /// Gets the DateTime when the current event window ends (e.g., when Fashion Report closes).
+    /// Returns null if there is no separate window end time (i.e., window end equals reset time).
+    /// </summary>
+    DateTime? GetWindowEndTime();
 }

@@ -6,6 +6,7 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes;
+using DailyDuty.Utilities;
 using Dalamud.Excel.Sheets;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
@@ -26,6 +27,10 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
     public override ChallengeLogData Data { get; protected set; } = null!;
     public override ChallengeLogConfig Config { get; protected set; } = null!;
 
+    private Stopwatch? contentsFinderStopwatch;
+    private ChatLinkPayload? openChallengeLog;
+    private ListNode<ContentsNote, LuminaStatusNode<ContentsNote>>? dataListNode;
+
     public override async Task EnableAsync() {
         Data = await ChallengeLogData.Load();
         Config = await ChallengeLogConfig.Load();
@@ -43,6 +48,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
     }
 
     public override Task DisableAsync() {
+        dataListNode = null;
         contentsFinderStopwatch = null;
 
         IDutyState.Get().DutyCompleted -= OnDutyCompleted;
@@ -63,16 +69,16 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
     public void BuildConfigUi(NodeBuilder nodeBuilder) => nodeBuilder
         .TabbedContent(tabbedContentBuilder => tabbedContentBuilder
             .AddTab("Tracking", trackingTabBuilder => trackingTabBuilder
-                .Spacer(5.0f)
+                .Spacer(10.0f)
                 .TextWrapped("This tab controls which entries are required to be completed to mark this module as completed.")
-                .Spacer(5.0f)
+                .Spacer(10.0f)
                 .List<ContentsNote, LuminaConfigNode<ContentsNote>>([.. ValidContentsNotes], OnTrackingDataChanged, listConfigure => {
                     listConfigure.NodeReferenceData = Config.TrackedEntries;
                 }))
             .AddTab("Warnings", warningsTabBuilder => warningsTabBuilder
-                .Spacer(5.0f)
+                .Spacer(10.0f)
                 .TextWrapped("This tab allows you to select entries that you want to be warned about when opening duty finder or completing a duty.")
-                .Spacer(5.0f)
+                .Spacer(10.0f)
                 .Checkbox(Strings.ChallengeLog_DutyFinderWarningSound, Config.EnableContentFinderWarning, newValue => {
                     Config.EnableContentFinderWarning = newValue;
                     Config.Save();
@@ -81,6 +87,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
                     Config.EnableDutyCompleteWarning = newValue;
                     Config.Save();
                 })
+                .Spacer(5.0f)
                 .List<ContentsNote, LuminaConfigNode<ContentsNote>>([.. ValidContentsNotes], OnWarningDataChanged, listConfigure => {
                     listConfigure.NodeReferenceData = Config.WarningEntries;
                 })));
@@ -89,7 +96,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         using var stringBuilder = new RentedSeStringBuilder();
 
         return stringBuilder
-            .AppendJoined<ContentsNote>(Config.TrackedEntries.Where(id => !IsContentNoteComplete(id)))
+            .AppendJoined<ContentsNote>(Config.TrackedEntries.Where(id => !Excel.IsComplete<ContentsNote>(id)))
             .ToReadOnlySeString();
     }
 
@@ -100,21 +107,17 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         => Task.CompletedTask;
 
     protected override CompletionStatus GetCompletionStatus()
-        => Config.TrackedEntries.All(IsContentNoteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
+        => Config.TrackedEntries.All(Excel.IsComplete<ContentsNote>) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     protected override void SendStatusMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintPayloadMessage(
         Config.MessageChatChannel, openChallengeLog, Name,
-        defaultMessage ?? $"{Config.TrackedEntries.Count - Config.TrackedEntries.Count(IsContentNoteComplete)} {Strings.StatusMessages_ChallengeLogIncomplete}"
+        defaultMessage ?? $"{Config.TrackedEntries.Count - Config.TrackedEntries.Count(Excel.IsComplete<ContentsNote>)} {Strings.StatusMessages_ChallengeLogIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintPayloadMessage(
         Config.MessageChatChannel, openChallengeLog, Name,
         defaultMessage ?? "Module has been reset."
     );
-
-    private Stopwatch? contentsFinderStopwatch;
-    private ChatLinkPayload? openChallengeLog;
-    private ListNode<ContentsNote, LuminaStatusNode<ContentsNote>>? dataListNode;
 
     private static IEnumerable<ContentsNote> ValidContentsNotes =>
         IDataManager.Get().GetExcelSheet<ContentsNote>()
@@ -141,27 +144,32 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         }
     }
 
-    private void OnEntryChanged(LuminaConfigNode<ContentsNote> node, ContentsNote data, HashSet<uint> entries) {
+    private void OnTrackingDataChanged(LuminaConfigNode<ContentsNote> node, ContentsNote data) {
         if (node.IsChecked) {
-            entries.Add(data.RowId);
+            Config.TrackedEntries.Add(data.RowId);
         }
         else {
-            entries.Remove(data.RowId);
+            Config.TrackedEntries.Remove(data.RowId);
         }
 
         Config.Save();
     }
 
-    private void OnTrackingDataChanged(LuminaConfigNode<ContentsNote> node, ContentsNote data)
-        => OnEntryChanged(node, data, Config.TrackedEntries);
+    private void OnWarningDataChanged(LuminaConfigNode<ContentsNote> node, ContentsNote data) {
+        if (node.IsChecked) {
+            Config.WarningEntries.Add(data.RowId);
+        }
+        else {
+            Config.WarningEntries.Remove(data.RowId);
+        }
 
-    private void OnWarningDataChanged(LuminaConfigNode<ContentsNote> node, ContentsNote data)
-        => OnEntryChanged(node, data, Config.WarningEntries);
+        Config.Save();
+    }
 
     private void PrintOutstandingEntries() {
         var anyWarningGenerated = false;
 
-        foreach (var warningId in Config.WarningEntries.Where(warningId => !IsContentNoteComplete(warningId))) {
+        foreach (var warningId in Config.WarningEntries.Where(warningId => !Excel.IsComplete<ContentsNote>(warningId))) {
             if (!IDataManager.Get().GetExcelSheet<ContentsNote>().TryGetRow(warningId, out var contentNote)) continue;
 
             IChatGui.Get().PrintPayloadMessage(Config.MessageChatChannel, openChallengeLog, Name,
@@ -175,9 +183,6 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
             UIGlobals.PlayChatSoundEffect(11);
         }
     }
-
-    private static unsafe bool IsContentNoteComplete(uint rowId)
-        => FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote.Instance()->IsContentNoteComplete((int)rowId);
 }
 
 public class ChallengeLogData : ModuleDataFile<ChallengeLogData> {

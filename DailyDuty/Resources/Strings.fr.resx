@@ -179,6 +179,9 @@
   <data name="GenericDataNode_TimeRemaining" xml:space="preserve">
     <value>Temps restant</value>
   </data>
+  <data name="GenericDataNode_AvailableUntil" xml:space="preserve">
+    <value>Disponible jusqu'au</value>
+  </data>
   <data name="GenericDataNode_AvailableNow" xml:space="preserve">
     <value>Disponible dès maintenant</value>
   </data>

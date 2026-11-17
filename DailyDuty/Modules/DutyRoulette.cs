@@ -8,6 +8,7 @@ using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.NativeListItems;
 using DailyDuty.Nodes;
+using DailyDuty.Utilities;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI;
@@ -20,7 +21,6 @@ using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
-using InstanceContent = FFXIVClientStructs.FFXIV.Client.Game.UI.InstanceContent;
 using ContentRoulette = Dalamud.Excel.Sheets.ContentRoulette;
 
 namespace DailyDuty.Modules;
@@ -72,6 +72,9 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
     }
 
     public override async Task DisableAsync() {
+        dataListNode = null;
+        infoTextNode = null;
+
         await listController.DisposeAsyncSafe();
         listController = null;
 
@@ -119,7 +122,7 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         using var stringBuilder = new RentedSeStringBuilder();
 
         return stringBuilder
-            .AppendJoined<ContentRoulette>(Config.TrackedRoulettes.Where(id => !IsRouletteComplete(id)))
+            .AppendJoined<ContentRoulette>(Config.TrackedRoulettes.Where(id => !Excel.IsComplete<ContentRoulette>(id)))
             .ToReadOnlySeString();
     }
 
@@ -131,12 +134,12 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
 
     protected override CompletionStatus GetCompletionStatus() => Config switch {
         { CompleteWhenCapped: true } when GetLimitedTomestonesCount() >= GetLimitedTomestonesLimit() => CompletionStatus.Complete,
-        _ => Config.TrackedRoulettes.All(IsRouletteComplete) ? CompletionStatus.Complete : CompletionStatus.Incomplete,
+        _ => Config.TrackedRoulettes.All(Excel.IsComplete<ContentRoulette>) ? CompletionStatus.Complete : CompletionStatus.Incomplete,
     };
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintPayloadMessage(
         Config.MessageChatChannel, openRoulettePayload, Name,
-        message ?? $"{Config.TrackedRoulettes.Count - Config.TrackedRoulettes.Count(IsRouletteComplete)} {Strings.StatusMessages_RouletteIncomplete}"
+        message ?? $"{Config.TrackedRoulettes.Count - Config.TrackedRoulettes.Count(Excel.IsComplete<ContentRoulette>)} {Strings.StatusMessages_RouletteIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintPayloadMessage(
@@ -158,9 +161,6 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
 
         Config.Save();
     }
-
-    private static unsafe bool IsRouletteComplete(uint rowId)
-        => InstanceContent.Instance()->IsRouletteComplete((byte)rowId);
 
     private static unsafe int GetLimitedTomestonesCount()
         => InventoryManager.Instance()->GetWeeklyAcquiredTomestoneCount();
@@ -222,7 +222,7 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
             .GetExcelSheet<ContentRoulette>()
             .GetRow(listItem.GetContentId().Id);
 
-        if (IsRouletteComplete(rouletteInfo.RowId)) {
+        if (Excel.IsComplete<ContentRoulette>(rouletteInfo.RowId)) {
             listItem.DutyNameTextNode->TextColor = Config.CompleteColor.ToByteColor();
         }
         else {

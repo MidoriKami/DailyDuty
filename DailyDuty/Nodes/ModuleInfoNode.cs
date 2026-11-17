@@ -10,6 +10,12 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
 
     private readonly VerticalListNode layoutContainer;
 
+    private TextNode statusNode = null!;
+    private TextNode nextResetDateNode = null!;
+    private TextNode nextResetTimeRemainingNode = null!;
+    private TextNode? windowEndDateNode;
+    private TextNode? windowEndTimeRemainingNode;
+
     public ModuleInfoNode(IModule module) {
         this.module = module;
 
@@ -29,13 +35,26 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         base.OnSizeChanged();
 
         layoutContainer.Size = Size;
-        layoutContainer.RecalculateLayout();
+        layoutContainer.UpdateLayout();
     }
 
     public void Update() {
         statusNode.String = module.GetStatus().ToString();
-        nextResetNode.String = $"{module.NextResetTime.ToLocalTime():dddd, MMMM dd, yyyy hh:mm tt}";
-        timeRemainingNode.String = $"{module.NextResetTime.ToUniversalTime() - DateTime.UtcNow:d\\.hh\\:mm\\:ss}";
+        UpdateTimerNode(nextResetDateNode, nextResetTimeRemainingNode, module.GetNextResetTime());
+
+        if (windowEndDateNode is not null && windowEndTimeRemainingNode is not null) {
+
+            if (module.GetWindowEndTime() is { } windowEndTime) {
+                windowEndDateNode.IsVisible = true;
+                windowEndTimeRemainingNode.IsVisible = true;
+                UpdateTimerNode(windowEndDateNode, windowEndTimeRemainingNode, windowEndTime);
+            }
+            else {
+                windowEndDateNode.IsVisible = false;
+                windowEndTimeRemainingNode.IsVisible = false;
+            }
+
+        }
 
         module.UpdateDataUi();
 
@@ -44,26 +63,45 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         }
     }
 
-    private TextNode statusNode = null!;
-    private TextNode nextResetNode = null!;
-    private TextNode timeRemainingNode = null!;
+    private static void UpdateTimerNode(TextNode? dateNode, TextNode? remainingNode, DateTime time) {
+        dateNode?.String = $"{time.ToLocalTime():dddd, MMMM dd, yyyy hh:mm tt}";
 
-    private void BuildStatusTab(NodeBuilder statusBuilder) => statusBuilder
-        .Dummy(10.0f)
-        .TextCentered(Strings.GenericDataNode_ModuleStatus, 14)
-        .Separator()
-        .Dummy(6.0f)
-        .TextCentered("STATUS TEXT", 14, out statusNode)
-        .Dummy(28.0f)
-        .TextCentered(Strings.GenericDataNode_NextReset, 14)
-        .Separator()
-        .Dummy(6.0f)
-        .TextCentered("NEXT RESET", 14, out nextResetNode)
-        .Dummy(28.0f)
-        .TextCentered(Strings.GenericDataNode_TimeRemaining, 14)
-        .Separator()
-        .Dummy(6.0f)
-        .TextCentered("TIME REMAINING", 14, out timeRemainingNode);
+        var remaining = time.ToUniversalTime() - DateTime.UtcNow;
+        remainingNode?.String = remaining.TotalSeconds > 0 ? $"{remaining:d\\.hh\\:mm\\:ss}" : "No Longer Available";
+    }
+
+    private void BuildStatusTab(NodeBuilder statusBuilder) {
+        statusBuilder
+            .Dummy(10.0f)
+            .TextCentered(Strings.GenericDataNode_ModuleStatus, 14)
+            .Separator()
+            .Dummy(6.0f)
+            .TextCentered("STATUS TEXT", 14, out statusNode)
+            .Dummy(28.0f)
+            .TextCentered(Strings.GenericDataNode_NextReset, 14)
+            .Separator()
+            .Dummy(6.0f)
+            .TextCentered("NEXT RESET", 14, out nextResetDateNode)
+            .Dummy(28.0f)
+            .TextCentered(Strings.GenericDataNode_TimeRemaining, 14)
+            .Separator()
+            .Dummy(6.0f)
+            .TextCentered("TIME REMAINING", 14, out nextResetTimeRemainingNode);
+
+        if (module.GetWindowEndTime() is not null) {
+            statusBuilder
+                .Dummy(28.0f)
+                .TextCentered(Strings.GenericDataNode_AvailableUntil, 14)
+                .Separator()
+                .Dummy(6.0f)
+                .TextCentered("AVAILABLE UNTIL", 14, out windowEndDateNode)
+                .Dummy(28.0f)
+                .TextCentered(Strings.GenericDataNode_TimeRemaining, 14)
+                .Separator()
+                .Dummy(6.0f)
+                .TextCentered("REMAINING", 14, out windowEndTimeRemainingNode);
+        }
+    }
 
     private void BuildDataTab(NodeBuilder dataBuilder)
         => dataBuilder

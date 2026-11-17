@@ -134,7 +134,7 @@ public class SystemController : IAsyncDisposable {
                 Config.IsDebugMode = !Config.IsDebugMode;
                 IChatGui.Get().Print($"Debug mode is now {(Config.IsDebugMode ? "Enabled" : "Disabled")}", "DailyDuty");
                 IPluginLog.Get().Info($"Debug mode is now {(Config.IsDebugMode ? "Enabled" : "Disabled")}");
-                Task.Run(Config.Save);
+                Config.Save();
 
                 if (!System.ConfigWindow.IsOpen) {
                     System.ConfigWindow.Open();
@@ -267,6 +267,7 @@ public class SystemController : IAsyncDisposable {
 
             await toggleable.EnableAsync();
             toggleable.LoadState = State.Enabled;
+            toggleable.Enabled = true;
 
             if (toggleable is IModule module) {
                 module.SendLoginMessage();
@@ -287,6 +288,7 @@ public class SystemController : IAsyncDisposable {
 
                 toggleable.LoadState = State.Errored;
                 toggleable.LoadErrorMessage = Strings.ModuleManager_LoadFailed;
+                toggleable.Enabled = false;
 
                 await toggleable.DisableAsync();
 
@@ -326,6 +328,7 @@ public class SystemController : IAsyncDisposable {
 
             await toggleable.DisableAsync();
             toggleable.LoadState = State.Disabled;
+            toggleable.Enabled = true;
 
             if (removeFromList) {
                 Config.EnabledModules.Remove(toggleable.Name);
@@ -337,6 +340,7 @@ public class SystemController : IAsyncDisposable {
         catch (Exception e) {
 
             toggleable.LoadState = State.Errored;
+            toggleable.Enabled = false;
             IPluginLog.Get().Error(e, $"Failed to Disable {toggleable.Name}");
 
         }

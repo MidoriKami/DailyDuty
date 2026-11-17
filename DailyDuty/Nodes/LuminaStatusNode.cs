@@ -35,17 +35,19 @@ public class LuminaStatusNode<T> : ListItemNode<T>, IListItemNode where T : stru
         base.OnSizeChanged();
 
         layoutNode.Size = Size;
-        layoutNode.RecalculateLayout();
+        layoutNode.UpdateLayout();
     }
 
     protected override void SetNodeData(T itemData) {
         labelNode.String = itemData.DisplayString;
-        statusNode.String = itemData.CompletionStatusString;
+        labelNode.ItemTooltip = itemData.ItemId;
+
+        statusNode.String = itemData.CompletionStatus.ToString();
     }
 
     public override void Update() {
         base.Update();
 
-        statusNode.String = ItemData.CompletionStatusString;
+        statusNode.String = ItemData.CompletionStatus.ToString();
     }
 }

@@ -98,7 +98,14 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
 
     /// <inheritdoc/>
     public bool IsResetDue()
-        => Data.NextReset.ToUniversalTime() < DateTime.UtcNow;
+        => GetNextResetTimeInternal().ToUniversalTime() < DateTime.UtcNow;
+
+    private DateTime GetNextResetTimeInternal() => this switch {
+        IDailyResettable => Time.NextDailyReset(),
+        IWeeklyResettable => Time.NextWeeklyReset(),
+        ISpecialResettable => GetSpecialNextResetTime(),
+        _ => Data.NextReset,
+    };
 
     /// <summary>
     /// Resets this modules data and properties.
@@ -135,6 +142,12 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
     /// Gets the next reset time for non-standard modules.
     /// </summary>
     protected virtual DateTime GetSpecialNextResetTime() => Data.NextReset;
+
+    /// <summary>
+    /// Gets the event window end time override for modules with a separate window end from reset time.
+    /// Returns null by default (meaning window end equals reset time).
+    /// </summary>
+    protected virtual DateTime? GetWindowEndTimeOverride() => null;
 
     private TextButtonNode? suppressionButton;
 
@@ -188,6 +201,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
     void IModule.BuildGenericConfig(NodeBuilder builder) => builder
         .TextCentered(Strings.NotificationSettingsNode_NotificationSettings, 14)
         .Separator()
+        .Dummy(5.0f)
         .Checkbox(Strings.NotificationSettingsNode_LoginStatus, Config.OnLoginMessage, val => {
             Config.OnLoginMessage = val;
             Config.Save();
@@ -203,6 +217,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
         .Dummy(10.0f)
         .TextCentered(Strings.NotificationSettingsNode_CustomStatus, 14)
         .Separator()
+        .Dummy(5.0f)
         .InputText(inputChanged => {
             Config.CustomStatusMessage = inputChanged.ToString();
             Config.Save();
@@ -210,6 +225,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
         .Dummy(10.0f)
         .TextCentered(Strings.NotificationSettingsNode_CustomReset, 14)
         .Separator()
+        .Dummy(5.0f)
         .InputText(inputChanged => {
             Config.CustomResetMessage = inputChanged.ToString();
             Config.Save();
@@ -217,6 +233,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
         .Dummy(10.0f)
         .TextCentered(Strings.NotificationSettingsNode_ChatChannel, 14)
         .Separator()
+        .Dummy(5.0f)
         .Combo(Config.MessageChatChannel, channel => {
             Config.MessageChatChannel = channel;
             Config.Save();
@@ -224,6 +241,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
         .Dummy(10.0f)
         .TextCentered(Strings.DataNodeBase_SnoozeTooltip, 14)
         .Separator()
+        .Dummy(5.0f)
         .TextButton(Config.Suppressed ? Strings.DataNodeBase_Unsnooze : Strings.DataNodeBase_Snooze, () => {
             Config.Suppressed = !Config.Suppressed;
             suppressionButton?.String = Config.Suppressed ? Strings.DataNodeBase_Unsnooze : Strings.DataNodeBase_Snooze;
@@ -250,10 +268,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
         _ => TimeSpan.FromDays(1),
     };
 
-    DateTime IResettable.GetNextResetTime() => this switch {
-        IDailyResettable => Time.NextDailyReset(),
-        IWeeklyResettable => Time.NextWeeklyReset(),
-        ISpecialResettable => GetSpecialNextResetTime(),
-        _ => Data.NextReset,
-    };
+    DateTime IResettable.GetNextResetTime() => GetNextResetTimeInternal();
+
+    DateTime? IResettable.GetWindowEndTime() => GetWindowEndTimeOverride();
 }

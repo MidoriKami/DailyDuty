@@ -23,10 +23,10 @@ public static class Time {
         => NextDayOfWeek(DayOfWeek.Tuesday, 8);
 
     /// <summary>
-    /// Returns the next Fashion Report reset time (Wednesday 08:00 UTC).
+    /// Returns the next Fashion Report reset time (Friday 08:00 UTC, when the new Fashion Report week begins).
     /// </summary>
     public static DateTime NextFashionReportReset()
-        => NextWeeklyReset().AddDays(3);
+        => NextDayOfWeek(DayOfWeek.Friday, 8);
 
     /// <summary>
     /// Returns the next Grand Company supply reset time (20:00 UTC).

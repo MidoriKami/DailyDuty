@@ -213,6 +213,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Not Started.
+        /// </summary>
+        internal static string CompletionStatus_NotStarted {
+            get {
+                return ResourceManager.GetString("CompletionStatus_NotStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Disabled.
         /// </summary>
         internal static string CompletionStatus_Disabled {
@@ -879,6 +888,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Available Until.
+        /// </summary>
+        internal static string GenericDataNode_AvailableUntil {
+            get {
+                return ResourceManager.GetString("GenericDataNode_AvailableUntil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Unknown Status.
         /// </summary>
         internal static string GenericDataNode_UnknownStatus {
@@ -1028,6 +1046,24 @@ namespace Resources {
         internal static string Levequest_AcceptedNotUpdated {
             get {
                 return ResourceManager.GetString("Levequest_AcceptedNotUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Allowance Amount.
+        /// </summary>
+        internal static string Levequest_AllowanceAmount {
+            get {
+                return ResourceManager.GetString("Levequest_AllowanceAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Warning Trigger.
+        /// </summary>
+        internal static string Levequest_WarningTrigger {
+            get {
+                return ResourceManager.GetString("Levequest_WarningTrigger", resourceCulture);
             }
         }
         
