@@ -51,7 +51,6 @@ public class SystemController : IAsyncDisposable {
                     break;
 
                 case ISpecialResettable:
-                case IResettable:
                     OtherModules.Add(module);
                     break;
             }
