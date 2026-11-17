@@ -70,14 +70,14 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         .TabbedContent(tabbedContentBuilder => tabbedContentBuilder
             .AddTab("Tracking", trackingTabBuilder => trackingTabBuilder
                 .Spacer(10.0f)
-                .TextWrapped("This tab controls which entries are required to be completed to mark this module as completed.")
+                .TextWrapped("This tab controls which entries are required to be completed to mark this module as completed.", 2)
                 .Spacer(10.0f)
                 .List<ContentsNote, LuminaConfigNode<ContentsNote>>([.. ValidContentsNotes], OnTrackingDataChanged, listConfigure => {
                     listConfigure.NodeReferenceData = Config.TrackedEntries;
                 }))
             .AddTab("Warnings", warningsTabBuilder => warningsTabBuilder
                 .Spacer(10.0f)
-                .TextWrapped("This tab allows you to select entries that you want to be warned about when opening duty finder or completing a duty.")
+                .TextWrapped("This tab allows you to select entries that you want to be warned about when opening duty finder or completing a duty.", 2)
                 .Spacer(10.0f)
                 .Checkbox(Strings.ChallengeLog_DutyFinderWarningSound, Config.EnableContentFinderWarning, newValue => {
                     Config.EnableContentFinderWarning = newValue;
@@ -87,7 +87,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
                     Config.EnableDutyCompleteWarning = newValue;
                     Config.Save();
                 })
-                .Spacer(5.0f)
+                .Spacer(10.0f)
                 .List<ContentsNote, LuminaConfigNode<ContentsNote>>([.. ValidContentsNotes], OnWarningDataChanged, listConfigure => {
                     listConfigure.NodeReferenceData = Config.WarningEntries;
                 })));
