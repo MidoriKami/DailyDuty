@@ -25,19 +25,19 @@ public class ConfigWindow : NativeAddon {
 
     protected override unsafe void OnSetup(AtkUnitBase* addon, Span<AtkValue> atkValueSpan) {
         NativeUiBuilder.Create(ContentSize, ContentStartPosition, buildAction => buildAction
-                .Search(OnSearchUpdated)
-                .RatioSplit([0.3f, 0.7f],
-                    configureSplitNode => {
-                        configureSplitNode.FitContents = false;
-                        configureSplitNode.LayoutFill = LayoutFill.Both;
-                    },
-                    leftSplit => leftSplit
-                        .TabbedContent(tabBuilder => tabBuilder
-                            .AddTab("Modules", BuildModulesTab)
-                            .AddTab("Features", BuildFeaturesTab), tabChanged: OnTabChanged),
-                    rightSplit => rightSplit
-                        .AddNode(infoNode = new ConfigInfoNode())))
-            .AttachNode(this);
+            .Search(OnSearchUpdated)
+            .RatioSplit([0.3f, 0.7f],
+                configureSplitNode => {
+                    configureSplitNode.FitContents = false;
+                    configureSplitNode.LayoutFill = LayoutFill.Both;
+                },
+                leftSplit => leftSplit
+                    .TabbedContent(tabBuilder => tabBuilder
+                        .AddTab("Modules", BuildModulesTab)
+                        .AddTab("Features", BuildFeaturesTab), tabChanged: OnTabChanged),
+                rightSplit => rightSplit
+                    .AddNode(infoNode = new ConfigInfoNode())))
+        .AttachNode(this);
 
         selectOptionTextNode = new TextNode {
             Size = infoNode!.Size,
