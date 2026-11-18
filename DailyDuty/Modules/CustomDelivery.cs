@@ -24,8 +24,11 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
         Config = await CustomDeliveryConfig.Load();
     }
 
-    public override Task DisableAsync()
-        => Task.CompletedTask;
+    public override Task DisableAsync() {
+        currentAllowances = null;
+
+        return Task.CompletedTask;
+    }
 
     public override void BuildDataUi(NodeBuilder builder) => builder
         .DataRow(Strings.CustomDelivery_AllowancesRemaining, "CURRENT ALLOWANCES", out currentAllowances);
