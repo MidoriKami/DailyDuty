@@ -188,6 +188,10 @@ public class SystemController : IAsyncDisposable {
                 }
 
                 resettable.Reset();
+
+                if (resettable is IModule module) {
+                    module.SendResetMessage();
+                }
             }
         }
 

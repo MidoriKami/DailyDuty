@@ -152,15 +152,6 @@
   <data name="CompletionStatus_ResultsAvailable" xml:space="preserve">
     <value>結果を確認できます</value>
   </data>
-  <data name="ComparisonMode_Below" xml:space="preserve">
-    <value>以下</value>
-  </data>
-  <data name="ComparisonMode_NotEqual" xml:space="preserve">
-    <value>等しくない</value>
-  </data>
-  <data name="ComparisonMode_Above" xml:space="preserve">
-    <value>以上</value>
-  </data>
   <data name="FashionReportMode_AllAttemptsUsed" xml:space="preserve">
     <value>すべての挑戦回数を使い切りました</value>
   </data>
@@ -383,11 +374,11 @@
   <data name="ChallengeLog_DutyWarningSelection" xml:space="preserve">
     <value>攻略手帳のコンテンツファインダー警告項目を選択</value>
   </data>
-  <data name="CustomDelivery_AllowanceAmount" xml:space="preserve">
-    <value>受注権の残り回数</value>
+  <data name="CustomDelivery_NotificationThreshold" xml:space="preserve">
+    <value>通知閾値</value>
   </data>
-  <data name="CustomDelivery_WarningTrigger" xml:space="preserve">
-    <value>警告の発動条件</value>
+  <data name="CustomDelivery_ThresholdNote" xml:space="preserve">
+    <value>残りの受注権がこの閾値を超えている場合に警告が送信されます。</value>
   </data>
   <data name="CustomDelivery_AllowancesRemaining" xml:space="preserve">
     <value>残りの受注権</value>
@@ -456,7 +447,7 @@
     <value>まだ挑戦していません</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>参加不可</value>
+    <value>現在、ファッションレポートは利用できません。</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>残り挑戦回数</value>
@@ -503,6 +494,12 @@
   <data name="Levequest_AcceptedNotUpdated" xml:space="preserve">
     <value>受注状況が更新されていません</value>
   </data>
+  <data name="Levequest_NotificationThreshold" xml:space="preserve">
+    <value>通知閾値</value>
+  </data>
+  <data name="Levequest_ThresholdNote" xml:space="preserve">
+    <value>残りの受注権がこの閾値を超えている場合に警告が送信されます。</value>
+  </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
     <value>挑戦可能回数あり</value>
   </data>
@@ -517,6 +514,9 @@
   </data>
   <data name="TreasureMap_Gatherable" xml:space="preserve">
     <value>宝の地図採集可能</value>
+  </data>
+  <data name="TreasureMap_NeverGathered" xml:space="preserve">
+    <value>まだ採集していない</value>
   </data>
   <data name="TribalQuests_QuestAmount" xml:space="preserve">
     <value>クエスト数</value>
@@ -698,4 +698,7 @@
   <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
         <value>[DailyDuty] 次のリセットまでの時間</value>
     </data>
+    <data name="CompletionStatus_NotStarted" xml:space="preserve">
+    <value>Not Started</value>
+  </data>
 </root>

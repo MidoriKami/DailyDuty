@@ -7,7 +7,7 @@ using KamiToolKit.Classes;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Module;
 
 public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
     public static float ItemHeight => 36.0f;

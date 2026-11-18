@@ -30,6 +30,7 @@ public static class Excel {
         public ReadOnlySeString DisplayString => row switch {
             ContentsNote contentsNote => contentsNote.Name,
             ContentRoulette contentRoulette => contentRoulette.Name,
+            ContentFinderCondition contentFinderCondition => contentFinderCondition.Name,
             MobHuntOrderType mobHuntOrderType => mobHuntOrderType.EventItem.ValueNullable?.Name ?? string.Empty,
             _ => string.Empty,
         };
@@ -40,6 +41,7 @@ public static class Excel {
         public CompletionStatus CompletionStatus => row switch {
             ContentsNote contentsNote => contentsNote.IsComplete ? CompletionStatus.Complete : CompletionStatus.Incomplete,
             ContentRoulette contentRoulette => contentRoulette.IsComplete ? CompletionStatus.Complete : CompletionStatus.Incomplete,
+            ContentFinderCondition => CompletionStatus.Unknown,
             MobHuntOrderType mobHuntOrderType => mobHuntOrderType.IsComplete ? CompletionStatus.Complete : CompletionStatus.Incomplete,
             _ => CompletionStatus.Unknown,
         };

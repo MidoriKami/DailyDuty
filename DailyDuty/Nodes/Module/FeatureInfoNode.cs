@@ -3,7 +3,7 @@ using KamiToolKit.Enums;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Module;
 
 public class FeatureInfoNode(IFeature _) : ResNode, ILayoutFiller {
     public IFeature Unknown { get; } = _;

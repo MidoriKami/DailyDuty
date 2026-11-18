@@ -37,26 +37,18 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
         => currentAllowances?.String = RemainingAllowances.ToString();
 
     public void BuildConfigUi(NodeBuilder builder) => builder
-        .Row(Strings.CustomDelivery_AllowanceAmount, rowBuilder => rowBuilder
+        .TextCentered(Strings.CustomDelivery_ThresholdNote)
+        .Row(Strings.CustomDelivery_NotificationThreshold, rowBuilder => rowBuilder
             .IntSlider(Config.NotificationThreshold, 0, 12, newValue => {
                 Config.NotificationThreshold = newValue;
-                Config.Save();
-            }))
-        .Row(Strings.CustomDelivery_WarningTrigger, rowBuilder => rowBuilder
-            .Combo(Config.ComparisonMode, newValue => {
-                Config.ComparisonMode = newValue;
                 Config.Save();
             }));
 
     protected override Task ResetAsync()
         => Task.CompletedTask;
 
-    protected override CompletionStatus GetCompletionStatus() => Config.ComparisonMode switch {
-        ComparisonMode.Above => RemainingAllowances > Config.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete,
-        ComparisonMode.Below => RemainingAllowances < Config.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete,
-        ComparisonMode.Equal => RemainingAllowances != Config.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete,
-        _ => CompletionStatus.Unknown,
-    };
+    protected override CompletionStatus GetCompletionStatus()
+        => RemainingAllowances > Config.NotificationThreshold ? CompletionStatus.Incomplete : CompletionStatus.Complete;
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
@@ -82,5 +74,4 @@ public class CustomDeliveryConfig : ModuleConfigFile<CustomDeliveryConfig> {
     protected override string FileName => "CustomDelivery.config.json";
 
     public int NotificationThreshold { get; set; }
-    public ComparisonMode ComparisonMode { get; set; } = ComparisonMode.Above;
 }

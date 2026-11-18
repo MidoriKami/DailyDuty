@@ -152,15 +152,6 @@
   <data name="CompletionStatus_ResultsAvailable" xml:space="preserve">
     <value>Results Available</value>
   </data>
-  <data name="ComparisonMode_Below" xml:space="preserve">
-    <value>Below</value>
-  </data>
-  <data name="ComparisonMode_NotEqual" xml:space="preserve">
-    <value>Not Equal</value>
-  </data>
-  <data name="ComparisonMode_Above" xml:space="preserve">
-    <value>Above</value>
-  </data>
   <data name="FashionReportMode_AllAttemptsUsed" xml:space="preserve">
     <value>All Attempts Used</value>
   </data>
@@ -186,7 +177,7 @@
     <value>Available Now</value>
   </data>
   <data name="GenericDataNode_EnableModule" xml:space="preserve">
-    <value>Enable module to initialize</value>
+    <value>Enable module to initialize.</value>
   </data>
   <data name="NotificationSettingsNode_NotificationSettings" xml:space="preserve">
     <value>Notification Settings</value>
@@ -231,10 +222,10 @@
     <value>Unsnooze</value>
   </data>
   <data name="DataNodeBase_SnoozeTooltip" xml:space="preserve">
-    <value>Suppresses notification until the next reset</value>
+    <value>Suppresses notification until the next reset.</value>
   </data>
   <data name="ModuleBrowserWindow_SelectOption" xml:space="preserve">
-    <value>Please select an option on the left</value>
+    <value>Please select an option on the left.</value>
   </data>
   <data name="ModuleOptionNode_FailedToLoad" xml:space="preserve">
     <value>Module Failed To Load</value>
@@ -383,11 +374,11 @@
   <data name="ChallengeLog_DutyWarningSelection" xml:space="preserve">
     <value>Challenge Log Duty Finder Warning Selection</value>
   </data>
-  <data name="CustomDelivery_AllowanceAmount" xml:space="preserve">
-    <value>Allowance Amount</value>
+  <data name="CustomDelivery_NotificationThreshold" xml:space="preserve">
+    <value>Benachrichtigungsschwelle</value>
   </data>
-  <data name="CustomDelivery_WarningTrigger" xml:space="preserve">
-    <value>Warning Trigger</value>
+  <data name="CustomDelivery_ThresholdNote" xml:space="preserve">
+    <value>Warnungen werden gesendet, wenn die verbleibenden Berechtigungen über diesem Schwellenwert liegen.</value>
   </data>
   <data name="CustomDelivery_AllowancesRemaining" xml:space="preserve">
     <value>Allowances Remaining</value>
@@ -411,10 +402,10 @@
     <value>Remaining Not Updated</value>
   </data>
   <data name="DomanEnclave_UnavailableStatus" xml:space="preserve">
-    <value>Status is unavailable, visit the Doman Enclave to update</value>
+    <value>Status is unavailable, visit the Doman Enclave to update.</value>
   </data>
   <data name="DomanEnclave_UnknownStatus" xml:space="preserve">
-    <value>Status unknown, visit the enclave to update</value>
+    <value>Status unknown, visit the enclave to update.</value>
   </data>
   <data name="DutyRoulette_MarkCompleteTomecapped" xml:space="preserve">
     <value>Mark Complete When Weekly Tomecapped</value>
@@ -456,7 +447,7 @@
     <value>Not attempted yet</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>Not Available</value>
+    <value>Fashion Report ist derzeit nicht verfügbar.</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>Attempt(s) Remaining</value>
@@ -503,6 +494,12 @@
   <data name="Levequest_AcceptedNotUpdated" xml:space="preserve">
     <value>Accepted Not Updated</value>
   </data>
+  <data name="Levequest_NotificationThreshold" xml:space="preserve">
+    <value>Benachrichtigungsschwelle</value>
+  </data>
+  <data name="Levequest_ThresholdNote" xml:space="preserve">
+    <value>Warnungen werden gesendet, wenn die verbleibenden Berechtigungen über diesem Schwellenwert liegen.</value>
+  </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
     <value>Attempts Available</value>
   </data>
@@ -517,6 +514,9 @@
   </data>
   <data name="TreasureMap_Gatherable" xml:space="preserve">
     <value>Treasure Map Gatherable</value>
+  </data>
+  <data name="TreasureMap_NeverGathered" xml:space="preserve">
+    <value>Nie gesammelt</value>
   </data>
   <data name="TribalQuests_QuestAmount" xml:space="preserve">
     <value>Quest Amount</value>
@@ -666,7 +666,7 @@
     <value>Sticker is already available for this duty, be sure to claim it!</value>
   </data>
   <data name="WondrousTails_CompletingDutyReward" xml:space="preserve">
-    <value>Completing this duty will reward you with a sticker</value>
+    <value>Completing this duty will reward you with a sticker.</value>
   </data>
   <data name="WondrousTails_RerollsAvailable" xml:space="preserve">
     <value>Rerolls Available</value>
@@ -698,4 +698,7 @@
   <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
         <value>[DailyDuty] Time Until Next Reset</value>
     </data>
+    <data name="CompletionStatus_NotStarted" xml:space="preserve">
+    <value>Not Started</value>
+  </data>
 </root>

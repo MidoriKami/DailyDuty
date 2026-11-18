@@ -34,7 +34,7 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
         Data = await JumboCactpotData.Load();
         Config = await JumboCactpotConfig.Load();
 
-        goldSaucerTeleportPayload = ChatLinkPayloads.TeleportToGoldSaucer();
+        goldSaucerTeleportPayload = ChatLinkPayload.TeleportToGoldSaucer();
 
         IAgentLifecycle.Get().RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, LotteryWeeklyReceiveEvent);
     }

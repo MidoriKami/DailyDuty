@@ -29,7 +29,7 @@ public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySup
         Data = await GrandCompanySupplyData.Load();
         Config = await GrandCompanySupplyConfig.Load();
 
-        grandCompanyTeleportPayload = ChatLinkPayloads.TeleportToGrandCompany();
+        grandCompanyTeleportPayload = ChatLinkPayload.TeleportToGrandCompany();
 
         statusNodes = [];
     }

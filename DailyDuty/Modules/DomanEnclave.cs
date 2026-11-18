@@ -33,7 +33,7 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
         Data = await DomanEnclaveData.Load();
         Config = await DomanEnclaveConfig.Load();
 
-        domanEnclaveTeleportPayload = ChatLinkPayloads.TeleportToDomanEnclave();
+        domanEnclaveTeleportPayload = ChatLinkPayload.TeleportToDomanEnclave();
     }
 
     public override Task DisableAsync() {
@@ -108,10 +108,10 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
     }
 
     protected override CompletionStatus GetCompletionStatus() => Data switch {
-        { WeeklyAllowance: 0 } => CompletionStatus.Unknown,
+        { WeeklyAllowance: 0 } => CompletionStatus.NotInitialized,
         { WeeklyAllowance: not 0, RemainingAllowance: 0 } => CompletionStatus.Complete,
         { WeeklyAllowance: not 0, RemainingAllowance: not 0 } => CompletionStatus.Incomplete,
-        _ => CompletionStatus.Unknown,
+        _ => CompletionStatus.NotInitialized,
     };
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(

@@ -36,7 +36,7 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         Data = await GrandCompanySquadronData.Load();
         Config = await GrandCompanySquadronConfig.Load();
 
-        grandCompanyTeleportPayload = ChatLinkPayloads.TeleportToGrandCompany();
+        grandCompanyTeleportPayload = ChatLinkPayload.TeleportToGrandCompany();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
         IAgentLifecycle.Get().RegisterListener(AgentEvent.PreReceiveEvent, AgentId.GcArmyExpedition, AgentGcArmyExpeditionReceiveEvent);

@@ -3,7 +3,7 @@ using DailyDuty.Interfaces;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Module;
 
 public class ModuleInfoNode : ResNode, INativeUpdatable {
     private readonly IModule module;
@@ -60,6 +60,12 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
     }
 
     private static void UpdateTimerNode(TextNode? dateNode, TextNode? remainingNode, DateTime time) {
+        if (time == DateTime.MaxValue) {
+            dateNode?.String = "N/A";
+            remainingNode?.String = "N/A";
+            return;
+        }
+
         dateNode?.String = $"{time.ToLocalTime():dddd, MMMM dd, yyyy hh:mm tt}";
 
         var remaining = time.ToUniversalTime() - DateTime.UtcNow;

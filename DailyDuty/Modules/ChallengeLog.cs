@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Nodes;
+using DailyDuty.Nodes.Config;
+using DailyDuty.Nodes.Display;
 using DailyDuty.Utilities;
 using Dalamud.Excel.Sheets;
 using Dalamud.Game.Addon.Lifecycle;
@@ -36,7 +37,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         Data = await ChallengeLogData.Load();
         Config = await ChallengeLogConfig.Load();
 
-        openChallengeLogPayload = ChatLinkPayloads.OpenChallengeLog();
+        openChallengeLogPayload = ChatLinkPayload.OpenChallengeLog();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
         IDutyState.Get().DutyCompleted += OnDutyCompleted;

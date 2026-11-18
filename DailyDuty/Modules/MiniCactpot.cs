@@ -28,7 +28,7 @@ public class MiniCactpot : Module<MiniCactpotData, MiniCactpotConfig>, IDailyRes
         Data = await MiniCactpotData.Load();
         Config = await MiniCactpotConfig.Load();
 
-        goldSaucerTeleportPayload = ChatLinkPayloads.TeleportToGoldSaucer();
+        goldSaucerTeleportPayload = ChatLinkPayload.TeleportToGoldSaucer();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreSetup, "LotteryDaily", LotteryDailyPreSetup);
     }

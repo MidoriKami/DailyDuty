@@ -7,7 +7,6 @@ using DailyDuty.Utilities;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using KamiToolKit.Classes;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
@@ -33,7 +32,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
         Data = await FashionReportData.Load();
         Config = await FashionReportConfig.Load();
 
-        teleportPayload = ChatLinkPayloads.TeleportToGoldSaucer();
+        teleportPayload = ChatLinkPayload.TeleportToGoldSaucer();
     }
 
     public override Task DisableAsync() {
@@ -52,10 +51,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
     public override void BuildDataUi(NodeBuilder builder) => builder
         .FittedContent(inner => inner
             .VerticalList(list => list
-                .TextFilled(Strings.FashionReport_NotAvailable, textNode => {
-                    textNode.FontSize = 14;
-                    textNode.TextColor = ColorHelper.GetColor(32);
-                }), out warningPage)
+                .TextWarningFilled(Strings.FashionReport_NotAvailable), out warningPage)
             .VerticalList(list => list
                 .DataRow(Strings.FashionReport_HighestScore, "SCORE", out scoreText)
                 .DataRow(Strings.MiniCactpot_AttemptsAvailable, "ATTEMPTS", out attemptsText), out dataPage));

@@ -176,32 +176,6 @@ namespace Resources {
             }
         }
         
-        /// <summary>
-        ///     Looks up a localized string similar to Above.
-        /// </summary>
-        internal static string ComparisonMode_Above {
-            get {
-                return ResourceManager.GetString("ComparisonMode_Above", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Below.
-        /// </summary>
-        internal static string ComparisonMode_Below {
-            get {
-                return ResourceManager.GetString("ComparisonMode_Below", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     Looks up a localized string similar to Not Equal.
-        /// </summary>
-        internal static string ComparisonMode_NotEqual {
-            get {
-                return ResourceManager.GetString("ComparisonMode_NotEqual", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///     Looks up a localized string similar to Complete.
@@ -303,11 +277,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Allowance Amount.
+        ///     Looks up a localized string similar to Notification Threshold.
         /// </summary>
-        internal static string CustomDelivery_AllowanceAmount {
+        internal static string CustomDelivery_NotificationThreshold {
             get {
-                return ResourceManager.GetString("CustomDelivery_AllowanceAmount", resourceCulture);
+                return ResourceManager.GetString("CustomDelivery_NotificationThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Warnings are sent when remaining allowances are above this threshold.
+        /// </summary>
+        internal static string CustomDelivery_ThresholdNote {
+            get {
+                return ResourceManager.GetString("CustomDelivery_ThresholdNote", resourceCulture);
             }
         }
         
@@ -338,14 +321,6 @@ namespace Resources {
             }
         }
         
-        /// <summary>
-        ///     Looks up a localized string similar to Warning Trigger.
-        /// </summary>
-        internal static string CustomDelivery_WarningTrigger {
-            get {
-                return ResourceManager.GetString("CustomDelivery_WarningTrigger", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///     Looks up a localized string similar to Config.
@@ -762,7 +737,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Fashion Report is Not Available.
+        ///     Looks up a localized string similar to Fashion Report is not available right now..
         /// </summary>
         internal static string FashionReport_NotAvailable {
             get {
@@ -1050,20 +1025,20 @@ namespace Resources {
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Allowance Amount.
+        ///     Looks up a localized string similar to Notification Threshold.
         /// </summary>
-        internal static string Levequest_AllowanceAmount {
+        internal static string Levequest_NotificationThreshold {
             get {
-                return ResourceManager.GetString("Levequest_AllowanceAmount", resourceCulture);
+                return ResourceManager.GetString("Levequest_NotificationThreshold", resourceCulture);
             }
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Warning Trigger.
+        ///     Looks up a localized string similar to Warnings are sent when remaining allowances are above this threshold.
         /// </summary>
-        internal static string Levequest_WarningTrigger {
+        internal static string Levequest_ThresholdNote {
             get {
-                return ResourceManager.GetString("Levequest_WarningTrigger", resourceCulture);
+                return ResourceManager.GetString("Levequest_ThresholdNote", resourceCulture);
             }
         }
         
@@ -1289,6 +1264,15 @@ namespace Resources {
         internal static string Raids_NoneLimited {
             get {
                 return ResourceManager.GetString("Raids_NoneLimited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to No raids are being tracked. Enable raids in the config to start tracking..
+        /// </summary>
+        internal static string Raids_NoneTracked {
+            get {
+                return ResourceManager.GetString("Raids_NoneTracked", resourceCulture);
             }
         }
         
@@ -1802,6 +1786,15 @@ namespace Resources {
         internal static string TreasureMap_LastGathered {
             get {
                 return ResourceManager.GetString("TreasureMap_LastGathered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Never Gathered.
+        /// </summary>
+        internal static string TreasureMap_NeverGathered {
+            get {
+                return ResourceManager.GetString("TreasureMap_NeverGathered", resourceCulture);
             }
         }
         

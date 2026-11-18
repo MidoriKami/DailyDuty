@@ -158,6 +158,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
 
     void IModule.SendLoginMessage() {
         if (!IsActive) return;
+        if (!GetCompletionStatus().RequiresAction) return;
 
         switch (Config) {
             case { OnLoginMessage: true, CustomStatusMessage: { Length: > 0 } loginMessage }:
@@ -172,6 +173,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
 
     void IModule.SendZoneChangeMessage() {
         if (!IsActive) return;
+        if (!GetCompletionStatus().RequiresAction) return;
 
         switch (Config) {
             case { OnZoneChangeMessage: true, CustomStatusMessage: { Length: > 0 } statusMessage }:
@@ -186,6 +188,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
 
     void IModule.SendResetMessage() {
         if (!IsActive) return;
+        if (!GetCompletionStatus().RequiresAction) return;
 
         switch (Config) {
             case { ResetMessages: true, CustomResetMessage: { Length: > 0 } resetMessage }:

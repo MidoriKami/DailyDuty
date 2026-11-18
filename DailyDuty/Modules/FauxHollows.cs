@@ -26,7 +26,7 @@ public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyRe
         Data = await FauxHollowsData.Load();
         Config = await FauxHollowsConfig.Load();
 
-        idyllShireTeleportPayload = ChatLinkPayloads.TeleportToIdyllshire();
+        idyllShireTeleportPayload = ChatLinkPayload.TeleportToIdyllshire();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
     }

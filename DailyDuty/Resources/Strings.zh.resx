@@ -152,15 +152,6 @@
   <data name="CompletionStatus_ResultsAvailable" xml:space="preserve">
     <value>结果可领取</value>
   </data>
-  <data name="ComparisonMode_Below" xml:space="preserve">
-    <value>低于</value>
-  </data>
-  <data name="ComparisonMode_NotEqual" xml:space="preserve">
-    <value>不等于</value>
-  </data>
-  <data name="ComparisonMode_Above" xml:space="preserve">
-    <value>高于</value>
-  </data>
   <data name="FashionReportMode_AllAttemptsUsed" xml:space="preserve">
     <value>所有机会已用完</value>
   </data>
@@ -383,11 +374,11 @@
   <data name="ChallengeLog_DutyWarningSelection" xml:space="preserve">
     <value>挑战笔记任务搜索器提示项目选择</value>
   </data>
-  <data name="CustomDelivery_AllowanceAmount" xml:space="preserve">
-    <value>可交付次数</value>
+  <data name="CustomDelivery_NotificationThreshold" xml:space="preserve">
+    <value>通知阈值</value>
   </data>
-  <data name="CustomDelivery_WarningTrigger" xml:space="preserve">
-    <value>提醒触发条件</value>
+  <data name="CustomDelivery_ThresholdNote" xml:space="preserve">
+    <value>当剩余可交付次数高于此阈值时将发送提醒。</value>
   </data>
   <data name="CustomDelivery_AllowancesRemaining" xml:space="preserve">
     <value>剩余可交付次数</value>
@@ -456,7 +447,7 @@
     <value>尚未尝试</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>不可用</value>
+    <value>时尚报告目前不可用。</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>剩余机会</value>
@@ -503,6 +494,12 @@
   <data name="Levequest_AcceptedNotUpdated" xml:space="preserve">
     <value>已接受理符任务数尚未更新</value>
   </data>
+  <data name="Levequest_NotificationThreshold" xml:space="preserve">
+    <value>通知阈值</value>
+  </data>
+  <data name="Levequest_ThresholdNote" xml:space="preserve">
+    <value>当剩余可交付次数高于此阈值时将发送提醒。</value>
+  </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
     <value>剩余游玩次数</value>
   </data>
@@ -517,6 +514,9 @@
   </data>
   <data name="TreasureMap_Gatherable" xml:space="preserve">
     <value>可采集宝物地图</value>
+  </data>
+  <data name="TreasureMap_NeverGathered" xml:space="preserve">
+    <value>尚未采集</value>
   </data>
   <data name="TribalQuests_QuestAmount" xml:space="preserve">
     <value>可接任务数量</value>
@@ -698,4 +698,7 @@
   <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
         <value>[DailyDuty] 距离下次重置</value>
     </data>
+    <data name="CompletionStatus_NotStarted" xml:space="preserve">
+    <value>Not Started</value>
+  </data>
 </root>

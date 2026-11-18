@@ -29,7 +29,7 @@ public class GrandCompanyProvision : Module<GrandCompanyProvisionData, GrandComp
         Data = await GrandCompanyProvisionData.Load();
         Config = await GrandCompanyProvisionConfig.Load();
 
-        grandCompanyTeleportPayload = ChatLinkPayloads.TeleportToGrandCompany();
+        grandCompanyTeleportPayload = ChatLinkPayload.TeleportToGrandCompany();
     }
 
     public override Task DisableAsync() {

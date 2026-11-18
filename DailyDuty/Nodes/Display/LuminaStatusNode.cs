@@ -4,7 +4,7 @@ using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 using Lumina.Excel;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Display;
 
 public class LuminaStatusNode<T> : ListItemNode<T>, IListItemNode where T : struct, IExcelRow<T> {
 

@@ -4,7 +4,7 @@ using KamiToolKit.Enums;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Module;
 
 public class ConfigInfoNode : ResNode, INativeUpdatable, ILayoutFiller {
 

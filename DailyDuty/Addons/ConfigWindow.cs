@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
-using DailyDuty.Nodes;
+using DailyDuty.Nodes.Module;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.BaseTypes;
 using KamiToolKit.Components.Builders;

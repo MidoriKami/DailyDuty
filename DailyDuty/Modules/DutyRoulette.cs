@@ -7,7 +7,8 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.NativeListItems;
-using DailyDuty.Nodes;
+using DailyDuty.Nodes.Config;
+using DailyDuty.Nodes.Display;
 using DailyDuty.Utilities;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
@@ -44,7 +45,7 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         Data = await DutyRouletteData.Load();
         Config = await DutyRouletteConfig.Load();
 
-        openRoulettePayload = ChatLinkPayloads.OpenDutyRoulette();
+        openRoulettePayload = ChatLinkPayload.OpenDutyRoulette();
 
         await IFramework.Get().Run(() => {
             unsafe {

@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
+using DailyDuty.Classes;
 using DailyDuty.Utilities;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 using Lumina.Excel;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Config;
 
 public class LuminaConfigNode<T> : ListItemNode<T>, IListItemNode where T : struct, IExcelRow<T> {
 
@@ -35,6 +37,9 @@ public class LuminaConfigNode<T> : ListItemNode<T>, IListItemNode where T : stru
         switch (ReferenceData) {
             case HashSet<uint> enabledEntries:
                 checkboxNode.IsChecked = enabledEntries.Contains(itemData.RowId);
+                break;
+            case List<RaidEntry> trackedRaids:
+                checkboxNode.IsChecked = trackedRaids.Any(e => e.Id == itemData.RowId);
                 break;
         }
 

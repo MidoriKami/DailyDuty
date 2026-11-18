@@ -6,7 +6,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
-namespace DailyDuty.Nodes;
+namespace DailyDuty.Nodes.Module;
 
 public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
 
