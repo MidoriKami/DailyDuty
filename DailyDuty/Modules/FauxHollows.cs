@@ -5,7 +5,6 @@ using DailyDuty.Interfaces;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
@@ -27,11 +26,7 @@ public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyRe
         Data = await FauxHollowsData.Load();
         Config = await FauxHollowsConfig.Load();
 
-        idyllShireTeleportPayload = new ChatLinkPayload(() => {
-            unsafe {
-                Telepo.Instance()->Teleport(75, 0);
-            }
-        });
+        idyllShireTeleportPayload = ChatLinkPayloads.TeleportToIdyllshire();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
     }

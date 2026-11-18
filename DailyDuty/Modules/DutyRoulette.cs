@@ -44,11 +44,7 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         Data = await DutyRouletteData.Load();
         Config = await DutyRouletteConfig.Load();
 
-        openRoulettePayload = new ChatLinkPayload(() => {
-            unsafe {
-                UIModule.Instance()->ExecuteMainCommand(2);
-            }
-        });
+        openRoulettePayload = ChatLinkPayloads.OpenDutyRoulette();
 
         await IFramework.Get().Run(() => {
             unsafe {

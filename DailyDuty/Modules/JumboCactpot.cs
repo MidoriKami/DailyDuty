@@ -8,7 +8,6 @@ using Dalamud.Game.Agent.AgentArgTypes;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
@@ -35,11 +34,7 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
         Data = await JumboCactpotData.Load();
         Config = await JumboCactpotConfig.Load();
 
-        goldSaucerTeleportPayload = new ChatLinkPayload(() => {
-            unsafe {
-                Telepo.Instance()->Teleport(62, 0);
-            }
-        });
+        goldSaucerTeleportPayload = ChatLinkPayloads.TeleportToGoldSaucer();
 
         IAgentLifecycle.Get().RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, LotteryWeeklyReceiveEvent);
     }

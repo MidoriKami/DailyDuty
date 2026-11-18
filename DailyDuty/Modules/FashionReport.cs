@@ -7,7 +7,6 @@ using DailyDuty.Utilities;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiToolKit.Classes;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
@@ -34,11 +33,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
         Data = await FashionReportData.Load();
         Config = await FashionReportConfig.Load();
 
-        teleportPayload = new ChatLinkPayload(() => {
-            unsafe {
-                Telepo.Instance()->Teleport(62, 0);
-            }
-        });
+        teleportPayload = ChatLinkPayloads.TeleportToGoldSaucer();
     }
 
     public override Task DisableAsync() {

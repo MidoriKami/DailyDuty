@@ -14,7 +14,6 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Dalamud.Excel.Sheets;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Text.ReadOnly;
 using AgentId = Dalamud.Game.Agent.AgentId;
 
@@ -37,20 +36,7 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         Data = await GrandCompanySquadronData.Load();
         Config = await GrandCompanySquadronConfig.Load();
 
-        grandCompanyTeleportPayload = new ChatLinkPayload(() => {
-            uint? aetheryteId = IPlayerState.Get().GrandCompany.RowId switch {
-                0 => 8, // Maelstorm - Limsa
-                1 => 2, // Twin Adder - Gridania
-                2 => 9, // Immortal Flames - Ul'dah
-                _ => null,
-            };
-
-            unsafe {
-                if (aetheryteId is { } realAetheryteId) {
-                    Telepo.Instance()->Teleport(realAetheryteId, 0);
-                }
-            }
-        });
+        grandCompanyTeleportPayload = ChatLinkPayloads.TeleportToGrandCompany();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
         IAgentLifecycle.Get().RegisterListener(AgentEvent.PreReceiveEvent, AgentId.GcArmyExpedition, AgentGcArmyExpeditionReceiveEvent);

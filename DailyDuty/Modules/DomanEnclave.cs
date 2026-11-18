@@ -4,7 +4,6 @@ using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Components.Builders;
@@ -34,11 +33,7 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
         Data = await DomanEnclaveData.Load();
         Config = await DomanEnclaveConfig.Load();
 
-        domanEnclaveTeleportPayload = new ChatLinkPayload(() => {
-            unsafe {
-                Telepo.Instance()->Teleport(127, 0);
-            }
-        });
+        domanEnclaveTeleportPayload = ChatLinkPayloads.TeleportToDomanEnclave();
     }
 
     public override Task DisableAsync() {

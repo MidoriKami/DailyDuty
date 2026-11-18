@@ -36,11 +36,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         Data = await ChallengeLogData.Load();
         Config = await ChallengeLogConfig.Load();
 
-        openChallengeLogPayload = new ChatLinkPayload(() => {
-            unsafe {
-                UIModule.Instance()->ExecuteMainCommand(60);
-            }
-        });
+        openChallengeLogPayload = ChatLinkPayloads.OpenChallengeLog();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PostOpen, "ContentsFinder", OnContentsFinderOpen);
         IDutyState.Get().DutyCompleted += OnDutyCompleted;
