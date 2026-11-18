@@ -16,12 +16,10 @@ namespace DailyDuty.Modules;
 
 public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeeklyResettable, IFrameworkUpdatable, IClickableTooltip {
 
-    public override string Name => Strings.DomanEnclave_DisplayName;
+    public override string DisplayName => Strings.DomanEnclave_DisplayName;
 
     public override DomanEnclaveData Data { get; protected set; } = null!;
     public override DomanEnclaveConfig Config { get; protected set; } = null!;
-
-    private ChatLinkPayload? teleportPayload;
 
     private TextNode? allowanceText;
     private TextNode? donatedText;
@@ -30,11 +28,13 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
     private VerticalListNode? dataPage;
     private VerticalListNode? warningPage;
 
+    private ChatLinkPayload? domanEnclaveTeleportPayload;
+
     public override async Task EnableAsync() {
         Data = await DomanEnclaveData.Load();
         Config = await DomanEnclaveConfig.Load();
 
-        teleportPayload = new ChatLinkPayload(() => {
+        domanEnclaveTeleportPayload = new ChatLinkPayload(() => {
             unsafe {
                 Telepo.Instance()->Teleport(127, 0);
             }
@@ -42,33 +42,32 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
     }
 
     public override Task DisableAsync() {
+        domanEnclaveTeleportPayload?.Dispose();
+        domanEnclaveTeleportPayload = null;
+
         allowanceText = null;
         donatedText = null;
         remainingText = null;
+
         dataPage = null;
         warningPage = null;
-
-        teleportPayload?.Dispose();
-        teleportPayload = null;
 
         return Task.CompletedTask;
     }
 
-    public override void BuildDataUi(NodeBuilder builder) {
-        builder
-            .FittedContent(inner => inner
-                .VerticalList(list => list
-                    .Text(Strings.DomanEnclave_UnavailableStatus, textNode => {
-                        textNode.AlignmentType = AlignmentType.Center;
-                        textNode.LayoutFill = LayoutFill.Both;
-                        textNode.FontSize = 14;
-                        textNode.TextColor = ColorHelper.GetColor(32);
-                    }), out warningPage)
-                .VerticalList(list => list
-                    .DataRow(Strings.DomanEnclave_CurrentMaxAllowance, "CURRENT_ALLOWANCE", out allowanceText)
-                    .DataRow(Strings.DomanEnclave_DonatedThisWeek, "DONATED", out donatedText)
-                    .DataRow(Strings.DomanEnclave_AllowanceRemaining, "REMAINING", out remainingText), out dataPage));
-    }
+    public override void BuildDataUi(NodeBuilder builder) => builder
+        .FittedContent(inner => inner
+            .VerticalList(list => list
+                .Text(Strings.DomanEnclave_UnavailableStatus, textNode => {
+                    textNode.AlignmentType = AlignmentType.Center;
+                    textNode.LayoutFill = LayoutFill.Both;
+                    textNode.FontSize = 14;
+                    textNode.TextColor = ColorHelper.GetColor(32);
+                }), out warningPage)
+            .VerticalList(list => list
+                .DataRow(Strings.DomanEnclave_CurrentMaxAllowance, "CURRENT_ALLOWANCE", out allowanceText)
+                .DataRow(Strings.DomanEnclave_DonatedThisWeek, "DONATED", out donatedText)
+                .DataRow(Strings.DomanEnclave_AllowanceRemaining, "REMAINING", out remainingText), out dataPage));
 
     public override void UpdateDataUi() {
         allowanceText?.String = Data.WeeklyAllowance.ToString();
@@ -106,7 +105,7 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
     }
 
     public void OnTooltipClicked()
-        => teleportPayload?.ClickAction();
+        => domanEnclaveTeleportPayload?.ClickAction();
 
     protected override async Task ResetAsync() {
         Data.DonatedThisWeek = 0;
@@ -120,13 +119,17 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
         _ => CompletionStatus.Unknown,
     };
 
-    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintPayloadMessage(
-        Config.MessageChatChannel, teleportPayload, Name,
+    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        domanEnclaveTeleportPayload,
+        DisplayName,
         message ?? $"{Data.RemainingAllowance:N0} {Strings.DomanEnclave_AllowanceRemaining}"
     );
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintPayloadMessage(
-        Config.MessageChatChannel, teleportPayload, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        domanEnclaveTeleportPayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
 }

@@ -5,6 +5,7 @@ using DailyDuty.Interfaces;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
@@ -13,22 +14,35 @@ namespace DailyDuty.Modules;
 
 public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyResettable, IConfigurable {
 
-    public override string Name => Strings.FauxHollows_DisplayName;
+    public override string DisplayName => Strings.FauxHollows_DisplayName;
 
     public override FauxHollowsData Data { get; protected set; } = null!;
     public override FauxHollowsConfig Config { get; protected set; } = null!;
 
     private TextNode? completionText;
 
+    private ChatLinkPayload? idyllShireTeleportPayload;
+
     public override async Task EnableAsync() {
         Data = await FauxHollowsData.Load();
         Config = await FauxHollowsConfig.Load();
+
+        idyllShireTeleportPayload = new ChatLinkPayload(() => {
+            unsafe {
+                Telepo.Instance()->Teleport(75, 0);
+            }
+        });
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreSetup, "WeeklyPuzzle", WeeklyPuzzlePreSetup);
     }
 
     public override Task DisableAsync() {
         IAddonLifecycle.Get().UnregisterListener(WeeklyPuzzlePreSetup);
+
+        idyllShireTeleportPayload?.Dispose();
+        idyllShireTeleportPayload = null;
+
+        completionText = null;
 
         return Task.CompletedTask;
     }
@@ -57,12 +71,16 @@ public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyRe
     };
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        idyllShireTeleportPayload,
+        DisplayName,
         message ?? Strings.StatusMessages_UnrealTrialIncomplete
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        idyllShireTeleportPayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

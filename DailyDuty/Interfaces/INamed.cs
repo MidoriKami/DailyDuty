@@ -8,5 +8,5 @@ public interface INamed {
     /// <summary>
     /// Gets the name of this item.
     /// </summary>
-    string Name { get; }
+    string DisplayName { get; }
 }

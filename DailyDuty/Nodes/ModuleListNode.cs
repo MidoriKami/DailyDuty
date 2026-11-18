@@ -67,8 +67,8 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
         erroringImageNode.IsVisible = itemData.LoadState is State.Errored || itemData.LoadErrorMessage is not null;
         erroringImageNode.TextTooltip = itemData.LoadErrorMessage ?? string.Empty;
 
-        moduleNameNode.String = itemData.Name;
-        moduleNameNodeFull.String = itemData.Name;
+        moduleNameNode.String = itemData.DisplayName;
+        moduleNameNodeFull.String = itemData.DisplayName;
 
         var isEnabled = itemData.LoadState is State.Enabled;
         EnableSelection = isEnabled;

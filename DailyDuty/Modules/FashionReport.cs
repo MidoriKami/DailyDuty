@@ -7,7 +7,7 @@ using DailyDuty.Utilities;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiToolKit.Classes;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
@@ -17,7 +17,7 @@ namespace DailyDuty.Modules;
 
 public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISpecialResettable, IClickableTooltip, INpcInteractListener, IConfigurable {
 
-    public override string Name => Strings.FashionReport_DisplayName;
+    public override string DisplayName => Strings.FashionReport_DisplayName;
 
     public override FashionReportData Data { get; protected set; } = null!;
     public override FashionReportConfig Config { get; protected set; } = null!;
@@ -36,19 +36,20 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
 
         teleportPayload = new ChatLinkPayload(() => {
             unsafe {
-                UIModule.Instance()->ExecuteMainCommand(65);
+                Telepo.Instance()->Teleport(62, 0);
             }
         });
     }
 
     public override Task DisableAsync() {
-        scoreText = null;
-        attemptsText = null;
-        warningPage = null;
-        dataPage = null;
-
         teleportPayload?.Dispose();
         teleportPayload = null;
+
+        scoreText = null;
+        attemptsText = null;
+
+        warningPage = null;
+        dataPage = null;
 
         return Task.CompletedTask;
     }
@@ -141,18 +142,20 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
         }
     }
 
-    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
-        message ?? StatusMessage
-    );
-
     private ReadOnlySeString StatusMessage => Config.CompletionMode switch {
         FashionReportMode.Plus80 => $"{Strings.FashionReport_ScoreTarget}: {Data.HighestScore}/80",
         _ => $"{Data.AttemptsRemaining} {Strings.FashionReport_AttemptsRemaining}",
     };
 
+    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        DisplayName,
+        message ?? StatusMessage
+    );
+
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

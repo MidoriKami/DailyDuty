@@ -8,6 +8,7 @@ using Dalamud.Game.Agent.AgentArgTypes;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Lumina.Text.ReadOnly;
@@ -17,12 +18,14 @@ namespace DailyDuty.Modules;
 
 public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeeklyResettable, INpcInteractListener {
 
-    public override string Name => Strings.JumboCactpot_DisplayName;
+    public override string DisplayName => Strings.JumboCactpot_DisplayName;
 
     public override JumboCactpotData Data { get; protected set; } = null!;
     public override JumboCactpotConfig Config { get; protected set; } = null!;
 
     private int ticketData = -1;
+
+    private ChatLinkPayload? goldSaucerTeleportPayload;
 
     private TextNode? ticketNode1;
     private TextNode? ticketNode2;
@@ -31,6 +34,12 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
     public override async Task EnableAsync() {
         Data = await JumboCactpotData.Load();
         Config = await JumboCactpotConfig.Load();
+
+        goldSaucerTeleportPayload = new ChatLinkPayload(() => {
+            unsafe {
+                Telepo.Instance()->Teleport(62, 0);
+            }
+        });
 
         IAgentLifecycle.Get().RegisterListener(AgentEvent.PreReceiveEvent, AgentId.LotteryWeekly, LotteryWeeklyReceiveEvent);
     }
@@ -41,6 +50,9 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
         ticketNode1 = null;
         ticketNode2 = null;
         ticketNode3 = null;
+
+        goldSaucerTeleportPayload?.Dispose();
+        goldSaucerTeleportPayload = null;
 
         return Task.CompletedTask;
     }
@@ -65,12 +77,16 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
         => Data.Tickets.Count is 3 ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        goldSaucerTeleportPayload,
+        DisplayName,
         message ?? $"{3 - Data.Tickets.Count} {Strings.StatusMessages_TicketRemaining}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        goldSaucerTeleportPayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

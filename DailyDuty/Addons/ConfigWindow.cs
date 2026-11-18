@@ -119,19 +119,19 @@ public class ConfigWindow : NativeAddon {
         var regex = searchString.AsRegex();
 
         dailyModulesNode?.Options = [
-            .. System.Controller.DailyModules.Where(module => regex.IsMatch(module.Name)),
+            .. System.Controller.DailyModules.Where(module => regex.IsMatch(module.DisplayName)),
         ];
 
         weeklyModulesNode?.Options = [
-            .. System.Controller.WeeklyModules.Where(module => regex.IsMatch(module.Name)),
+            .. System.Controller.WeeklyModules.Where(module => regex.IsMatch(module.DisplayName)),
         ];
 
         otherModulesNode?.Options = [
-            .. System.Controller.OtherModules.Where(module => regex.IsMatch(module.Name)),
+            .. System.Controller.OtherModules.Where(module => regex.IsMatch(module.DisplayName)),
         ];
 
         featuresNode?.Options = [
-            .. System.Controller.Features.Where(feature => regex.IsMatch(feature.Name)),
+            .. System.Controller.Features.Where(feature => regex.IsMatch(feature.DisplayName)),
         ];
     }
 

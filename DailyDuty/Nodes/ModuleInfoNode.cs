@@ -20,7 +20,7 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         this.module = module;
 
         layoutContainer = NativeUiBuilder.Create(buildAction => buildAction
-            .TextCentered(module.Name, 14)
+            .TextCentered(module.DisplayName, 14)
             .Separator()
             .Dummy(1.0f)
             .TabbedContent(tabBar => tabBar

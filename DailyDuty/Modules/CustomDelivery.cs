@@ -12,7 +12,7 @@ namespace DailyDuty.Modules;
 
 public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, IWeeklyResettable, IConfigurable {
 
-    public override string Name => Strings.CustomDelivery_DisplayName;
+    public override string DisplayName => Strings.CustomDelivery_DisplayName;
 
     public override CustomDeliveryData Data { get; protected set; } = null!;
     public override CustomDeliveryConfig Config { get; protected set; } = null!;
@@ -55,11 +55,15 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
         _ => CompletionStatus.Unknown,
     };
 
-    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? $"{RemainingAllowances - Config.NotificationThreshold} {Strings.StatusMessages_CustomDeliveryIncomplete}"
     );
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

@@ -16,7 +16,7 @@ namespace DailyDuty.Modules;
 
 public class HuntMarksWeekly : Module<HuntMarksWeeklyData, HuntMarksWeeklyConfig>, IWeeklyResettable, IConfigurable {
 
-    public override string Name => Strings.HuntMarksWeekly_DisplayName;
+    public override string DisplayName => Strings.HuntMarksWeekly_DisplayName;
 
     public override HuntMarksWeeklyData Data { get; protected set; } = null!;
     public override HuntMarksWeeklyConfig Config { get; protected set; } = null!;
@@ -61,11 +61,15 @@ public class HuntMarksWeekly : Module<HuntMarksWeeklyData, HuntMarksWeeklyConfig
         Config.Save();
     }
 
-    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? $"{Config.TrackedHuntMarks.Count - Config.TrackedHuntMarks.Count(Excel.IsComplete<MobHuntOrderType>)} {Strings.StatusMessages_HuntBillIncomplete}"
     );
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? "Module has been reset."
     );
 }

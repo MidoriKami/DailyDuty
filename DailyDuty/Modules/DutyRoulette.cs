@@ -27,17 +27,18 @@ namespace DailyDuty.Modules;
 
 public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDailyResettable, IConfigurable, IClickableTooltip {
 
-    public override string Name => Strings.DutyRoulette_DisplayName;
+    public override string DisplayName => Strings.DutyRoulette_DisplayName;
 
     public override DutyRouletteData Data { get; protected set; } = null!;
     public override DutyRouletteConfig Config { get; protected set; } = null!;
 
     private NativeListController<AddonContentsFinder, ContentsFinderListItem>? listController;
     private AddonController<AddonContentsFinder>? addonController;
-    private ChatLinkPayload? openRoulettePayload;
-    private TextNode? infoTextNode;
 
+    private TextNode? infoTextNode;
     private ListNode<ContentRoulette, LuminaStatusNode<ContentRoulette>>? dataListNode;
+
+    private ChatLinkPayload? openRoulettePayload;
 
     public override async Task EnableAsync() {
         Data = await DutyRouletteData.Load();
@@ -72,8 +73,8 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
     }
 
     public override async Task DisableAsync() {
-        dataListNode = null;
-        infoTextNode = null;
+        openRoulettePayload?.Dispose();
+        openRoulettePayload = null;
 
         await listController.DisposeAsyncSafe();
         listController = null;
@@ -81,8 +82,8 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         await addonController.DisposeAsyncSafe();
         addonController = null;
 
-        openRoulettePayload?.Dispose();
-        openRoulettePayload = null;
+        dataListNode = null;
+        infoTextNode = null;
     }
 
     public override void BuildDataUi(NodeBuilder builder) => builder
@@ -137,13 +138,17 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         _ => Config.TrackedRoulettes.All(Excel.IsComplete<ContentRoulette>) ? CompletionStatus.Complete : CompletionStatus.Incomplete,
     };
 
-    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintPayloadMessage(
-        Config.MessageChatChannel, openRoulettePayload, Name,
+    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        openRoulettePayload,
+        DisplayName,
         message ?? $"{Config.TrackedRoulettes.Count - Config.TrackedRoulettes.Count(Excel.IsComplete<ContentRoulette>)} {Strings.StatusMessages_RouletteIncomplete}"
     );
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintPayloadMessage(
-        Config.MessageChatChannel, openRoulettePayload, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        openRoulettePayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

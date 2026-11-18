@@ -22,20 +22,21 @@ namespace DailyDuty.Modules;
 
 public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfigurable, IWeeklyResettable, IClickableTooltip {
 
-    public override string Name => Strings.ChallengeLog_DisplayName;
+    public override string DisplayName => Strings.ChallengeLog_DisplayName;
 
     public override ChallengeLogData Data { get; protected set; } = null!;
     public override ChallengeLogConfig Config { get; protected set; } = null!;
 
-    private Stopwatch? contentsFinderStopwatch;
-    private ChatLinkPayload? openChallengeLog;
     private ListNode<ContentsNote, LuminaStatusNode<ContentsNote>>? dataListNode;
+
+    private Stopwatch? contentsFinderStopwatch;
+    private ChatLinkPayload? openChallengeLogPayload;
 
     public override async Task EnableAsync() {
         Data = await ChallengeLogData.Load();
         Config = await ChallengeLogConfig.Load();
 
-        openChallengeLog = new ChatLinkPayload(() => {
+        openChallengeLogPayload = new ChatLinkPayload(() => {
             unsafe {
                 UIModule.Instance()->ExecuteMainCommand(60);
             }
@@ -48,14 +49,15 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
     }
 
     public override Task DisableAsync() {
-        dataListNode = null;
         contentsFinderStopwatch = null;
 
         IDutyState.Get().DutyCompleted -= OnDutyCompleted;
         IAddonLifecycle.Get().UnregisterListener(OnContentsFinderOpen);
 
-        openChallengeLog?.Dispose();
-        openChallengeLog = null;
+        openChallengeLogPayload?.Dispose();
+        openChallengeLogPayload = null;
+
+        dataListNode = null;
 
         return Task.CompletedTask;
     }
@@ -101,7 +103,7 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
     }
 
     public void OnTooltipClicked()
-        => openChallengeLog?.ClickAction();
+        => openChallengeLogPayload?.ClickAction();
 
     protected override Task ResetAsync()
         => Task.CompletedTask;
@@ -109,13 +111,17 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
     protected override CompletionStatus GetCompletionStatus()
         => Config.TrackedEntries.All(Excel.IsComplete<ContentsNote>) ? CompletionStatus.Complete : CompletionStatus.Incomplete;
 
-    protected override void SendStatusMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintPayloadMessage(
-        Config.MessageChatChannel, openChallengeLog, Name,
+    protected override void SendStatusMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        openChallengeLogPayload,
+        DisplayName,
         defaultMessage ?? $"{Config.TrackedEntries.Count - Config.TrackedEntries.Count(Excel.IsComplete<ContentsNote>)} {Strings.StatusMessages_ChallengeLogIncomplete}"
     );
 
-    protected override void SendResetMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintPayloadMessage(
-        Config.MessageChatChannel, openChallengeLog, Name,
+    protected override void SendResetMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        openChallengeLogPayload,
+        DisplayName,
         defaultMessage ?? "Module has been reset."
     );
 
@@ -172,7 +178,9 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         foreach (var warningId in Config.WarningEntries.Where(warningId => !Excel.IsComplete<ContentsNote>(warningId))) {
             if (!IDataManager.Get().GetExcelSheet<ContentsNote>().TryGetRow(warningId, out var contentNote)) continue;
 
-            IChatGui.Get().PrintPayloadMessage(Config.MessageChatChannel, openChallengeLog, Name,
+            IChatGui.Get().PrintMessage(Config.MessageChatChannel,
+                openChallengeLogPayload,
+                DisplayName,
                 $"{contentNote.Name.ToString()} is still incomplete!"
             );
 

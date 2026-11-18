@@ -10,27 +10,48 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Dalamud.Excel.Sheets;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
 public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySupplyConfig>, IDailyResettable, IConfigurable, IFrameworkUpdatable {
 
-    public override string Name => Strings.GrandCompanySupply_DisplayName;
+    public override string DisplayName => Strings.GrandCompanySupply_DisplayName;
 
     public override GrandCompanySupplyData Data { get; protected set; } = null!;
     public override GrandCompanySupplyConfig Config { get; protected set; } = null!;
 
     private Dictionary<uint, TextNode>? statusNodes;
 
+    private ChatLinkPayload? grandCompanyTeleportPayload;
+
     public override async Task EnableAsync() {
         Data = await GrandCompanySupplyData.Load();
         Config = await GrandCompanySupplyConfig.Load();
+
+        grandCompanyTeleportPayload = new ChatLinkPayload(() => {
+            uint? aetheryteId = IPlayerState.Get().GrandCompany.RowId switch {
+                0 => 8, // Maelstorm - Limsa
+                1 => 2, // Twin Adder - Gridania
+                2 => 9, // Immortal Flames - Ul'dah
+                _ => null,
+            };
+
+            unsafe {
+                if (aetheryteId is { } realAetheryteId) {
+                    Telepo.Instance()->Teleport(realAetheryteId, 0);
+                }
+            }
+        });
 
         statusNodes = [];
     }
 
     public override Task DisableAsync() {
+        grandCompanyTeleportPayload?.Dispose();
+        grandCompanyTeleportPayload = null;
+
         statusNodes = null;
 
         return Task.CompletedTask;
@@ -99,12 +120,18 @@ public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySup
     protected override void SendStatusMessage(ReadOnlySeString? message) {
         var incompleteCount = Config.TrackedClasses.Count(job => job.Value && !Data.ClassJobStatus.GetValueOrDefault(job.Key));
 
-        IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+        IChatGui.Get().PrintMessage(
+            Config.MessageChatChannel,
+            grandCompanyTeleportPayload,
+            DisplayName,
             message ?? $"{incompleteCount} {Strings.StatusMessages_DeliveryIncomplete}"
         );
     }
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        grandCompanyTeleportPayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

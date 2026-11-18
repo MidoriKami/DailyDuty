@@ -10,36 +10,67 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Dalamud.Excel.Sheets;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
 public class GrandCompanyProvision : Module<GrandCompanyProvisionData, GrandCompanyProvisionConfig>, IDailyResettable, IConfigurable, IFrameworkUpdatable {
 
-    public override string Name => Strings.GrandCompanyProvision_DisplayName;
+    public override string DisplayName => Strings.GrandCompanyProvision_DisplayName;
 
     public override GrandCompanyProvisionData Data { get; protected set; } = null!;
     public override GrandCompanyProvisionConfig Config { get; protected set; } = null!;
 
     private Dictionary<uint, TextNode>? statusNodes;
 
+    private ChatLinkPayload? grandCompanyTeleportPayload;
+
     public override async Task EnableAsync() {
         Data = await GrandCompanyProvisionData.Load();
         Config = await GrandCompanyProvisionConfig.Load();
 
-        statusNodes = [];
+        grandCompanyTeleportPayload = new ChatLinkPayload(() => {
+            uint? aetheryteId = IPlayerState.Get().GrandCompany.RowId switch {
+                0 => 8, // Maelstorm - Limsa
+                1 => 2, // Twin Adder - Gridania
+                2 => 9, // Immortal Flames - Ul'dah
+                _ => null,
+            };
+
+            unsafe {
+                if (aetheryteId is { } realAetheryteId) {
+                    Telepo.Instance()->Teleport(realAetheryteId, 0);
+                }
+            }
+        });
     }
 
     public override Task DisableAsync() {
+        grandCompanyTeleportPayload?.Dispose();
+        grandCompanyTeleportPayload = null;
+
         statusNodes = null;
 
         return Task.CompletedTask;
     }
 
-    public override void BuildDataUi(NodeBuilder builder) {
-        if (statusNodes == null) return;
+    public void BuildConfigUi(NodeBuilder builder) {
+        var classJobSheet = IDataManager.Get().GetExcelSheet<ClassJob>();
 
-        statusNodes.Clear();
+        foreach (var (job, _) in Data.ClassJobStatus) {
+            var classJob = classJobSheet.GetRow(job);
+
+            builder.Checkbox(classJob.NameEnglish.ToString(), Config.TrackedClasses.GetValueOrDefault(job, false), isChecked => {
+                Config.TrackedClasses[job] = isChecked;
+                Config.Save();
+            });
+        }
+    }
+
+    public override void BuildDataUi(NodeBuilder builder) {
+        statusNodes = [];
+
         var classJobSheet = IDataManager.Get().GetExcelSheet<ClassJob>();
 
         foreach (var (job, _) in Data.ClassJobStatus) {
@@ -100,27 +131,20 @@ public class GrandCompanyProvision : Module<GrandCompanyProvisionData, GrandComp
     protected override void SendStatusMessage(ReadOnlySeString? message) {
         var incompleteCount = Config.TrackedClasses.Count(job => job.Value && !Data.ClassJobStatus.GetValueOrDefault(job.Key));
 
-        IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+        IChatGui.Get().PrintMessage(
+            Config.MessageChatChannel,
+            grandCompanyTeleportPayload,
+            DisplayName,
             message ?? $"{incompleteCount} {Strings.StatusMessages_DeliveryIncomplete}"
         );
     }
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        grandCompanyTeleportPayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
-
-    public void BuildConfigUi(NodeBuilder builder) {
-        var classJobSheet = IDataManager.Get().GetExcelSheet<ClassJob>();
-
-        foreach (var (job, _) in Data.ClassJobStatus) {
-            var classJob = classJobSheet.GetRow(job);
-
-            builder.Checkbox(classJob.NameEnglish.ToString(), Config.TrackedClasses.GetValueOrDefault(job, false), isChecked => {
-                Config.TrackedClasses[job] = isChecked;
-                Config.Save();
-            });
-        }
-    }
 }
 
 public class GrandCompanyProvisionData : ModuleDataFile<GrandCompanyProvisionData> {

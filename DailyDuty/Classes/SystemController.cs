@@ -157,7 +157,7 @@ public class SystemController : IAsyncDisposable {
         Config = await SystemConfig.Load();
 
         await Task.WhenAll(Toggleables
-            .Where(toggleable => Config.EnabledModules.Contains(toggleable.Name))
+            .Where(toggleable => Config.EnabledModules.Contains(toggleable.DisplayName))
             .Select(module => EnableModule(module, false))
         );
 
@@ -183,7 +183,7 @@ public class SystemController : IAsyncDisposable {
             if (resettable is IToggleable { Enabled: false }) continue;
 
             if (resettable.IsResetDue()) {
-                if (resettable is INamed { Name: var name }) {
+                if (resettable is INamed { DisplayName: var name }) {
                     IPluginLog.Get().Info($"Resetting {name}");
                 }
 
@@ -254,13 +254,13 @@ public class SystemController : IAsyncDisposable {
 
         // If it's already in an errored state, don't attempt to enable.
         if (toggleable is { LoadState: State.Errored }) {
-            IPluginLog.Get().Error($"[{toggleable.Name}] Attempted to enable errored module");
+            IPluginLog.Get().Error($"[{toggleable.DisplayName}] Attempted to enable errored module");
             return;
         }
 
         try {
 
-            IPluginLog.Get().Info($"Enabling {toggleable.Name}");
+            IPluginLog.Get().Info($"Enabling {toggleable.DisplayName}");
 
             await toggleable.EnableAsync();
             toggleable.LoadState = State.Enabled;
@@ -271,17 +271,17 @@ public class SystemController : IAsyncDisposable {
             }
 
             if (addToList) {
-                Config.EnabledModules.Add(toggleable.Name);
+                Config.EnabledModules.Add(toggleable.DisplayName);
                 await Config.Save();
             }
 
-            IPluginLog.Get().Info($"Successfully Enabled {toggleable.Name}");
+            IPluginLog.Get().Info($"Successfully Enabled {toggleable.DisplayName}");
 
         }
         catch (Exception e) {
             try {
 
-                IPluginLog.Get().Error(e, $"Error while enabling {toggleable.Name}, attempting to disable");
+                IPluginLog.Get().Error(e, $"Error while enabling {toggleable.DisplayName}, attempting to disable");
 
                 toggleable.LoadState = State.Errored;
                 toggleable.LoadErrorMessage = Strings.ModuleManager_LoadFailed;
@@ -289,13 +289,13 @@ public class SystemController : IAsyncDisposable {
 
                 await toggleable.DisableAsync();
 
-                IPluginLog.Get().Information($"Successfully disabled erroring module {toggleable.Name}");
+                IPluginLog.Get().Information($"Successfully disabled erroring module {toggleable.DisplayName}");
 
             }
             catch (Exception exception) {
 
                 toggleable.LoadErrorMessage = Strings.ModuleManager_CriticalError;
-                IPluginLog.Get().Error(exception, $"Critical Error while trying to unload erroring module: {toggleable.Name}");
+                IPluginLog.Get().Error(exception, $"Critical Error while trying to unload erroring module: {toggleable.DisplayName}");
 
             }
         }
@@ -315,30 +315,30 @@ public class SystemController : IAsyncDisposable {
 
         // If it's already in an errored state, don't attempt to disable it again.
         if (toggleable.LoadState is State.Errored) {
-            IPluginLog.Get().Error($"[{toggleable.Name}] Attempted to disable errored modification");
+            IPluginLog.Get().Error($"[{toggleable.DisplayName}] Attempted to disable errored modification");
             return;
         }
 
         try {
 
-            IPluginLog.Get().Info($"Disabling {toggleable.Name}");
+            IPluginLog.Get().Info($"Disabling {toggleable.DisplayName}");
 
             await toggleable.DisableAsync();
             toggleable.LoadState = State.Disabled;
             toggleable.Enabled = true;
 
             if (removeFromList) {
-                Config.EnabledModules.Remove(toggleable.Name);
+                Config.EnabledModules.Remove(toggleable.DisplayName);
                 await Config.Save();
             }
 
-            IPluginLog.Get().Information($"Successfully Disabled {toggleable.Name}");
+            IPluginLog.Get().Information($"Successfully Disabled {toggleable.DisplayName}");
         }
         catch (Exception e) {
 
             toggleable.LoadState = State.Errored;
             toggleable.Enabled = false;
-            IPluginLog.Get().Error(e, $"Failed to Disable {toggleable.Name}");
+            IPluginLog.Get().Error(e, $"Failed to Disable {toggleable.DisplayName}");
 
         }
     }

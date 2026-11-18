@@ -14,6 +14,7 @@ using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Dalamud.Excel.Sheets;
+using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Text.ReadOnly;
 using AgentId = Dalamud.Game.Agent.AgentId;
 
@@ -21,7 +22,7 @@ namespace DailyDuty.Modules;
 
 public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompanySquadronConfig>, IWeeklyResettable, IFrameworkUpdatable, INpcInteractListener {
 
-    public override string Name => Strings.GrandCompanySquadron_DisplayName;
+    public override string DisplayName => Strings.GrandCompanySquadron_DisplayName;
 
     public override GrandCompanySquadronData Data { get; protected set; } = null!;
     public override GrandCompanySquadronConfig Config { get; protected set; } = null!;
@@ -29,9 +30,27 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
     private TextNode? missionStatusNode;
     private TextNode? completionTimeNode;
 
+    private ChatLinkPayload? grandCompanyTeleportPayload;
+
+
     public override async Task EnableAsync() {
         Data = await GrandCompanySquadronData.Load();
         Config = await GrandCompanySquadronConfig.Load();
+
+        grandCompanyTeleportPayload = new ChatLinkPayload(() => {
+            uint? aetheryteId = IPlayerState.Get().GrandCompany.RowId switch {
+                0 => 8, // Maelstorm - Limsa
+                1 => 2, // Twin Adder - Gridania
+                2 => 9, // Immortal Flames - Ul'dah
+                _ => null,
+            };
+
+            unsafe {
+                if (aetheryteId is { } realAetheryteId) {
+                    Telepo.Instance()->Teleport(realAetheryteId, 0);
+                }
+            }
+        });
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PreFinalize, "GcArmyExpeditionResult", GcArmyExpeditionResultPreFinalize);
         IAgentLifecycle.Get().RegisterListener(AgentEvent.PreReceiveEvent, AgentId.GcArmyExpedition, AgentGcArmyExpeditionReceiveEvent);
@@ -40,6 +59,12 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
     public override Task DisableAsync() {
         IAddonLifecycle.Get().UnregisterListener(GcArmyExpeditionResultPreFinalize);
         IAgentLifecycle.Get().UnregisterListener(AgentGcArmyExpeditionReceiveEvent);
+
+        grandCompanyTeleportPayload?.Dispose();
+        grandCompanyTeleportPayload = null;
+
+        missionStatusNode = null;
+        completionTimeNode = null;
 
         return Task.CompletedTask;
     }
@@ -81,7 +106,10 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         return CompletionStatus.Incomplete;
     }
 
-    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        grandCompanyTeleportPayload,
+        DisplayName,
         message ?? GetCompletionStatus() switch {
             CompletionStatus.Complete => Strings.StatusMessages_MissionResultsReady,
             CompletionStatus.InProgress => Strings.GrandCompanySquadron_MissionStarted,
@@ -89,7 +117,10 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         }
     );
 
-    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(Config.MessageChatChannel, Name,
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        grandCompanyTeleportPayload,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

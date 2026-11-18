@@ -7,7 +7,7 @@ namespace DailyDuty.Features;
 
 public class TimerOverlay : IFeature, IFrameworkUpdatable {
 
-    public string Name => Strings.TimersOverlay_DisplayName;
+    public string DisplayName => Strings.TimersOverlay_DisplayName;
     public State State { get; set; }
     public ReadOnlySeString? ErrorMessage { get; set; }
 

@@ -53,7 +53,7 @@ public interface IModule : IToggleable, IResettable {
 public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new() where TU : ModuleConfigFile<TU>, new() {
 
     /// <inheritdoc/>
-    public abstract string Name { get; }
+    public abstract string DisplayName { get; }
 
     /// <summary>
     /// Gets the data file associated with this module.

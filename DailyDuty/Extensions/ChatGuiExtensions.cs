@@ -26,7 +26,7 @@ public static class ChatGuiExtensions {
         /// <summary>
         /// Prints a formatted chat message with a clickable payload link.
         /// </summary>
-        public void PrintPayloadMessage(XivChatType channel, ChatLinkPayload? payload, ReadOnlySeString moduleName, ReadOnlySeString message) {
+        public void PrintMessage(XivChatType channel, ChatLinkPayload? payload, ReadOnlySeString moduleName, ReadOnlySeString message) {
             if (payload is null) {
                 IPluginLog.Get().Error("Attempted to print a linked payload that was null.");
                 return;

@@ -40,7 +40,7 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
         erroringImageNode.IsVisible = itemData.LoadState is State.Errored || itemData.LoadErrorMessage is not null;
         erroringImageNode.TextTooltip = itemData.LoadErrorMessage ?? string.Empty;
 
-        moduleNameNode.String = itemData.Name;
+        moduleNameNode.String = itemData.DisplayName;
     }
 
     protected override void OnSizeChanged() {

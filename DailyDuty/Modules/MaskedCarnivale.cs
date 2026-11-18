@@ -17,7 +17,7 @@ namespace DailyDuty.Modules;
 
 public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig>, IWeeklyResettable, IConfigurable, IFrameworkUpdatable {
 
-    public override string Name => Strings.MaskedCarnivale_DisplayName;
+    public override string DisplayName => Strings.MaskedCarnivale_DisplayName;
 
     public override MaskedCarnivaleData Data { get; protected set; } = null!;
     public override MaskedCarnivaleConfig Config { get; protected set; } = null!;
@@ -137,12 +137,14 @@ public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig
     }
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? $"{GetIncompleteCount()} {Strings.StatusMessages_ChallengeIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? "Module has been reset."
     );
 

@@ -14,7 +14,7 @@ namespace DailyDuty.Modules;
 
 public class Levequest : Module<LevequestData, LevequestConfig>, ISpecialResettable, IConfigurable {
 
-    public override string Name => Strings.Levequest_DisplayName;
+    public override string DisplayName => Strings.Levequest_DisplayName;
 
     public override LevequestData Data { get; protected set; } = null!;
     public override LevequestConfig Config { get; protected set; } = null!;
@@ -78,12 +78,14 @@ public class Levequest : Module<LevequestData, LevequestConfig>, ISpecialResetta
         => QuestManager.Instance()->NumLeveAllowances;
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? $"{Config.NotificationThreshold - RemainingAllowances} {Strings.StatusMessages_LevequestIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
-        Config.MessageChatChannel, Name,
+        Config.MessageChatChannel,
+        DisplayName,
         message ?? "Module has been reset."
     );
 }
