@@ -340,7 +340,7 @@ public class SystemController : IAsyncDisposable {
 
             await toggleable.DisableAsync();
             toggleable.LoadState = State.Disabled;
-            toggleable.Enabled = true;
+            toggleable.Enabled = false;
 
             if (removeFromList) {
                 Config.EnabledModules.Remove(toggleable.DisplayName);
