@@ -1,7 +1,6 @@
 using System.Numerics;
 using System.Text.Json.Serialization;
 using DailyDuty.Enums;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Classes;
 
@@ -9,7 +8,7 @@ public class TimerOverlayTimerData {
     public Vector2 Position { get; set; }
     public Vector4 Color { get; set; } = new(0.388f, 0.573f, 0.929f, 1.0f);
     public Vector4 TextColor { get; set; } = new(1.0f, 1.0f, 1.0f, 1.0f);
-    public ReadOnlySeString? Label { get; set; }
+    public string? Label { get; set; }
     public TimerCountDirection CountDirection { get; set; }
     public int FontSize { get; set; } = 16;
     public int? Width { get; set; }
