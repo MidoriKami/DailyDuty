@@ -312,6 +312,9 @@
   <data name="TimersOverlay_Selection" xml:space="preserve">
     <value>Timer Selection</value>
   </data>
+  <data name="TimersOverlay_SelectionNote" xml:space="preserve">
+    <value>Timers can only be enabled for modules that are currently enabled.</value>
+  </data>
   <data name="TodoOverlay_Panels" xml:space="preserve">
     <value>Overlay Panels</value>
   </data>

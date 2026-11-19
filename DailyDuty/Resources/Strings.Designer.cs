@@ -1619,6 +1619,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Timers can only be enabled for modules that are currently enabled.
+        /// </summary>
+        internal static string TimersOverlay_SelectionNote {
+            get {
+                return ResourceManager.GetString("TimersOverlay_SelectionNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Show Countdown Text.
         /// </summary>
         internal static string TimersOverlay_ShowCountdown {

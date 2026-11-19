@@ -704,4 +704,7 @@
     <data name="CompletionStatus_NotStarted" xml:space="preserve">
     <value>Not Started</value>
   </data>
+    <data name="Raids_NoneTracked" xml:space="preserve">
+    <value>No raids are being tracked. Enable raids in the config to start tracking.</value>
+  </data>
 </root>
