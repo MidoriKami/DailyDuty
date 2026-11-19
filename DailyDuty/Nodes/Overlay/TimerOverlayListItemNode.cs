@@ -18,6 +18,13 @@ public class TimerOverlayListItemNode : ListItemNode<IModule>, IListItemNode {
 
         checkboxNode = new CheckboxNode();
         checkboxNode.AttachNode(this);
+
+        System.Controller.OnModuleStateChanged += OnModuleStateChanged;
+    }
+
+    protected override void Dispose(bool isNativeDestructor) {
+        base.Dispose(isNativeDestructor);
+        System.Controller.OnModuleStateChanged -= OnModuleStateChanged;
     }
 
     protected override void OnSizeChanged() {
@@ -28,8 +35,9 @@ public class TimerOverlayListItemNode : ListItemNode<IModule>, IListItemNode {
 
     protected override void SetNodeData(IModule itemData) {
         checkboxNode.String = itemData.DisplayName;
-        checkboxNode.OnChecked = null;
         checkboxNode.IsEnabled = itemData.Enabled;
+
+        checkboxNode.OnChecked = null;
 
         switch (ReferenceData) {
             case TimerOverlayConfig timerConfig:
@@ -40,9 +48,9 @@ public class TimerOverlayListItemNode : ListItemNode<IModule>, IListItemNode {
         checkboxNode.OnChecked = _ => OnStateChanged?.Invoke(this);
     }
 
-    public override void Update() {
-        base.Update();
-
-        checkboxNode.IsEnabled = ItemData?.Enabled == true;
+    private void OnModuleStateChanged(IModule module, bool enabled) {
+        if (module == ItemData) {
+            checkboxNode.IsEnabled = enabled;
+        }
     }
 }
