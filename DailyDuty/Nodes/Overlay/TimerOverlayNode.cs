@@ -1,13 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Features;
 using DailyDuty.Interfaces;
+using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Enums;
 using KamiToolKit.Nodes;
@@ -26,23 +27,19 @@ public sealed class TimerOverlayNode : OverlayNode {
 
     public IModule Module { get; }
     public TimerOverlayConfig Config { get; }
-    public TimerOverlayTimerData? TimerData { get; }
 
     private TimerCountDirection countDirection;
     private Vector2? pendingPosition;
 
-    public void SetInitialPosition(Vector2 position) {
-        pendingPosition = position;
-    }
-
-    public TimerOverlayNode(IModule module, TimerOverlayConfig config, TimerOverlayTimerData? timerData) {
+    public TimerOverlayNode(IModule module, TimerOverlayConfig config) {
         Module = module;
         Config = config;
-        TimerData = timerData;
-        countDirection = TimerData?.CountDirection ?? TimerCountDirection.CountDown;
 
-        var textColor = TimerData?.TextColor ?? KnownColor.White.Vector();
-        var fontSize = (uint)(TimerData?.FontSize ?? 16);
+        var timerData = Config.TimerData.GetValueOrDefault(module.DisplayName);
+        countDirection = timerData?.CountDirection ?? TimerCountDirection.CountDown;
+
+        var textColor = timerData?.TextColor ?? KnownColor.White.Vector();
+        var fontSize = (uint)(timerData?.FontSize ?? 16);
 
         moduleNameNode = new TextNode {
             FontType = FontType.Jupiter,
@@ -103,39 +100,42 @@ public sealed class TimerOverlayNode : OverlayNode {
     }
 
     protected override void OnUpdate() {
+        // Always read the latest timer data from the config so UI changes are picked up
+        var timerData = Config.TimerData.GetValueOrDefault(Module.DisplayName);
+
         // Apply pending initial position on the first frame after attachment
         if (pendingPosition.HasValue) {
             Position = pendingPosition.Value;
             pendingPosition = null;
         }
 
-        var proposedSize = new Vector2(TimerData?.Width ?? 300, TimerData?.Height ?? 64);
+        var proposedSize = new Vector2(timerData?.Width ?? 300, timerData?.Height ?? 64);
         if (Vector2.Distance(Size, proposedSize) > 0.5f) {
             Size = proposedSize;
         }
 
         // Check for dirty config and apply all changes
-        if (TimerData is { IsDirty: true }) {
-            TimerData.IsDirty = false;
-            countDirection = TimerData.CountDirection;
-            moduleNameNode.String = TimerData.Label ?? Module.DisplayName;
-            var textColor = TimerData.TextColor;
+        if (timerData is { IsDirty: true }) {
+            timerData.IsDirty = false;
+            countDirection = timerData.CountDirection;
+            moduleNameNode.String = timerData.Label ?? Module.DisplayName;
+            var textColor = timerData.TextColor;
             moduleNameNode.TextColor = textColor;
             timeRemainingNode.TextColor = textColor;
-            var fontSize = (uint)TimerData.FontSize;
+            var fontSize = (uint)timerData.FontSize;
             moduleNameNode.FontSize = fontSize;
             timeRemainingNode.FontSize = fontSize;
-            progressBarNode.BarColor = TimerData.Color;
+            progressBarNode.BarColor = timerData.Color;
         }
 
-        var scale = TimerData?.Scale ?? 1.0f;
+        var scale = timerData?.Scale ?? 1.0f;
         Scale = new Vector2(scale, scale);
-        EnableMoving = TimerData?.EnableMoving ?? true;
+        EnableMoving = timerData?.EnableMoving ?? false;
 
         // Update label from per-timer config
-        moduleNameNode.String = TimerData?.Label ?? Module.DisplayName;
-        moduleNameNode.IsVisible = TimerData?.ShowLabel ?? true;
-        timeRemainingNode.IsVisible = TimerData?.ShowCountdown ?? true;
+        moduleNameNode.String = timerData?.Label ?? Module.DisplayName;
+        moduleNameNode.IsVisible = timerData?.ShowLabel ?? true;
+        timeRemainingNode.IsVisible = timerData?.ShowCountdown ?? true;
 
         // Compute time remaining and progress
         var nextReset = Module.GetNextResetTime();
@@ -151,7 +151,7 @@ public sealed class TimerOverlayNode : OverlayNode {
         var timerPeriod = Module.ResetPeriod;
 
         // Hide when completed
-        if ((TimerData?.HideWhenCompleted ?? false) && timeRemaining.TotalSeconds <= 0) {
+        if ((timerData?.HideWhenCompleted ?? false) && timeRemaining.TotalSeconds <= 0) {
             IsVisible = false;
             return;
         }
@@ -167,32 +167,33 @@ public sealed class TimerOverlayNode : OverlayNode {
             timeRemainingNode.String = FormatTime(timeRemaining);
         }
 
-        progressBarNode.BarColor = TimerData?.Color ?? KnownColor.CornflowerBlue.Vector();
+        progressBarNode.BarColor = timerData?.Color ?? KnownColor.CornflowerBlue.Vector();
 
         // Visibility based on duty/quest state
         var shouldHide = Config.HideInDuties && IDutyState.Get().IsDutyStarted;
-        shouldHide |= Config.HideInQuests && IsInQuestEvent();
+        shouldHide |= Config.HideInQuests && ICondition.Get()[ConditionFlag.OccupiedInQuestEvent];
         IsVisible = !shouldHide;
     }
 
+    public void SetInitialPosition(Vector2 position) {
+        pendingPosition = position;
+    }
+
     private string FormatTime(TimeSpan timeRemaining) {
-        if (TimerData?.HideSeconds ?? false) {
+        var timerData = Config.TimerData.GetValueOrDefault(Module.DisplayName);
+        if (timerData?.HideSeconds == true) {
             return $"{timeRemaining:d\\.hh\\:mm}";
         }
 
         return $"{timeRemaining:d\\.hh\\:mm\\:ss}";
     }
 
-    private static unsafe bool IsInQuestEvent() {
-        var addon = RaptureAtkUnitManager.Instance()->GetAddonByName("LotO");
-        return addon is not null && addon->IsVisible;
-    }
-
     private void SavePosition() {
         var moduleName = Module.DisplayName;
+        var timerData = Config.TimerData.GetValueOrDefault(moduleName);
 
-        if (TimerData is not null) {
-            TimerData.Position = Position;
+        if (timerData is not null) {
+            timerData.Position = Position;
         }
         else {
             var data = new TimerOverlayTimerData {
