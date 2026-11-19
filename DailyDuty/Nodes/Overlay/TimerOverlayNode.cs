@@ -109,6 +109,11 @@ public sealed class TimerOverlayNode : OverlayNode {
             pendingPosition = null;
         }
 
+        var proposedSize = new Vector2(TimerData?.Width ?? 300, TimerData?.Height ?? 64);
+        if (Vector2.Distance(Size, proposedSize) > 0.5f) {
+            Size = proposedSize;
+        }
+
         // Check for dirty config and apply all changes
         if (TimerData is { IsDirty: true }) {
             TimerData.IsDirty = false;
@@ -121,25 +126,11 @@ public sealed class TimerOverlayNode : OverlayNode {
             moduleNameNode.FontSize = fontSize;
             timeRemainingNode.FontSize = fontSize;
             progressBarNode.BarColor = TimerData.Color;
-
-            var nodeWidth = TimerData.Width ?? 300;
-            var nodeHeight = TimerData.Height ?? 64;
-            if (Width != nodeWidth || Height != nodeHeight) {
-                Size = new Vector2(nodeWidth, nodeHeight);
-            }
         }
 
         var scale = TimerData?.Scale ?? 1.0f;
         Scale = new Vector2(scale, scale);
         EnableMoving = TimerData?.EnableMoving ?? true;
-
-        // Apply per-timer dimensions
-        var curWidth = TimerData?.Width ?? 300;
-        var curHeight = TimerData?.Height ?? 64;
-        if (Width != curWidth || Height != curHeight) {
-            Size = new Vector2(curWidth, curHeight);
-            return;
-        }
 
         // Update label from per-timer config
         moduleNameNode.String = TimerData?.Label ?? Module.DisplayName;
