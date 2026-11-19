@@ -21,6 +21,8 @@ public class SystemController : IAsyncDisposable {
     public List<IModule> Modules { get; private set; } = [];
     public List<IFeature> Features { get; private set; } = [];
 
+    public event Action<IModule, bool>? OnModuleStateChanged;
+
     public List<IResettable> Resettables { get; } = [];
     public List<IToggleable> Toggleables { get; } = [];
     public List<IFrameworkUpdatable> Updatables { get; } = [];
@@ -286,6 +288,10 @@ public class SystemController : IAsyncDisposable {
 
             IPluginLog.Get().Info($"Successfully Enabled {toggleable.DisplayName}");
 
+            if (toggleable is IModule enabledModule) {
+                OnModuleStateChanged?.Invoke(enabledModule, true);
+            }
+
         }
         catch (Exception e) {
             try {
@@ -342,6 +348,10 @@ public class SystemController : IAsyncDisposable {
             }
 
             IPluginLog.Get().Information($"Successfully Disabled {toggleable.DisplayName}");
+
+            if (toggleable is IModule disabledModule) {
+                OnModuleStateChanged?.Invoke(disabledModule, false);
+            }
         }
         catch (Exception e) {
 
