@@ -31,6 +31,8 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
     public override async Task EnableAsync() {
         Config = await TimerOverlayConfig.Load();
 
+        System.Controller.OnModuleStateChanged += OnModuleStateChanged;
+
         await IFramework.Get().Run(() => {
             overlayController = new OverlayController();
             BuildTimerNodes();
@@ -38,12 +40,27 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
     }
 
     public override async Task DisableAsync() {
+        System.Controller.OnModuleStateChanged -= OnModuleStateChanged;
+
         await IFramework.Get().Run(() => {
             overlayController?.Dispose();
             overlayController = null;
         });
 
         timerNodes.Clear();
+    }
+
+    private void OnModuleStateChanged(IModule module, bool enabled) {
+        IFramework.Get().Run(() => {
+            if (enabled) {
+                if (Config.SelectedModules.Contains(module.DisplayName)) {
+                    AddTimerNode(module);
+                }
+            }
+            else {
+                RemoveTimerNode(module);
+            }
+        });
     }
 
     public override void BuildConfigUi(NodeBuilder builder) => builder
@@ -69,6 +86,7 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
 
     private void BuildSelectionTab(NodeBuilder builder) => builder
         .Spacer(10.0f)
+        .TextCentered(Strings.TimersOverlay_SelectionNote)
         .VerticalList(selectionContent => selectionContent
             .List<IModule, TimerOverlayListItemNode>(
                 [.. System.Controller.Modules],
@@ -136,7 +154,7 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
         var nodeWidth = timerData?.Width ?? 300;
         var nodeHeight = timerData?.Height ?? 64;
 
-        var node = new TimerOverlayNode(module, Config, timerData) {
+        var node = new TimerOverlayNode(module, Config) {
             Size = new Vector2(nodeWidth, nodeHeight),
         };
 
