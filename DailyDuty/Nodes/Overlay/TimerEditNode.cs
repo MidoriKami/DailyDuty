@@ -106,7 +106,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         labelInput.OnInputReceived = null;
         labelInput.String = timerData.Label ?? string.Empty;
         labelInput.OnInputReceived = newValue => {
-            timerData.Label = newValue;
+            timerData.Label = newValue.IsEmpty ? module.DisplayName : newValue.ToString();
             timerData.IsDirty = true;
             cfg.Save();
         };
