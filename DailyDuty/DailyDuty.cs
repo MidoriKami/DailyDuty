@@ -2,7 +2,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using DailyDuty.Addons;
-using DailyDuty.Classes;
+using DailyDuty.Controllers;
 using DailyDuty.Utilities;
 using Dalamud.IoC;
 using Dalamud.Plugin;

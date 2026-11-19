@@ -1,5 +1,5 @@
 using DailyDuty.Addons;
-using DailyDuty.Classes;
+using DailyDuty.Controllers;
 
 namespace DailyDuty;
 
