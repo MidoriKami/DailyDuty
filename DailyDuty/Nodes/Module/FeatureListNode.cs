@@ -41,6 +41,23 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
         erroringImageNode.TextTooltip = itemData.LoadErrorMessage ?? string.Empty;
 
         moduleNameNode.String = itemData.DisplayName;
+
+        var isEnabled = itemData.LoadState is State.Enabled;
+        EnableSelection = isEnabled;
+        EnableHighlight = isEnabled;
+    }
+
+    public override void Update() {
+        base.Update();
+
+        if (ItemData is { LoadState: State.Enabled }) {
+            EnableSelection = true;
+            EnableHighlight = true;
+        }
+        else {
+            EnableSelection = false;
+            EnableHighlight = false;
+        }
     }
 
     protected override void OnSizeChanged() {
