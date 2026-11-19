@@ -201,7 +201,10 @@
     <value>聊天频道</value>
   </data>
   <data name="ConfigNodeBase_ModuleSettings" xml:space="preserve">
-    <value>模块设置</value>
+    <value>Module Settings</value>
+  </data>
+  <data name="ConfigNodeBase_FeatureSettings" xml:space="preserve">
+    <value>功能设置</value>
   </data>
   <data name="ConfigNodeBase_NoOptions" xml:space="preserve">
     <value>此模块没有可用选项</value>

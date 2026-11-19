@@ -201,7 +201,10 @@
     <value>チャットチャンネル</value>
   </data>
   <data name="ConfigNodeBase_ModuleSettings" xml:space="preserve">
-    <value>モジュール設定</value>
+    <value>Module Settings</value>
+  </data>
+  <data name="ConfigNodeBase_FeatureSettings" xml:space="preserve">
+    <value>機能設定</value>
   </data>
   <data name="ConfigNodeBase_NoOptions" xml:space="preserve">
     <value>このモジュールで利用可能なオプションはありません</value>

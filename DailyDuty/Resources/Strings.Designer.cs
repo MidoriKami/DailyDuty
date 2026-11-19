@@ -259,6 +259,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Feature Settings.
+        /// </summary>
+        internal static string ConfigNodeBase_FeatureSettings {
+            get {
+                return ResourceManager.GetString("ConfigNodeBase_FeatureSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Module Settings.
         /// </summary>
         internal static string ConfigNodeBase_ModuleSettings {

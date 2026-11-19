@@ -1,13 +1,38 @@
 using DailyDuty.Interfaces;
-using KamiToolKit.Enums;
-using KamiToolKit.Interfaces;
+using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Nodes.Module;
 
-public class FeatureInfoNode(IFeature _) : ResNode, ILayoutFiller {
-    public IFeature Unknown { get; } = _;
+public class FeatureInfoNode : ResNode, INativeUpdatable {
+    private readonly IFeature feature;
 
-    /// <inheritdoc/>
-    public LayoutFill LayoutFill { get; set; } = LayoutFill.Vertical;
+    private readonly VerticalListNode layoutContainer;
+
+    public FeatureInfoNode(IFeature feature) {
+        this.feature = feature;
+
+        layoutContainer = NativeUiBuilder.Create(buildAction => buildAction
+            .TextCentered(feature.DisplayName, 14)
+            .Separator()
+            .Dummy(1.0f)
+            .BuildAction(BuildFeatureUi));
+
+        layoutContainer.AttachNode(this);
+    }
+
+    protected override void OnSizeChanged() {
+        base.OnSizeChanged();
+
+        layoutContainer.Size = Size;
+        layoutContainer.UpdateLayout();
+    }
+
+    public void Update()
+        => feature.UpdateConfigUi();
+
+    private void BuildFeatureUi(NodeBuilder builder) => builder
+        .VerticalList(feature.BuildConfigUi, node => {
+            node.ItemSpacing = 4.0f;
+        });
 }

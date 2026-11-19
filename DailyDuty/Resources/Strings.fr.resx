@@ -201,7 +201,10 @@
     <value>Canal de discussion</value>
   </data>
   <data name="ConfigNodeBase_ModuleSettings" xml:space="preserve">
-    <value>Réglages du module</value>
+    <value>Module Settings</value>
+  </data>
+  <data name="ConfigNodeBase_FeatureSettings" xml:space="preserve">
+    <value>Paramètres de la fonctionnalité</value>
   </data>
   <data name="ConfigNodeBase_NoOptions" xml:space="preserve">
     <value>Aucune option n'est disponible pour ce module</value>

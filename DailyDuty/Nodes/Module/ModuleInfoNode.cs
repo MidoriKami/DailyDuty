@@ -119,15 +119,14 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         if (module is IConfigurable configurable) {
             configBuilder
                 .TabbedContent(tabBuilder => tabBuilder
-                    .AddTab(Strings.NotificationSettingsNode_NotificationSettings, builder => {
-                        builder.Spacer(10.0f);
-                        module.BuildGenericConfig(builder);
-                    })
+                    .AddTab(Strings.NotificationSettingsNode_NotificationSettings, builder => builder
+                        .Spacer(10.0f)
+                        .BuildAction(module.BuildGenericConfig))
                     .AddTab(Strings.ConfigNodeBase_ModuleSettings, builder => builder
                         .Spacer(10.0f)
                         .TextCentered(Strings.ConfigNodeBase_ModuleSettings, 14)
                         .Separator()
-                        .VerticalList(innerBuilder => configurable.BuildConfigUi(innerBuilder), node => {
+                        .VerticalList(configurable.BuildConfigUi, node => {
                             node.FirstItemSpacing = 5.0f;
                             node.ItemSpacing = 4.0f;
                         })));
