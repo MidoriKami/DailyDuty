@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using Dalamud.Excel.Sheets;
@@ -14,7 +15,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using KamiToolKit.Extensions;
 using Lumina.Excel;
 
-namespace DailyDuty.Classes;
+namespace DailyDuty.Controllers;
 
 public class SystemController : IAsyncDisposable {
     public List<IModule> Modules { get; private set; } = [];
@@ -94,6 +95,10 @@ public class SystemController : IAsyncDisposable {
     }
 
     public async ValueTask DisposeAsync() {
+        if (IClientState.Get().IsLoggedIn) {
+            await OnLogoutAsync();
+        }
+
         DailyDuty.PluginInterface.UiBuilder.OpenConfigUi -= System.ConfigWindow.Toggle;
         DailyDuty.PluginInterface.UiBuilder.OpenMainUi -= System.ConfigWindow.Toggle;
 
