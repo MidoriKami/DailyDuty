@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Module;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -153,17 +152,11 @@ public class ConfigWindow : NativeAddon {
         if (infoNode?.CurrentItem == module) {
             ClearSelection();
         }
-        else if (module.LoadState is State.Enabled) {
-            OnModuleSelected(module);
-        }
     }
 
     private void OnFeatureStateChanged(FeatureListNode node, IFeature feature) {
         if (infoNode?.CurrentItem == feature) {
             ClearSelection();
-        }
-        else if (feature.LoadState is State.Enabled) {
-            OnFeatureSelected(feature);
         }
     }
 }
