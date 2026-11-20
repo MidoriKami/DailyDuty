@@ -19,7 +19,6 @@ public class TimerEditNode : ResNode, ILayoutFiller {
     private readonly VerticalListNode layoutContainer;
     private VerticalListNode? optionNode;
 
-    private TextNode titleNode = null!;
     private TextInputNode labelInput = null!;
     private ColorEditNode colorEdit = null!;
     private DropDownNode<TimerCountDirection> directionCombo = null!;
@@ -36,33 +35,15 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
     private TextNode? warningNode;
 
+
     public TimerEditNode() {
         layoutContainer = NativeUiBuilder.Create(builder => builder
             .FittedContent(fittedBuilder => fittedBuilder
                 .VerticalList(options => options
-                    .TextCentered("TITLE PLACEHOLDER", 16, out titleNode)
-                    .Separator()
-                    .Row("Label", right => right
-                        .InputText(_ => { }, out labelInput))
-                    .Row("Color", right => right
-                        .ColorEdit4(Vector4.Zero, KnownColor.CornflowerBlue.Vector(), _ => { }, out colorEdit))
-                    .Row("Direction", right => right
-                        .Combo([TimerCountDirection.CountDown, TimerCountDirection.CountUp], TimerCountDirection.CountDown, _ => { }, d => d == TimerCountDirection.CountDown ? "Count Down" : "Count Up", out directionCombo))
-                    .Row("Text", right => right
-                        .ColorEdit4(Vector4.Zero, KnownColor.White.Vector(), _ => { }, out textColorEdit))
-                    .Row("Font Size", right => right
-                        .IntSlider(16, 8, 48, _ => { }, out fontSizeSlider))
-                    .Row("Width", right => right
-                        .InputInt(300, 100, 800, _ => { }, out widthInput))
-                    .Row("Height", right => right
-                        .InputInt(64, 24, 256, _ => { }, out heightInput))
-                    .Row("Scale", right => right
-                        .FloatSlider(1.0f, 0.5f, 2.0f, _ => { }, out scaleSlider))
-                    .Checkbox("Show Label", true, _ => { }, out showLabelCheck)
-                    .Checkbox("Show Countdown", true, _ => { }, out showCountdownCheck)
-                    .Checkbox("Hide Seconds", false, _ => { }, out hideSecondsCheck)
-                    .Checkbox("Hide when Completed", false, _ => { }, out hideExpiredCheck)
-                    .Checkbox("Enable Moving", true, _ => { }, out enableMovingCheck),
+                    .Scrolling(BuildScrollableContent, scrollingNode => {
+                        scrollingNode.LayoutFill = LayoutFill.Both;
+                        scrollingNode.AutoHideScrollBar = true;
+                    }),
                 out optionNode,
                 content => {
                     content.LayoutFill = LayoutFill.Both;
@@ -74,6 +55,71 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
         layoutContainer.AttachNode(this);
     }
+
+    private void BuildScrollableContent(NodeBuilder builder) {
+        builder.ItemSpacing = 6.0f;
+        builder
+            .BuildAction(BuildTimerInfoSection)
+            .Spacer(6.0f)
+            .Separator()
+            .Spacer(6.0f)
+            .BuildAction(BuildAppearanceSection)
+            .Spacer(6.0f)
+            .Separator()
+            .Spacer(6.0f)
+            .BuildAction(BuildSizeScaleSection)
+            .Spacer(6.0f)
+            .Separator()
+            .Spacer(6.0f)
+            .BuildAction(BuildVisibilitySection)
+            .Spacer(6.0f)
+            .Separator()
+            .Spacer(6.0f)
+            .BuildAction(BuildInteractionSection);
+    }
+
+    private void BuildTimerInfoSection(NodeBuilder builder) => builder
+        .Spacer(6.0f)
+        .CategoryLabel("Timer Info")
+        .Spacer(2.0f)
+        .Row("Display Label", right => right
+            .InputText(_ => { }, out labelInput));
+
+    private void BuildAppearanceSection(NodeBuilder builder) => builder
+        .CategoryLabel("Appearance")
+        .Spacer(2.0f)
+        .Row("Background Color", right => right
+            .ColorEdit4(Vector4.Zero, KnownColor.CornflowerBlue.Vector(), _ => { }, out colorEdit))
+        .Row("Text Color", right => right
+            .ColorEdit4(Vector4.Zero, KnownColor.White.Vector(), _ => { }, out textColorEdit))
+        .Row("Font Size", right => right
+            .IntSlider(16, 8, 48, _ => { }, out fontSizeSlider))
+        .Row("Timer Mode", right => right
+            .Combo([TimerCountDirection.CountDown, TimerCountDirection.CountUp], TimerCountDirection.CountDown, _ => { }, d => d == TimerCountDirection.CountDown ? "Remaining Time" : "Elapsed Time", out directionCombo));
+
+    private void BuildSizeScaleSection(NodeBuilder builder) => builder
+        .CategoryLabel("Size & Scale")
+        .Spacer(2.0f)
+        .Row("Width", right => right
+            .InputInt(300, 100, 800, _ => { }, out widthInput))
+        .Row("Height", right => right
+            .InputInt(64, 24, 256, _ => { }, out heightInput))
+        .Row("Scale", right => right
+            .FloatSlider(1.0f, 0.5f, 2.0f, _ => { }, out scaleSlider));
+
+    private void BuildVisibilitySection(NodeBuilder builder) => builder
+        .CategoryLabel("Visibility")
+        .Spacer(2.0f)
+        .Checkbox("Show Text Label", true, _ => { }, out showLabelCheck)
+        .Checkbox("Show Countdown Timer", true, _ => { }, out showCountdownCheck)
+        .Checkbox("Hide Seconds", false, _ => { }, out hideSecondsCheck)
+        .Checkbox("Hide when Completed", false, _ => { }, out hideExpiredCheck);
+
+    private void BuildInteractionSection(NodeBuilder builder) => builder
+        .CategoryLabel("Interaction")
+        .Spacer(2.0f)
+        .Checkbox("Enable Dragging", true, _ => { }, out enableMovingCheck)
+        .Spacer(6.0f);
 
     protected override void OnSizeChanged() {
         base.OnSizeChanged();
@@ -95,12 +141,11 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         // Get or create timer data for this module
         var displayName = module.DisplayName;
         if (!cfg.TimerData.TryGetValue(displayName, out var timerData)) {
-            timerData = new TimerOverlayTimerData();
+            timerData = new TimerOverlayTimerData {
+                Label = displayName,
+            };
             cfg.TimerData[displayName] = timerData;
         }
-
-        // Update title
-        titleNode.String = displayName;
 
         // Update all edit controls with current values
         labelInput.OnInputReceived = null;

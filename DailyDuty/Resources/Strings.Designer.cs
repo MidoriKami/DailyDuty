@@ -1628,6 +1628,168 @@ namespace Resources {
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Appearance.
+        /// </summary>
+        internal static string TimersOverlay_EditAppearance {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditAppearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Behavior.
+        /// </summary>
+        internal static string TimersOverlay_EditBehavior {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditBehavior", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Background Color.
+        /// </summary>
+        internal static string TimersOverlay_EditColor {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Direction.
+        /// </summary>
+        internal static string TimersOverlay_EditDirection {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Display.
+        /// </summary>
+        internal static string TimersOverlay_EditDisplay {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Enable Moving.
+        /// </summary>
+        internal static string TimersOverlay_EditEnableMoving {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditEnableMoving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Font Size.
+        /// </summary>
+        internal static string TimersOverlay_EditFontSize {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditFontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Hide Seconds.
+        /// </summary>
+        internal static string TimersOverlay_EditHideSeconds {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditHideSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Hide when Completed.
+        /// </summary>
+        internal static string TimersOverlay_EditHideExpired {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditHideExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Height.
+        /// </summary>
+        internal static string TimersOverlay_EditHeight {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Label.
+        /// </summary>
+        internal static string TimersOverlay_EditLabel {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Reset to Defaults.
+        /// </summary>
+        internal static string TimersOverlay_EditReset {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Select a timer to configure.
+        /// </summary>
+        internal static string TimersOverlay_EditSelectTimer {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditSelectTimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string TimersOverlay_EditSize {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Show Countdown.
+        /// </summary>
+        internal static string TimersOverlay_EditShowCountdown {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditShowCountdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Show Label.
+        /// </summary>
+        internal static string TimersOverlay_EditShowLabel {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditShowLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Text Color.
+        /// </summary>
+        internal static string TimersOverlay_EditTextColor {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditTextColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Width.
+        /// </summary>
+        internal static string TimersOverlay_EditWidth {
+            get {
+                return ResourceManager.GetString("TimersOverlay_EditWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Show Countdown Text.
         /// </summary>
         internal static string TimersOverlay_ShowCountdown {

@@ -9,6 +9,7 @@ using DailyDuty.Nodes.Overlay;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Components.Builders;
+using KamiToolKit.Enums;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 using KamiToolKit.UiOverlay;
@@ -50,18 +51,16 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
         timerNodes.Clear();
     }
 
-    private void OnModuleStateChanged(IModule module, bool enabled) {
-        IFramework.Get().Run(() => {
-            if (enabled) {
-                if (Config.SelectedModules.Contains(module.DisplayName)) {
-                    AddTimerNode(module);
-                }
+    private void OnModuleStateChanged(IModule module, bool enabled) => IFramework.Get().Run(() => {
+        if (enabled) {
+            if (Config.SelectedModules.Contains(module.DisplayName)) {
+                AddTimerNode(module);
             }
-            else {
-                RemoveTimerNode(module);
-            }
-        });
-    }
+        }
+        else {
+            RemoveTimerNode(module);
+        }
+    });
 
     public override void BuildConfigUi(NodeBuilder builder) => builder
         .TabbedContent(tabBuilder => tabBuilder
@@ -99,17 +98,16 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
                 }));
 
     private void BuildEditTab(NodeBuilder builder) => builder
-        .Spacer(10.0f)
+        .Spacer(20.0f)
         .VerticalList(editContent => editContent
-            .Row("Timer", rowBuilder => rowBuilder
-                .Combo(
-                    [.. System.Controller.Modules],
-                    null!,
-                    OnEditModuleSelected,
-                    m => (ReadOnlySeString)m.DisplayName))
+            .Combo(
+                [.. System.Controller.Modules],
+                null!,
+                OnEditModuleSelected,
+                m => (ReadOnlySeString)m.DisplayName,
+                node => node.LayoutFill = LayoutFill.Horizontal)
             .Dummy(8.0f)
-            .AddNode(timerEditNode = new TimerEditNode())
-        );
+            .AddNode(timerEditNode = new TimerEditNode()));
 
     private void OnModuleSelected(TimerOverlayListItemNode timerOptionNode, IModule selectedModule) {
         if (timerOptionNode.IsChecked) {
@@ -171,6 +169,14 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
         timerNodes[module.DisplayName] = node;
     }
 
+    private void RemoveTimerNode(IModule module) {
+        if (overlayController is null) return;
+        if (!timerNodes.Remove(module.DisplayName, out var node)) return;
+
+        overlayController.RemoveNode(node);
+    }
+
+    // When creating a new timer, pop it in centered ish, but in a grid pattern to prevent overlap.
     private unsafe Vector2 ComputeGridPosition(string moduleName) {
         var screenSize = new Vector2(
             AtkStage.Instance()->ScreenSize.Width,
@@ -184,9 +190,9 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
         var col = index % 3;
         var row = index / 3;
 
-        // Calculate total grid size
         var cols = Math.Min(total, 3);
         var rows = (total + 3 - 1) / 3;
+
         var gridWidth = cols * 300 + (cols - 1) * 8;
         var gridHeight = rows * 64 + (rows - 1) * 8;
 
@@ -194,13 +200,6 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
         var startY = (screenSize.Y - gridHeight) / 2.0f;
 
         return new Vector2(startX + col * (300 + 8), startY + row * (64 + 8));
-    }
-
-    private void RemoveTimerNode(IModule module) {
-        if (overlayController is null) return;
-        if (!timerNodes.Remove(module.DisplayName, out var node)) return;
-
-        overlayController.RemoveNode(node);
     }
 
     public override void UpdateConfigUi() {
