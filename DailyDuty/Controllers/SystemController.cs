@@ -71,7 +71,7 @@ public class SystemController : IAsyncDisposable {
 
         foreach (var command in new[] { "/dd", "/dailyduty" }) {
             ICommandManager.Get().AddHandler(command, new CommandInfo(OnCommandReceived) {
-                HelpMessage = Strings.DutyFinderEnhancements_OpenDailyDuty,
+                HelpMessage = Strings.DutyFinder_OpenDailyDuty,
                 ShowInHelp = true,
             });
         }

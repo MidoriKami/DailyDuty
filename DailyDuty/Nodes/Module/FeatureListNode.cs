@@ -28,6 +28,7 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
         erroringImageNode.AttachNode(this);
 
         moduleNameNode = new TextNode {
+            FontSize = 14,
             TextFlags = TextFlags.Ellipsis,
         };
         moduleNameNode.AttachNode(this);

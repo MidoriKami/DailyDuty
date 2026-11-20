@@ -38,23 +38,28 @@ public class ServerInfoBar : Feature<ServerInfoBarConfig>, IFrameworkUpdatable {
     }
 
     public override void BuildConfigUi(NodeBuilder builder) => builder
-        .Checkbox(Strings.ServerInfoBar_DailyTimer, Config.SoloDaily, val => {
-            Config.SoloDaily = val;
-            Config.Save();
-        })
-        .Checkbox(Strings.ServerInfoBar_WeeklyTimer, Config.SoloWeekly, val => {
-            Config.SoloWeekly = val;
-            Config.Save();
-        })
-        .Checkbox(Strings.ServerInfoBar_ToggleableTimer, Config.Combo, val => {
-            Config.Combo = val;
-            Config.Save();
-        })
         .Spacer(5.0f)
-        .Checkbox(Strings.TimersOverlay_HideSeconds, Config.HideSeconds, val => {
-            Config.HideSeconds = val;
-            Config.Save();
-        });
+        .Row(Strings.ServerInfoBar_DailyTimer, rowBuilder => rowBuilder
+            .Checkbox("", Config.SoloDaily, val => {
+                Config.SoloDaily = val;
+                Config.Save();
+            }))
+        .Row(Strings.ServerInfoBar_WeeklyTimer, rowBuilder => rowBuilder
+            .Checkbox("", Config.SoloWeekly, val => {
+                Config.SoloWeekly = val;
+                Config.Save();
+            }))
+        .Row(Strings.ServerInfoBar_ToggleableTimer, rowBuilder => rowBuilder
+            .Checkbox("", Config.Combo, val => {
+                Config.Combo = val;
+                Config.Save();
+            }))
+        .Spacer(5.0f)
+        .Row(Strings.TimersOverlay_HideSeconds, rowBuilder => rowBuilder
+            .Checkbox("", Config.HideSeconds, val => {
+                Config.HideSeconds = val;
+                Config.Save();
+            }));
 
     void IFrameworkUpdatable.Update() {
         if (!Enabled) return;
@@ -103,13 +108,13 @@ public class ServerInfoBar : Feature<ServerInfoBarConfig>, IFrameworkUpdatable {
         }
 
         // Update text on entries
-        daily?.Text = $"{Strings.Additional_DailyReset}: {FormatTime(timeUntilDailyReset)}";
-        weekly?.Text = $"{Strings.Additional_WeeklyReset}: {FormatTime(timeUntilWeeklyReset)}";
+        daily?.Text = $"{Strings.Additional_DailyReset}: {timeUntilDailyReset.FormatTime(Config.HideSeconds)}";
+        weekly?.Text = $"{Strings.Additional_WeeklyReset}: {timeUntilWeeklyReset.FormatTime(Config.HideSeconds)}";
 
         if (combo is not null) {
             var timeText = Config.CurrentMode is DtrMode.Daily
-                ? FormatTime(timeUntilDailyReset)
-                : FormatTime(timeUntilWeeklyReset);
+                ? timeUntilDailyReset.FormatTime(Config.HideSeconds)
+                : timeUntilWeeklyReset.FormatTime(Config.HideSeconds);
             var label = Config.CurrentMode is DtrMode.Daily
                 ? Strings.Additional_DailyReset
                 : Strings.Additional_WeeklyReset;
@@ -128,14 +133,6 @@ public class ServerInfoBar : Feature<ServerInfoBarConfig>, IFrameworkUpdatable {
                 System.ConfigWindow.Toggle();
                 break;
         }
-    }
-
-    private string FormatTime(TimeSpan timeRemaining) {
-        if (Config.HideSeconds) {
-            return $"{timeRemaining:d\\.hh\\:mm}";
-        }
-
-        return $"{timeRemaining:d\\.hh\\:mm\\:ss}";
     }
 }
 

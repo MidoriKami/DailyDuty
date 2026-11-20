@@ -50,8 +50,8 @@
   <data name="DomanEnclave_DisplayName" xml:space="preserve">
     <value>ドマ町人地復興</value>
   </data>
-  <data name="DutyFinderEnhancements_DisplayName" xml:space="preserve">
-    <value>コンテンツファインダー拡張</value>
+  <data name="DutyFinder_DisplayName" xml:space="preserve">
+    <value>コンテンツファインダー</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>コンテンツルーレット</value>
@@ -251,25 +251,31 @@
   <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
     <value>DailyDuty設定ウィンドウを開く</value>
   </data>
-  <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
+  <data name="DutyFinder_DailyResetNotification" xml:space="preserve">
     <value>[DailyDuty] 次のデイリーリセットまでの時間</value>
   </data>
-  <data name="DutyFinderEnhancements_OpenDailyDuty" xml:space="preserve">
+  <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
     <value>DailyDutyを開く</value>
   </data>
-  <data name="DutyFinderEnhancements_TimerConfig" xml:space="preserve">
+  <data name="DutyFinder_TimerConfig" xml:space="preserve">
     <value>タイマー設定</value>
   </data>
-  <data name="DutyFinderEnhancements_HideSeconds" xml:space="preserve">
+  <data name="DutyFinder_HideSeconds" xml:space="preserve">
     <value>秒数を非表示</value>
   </data>
-  <data name="DutyFinderEnhancements_TextColor" xml:space="preserve">
+  <data name="DutyFinder_TextColor" xml:space="preserve">
     <value>文字色</value>
   </data>
-  <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
+  <data name="DutyFinder_ButtonConfig" xml:space="preserve">
     <value>DailyDutyボタンの設定</value>
   </data>
-  <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
+  <data name="DutyFinder_ButtonDescription" xml:space="preserve">
+    <value>コンテンツファインダーウィンドウの「DailyDutyを開く」ボタンを制御します。</value>
+  </data>
+  <data name="DutyFinder_Description" xml:space="preserve">
+    <value>コンテンツファインダーウィンドウに次のデイリーリセットまでのカウントダウンタイマーを表示します。</value>
+  </data>
+  <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
     <value>「DailyDutyを開く」ボタンを表示</value>
   </data>
   <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
@@ -289,6 +295,9 @@
   </data>
   <data name="ServerInfoBar_LeftClickChange" xml:space="preserve">
     <value>左クリックでモードを変更</value>
+  </data>
+  <data name="ServerInfoBar_Description" xml:space="preserve">
+    <value>Dalamudタイトルバー(DTR)にデイリーとウィークリーのリセットタイマーを追加します。</value>
   </data>
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
     <value>右クリックで設定を開く</value>
@@ -318,7 +327,7 @@
     <value>タイマーの選択</value>
   </data>
   <data name="TimersOverlay_SelectionNote" xml:space="preserve">
-    <value>Timers can only be enabled for modules that are currently enabled.</value>
+    <value>タイマーは現在アクティブなモジュールにのみ利用できます。</value>
   </data>
   <data name="TimersOverlay_EditAppearance" xml:space="preserve">
     <value>Appearance</value>
@@ -507,7 +516,7 @@
     <value>まだ挑戦していません</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>現在、ファッションレポートは利用できません。</value>
+    <value>ファッションレポートは今週後半に利用可能になります。</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>残り挑戦回数</value>
@@ -755,7 +764,7 @@
   <data name="ModuleManager_CriticalError" xml:space="preserve">
     <value>重大なエラー：モジュールの読み込みに失敗し、アンロード中にもエラーが発生しました</value>
   </data>
-  <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
+  <data name="DutyFinder_NextReset" xml:space="preserve">
         <value>[DailyDuty] 次のリセットまでの時間</value>
     </data>
     <data name="CompletionStatus_NotStarted" xml:space="preserve">

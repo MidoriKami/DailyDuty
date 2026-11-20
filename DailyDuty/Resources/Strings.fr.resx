@@ -50,8 +50,8 @@
   <data name="DomanEnclave_DisplayName" xml:space="preserve">
     <value>Reconstruction de Doma</value>
   </data>
-  <data name="DutyFinderEnhancements_DisplayName" xml:space="preserve">
-    <value>Améliorations de l'outil de mission</value>
+  <data name="DutyFinder_DisplayName" xml:space="preserve">
+    <value>Recherche de mission</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>Missions aléatoires</value>
@@ -251,25 +251,31 @@
   <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
     <value>Ouvre la fenêtre de configuration de DailyDuty</value>
   </data>
-  <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
+  <data name="DutyFinder_DailyResetNotification" xml:space="preserve">
     <value>[DailyDuty] Temps restant avant la prochaine réinitialisation quotidienne</value>
   </data>
-  <data name="DutyFinderEnhancements_OpenDailyDuty" xml:space="preserve">
+  <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
     <value>Ouvrir DD</value>
   </data>
-  <data name="DutyFinderEnhancements_TimerConfig" xml:space="preserve">
+  <data name="DutyFinder_TimerConfig" xml:space="preserve">
     <value>Configuration du compte à rebours</value>
   </data>
-  <data name="DutyFinderEnhancements_HideSeconds" xml:space="preserve">
+  <data name="DutyFinder_HideSeconds" xml:space="preserve">
     <value>Masquer les secondes</value>
   </data>
-  <data name="DutyFinderEnhancements_TextColor" xml:space="preserve">
+  <data name="DutyFinder_TextColor" xml:space="preserve">
     <value>Couleur du texte</value>
   </data>
-  <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
+  <data name="DutyFinder_ButtonConfig" xml:space="preserve">
     <value>Configuration du bouton de DailyDuty</value>
   </data>
-  <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
+  <data name="DutyFinder_ButtonDescription" xml:space="preserve">
+    <value>Contrôle le bouton "Ouvrir DD" sur la fenêtre de recherche de mission.</value>
+  </data>
+  <data name="DutyFinder_Description" xml:space="preserve">
+    <value>Affiche un compte à rebours jusqu'au prochain reset quotidien sur la fenêtre de recherche de mission.</value>
+  </data>
+  <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
     <value>Affiche le bouton "Ouvrir DD"</value>
   </data>
   <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
@@ -289,6 +295,9 @@
   </data>
   <data name="ServerInfoBar_LeftClickChange" xml:space="preserve">
     <value>Clic gauche pour changer de mode</value>
+  </data>
+  <data name="ServerInfoBar_Description" xml:space="preserve">
+    <value>Ajoute des compteurs de reset quotidien et hebdomadaire à la barre de titre Dalamud (DTR).</value>
   </data>
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
     <value>Clic droit pour ouvrir la configuration</value>
@@ -318,7 +327,7 @@
     <value>Sélection des comptes à rebours</value>
   </data>
   <data name="TimersOverlay_SelectionNote" xml:space="preserve">
-    <value>Timers can only be enabled for modules that are currently enabled.</value>
+    <value>Les minuteurs ne sont disponibles que pour les modules actuellement actifs.</value>
   </data>
   <data name="TimersOverlay_EditAppearance" xml:space="preserve">
     <value>Appearance</value>
@@ -507,7 +516,7 @@
     <value>Pas encore tenté</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>Le Fashion Report n'est pas disponible pour le moment.</value>
+    <value>Le Fashion Report sera disponible plus tard cette semaine.</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>Tentative(s) restante(s)</value>
@@ -755,7 +764,7 @@
   <data name="ModuleManager_CriticalError" xml:space="preserve">
     <value>Erreur critique : le module n'a pas pu être chargé et une nouvelle erreur s'est produite lors de son déchargement.</value>
   </data>
-  <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
+  <data name="DutyFinder_NextReset" xml:space="preserve">
         <value>[DailyDuty] Temps restant avant la prochaine réinitialisation</value>
     </data>
     <data name="CompletionStatus_NotStarted" xml:space="preserve">

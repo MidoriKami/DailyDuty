@@ -487,81 +487,99 @@ namespace Resources {
         /// <summary>
         ///     Looks up a localized string similar to DailyDuty Button Configuration.
         /// </summary>
-        internal static string DutyFinderEnhancements_ButtonConfig {
+        internal static string DutyFinder_ButtonConfig {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_ButtonConfig", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_ButtonConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Controls the "Open DailyDuty" button on the duty finder window.
+        /// </summary>
+        internal static string DutyFinder_ButtonDescription {
+            get {
+                return ResourceManager.GetString("DutyFinder_ButtonDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to [DailyDuty] Time until next daily reset.
         /// </summary>
-        internal static string DutyFinderEnhancements_DailyResetNotification {
+        internal static string DutyFinder_DailyResetNotification {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_DailyResetNotification", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_DailyResetNotification", resourceCulture);
             }
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Duty Finder Enhancements.
+        ///     Looks up a localized string similar to Displays a countdown timer to the next daily reset on the duty finder window.
         /// </summary>
-        internal static string DutyFinderEnhancements_DisplayName {
+        internal static string DutyFinder_Description {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_DisplayName", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Duty Finder.
+        /// </summary>
+        internal static string DutyFinder_DisplayName {
+            get {
+                return ResourceManager.GetString("DutyFinder_DisplayName", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to Hide Seconds.
         /// </summary>
-        internal static string DutyFinderEnhancements_HideSeconds {
+        internal static string DutyFinder_HideSeconds {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_HideSeconds", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_HideSeconds", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to [DailyDuty] Time Until Next Reset.
         /// </summary>
-        internal static string DutyFinderEnhancements_NextReset {
+        internal static string DutyFinder_NextReset {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_NextReset", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_NextReset", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to Open DailyDuty.
         /// </summary>
-        internal static string DutyFinderEnhancements_OpenDailyDuty {
+        internal static string DutyFinder_OpenDailyDuty {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_OpenDailyDuty", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_OpenDailyDuty", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to Show &quot;Open DailyDuty&quot; Button.
         /// </summary>
-        internal static string DutyFinderEnhancements_ShowOpenButton {
+        internal static string DutyFinder_ShowOpenButton {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_ShowOpenButton", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_ShowOpenButton", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to Text Color.
         /// </summary>
-        internal static string DutyFinderEnhancements_TextColor {
+        internal static string DutyFinder_TextColor {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_TextColor", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_TextColor", resourceCulture);
             }
         }
         
         /// <summary>
         ///     Looks up a localized string similar to Timer Configuration.
         /// </summary>
-        internal static string DutyFinderEnhancements_TimerConfig {
+        internal static string DutyFinder_TimerConfig {
             get {
-                return ResourceManager.GetString("DutyFinderEnhancements_TimerConfig", resourceCulture);
+                return ResourceManager.GetString("DutyFinder_TimerConfig", resourceCulture);
             }
         }
         
@@ -746,7 +764,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Fashion Report is not available right now..
+        ///     Looks up a localized string similar to Fashion Report will be available later this week..
         /// </summary>
         internal static string FashionReport_NotAvailable {
             get {
@@ -1331,6 +1349,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Adds daily and weekly reset timers to the Dalamud title bar (DTR).
+        /// </summary>
+        internal static string ServerInfoBar_Description {
+            get {
+                return ResourceManager.GetString("ServerInfoBar_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Display.
+        /// </summary>
+        internal static string ServerInfoBar_Display {
+            get {
+                return ResourceManager.GetString("ServerInfoBar_Display", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Server Info Bar.
         /// </summary>
         internal static string ServerInfoBar_DisplayName {
@@ -1363,6 +1399,15 @@ namespace Resources {
         internal static string ServerInfoBar_RightClickOpenConfig {
             get {
                 return ResourceManager.GetString("ServerInfoBar_RightClickOpenConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Timer Modes.
+        /// </summary>
+        internal static string ServerInfoBar_TimerModes {
+            get {
+                return ResourceManager.GetString("ServerInfoBar_TimerModes", resourceCulture);
             }
         }
         
@@ -1619,7 +1664,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///     Looks up a localized string similar to Timers can only be enabled for modules that are currently enabled.
+        ///     Looks up a localized string similar to Timers are only available for modules that are currently active.
         /// </summary>
         internal static string TimersOverlay_SelectionNote {
             get {

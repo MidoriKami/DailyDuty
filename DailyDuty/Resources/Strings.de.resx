@@ -50,8 +50,8 @@
   <data name="DomanEnclave_DisplayName" xml:space="preserve">
     <value>Doman Enclave</value>
   </data>
-  <data name="DutyFinderEnhancements_DisplayName" xml:space="preserve">
-    <value>Duty Finder Enhancements</value>
+  <data name="DutyFinder_DisplayName" xml:space="preserve">
+    <value>Duty Finder</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>Duty Roulette</value>
@@ -251,25 +251,31 @@
   <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
     <value>Open DailyDuty Config Window</value>
   </data>
-  <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
+  <data name="DutyFinder_DailyResetNotification" xml:space="preserve">
     <value>[DailyDuty] Time until next daily reset</value>
   </data>
-  <data name="DutyFinderEnhancements_OpenDailyDuty" xml:space="preserve">
+  <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
     <value>Open DailyDuty</value>
   </data>
-  <data name="DutyFinderEnhancements_TimerConfig" xml:space="preserve">
+  <data name="DutyFinder_TimerConfig" xml:space="preserve">
     <value>Timer Configuration</value>
   </data>
-  <data name="DutyFinderEnhancements_HideSeconds" xml:space="preserve">
+  <data name="DutyFinder_HideSeconds" xml:space="preserve">
     <value>Hide Seconds</value>
   </data>
-  <data name="DutyFinderEnhancements_TextColor" xml:space="preserve">
+  <data name="DutyFinder_TextColor" xml:space="preserve">
     <value>Text Color</value>
   </data>
-  <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
+  <data name="DutyFinder_ButtonConfig" xml:space="preserve">
     <value>DailyDuty Button Configuration</value>
   </data>
-  <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
+  <data name="DutyFinder_ButtonDescription" xml:space="preserve">
+    <value>Steuert die "DailyDuty öffnen"-Schaltfläche im Aufgabenfinder-Fenster.</value>
+  </data>
+  <data name="DutyFinder_Description" xml:space="preserve">
+    <value>Zeigt einen Countdown bis zum nächsten täglichen Reset im Aufgabenfinder-Fenster an.</value>
+  </data>
+  <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
     <value>Show "Open DailyDuty" Button</value>
   </data>
   <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
@@ -289,6 +295,9 @@
   </data>
   <data name="ServerInfoBar_LeftClickChange" xml:space="preserve">
     <value>Left Click to Change Mode</value>
+  </data>
+  <data name="ServerInfoBar_Description" xml:space="preserve">
+    <value>Fügt tägliche und wöchentliche Reset-Timer zur Dalamud-Titelleiste (DTR) hinzu.</value>
   </data>
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
     <value>Right Click to Open Configuration</value>
@@ -318,7 +327,7 @@
     <value>Timer Selection</value>
   </data>
   <data name="TimersOverlay_SelectionNote" xml:space="preserve">
-    <value>Timers can only be enabled for modules that are currently enabled.</value>
+    <value>Timer sind nur für Module verfügbar, die derzeit aktiv sind.</value>
   </data>
   <data name="TimersOverlay_EditAppearance" xml:space="preserve">
     <value>Appearance</value>
@@ -507,7 +516,7 @@
     <value>Not attempted yet</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>Fashion Report ist derzeit nicht verfügbar.</value>
+    <value>Fashion Report wird später diese Woche verfügbar sein.</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>Attempt(s) Remaining</value>
@@ -755,7 +764,7 @@
   <data name="ModuleManager_CriticalError" xml:space="preserve">
     <value>Critical Error: Module failed to load, and errored again while unloading.</value>
   </data>
-  <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
+  <data name="DutyFinder_NextReset" xml:space="preserve">
         <value>[DailyDuty] Time Until Next Reset</value>
     </data>
     <data name="CompletionStatus_NotStarted" xml:space="preserve">

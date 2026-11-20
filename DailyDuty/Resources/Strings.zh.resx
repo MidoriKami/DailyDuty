@@ -50,8 +50,8 @@
   <data name="DomanEnclave_DisplayName" xml:space="preserve">
     <value>多玛飞地</value>
   </data>
-  <data name="DutyFinderEnhancements_DisplayName" xml:space="preserve">
-    <value>任务搜索器增强</value>
+  <data name="DutyFinder_DisplayName" xml:space="preserve">
+    <value>任务搜索器</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>随机任务</value>
@@ -251,25 +251,31 @@
   <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
     <value>打开DailyDuty配置窗口</value>
   </data>
-  <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
+  <data name="DutyFinder_DailyResetNotification" xml:space="preserve">
     <value>[DailyDuty] 距离下次每日重置</value>
   </data>
-  <data name="DutyFinderEnhancements_OpenDailyDuty" xml:space="preserve">
+  <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
     <value>打开DailyDuty</value>
   </data>
-  <data name="DutyFinderEnhancements_TimerConfig" xml:space="preserve">
+  <data name="DutyFinder_TimerConfig" xml:space="preserve">
     <value>计时器设置</value>
   </data>
-  <data name="DutyFinderEnhancements_HideSeconds" xml:space="preserve">
+  <data name="DutyFinder_HideSeconds" xml:space="preserve">
     <value>隐藏秒数</value>
   </data>
-  <data name="DutyFinderEnhancements_TextColor" xml:space="preserve">
+  <data name="DutyFinder_TextColor" xml:space="preserve">
     <value>文字颜色</value>
   </data>
-  <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
+  <data name="DutyFinder_ButtonConfig" xml:space="preserve">
     <value>DailyDuty 按钮设置</value>
   </data>
-  <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
+  <data name="DutyFinder_ButtonDescription" xml:space="preserve">
+    <value>控制任务搜索器窗口上的“打开DailyDuty”按钮。</value>
+  </data>
+  <data name="DutyFinder_Description" xml:space="preserve">
+    <value>在任务搜索器窗口显示距离下次每日重置的倒计时。</value>
+  </data>
+  <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
     <value>显示"打开DailyDuty"按钮</value>
   </data>
   <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
@@ -289,6 +295,9 @@
   </data>
   <data name="ServerInfoBar_LeftClickChange" xml:space="preserve">
     <value>左键单击切换模式</value>
+  </data>
+  <data name="ServerInfoBar_Description" xml:space="preserve">
+    <value>在Dalamud标题栏(DTR)中添加每日和每周重置计时器。</value>
   </data>
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
     <value>右键单击打开配置</value>
@@ -318,7 +327,7 @@
     <value>计时器选择</value>
   </data>
   <data name="TimersOverlay_SelectionNote" xml:space="preserve">
-    <value>Timers can only be enabled for modules that are currently enabled.</value>
+    <value>计时器仅对当前处于启用状态的模块可用。</value>
   </data>
   <data name="TimersOverlay_EditAppearance" xml:space="preserve">
     <value>Appearance</value>
@@ -507,7 +516,7 @@
     <value>尚未尝试</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>时尚报告目前不可用。</value>
+    <value>时尚报告将在本周晚些时候开放。</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
     <value>剩余机会</value>
@@ -755,7 +764,7 @@
   <data name="ModuleManager_CriticalError" xml:space="preserve">
     <value>严重错误：模块加载失败，且在卸载过程中再次报错。</value>
   </data>
-  <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
+  <data name="DutyFinder_NextReset" xml:space="preserve">
         <value>[DailyDuty] 距离下次重置</value>
     </data>
     <data name="CompletionStatus_NotStarted" xml:space="preserve">

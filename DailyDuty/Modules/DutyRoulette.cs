@@ -47,26 +47,28 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
 
         openRoulettePayload = ChatLinkPayload.OpenDutyRoulette();
 
-        await IFramework.Get().Run(() => {
-            unsafe {
-                listController = new NativeListController<AddonContentsFinder, ContentsFinderListItem> {
-                    AddonName = "ContentsFinder",
-                    GetPopulatorNode = GetPopulatorMethod,
-                    ShouldModifyElement = ShouldModifyElementMethod,
-                    UpdateElement = UpdateElementMethod,
-                    ResetElement = ResetElementMethod,
-                };
-                listController.Enable();
+        unsafe {
+            listController = new NativeListController<AddonContentsFinder, ContentsFinderListItem> {
+                AddonName = "ContentsFinder",
+                GetPopulatorNode = GetPopulatorMethod,
+                ShouldModifyElement = ShouldModifyElementMethod,
+                UpdateElement = UpdateElementMethod,
+                ResetElement = ResetElementMethod,
+            };
+        }
 
-                addonController = new AddonController<AddonContentsFinder> {
-                    AddonName = "ContentsFinder",
-                    OnSetup = SetupContentsFinder,
-                    OnRefresh = RefreshContentsFinder,
-                    OnFinalize = FinalizeContentsFinder,
-                };
-                addonController.Enable();
-            }
-        });
+        await listController.EnableAsync();
+
+        unsafe {
+            addonController = new AddonController<AddonContentsFinder> {
+                AddonName = "ContentsFinder",
+                OnSetup = SetupContentsFinder,
+                OnRefresh = RefreshContentsFinder,
+                OnFinalize = FinalizeContentsFinder,
+            };
+        }
+
+        await addonController.EnableAsync();
     }
 
     public override async Task DisableAsync() {
