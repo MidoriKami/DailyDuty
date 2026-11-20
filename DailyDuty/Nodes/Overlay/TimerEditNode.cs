@@ -187,24 +187,28 @@ public class TimerEditNode : ResNode, ILayoutFiller {
             if (TimerData is null) return;
 
             TimerData.ShowLabel = newValue;
+            TimerData.IsDirty = true;
             config?.Save();
         }, out showLabelCheck)
         .Checkbox("Show Countdown Timer", true, newValue => {
             if (TimerData is null) return;
 
             TimerData.ShowCountdown = newValue;
+            TimerData.IsDirty = true;
             config?.Save();
         }, out showCountdownCheck)
         .Checkbox("Hide Seconds", false, newValue => {
             if (TimerData is null) return;
 
             TimerData.HideSeconds = newValue;
+            TimerData.IsDirty = true;
             config?.Save();
         }, out hideSecondsCheck)
         .Checkbox("Hide when Completed", false, newValue => {
             if (TimerData is null) return;
 
             TimerData.HideWhenCompleted = newValue;
+            TimerData.IsDirty = true;
             config?.Save();
         }, out hideExpiredCheck);
 
@@ -216,7 +220,6 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
             TimerData.EnableMoving = newValue;
             TimerData.IsDirty = true;
-            config?.Save();
         }, out enableMovingCheck)
         .Spacer(6.0f);
 
