@@ -13,7 +13,6 @@ using KamiToolKit.Enums;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 using KamiToolKit.UiOverlay;
-using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Features;
 
@@ -104,7 +103,7 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
                 [.. System.Controller.Modules],
                 null!,
                 OnEditModuleSelected,
-                m => (ReadOnlySeString)m.DisplayName,
+                module => module.DisplayName,
                 node => node.LayoutFill = LayoutFill.Horizontal)
             .Dummy(8.0f)
             .AddNode(timerEditNode = new TimerEditNode()));
