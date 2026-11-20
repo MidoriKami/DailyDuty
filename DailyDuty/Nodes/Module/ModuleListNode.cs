@@ -21,7 +21,9 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
     private readonly TextNode statusTextNode;
 
     public ModuleListNode() {
-        checkboxNode = new CheckboxNode();
+        checkboxNode = new CheckboxNode {
+            OnChecked = ToggleModule,
+        };
         checkboxNode.AttachNode(this);
 
         erroringImageNode = new IconImageNode {
@@ -59,10 +61,8 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
     }
 
     protected override void SetNodeData(IModule itemData) {
-        checkboxNode.OnChecked = null;
-        checkboxNode.IsChecked = itemData.LoadState is State.Enabled;
+        checkboxNode.SetValueSilent(itemData.LoadState is State.Enabled);
         checkboxNode.IsEnabled = itemData.LoadState is not State.Errored;
-        checkboxNode.OnChecked = ToggleModule;
 
         erroringImageNode.IsVisible = itemData.LoadState is State.Errored || itemData.LoadErrorMessage is not null;
         erroringImageNode.TextTooltip = itemData.LoadErrorMessage ?? string.Empty;

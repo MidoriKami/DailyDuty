@@ -21,6 +21,7 @@ public class LuminaConfigNode<T> : ListItemNode<T>, IListItemNode where T : stru
 
         checkboxNode = new CheckboxNode {
             TruncateText = true,
+            OnChecked = _ => OnStateChanged?.Invoke(this),
         };
         checkboxNode.AttachNode(this);
     }
@@ -32,18 +33,15 @@ public class LuminaConfigNode<T> : ListItemNode<T>, IListItemNode where T : stru
 
     protected override void SetNodeData(T itemData) {
 
-        checkboxNode.OnChecked = null;
-
         switch (ReferenceData) {
             case HashSet<uint> enabledEntries:
-                checkboxNode.IsChecked = enabledEntries.Contains(itemData.RowId);
+                checkboxNode.SetValueSilent(enabledEntries.Contains(itemData.RowId));
                 break;
             case List<RaidEntry> trackedRaids:
-                checkboxNode.IsChecked = trackedRaids.Any(e => e.Id == itemData.RowId);
+                checkboxNode.SetValueSilent(trackedRaids.Any(e => e.Id == itemData.RowId));
                 break;
         }
 
-        checkboxNode.OnChecked = _ => OnStateChanged?.Invoke(this);
         checkboxNode.ItemTooltip = itemData.ItemId;
         checkboxNode.String = itemData.DisplayString;
     }

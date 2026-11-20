@@ -16,7 +16,9 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
     private readonly TextNode moduleNameNode;
 
     public FeatureListNode() {
-        checkboxNode = new CheckboxNode();
+        checkboxNode = new CheckboxNode {
+            OnChecked = ToggleFeature,
+        };
         checkboxNode.AttachNode(this);
 
         erroringImageNode = new IconImageNode {
@@ -32,10 +34,8 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
     }
 
     protected override void SetNodeData(IFeature itemData) {
-        checkboxNode.OnChecked = null;
-        checkboxNode.IsChecked = itemData.LoadState is State.Enabled;
+        checkboxNode.SetValueSilent(itemData.LoadState is State.Enabled);
         checkboxNode.IsEnabled = itemData.LoadState is not State.Errored;
-        checkboxNode.OnChecked = ToggleFeature;
 
         erroringImageNode.IsVisible = itemData.LoadState is State.Errored || itemData.LoadErrorMessage is not null;
         erroringImageNode.TextTooltip = itemData.LoadErrorMessage ?? string.Empty;

@@ -16,7 +16,9 @@ public class TimerOverlayListItemNode : ListItemNode<IModule>, IListItemNode {
     public TimerOverlayListItemNode() {
         DisableInteractions();
 
-        checkboxNode = new CheckboxNode();
+        checkboxNode = new CheckboxNode {
+            OnChecked = _ => OnStateChanged?.Invoke(this),
+        };
         checkboxNode.AttachNode(this);
 
         System.Controller.OnModuleStateChanged += OnModuleStateChanged;
@@ -24,6 +26,7 @@ public class TimerOverlayListItemNode : ListItemNode<IModule>, IListItemNode {
 
     protected override void Dispose(bool isNativeDestructor) {
         base.Dispose(isNativeDestructor);
+
         System.Controller.OnModuleStateChanged -= OnModuleStateChanged;
     }
 
@@ -37,15 +40,11 @@ public class TimerOverlayListItemNode : ListItemNode<IModule>, IListItemNode {
         checkboxNode.String = itemData.DisplayName;
         checkboxNode.IsEnabled = itemData.Enabled;
 
-        checkboxNode.OnChecked = null;
-
         switch (ReferenceData) {
             case TimerOverlayConfig timerConfig:
-                checkboxNode.IsChecked = timerConfig.SelectedModules.Contains(itemData.DisplayName);
+                checkboxNode.SetValueSilent(timerConfig.SelectedModules.Contains(itemData.DisplayName));
                 break;
         }
-
-        checkboxNode.OnChecked = _ => OnStateChanged?.Invoke(this);
     }
 
     private void OnModuleStateChanged(IModule module, bool enabled) {
