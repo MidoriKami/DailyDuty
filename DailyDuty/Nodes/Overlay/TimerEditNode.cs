@@ -35,7 +35,6 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
     private TextNode? warningNode;
 
-
     public TimerEditNode() {
         layoutContainer = NativeUiBuilder.Create(builder => builder
             .FittedContent(fittedBuilder => fittedBuilder
