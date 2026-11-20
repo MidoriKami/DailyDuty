@@ -35,6 +35,23 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
     private TextNode? warningNode;
 
+    private IModule? module;
+    private TimerOverlayConfig? config;
+
+    private TimerOverlayTimerData? TimerData {
+        get {
+            if (module is null || config is null) return null;
+
+            var displayName = module.DisplayName;
+            if (!config.TimerData.TryGetValue(displayName, out var data)) {
+                data = new TimerOverlayTimerData { Label = displayName };
+                config.TimerData[displayName] = data;
+            }
+
+            return data;
+        }
+    }
+
     public TimerEditNode() {
         layoutContainer = NativeUiBuilder.Create(builder => builder
             .FittedContent(fittedBuilder => fittedBuilder
@@ -82,42 +99,125 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         .CategoryLabel("Timer Info")
         .Spacer(2.0f)
         .Row("Display Label", right => right
-            .InputText(_ => { }, out labelInput));
+            .InputText(newValue => {
+                if (TimerData is null) return;
+
+                TimerData.Label = newValue.IsEmpty ? module?.DisplayName ?? string.Empty : newValue.ToString();
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out labelInput));
 
     private void BuildAppearanceSection(NodeBuilder builder) => builder
         .CategoryLabel("Appearance")
         .Spacer(2.0f)
         .Row("Background Color", right => right
-            .ColorEdit4(Vector4.Zero, KnownColor.CornflowerBlue.Vector(), _ => { }, out colorEdit))
+            .ColorEdit4(Vector4.Zero, KnownColor.CornflowerBlue.Vector(), newColor => {
+                if (TimerData is null) return;
+
+                TimerData.Color = newColor;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out colorEdit))
         .Row("Text Color", right => right
-            .ColorEdit4(Vector4.Zero, KnownColor.White.Vector(), _ => { }, out textColorEdit))
+            .ColorEdit4(Vector4.Zero, KnownColor.White.Vector(), newTextColor => {
+                if (TimerData is null) return;
+
+                TimerData.TextColor = newTextColor;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out textColorEdit))
         .Row("Font Size", right => right
-            .IntSlider(16, 8, 48, _ => { }, out fontSizeSlider))
+            .IntSlider(16, 8, 48, newFontSize => {
+                if (TimerData is null) return;
+
+                TimerData.FontSize = newFontSize;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out fontSizeSlider))
         .Row("Timer Mode", right => right
-            .Combo([TimerCountDirection.CountDown, TimerCountDirection.CountUp], TimerCountDirection.CountDown, _ => { }, d => d == TimerCountDirection.CountDown ? "Remaining Time" : "Elapsed Time", out directionCombo));
+            .Combo([TimerCountDirection.CountDown, TimerCountDirection.CountUp], TimerCountDirection.CountDown, newDirection => {
+                if (TimerData is null) return;
+
+                TimerData.CountDirection = newDirection;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            d => d == TimerCountDirection.CountDown ? "Remaining Time" : "Elapsed Time",
+            out directionCombo));
 
     private void BuildSizeScaleSection(NodeBuilder builder) => builder
         .CategoryLabel("Size & Scale")
         .Spacer(2.0f)
         .Row("Width", right => right
-            .InputInt(300, 100, 800, _ => { }, out widthInput))
+            .InputInt(300, 100, 800, newWidth => {
+                if (TimerData is null) return;
+
+                TimerData.Width = newWidth;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out widthInput))
         .Row("Height", right => right
-            .InputInt(64, 24, 256, _ => { }, out heightInput))
+            .InputInt(64, 24, 256, newHeight => {
+                if (TimerData is null) return;
+
+                TimerData.Height = newHeight;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out heightInput))
         .Row("Scale", right => right
-            .FloatSlider(1.0f, 0.5f, 2.0f, _ => { }, out scaleSlider));
+            .FloatSlider(1.0f, 0.5f, 2.0f, newScale => {
+                if (TimerData is null) return;
+
+                TimerData.Scale = newScale;
+                TimerData.IsDirty = true;
+                config?.Save();
+            },
+            out scaleSlider));
 
     private void BuildVisibilitySection(NodeBuilder builder) => builder
         .CategoryLabel("Visibility")
         .Spacer(2.0f)
-        .Checkbox("Show Text Label", true, _ => { }, out showLabelCheck)
-        .Checkbox("Show Countdown Timer", true, _ => { }, out showCountdownCheck)
-        .Checkbox("Hide Seconds", false, _ => { }, out hideSecondsCheck)
-        .Checkbox("Hide when Completed", false, _ => { }, out hideExpiredCheck);
+        .Checkbox("Show Text Label", true, newValue => {
+            if (TimerData is null) return;
+
+            TimerData.ShowLabel = newValue;
+            config?.Save();
+        }, out showLabelCheck)
+        .Checkbox("Show Countdown Timer", true, newValue => {
+            if (TimerData is null) return;
+
+            TimerData.ShowCountdown = newValue;
+            config?.Save();
+        }, out showCountdownCheck)
+        .Checkbox("Hide Seconds", false, newValue => {
+            if (TimerData is null) return;
+
+            TimerData.HideSeconds = newValue;
+            config?.Save();
+        }, out hideSecondsCheck)
+        .Checkbox("Hide when Completed", false, newValue => {
+            if (TimerData is null) return;
+
+            TimerData.HideWhenCompleted = newValue;
+            config?.Save();
+        }, out hideExpiredCheck);
 
     private void BuildInteractionSection(NodeBuilder builder) => builder
         .CategoryLabel("Interaction")
         .Spacer(2.0f)
-        .Checkbox("Enable Dragging", true, _ => { }, out enableMovingCheck)
+        .Checkbox("Enable Dragging", true, newValue => {
+            if (TimerData is null) return;
+
+            TimerData.EnableMoving = newValue;
+            TimerData.IsDirty = true;
+            config?.Save();
+        }, out enableMovingCheck)
         .Spacer(6.0f);
 
     protected override void OnSizeChanged() {
@@ -127,124 +227,36 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         layoutContainer.UpdateLayout();
     }
 
-    public void SetModule(IModule? module, TimerOverlayConfig cfg) {
-        if (module is null) {
+    public void SetModule(IModule? newModule, TimerOverlayConfig newConfig) {
+        if (newModule is null) {
+            module = null;
+            config = null;
+
             optionNode!.IsVisible = false;
             warningNode!.IsVisible = true;
             return;
         }
 
+        module = newModule;
+        config = newConfig;
+
         optionNode!.IsVisible = true;
         warningNode!.IsVisible = false;
 
-        // Get or create timer data for this module
-        var displayName = module.DisplayName;
-        if (!cfg.TimerData.TryGetValue(displayName, out var timerData)) {
-            timerData = new TimerOverlayTimerData {
-                Label = displayName,
-            };
-            cfg.TimerData[displayName] = timerData;
-        }
+        if (TimerData is null) return;
 
-        // Update all edit controls with current values
-        labelInput.OnInputReceived = null;
-        labelInput.String = timerData.Label ?? string.Empty;
-        labelInput.OnInputReceived = newValue => {
-            timerData.Label = newValue.IsEmpty ? module.DisplayName : newValue.ToString();
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        colorEdit.OnColorConfirmed = null;
-        colorEdit.CurrentColor = timerData.Color;
-        colorEdit.OnColorConfirmed = newColor => {
-            timerData.Color = newColor;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        directionCombo.OnOptionSelected = null;
-        directionCombo.SelectedOption = timerData.CountDirection;
-        directionCombo.OnOptionSelected = newDirection => {
-            timerData.CountDirection = newDirection;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        textColorEdit.OnColorConfirmed = null;
-        textColorEdit.CurrentColor = timerData.TextColor;
-        textColorEdit.OnColorConfirmed = newTextColor => {
-            timerData.TextColor = newTextColor;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        fontSizeSlider.OnValueUpdate = null;
-        fontSizeSlider.Value = timerData.FontSize;
-        fontSizeSlider.OnValueUpdate = newFontSize => {
-            timerData.FontSize = newFontSize;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        widthInput.OnValueUpdate = null;
-        widthInput.Value = timerData.Width ?? 300;
-        widthInput.OnValueUpdate = newWidth => {
-            timerData.Width = newWidth;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        heightInput.OnValueUpdate = null;
-        heightInput.Value = timerData.Height ?? 64;
-        heightInput.OnValueUpdate = newHeight => {
-            timerData.Height = newHeight;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        scaleSlider.OnValueUpdate = null;
-        scaleSlider.Value = timerData.Scale;
-        scaleSlider.OnValueUpdate = newScale => {
-            timerData.Scale = newScale;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
-
-        showLabelCheck.OnChecked = null;
-        showLabelCheck.IsChecked = timerData.ShowLabel;
-        showLabelCheck.OnChecked = newShowLabel => {
-            timerData.ShowLabel = newShowLabel;
-            cfg.Save();
-        };
-
-        showCountdownCheck.OnChecked = null;
-        showCountdownCheck.IsChecked = timerData.ShowCountdown;
-        showCountdownCheck.OnChecked = newShowCountdown => {
-            timerData.ShowCountdown = newShowCountdown;
-            cfg.Save();
-        };
-
-        hideSecondsCheck.OnChecked = null;
-        hideSecondsCheck.IsChecked = timerData.HideSeconds;
-        hideSecondsCheck.OnChecked = newHideSeconds => {
-            timerData.HideSeconds = newHideSeconds;
-            cfg.Save();
-        };
-
-        hideExpiredCheck.OnChecked = null;
-        hideExpiredCheck.IsChecked = timerData.HideWhenCompleted;
-        hideExpiredCheck.OnChecked = newHideWhenCompleted => {
-            timerData.HideWhenCompleted = newHideWhenCompleted;
-            cfg.Save();
-        };
-
-        enableMovingCheck.OnChecked = null;
-        enableMovingCheck.IsChecked = timerData.EnableMoving;
-        enableMovingCheck.OnChecked = newEnableMoving => {
-            timerData.EnableMoving = newEnableMoving;
-            timerData.IsDirty = true;
-            cfg.Save();
-        };
+        labelInput.SetValueSilent(TimerData.Label ?? string.Empty);
+        colorEdit.CurrentColor = TimerData.Color;
+        directionCombo.SelectedOption = TimerData.CountDirection;
+        textColorEdit.CurrentColor = TimerData.TextColor;
+        fontSizeSlider.SetValueSilent(TimerData.FontSize);
+        widthInput.SetValueSilent(TimerData.Width ?? 300);
+        heightInput.SetValueSilent(TimerData.Height ?? 64);
+        scaleSlider.SetValueSilent(TimerData.Scale);
+        showLabelCheck.SetValueSilent(TimerData.ShowLabel);
+        showCountdownCheck.SetValueSilent(TimerData.ShowCountdown);
+        hideSecondsCheck.SetValueSilent(TimerData.HideSeconds);
+        hideExpiredCheck.SetValueSilent(TimerData.HideWhenCompleted);
+        enableMovingCheck.SetValueSilent(TimerData.EnableMoving);
     }
 }
