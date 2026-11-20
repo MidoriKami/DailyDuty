@@ -317,6 +317,63 @@
   <data name="TimersOverlay_Selection" xml:space="preserve">
     <value>タイマーの選択</value>
   </data>
+  <data name="TimersOverlay_SelectionNote" xml:space="preserve">
+    <value>Timers can only be enabled for modules that are currently enabled.</value>
+  </data>
+  <data name="TimersOverlay_EditAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="TimersOverlay_EditDisplay" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="TimersOverlay_EditBehavior" xml:space="preserve">
+    <value>Behavior</value>
+  </data>
+  <data name="TimersOverlay_EditLabel" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="TimersOverlay_EditColor" xml:space="preserve">
+    <value>Background Color</value>
+  </data>
+  <data name="TimersOverlay_EditDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="TimersOverlay_EditTextColor" xml:space="preserve">
+    <value>Text Color</value>
+  </data>
+  <data name="TimersOverlay_EditFontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="TimersOverlay_EditSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="TimersOverlay_EditWidth" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="TimersOverlay_EditHeight" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="TimersOverlay_EditShowLabel" xml:space="preserve">
+    <value>Show Label</value>
+  </data>
+  <data name="TimersOverlay_EditShowCountdown" xml:space="preserve">
+    <value>Show Countdown</value>
+  </data>
+  <data name="TimersOverlay_EditHideSeconds" xml:space="preserve">
+    <value>Hide Seconds</value>
+  </data>
+  <data name="TimersOverlay_EditHideExpired" xml:space="preserve">
+    <value>Hide when Completed</value>
+  </data>
+  <data name="TimersOverlay_EditEnableMoving" xml:space="preserve">
+    <value>Enable Moving</value>
+  </data>
+  <data name="TimersOverlay_EditReset" xml:space="preserve">
+    <value>Reset to Defaults</value>
+  </data>
+  <data name="TimersOverlay_EditSelectTimer" xml:space="preserve">
+    <value>Select a timer to configure</value>
+  </data>
   <data name="TodoOverlay_Panels" xml:space="preserve">
     <value>オーバーレイパネル</value>
   </data>
