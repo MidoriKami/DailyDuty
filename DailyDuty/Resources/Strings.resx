@@ -288,6 +288,12 @@
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
     <value>Right Click to Open Configuration</value>
   </data>
+  <data name="ServerInfoBar_TimerModes" xml:space="preserve">
+    <value>Timer Modes</value>
+  </data>
+  <data name="ServerInfoBar_Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
   <data name="TimersOverlay_HideInDuties" xml:space="preserve">
     <value>Hide in Duties</value>
   </data>
