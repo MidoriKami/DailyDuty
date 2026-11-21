@@ -13,7 +13,7 @@ using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
 using Newtonsoft.Json.Linq;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

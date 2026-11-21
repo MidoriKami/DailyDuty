@@ -7,7 +7,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Config;
 using DailyDuty.Nodes.Display;
 using DailyDuty.Utilities;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Dalamud.Plugin.Services;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using DailyDuty.Utilities;
-using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Excel;

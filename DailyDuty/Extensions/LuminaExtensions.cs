@@ -1,5 +1,5 @@
 using DailyDuty.Utilities;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Extensions;
 

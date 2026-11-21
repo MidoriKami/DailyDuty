@@ -1,5 +1,5 @@
-using DailyDuty.Classes;
-using Dalamud.Game.Chat;
+﻿using DailyDuty.Classes;
+using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
@@ -17,9 +17,9 @@ public static class ChatGuiExtensions {
         public void PrintMessage(XivChatType channel, ReadOnlySeString moduleName, ReadOnlySeString message) {
             using var stringBuilder = new RentedSeStringBuilder();
 
-            chatGui.Print(new PrintableChatMessage {
-                LogKind = channel,
-                Message = stringBuilder.AppendDailyDutyPrefix(moduleName).Append(message).ToReadOnlySeString(),
+            chatGui.Print(new XivChatEntry {
+                Type = channel,
+                Message = stringBuilder.AppendDailyDutyPrefix(moduleName).Append(message).ToReadOnlySeString().ToDalamudString(),
             });
         }
 
@@ -34,9 +34,9 @@ public static class ChatGuiExtensions {
 
             using var stringBuilder = new RentedSeStringBuilder();
 
-            chatGui.Print(new PrintableChatMessage {
-                LogKind = channel,
-                Message = stringBuilder.AppendDailyDutyPrefix(moduleName).AppendLink(message, payload.Payload).ToReadOnlySeString(),
+            chatGui.Print(new XivChatEntry {
+                Type = channel,
+                Message = stringBuilder.AppendDailyDutyPrefix(moduleName).AppendLink(message, payload.Payload).ToReadOnlySeString().ToDalamudString(),
             });
         }
     }

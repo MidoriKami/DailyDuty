@@ -8,7 +8,6 @@ using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Config;
 using DailyDuty.Nodes.Display;
 using DailyDuty.Utilities;
-using Dalamud.Excel.Sheets;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Game.DutyState;
@@ -17,6 +16,7 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
+using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

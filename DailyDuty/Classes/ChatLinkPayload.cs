@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading;
-using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -27,7 +27,7 @@ public class ChatLinkPayload : IDisposable {
         CommandId = commandIdCounter;
         Interlocked.Increment(ref commandIdCounter);
 
-        Payload = IChatGui.Get().AddChatLinkHandler(CommandId, _ => ClickAction());
+        Payload = IChatGui.Get().AddChatLinkHandler(CommandId, (_, _) => ClickAction());
     }
 
     public void Dispose()

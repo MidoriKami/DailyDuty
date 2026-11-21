@@ -22,7 +22,7 @@ using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
-using ContentRoulette = Dalamud.Excel.Sheets.ContentRoulette;
+using ContentRoulette = Lumina.Excel.Sheets.ContentRoulette;
 
 namespace DailyDuty.Modules;
 

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
 using Dalamud.Plugin.Services;

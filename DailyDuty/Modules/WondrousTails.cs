@@ -110,7 +110,7 @@ public class WondrousTails : Module<WondrousTailsData, WondrousTailsConfig>, IWe
         const uint idyllshireTerritoryType = 478;
         const uint khloeAliapohDataId = 1017653;
 
-        if (IClientState.Get().TerritoryType.RowId is not idyllshireTerritoryType) return;
+        if (IClientState.Get().TerritoryType is not idyllshireTerritoryType) return;
 
         var khloe = IObjectTable.Get().FirstOrDefault(obj => obj.BaseId is khloeAliapohDataId);
 

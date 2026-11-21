@@ -1,4 +1,4 @@
-using Dalamud.Game.Chat;
+using Dalamud.Game.Text;
 
 namespace DailyDuty.Classes;
 

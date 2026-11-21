@@ -1,5 +1,5 @@
 using DailyDuty.Enums;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Lumina.Excel;
 using Lumina.Text.ReadOnly;
 using GameContentsNote = FFXIVClientStructs.FFXIV.Client.Game.UI.ContentsNote;

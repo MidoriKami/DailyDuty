@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
-using Dalamud.Excel.Sheets;
 using Dalamud.Game.Command;
 using Dalamud.Hooking;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using KamiToolKit.Extensions;
-using Lumina.Excel;
 
 namespace DailyDuty.Controllers;
 
@@ -209,7 +207,7 @@ public class SystemController : IAsyncDisposable {
         }
     }
 
-    private void OnTerritoryChanged(RowRef<TerritoryType> obj) {
+    private void OnTerritoryChanged(uint territoryId) {
         foreach (var module in Modules) {
             if (module is IToggleable { Enabled: false }) continue;
 

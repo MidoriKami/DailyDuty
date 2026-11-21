@@ -13,7 +13,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 using AgentId = Dalamud.Game.Agent.AgentId;
 

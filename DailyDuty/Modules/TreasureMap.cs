@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Dalamud.Game.Chat;
 using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Plugin.Services;

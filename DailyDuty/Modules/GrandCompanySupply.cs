@@ -9,7 +9,7 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

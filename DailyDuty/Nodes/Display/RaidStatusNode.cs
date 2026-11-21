@@ -1,6 +1,6 @@
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using Dalamud.Excel.Sheets;
+using Lumina.Excel.Sheets;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Interfaces;

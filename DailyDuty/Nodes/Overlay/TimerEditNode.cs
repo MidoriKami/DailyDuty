@@ -1,6 +1,5 @@
 using System.Drawing;
 using System.Numerics;
-using DailyDuty.Classes;
 using DailyDuty.Enums;
 using DailyDuty.Features;
 using DailyDuty.Interfaces;
