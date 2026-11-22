@@ -1,5 +1,6 @@
 using DailyDuty.Interfaces;
 using KamiToolKit.Components.Builders;
+using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Nodes.Module;
@@ -7,7 +8,7 @@ namespace DailyDuty.Nodes.Module;
 public class FeatureInfoNode : ResNode, INativeUpdatable {
     private readonly IFeature feature;
 
-    private readonly VerticalListNode layoutContainer;
+    private readonly ILayoutNode layoutContainer;
 
     public FeatureInfoNode(IFeature feature) {
         this.feature = feature;

@@ -1,6 +1,7 @@
 using System;
 using DailyDuty.Interfaces;
 using KamiToolKit.Components.Builders;
+using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
 
 namespace DailyDuty.Nodes.Module;
@@ -8,7 +9,7 @@ namespace DailyDuty.Nodes.Module;
 public class ModuleInfoNode : ResNode, INativeUpdatable {
     private readonly IModule module;
 
-    private readonly VerticalListNode layoutContainer;
+    private readonly ILayoutNode layoutContainer;
 
     private TextNode statusNode = null!;
     private TextNode nextResetDateNode = null!;

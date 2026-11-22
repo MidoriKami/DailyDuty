@@ -13,7 +13,6 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Enums;
 using KamiToolKit.Interfaces;
-using KamiToolKit.Nodes;
 using KamiToolKit.UiOverlay;
 
 namespace DailyDuty.Features;
@@ -94,7 +93,6 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
                 list => {
                     list.NodeReferenceData = Config;
                     list.ItemSpacing = 4.0f;
-                    ((ListNode<IModule, TimerOverlayListItemNode>)list).Size = new Vector2(100.0f, 200.0f);
                     timerSelectionList = list;
                 }));
 

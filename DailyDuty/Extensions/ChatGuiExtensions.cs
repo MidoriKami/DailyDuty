@@ -17,10 +17,14 @@ public static class ChatGuiExtensions {
         public void PrintMessage(XivChatType channel, ReadOnlySeString moduleName, ReadOnlySeString message) {
             using var stringBuilder = new RentedSeStringBuilder();
 
-            chatGui.Print(new XivChatEntry {
+            var builtString = stringBuilder.AppendDailyDutyPrefix(moduleName).Append(message).ToReadOnlySeString().ToDalamudString();
+            var chatEntry = new XivChatEntry {
                 Type = channel,
-                Message = stringBuilder.AppendDailyDutyPrefix(moduleName).Append(message).ToReadOnlySeString().ToDalamudString(),
-            });
+                Message = builtString,
+            };
+
+            // Chat functions are not threadsafe yet. Pending DalamudPR https://github.com/goatcorp/Dalamud/pull/3054
+            IFramework.Get().Run(() => chatGui.Print(chatEntry));
         }
 
         /// <summary>
@@ -34,10 +38,14 @@ public static class ChatGuiExtensions {
 
             using var stringBuilder = new RentedSeStringBuilder();
 
-            chatGui.Print(new XivChatEntry {
+            var builtString = stringBuilder.AppendDailyDutyPrefix(moduleName).AppendLink(message, payload.Payload).ToReadOnlySeString().ToDalamudString();
+            var chatEntry = new XivChatEntry {
                 Type = channel,
-                Message = stringBuilder.AppendDailyDutyPrefix(moduleName).AppendLink(message, payload.Payload).ToReadOnlySeString().ToDalamudString(),
-            });
+                Message = builtString,
+            };
+
+            // Chat functions are not threadsafe yet. Pending DalamudPR https://github.com/goatcorp/Dalamud/pull/3054
+            IFramework.Get().Run(() => chatGui.Print(chatEntry));
         }
     }
 }

@@ -15,7 +15,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
     public LayoutFill LayoutFill { get; set; } = LayoutFill.Both;
 
-    private readonly VerticalListNode layoutContainer;
+    private readonly ILayoutNode layoutContainer;
     private VerticalListNode? optionNode;
 
     private TextInputNode labelInput = null!;
@@ -55,43 +55,40 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         layoutContainer = NativeUiBuilder.Create(builder => builder
             .FittedContent(fittedBuilder => fittedBuilder
                 .VerticalList(options => options
-                    .Scrolling(BuildScrollableContent, scrollingNode => {
-                        scrollingNode.LayoutFill = LayoutFill.Both;
-                        scrollingNode.AutoHideScrollBar = true;
-                    }),
-                out optionNode,
-                content => {
-                    content.LayoutFill = LayoutFill.Both;
-                    content.ItemSpacing = 8.0f;
-                    content.IsVisible = false;
-                })
+                        .Scrolling(BuildScrollableContent, scrollingNode => {
+                            scrollingNode.LayoutFill = LayoutFill.Both;
+                            scrollingNode.AutoHideScrollBar = true;
+                        }),
+                    out optionNode,
+                    content => {
+                        content.LayoutFill = LayoutFill.Both;
+                        content.ItemSpacing = 8.0f;
+                        content.IsVisible = false;
+                    })
                 .TextWarningFilled("Select a timer to configure", out warningNode)
             ));
 
         layoutContainer.AttachNode(this);
     }
 
-    private void BuildScrollableContent(NodeBuilder builder) {
-        builder.ItemSpacing = 6.0f;
-        builder
-            .BuildAction(BuildTimerInfoSection)
-            .Spacer(6.0f)
-            .Separator()
-            .Spacer(6.0f)
-            .BuildAction(BuildAppearanceSection)
-            .Spacer(6.0f)
-            .Separator()
-            .Spacer(6.0f)
-            .BuildAction(BuildSizeScaleSection)
-            .Spacer(6.0f)
-            .Separator()
-            .Spacer(6.0f)
-            .BuildAction(BuildVisibilitySection)
-            .Spacer(6.0f)
-            .Separator()
-            .Spacer(6.0f)
-            .BuildAction(BuildInteractionSection);
-    }
+    private void BuildScrollableContent(NodeBuilder builder) => builder
+        .BuildAction(BuildTimerInfoSection)
+        .Spacer(6.0f)
+        .Separator()
+        .Spacer(6.0f)
+        .BuildAction(BuildAppearanceSection)
+        .Spacer(6.0f)
+        .Separator()
+        .Spacer(6.0f)
+        .BuildAction(BuildSizeScaleSection)
+        .Spacer(6.0f)
+        .Separator()
+        .Spacer(6.0f)
+        .BuildAction(BuildVisibilitySection)
+        .Spacer(6.0f)
+        .Separator()
+        .Spacer(6.0f)
+        .BuildAction(BuildInteractionSection);
 
     private void BuildTimerInfoSection(NodeBuilder builder) => builder
         .Spacer(6.0f)

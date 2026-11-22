@@ -17,6 +17,7 @@ public static class CompletionStatusExtensions {
         /// <summary>
         /// Gets whether this status indicates the user needs to take action.
         /// </summary>
-        public bool RequiresAction => status is CompletionStatus.NotInitialized or CompletionStatus.Incomplete or CompletionStatus.ResultsAvailable;
+        public bool RequiresAction
+            => status is CompletionStatus.NotInitialized or CompletionStatus.Incomplete or CompletionStatus.ResultsAvailable;
     }
 }
