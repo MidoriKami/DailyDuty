@@ -35,7 +35,6 @@ public class LuminaStatusNode<T> : ListItemNode<T>, IListItemNode where T : stru
         base.OnSizeChanged();
 
         layoutNode.Size = Size;
-        layoutNode.UpdateLayout();
     }
 
     protected override void SetNodeData(T itemData) {

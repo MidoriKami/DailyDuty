@@ -226,7 +226,6 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         base.OnSizeChanged();
 
         layoutContainer.Size = Size;
-        layoutContainer.UpdateLayout();
     }
 
     public void SetModule(IModule? newModule, TimerOverlayConfig newConfig) {

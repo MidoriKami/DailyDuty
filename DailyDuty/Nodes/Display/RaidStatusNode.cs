@@ -1,10 +1,10 @@
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using Lumina.Excel.Sheets;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Interfaces;
 using KamiToolKit.Nodes;
+using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Nodes.Display;
 
@@ -40,7 +40,6 @@ public class RaidStatusNode : ListItemNode<RaidEntry>, IListItemNode {
         base.OnSizeChanged();
 
         layoutNode.Size = Size;
-        layoutNode.UpdateLayout();
     }
 
     protected override void SetNodeData(RaidEntry itemData) {

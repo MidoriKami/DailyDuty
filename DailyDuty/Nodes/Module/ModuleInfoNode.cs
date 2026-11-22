@@ -35,7 +35,6 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         base.OnSizeChanged();
 
         layoutContainer.Size = Size;
-        layoutContainer.UpdateLayout();
     }
 
     public void Update() {
