@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Nodes;
 
 namespace DailyDuty.Classes;
 
@@ -12,7 +12,7 @@ public class SystemConfig : FileBase<SystemConfig> {
 
     public HashSet<string> EnabledModules = [];
 
-    protected override bool TryMigrateStep(ref int fileVersion, JObject jObject) {
+    protected override bool TryMigrateStep(ref int fileVersion, JsonObject fileData) {
         switch (fileVersion) {
             case < 3:
                 // Older configs may have version 0, 1, or 2 due to a bug.
@@ -21,6 +21,6 @@ public class SystemConfig : FileBase<SystemConfig> {
                 return true;
         }
 
-        return base.TryMigrateStep(ref fileVersion, jObject);
+        return base.TryMigrateStep(ref fileVersion, fileData);
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using DailyDuty.Utilities;
 using Dalamud.Plugin.Services;
-using Newtonsoft.Json.Linq;
 
 namespace DailyDuty.Classes;
 
@@ -32,62 +33,92 @@ public abstract class FileBase<T> where T : FileBase<T>, new() {
         var fileName = dummyInstance.FileName;
 
         IPluginLog.Get().Debug($"Loading File {fileName}");
-
         var fileInfo = FileHelpers.GetFileInfo(FileHelpers.GetCharacterPath(), fileName);
 
-        // If it doesn't exist yet, LoadFile will create one for us.
-        // We also don't have to migrate when a new instance is created.
+        // New files are created by LoadFile; no migration needed.
         if (!fileInfo.Exists) {
             return await FileHelpers.LoadFile<T>(fileInfo.FullName);
         }
 
+        // Attempt to load and migrate the existing file.
+        var migrated = await TryLoadMigratedAsync(dummyInstance, fileName, fileInfo);
+        if (migrated is not null) {
+            return migrated;
+        }
+
+        // Migration failed or file is invalid; fall back to the default loader.
+        return await FileHelpers.LoadFile<T>(fileInfo.FullName);
+    }
+
+    /// <summary>
+    /// Attempts to parse and migrate an existing file.
+    /// </summary>
+    /// <returns>The migrated instance on success; null on any failure so the caller can fall back.</returns>
+    private static async Task<T?> TryLoadMigratedAsync(T instance, string fileName, FileInfo fileInfo) {
         try {
             var fileText = await File.ReadAllTextAsync(fileInfo.FullName);
-            var jObject = JObject.Parse(fileText);
+            var fileData = JsonSerializer.Deserialize<JsonObject>(fileText);
 
-            var versionToken = jObject[nameof(Version)];
-            var targetVersion = dummyInstance.Version;
-
-            // Version wasn't defined until now, just set it and call it good.
-            if (versionToken is null) {
-                IPluginLog.Get().Debug($"File {fileName} has no version defined. Setting to current version {targetVersion}");
-
-                // Set the version to target, save, and return
-                jObject[nameof(Version)] = targetVersion;
-                var migratedInstance = jObject.ToObject<T>() ?? new T();
-                await FileHelpers.SaveFile(migratedInstance, fileInfo.FullName);
-                return migratedInstance;
+            if (fileData is null) {
+                IPluginLog.Get().Error($"Failed to parse file {fileName} as JSON");
+                return null;
             }
 
-            var initialVersion = versionToken.ToObject<int>();
-            var fileVersion = initialVersion;
+            var targetVersion = instance.Version;
 
-            // Try to do the migration
-            while (fileVersion < targetVersion) {
-                if (!dummyInstance.TryMigrateStep(ref fileVersion, jObject)) {
-                    IPluginLog.Get().Error($"Failed to migrate file {fileName} from version {fileVersion}");
-                    break;
-                }
-
-                // Update jObject with new version.
-                jObject[nameof(Version)] = fileVersion;
+            // Handle files with no version defined (pre-versioning files).
+            if (fileData[nameof(Version)] is null) {
+                return await SetVersionAsync(fileData, fileName, fileInfo, targetVersion);
             }
 
-            // If we reached our target version, and migration was needed in the first place
-            if (fileVersion == targetVersion && initialVersion < targetVersion) {
-                IPluginLog.Get().Debug($"Successfully migrated {fileName} from version {initialVersion} to version {targetVersion}");
-
-                var migratedInstance = jObject.ToObject<T>() ?? new T();
-                await FileHelpers.SaveFile(migratedInstance, fileInfo.FullName);
-                return migratedInstance;
-            }
+            return await MigrateAsync(instance, fileName, fileInfo, fileData, targetVersion);
         }
         catch (Exception e) {
             IPluginLog.Get().Error(e, $"Failed to migrate file {fileName}");
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Sets the version on a file that has no version, deserializes it, and saves it.
+    /// </summary>
+    private static async Task<T> SetVersionAsync(JsonObject fileData, string fileName, FileInfo fileInfo, int targetVersion) {
+        IPluginLog.Get().Debug($"File {fileName} has no version defined. Setting to current version {targetVersion}");
+        fileData[nameof(Version)] = targetVersion;
+
+        var migratedInstance = fileData.Deserialize<T>() ?? new T();
+        await FileHelpers.SaveFile(migratedInstance, fileInfo.FullName);
+        return migratedInstance;
+    }
+
+    /// <summary>
+    /// Steps through migration versions until the target is reached, then deserializes and saves the result.
+    /// </summary>
+    private static async Task<T?> MigrateAsync(T instance, string fileName, FileInfo fileInfo, JsonObject fileData, int targetVersion) {
+        var initialVersion = fileData[nameof(Version)]!.GetValue<int>();
+        var fileVersion = initialVersion;
+
+        // Step through each migration until we reach the target version.
+        while (fileVersion < targetVersion) {
+            if (!instance.TryMigrateStep(ref fileVersion, fileData)) {
+                IPluginLog.Get().Error($"Failed to migrate file {fileName} from version {fileVersion}");
+                return null;
+            }
+
+            fileData[nameof(Version)] = fileVersion;
         }
 
-        // File existed, we tried to migrate it, but it failed, so load the original file, or create a new one if its invalid.
-        return await FileHelpers.LoadFile<T>(fileInfo.FullName);
+        // If migration was needed and succeeded, save the migrated instance.
+        if (fileVersion == targetVersion && initialVersion < targetVersion) {
+            IPluginLog.Get().Debug($"Successfully migrated {fileName} from version {initialVersion} to version {targetVersion}");
+
+            var migratedInstance = fileData.Deserialize<T>() ?? new T();
+            await FileHelpers.SaveFile(migratedInstance, fileInfo.FullName);
+            return migratedInstance;
+        }
+
+        // No migration needed; deserialize the file as-is.
+        return fileData.Deserialize<T>() ?? new T();
     }
 
     public Task Save() {
@@ -95,10 +126,10 @@ public abstract class FileBase<T> where T : FileBase<T>, new() {
 
         Interlocked.Exchange(ref pendingSave, true);
 
-        return Task.Run(SaveAsync);
+        return Task.Run(SaveToFileAsync);
     }
 
-    private async Task SaveAsync() {
+    private async Task SaveToFileAsync() {
         // If we already have a save task running, abort and return.
         if (!await saveLock.WaitAsync(0)) {
             IPluginLog.Get().Verbose($"Save in progress for {FileName}, skipping save");
@@ -127,11 +158,11 @@ public abstract class FileBase<T> where T : FileBase<T>, new() {
     /// Function for migrating old values to new values.
     /// </summary>
     /// <param name="fileVersion">Number indicating current file version, be sure to increment this on successful migration</param>
-    /// <param name="jObject">The JSON properties of the loaded config file</param>
+    /// <param name="fileData"></param>
     /// <returns>true if the migration step succeeded and <paramref name="fileVersion"/> was incremented; false if no migration was performed.</returns>
     /// <remarks>
     /// Version will be 0 if migrating from a file before this system was implemented.
     /// </remarks>
-    protected virtual bool TryMigrateStep(ref int fileVersion, JObject jObject)
+    protected virtual bool TryMigrateStep(ref int fileVersion, JsonObject fileData)
         => false;
 }

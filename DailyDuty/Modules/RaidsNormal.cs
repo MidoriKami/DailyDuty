@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
@@ -12,7 +14,6 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiToolKit.Components.Builders;
 using KamiToolKit.Nodes;
-using Newtonsoft.Json.Linq;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 
@@ -166,21 +167,21 @@ public class RaidsNormalConfig : ModuleConfigFile<RaidsNormalConfig> {
 
     public List<RaidEntry> TrackedRaids { get; set; } = [];
 
-    protected override bool TryMigrateStep(ref int fileVersion, JObject jObject) {
+    protected override bool TryMigrateStep(ref int fileVersion, JsonObject fileData) {
         switch (fileVersion) {
             case 1:
-                var trackedTasks = jObject["TrackedTasks"]?.ToObject<Dictionary<uint, bool>>() ?? [];
+                var trackedTasks = fileData["TrackedTasks"]?.Deserialize<Dictionary<uint, bool>>() ?? [];
                 var trackedRaids = trackedTasks
                     .Where(kv => kv.Value)
                     .Select(kv => new RaidEntry(kv.Key, false))
                     .ToList();
 
-                jObject[nameof(TrackedRaids)] = JArray.FromObject(trackedRaids);
-                jObject.Remove("TrackedTasks");
+                fileData[nameof(TrackedRaids)] = JsonSerializer.SerializeToNode(trackedRaids);
+                fileData.Remove("TrackedTasks");
                 fileVersion = 2;
                 return true;
         }
 
-        return base.TryMigrateStep(ref fileVersion, jObject);
+        return base.TryMigrateStep(ref fileVersion, fileData);
     }
 }
