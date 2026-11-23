@@ -9,6 +9,13 @@ using Dalamud.Plugin.Services;
 
 namespace DailyDuty.Classes;
 
+public static class SerializerOptions {
+    public static readonly JsonSerializerOptions Options = new() {
+        WriteIndented = true,
+        IncludeFields = true,
+    };
+}
+
 public abstract class FileBase<T> where T : FileBase<T>, new() {
 
     /// <summary>
@@ -86,7 +93,7 @@ public abstract class FileBase<T> where T : FileBase<T>, new() {
         IPluginLog.Get().Debug($"File {fileName} has no version defined. Setting to current version {targetVersion}");
         fileData[nameof(Version)] = targetVersion;
 
-        var migratedInstance = fileData.Deserialize<T>() ?? new T();
+        var migratedInstance = fileData.Deserialize<T>(SerializerOptions.Options) ?? new T();
         await FileHelpers.SaveFile(migratedInstance, fileInfo.FullName);
         return migratedInstance;
     }
@@ -112,13 +119,13 @@ public abstract class FileBase<T> where T : FileBase<T>, new() {
         if (fileVersion == targetVersion && initialVersion < targetVersion) {
             IPluginLog.Get().Debug($"Successfully migrated {fileName} from version {initialVersion} to version {targetVersion}");
 
-            var migratedInstance = fileData.Deserialize<T>() ?? new T();
+            var migratedInstance = fileData.Deserialize<T>(SerializerOptions.Options) ?? new T();
             await FileHelpers.SaveFile(migratedInstance, fileInfo.FullName);
             return migratedInstance;
         }
 
         // No migration needed; deserialize the file as-is.
-        return fileData.Deserialize<T>() ?? new T();
+        return fileData.Deserialize<T>(SerializerOptions.Options) ?? new T();
     }
 
     public Task Save() {

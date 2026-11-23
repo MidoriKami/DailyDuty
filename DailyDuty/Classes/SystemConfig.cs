@@ -7,10 +7,10 @@ public class SystemConfig : FileBase<SystemConfig> {
     protected override string FileName => "system.config.json";
     public override int Version => 3;
 
-    public bool EnableSceneEventLogging;
-    public bool IsDebugMode = false;
+    public bool EnableSceneEventLogging { get; set; }
+    public bool IsDebugMode { get; set; }
 
-    public HashSet<string> EnabledModules = [];
+    public HashSet<string> EnabledModules { get; set; } = [];
 
     protected override bool TryMigrateStep(ref int fileVersion, JsonObject fileData) {
         switch (fileVersion) {
