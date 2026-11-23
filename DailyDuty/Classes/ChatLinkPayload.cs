@@ -12,7 +12,7 @@ using FFXIVClientStructs.Interop;
 namespace DailyDuty.Classes;
 
 public class ChatLinkPayload : IDisposable {
-    private static uint commandIdCounter = 1;
+    private static uint commandIdCounter = (uint)new Random().Next(1, int.MaxValue);
 
     public DalamudLinkPayload Payload { get; }
     public Action ClickAction { get; }
