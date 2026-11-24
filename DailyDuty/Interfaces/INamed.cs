@@ -1,4 +1,4 @@
-﻿namespace DailyDuty.Interfaces;
+namespace DailyDuty.Interfaces;
 
 /// <summary>
 /// Interface representing things with names.

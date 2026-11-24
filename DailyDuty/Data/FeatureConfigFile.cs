@@ -1,4 +1,4 @@
-﻿using DailyDuty.Interfaces;
+using DailyDuty.Interfaces;
 
 namespace DailyDuty.Data;
 
