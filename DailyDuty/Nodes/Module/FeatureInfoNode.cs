@@ -16,7 +16,7 @@ public class FeatureInfoNode : ResNode, INativeUpdatable {
         layoutContainer = NativeUiBuilder.Create(buildAction => buildAction
             .TextCentered(feature.DisplayName, 14)
             .Separator()
-            .Dummy(1.0f)
+            .Spacer(1.0f)
             .BuildAction(BuildFeatureUi));
 
         layoutContainer.AttachNode(this);

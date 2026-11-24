@@ -92,7 +92,7 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
                     .CircleButton(CircleButtonIcon.Cross, OnRemovePanelClicked, button => {
                         button.Size = new Vector2(24.0f, 24.0f);
                     }))
-            .Dummy(8.0f)
+            .Spacer(8.0f)
             .AddNode(panelEditNode = new TodoPanelEditNode())
         );
 

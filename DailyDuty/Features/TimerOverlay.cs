@@ -105,7 +105,7 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
                 OnEditModuleSelected,
                 module => module.DisplayName,
                 node => node.LayoutFill = LayoutFill.Horizontal)
-            .Dummy(8.0f)
+            .Spacer(8.0f)
             .AddNode(timerEditNode = new TimerEditNode()));
 
     private void OnModuleSelected(TimerOverlayListItemNode timerOptionNode, IModule selectedModule) {

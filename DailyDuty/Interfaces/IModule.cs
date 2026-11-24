@@ -204,7 +204,7 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
     void IModule.BuildGenericConfig(NodeBuilder builder) => builder
         .TextCentered(Strings.NotificationSettingsNode_NotificationSettings, 14)
         .Separator()
-        .Dummy(5.0f)
+        .Spacer(5.0f)
         .Checkbox(Strings.NotificationSettingsNode_LoginStatus, Config.OnLoginMessage, val => {
             Config.OnLoginMessage = val;
             Config.Save();
@@ -217,34 +217,34 @@ public abstract class Module<T, TU> : IModule where T : ModuleDataFile<T>, new()
             Config.ResetMessages = val;
             Config.Save();
         })
-        .Dummy(10.0f)
+        .Spacer(10.0f)
         .TextCentered(Strings.NotificationSettingsNode_CustomStatus, 14)
         .Separator()
-        .Dummy(5.0f)
+        .Spacer(5.0f)
         .InputText(inputChanged => {
             Config.CustomStatusMessage = inputChanged.ToString();
             Config.Save();
         }, Config.CustomStatusMessage)
-        .Dummy(10.0f)
+        .Spacer(10.0f)
         .TextCentered(Strings.NotificationSettingsNode_CustomReset, 14)
         .Separator()
-        .Dummy(5.0f)
+        .Spacer(5.0f)
         .InputText(inputChanged => {
             Config.CustomResetMessage = inputChanged.ToString();
             Config.Save();
         }, Config.CustomResetMessage)
-        .Dummy(10.0f)
+        .Spacer(10.0f)
         .TextCentered(Strings.NotificationSettingsNode_ChatChannel, 14)
         .Separator()
-        .Dummy(5.0f)
+        .Spacer(5.0f)
         .Combo(Config.MessageChatChannel, channel => {
             Config.MessageChatChannel = channel;
             Config.Save();
         })
-        .Dummy(10.0f)
+        .Spacer(10.0f)
         .TextCentered(Strings.DataNodeBase_SnoozeTooltip, 14)
         .Separator()
-        .Dummy(5.0f)
+        .Spacer(5.0f)
         .TextButton(Config.Suppressed ? Strings.DataNodeBase_Unsnooze : Strings.DataNodeBase_Snooze, () => {
             Config.Suppressed = !Config.Suppressed;
             suppressionButton?.String = Config.Suppressed ? Strings.DataNodeBase_Unsnooze : Strings.DataNodeBase_Snooze;

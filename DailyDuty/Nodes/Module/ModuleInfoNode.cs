@@ -23,7 +23,7 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
         layoutContainer = NativeUiBuilder.Create(buildAction => buildAction
             .TextCentered(module.DisplayName, 14)
             .Separator()
-            .Dummy(1.0f)
+            .Spacer(1.0f)
             .TabbedContent(tabBar => tabBar
                 .AddTab("Status", BuildStatusTab)
                 .AddTab("Data", BuildDataTab)
@@ -74,43 +74,43 @@ public class ModuleInfoNode : ResNode, INativeUpdatable {
 
     private void BuildStatusTab(NodeBuilder statusBuilder) {
         statusBuilder
-            .Dummy(10.0f)
+            .Spacer(10.0f)
             .TextCentered(Strings.GenericDataNode_ModuleStatus, 14)
             .Separator()
-            .Dummy(6.0f)
+            .Spacer(6.0f)
             .TextCentered("STATUS TEXT", 14, out statusNode)
-            .Dummy(28.0f)
+            .Spacer(28.0f)
             .TextCentered(Strings.GenericDataNode_NextReset, 14)
             .Separator()
-            .Dummy(6.0f)
+            .Spacer(6.0f)
             .TextCentered("NEXT RESET", 14, out nextResetDateNode)
-            .Dummy(28.0f)
+            .Spacer(28.0f)
             .TextCentered(Strings.GenericDataNode_TimeRemaining, 14)
             .Separator()
-            .Dummy(6.0f)
+            .Spacer(6.0f)
             .TextCentered("TIME REMAINING", 14, out nextResetTimeRemainingNode);
 
         if (module.GetWindowEndTime() is not null) {
             statusBuilder
-                .Dummy(28.0f)
+                .Spacer(28.0f)
                 .TextCentered(Strings.GenericDataNode_AvailableUntil, 14)
                 .Separator()
-                .Dummy(6.0f)
+                .Spacer(6.0f)
                 .TextCentered("AVAILABLE UNTIL", 14, out windowEndDateNode)
-                .Dummy(28.0f)
+                .Spacer(28.0f)
                 .TextCentered(Strings.GenericDataNode_TimeRemaining, 14)
                 .Separator()
-                .Dummy(6.0f)
+                .Spacer(6.0f)
                 .TextCentered("REMAINING", 14, out windowEndTimeRemainingNode);
         }
     }
 
     private void BuildDataTab(NodeBuilder dataBuilder)
         => dataBuilder
-            .Dummy(10.0f)
+            .Spacer(10.0f)
             .TextCentered(Strings.DataNodeBase_ModuleData, 14)
             .Separator()
-            .Dummy(5.0f)
+            .Spacer(5.0f)
             .BuildAction(module.BuildDataUi);
 
     private void BuildConfigTab(NodeBuilder configBuilder) {
