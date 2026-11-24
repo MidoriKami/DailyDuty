@@ -8,11 +8,11 @@ using DailyDuty.Interfaces;
 using Dalamud.Game.NativeWrapper;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Classes;
-using KamiToolKit.ContextMenu;
-using KamiToolKit.Enums;
-using KamiToolKit.Nodes;
-using KamiToolKit.UiOverlay;
+using KamiToolKit.Core.Classes;
+using KamiToolKit.UI.ContextMenu;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Overlays;
 
 namespace DailyDuty.Nodes.Overlay;
 
@@ -129,11 +129,11 @@ public sealed class TodoPanelNode : OverlayNode {
         horizontalLineNode.Size = new Vector2(Width - 12.0f, 4.0f);
         horizontalLineNode.Position = new Vector2(6.0f, titleTextNode.Bounds.Bottom - 4.0f);
 
-        noModulesTextNode.Size = new Vector2(Width - 48.0f, Height - horizontalLineNode.Bounds.Bottom - 20.0f);
-        noModulesTextNode.Position = new Vector2(18.0f, horizontalLineNode.Bounds.Bottom + 6.0f);
+        noModulesTextNode.Size = new Vector2(Width - 48.0f, 24.0f);
+        noModulesTextNode.Position = new Vector2(18.0f, horizontalLineNode.Bounds.Bottom + 6.0f + (Height - horizontalLineNode.Bounds.Bottom - 20.0f - 24.0f) / 2.0f);
 
-        moduleListNode.Size = noModulesTextNode.Size;
-        moduleListNode.Position = noModulesTextNode.Position;
+        moduleListNode.Size = new Vector2(Width - 48.0f, Height - horizontalLineNode.Bounds.Bottom - 20.0f);
+        moduleListNode.Position = new Vector2(PanelConfig.ListXOffset, horizontalLineNode.Bounds.Bottom + 6.0f);
     }
 
     protected override unsafe void OnUpdate() {
@@ -164,6 +164,8 @@ public sealed class TodoPanelNode : OverlayNode {
             if (Math.Abs(Width - PanelConfig.Width) > 0.5f) {
                 Size = new Vector2(PanelConfig.Width, Height);
             }
+
+            moduleListNode.Position = new Vector2(PanelConfig.ListXOffset, horizontalLineNode.Bounds.Bottom + 6.0f);
         }
 
         var changed = false;
@@ -200,11 +202,6 @@ public sealed class TodoPanelNode : OverlayNode {
         if (Math.Abs(Height - desiredHeight) > 0.5f) {
             Size = new Vector2(Width, desiredHeight);
         }
-
-        var visibleCount = previousVisibility.Values.Count(v => v);
-        var listYOffset = visibleCount <= 1 ? 6.0f : 0.0f;
-        moduleListNode.Position = new Vector2(18.0f, horizontalLineNode.Bounds.Bottom + 6.0f + listYOffset);
-        noModulesTextNode.Position = moduleListNode.Position;
     }
 
     public void Show() {

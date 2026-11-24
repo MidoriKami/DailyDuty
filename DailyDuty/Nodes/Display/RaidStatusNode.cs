@@ -2,8 +2,8 @@ using DailyDuty.Classes;
 using DailyDuty.Enums;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Interfaces;
-using KamiToolKit.Nodes;
+using KamiToolKit.Core.Interfaces;
+using KamiToolKit.UI.Nodes;
 using Lumina.Excel.Sheets;
 
 namespace DailyDuty.Nodes.Display;

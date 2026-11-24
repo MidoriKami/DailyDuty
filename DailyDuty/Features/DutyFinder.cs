@@ -6,10 +6,10 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Classes;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Controllers;
-using KamiToolKit.Nodes;
+using KamiToolKit.Core.Classes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.Services.Controllers;
+using KamiToolKit.UI.Nodes;
 
 namespace DailyDuty.Features;
 

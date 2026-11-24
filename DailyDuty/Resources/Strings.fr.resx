@@ -773,4 +773,7 @@
     <data name="Raids_NoneTracked" xml:space="preserve">
     <value>No raids are being tracked. Enable raids in the config to start tracking.</value>
   </data>
+    <data name="ServerInfoBar_TimerModes" xml:space="preserve">
+    <value>Timer Modes</value>
+  </data>
 </root>

@@ -9,9 +9,9 @@ using Dalamud.Game.ClientState.Conditions;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Enums;
-using KamiToolKit.Nodes;
-using KamiToolKit.UiOverlay;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Overlays;
 
 namespace DailyDuty.Nodes.Overlay;
 

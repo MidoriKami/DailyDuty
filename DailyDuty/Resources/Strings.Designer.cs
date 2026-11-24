@@ -1959,6 +1959,15 @@ namespace Resources {
                 return ResourceManager.GetString("TodoOverlay_Panels", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///     Looks up a localized string similar to Select Panel.
+        /// </summary>
+        internal static string TodoOverlay_PanelsPlaceholder {
+            get {
+                return ResourceManager.GetString("TodoOverlay_PanelsPlaceholder", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///     Looks up a localized string similar to Pin to Quest List.

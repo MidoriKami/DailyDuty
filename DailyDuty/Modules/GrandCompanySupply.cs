@@ -7,8 +7,8 @@ using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Nodes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.UI.Nodes;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 

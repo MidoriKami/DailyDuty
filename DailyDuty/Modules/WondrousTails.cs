@@ -9,8 +9,8 @@ using Dalamud.Game.DutyState;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Nodes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.UI.Nodes;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

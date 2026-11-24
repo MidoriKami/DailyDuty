@@ -4,10 +4,10 @@ using DailyDuty.Enums;
 using DailyDuty.Features;
 using DailyDuty.Interfaces;
 using Dalamud.Interface;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Enums;
-using KamiToolKit.Interfaces;
-using KamiToolKit.Nodes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.Core.Interfaces;
+using KamiToolKit.UI.Nodes;
 
 namespace DailyDuty.Nodes.Overlay;
 

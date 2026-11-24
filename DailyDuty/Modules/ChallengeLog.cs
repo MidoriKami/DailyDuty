@@ -14,8 +14,8 @@ using Dalamud.Game.DutyState;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Nodes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.UI.Nodes;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 

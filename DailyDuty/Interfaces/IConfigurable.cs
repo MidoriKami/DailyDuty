@@ -1,4 +1,4 @@
-using KamiToolKit.Components.Builders;
+using KamiToolKit.Controls.Builders;
 
 namespace DailyDuty.Interfaces;
 

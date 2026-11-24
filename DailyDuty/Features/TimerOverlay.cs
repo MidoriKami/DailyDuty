@@ -10,10 +10,10 @@ using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Overlay;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Enums;
-using KamiToolKit.Interfaces;
-using KamiToolKit.UiOverlay;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.Core.Interfaces;
+using KamiToolKit.UI.Overlays;
 
 namespace DailyDuty.Features;
 

@@ -735,6 +735,9 @@
   <data name="TodoOverlay_NewPanel" xml:space="preserve">
     <value>New Panel</value>
   </data>
+  <data name="TodoOverlay_PanelsPlaceholder" xml:space="preserve">
+    <value>Select Panel</value>
+  </data>
   <data name="WondrousTails_StickerAlreadyAvailable" xml:space="preserve">
     <value>Sticker is already available for this duty, be sure to claim it!</value>
   </data>

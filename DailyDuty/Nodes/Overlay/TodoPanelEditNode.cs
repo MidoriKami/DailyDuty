@@ -1,10 +1,10 @@
 using DailyDuty.Features;
 using DailyDuty.Interfaces;
-using KamiToolKit.Classes;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Enums;
-using KamiToolKit.Interfaces;
-using KamiToolKit.Nodes;
+using KamiToolKit.Core.Classes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.Core.Interfaces;
+using KamiToolKit.UI.Nodes;
 
 namespace DailyDuty.Nodes.Overlay;
 
@@ -20,6 +20,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
     private ColorEditNode outlineColorEdit = null!;
     private SliderNode spacingSlider = null!;
     private SliderNode widthSlider = null!;
+    private SliderNode listXOffsetSlider = null!;
     private FloatSliderNode alphaSlider = null!;
     private FloatSliderNode buttonAlphaSlider = null!;
     private FloatSliderNode scaleSlider = null!;
@@ -35,6 +36,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
     private TodoPanelConfig? panel;
     private TodoOverlayConfig? config;
     private TodoPanelNode? panelNode;
+    private IDropDownNode<TodoPanelConfig?>? dropDownNode;
 
     public TodoPanelEditNode() {
         layoutContainer = NativeUiBuilder.Create(builder => builder
@@ -114,6 +116,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 panel.Label = newValue.IsEmpty ? Strings.TodoOverlay_NewPanel : newValue.ToString();
                 panel.IsDirty = true;
                 config?.Save();
+                dropDownNode?.RefreshLabel();
             },
             out labelInput));
 
@@ -180,6 +183,15 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out widthSlider))
+        .Row("List X Offset", right => right
+            .IntSlider(18, 0, 100, newListXOffset => {
+                if (panel is null) return;
+
+                panel.ListXOffset = newListXOffset;
+                panel.IsDirty = true;
+                config?.Save();
+            },
+            out listXOffsetSlider))
         .Row("Item Spacing", right => right
             .IntSlider(0, -6, 20, newSpacing => {
                 if (panel is null) return;
@@ -246,11 +258,12 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
         layoutContainer.Size = Size;
     }
 
-    public void SetPanel(TodoPanelConfig? newPanel, TodoOverlayConfig? newConfig, TodoPanelNode? newPanelNode = null) {
+    public void SetPanel(TodoPanelConfig? newPanel, TodoOverlayConfig? newConfig, TodoPanelNode? newPanelNode = null, IDropDownNode<TodoPanelConfig?>? newDropDownNode = null) {
         if (newPanel is null) {
             panel = null;
             config = null;
             panelNode = null;
+            dropDownNode = null;
 
             optionNode!.IsVisible = false;
             warningNode!.IsVisible = true;
@@ -260,6 +273,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
         panel = newPanel;
         config = newConfig;
         panelNode = newPanelNode;
+        dropDownNode = newDropDownNode;
 
         optionNode!.IsVisible = true;
         warningNode!.IsVisible = false;
@@ -282,6 +296,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
         // Set layout
         scaleSlider.SetValueSilent(panel.Scale);
         widthSlider.SetValueSilent(panel.Width);
+        listXOffsetSlider.SetValueSilent(panel.ListXOffset);
         spacingSlider.SetValueSilent(panel.ItemSpacing);
         alignmentCombo.SelectedOption = panel.Alignment;
         showFrameCheck.SetValueSilent(panel.ShowFrame);

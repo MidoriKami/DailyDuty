@@ -4,8 +4,8 @@ using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Nodes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.UI.Nodes;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

@@ -6,11 +6,11 @@ using DailyDuty.Classes;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Overlay;
 using Dalamud.Plugin.Services;
-using KamiToolKit.Classes;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Enums;
-using KamiToolKit.Nodes;
-using KamiToolKit.UiOverlay;
+using KamiToolKit.Core.Classes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Overlays;
 
 namespace DailyDuty.Features;
 
@@ -108,7 +108,7 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
         dropDownNode.SelectedOption = newPanel;
 
         selectedPanel = newPanel;
-        panelEditNode?.SetPanel(newPanel, Config, panelNodes[newPanel]);
+        panelEditNode?.SetPanel(newPanel, Config, panelNodes[newPanel], dropDownNode);
     }
 
     private void OnRemovePanelClicked() {
@@ -123,12 +123,12 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
         dropDownNode.SelectedOption = null;
 
         selectedPanel = null;
-        panelEditNode?.SetPanel(null, Config);
+        panelEditNode?.SetPanel(null, Config, null, dropDownNode);
     }
 
     private void OnEditPanelSelected(TodoPanelConfig? selectedPanelConfig) {
         selectedPanel = selectedPanelConfig;
-        panelEditNode?.SetPanel(selectedPanelConfig, Config, selectedPanelConfig is not null ? panelNodes[selectedPanelConfig] : null);
+        panelEditNode?.SetPanel(selectedPanelConfig, Config, selectedPanelConfig is not null ? panelNodes[selectedPanelConfig] : null, dropDownNode);
     }
 
     private void BuildPanelNodes() {
@@ -181,6 +181,7 @@ public class TodoPanelConfig {
     public float Alpha { get; set; } = 1.0f;
     public float ButtonAlpha { get; set; } = 1.0f;
     public int Width { get; set; } = 225;
+    public int ListXOffset { get; set; } = 18;
     public bool AttachToQuestList { get; set; }
     public bool AutoHideWhenEmpty { get; set; }
 

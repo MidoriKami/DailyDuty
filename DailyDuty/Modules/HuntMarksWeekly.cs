@@ -9,8 +9,8 @@ using DailyDuty.Nodes.Display;
 using DailyDuty.Utilities;
 using Lumina.Excel.Sheets;
 using Dalamud.Plugin.Services;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Nodes;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.UI.Nodes;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

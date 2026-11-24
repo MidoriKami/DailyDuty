@@ -11,7 +11,7 @@ using Dalamud.Hooking;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
-using KamiToolKit.Extensions;
+using KamiToolKit.Core.Extensions;
 
 namespace DailyDuty.Controllers;
 

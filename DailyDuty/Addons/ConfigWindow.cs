@@ -3,11 +3,11 @@ using System.Linq;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Module;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.BaseTypes;
-using KamiToolKit.Components.Builders;
-using KamiToolKit.Enums;
-using KamiToolKit.Extensions;
-using KamiToolKit.Nodes;
+using KamiToolKit.Core.Primitives;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.Core.Enums;
+using KamiToolKit.Core.Extensions;
+using KamiToolKit.UI.Nodes;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Addons;

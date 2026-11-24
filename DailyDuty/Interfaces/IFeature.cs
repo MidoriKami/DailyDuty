@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using DailyDuty.Classes;
 using DailyDuty.Enums;
-using KamiToolKit.Components.Builders;
+using KamiToolKit.Controls.Builders;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Interfaces;

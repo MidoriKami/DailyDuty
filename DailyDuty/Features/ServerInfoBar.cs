@@ -6,7 +6,7 @@ using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
 using Dalamud.Game.Gui.Dtr;
 using Dalamud.Plugin.Services;
-using KamiToolKit.Components.Builders;
+using KamiToolKit.Controls.Builders;
 
 namespace DailyDuty.Features;
 

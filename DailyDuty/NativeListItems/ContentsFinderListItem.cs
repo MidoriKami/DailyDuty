@@ -2,7 +2,7 @@ using Lumina.Excel.Sheets;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Classes;
+using KamiToolKit.Core.Classes;
 
 namespace DailyDuty.NativeListItems;
 

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit.Classes;
-using KamiToolKit.Interfaces;
-using KamiToolKit.Nodes;
+using KamiToolKit.Core.Classes;
+using KamiToolKit.Core.Interfaces;
+using KamiToolKit.UI.Nodes;
 
 namespace DailyDuty.Nodes.Module;
 
