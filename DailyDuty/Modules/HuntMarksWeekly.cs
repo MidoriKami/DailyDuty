@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Config;
@@ -10,7 +10,7 @@ using DailyDuty.Utilities;
 using Lumina.Excel.Sheets;
 using Dalamud.Plugin.Services;
 using KamiToolKit.Controls.Builders;
-using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

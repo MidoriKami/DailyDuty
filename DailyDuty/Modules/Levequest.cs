@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;

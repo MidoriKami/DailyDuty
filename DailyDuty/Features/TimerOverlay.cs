@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Overlay;
@@ -13,7 +13,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.Core.Enums;
 using KamiToolKit.Core.Interfaces;
-using KamiToolKit.UI.Overlays;
+using KamiToolKit.UI.Overlays.UiOverlay;
 
 namespace DailyDuty.Features;
 

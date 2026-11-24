@@ -1,4 +1,4 @@
-﻿using DailyDuty.Classes;
+using DailyDuty.UI;
 using Dalamud.Game.Text;
 using Dalamud.Plugin.Services;
 using Dalamud.Utility;

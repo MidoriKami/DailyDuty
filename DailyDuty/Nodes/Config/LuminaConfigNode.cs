@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Utilities;
 using KamiToolKit.Core.Interfaces;
 using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.ComponentNode;
 using Lumina.Excel;
 
 namespace DailyDuty.Nodes.Config;

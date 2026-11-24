@@ -11,7 +11,8 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Core.Enums;
 using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Overlays;
+using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Overlays.UiOverlay;
 
 namespace DailyDuty.Nodes.Overlay;
 

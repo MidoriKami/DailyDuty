@@ -2,6 +2,7 @@ using DailyDuty.Utilities;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Core.Interfaces;
 using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Excel;
 
 namespace DailyDuty.Nodes.Display;

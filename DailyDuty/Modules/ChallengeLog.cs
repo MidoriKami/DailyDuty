@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
+using DailyDuty.UI;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Config;
@@ -15,7 +16,7 @@ using Dalamud.Plugin.Services;
 using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using KamiToolKit.Controls.Builders;
-using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 

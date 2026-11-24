@@ -1,7 +1,7 @@
 using DailyDuty.Interfaces;
-using KamiToolKit.Core.Primitives;
 using KamiToolKit.Core.Enums;
-using KamiToolKit.Core.Interfaces;
+using KamiToolKit.Core.Layout;
+using KamiToolKit.Core.Primitives.NodeBase;
 using KamiToolKit.UI.Nodes;
 
 namespace DailyDuty.Nodes.Module;

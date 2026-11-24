@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using Lumina.Excel.Sheets;

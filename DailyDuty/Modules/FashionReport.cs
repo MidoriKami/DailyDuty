@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
+using DailyDuty.UI;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Utilities;
@@ -9,6 +10,7 @@ using FFXIVClientStructs.FFXIV.Client.Game.Event;
 using FFXIVClientStructs.FFXIV.Client.Game.Object;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;

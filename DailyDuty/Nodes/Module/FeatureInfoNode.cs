@@ -1,6 +1,6 @@
 using DailyDuty.Interfaces;
 using KamiToolKit.Controls.Builders;
-using KamiToolKit.Core.Interfaces;
+using KamiToolKit.Core.Layout;
 using KamiToolKit.UI.Nodes;
 
 namespace DailyDuty.Nodes.Module;

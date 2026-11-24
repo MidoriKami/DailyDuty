@@ -3,7 +3,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
+using DailyDuty.UI;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Config;
@@ -13,7 +14,7 @@ using Dalamud.Game.Inventory.InventoryEventArgTypes;
 using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using KamiToolKit.Controls.Builders;
-using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Excel.Sheets;
 using Lumina.Text.ReadOnly;
 

@@ -3,7 +3,8 @@ using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
+using DailyDuty.UI;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
 using DailyDuty.NativeListItems;
@@ -21,6 +22,7 @@ using KamiToolKit.Core.Enums;
 using KamiToolKit.Core.Extensions;
 using KamiToolKit.UI.Nodes;
 using Dalamud.Utility;
+using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Text.ReadOnly;
 using ContentRoulette = Lumina.Excel.Sheets.ContentRoulette;
 

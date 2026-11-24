@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Interfaces;
 using DailyDuty.Nodes.Overlay;
 using Dalamud.Plugin.Services;
-using KamiToolKit.Core.Classes;
+using KamiToolKit.UI;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.Core.Enums;
-using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Overlays;
+using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Overlays.UiOverlay;
 
 namespace DailyDuty.Features;
 

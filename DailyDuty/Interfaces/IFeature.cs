@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using DailyDuty.Classes;
+using DailyDuty.Data;
 using DailyDuty.Enums;
 using KamiToolKit.Controls.Builders;
 using Lumina.Text.ReadOnly;

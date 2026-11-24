@@ -1,10 +1,14 @@
 using DailyDuty.Features;
 using DailyDuty.Interfaces;
-using KamiToolKit.Core.Classes;
+using KamiToolKit.UI;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.Core.Enums;
 using KamiToolKit.Core.Interfaces;
+using KamiToolKit.Core.Interfaces.Nodes;
+using KamiToolKit.Core.Layout;
 using KamiToolKit.UI.Nodes;
+using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Layout;
 
 namespace DailyDuty.Nodes.Overlay;
 
