@@ -71,7 +71,7 @@ public class Levequest : Module<LevequestData, LevequestConfig>, ISpecialResetta
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? $"{Config.NotificationThreshold - RemainingAllowances} {Strings.StatusMessages_LevequestIncomplete}"
+        message ?? $"{RemainingAllowances - Config.NotificationThreshold} {Strings.StatusMessages_LevequestIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
