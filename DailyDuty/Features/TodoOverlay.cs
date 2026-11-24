@@ -22,7 +22,6 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
 
     private OverlayController? overlayController;
 
-
     private readonly Dictionary<TodoPanelConfig, TodoPanelNode> panelNodes = [];
     private TodoPanelEditNode? panelEditNode;
     private TodoPanelConfig? selectedPanel;
@@ -124,7 +123,7 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
         dropDownNode.SelectedOption = null;
 
         selectedPanel = null;
-        panelEditNode?.SetPanel(null, Config, null);
+        panelEditNode?.SetPanel(null, Config);
     }
 
     private void OnEditPanelSelected(TodoPanelConfig? selectedPanelConfig) {
