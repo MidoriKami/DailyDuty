@@ -64,7 +64,7 @@ public class MiniCactpot : Module<MiniCactpotData, MiniCactpotConfig>, IDailyRes
         Config.MessageChatChannel,
         goldSaucerTeleportPayload,
         DisplayName,
-        message ?? $"{Data.AllowancesRemaining} {Strings.StatusMessages_TicketRemaining}"
+        message ?? $"{Data.AllowancesRemaining} Attempt(s) Remaining"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(

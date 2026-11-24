@@ -53,7 +53,7 @@ public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyRes
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? $"{RemainingAllowances} {Strings.StatusMessages_QuestIncomplete}"
+        message ?? $"{RemainingAllowances - Config.NotificationThreshold} Quest(s) left to reach Threshold"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(

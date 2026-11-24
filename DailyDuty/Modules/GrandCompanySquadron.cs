@@ -99,6 +99,7 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         DisplayName,
         message ?? GetCompletionStatus() switch {
             CompletionStatus.Complete => Strings.StatusMessages_MissionResultsReady,
+            CompletionStatus.ResultsAvailable => Strings.StatusMessages_MissionResultsReady,
             CompletionStatus.InProgress => Strings.GrandCompanySquadron_MissionStarted,
             _ => Strings.StatusMessages_MissionNotStarted,
         }

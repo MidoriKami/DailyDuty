@@ -174,7 +174,7 @@ public class WondrousTails : Module<WondrousTailsData, WondrousTailsConfig>, IWe
         { IsNewBookAvailable: true } when Config.UnclaimedBookWarning => Strings.WondrousTails_NewBookAvailable,
         { PlayerHasBook: true, IsBookExpired: false } when Config.StickerAvailableNotice && IsStickerAvailable => Strings.WondrousTails_StickerAvailable,
         { SecondChancePoints: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, IsBookExpired: false } when Config.ShuffleAvailableNotice => Strings.WondrousTails_ShuffleAvailable,
-        _ => $"{9 - PlacedStickers} {Strings.WondrousTails_PlacedStickers}",
+        _ => $"{9 - PlacedStickers} Stickers Remaining",
     };
 
     public unsafe bool PlayerHasBook

@@ -70,7 +70,7 @@ public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyRe
         Config.MessageChatChannel,
         idyllShireTeleportPayload,
         DisplayName,
-        message ?? Strings.StatusMessages_UnrealTrialIncomplete
+        message ?? "Unreal Trial for Faux Hollows Incomplete"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
