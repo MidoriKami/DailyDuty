@@ -20,7 +20,7 @@ using AgentId = Dalamud.Game.Agent.AgentId;
 
 namespace DailyDuty.Modules;
 
-public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompanySquadronConfig>, IWeeklyResettable, IFrameworkUpdatable, INpcInteractListener {
+public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompanySquadronConfig>, IWeeklyResettable, IFrameworkUpdatable, INpcInteractListener, IClickableTooltip {
 
     public override string DisplayName => Strings.GrandCompanySquadron_DisplayName;
 
@@ -92,6 +92,16 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
 
         return CompletionStatus.Incomplete;
     }
+
+    public ReadOnlySeString GetTooltip() => GetCompletionStatus() switch {
+        CompletionStatus.Complete => Strings.GrandCompanySquadron_MissionCompleted,
+        CompletionStatus.ResultsAvailable => Strings.GrandCompanySquadron_StatusMessageResultsReady,
+        CompletionStatus.InProgress => $"{Strings.GrandCompanySquadron_MissionStarted}, {Strings.GrandCompanySquadron_CompletionTime}: {GetCompletionTimeString()}",
+        _ => Strings.GrandCompanySquadron_StatusMessageNotStarted,
+    };
+
+    public void OnTooltipClicked()
+        => grandCompanyTeleportPayload?.ClickAction();
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,

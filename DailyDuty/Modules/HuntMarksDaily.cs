@@ -15,7 +15,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class HuntMarksDaily : Module<HuntMarksDailyData, HuntMarksDailyConfig>, IDailyResettable, IConfigurable {
+public class HuntMarksDaily : Module<HuntMarksDailyData, HuntMarksDailyConfig>, IDailyResettable, IConfigurable, ITooltip {
 
     public override string DisplayName => Strings.HuntMarksDaily_DisplayName;
 
@@ -39,6 +39,14 @@ public class HuntMarksDaily : Module<HuntMarksDailyData, HuntMarksDailyConfig>, 
 
     public override void UpdateDataUi()
         => dataListNode?.Update();
+
+    public ReadOnlySeString GetTooltip() {
+        var incompleteMarks = MobHuntExtensions.GetValidHuntMarks(1)
+            .Where(mark => Config.TrackedHuntMarks.Contains(mark.RowId) && !Excel.IsComplete<MobHuntOrderType>(mark.RowId))
+            .Select(mark => mark.DisplayString.ToString());
+
+        return string.Join("\n", incompleteMarks);
+    }
 
     public void BuildConfigUi(NodeBuilder builder) => builder
         .List<MobHuntOrderType, LuminaConfigNode<MobHuntOrderType>>([.. MobHuntExtensions.GetValidHuntMarks(1)], OnTrackingDataChanged, listConfigure => {

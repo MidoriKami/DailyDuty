@@ -455,6 +455,9 @@
   <data name="FauxHollows_CompletionCount" xml:space="preserve">
     <value>Tentative actuelle complétée</value>
   </data>
+  <data name="FauxHollows_TooltipRemainingCompletions" xml:space="preserve">
+    <value>Il reste {0} complétion(s) du défi irréel.</value>
+  </data>
   <data name="GrandCompanySquadron_MissionCompleted" xml:space="preserve">
     <value>Mission accomplie</value>
   </data>
@@ -709,5 +712,8 @@
   </data>
   <data name="DutyFinder_NextReset" xml:space="preserve">
     <value>[DailyDuty] Time Until Next Reset</value>
+  </data>
+  <data name="Tooltip_AllowancesAboveThreshold" xml:space="preserve">
+    <value>{0} autorisation(s) au-dessus du seuil de notification</value>
   </data>
 </root>

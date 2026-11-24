@@ -10,7 +10,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, IWeeklyResettable, IConfigurable {
+public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, IWeeklyResettable, IConfigurable, ITooltip {
 
     public override string DisplayName => Strings.CustomDelivery_DisplayName;
 
@@ -35,6 +35,9 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
 
     public override void UpdateDataUi()
         => currentAllowances?.String = RemainingAllowances.ToString();
+
+    public ReadOnlySeString GetTooltip()
+        => string.Format(Strings.Tooltip_AllowancesAboveThreshold, RemainingAllowances - Config.NotificationThreshold);
 
     public void BuildConfigUi(NodeBuilder builder) => builder
         .TextCentered(Strings.CustomDelivery_ThresholdNote)

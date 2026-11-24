@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using DailyDuty.Enums;
 using DailyDuty.Features;
 using DailyDuty.Interfaces;
 using Dalamud.Game.NativeWrapper;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.UI;
@@ -96,17 +98,15 @@ public sealed class TodoPanelNode : OverlayNode {
             moduleListNode.AddNode(textNode);
             entryNodes[module] = textNode;
 
-            switch (module) {
-                case IClickableTooltip clickableTooltip:
-                    textNode.TextTooltip = clickableTooltip.GetTooltip();
-                    textNode.ShowClickableCursor = true;
-                    textNode.AddEvent(AtkEventType.MouseClick, clickableTooltip.OnTooltipClicked);
-                    break;
+            if (module is ITooltip tooltip) {
+                textNode.ShowClickableCursor = true;
+                textNode.AddNodeFlags(NodeFlags.HasCollision);
+                textNode.AddEvent(AtkEventType.MouseOver, () => ShowModuleTooltip(textNode, tooltip));
+                textNode.AddEvent(AtkEventType.MouseOut, textNode.HideTextTooltip);
 
-                case ITooltip tooltip:
-                    textNode.TextTooltip = tooltip.GetTooltip();
-                    textNode.ShowClickableCursor = true;
-                    break;
+                if (module is IClickableTooltip clickableTooltip) {
+                    textNode.AddEvent(AtkEventType.MouseClick, clickableTooltip.OnTooltipClicked);
+                }
             }
         }
 
@@ -115,6 +115,16 @@ public sealed class TodoPanelNode : OverlayNode {
             PanelConfig.Position = Position;
             config.Save();
         };
+    }
+
+    private static void ShowModuleTooltip(TextNode textNode, ITooltip tooltip) {
+        Task.Run(async () => {
+            var tooltipInfo = tooltip.GetTooltip();
+            await IFramework.Get().Run(() => {
+                textNode.TextTooltip = tooltipInfo;
+                textNode.ShowTextTooltip(tooltipInfo);
+            });
+        });
     }
 
     protected override void OnSizeChanged() {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DailyDuty.Data;
 using DailyDuty.Enums;
@@ -16,7 +17,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig>, IWeeklyResettable, IConfigurable, IFrameworkUpdatable {
+public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig>, IWeeklyResettable, IConfigurable, IFrameworkUpdatable, IClickableTooltip {
 
     public override string DisplayName => Strings.MaskedCarnivale_DisplayName;
 
@@ -108,6 +109,19 @@ public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig
 
     protected override CompletionStatus GetCompletionStatus()
         => GetIncompleteCount() is not 0 ? CompletionStatus.Incomplete : CompletionStatus.Complete;
+
+    public ReadOnlySeString GetTooltip() {
+        var addonSheet = IDataManager.Get().GetExcelSheet<Addon>();
+
+        var incompleteTasks = Config.TrackedTasks
+            .Where(taskId => !Data.TaskData.GetValueOrDefault((int)taskId))
+            .Select(taskId => addonSheet.GetRow(taskId).Text.ToString());
+
+        return string.Join("\n", incompleteTasks);
+    }
+
+    public void OnTooltipClicked()
+        => uldahTeleportPayload?.ClickAction();
 
     private int GetIncompleteCount() {
         var count = 0;

@@ -14,7 +14,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class TreasureMap : Module<TreasureMapData, TreasureMapConfig>, ISpecialResettable {
+public class TreasureMap : Module<TreasureMapData, TreasureMapConfig>, ISpecialResettable, ITooltip {
 
     public override string DisplayName => Strings.TreasureMap_DisplayName;
 
@@ -53,6 +53,9 @@ public class TreasureMap : Module<TreasureMapData, TreasureMapConfig>, ISpecialR
 
         lastGatheredNode?.String = $"{shortDate} {shortTime}";
     }
+
+    public ReadOnlySeString GetTooltip()
+        => Strings.TreasureMap_Gatherable;
 
     protected override async Task ResetAsync() {
         Data.LastMapGatheredTime = DateTime.MinValue;
