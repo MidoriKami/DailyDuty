@@ -1,13 +1,18 @@
-﻿using System;
+using System;
 
 namespace DailyDuty.Extensions;
 
+/// <summary>
+/// Extension methods for TimeSpan formatting.
+/// </summary>
 public static class TimeSpanExtensions {
     extension(TimeSpan timeSpan) {
-        public string FormatTimespan(bool hideSeconds = false)
-            => hideSeconds ? $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}" : $"{timeSpan.Days:0}.{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
 
-        public string FormatTimeSpanShort(bool hideSeconds = false)
-            => hideSeconds ? $"{timeSpan.Hours:00}:{timeSpan.Minutes:00}" : $"{timeSpan.Hours:00}:{timeSpan.Minutes:00}:{timeSpan.Seconds:00}";
+        /// <summary>
+        /// Formats a TimeSpan as a string in the pattern d.hh:mm or d.hh:mm:ss.
+        /// </summary>
+        /// <param name="hideSeconds">Whether to exclude seconds from the output.</param>
+        public string FormatTime(bool hideSeconds = false)
+            => hideSeconds ? $"{timeSpan:d\\.hh\\:mm}" : $"{timeSpan:d\\.hh\\:mm\\:ss}";
     }
 }

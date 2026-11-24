@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -62,7 +62,7 @@ public static class FileHelpers {
             try {
                 var dataObject = await IReliableFileStorage.Get().ReadAllBytesAsync(fileInfo.FullName);
 
-                // If deserialize result is null, create a new instance instead and save it.
+                // If the loaded data doesn't match the expected length, create a new array instead.
                 if (dataObject.Length != length) {
                     dataObject = new byte[length];
                     await SaveFile(dataObject, filePath);
@@ -71,7 +71,7 @@ public static class FileHelpers {
                 return dataObject;
             }
             catch (Exception e) {
-                // If there is any kind of error loading the file, generate a new one instead and save it.
+                // If there is any kind of error loading the file, generate a new byte array instead and save it.
                 IPluginLog.Get().Error(e, $"Error trying to load file {filePath}, creating a new one instead.");
 
                 await SaveFile(new byte[length], filePath);
@@ -94,7 +94,7 @@ public static class FileHelpers {
     }
 
     public static FileInfo GetFileInfo(params string[] path) {
-        var directory = DailyDutyPlugin.PluginInterface.ConfigDirectory;
+        var directory = DailyDuty.PluginInterface.ConfigDirectory;
 
         for (var index = 0; index < path.Length - 1; index++) {
             directory = new DirectoryInfo(Path.Combine(directory.FullName, path[index]));
@@ -108,7 +108,7 @@ public static class FileHelpers {
 
     public static string GetCharacterPath() {
         if (!IClientState.Get().IsLoggedIn) {
-            throw new Exception("Character is not logged in.");
+            throw new InvalidOperationException("Character is not logged in.");
         }
 
         return IPlayerState.Get().ContentId.ToString();

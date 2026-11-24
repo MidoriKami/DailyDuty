@@ -1,0 +1,155 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DailyDuty.Data;
+using DailyDuty.UI;
+using DailyDuty.Enums;
+using DailyDuty.Interfaces;
+using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
+using KamiToolKit.Controls.Builders;
+using KamiToolKit.UI.Nodes;
+using Lumina.Excel.Sheets;
+using Lumina.Text.ReadOnly;
+
+namespace DailyDuty.Modules;
+
+public class GrandCompanyProvision : Module<GrandCompanyProvisionData, GrandCompanyProvisionConfig>, IDailyResettable, IConfigurable, IFrameworkUpdatable {
+
+    public override string DisplayName => Strings.GrandCompanyProvision_DisplayName;
+
+    public override GrandCompanyProvisionData Data { get; protected set; } = null!;
+    public override GrandCompanyProvisionConfig Config { get; protected set; } = null!;
+
+    private Dictionary<uint, TextNode>? statusNodes;
+
+    private ChatLinkPayload? grandCompanyTeleportPayload;
+
+    public override async Task EnableAsync() {
+        Data = await GrandCompanyProvisionData.Load();
+        Config = await GrandCompanyProvisionConfig.Load();
+
+        grandCompanyTeleportPayload = ChatLinkPayload.TeleportToGrandCompany();
+    }
+
+    public override Task DisableAsync() {
+        grandCompanyTeleportPayload?.Dispose();
+        grandCompanyTeleportPayload = null;
+
+        statusNodes = null;
+
+        return Task.CompletedTask;
+    }
+
+    public void BuildConfigUi(NodeBuilder builder) {
+        var classJobSheet = IDataManager.Get().GetExcelSheet<ClassJob>();
+
+        foreach (var (job, _) in Data.ClassJobStatus) {
+            var classJob = classJobSheet.GetRow(job);
+
+            builder.Checkbox(classJob.NameEnglish.ToString(), Config.TrackedClasses.GetValueOrDefault(job, false), isChecked => {
+                Config.TrackedClasses[job] = isChecked;
+                Config.Save();
+            });
+        }
+    }
+
+    public override void BuildDataUi(NodeBuilder builder) {
+        statusNodes = [];
+
+        var classJobSheet = IDataManager.Get().GetExcelSheet<ClassJob>();
+
+        foreach (var (job, _) in Data.ClassJobStatus) {
+            var classJob = classJobSheet.GetRow(job);
+
+            builder.DataRow(classJob.NameEnglish.ToString(), job.ToString(), out var statusNode);
+            statusNodes.TryAdd(job, statusNode);
+        }
+    }
+
+    public override void UpdateDataUi() {
+        if (statusNodes == null) return;
+
+        foreach (var (job, node) in statusNodes) {
+            node?.String = Data.ClassJobStatus[job] ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
+        }
+    }
+
+    public unsafe void Update() {
+        var agent = AgentGrandCompanySupply.Instance();
+        if (!agent->IsAgentActive()) return;
+        if (agent->NumItems < 11) return;
+
+        var supplyLength = agent->SupplyProvisioningData->SupplyData.Length;
+        var provisionLength = agent->SupplyProvisioningData->ProvisioningData.Length;
+        var provisionSpan = new Span<GrandCompanyItem>(agent->ItemArray + supplyLength, provisionLength);
+
+        foreach (var item in provisionSpan) {
+            if (item is { ItemId: 0 }) continue;
+
+            // Offset ClassJob by 8, as there's 8 non-DoH/DoL jobs at the start of the sheet that native omits
+            var classJobPosition = (uint)(item.Position + 8);
+
+            if (Data.ClassJobStatus.TryGetValue(classJobPosition, out var value) && value != !item.IsTurnInAvailable) {
+                Data.ClassJobStatus[classJobPosition] = !item.IsTurnInAvailable;
+                Data.Save();
+            }
+        }
+    }
+
+    protected override Task ResetAsync() {
+        foreach (var entry in Data.ClassJobStatus.Keys) {
+            Data.ClassJobStatus[entry] = false;
+        }
+        Data.Save();
+        return Task.CompletedTask;
+    }
+
+    protected override CompletionStatus GetCompletionStatus() {
+        foreach (var job in Config.TrackedClasses.Where(pair => pair.Value)) {
+            if (!Data.ClassJobStatus.TryGetValue(job.Key, out var value) || !value)
+                return CompletionStatus.Incomplete;
+        }
+
+        return CompletionStatus.Complete;
+    }
+
+    protected override void SendStatusMessage(ReadOnlySeString? message) {
+        var incompleteCount = Config.TrackedClasses.Count(job => job.Value && !Data.ClassJobStatus.GetValueOrDefault(job.Key));
+
+        IChatGui.Get().PrintMessage(
+            Config.MessageChatChannel,
+            grandCompanyTeleportPayload,
+            DisplayName,
+            message ?? $"{incompleteCount} {Strings.GrandCompanyProvision_StatusMessageIncomplete}"
+        );
+    }
+
+    protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
+        Config.MessageChatChannel,
+        grandCompanyTeleportPayload,
+        DisplayName,
+        message ?? Strings.GrandCompanyProvision_StatusMessageReset
+    );
+}
+
+public class GrandCompanyProvisionData : ModuleDataFile<GrandCompanyProvisionData> {
+    protected override string FileName => "GrandCompanyProvision.data.json";
+
+    public Dictionary<uint, bool> ClassJobStatus = new() {
+        [16] = false,
+        [17] = false,
+        [18] = false,
+    };
+}
+
+public class GrandCompanyProvisionConfig : ModuleConfigFile<GrandCompanyProvisionConfig> {
+    protected override string FileName => "GrandCompanyProvision.config.json";
+
+    public Dictionary<uint, bool> TrackedClasses = new() {
+        [16] = true,
+        [17] = true,
+        [18] = true,
+    };
+}

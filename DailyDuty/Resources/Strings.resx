@@ -42,8 +42,8 @@
   <data name="DomanEnclave_DisplayName" xml:space="preserve">
     <value>Doman Enclave</value>
   </data>
-  <data name="DutyFinderEnhancements_DisplayName" xml:space="preserve">
-    <value>Duty Finder Enhancements</value>
+  <data name="DutyFinder_DisplayName" xml:space="preserve">
+    <value>Duty Finder</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>Duty Roulette</value>
@@ -93,44 +93,20 @@
   <data name="TimersOverlay_DisplayName" xml:space="preserve">
     <value>Timers Overlay</value>
   </data>
-  <data name="TodoListOverlay_DisplayName" xml:space="preserve">
-    <value>Todo List Overlay</value>
+  <data name="TodoOverlay_DisplayName" xml:space="preserve">
+    <value>Todo Panel Overlay</value>
   </data>
   <data name="TreasureMap_DisplayName" xml:space="preserve">
     <value>Treasure Map</value>
   </data>
-  <data name="TribalQuests_DisplayName" xml:space="preserve">
+  <data name="BeastTribes_DisplayName" xml:space="preserve">
     <value>Tribal Quests</value>
   </data>
   <data name="WondrousTails_DisplayName" xml:space="preserve">
     <value>Wondrous Tails</value>
   </data>
-  <data name="ModuleTypes_Daily" xml:space="preserve">
-    <value>Daily</value>
-  </data>
-  <data name="ModuleTypes_Weekly" xml:space="preserve">
-    <value>Weekly</value>
-  </data>
-  <data name="ModuleTypes_Other" xml:space="preserve">
-    <value>Other</value>
-  </data>
-  <data name="ModuleTypes_Features" xml:space="preserve">
-    <value>Features</value>
-  </data>
-  <data name="ModuleTypes_Debug" xml:space="preserve">
-    <value>Debug</value>
-  </data>
-  <data name="CompletionStatus_Unknown" xml:space="preserve">
-    <value>Unknown</value>
-  </data>
-  <data name="CompletionStatus_Disabled" xml:space="preserve">
-    <value>Disabled</value>
-  </data>
   <data name="CompletionStatus_Incomplete" xml:space="preserve">
     <value>Incomplete</value>
-  </data>
-  <data name="CompletionStatus_Unavailable" xml:space="preserve">
-    <value>Unavailable</value>
   </data>
   <data name="CompletionStatus_InProgress" xml:space="preserve">
     <value>In Progress</value>
@@ -138,29 +114,8 @@
   <data name="CompletionStatus_Complete" xml:space="preserve">
     <value>Complete</value>
   </data>
-  <data name="CompletionStatus_Suppressed" xml:space="preserve">
-    <value>Suppressed</value>
-  </data>
-  <data name="CompletionStatus_ResultsAvailable" xml:space="preserve">
-    <value>Results Available</value>
-  </data>
-  <data name="ComparisonMode_Below" xml:space="preserve">
-    <value>Below</value>
-  </data>
-  <data name="ComparisonMode_NotEqual" xml:space="preserve">
-    <value>Not Equal</value>
-  </data>
-  <data name="ComparisonMode_Above" xml:space="preserve">
-    <value>Above</value>
-  </data>
-  <data name="FashionReportMode_AllAttemptsUsed" xml:space="preserve">
-    <value>All Attempts Used</value>
-  </data>
-  <data name="FashionReportMode_OneAttemptUsed" xml:space="preserve">
-    <value>One Attempt Used</value>
-  </data>
-  <data name="FashionReportMode_ScoredOver80" xml:space="preserve">
-    <value>Scored Over 80</value>
+  <data name="CompletionStatus_NotStarted" xml:space="preserve">
+    <value>Not Started</value>
   </data>
   <data name="GenericDataNode_ModuleStatus" xml:space="preserve">
     <value>Module Status</value>
@@ -171,11 +126,8 @@
   <data name="GenericDataNode_TimeRemaining" xml:space="preserve">
     <value>Time Remaining</value>
   </data>
-  <data name="GenericDataNode_AvailableNow" xml:space="preserve">
-    <value>Available Now</value>
-  </data>
-  <data name="GenericDataNode_EnableModule" xml:space="preserve">
-    <value>Enable module to initialize</value>
+  <data name="GenericDataNode_AvailableUntil" xml:space="preserve">
+    <value>Available Until</value>
   </data>
   <data name="NotificationSettingsNode_NotificationSettings" xml:space="preserve">
     <value>Notification Settings</value>
@@ -201,17 +153,14 @@
   <data name="ConfigNodeBase_ModuleSettings" xml:space="preserve">
     <value>Module Settings</value>
   </data>
-  <data name="ConfigNodeBase_NoOptions" xml:space="preserve">
-    <value>No options available for this module</value>
+  <data name="ConfigNodeBase_FeatureSettings" xml:space="preserve">
+    <value>Feature Settings</value>
   </data>
   <data name="DataNodeBase_ModuleData" xml:space="preserve">
     <value>Module Data</value>
   </data>
   <data name="DataNodeBase_Status" xml:space="preserve">
     <value>Status</value>
-  </data>
-  <data name="DataNodeBase_Data" xml:space="preserve">
-    <value>Data</value>
   </data>
   <data name="DataNodeBase_Snooze" xml:space="preserve">
     <value>Snooze</value>
@@ -220,22 +169,10 @@
     <value>Unsnooze</value>
   </data>
   <data name="DataNodeBase_SnoozeTooltip" xml:space="preserve">
-    <value>Suppresses notification until the next reset</value>
+    <value>Suppresses notification until the next reset.</value>
   </data>
   <data name="ModuleBrowserWindow_SelectOption" xml:space="preserve">
-    <value>Please select an option on the left</value>
-  </data>
-  <data name="ModuleOptionNode_FailedToLoad" xml:space="preserve">
-    <value>Module Failed To Load</value>
-  </data>
-  <data name="ModuleOptionNode_OpenConfig" xml:space="preserve">
-    <value>Open Configuration</value>
-  </data>
-  <data name="TodoPanelNode_Important" xml:space="preserve">
-    <value>Important</value>
-  </data>
-  <data name="WondrousTailsNode_DutyNotification" xml:space="preserve">
-    <value>[DailyDuty] This duty is a Wondrous Tails task</value>
+    <value>Please select an option on the left.</value>
   </data>
   <data name="TimerOverlayNode_OverlayTooltip" xml:space="preserve">
     <value>Overlay from DailyDuty plugin</value>
@@ -243,32 +180,17 @@
   <data name="DailyDutyPlugin_Configuration" xml:space="preserve">
     <value>Daily Duty Configuration</value>
   </data>
-  <data name="DailyDutyPlugin_OpenConfigWindow" xml:space="preserve">
-    <value>Open DailyDuty Config Window</value>
-  </data>
-  <data name="DutyFinderEnhancements_DailyResetNotification" xml:space="preserve">
-    <value>[DailyDuty] Time until next daily reset</value>
-  </data>
-  <data name="DutyFinderEnhancements_OpenDailyDuty" xml:space="preserve">
+  <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
     <value>Open DailyDuty</value>
   </data>
-  <data name="DutyFinderEnhancements_TimerConfig" xml:space="preserve">
-    <value>Timer Configuration</value>
-  </data>
-  <data name="DutyFinderEnhancements_HideSeconds" xml:space="preserve">
+  <data name="DutyFinder_HideSeconds" xml:space="preserve">
     <value>Hide Seconds</value>
   </data>
-  <data name="DutyFinderEnhancements_TextColor" xml:space="preserve">
+  <data name="DutyFinder_TextColor" xml:space="preserve">
     <value>Text Color</value>
   </data>
-  <data name="DutyFinderEnhancements_ButtonConfig" xml:space="preserve">
-    <value>DailyDuty Button Configuration</value>
-  </data>
-  <data name="DutyFinderEnhancements_ShowOpenButton" xml:space="preserve">
+  <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
     <value>Show "Open DailyDuty" Button</value>
-  </data>
-  <data name="ServerInfoBar_FeatureConfig" xml:space="preserve">
-    <value>Feature Configuration</value>
   </data>
   <data name="ServerInfoBar_ToggleableTimer" xml:space="preserve">
     <value>Toggleable Timer</value>
@@ -288,23 +210,20 @@
   <data name="ServerInfoBar_RightClickOpenConfig" xml:space="preserve">
     <value>Right Click to Open Configuration</value>
   </data>
+  <data name="ServerInfoBar_HideSeconds" xml:space="preserve">
+    <value>Hide Timer Seconds</value>
+  </data>
+  <data name="ServerInfoBar_DailyReset" xml:space="preserve">
+    <value>Daily Reset</value>
+  </data>
+  <data name="ServerInfoBar_WeeklyReset" xml:space="preserve">
+    <value>Weekly Reset</value>
+  </data>
   <data name="TimersOverlay_HideInDuties" xml:space="preserve">
     <value>Hide in Duties</value>
   </data>
   <data name="TimersOverlay_HideInQuests" xml:space="preserve">
     <value>Hide in Quest Events</value>
-  </data>
-  <data name="TimersOverlay_HideSeconds" xml:space="preserve">
-    <value>Hide Timer Seconds</value>
-  </data>
-  <data name="TimersOverlay_ShowLabel" xml:space="preserve">
-    <value>Show Module Label</value>
-  </data>
-  <data name="TimersOverlay_ShowCountdown" xml:space="preserve">
-    <value>Show Countdown Text</value>
-  </data>
-  <data name="TimersOverlay_EnableMoving" xml:space="preserve">
-    <value>Enable Moving Timers</value>
   </data>
   <data name="TimersOverlay_Scale" xml:space="preserve">
     <value>Scale</value>
@@ -312,17 +231,77 @@
   <data name="TimersOverlay_Selection" xml:space="preserve">
     <value>Timer Selection</value>
   </data>
-  <data name="TodoOverlay_Panels" xml:space="preserve">
-    <value>Overlay Panels</value>
+  <data name="TimersOverlay_SelectionNote" xml:space="preserve">
+    <value>Timers are only available for modules that are currently active.</value>
   </data>
-  <data name="TodoOverlay_AddPanel" xml:space="preserve">
-    <value>Add Panel</value>
+  <data name="TimersOverlay_EditAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="TimersOverlay_EditDisplay" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
+  <data name="TimersOverlay_EditBehavior" xml:space="preserve">
+    <value>Behavior</value>
+  </data>
+  <data name="TimersOverlay_EditLabel" xml:space="preserve">
+    <value>Display Label</value>
+  </data>
+  <data name="TimersOverlay_EditColor" xml:space="preserve">
+    <value>Background Color</value>
+  </data>
+  <data name="TimersOverlay_EditDirection" xml:space="preserve">
+    <value>Timer Mode</value>
+  </data>
+  <data name="TimersOverlay_EditTextColor" xml:space="preserve">
+    <value>Text Color</value>
+  </data>
+  <data name="TimersOverlay_EditFontSize" xml:space="preserve">
+    <value>Font Size</value>
+  </data>
+  <data name="TimersOverlay_EditWidth" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="TimersOverlay_EditHeight" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="TimersOverlay_EditShowLabel" xml:space="preserve">
+    <value>Show Text Label</value>
+  </data>
+  <data name="TimersOverlay_EditShowCountdown" xml:space="preserve">
+    <value>Show Countdown Timer</value>
+  </data>
+  <data name="TimersOverlay_EditHideSeconds" xml:space="preserve">
+    <value>Hide Seconds</value>
+  </data>
+  <data name="TimersOverlay_EditHideExpired" xml:space="preserve">
+    <value>Hide when Completed</value>
+  </data>
+  <data name="TimersOverlay_EditEnableMoving" xml:space="preserve">
+    <value>Enable Dragging</value>
+  </data>
+  <data name="TimersOverlay_EditSelectTimer" xml:space="preserve">
+    <value>Select a timer to configure</value>
+  </data>
+  <data name="TimersOverlay_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="TimersOverlay_EditTimerInfo" xml:space="preserve">
+    <value>Timer Info</value>
+  </data>
+  <data name="TimersOverlay_EditSizeScale" xml:space="preserve">
+    <value>Size &amp; Scale</value>
+  </data>
+  <data name="TimersOverlay_RemainingTime" xml:space="preserve">
+    <value>Remaining Time</value>
+  </data>
+  <data name="TimersOverlay_ElapsedTime" xml:space="preserve">
+    <value>Elapsed Time</value>
+  </data>
+  <data name="TodoOverlay_Panels" xml:space="preserve">
+    <value>Panels</value>
   </data>
   <data name="TodoOverlay_Alignment" xml:space="preserve">
     <value>Alignment</value>
-  </data>
-  <data name="TodoOverlay_VerticalSpacing" xml:space="preserve">
-    <value>Vertical Spacing</value>
   </data>
   <data name="TodoOverlay_BackgroundAlpha" xml:space="preserve">
     <value>Background Alpha</value>
@@ -330,59 +309,83 @@
   <data name="TodoOverlay_ButtonAlpha" xml:space="preserve">
     <value>Button Alpha</value>
   </data>
-  <data name="TodoOverlay_HideFrame" xml:space="preserve">
-    <value>Hide Frame</value>
-  </data>
   <data name="TodoOverlay_EnableMoving" xml:space="preserve">
     <value>Enable Moving</value>
   </data>
   <data name="TodoOverlay_PinToQuestList" xml:space="preserve">
     <value>Pin to Quest List</value>
   </data>
-  <data name="TodoOverlay_OnlyOnePinned" xml:space="preserve">
-    <value>Only one panel can be pinned to the quest list at a time.</value>
-  </data>
   <data name="TodoOverlay_OutlineColor" xml:space="preserve">
     <value>Text Outline Color</value>
   </data>
-  <data name="TodoOverlay_OpenMainConfig" xml:space="preserve">
-    <value>Open Main Config</value>
+  <data name="TodoOverlay_HideInDuties" xml:space="preserve">
+    <value>Hide in Duties</value>
   </data>
-  <data name="ChallengeLog_DutyFinderWarning" xml:space="preserve">
-    <value>Enable Duty Finder Warning</value>
+  <data name="TodoOverlay_HideInQuests" xml:space="preserve">
+    <value>Hide in Quest Events</value>
+  </data>
+  <data name="TodoOverlay_Modules" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="TodoOverlay_Style" xml:space="preserve">
+    <value>Style</value>
+  </data>
+  <data name="TodoOverlay_SelectPanel" xml:space="preserve">
+    <value>Select a panel to configure</value>
+  </data>
+  <data name="TodoOverlay_PanelInfo" xml:space="preserve">
+    <value>Panel Info</value>
+  </data>
+  <data name="TodoOverlay_DisplayLabel" xml:space="preserve">
+    <value>Display Label</value>
+  </data>
+  <data name="TodoOverlay_Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="TodoOverlay_TextColor" xml:space="preserve">
+    <value>Text Color</value>
+  </data>
+  <data name="TodoOverlay_Layout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="TodoOverlay_Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="TodoOverlay_Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="TodoOverlay_ListXOffset" xml:space="preserve">
+    <value>List X Offset</value>
+  </data>
+  <data name="TodoOverlay_ItemSpacing" xml:space="preserve">
+    <value>Item Spacing</value>
+  </data>
+  <data name="TodoOverlay_ShowFrame" xml:space="preserve">
+    <value>Show Frame</value>
+  </data>
+  <data name="TodoOverlay_Interaction" xml:space="preserve">
+    <value>Interaction</value>
+  </data>
+  <data name="TodoOverlay_AutoHideWhenComplete" xml:space="preserve">
+    <value>Auto-hide when all complete</value>
+  </data>
+  <data name="TodoOverlay_Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="TodoOverlay_Right" xml:space="preserve">
+    <value>Right</value>
   </data>
   <data name="ChallengeLog_DutyFinderWarningSound" xml:space="preserve">
     <value>Enable Duty Finder Warning Sound</value>
   </data>
-  <data name="ChallengeLog_TrackedEntries" xml:space="preserve">
-    <value>Tracked Challenge Log Entries</value>
+  <data name="CustomDelivery_NotificationThreshold" xml:space="preserve">
+    <value>Notification Threshold</value>
   </data>
-  <data name="ChallengeLog_EditTrackedEntries" xml:space="preserve">
-    <value>Edit Tracked Challenge Log Entries</value>
-  </data>
-  <data name="ChallengeLog_TrackedDutyEntries" xml:space="preserve">
-    <value>Tracked Duty Finder Warning Entries</value>
-  </data>
-  <data name="ChallengeLog_EditDutyEntries" xml:space="preserve">
-    <value>Edit Duty Finder Warning Entries</value>
-  </data>
-  <data name="ChallengeLog_TrackingSelection" xml:space="preserve">
-    <value>Challenge Log Tracking Selection</value>
-  </data>
-  <data name="ChallengeLog_DutyWarningSelection" xml:space="preserve">
-    <value>Challenge Log Duty Finder Warning Selection</value>
-  </data>
-  <data name="CustomDelivery_AllowanceAmount" xml:space="preserve">
-    <value>Allowance Amount</value>
-  </data>
-  <data name="CustomDelivery_WarningTrigger" xml:space="preserve">
-    <value>Warning Trigger</value>
+  <data name="CustomDelivery_ThresholdNote" xml:space="preserve">
+    <value>Warnings are sent when remaining allowances are above this threshold.</value>
   </data>
   <data name="CustomDelivery_AllowancesRemaining" xml:space="preserve">
     <value>Allowances Remaining</value>
-  </data>
-  <data name="CustomDelivery_AllowancesNotUpdated" xml:space="preserve">
-    <value>Allowances Not Updated</value>
   </data>
   <data name="DomanEnclave_CurrentMaxAllowance" xml:space="preserve">
     <value>Current Max Allowance</value>
@@ -393,17 +396,11 @@
   <data name="DomanEnclave_AllowanceRemaining" xml:space="preserve">
     <value>Allowance Remaining</value>
   </data>
-  <data name="DomanEnclave_DonatedNotUpdated" xml:space="preserve">
-    <value>Donated Not Updated</value>
-  </data>
-  <data name="DomanEnclave_RemainingNotUpdated" xml:space="preserve">
-    <value>Remaining Not Updated</value>
-  </data>
   <data name="DomanEnclave_UnavailableStatus" xml:space="preserve">
-    <value>Status is unavailable, visit the Doman Enclave to update</value>
+    <value>Status is unavailable, visit the Doman Enclave to update.</value>
   </data>
   <data name="DomanEnclave_UnknownStatus" xml:space="preserve">
-    <value>Status unknown, visit the enclave to update</value>
+    <value>Status unknown, visit the enclave to update.</value>
   </data>
   <data name="DutyRoulette_MarkCompleteTomecapped" xml:space="preserve">
     <value>Mark Complete When Weekly Tomecapped</value>
@@ -420,9 +417,6 @@
   <data name="DutyRoulette_TrackedEntries" xml:space="preserve">
     <value>Tracked Duty Finder Entries</value>
   </data>
-  <data name="DutyRoulette_NotUpdated" xml:space="preserve">
-    <value>Status not Updated</value>
-  </data>
   <data name="FashionReport_CompletionMode" xml:space="preserve">
     <value>Completion Mode</value>
   </data>
@@ -432,17 +426,20 @@
   <data name="FashionReport_ScoreNotUpdated" xml:space="preserve">
     <value>Highest Score Not Updated</value>
   </data>
-  <data name="FashionReport_Available" xml:space="preserve">
-    <value>Fashion Report Available</value>
+  <data name="FashionReport_AttemptsAvailable" xml:space="preserve">
+    <value>Attempts Available</value>
   </data>
-  <data name="FashionReport_AvailableNotUpdated" xml:space="preserve">
-    <value>Available Not Updated</value>
-  </data>
-  <data name="FashionReport_AvailableStatus" xml:space="preserve">
-    <value>Available</value>
+  <data name="FashionReport_NotAttempted" xml:space="preserve">
+    <value>Not attempted yet</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>Not Available</value>
+    <value>Fashion Report will be available later this week.</value>
+  </data>
+  <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
+    <value>Attempt(s) Remaining</value>
+  </data>
+  <data name="FashionReport_ScoreTarget" xml:space="preserve">
+    <value>Score Target</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
     <value>Include Retelling</value>
@@ -458,9 +455,6 @@
   </data>
   <data name="GrandCompanySquadron_CompletionTime" xml:space="preserve">
     <value>Mission Completion Time</value>
-  </data>
-  <data name="GrandCompanySquadron_TimeRemaining" xml:space="preserve">
-    <value>Mission Time Remaining</value>
   </data>
   <data name="GrandCompanySquadron_NotStarted" xml:space="preserve">
     <value>Not Started</value>
@@ -480,8 +474,11 @@
   <data name="Levequest_Accepted" xml:space="preserve">
     <value>Levequests Accepted</value>
   </data>
-  <data name="Levequest_AcceptedNotUpdated" xml:space="preserve">
-    <value>Accepted Not Updated</value>
+  <data name="Levequest_NotificationThreshold" xml:space="preserve">
+    <value>Notification Threshold</value>
+  </data>
+  <data name="Levequest_ThresholdNote" xml:space="preserve">
+    <value>Warnings are sent when remaining allowances are above this threshold.</value>
   </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
     <value>Attempts Available</value>
@@ -489,8 +486,17 @@
   <data name="MiniCactpot_AttemptsNotUpdated" xml:space="preserve">
     <value>Attempts Not Updated</value>
   </data>
-  <data name="Raids_NoneLimited" xml:space="preserve">
+  <data name="RaidsAlliance_NoneLimited" xml:space="preserve">
     <value>No raids are currently limited.</value>
+  </data>
+  <data name="RaidsAlliance_NoneTracked" xml:space="preserve">
+    <value>No raids are being tracked. Enable raids in the config to start tracking.</value>
+  </data>
+  <data name="RaidsNormal_NoneLimited" xml:space="preserve">
+    <value>No raids are currently limited.</value>
+  </data>
+  <data name="RaidsNormal_NoneTracked" xml:space="preserve">
+    <value>No raids are being tracked. Enable raids in the config to start tracking.</value>
   </data>
   <data name="TreasureMap_LastGathered" xml:space="preserve">
     <value>Last Map Gathered</value>
@@ -498,11 +504,23 @@
   <data name="TreasureMap_Gatherable" xml:space="preserve">
     <value>Treasure Map Gatherable</value>
   </data>
-  <data name="TribalQuests_QuestAmount" xml:space="preserve">
-    <value>Quest Amount</value>
+  <data name="TreasureMap_NeverGathered" xml:space="preserve">
+    <value>Never Gathered</value>
   </data>
-  <data name="TribalQuests_Available" xml:space="preserve">
+  <data name="TreasureMap_AttemptsNotUpdated" xml:space="preserve">
+    <value>Attempts Not Updated</value>
+  </data>
+  <data name="BeastTribes_Available" xml:space="preserve">
     <value>Tribal Quests Available</value>
+  </data>
+  <data name="BeastTribes_NotificationThreshold" xml:space="preserve">
+    <value>Notification Threshold</value>
+  </data>
+  <data name="BeastTribes_ThresholdNote" xml:space="preserve">
+    <value>Warnings are sent when remaining allowances are above this threshold.</value>
+  </data>
+  <data name="BeastTribes_StatusMessageIncomplete" xml:space="preserve">
+    <value>Quest(s) left to reach Threshold</value>
   </data>
   <data name="WondrousTails_InstanceNotifications" xml:space="preserve">
     <value>Instance Notifications</value>
@@ -515,18 +533,6 @@
   </data>
   <data name="WondrousTails_ShuffleNotification" xml:space="preserve">
     <value>Shuffle Available Notification</value>
-  </data>
-  <data name="WondrousTails_DutyFinderIntegration" xml:space="preserve">
-    <value>Duty Finder Integration</value>
-  </data>
-  <data name="WondrousTails_RecolorEntries" xml:space="preserve">
-    <value>Recolor Duty Finder Entries</value>
-  </data>
-  <data name="WondrousTails_EntryColor" xml:space="preserve">
-    <value>Entry Color</value>
-  </data>
-  <data name="WondrousTails_ShowClover" xml:space="preserve">
-    <value>Show Clover Indicator</value>
   </data>
   <data name="WondrousTails_BookObtained" xml:space="preserve">
     <value>Book Obtained</value>
@@ -555,85 +561,112 @@
   <data name="WondrousTails_ForgotBook" xml:space="preserve">
     <value>Wait! You forgot your Wondrous Tails book!</value>
   </data>
-  <data name="StatusMessages_ChallengeLogIncomplete" xml:space="preserve">
+  <data name="ChallengeLog_StatusMessageIncomplete" xml:space="preserve">
     <value>Challenge Log(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_CustomDeliveryIncomplete" xml:space="preserve">
+  <data name="CustomDelivery_StatusMessageIncomplete" xml:space="preserve">
     <value>Custom Delivery(s) left to reach Threshold</value>
   </data>
-  <data name="StatusMessages_RouletteIncomplete" xml:space="preserve">
+  <data name="DutyRoulette_StatusMessageIncomplete" xml:space="preserve">
     <value>Roulette(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_UnrealTrialIncomplete" xml:space="preserve">
-    <value>Unreal Trial Incomplete</value>
-  </data>
-  <data name="StatusMessages_DeliveryIncomplete" xml:space="preserve">
+  <data name="GrandCompanyProvision_StatusMessageIncomplete" xml:space="preserve">
     <value>Delivery(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_HuntBillIncomplete" xml:space="preserve">
+  <data name="GrandCompanySupply_StatusMessageIncomplete" xml:space="preserve">
+    <value>Delivery(s) Incomplete</value>
+  </data>
+  <data name="HuntMarksDaily_StatusMessageIncomplete" xml:space="preserve">
     <value>Hunt Bill(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_TicketRemaining" xml:space="preserve">
+  <data name="HuntMarksWeekly_StatusMessageIncomplete" xml:space="preserve">
+    <value>Hunt Bill(s) Incomplete</value>
+  </data>
+  <data name="JumboCactpot_StatusMessageRemaining" xml:space="preserve">
     <value>Ticket(s) Remaining</value>
   </data>
-  <data name="StatusMessages_LevequestIncomplete" xml:space="preserve">
+  <data name="Levequest_StatusMessageIncomplete" xml:space="preserve">
     <value>Levequest(s) left to reach Threshold</value>
   </data>
-  <data name="StatusMessages_ChallengeIncomplete" xml:space="preserve">
+  <data name="MaskedCarnivale_StatusMessageIncomplete" xml:space="preserve">
     <value>Challenge(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_AllianceRaidIncomplete" xml:space="preserve">
+  <data name="RaidsAlliance_StatusMessageIncomplete" xml:space="preserve">
     <value>Alliance Raid(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_NormalRaidIncomplete" xml:space="preserve">
+  <data name="RaidsNormal_StatusMessageIncomplete" xml:space="preserve">
     <value>Normal Raid(s) Incomplete</value>
   </data>
-  <data name="StatusMessages_MissionResultsReady" xml:space="preserve">
+  <data name="GrandCompanySquadron_StatusMessageResultsReady" xml:space="preserve">
     <value>Mission Results Ready</value>
   </data>
-  <data name="StatusMessages_MissionNotStarted" xml:space="preserve">
+  <data name="GrandCompanySquadron_StatusMessageNotStarted" xml:space="preserve">
     <value>Mission Not Started</value>
   </data>
-  <data name="StatusMessages_QuestIncomplete" xml:space="preserve">
-    <value>Quest(s) left to reach Threshold</value>
+  <data name="WondrousTails_StatusMessageStickerRemaining" xml:space="preserve">
+    <value>Stickers Remaining</value>
   </data>
-  <data name="StatusMessages_StickerRemaining" xml:space="preserve">
-    <value>Sticker(s) Remaining</value>
+  <data name="BeastTribes_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="StatusMessages_Resetting" xml:space="preserve">
-    <value>Resetting</value>
+  <data name="ChallengeLog_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="Additional_DataNotSet" xml:space="preserve">
-    <value>Data Not Set</value>
+  <data name="CustomDelivery_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="Teleport_TeleportingTo" xml:space="preserve">
-    <value>Teleporting to</value>
+  <data name="DomanEnclave_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="Teleport_Teleport" xml:space="preserve">
-    <value>Teleport</value>
+  <data name="DutyRoulette_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="EventLogging_Status" xml:space="preserve">
-    <value>Event logging is now</value>
+  <data name="FashionReport_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="EventLogging_Enabled" xml:space="preserve">
-    <value>Enabled</value>
+  <data name="FauxHollows_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="DailyDutyPlugin_Config" xml:space="preserve">
-    <value>Config</value>
+  <data name="GrandCompanyProvision_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="PanelConfig_Config" xml:space="preserve">
-    <value>Panel Config</value>
+  <data name="GrandCompanySquadron_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="Additional_GilRemaining" xml:space="preserve">
-    <value>gil Remaining</value>
+  <data name="GrandCompanySupply_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="Additional_DailyReset" xml:space="preserve">
-    <value>Daily Reset</value>
+  <data name="HuntMarksDaily_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-  <data name="Additional_WeeklyReset" xml:space="preserve">
-    <value>Weekly Reset</value>
+  <data name="HuntMarksWeekly_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
   </data>
-    <data name="DutyRoulette_IncompleteTask" xml:space="preserve">
+  <data name="JumboCactpot_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="Levequest_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="MaskedCarnivale_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="MiniCactpot_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="RaidsAlliance_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="RaidsNormal_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="TreasureMap_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="WondrousTails_StatusMessageReset" xml:space="preserve">
+    <value>Module has been reset.</value>
+  </data>
+  <data name="DutyRoulette_IncompleteTask" xml:space="preserve">
     <value>Incomplete Task</value>
   </data>
   <data name="DutyRoulette_CompleteTask" xml:space="preserve">
@@ -642,11 +675,14 @@
   <data name="TodoOverlay_NewPanel" xml:space="preserve">
     <value>New Panel</value>
   </data>
+  <data name="TodoOverlay_PanelsPlaceholder" xml:space="preserve">
+    <value>Select Panel</value>
+  </data>
   <data name="WondrousTails_StickerAlreadyAvailable" xml:space="preserve">
     <value>Sticker is already available for this duty, be sure to claim it!</value>
   </data>
   <data name="WondrousTails_CompletingDutyReward" xml:space="preserve">
-    <value>Completing this duty will reward you with a sticker</value>
+    <value>Completing this duty will reward you with a sticker.</value>
   </data>
   <data name="WondrousTails_RerollsAvailable" xml:space="preserve">
     <value>Rerolls Available</value>
@@ -654,20 +690,8 @@
   <data name="WondrousTails_StickersClaimable" xml:space="preserve">
     <value>Stickers Claimable</value>
   </data>
-  <data name="WondrousTails_Duty" xml:space="preserve">
-    <value>Wondrous Tails Duty</value>
-  </data>
-  <data name="GenericDataNode_UnknownStatus" xml:space="preserve">
-    <value>Unknown Status</value>
-  </data>
-  <data name="SearchNode_Placeholder" xml:space="preserve">
-    <value>Search . . .</value>
-  </data>
   <data name="DutyRoulette_DutyFinderTooltip" xml:space="preserve">
     <value>[DailyDuty] Duty Roulette Feature</value>
-  </data>
-  <data name="WondrousTails_DutyFinderTooltip" xml:space="preserve">
-    <value>[DailyDuty] Wondrous Tails Feature</value>
   </data>
   <data name="ModuleManager_LoadFailed" xml:space="preserve">
     <value>Failed to load, this module has been disabled.</value>
@@ -675,7 +699,7 @@
   <data name="ModuleManager_CriticalError" xml:space="preserve">
     <value>Critical Error: Module failed to load, and errored again while unloading.</value>
   </data>
-    <data name="DutyFinderEnhancements_NextReset" xml:space="preserve">
-        <value>[DailyDuty] Time Until Next Reset</value>
-    </data>
+  <data name="DutyFinder_NextReset" xml:space="preserve">
+    <value>[DailyDuty] Time Until Next Reset</value>
+  </data>
 </root>
