@@ -16,7 +16,7 @@ namespace DailyDuty.Features;
 
 public class TodoOverlay : Feature<TodoOverlayConfig> {
 
-    public override string DisplayName => "Todo Panel Overlay";
+    public override string DisplayName => Strings.TodoOverlay_DisplayName;
 
     public override TodoOverlayConfig Config { get; protected set; } = null!;
 
@@ -51,16 +51,16 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
     public override void BuildConfigUi(NodeBuilder builder) => builder
         .TabbedContent(tabBuilder => tabBuilder
             .AddTab(Strings.ConfigNodeBase_FeatureSettings, BuildSettingsTab)
-            .AddTab("Panels", BuildEditTab));
+            .AddTab(Strings.TodoOverlay_Panels, BuildEditTab));
 
     private void BuildSettingsTab(NodeBuilder builder) => builder
         .Spacer(10.0f)
         .VerticalList(generalSettingsBuilder => generalSettingsBuilder
-            .Checkbox(Strings.TimersOverlay_HideInDuties, Config.HideInDuties, val => {
+            .Checkbox(Strings.TodoOverlay_HideInDuties, Config.HideInDuties, val => {
                 Config.HideInDuties = val;
                 Config.Save();
             })
-            .Checkbox(Strings.TimersOverlay_HideInQuests, Config.HideInQuests, val => {
+            .Checkbox(Strings.TodoOverlay_HideInQuests, Config.HideInQuests, val => {
                 Config.HideInQuests = val;
                 Config.Save();
             }), node => {

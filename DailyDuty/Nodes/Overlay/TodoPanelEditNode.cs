@@ -46,11 +46,11 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
         layoutContainer = NativeUiBuilder.Create(builder => builder
             .FittedContent(fittedBuilder => fittedBuilder
                 .TabbedContent(tabBuilder => tabBuilder
-                        .AddTab("Modules", BuildModulesTab)
-                        .AddTab("Style", BuildFeaturesTab),
+                        .AddTab(Strings.TodoOverlay_Modules, BuildModulesTab)
+                        .AddTab(Strings.TodoOverlay_Style, BuildFeaturesTab),
                     out optionNode,
                     tabbed => tabbed.LayoutFill = LayoutFill.Both)
-                .TextWarningFilled("Select a panel to configure", out warningNode)
+                .TextWarningFilled(Strings.TodoOverlay_SelectPanel, out warningNode)
             ));
 
         optionNode!.IsVisible = false;
@@ -111,9 +111,9 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
         .BuildAction(BuildInteractionSection);
 
     private void BuildPanelInfoSection(NodeBuilder builder) => builder
-        .CategoryLabel("Panel Info")
+        .CategoryLabel(Strings.TodoOverlay_PanelInfo)
         .Spacer(2.0f)
-        .Row("Display Label", right => right
+        .Row(Strings.TodoOverlay_DisplayLabel, right => right
             .InputText(newValue => {
                 if (panel is null) return;
 
@@ -125,9 +125,9 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
             out labelInput));
 
     private void BuildAppearanceSection(NodeBuilder builder) => builder
-        .CategoryLabel("Appearance")
+        .CategoryLabel(Strings.TodoOverlay_Appearance)
         .Spacer(2.0f)
-        .Row("Text Color", right => right
+        .Row(Strings.TodoOverlay_TextColor, right => right
             .ColorEdit4(ColorHelper.GetColor(1), ColorHelper.GetColor(1), newTextColor => {
                 if (panel is null) return;
 
@@ -136,7 +136,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out textColorEdit))
-        .Row("Text Outline Color", right => right
+        .Row(Strings.TodoOverlay_OutlineColor, right => right
             .ColorEdit4(ColorHelper.GetColor(53), ColorHelper.GetColor(53), newOutlineColor => {
                 if (panel is null) return;
 
@@ -145,7 +145,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out outlineColorEdit))
-        .Row("Background Alpha", right => right
+        .Row(Strings.TodoOverlay_BackgroundAlpha, right => right
             .FloatSlider(1.0f, 0.0f, 1.0f, newAlpha => {
                 if (panel is null) return;
 
@@ -167,9 +167,9 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
             out buttonAlphaSlider));
 
     private void BuildLayoutSection(NodeBuilder builder) => builder
-        .CategoryLabel("Layout")
+        .CategoryLabel(Strings.TodoOverlay_Layout)
         .Spacer(2.0f)
-        .Row("Scale", right => right
+        .Row(Strings.TodoOverlay_Scale, right => right
             .FloatSlider(1.0f, 0.5f, 2.0f, newScale => {
                 if (panel is null) return;
 
@@ -178,7 +178,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out scaleSlider))
-        .Row("Width", right => right
+        .Row(Strings.TodoOverlay_Width, right => right
             .IntSlider(225, 150, 400, newWidth => {
                 if (panel is null) return;
 
@@ -187,7 +187,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out widthSlider))
-        .Row("List X Offset", right => right
+        .Row(Strings.TodoOverlay_ListXOffset, right => right
             .IntSlider(18, 0, 100, newListXOffset => {
                 if (panel is null) return;
 
@@ -196,7 +196,7 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out listXOffsetSlider))
-        .Row("Item Spacing", right => right
+        .Row(Strings.TodoOverlay_ItemSpacing, right => right
             .IntSlider(0, -6, 20, newSpacing => {
                 if (panel is null) return;
 
@@ -214,9 +214,11 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
                     panel.IsDirty = true;
                     config?.Save();
                 },
-                a => a == VerticalListAlignment.Left ? "Left" : "Right",
+                a => a == VerticalListAlignment.Left
+                    ? Strings.TodoOverlay_Left
+                    : Strings.TodoOverlay_Right,
                 out alignmentCombo))
-        .Checkbox("Show Frame", true, newValue => {
+        .Checkbox(Strings.TodoOverlay_ShowFrame, true, newValue => {
             if (panel is null) return;
 
             panel.ShowFrame = newValue;
@@ -225,14 +227,14 @@ public class TodoPanelEditNode : ResNode, ILayoutFiller {
         }, out showFrameCheck);
 
     private void BuildInteractionSection(NodeBuilder builder) => builder
-        .CategoryLabel("Interaction")
+        .CategoryLabel(Strings.TodoOverlay_Interaction)
         .Spacer(2.0f)
         .Checkbox(Strings.TodoOverlay_EnableMoving, false, newValue => {
             if (panel is null) return;
 
             panel.EnableMoving = newValue;
         }, out enableMovingCheck)
-        .Checkbox("Auto-hide when all complete", false, newValue => {
+        .Checkbox(Strings.TodoOverlay_AutoHideWhenComplete, false, newValue => {
             if (panel is null) return;
 
             panel.AutoHideWhenEmpty = newValue;

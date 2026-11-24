@@ -76,14 +76,14 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
         Config.MessageChatChannel,
         goldSaucerTeleportPayload,
         DisplayName,
-        message ?? $"{3 - Data.Tickets.Count} {Strings.StatusMessages_TicketRemaining}"
+        message ?? $"{3 - Data.Tickets.Count} {Strings.JumboCactpot_StatusMessageRemaining}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         goldSaucerTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.JumboCactpot_StatusMessageReset
     );
 
     unsafe void INpcInteractListener.OnNpcInteract(EventFramework* thisPtr, GameObject* gameObject, EventId eventId, short scene, ulong sceneFlags, uint* sceneData, byte sceneDataCount) {

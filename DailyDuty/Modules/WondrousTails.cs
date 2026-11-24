@@ -167,14 +167,14 @@ public class WondrousTails : Module<WondrousTailsData, WondrousTailsConfig>, IWe
         Config.MessageChatChannel,
         openWondrousTailsPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.WondrousTails_StatusMessageReset
     );
 
     private ReadOnlySeString GetStatusMessage() => this switch {
         { IsNewBookAvailable: true } when Config.UnclaimedBookWarning => Strings.WondrousTails_NewBookAvailable,
         { PlayerHasBook: true, IsBookExpired: false } when Config.StickerAvailableNotice && IsStickerAvailable => Strings.WondrousTails_StickerAvailable,
         { SecondChancePoints: > 7, PlacedStickers: >= 3 and <= 7, PlayerHasBook: true, IsBookExpired: false } when Config.ShuffleAvailableNotice => Strings.WondrousTails_ShuffleAvailable,
-        _ => $"{9 - PlacedStickers} Stickers Remaining",
+        _ => $"{9 - PlacedStickers} {Strings.WondrousTails_StatusMessageStickerRemaining}",
     };
 
     public unsafe bool PlayerHasBook

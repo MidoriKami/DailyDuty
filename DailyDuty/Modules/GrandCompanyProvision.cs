@@ -122,7 +122,7 @@ public class GrandCompanyProvision : Module<GrandCompanyProvisionData, GrandComp
             Config.MessageChatChannel,
             grandCompanyTeleportPayload,
             DisplayName,
-            message ?? $"{incompleteCount} {Strings.StatusMessages_DeliveryIncomplete}"
+            message ?? $"{incompleteCount} {Strings.GrandCompanyProvision_StatusMessageIncomplete}"
         );
     }
 
@@ -130,7 +130,7 @@ public class GrandCompanyProvision : Module<GrandCompanyProvisionData, GrandComp
         Config.MessageChatChannel,
         grandCompanyTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.GrandCompanyProvision_StatusMessageReset
     );
 }
 

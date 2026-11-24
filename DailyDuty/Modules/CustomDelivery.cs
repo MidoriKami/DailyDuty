@@ -53,13 +53,13 @@ public class CustomDelivery : Module<CustomDeliveryData, CustomDeliveryConfig>, 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? $"{RemainingAllowances - Config.NotificationThreshold} {Strings.StatusMessages_CustomDeliveryIncomplete}"
+        message ?? $"{RemainingAllowances - Config.NotificationThreshold} {Strings.CustomDelivery_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.CustomDelivery_StatusMessageReset
     );
 
     private static unsafe int RemainingAllowances

@@ -65,13 +65,13 @@ public class HuntMarksWeekly : Module<HuntMarksWeeklyData, HuntMarksWeeklyConfig
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? $"{Config.TrackedHuntMarks.Count - Config.TrackedHuntMarks.Count(Excel.IsComplete<MobHuntOrderType>)} {Strings.StatusMessages_HuntBillIncomplete}"
+        message ?? $"{Config.TrackedHuntMarks.Count - Config.TrackedHuntMarks.Count(Excel.IsComplete<MobHuntOrderType>)} {Strings.HuntMarksWeekly_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.HuntMarksWeekly_StatusMessageReset
     );
 }
 

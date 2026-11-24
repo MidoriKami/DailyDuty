@@ -77,7 +77,7 @@ public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyRe
         Config.MessageChatChannel,
         idyllShireTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.FauxHollows_StatusMessageReset
     );
 
     private void WeeklyPuzzlePreSetup(AddonEvent type, AddonArgs args) {

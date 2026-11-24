@@ -12,7 +12,7 @@ namespace DailyDuty.Modules;
 
 public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyResettable, IConfigurable {
 
-    public override string DisplayName => Strings.TribalQuests_DisplayName;
+    public override string DisplayName => Strings.BeastTribes_DisplayName;
 
     public override BeastTribesData Data { get; protected set; } = null!;
     public override BeastTribesConfig Config { get; protected set; } = null!;
@@ -31,14 +31,14 @@ public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyRes
     }
 
     public override void BuildDataUi(NodeBuilder builder) => builder
-        .DataRow(Strings.TribalQuests_Available, "0", out allowancesNode);
+        .DataRow(Strings.BeastTribes_Available, "0", out allowancesNode);
 
     public override void UpdateDataUi()
         => allowancesNode?.String = RemainingAllowances.ToString();
 
     public void BuildConfigUi(NodeBuilder builder) => builder
-        .TextCentered(Strings.CustomDelivery_ThresholdNote)
-        .Row(Strings.CustomDelivery_NotificationThreshold, rowBuilder => rowBuilder
+        .TextCentered(Strings.BeastTribes_ThresholdNote)
+        .Row(Strings.BeastTribes_NotificationThreshold, rowBuilder => rowBuilder
             .IntSlider(Config.NotificationThreshold, 0, 12, newValue => {
                 Config.NotificationThreshold = newValue;
                 Config.Save();
@@ -53,13 +53,13 @@ public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyRes
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? $"{RemainingAllowances - Config.NotificationThreshold} Quest(s) left to reach Threshold"
+        message ?? $"{RemainingAllowances - Config.NotificationThreshold} {Strings.BeastTribes_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.BeastTribes_StatusMessageReset
     );
 
     private static unsafe uint RemainingAllowances

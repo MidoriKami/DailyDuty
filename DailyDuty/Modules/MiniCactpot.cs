@@ -71,7 +71,7 @@ public class MiniCactpot : Module<MiniCactpotData, MiniCactpotConfig>, IDailyRes
         Config.MessageChatChannel,
         goldSaucerTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.MiniCactpot_StatusMessageReset
     );
 
     private void LotteryDailyPreSetup(AddonEvent eventType, AddonArgs addonInfo) {

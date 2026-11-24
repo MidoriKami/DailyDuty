@@ -55,7 +55,7 @@ public class ServerInfoBar : Feature<ServerInfoBarConfig>, IFrameworkUpdatable {
                 Config.Save();
             }))
         .Spacer(5.0f)
-        .Row(Strings.TimersOverlay_HideSeconds, rowBuilder => rowBuilder
+        .Row(Strings.ServerInfoBar_HideSeconds, rowBuilder => rowBuilder
             .Checkbox("", Config.HideSeconds, val => {
                 Config.HideSeconds = val;
                 Config.Save();
@@ -108,16 +108,16 @@ public class ServerInfoBar : Feature<ServerInfoBarConfig>, IFrameworkUpdatable {
         }
 
         // Update text on entries
-        daily?.Text = $"{Strings.Additional_DailyReset}: {timeUntilDailyReset.FormatTime(Config.HideSeconds)}";
-        weekly?.Text = $"{Strings.Additional_WeeklyReset}: {timeUntilWeeklyReset.FormatTime(Config.HideSeconds)}";
+        daily?.Text = $"{Strings.ServerInfoBar_DailyReset}: {timeUntilDailyReset.FormatTime(Config.HideSeconds)}";
+        weekly?.Text = $"{Strings.ServerInfoBar_WeeklyReset}: {timeUntilWeeklyReset.FormatTime(Config.HideSeconds)}";
 
         if (combo is not null) {
             var timeText = Config.CurrentMode is DtrMode.Daily
                 ? timeUntilDailyReset.FormatTime(Config.HideSeconds)
                 : timeUntilWeeklyReset.FormatTime(Config.HideSeconds);
             var label = Config.CurrentMode is DtrMode.Daily
-                ? Strings.Additional_DailyReset
-                : Strings.Additional_WeeklyReset;
+                ? Strings.ServerInfoBar_DailyReset
+                : Strings.ServerInfoBar_WeeklyReset;
             combo.Text = $"{label}: {timeText}";
         }
     }

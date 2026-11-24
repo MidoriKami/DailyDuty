@@ -111,7 +111,7 @@ public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySup
             Config.MessageChatChannel,
             grandCompanyTeleportPayload,
             DisplayName,
-            message ?? $"{incompleteCount} {Strings.StatusMessages_DeliveryIncomplete}"
+            message ?? $"{incompleteCount} {Strings.GrandCompanySupply_StatusMessageIncomplete}"
         );
     }
 
@@ -119,7 +119,7 @@ public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySup
         Config.MessageChatChannel,
         grandCompanyTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.GrandCompanySupply_StatusMessageReset
     );
 
     public void BuildConfigUi(NodeBuilder builder) {

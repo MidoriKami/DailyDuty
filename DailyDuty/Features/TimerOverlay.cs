@@ -66,7 +66,7 @@ public class TimerOverlay : Feature<TimerOverlayConfig> {
         .TabbedContent(tabBuilder => tabBuilder
             .AddTab(Strings.ConfigNodeBase_FeatureSettings, BuildSettingsTab)
             .AddTab(Strings.TimersOverlay_Selection, BuildSelectionTab)
-            .AddTab("Edit", BuildEditTab));
+            .AddTab(Strings.TimersOverlay_Edit, BuildEditTab));
 
     private void BuildSettingsTab(NodeBuilder builder) => builder
         .Spacer(10.0f)

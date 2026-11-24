@@ -62,7 +62,7 @@ public class RaidsNormal : Module<RaidsNormalData, RaidsNormalConfig>, IWeeklyRe
     public override void BuildDataUi(NodeBuilder builder) => builder
         .FittedContent(inner => inner
             .VerticalList(list => list
-                .TextWarningFilled(Strings.Raids_NoneTracked), out dataWarningPage)
+                .TextWarningFilled(Strings.RaidsNormal_NoneTracked), out dataWarningPage)
             .List(Config.TrackedRaids, out dataListNode));
 
     public override void UpdateDataUi() {
@@ -75,7 +75,7 @@ public class RaidsNormal : Module<RaidsNormalData, RaidsNormalConfig>, IWeeklyRe
     public void BuildConfigUi(NodeBuilder builder) {
         var raids = IDataManager.Get().LimitedNormalRaidDuties.ToList();
         if (raids.Count is 0) {
-            builder.TextWarningFilled(Strings.Raids_NoneLimited);
+            builder.TextWarningFilled(Strings.RaidsNormal_NoneLimited);
             return;
         }
 
@@ -115,14 +115,14 @@ public class RaidsNormal : Module<RaidsNormalData, RaidsNormalConfig>, IWeeklyRe
         Config.MessageChatChannel,
         openDutyFinderPayload,
         DisplayName,
-        message ?? $"{GetIncompleteCount()} {Strings.StatusMessages_NormalRaidIncomplete}"
+        message ?? $"{GetIncompleteCount()} {Strings.RaidsNormal_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         openDutyFinderPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.RaidsNormal_StatusMessageReset
     );
 
     private int GetIncompleteCount()

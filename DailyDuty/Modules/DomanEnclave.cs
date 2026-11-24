@@ -127,7 +127,7 @@ public class DomanEnclave : Module<DomanEnclaveData, DomanEnclaveConfig>, IWeekl
         Config.MessageChatChannel,
         domanEnclaveTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.DomanEnclave_StatusMessageReset
     );
 }
 

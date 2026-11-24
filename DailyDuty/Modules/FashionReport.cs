@@ -56,7 +56,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
                 .TextWarningFilled(Strings.FashionReport_NotAvailable), out warningPage)
             .VerticalList(list => list
                 .DataRow(Strings.FashionReport_HighestScore, "SCORE", out scoreText)
-                .DataRow(Strings.MiniCactpot_AttemptsAvailable, "ATTEMPTS", out attemptsText), out dataPage));
+                .DataRow(Strings.FashionReport_AttemptsAvailable, "ATTEMPTS", out attemptsText), out dataPage));
 
     public override void UpdateDataUi() {
         dataPage?.IsVisible = IsFashionReportAvailable;
@@ -150,7 +150,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.FashionReport_StatusMessageReset
     );
 
     private static bool IsFashionReportAvailable

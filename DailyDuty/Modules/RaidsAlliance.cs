@@ -62,7 +62,7 @@ public class RaidsAlliance : Module<RaidsAllianceData, RaidsAllianceConfig>, IWe
     public override void BuildDataUi(NodeBuilder builder) => builder
         .FittedContent(inner => inner
             .VerticalList(list => list
-                .TextWarningFilled(Strings.Raids_NoneTracked), out dataWarningPage)
+                .TextWarningFilled(Strings.RaidsAlliance_NoneTracked), out dataWarningPage)
             .List(Config.TrackedRaids, out dataListNode));
 
     public override void UpdateDataUi() {
@@ -75,7 +75,7 @@ public class RaidsAlliance : Module<RaidsAllianceData, RaidsAllianceConfig>, IWe
     public void BuildConfigUi(NodeBuilder builder) {
         var raids = IDataManager.Get().LimitedAllianceRaidDuties.ToList();
         if (raids.Count is 0) {
-            builder.TextWarningFilled(Strings.Raids_NoneLimited);
+            builder.TextWarningFilled(Strings.RaidsAlliance_NoneLimited);
             return;
         }
 
@@ -115,14 +115,14 @@ public class RaidsAlliance : Module<RaidsAllianceData, RaidsAllianceConfig>, IWe
         Config.MessageChatChannel,
         openDutyFinderPayload,
         DisplayName,
-        message ?? $"{GetIncompleteCount()} {Strings.StatusMessages_AllianceRaidIncomplete}"
+        message ?? $"{GetIncompleteCount()} {Strings.RaidsAlliance_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         openDutyFinderPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.RaidsAlliance_StatusMessageReset
     );
 
     private int GetIncompleteCount()

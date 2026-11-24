@@ -147,13 +147,13 @@ public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig
         Config.MessageChatChannel,
         uldahTeleportPayload,
         DisplayName,
-        message ?? $"{GetIncompleteCount()} {Strings.StatusMessages_ChallengeIncomplete}"
+        message ?? $"{GetIncompleteCount()} {Strings.MaskedCarnivale_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.MaskedCarnivale_StatusMessageReset
     );
 
     private void AozContentResultPostSetup(AddonEvent eventType, AddonArgs addonInfo) {

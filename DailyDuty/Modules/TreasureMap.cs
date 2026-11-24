@@ -39,7 +39,7 @@ public class TreasureMap : Module<TreasureMapData, TreasureMapConfig>, ISpecialR
     }
 
     public override void BuildDataUi(NodeBuilder builder) => builder
-        .DataRow(Strings.TreasureMap_LastGathered, Strings.MiniCactpot_AttemptsNotUpdated, out lastGatheredNode);
+        .DataRow(Strings.TreasureMap_LastGathered, Strings.TreasureMap_AttemptsNotUpdated, out lastGatheredNode);
 
     public override void UpdateDataUi() {
         if (Data.LastMapGatheredTime == DateTime.MinValue) {
@@ -71,7 +71,7 @@ public class TreasureMap : Module<TreasureMapData, TreasureMapConfig>, ISpecialR
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.TreasureMap_StatusMessageReset
     );
 
     protected override TimeSpan GetSpecialResetPeriod()

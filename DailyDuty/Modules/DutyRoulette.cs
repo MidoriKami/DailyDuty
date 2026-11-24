@@ -143,14 +143,14 @@ public class DutyRoulette : Module<DutyRouletteData, DutyRouletteConfig>, IDaily
         Config.MessageChatChannel,
         openRoulettePayload,
         DisplayName,
-        message ?? $"{Config.TrackedRoulettes.Count - Config.TrackedRoulettes.Count(Excel.IsComplete<ContentRoulette>)} {Strings.StatusMessages_RouletteIncomplete}"
+        message ?? $"{Config.TrackedRoulettes.Count - Config.TrackedRoulettes.Count(Excel.IsComplete<ContentRoulette>)} {Strings.DutyRoulette_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         openRoulettePayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.DutyRoulette_StatusMessageReset
     );
 
     private static IEnumerable<ContentRoulette> ValidRoulettes

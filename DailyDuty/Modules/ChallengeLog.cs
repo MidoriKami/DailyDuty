@@ -113,14 +113,14 @@ public class ChallengeLog : Module<ChallengeLogData, ChallengeLogConfig>, IConfi
         Config.MessageChatChannel,
         openChallengeLogPayload,
         DisplayName,
-        defaultMessage ?? $"{Config.TrackedEntries.Count - Config.TrackedEntries.Count(Excel.IsComplete<ContentsNote>)} {Strings.StatusMessages_ChallengeLogIncomplete}"
+        defaultMessage ?? $"{Config.TrackedEntries.Count - Config.TrackedEntries.Count(Excel.IsComplete<ContentsNote>)} {Strings.ChallengeLog_StatusMessageIncomplete}"
     );
 
     protected override void SendResetMessage(ReadOnlySeString? defaultMessage) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
         openChallengeLogPayload,
         DisplayName,
-        defaultMessage ?? "Module has been reset."
+        defaultMessage ?? Strings.ChallengeLog_StatusMessageReset
     );
 
     private static IEnumerable<ContentsNote> ValidContentsNotes =>

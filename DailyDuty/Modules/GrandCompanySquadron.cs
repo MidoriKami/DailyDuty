@@ -98,10 +98,10 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         grandCompanyTeleportPayload,
         DisplayName,
         message ?? GetCompletionStatus() switch {
-            CompletionStatus.Complete => Strings.StatusMessages_MissionResultsReady,
-            CompletionStatus.ResultsAvailable => Strings.StatusMessages_MissionResultsReady,
+            CompletionStatus.Complete => Strings.GrandCompanySquadron_StatusMessageResultsReady,
+            CompletionStatus.ResultsAvailable => Strings.GrandCompanySquadron_StatusMessageResultsReady,
             CompletionStatus.InProgress => Strings.GrandCompanySquadron_MissionStarted,
-            _ => Strings.StatusMessages_MissionNotStarted,
+            _ => Strings.GrandCompanySquadron_StatusMessageNotStarted,
         }
     );
 
@@ -109,7 +109,7 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
         Config.MessageChatChannel,
         grandCompanyTeleportPayload,
         DisplayName,
-        message ?? "Module has been reset."
+        message ?? Strings.GrandCompanySquadron_StatusMessageReset
     );
 
     private void GcArmyExpeditionResultPreFinalize(AddonEvent type, AddonArgs args) {
@@ -186,7 +186,7 @@ public class GrandCompanySquadron : Module<GrandCompanySquadronData, GrandCompan
 
         var timeRemaining = Data.MissionCompleteTime - DateTime.UtcNow;
         if (timeRemaining.TotalSeconds < 0) {
-            return Strings.StatusMessages_MissionResultsReady;
+            return Strings.GrandCompanySquadron_StatusMessageResultsReady;
         }
 
         return $"{timeRemaining.Hours:D2}:{timeRemaining.Minutes:D2}:{timeRemaining.Seconds:D2}";

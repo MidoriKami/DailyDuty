@@ -67,7 +67,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                         content.ItemSpacing = 8.0f;
                         content.IsVisible = false;
                     })
-                .TextWarningFilled("Select a timer to configure", out warningNode)
+                .TextWarningFilled(Strings.TimersOverlay_EditSelectTimer, out warningNode)
             ));
 
         layoutContainer.AttachNode(this);
@@ -94,9 +94,9 @@ public class TimerEditNode : ResNode, ILayoutFiller {
 
     private void BuildTimerInfoSection(NodeBuilder builder) => builder
         .Spacer(6.0f)
-        .CategoryLabel("Timer Info")
+        .CategoryLabel(Strings.TimersOverlay_EditTimerInfo)
         .Spacer(2.0f)
-        .Row("Display Label", right => right
+        .Row(Strings.TimersOverlay_EditLabel, right => right
             .InputText(newValue => {
                 if (TimerData is null) return;
 
@@ -107,9 +107,9 @@ public class TimerEditNode : ResNode, ILayoutFiller {
             out labelInput));
 
     private void BuildAppearanceSection(NodeBuilder builder) => builder
-        .CategoryLabel("Appearance")
+        .CategoryLabel(Strings.TimersOverlay_EditAppearance)
         .Spacer(2.0f)
-        .Row("Background Color", right => right
+        .Row(Strings.TimersOverlay_EditColor, right => right
             .ColorEdit4(Vector4.Zero, KnownColor.CornflowerBlue.Vector(), newColor => {
                 if (TimerData is null) return;
 
@@ -118,7 +118,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out colorEdit))
-        .Row("Text Color", right => right
+        .Row(Strings.TimersOverlay_EditTextColor, right => right
             .ColorEdit4(Vector4.Zero, KnownColor.White.Vector(), newTextColor => {
                 if (TimerData is null) return;
 
@@ -127,7 +127,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out textColorEdit))
-        .Row("Font Size", right => right
+        .Row(Strings.TimersOverlay_EditFontSize, right => right
             .IntSlider(16, 8, 48, newFontSize => {
                 if (TimerData is null) return;
 
@@ -136,7 +136,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out fontSizeSlider))
-        .Row("Timer Mode", right => right
+        .Row(Strings.TimersOverlay_EditDirection, right => right
             .Combo([TimerCountDirection.CountDown, TimerCountDirection.CountUp], TimerCountDirection.CountDown, newDirection => {
                 if (TimerData is null) return;
 
@@ -144,13 +144,15 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                 TimerData.IsDirty = true;
                 config?.Save();
             },
-            d => d == TimerCountDirection.CountDown ? "Remaining Time" : "Elapsed Time",
+            d => d == TimerCountDirection.CountDown
+                ? Strings.TimersOverlay_RemainingTime
+                : Strings.TimersOverlay_ElapsedTime,
             out directionCombo));
 
     private void BuildSizeScaleSection(NodeBuilder builder) => builder
-        .CategoryLabel("Size & Scale")
+        .CategoryLabel(Strings.TimersOverlay_EditSizeScale)
         .Spacer(2.0f)
-        .Row("Width", right => right
+        .Row(Strings.TimersOverlay_EditWidth, right => right
             .InputInt(300, 100, 800, newWidth => {
                 if (TimerData is null) return;
 
@@ -159,7 +161,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out widthInput))
-        .Row("Height", right => right
+        .Row(Strings.TimersOverlay_EditHeight, right => right
             .InputInt(64, 24, 256, newHeight => {
                 if (TimerData is null) return;
 
@@ -168,7 +170,7 @@ public class TimerEditNode : ResNode, ILayoutFiller {
                 config?.Save();
             },
             out heightInput))
-        .Row("Scale", right => right
+        .Row(Strings.TimersOverlay_Scale, right => right
             .FloatSlider(1.0f, 0.5f, 2.0f, newScale => {
                 if (TimerData is null) return;
 
@@ -179,30 +181,30 @@ public class TimerEditNode : ResNode, ILayoutFiller {
             out scaleSlider));
 
     private void BuildVisibilitySection(NodeBuilder builder) => builder
-        .CategoryLabel("Visibility")
+        .CategoryLabel(Strings.TimersOverlay_EditDisplay)
         .Spacer(2.0f)
-        .Checkbox("Show Text Label", true, newValue => {
+        .Checkbox(Strings.TimersOverlay_EditShowLabel, true, newValue => {
             if (TimerData is null) return;
 
             TimerData.ShowLabel = newValue;
             TimerData.IsDirty = true;
             config?.Save();
         }, out showLabelCheck)
-        .Checkbox("Show Countdown Timer", true, newValue => {
+        .Checkbox(Strings.TimersOverlay_EditShowCountdown, true, newValue => {
             if (TimerData is null) return;
 
             TimerData.ShowCountdown = newValue;
             TimerData.IsDirty = true;
             config?.Save();
         }, out showCountdownCheck)
-        .Checkbox("Hide Seconds", false, newValue => {
+        .Checkbox(Strings.TimersOverlay_EditHideSeconds, false, newValue => {
             if (TimerData is null) return;
 
             TimerData.HideSeconds = newValue;
             TimerData.IsDirty = true;
             config?.Save();
         }, out hideSecondsCheck)
-        .Checkbox("Hide when Completed", false, newValue => {
+        .Checkbox(Strings.TimersOverlay_EditHideExpired, false, newValue => {
             if (TimerData is null) return;
 
             TimerData.HideWhenCompleted = newValue;
@@ -211,9 +213,9 @@ public class TimerEditNode : ResNode, ILayoutFiller {
         }, out hideExpiredCheck);
 
     private void BuildInteractionSection(NodeBuilder builder) => builder
-        .CategoryLabel("Interaction")
+        .CategoryLabel(Strings.TimersOverlay_EditBehavior)
         .Spacer(2.0f)
-        .Checkbox("Enable Dragging", true, newValue => {
+        .Checkbox(Strings.TimersOverlay_EditEnableMoving, true, newValue => {
             if (TimerData is null) return;
 
             TimerData.EnableMoving = newValue;
