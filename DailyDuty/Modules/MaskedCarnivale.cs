@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Interfaces;
+using DailyDuty.UI;
 using Lumina.Excel.Sheets;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
@@ -25,16 +26,22 @@ public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig
     private TextNode? noviceNode;
     private TextNode? moderateNode;
     private TextNode? advancedNode;
+    private ChatLinkPayload? uldahTeleportPayload;
 
     public override async Task EnableAsync() {
         Data = await MaskedCarnivaleData.Load();
         Config = await MaskedCarnivaleConfig.Load();
+
+        uldahTeleportPayload = ChatLinkPayload.TeleportToUldah();
 
         IAddonLifecycle.Get().RegisterListener(AddonEvent.PostSetup, "AOZContentResult", AozContentResultPostSetup);
     }
 
     public override Task DisableAsync() {
         IAddonLifecycle.Get().UnregisterListener(AozContentResultPostSetup);
+
+        uldahTeleportPayload?.Dispose();
+        uldahTeleportPayload = null;
 
         noviceNode = null;
         moderateNode = null;
@@ -138,6 +145,7 @@ public class MaskedCarnivale : Module<MaskedCarnivaleData, MaskedCarnivaleConfig
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
+        uldahTeleportPayload,
         DisplayName,
         message ?? $"{GetIncompleteCount()} {Strings.StatusMessages_ChallengeIncomplete}"
     );

@@ -28,18 +28,18 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
     private VerticalListNode? warningPage;
     private VerticalListNode? dataPage;
 
-    private ChatLinkPayload? teleportPayload;
+    private ChatLinkPayload? goldSaucerTeleportPayload;
 
     public override async Task EnableAsync() {
         Data = await FashionReportData.Load();
         Config = await FashionReportConfig.Load();
 
-        teleportPayload = ChatLinkPayload.TeleportToGoldSaucer();
+        goldSaucerTeleportPayload = ChatLinkPayload.TeleportToGoldSaucer();
     }
 
     public override Task DisableAsync() {
-        teleportPayload?.Dispose();
-        teleportPayload = null;
+        goldSaucerTeleportPayload?.Dispose();
+        goldSaucerTeleportPayload = null;
 
         scoreText = null;
         attemptsText = null;
@@ -84,7 +84,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
     }
 
     public void OnTooltipClicked()
-        => teleportPayload?.ClickAction();
+        => goldSaucerTeleportPayload?.ClickAction();
 
     public void BuildConfigUi(NodeBuilder builder) => builder
         .Row(Strings.FashionReport_CompletionMode, rowBuilder => rowBuilder
@@ -142,6 +142,7 @@ public class FashionReport : Module<FashionReportData, FashionReportConfig>, ISp
 
     protected override void SendStatusMessage(ReadOnlySeString? message) => IChatGui.Get().PrintMessage(
         Config.MessageChatChannel,
+        goldSaucerTeleportPayload,
         DisplayName,
         message ?? StatusMessage
     );

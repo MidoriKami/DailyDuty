@@ -55,6 +55,9 @@ public class ChatLinkPayload : IDisposable {
     public static unsafe ChatLinkPayload TeleportToIdyllshire() => new(() =>
         Telepo.Instance()->Teleport(75, 0));
 
+    public static unsafe ChatLinkPayload TeleportToUldah() => new(() =>
+        Telepo.Instance()->Teleport(9, 0));
+
     public static unsafe ChatLinkPayload OpenChallengeLog() => new(() =>
         UIModule.Instance()->ExecuteMainCommand(60));
 
