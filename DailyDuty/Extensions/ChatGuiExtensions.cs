@@ -1,7 +1,9 @@
-﻿using DailyDuty.UI;
+using System;
+using DailyDuty.UI;
 using Dalamud.Game.Text;
+using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
-using Dalamud.Utility;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Extensions;
@@ -17,12 +19,13 @@ public static class ChatGuiExtensions {
         public void PrintMessage(XivChatType channel, ReadOnlySeString moduleName, ReadOnlySeString message) {
             // Chat functions are not threadsafe yet. Pending DalamudPR https://github.com/goatcorp/Dalamud/pull/3054
             IFramework.Get().Run(() => {
-                using var stringBuilder = new RentedSeStringBuilder();
-
-                var builtString = stringBuilder.AppendDailyDutyPrefix(moduleName).Append(message).ToReadOnlySeString().ToDalamudString();
                 var chatEntry = new XivChatEntry {
                     Type = channel,
-                    Message = builtString,
+                    Message = new SeStringBuilder()
+                        .AddUiForeground($"[{DailyDutyTag}] ", 45)
+                        .AddUiForeground($"[{moduleName.ExtractText()}] ", 62)
+                        .AddText(message.ExtractText())
+                        .Build(),
                 };
 
                 chatGui.Print(chatEntry);
@@ -40,16 +43,21 @@ public static class ChatGuiExtensions {
 
             // Chat functions are not threadsafe yet. Pending DalamudPR https://github.com/goatcorp/Dalamud/pull/3054
             IFramework.Get().Run(() => {
-                using var stringBuilder = new RentedSeStringBuilder();
-
-                var builtString = stringBuilder.AppendDailyDutyPrefix(moduleName).AppendLink(message, payload.Payload).ToReadOnlySeString().ToDalamudString();
                 var chatEntry = new XivChatEntry {
                     Type = channel,
-                    Message = builtString,
+                    Message = new SeStringBuilder()
+                        .AddUiForeground($"[{DailyDutyTag}] ", 45)
+                        .AddUiForeground($"[{moduleName.ExtractText()}] ", 62)
+                        .Add(payload.Payload)
+                        .AddUiForeground(message.ExtractText(), 576)
+                        .Add(RawPayload.LinkTerminator)
+                        .Build(),
                 };
 
                 chatGui.Print(chatEntry);
             });
         }
     }
+
+    private static string DailyDutyTag => DateTime.Today is { Month: 4, Day: 1 } ? "DankDuty" : "DailyDuty";
 }
