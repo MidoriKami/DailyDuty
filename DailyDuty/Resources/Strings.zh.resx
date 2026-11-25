@@ -51,7 +51,7 @@
     <value>多玛飞地</value>
   </data>
   <data name="DutyFinder_DisplayName" xml:space="preserve">
-    <value>Duty Finder</value>
+    <value>任务搜索器</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>随机任务</value>
@@ -102,13 +102,13 @@
     <value>计时器悬浮窗</value>
   </data>
   <data name="TodoOverlay_DisplayName" xml:space="preserve">
-    <value>Todo Panel Overlay</value>
+    <value>待办面板悬浮窗</value>
   </data>
   <data name="TreasureMap_DisplayName" xml:space="preserve">
     <value>宝物地图</value>
   </data>
   <data name="BeastTribes_DisplayName" xml:space="preserve">
-    <value>Tribal Quests</value>
+    <value>友好部族任务</value>
   </data>
   <data name="WondrousTails_DisplayName" xml:space="preserve">
     <value>天书奇谈</value>
@@ -123,7 +123,7 @@
     <value>已完成</value>
   </data>
   <data name="CompletionStatus_NotStarted" xml:space="preserve">
-    <value>Not Started</value>
+    <value>尚未开始</value>
   </data>
   <data name="GenericDataNode_ModuleStatus" xml:space="preserve">
     <value>模块状态</value>
@@ -135,7 +135,7 @@
     <value>剩余时间</value>
   </data>
   <data name="GenericDataNode_AvailableUntil" xml:space="preserve">
-    <value>Available Until</value>
+    <value>截止至</value>
   </data>
   <data name="NotificationSettingsNode_NotificationSettings" xml:space="preserve">
     <value>通知设置</value>
@@ -162,7 +162,7 @@
     <value>模块设置</value>
   </data>
   <data name="ConfigNodeBase_FeatureSettings" xml:space="preserve">
-    <value>Feature Settings</value>
+    <value>功能设置</value>
   </data>
   <data name="DataNodeBase_ModuleData" xml:space="preserve">
     <value>模块数据</value>
@@ -177,10 +177,10 @@
     <value>恢复提醒</value>
   </data>
   <data name="DataNodeBase_SnoozeTooltip" xml:space="preserve">
-    <value>Suppresses notification until the next reset.</value>
+    <value>在下次重置前不再提醒。</value>
   </data>
   <data name="ModuleBrowserWindow_SelectOption" xml:space="preserve">
-    <value>Please select an option on the left.</value>
+    <value>请在左侧选择一项。</value>
   </data>
   <data name="TimerOverlayNode_OverlayTooltip" xml:space="preserve">
     <value>来自DailyDuty插件的悬浮窗</value>
@@ -189,16 +189,16 @@
     <value>DailyDuty 配置</value>
   </data>
   <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
-    <value>Open DailyDuty</value>
+    <value>打开 DailyDuty</value>
   </data>
   <data name="DutyFinder_HideSeconds" xml:space="preserve">
-    <value>Hide Seconds</value>
+    <value>隐藏秒数</value>
   </data>
   <data name="DutyFinder_TextColor" xml:space="preserve">
-    <value>Text Color</value>
+    <value>文本颜色</value>
   </data>
   <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
-    <value>Show "Open DailyDuty" Button</value>
+    <value>显示"打开 DailyDuty"按钮</value>
   </data>
   <data name="ServerInfoBar_ToggleableTimer" xml:space="preserve">
     <value>可切换的计时器</value>
@@ -219,13 +219,13 @@
     <value>右键单击打开配置</value>
   </data>
   <data name="ServerInfoBar_HideSeconds" xml:space="preserve">
-    <value>Hide Timer Seconds</value>
+    <value>隐藏计时器秒数</value>
   </data>
   <data name="ServerInfoBar_DailyReset" xml:space="preserve">
-    <value>Daily Reset</value>
+    <value>每日重置时间</value>
   </data>
   <data name="ServerInfoBar_WeeklyReset" xml:space="preserve">
-    <value>Weekly Reset</value>
+    <value>每周重置时间</value>
   </data>
   <data name="TimersOverlay_HideInDuties" xml:space="preserve">
     <value>副本中隐藏</value>
@@ -240,13 +240,13 @@
     <value>计时器选择</value>
   </data>
   <data name="TimersOverlay_SelectionNote" xml:space="preserve">
-    <value>Timers are only available for modules that are currently active.</value>
+    <value>仅对当前已启用的模块显示倒计时。</value>
   </data>
   <data name="TimersOverlay_EditAppearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>外观</value>
   </data>
   <data name="TimersOverlay_EditDisplay" xml:space="preserve">
-    <value>Visibility</value>
+    <value>可见性</value>
   </data>
   <data name="TimersOverlay_EditBehavior" xml:space="preserve">
     <value>Behavior</value>
@@ -456,7 +456,7 @@
     <value>本周已完成次数</value>
   </data>
   <data name="FauxHollows_TooltipRemainingCompletions" xml:space="preserve">
-    <value>幻巧战剩余完成次数：{0}次。</value>
+    <value>{0} Unreal Trial completion(s) remaining.</value>
   </data>
   <data name="GrandCompanySquadron_MissionCompleted" xml:space="preserve">
     <value>任务已完成</value>
@@ -714,6 +714,6 @@
     <value>[DailyDuty] Time Until Next Reset</value>
   </data>
   <data name="Tooltip_AllowancesAboveThreshold" xml:space="preserve">
-    <value>超过通知阈值的剩余次数：{0}</value>
+    <value>{0} allowance(s) above the notification threshold</value>
   </data>
 </root>
