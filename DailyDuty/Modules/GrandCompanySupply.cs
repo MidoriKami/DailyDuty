@@ -15,7 +15,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySupplyConfig>, IDailyResettable, IConfigurable, IFrameworkUpdatable {
+public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySupplyConfig>, IDailyResettable, IConfigurable, IFrameworkUpdatable, IClickableTooltip {
 
     public override string DisplayName => Strings.GrandCompanySupply_DisplayName;
 
@@ -65,6 +65,17 @@ public class GrandCompanySupply : Module<GrandCompanySupplyData, GrandCompanySup
             node?.String = Data.ClassJobStatus[job] ? Strings.CompletionStatus_Complete : Strings.CompletionStatus_Incomplete;
         }
     }
+
+    public ReadOnlySeString GetTooltip() {
+        var outstandingJobs = Config.TrackedClasses
+            .Where(pair => pair.Value && !Data.ClassJobStatus.GetValueOrDefault(pair.Key))
+            .Select(pair => ISeStringEvaluator.Get().EvaluateFromAddon(698, [pair.Key]));
+
+        return string.Join("\n", outstandingJobs);
+    }
+
+    public void OnTooltipClicked()
+        => grandCompanyTeleportPayload?.ClickAction();
 
     public unsafe void Update() {
         var agent = AgentGrandCompanySupply.Instance();

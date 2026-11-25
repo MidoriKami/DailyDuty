@@ -14,7 +14,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class MiniCactpot : Module<MiniCactpotData, MiniCactpotConfig>, IDailyResettable, INpcInteractListener {
+public class MiniCactpot : Module<MiniCactpotData, MiniCactpotConfig>, IDailyResettable, INpcInteractListener, IClickableTooltip {
 
     public override string DisplayName => Strings.MiniCactpot_DisplayName;
 
@@ -51,6 +51,12 @@ public class MiniCactpot : Module<MiniCactpotData, MiniCactpotConfig>, IDailyRes
     public override void UpdateDataUi() {
         attemptsNode?.String = Data.AllowancesRemaining.ToString();
     }
+
+    public ReadOnlySeString GetTooltip()
+        => $"{Data.AllowancesRemaining} {Strings.MiniCactpot_AttemptsAvailable}";
+
+    public void OnTooltipClicked()
+        => goldSaucerTeleportPayload?.ClickAction();
 
     protected override async Task ResetAsync() {
         Data.AllowancesRemaining = 3;

@@ -652,6 +652,15 @@ namespace Resources {
                 return ResourceManager.GetString("FauxHollows_StatusMessageReset", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///     Looks up a localized string similar to {0} Unreal Trial completion(s) remaining..
+        /// </summary>
+        internal static string FauxHollows_TooltipRemainingCompletions {
+            get {
+                return ResourceManager.GetString("FauxHollows_TooltipRemainingCompletions", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///     Looks up a localized string similar to Available Until.
@@ -1829,6 +1838,15 @@ namespace Resources {
         internal static string TodoOverlay_Width {
             get {
                 return ResourceManager.GetString("TodoOverlay_Width", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///     Looks up a localized string similar to {0} allowance(s) above the notification threshold.
+        /// </summary>
+        internal static string Tooltip_AllowancesAboveThreshold {
+            get {
+                return ResourceManager.GetString("Tooltip_AllowancesAboveThreshold", resourceCulture);
             }
         }
         

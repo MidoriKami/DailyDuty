@@ -10,7 +10,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyResettable, IConfigurable {
+public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyResettable, IConfigurable, ITooltip {
 
     public override string DisplayName => Strings.BeastTribes_DisplayName;
 
@@ -35,6 +35,9 @@ public class BeastTribes : Module<BeastTribesData, BeastTribesConfig>, IDailyRes
 
     public override void UpdateDataUi()
         => allowancesNode?.String = RemainingAllowances.ToString();
+
+    public ReadOnlySeString GetTooltip()
+        => string.Format(Strings.Tooltip_AllowancesAboveThreshold, RemainingAllowances - Config.NotificationThreshold);
 
     public void BuildConfigUi(NodeBuilder builder) => builder
         .TextCentered(Strings.BeastTribes_ThresholdNote)

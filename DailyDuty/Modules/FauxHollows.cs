@@ -12,7 +12,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyResettable, IConfigurable {
+public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyResettable, IConfigurable, IClickableTooltip {
 
     public override string DisplayName => Strings.FauxHollows_DisplayName;
 
@@ -48,6 +48,12 @@ public class FauxHollows : Module<FauxHollowsData, FauxHollowsConfig>, IWeeklyRe
 
     public override void UpdateDataUi()
         => completionText?.String = Data.FauxHollowsCompletions.ToString();
+
+    public ReadOnlySeString GetTooltip()
+        => string.Format(Strings.FauxHollows_TooltipRemainingCompletions, (Config.IncludeRetelling ? 2 : 1) - Data.FauxHollowsCompletions);
+
+    public void OnTooltipClicked()
+        => idyllShireTeleportPayload?.ClickAction();
 
     public void BuildConfigUi(NodeBuilder builder) => builder
         .Checkbox(Strings.FauxHollows_IncludeRetelling, Config.IncludeRetelling, val => {

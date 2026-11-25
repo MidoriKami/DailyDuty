@@ -456,7 +456,7 @@
     <value>現在の完了数</value>
   </data>
   <data name="FauxHollows_TooltipRemainingCompletions" xml:space="preserve">
-    <value>{0} Unreal Trial completion(s) remaining.</value>
+    <value>幻討滅戦の残り完了回数：{0}回。</value>
   </data>
   <data name="GrandCompanySquadron_MissionCompleted" xml:space="preserve">
     <value>小隊任務完了</value>
@@ -714,6 +714,6 @@
     <value>[DailyDuty] Time Until Next Reset</value>
   </data>
   <data name="Tooltip_AllowancesAboveThreshold" xml:space="preserve">
-    <value>{0} allowance(s) above the notification threshold</value>
+    <value>通知しきい値を超える残り回数：{0}</value>
   </data>
 </root>

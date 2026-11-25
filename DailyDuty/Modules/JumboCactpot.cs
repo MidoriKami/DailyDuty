@@ -16,7 +16,7 @@ using AgentId = Dalamud.Game.Agent.AgentId;
 
 namespace DailyDuty.Modules;
 
-public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeeklyResettable, INpcInteractListener {
+public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeeklyResettable, INpcInteractListener, IClickableTooltip {
 
     public override string DisplayName => Strings.JumboCactpot_DisplayName;
 
@@ -63,6 +63,12 @@ public class JumboCactpot : Module<JumboCactpotData, JumboCactpotConfig>, IWeekl
         ticketNode2?.String = Data.Tickets.Count > 1 ? Data.Tickets[1].ToString() : Strings.JumboCactpot_TicketNotClaimed;
         ticketNode3?.String = Data.Tickets.Count > 2 ? Data.Tickets[2].ToString() : Strings.JumboCactpot_TicketNotClaimed;
     }
+
+    public ReadOnlySeString GetTooltip()
+        => $"{3 - Data.Tickets.Count} {Strings.JumboCactpot_StatusMessageRemaining}";
+
+    public void OnTooltipClicked()
+        => goldSaucerTeleportPayload?.ClickAction();
 
     protected override async Task ResetAsync() {
         Data.Tickets.Clear();

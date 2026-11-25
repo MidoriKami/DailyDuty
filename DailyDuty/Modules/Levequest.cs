@@ -12,7 +12,7 @@ using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Modules;
 
-public class Levequest : Module<LevequestData, LevequestConfig>, ISpecialResettable, IConfigurable {
+public class Levequest : Module<LevequestData, LevequestConfig>, ISpecialResettable, IConfigurable, ITooltip {
 
     public override string DisplayName => Strings.Levequest_DisplayName;
 
@@ -44,6 +44,9 @@ public class Levequest : Module<LevequestData, LevequestConfig>, ISpecialResetta
             acceptedNode?.String = QuestManager.Instance()->NumAcceptedLeveQuests.ToString();
         }
     }
+
+    public ReadOnlySeString GetTooltip()
+        => string.Format(Strings.Tooltip_AllowancesAboveThreshold, RemainingAllowances - Config.NotificationThreshold);
 
     public void BuildConfigUi(NodeBuilder builder) => builder
         .TextCentered(Strings.Levequest_ThresholdNote)
