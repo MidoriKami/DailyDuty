@@ -531,7 +531,7 @@
     <value>当剩余可用次数超过该阈值时发送提醒。</value>
   </data>
   <data name="BeastTribes_StatusMessageIncomplete" xml:space="preserve">
-    <value>距达成阈值剩余任务次数</value>
+    <value>项任务即可达到报酬上限</value>
   </data>
   <data name="WondrousTails_InstanceNotifications" xml:space="preserve">
     <value>副本进入通知</value>
@@ -573,40 +573,40 @@
     <value>等等！你还没领取天书奇谈！</value>
   </data>
   <data name="ChallengeLog_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成挑战笔记</value>
+    <value>项挑战笔记未完成</value>
   </data>
   <data name="CustomDelivery_StatusMessageIncomplete" xml:space="preserve">
-    <value>距达成阈值剩余老主顾交易次数</value>
+    <value>次老主顾交易即可达到报酬上限</value>
   </data>
   <data name="DutyRoulette_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成随机任务</value>
+    <value>项随机任务未完成</value>
   </data>
   <data name="GrandCompanyProvision_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成交付</value>
+    <value>次交付未完成</value>
   </data>
   <data name="GrandCompanySupply_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成交付</value>
+    <value>次交付未完成</value>
   </data>
   <data name="HuntMarksDaily_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成狩猎通缉令</value>
+    <value>张怪物通缉令未完成</value>
   </data>
   <data name="HuntMarksWeekly_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成狩猎通缉令</value>
+    <value>张怪物通缉令未完成</value>
   </data>
   <data name="JumboCactpot_StatusMessageRemaining" xml:space="preserve">
     <value>彩票剩余数</value>
   </data>
   <data name="Levequest_StatusMessageIncomplete" xml:space="preserve">
-    <value>距达成阈值剩余理符任务次数</value>
+    <value>个理符任务即可达到报酬上限</value>
   </data>
   <data name="MaskedCarnivale_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成挑战</value>
+    <value>项挑战未完成</value>
   </data>
   <data name="RaidsAlliance_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成团队任务</value>
+    <value>项团队任务未完成</value>
   </data>
   <data name="RaidsNormal_StatusMessageIncomplete" xml:space="preserve">
-    <value>未完成普通大型任务</value>
+    <value>项大型任务未完成</value>
   </data>
   <data name="GrandCompanySquadron_StatusMessageResultsReady" xml:space="preserve">
     <value>任务结果已就绪</value>
