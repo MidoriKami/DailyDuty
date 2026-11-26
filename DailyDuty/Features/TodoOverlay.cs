@@ -60,8 +60,8 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
                 Config.HideInDuties = val;
                 Config.Save();
             })
-            .Checkbox(Strings.TodoOverlay_HideInQuests, Config.HideInQuests, val => {
-                Config.HideInQuests = val;
+            .Checkbox(Strings.TodoOverlay_HideInQuests, Config.HideDuringQuests, val => {
+                Config.HideDuringQuests = val;
                 Config.Save();
             }), node => {
             node.FirstItemSpacing = 5.0f;
@@ -160,10 +160,10 @@ public class TodoOverlay : Feature<TodoOverlayConfig> {
 }
 
 public class TodoOverlayConfig : FeatureConfigFile<TodoOverlayConfig> {
-    protected override string FileName => "TodoOverlay.config.json";
+    protected override string FileName => "TodoList.config.json";
 
     public bool HideInDuties { get; set; }
-    public bool HideInQuests { get; set; }
+    public bool HideDuringQuests { get; set; }
     public List<TodoPanelConfig> Panels { get; set; } = [];
 }
 
@@ -171,13 +171,12 @@ public class TodoPanelConfig {
     public Vector2? Position { get; set; }
     public float Scale { get; set; } = 1.0f;
     public string Label { get; set; } = Strings.TodoOverlay_NewPanel;
-    public bool IsCollapsed { get; set; }
     public bool ShowFrame { get; set; } = true;
     public VerticalListAlignment Alignment { get; set; } = VerticalListAlignment.Left;
     public HashSet<string> Modules { get; set; } = [];
     public Vector4 TextColor { get; set; } = ColorHelper.GetColor(1);
     public Vector4 OutlineColor { get; set; } = ColorHelper.GetColor(53);
-    public int ItemSpacing { get; set; } = 0;
+    public int ItemSpacing { get; set; }
     public float Alpha { get; set; } = 1.0f;
     public float ButtonAlpha { get; set; } = 1.0f;
     public int Width { get; set; } = 225;
