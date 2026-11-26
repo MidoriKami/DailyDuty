@@ -51,7 +51,7 @@
     <value>多玛飞地</value>
   </data>
   <data name="DutyFinder_DisplayName" xml:space="preserve">
-    <value>Duty Finder</value>
+    <value>任务搜索器</value>
   </data>
   <data name="DutyRoulette_DisplayName" xml:space="preserve">
     <value>随机任务</value>
@@ -102,13 +102,13 @@
     <value>计时器悬浮窗</value>
   </data>
   <data name="TodoOverlay_DisplayName" xml:space="preserve">
-    <value>Todo Panel Overlay</value>
+    <value>待办面板悬浮窗</value>
   </data>
   <data name="TreasureMap_DisplayName" xml:space="preserve">
     <value>宝物地图</value>
   </data>
   <data name="BeastTribes_DisplayName" xml:space="preserve">
-    <value>Tribal Quests</value>
+    <value>友好部族任务</value>
   </data>
   <data name="WondrousTails_DisplayName" xml:space="preserve">
     <value>天书奇谈</value>
@@ -123,7 +123,7 @@
     <value>已完成</value>
   </data>
   <data name="CompletionStatus_NotStarted" xml:space="preserve">
-    <value>Not Started</value>
+    <value>尚未开始</value>
   </data>
   <data name="GenericDataNode_ModuleStatus" xml:space="preserve">
     <value>模块状态</value>
@@ -135,7 +135,7 @@
     <value>剩余时间</value>
   </data>
   <data name="GenericDataNode_AvailableUntil" xml:space="preserve">
-    <value>Available Until</value>
+    <value>截止至</value>
   </data>
   <data name="NotificationSettingsNode_NotificationSettings" xml:space="preserve">
     <value>通知设置</value>
@@ -162,7 +162,7 @@
     <value>模块设置</value>
   </data>
   <data name="ConfigNodeBase_FeatureSettings" xml:space="preserve">
-    <value>Feature Settings</value>
+    <value>功能设置</value>
   </data>
   <data name="DataNodeBase_ModuleData" xml:space="preserve">
     <value>模块数据</value>
@@ -177,10 +177,10 @@
     <value>恢复提醒</value>
   </data>
   <data name="DataNodeBase_SnoozeTooltip" xml:space="preserve">
-    <value>Suppresses notification until the next reset.</value>
+    <value>在下次重置前不再提醒。</value>
   </data>
   <data name="ModuleBrowserWindow_SelectOption" xml:space="preserve">
-    <value>Please select an option on the left.</value>
+    <value>请在左侧选择一项。</value>
   </data>
   <data name="TimerOverlayNode_OverlayTooltip" xml:space="preserve">
     <value>来自DailyDuty插件的悬浮窗</value>
@@ -189,16 +189,16 @@
     <value>DailyDuty 配置</value>
   </data>
   <data name="DutyFinder_OpenDailyDuty" xml:space="preserve">
-    <value>Open DailyDuty</value>
+    <value>打开 DailyDuty</value>
   </data>
   <data name="DutyFinder_HideSeconds" xml:space="preserve">
-    <value>Hide Seconds</value>
+    <value>隐藏秒数</value>
   </data>
   <data name="DutyFinder_TextColor" xml:space="preserve">
-    <value>Text Color</value>
+    <value>文本颜色</value>
   </data>
   <data name="DutyFinder_ShowOpenButton" xml:space="preserve">
-    <value>Show "Open DailyDuty" Button</value>
+    <value>显示"打开 DailyDuty"按钮</value>
   </data>
   <data name="ServerInfoBar_ToggleableTimer" xml:space="preserve">
     <value>可切换的计时器</value>
@@ -219,13 +219,13 @@
     <value>右键单击打开配置</value>
   </data>
   <data name="ServerInfoBar_HideSeconds" xml:space="preserve">
-    <value>Hide Timer Seconds</value>
+    <value>隐藏计时器秒数</value>
   </data>
   <data name="ServerInfoBar_DailyReset" xml:space="preserve">
-    <value>Daily Reset</value>
+    <value>每日重置时间</value>
   </data>
   <data name="ServerInfoBar_WeeklyReset" xml:space="preserve">
-    <value>Weekly Reset</value>
+    <value>每周重置时间</value>
   </data>
   <data name="TimersOverlay_HideInDuties" xml:space="preserve">
     <value>副本中隐藏</value>
@@ -240,73 +240,73 @@
     <value>计时器选择</value>
   </data>
   <data name="TimersOverlay_SelectionNote" xml:space="preserve">
-    <value>Timers are only available for modules that are currently active.</value>
+    <value>仅对当前已启用的模块显示倒计时。</value>
   </data>
   <data name="TimersOverlay_EditAppearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>外观</value>
   </data>
   <data name="TimersOverlay_EditDisplay" xml:space="preserve">
-    <value>Visibility</value>
+    <value>可见性</value>
   </data>
   <data name="TimersOverlay_EditBehavior" xml:space="preserve">
-    <value>Behavior</value>
+    <value>行为</value>
   </data>
   <data name="TimersOverlay_EditLabel" xml:space="preserve">
-    <value>Display Label</value>
+    <value>显示标签</value>
   </data>
   <data name="TimersOverlay_EditColor" xml:space="preserve">
-    <value>Background Color</value>
+    <value>背景颜色</value>
   </data>
   <data name="TimersOverlay_EditDirection" xml:space="preserve">
-    <value>Timer Mode</value>
+    <value>计时模式</value>
   </data>
   <data name="TimersOverlay_EditTextColor" xml:space="preserve">
-    <value>Text Color</value>
+    <value>文本颜色</value>
   </data>
   <data name="TimersOverlay_EditFontSize" xml:space="preserve">
-    <value>Font Size</value>
+    <value>字体大小</value>
   </data>
   <data name="TimersOverlay_EditWidth" xml:space="preserve">
-    <value>Width</value>
+    <value>宽度</value>
   </data>
   <data name="TimersOverlay_EditHeight" xml:space="preserve">
-    <value>Height</value>
+    <value>高度</value>
   </data>
   <data name="TimersOverlay_EditShowLabel" xml:space="preserve">
-    <value>Show Text Label</value>
+    <value>显示文本标签</value>
   </data>
   <data name="TimersOverlay_EditShowCountdown" xml:space="preserve">
-    <value>Show Countdown Timer</value>
+    <value>显示倒计时</value>
   </data>
   <data name="TimersOverlay_EditHideSeconds" xml:space="preserve">
-    <value>Hide Seconds</value>
+    <value>隐藏秒数</value>
   </data>
   <data name="TimersOverlay_EditHideExpired" xml:space="preserve">
-    <value>Hide when Completed</value>
+    <value>完成后隐藏</value>
   </data>
   <data name="TimersOverlay_EditEnableMoving" xml:space="preserve">
-    <value>Enable Dragging</value>
+    <value>启用拖动</value>
   </data>
   <data name="TimersOverlay_EditSelectTimer" xml:space="preserve">
-    <value>Select a timer to configure</value>
+    <value>选择要配置的计时器</value>
   </data>
   <data name="TimersOverlay_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>编辑</value>
   </data>
   <data name="TimersOverlay_EditTimerInfo" xml:space="preserve">
-    <value>Timer Info</value>
+    <value>计时器信息</value>
   </data>
   <data name="TimersOverlay_EditSizeScale" xml:space="preserve">
-    <value>Size &amp; Scale</value>
+    <value>尺寸与缩放</value>
   </data>
   <data name="TimersOverlay_RemainingTime" xml:space="preserve">
-    <value>Remaining Time</value>
+    <value>剩余时间</value>
   </data>
   <data name="TimersOverlay_ElapsedTime" xml:space="preserve">
-    <value>Elapsed Time</value>
+    <value>已用时间</value>
   </data>
   <data name="TodoOverlay_Panels" xml:space="preserve">
-    <value>Panels</value>
+    <value>面板</value>
   </data>
   <data name="TodoOverlay_Alignment" xml:space="preserve">
     <value>对齐方式</value>
@@ -327,70 +327,70 @@
     <value>文字描边色</value>
   </data>
   <data name="TodoOverlay_HideInDuties" xml:space="preserve">
-    <value>Hide in Duties</value>
+    <value>在副本中隐藏</value>
   </data>
   <data name="TodoOverlay_HideInQuests" xml:space="preserve">
-    <value>Hide in Quest Events</value>
+    <value>任务事件中隐藏</value>
   </data>
   <data name="TodoOverlay_Modules" xml:space="preserve">
-    <value>Modules</value>
+    <value>模块</value>
   </data>
   <data name="TodoOverlay_Style" xml:space="preserve">
-    <value>Style</value>
+    <value>样式</value>
   </data>
   <data name="TodoOverlay_SelectPanel" xml:space="preserve">
-    <value>Select a panel to configure</value>
+    <value>选择要配置的面板</value>
   </data>
   <data name="TodoOverlay_PanelInfo" xml:space="preserve">
-    <value>Panel Info</value>
+    <value>面板信息</value>
   </data>
   <data name="TodoOverlay_DisplayLabel" xml:space="preserve">
-    <value>Display Label</value>
+    <value>显示标签</value>
   </data>
   <data name="TodoOverlay_Appearance" xml:space="preserve">
-    <value>Appearance</value>
+    <value>外观</value>
   </data>
   <data name="TodoOverlay_TextColor" xml:space="preserve">
-    <value>Text Color</value>
+    <value>文本颜色</value>
   </data>
   <data name="TodoOverlay_Layout" xml:space="preserve">
-    <value>Layout</value>
+    <value>布局</value>
   </data>
   <data name="TodoOverlay_Scale" xml:space="preserve">
-    <value>Scale</value>
+    <value>缩放</value>
   </data>
   <data name="TodoOverlay_Width" xml:space="preserve">
-    <value>Width</value>
+    <value>宽度</value>
   </data>
   <data name="TodoOverlay_ListXOffset" xml:space="preserve">
-    <value>List X Offset</value>
+    <value>列表横向偏移</value>
   </data>
   <data name="TodoOverlay_ItemSpacing" xml:space="preserve">
-    <value>Item Spacing</value>
+    <value>条目间距</value>
   </data>
   <data name="TodoOverlay_ShowFrame" xml:space="preserve">
-    <value>Show Frame</value>
+    <value>显示边框</value>
   </data>
   <data name="TodoOverlay_Interaction" xml:space="preserve">
-    <value>Interaction</value>
+    <value>交互</value>
   </data>
   <data name="TodoOverlay_AutoHideWhenComplete" xml:space="preserve">
-    <value>Auto-hide when all complete</value>
+    <value>全部完成后自动隐藏</value>
   </data>
   <data name="TodoOverlay_Left" xml:space="preserve">
-    <value>Left</value>
+    <value>左</value>
   </data>
   <data name="TodoOverlay_Right" xml:space="preserve">
-    <value>Right</value>
+    <value>右</value>
   </data>
   <data name="ChallengeLog_DutyFinderWarningSound" xml:space="preserve">
     <value>启用任务搜索器提示音效</value>
   </data>
   <data name="CustomDelivery_NotificationThreshold" xml:space="preserve">
-    <value>Notification Threshold</value>
+    <value>通知阈值</value>
   </data>
   <data name="CustomDelivery_ThresholdNote" xml:space="preserve">
-    <value>Warnings are sent when remaining allowances are above this threshold.</value>
+    <value>当剩余可用次数超过该阈值时发送提醒。</value>
   </data>
   <data name="CustomDelivery_AllowancesRemaining" xml:space="preserve">
     <value>剩余可交付次数</value>
@@ -405,10 +405,10 @@
     <value>剩余可捐赠额度</value>
   </data>
   <data name="DomanEnclave_UnavailableStatus" xml:space="preserve">
-    <value>Status is unavailable, visit the Doman Enclave to update.</value>
+    <value>状态不可用，请前往多玛飞地以更新数据。</value>
   </data>
   <data name="DomanEnclave_UnknownStatus" xml:space="preserve">
-    <value>Status unknown, visit the enclave to update.</value>
+    <value>状态未知，请前往多玛飞地以更新数据。</value>
   </data>
   <data name="DutyRoulette_MarkCompleteTomecapped" xml:space="preserve">
     <value>每周神典石达到上限时标记为已完成</value>
@@ -435,19 +435,19 @@
     <value>最高得分尚未更新</value>
   </data>
   <data name="FashionReport_AttemptsAvailable" xml:space="preserve">
-    <value>Attempts Available</value>
+    <value>剩余游玩次数</value>
   </data>
   <data name="FashionReport_NotAttempted" xml:space="preserve">
-    <value>Not attempted yet</value>
+    <value>尚未挑战</value>
   </data>
   <data name="FashionReport_NotAvailable" xml:space="preserve">
-    <value>Fashion Report will be available later this week.</value>
+    <value>时尚品鉴将于本周晚些时候开放。</value>
   </data>
   <data name="FashionReport_AttemptsRemaining" xml:space="preserve">
-    <value>Attempt(s) Remaining</value>
+    <value>剩余挑战次数</value>
   </data>
   <data name="FashionReport_ScoreTarget" xml:space="preserve">
-    <value>Score Target</value>
+    <value>目标分数</value>
   </data>
   <data name="FauxHollows_IncludeRetelling" xml:space="preserve">
     <value>包含额外机会</value>
@@ -456,7 +456,7 @@
     <value>本周已完成次数</value>
   </data>
   <data name="FauxHollows_TooltipRemainingCompletions" xml:space="preserve">
-    <value>幻巧战剩余完成次数：{0}次。</value>
+    <value>剩余 {0} 次幻巧战副本未完成。</value>
   </data>
   <data name="GrandCompanySquadron_MissionCompleted" xml:space="preserve">
     <value>任务已完成</value>
@@ -486,10 +486,10 @@
     <value>已接受理符任务数</value>
   </data>
   <data name="Levequest_NotificationThreshold" xml:space="preserve">
-    <value>Notification Threshold</value>
+    <value>通知阈值</value>
   </data>
   <data name="Levequest_ThresholdNote" xml:space="preserve">
-    <value>Warnings are sent when remaining allowances are above this threshold.</value>
+    <value>当剩余可用次数超过该阈值时发送提醒。</value>
   </data>
   <data name="MiniCactpot_AttemptsAvailable" xml:space="preserve">
     <value>剩余游玩次数</value>
@@ -498,16 +498,16 @@
     <value>游玩次数尚未更新</value>
   </data>
   <data name="RaidsAlliance_NoneLimited" xml:space="preserve">
-    <value>No raids are currently limited.</value>
+    <value>当前没有限制周获取次数的大型任务。</value>
   </data>
   <data name="RaidsAlliance_NoneTracked" xml:space="preserve">
-    <value>No raids are being tracked. Enable raids in the config to start tracking.</value>
+    <value>当前没有正在追踪的大型任务。请在设置中启用大型任务追踪。</value>
   </data>
   <data name="RaidsNormal_NoneLimited" xml:space="preserve">
-    <value>No raids are currently limited.</value>
+    <value>当前没有限制周获取次数的大型任务。</value>
   </data>
   <data name="RaidsNormal_NoneTracked" xml:space="preserve">
-    <value>No raids are being tracked. Enable raids in the config to start tracking.</value>
+    <value>当前没有正在追踪的大型任务。请在设置中启用大型任务追踪。</value>
   </data>
   <data name="TreasureMap_LastGathered" xml:space="preserve">
     <value>上次采集宝物地图时间</value>
@@ -516,22 +516,22 @@
     <value>可采集宝物地图</value>
   </data>
   <data name="TreasureMap_NeverGathered" xml:space="preserve">
-    <value>Never Gathered</value>
+    <value>尚未采集</value>
   </data>
   <data name="TreasureMap_AttemptsNotUpdated" xml:space="preserve">
-    <value>Attempts Not Updated</value>
+    <value>剩余次数未更新</value>
   </data>
   <data name="BeastTribes_Available" xml:space="preserve">
-    <value>Tribal Quests Available</value>
+    <value>友好部族任务可接取次数</value>
   </data>
   <data name="BeastTribes_NotificationThreshold" xml:space="preserve">
-    <value>Notification Threshold</value>
+    <value>通知阈值</value>
   </data>
   <data name="BeastTribes_ThresholdNote" xml:space="preserve">
-    <value>Warnings are sent when remaining allowances are above this threshold.</value>
+    <value>当剩余可用次数超过该阈值时发送提醒。</value>
   </data>
   <data name="BeastTribes_StatusMessageIncomplete" xml:space="preserve">
-    <value>Quest(s) left to reach Threshold</value>
+    <value>距达成阈值剩余任务次数</value>
   </data>
   <data name="WondrousTails_InstanceNotifications" xml:space="preserve">
     <value>副本进入通知</value>
@@ -573,109 +573,109 @@
     <value>等等！你还没领取天书奇谈！</value>
   </data>
   <data name="ChallengeLog_StatusMessageIncomplete" xml:space="preserve">
-    <value>Challenge Log(s) Incomplete</value>
+    <value>未完成挑战笔记</value>
   </data>
   <data name="CustomDelivery_StatusMessageIncomplete" xml:space="preserve">
-    <value>Custom Delivery(s) left to reach Threshold</value>
+    <value>距达成阈值剩余老主顾交易次数</value>
   </data>
   <data name="DutyRoulette_StatusMessageIncomplete" xml:space="preserve">
-    <value>Roulette(s) Incomplete</value>
+    <value>未完成随机任务</value>
   </data>
   <data name="GrandCompanyProvision_StatusMessageIncomplete" xml:space="preserve">
-    <value>Delivery(s) Incomplete</value>
+    <value>未完成交付</value>
   </data>
   <data name="GrandCompanySupply_StatusMessageIncomplete" xml:space="preserve">
-    <value>Delivery(s) Incomplete</value>
+    <value>未完成交付</value>
   </data>
   <data name="HuntMarksDaily_StatusMessageIncomplete" xml:space="preserve">
-    <value>Hunt Bill(s) Incomplete</value>
+    <value>未完成狩猎通缉令</value>
   </data>
   <data name="HuntMarksWeekly_StatusMessageIncomplete" xml:space="preserve">
-    <value>Hunt Bill(s) Incomplete</value>
+    <value>未完成狩猎通缉令</value>
   </data>
   <data name="JumboCactpot_StatusMessageRemaining" xml:space="preserve">
-    <value>Ticket(s) Remaining</value>
+    <value>彩票剩余数</value>
   </data>
   <data name="Levequest_StatusMessageIncomplete" xml:space="preserve">
-    <value>Levequest(s) left to reach Threshold</value>
+    <value>距达成阈值剩余理符任务次数</value>
   </data>
   <data name="MaskedCarnivale_StatusMessageIncomplete" xml:space="preserve">
-    <value>Challenge(s) Incomplete</value>
+    <value>未完成挑战</value>
   </data>
   <data name="RaidsAlliance_StatusMessageIncomplete" xml:space="preserve">
-    <value>Alliance Raid(s) Incomplete</value>
+    <value>未完成团队任务</value>
   </data>
   <data name="RaidsNormal_StatusMessageIncomplete" xml:space="preserve">
-    <value>Normal Raid(s) Incomplete</value>
+    <value>未完成普通大型任务</value>
   </data>
   <data name="GrandCompanySquadron_StatusMessageResultsReady" xml:space="preserve">
-    <value>Mission Results Ready</value>
+    <value>任务结果已就绪</value>
   </data>
   <data name="GrandCompanySquadron_StatusMessageNotStarted" xml:space="preserve">
-    <value>Mission Not Started</value>
+    <value>任务未开始</value>
   </data>
   <data name="WondrousTails_StatusMessageStickerRemaining" xml:space="preserve">
-    <value>Stickers Remaining</value>
+    <value>剩余贴纸</value>
   </data>
   <data name="BeastTribes_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="ChallengeLog_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="CustomDelivery_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="DomanEnclave_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="DutyRoulette_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="FashionReport_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="FauxHollows_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="GrandCompanyProvision_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="GrandCompanySquadron_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="GrandCompanySupply_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="HuntMarksDaily_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="HuntMarksWeekly_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="JumboCactpot_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="Levequest_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="MaskedCarnivale_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="MiniCactpot_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="RaidsAlliance_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="RaidsNormal_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="TreasureMap_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="WondrousTails_StatusMessageReset" xml:space="preserve">
-    <value>Module has been reset.</value>
+    <value>模块已重置。</value>
   </data>
   <data name="DutyRoulette_IncompleteTask" xml:space="preserve">
     <value>未完成任务</value>
@@ -687,13 +687,13 @@
     <value>新建面板</value>
   </data>
   <data name="TodoOverlay_PanelsPlaceholder" xml:space="preserve">
-    <value>Select Panel</value>
+    <value>选择面板</value>
   </data>
   <data name="WondrousTails_StickerAlreadyAvailable" xml:space="preserve">
     <value>此副本的贴纸已经可以领取了，别忘了去拿！</value>
   </data>
   <data name="WondrousTails_CompletingDutyReward" xml:space="preserve">
-    <value>Completing this duty will reward you with a sticker.</value>
+    <value>完成此副本即可获得一张贴纸。</value>
   </data>
   <data name="WondrousTails_RerollsAvailable" xml:space="preserve">
     <value>可重抽次数</value>
@@ -711,9 +711,9 @@
     <value>严重错误：模块加载失败，且在卸载过程中再次报错。</value>
   </data>
   <data name="DutyFinder_NextReset" xml:space="preserve">
-    <value>[DailyDuty] Time Until Next Reset</value>
+    <value>[DailyDuty] 距离下次重置</value>
   </data>
   <data name="Tooltip_AllowancesAboveThreshold" xml:space="preserve">
-    <value>超过通知阈值的剩余次数：{0}</value>
+    <value>{0} 次可用次数已超过通知阈值</value>
   </data>
 </root>
