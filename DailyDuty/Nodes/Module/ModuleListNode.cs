@@ -29,7 +29,6 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
 
         erroringImageNode = new IconImageNode {
             IconId = 61502,
-            FitTexture = true,
         };
         erroringImageNode.AttachNode(this);
 

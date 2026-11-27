@@ -24,7 +24,6 @@ public class FeatureListNode : ListItemNode<IFeature>, IListItemNode {
 
         erroringImageNode = new IconImageNode {
             IconId = 61502,
-            FitTexture = true,
         };
         erroringImageNode.AttachNode(this);
 
