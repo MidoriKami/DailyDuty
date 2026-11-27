@@ -32,7 +32,9 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
         };
         erroringImageNode.AttachNode(this);
 
-        enabledContainer = new ResNode { IsVisible = true };
+        enabledContainer = new ResNode {
+            IsVisible = true,
+        };
         enabledContainer.AttachNode(this);
 
         moduleNameNode = new TextNode {
@@ -49,7 +51,9 @@ public class ModuleListNode : ListItemNode<IModule>, IListItemNode {
         };
         statusTextNode.AttachNode(enabledContainer);
 
-        disabledContainer = new ResNode { IsVisible = false };
+        disabledContainer = new ResNode {
+            IsVisible = false,
+        };
         disabledContainer.AttachNode(this);
 
         moduleNameNodeFull = new TextNode {
