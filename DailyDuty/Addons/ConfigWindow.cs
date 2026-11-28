@@ -80,9 +80,8 @@ public class ConfigWindow : NativeAddon {
         otherModulesNode?.ClearSelection();
         featuresNode?.ClearSelection();
 
-        infoNode?.Clear();
-
         selectOptionTextNode?.IsVisible = true;
+        infoNode?.Clear();
     }
 
     private void OnTabChanged() => ClearSelection();
@@ -137,15 +136,15 @@ public class ConfigWindow : NativeAddon {
 
     private void OnModuleSelected(IModule? module) {
         if (module is not null) {
-            infoNode?.SetModuleInfo(module);
             selectOptionTextNode?.IsVisible = false;
+            infoNode?.SetModuleInfo(module);
         }
     }
 
     private void OnFeatureSelected(IFeature? feature) {
         if (feature is not null) {
-            infoNode?.SetFeatureInfo(feature);
             selectOptionTextNode?.IsVisible = false;
+            infoNode?.SetFeatureInfo(feature);
         }
     }
 
