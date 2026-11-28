@@ -8,7 +8,7 @@ using KamiToolKit.Controls.Builders;
 using KamiToolKit.Core.Enums;
 using KamiToolKit.Core.Layout;
 using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 using KamiToolKit.UI.Nodes.Layout;
 
 namespace DailyDuty.Nodes.Overlay;

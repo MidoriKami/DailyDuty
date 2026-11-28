@@ -2,7 +2,7 @@ using DailyDuty.Features;
 using DailyDuty.Interfaces;
 using KamiToolKit.Core.Interfaces;
 using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 
 namespace DailyDuty.Nodes.Overlay;
 

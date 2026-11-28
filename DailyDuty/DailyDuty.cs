@@ -23,7 +23,7 @@ public sealed class DailyDuty : IAsyncDalamudPlugin {
         System.ConfigWindow = new ConfigWindow {
             InternalName = "DailyDutyConfig",
             Title = Strings.DailyDutyPlugin_Configuration,
-            Size = new Vector2(800.0f, 650.0f),
+            Size = new Vector2(800.0f, 400.0f),
         };
 
         System.Controller = new SystemController();

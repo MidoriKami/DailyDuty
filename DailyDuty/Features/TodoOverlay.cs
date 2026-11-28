@@ -9,7 +9,7 @@ using Dalamud.Plugin.Services;
 using KamiToolKit.UI;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.Core.Enums;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 using KamiToolKit.UI.Overlays.UiOverlay;
 
 namespace DailyDuty.Features;

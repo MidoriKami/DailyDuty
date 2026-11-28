@@ -10,7 +10,7 @@ using KamiToolKit.UI;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.Services.Controllers;
 using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 
 namespace DailyDuty.Features;
 

@@ -14,7 +14,7 @@ using KamiToolKit.UI;
 using KamiToolKit.UI.ContextMenu;
 using KamiToolKit.Core.Enums;
 using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 using KamiToolKit.UI.Nodes.Layout;
 using KamiToolKit.UI.Overlays.UiOverlay;
 

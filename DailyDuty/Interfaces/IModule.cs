@@ -4,7 +4,7 @@ using DailyDuty.Data;
 using DailyDuty.Enums;
 using DailyDuty.Utilities;
 using KamiToolKit.Controls.Builders;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 using Lumina.Text.ReadOnly;
 
 namespace DailyDuty.Interfaces;

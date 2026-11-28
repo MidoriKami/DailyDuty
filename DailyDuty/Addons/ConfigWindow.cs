@@ -6,7 +6,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Controls.Builders;
 using KamiToolKit.Core.Enums;
 using KamiToolKit.Core.Extensions;
-using KamiToolKit.Core.Primitives.NativeAddon;
+using KamiToolKit.Core.Primitives;
 using KamiToolKit.UI.Nodes;
 using KamiToolKit.UI.Nodes.Layout;
 using Lumina.Text.ReadOnly;

@@ -4,7 +4,7 @@ using DailyDuty.Data;
 using DailyDuty.Utilities;
 using KamiToolKit.Core.Interfaces;
 using KamiToolKit.UI.Nodes;
-using KamiToolKit.UI.Nodes.ComponentNode;
+using KamiToolKit.UI.Nodes.Components;
 using Lumina.Excel;
 
 namespace DailyDuty.Nodes.Config;
